@@ -10,9 +10,9 @@ export const langMeta: Record<
   Lang,
   { label: string; short: string; htmlLang: string; ogLocale: string; dir: 'ltr' }
 > = {
-  uz: { label: 'Oʻzbekcha', short: 'UZ', htmlLang: 'uz-Latn', ogLocale: 'uz_UZ', dir: 'ltr' },
-  ru: { label: 'Русский', short: 'RU', htmlLang: 'ru', ogLocale: 'ru_RU', dir: 'ltr' },
-  en: { label: 'English', short: 'EN', htmlLang: 'en', ogLocale: 'en_US', dir: 'ltr' },
+  uz: { label: 'Oʻzbekcha', short: 'Oʻz', htmlLang: 'uz-Latn', ogLocale: 'uz_UZ', dir: 'ltr' },
+  ru: { label: 'Русский', short: 'Ру', htmlLang: 'ru', ogLocale: 'ru_RU', dir: 'ltr' },
+  en: { label: 'English', short: 'En', htmlLang: 'en', ogLocale: 'en_US', dir: 'ltr' },
 };
 
 export function isLang(value: unknown): value is Lang {

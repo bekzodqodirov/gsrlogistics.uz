@@ -9,13 +9,28 @@ const { lang } = Astro.props;
 const t = common[lang];
 ---
 <div class="mobile-bar" role="region" aria-label="Quick actions">
-  <a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener" class="mb-item mb-primary"><Icon name="telegram" size={20} /><span>Telegram</span></a>
-  <a href={phoneUrl} class="mb-item"><Icon name="phone" size={20} /><span>{t.cta.call}</span></a>
-  <a href={pagePath(lang, 'calculator')} class="mb-item"><Icon name="calculator" size={20} /><span>{t.nav.find((n) => n.key === 'calculator')?.label}</span></a>
+  <a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener" class="mb-item mb-primary"><span class="mb-pill"><Icon name="telegram" size={18} /></span><span>{t.bar.telegram}</span></a>
+  <a href={phoneUrl} class="mb-item"><Icon name="phone" size={20} /><span>{t.bar.call}</span></a>
+  <a href={pagePath(lang, 'calculator')} class="mb-item"><Icon name="calculator" size={20} /><span>{t.bar.price}</span></a>
 </div>
 <style>
-  .mobile-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 6px; padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); background: color-mix(in oklab, var(--bg), transparent 6%); border-top: 1px solid var(--border-soft); box-shadow: 0 -8px 24px rgb(0 0 0 / 0.06); }
-  .mb-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 48px; border-radius: var(--radius); font-size: 0.6875rem; font-weight: 600; color: var(--fg-2); background: var(--bg-2); }
-  .mb-primary { background: var(--accent); color: var(--accent-fg); }
+  .mobile-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 4px 8px calc(4px + env(safe-area-inset-bottom)); background: rgb(255 255 255 / 0.92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top: 1px solid var(--border-soft); transform: translateY(100%); transition: transform var(--dur) var(--ease); }
+  .mobile-bar.is-visible { transform: none; }
+  .mobile-bar.is-hidden { transform: translateY(100%); }
+  .mb-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 48px; font-size: 0.75rem; font-weight: 500; color: var(--gray-800); }
+  .mb-pill { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 24px; border-radius: var(--radius-pill); background: var(--red-600); color: #fff; }
+  .mb-primary { color: var(--gray-900); font-weight: 600; }
   @media (min-width: 900px) { .mobile-bar { display: none; } }
 </style>
+<script>
+  const bar = document.querySelector<HTMLElement>('.mobile-bar');
+  if (bar) {
+    const show = () => bar.classList.toggle('is-visible', window.scrollY > 360);
+    show();
+    window.addEventListener('scroll', show, { passive: true });
+    document.addEventListener('focusin', (e) => { if ((e.target as HTMLElement).matches('input, textarea, select')) bar.classList.add('is-hidden'); });
+    document.addEventListener('focusout', () => bar.classList.remove('is-hidden'));
+    const mo = new MutationObserver(() => bar.classList.toggle('is-hidden', document.body.classList.contains('menu-open')));
+    mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }
+</script>

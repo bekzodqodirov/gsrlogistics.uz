@@ -10,7 +10,7 @@ const { lang, alternates, currentPath } = Astro.props;
 const t = common[lang];
 const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '/en/' && currentPath.startsWith(href);
 ---
-<header class="site-header" id="site-header">
+<header class="site-header" id="site-header" data-scrolled="false">
   <div class="container header-inner">
     <a href={pagePath(lang, 'home')} class="brand" aria-label={`${site.name} — ${t.breadcrumbHome}`}>
       <Logo size={30} />
@@ -48,19 +48,24 @@ const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '
 </header>
 
 <style>
-  .site-header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklab, var(--bg), transparent 8%); border-bottom: 1px solid color-mix(in oklab, var(--fg), transparent 92%); color: var(--fg); }
-  @media (min-width: 900px) { .site-header { -webkit-backdrop-filter: saturate(180%) blur(14px); backdrop-filter: saturate(180%) blur(14px); background: color-mix(in oklab, var(--bg), transparent 22%); } }
+  .site-header { position: sticky; top: 0; z-index: 100; background: transparent; border-bottom: 1px solid transparent; color: var(--fg); transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+  .site-header[data-scrolled='true'] { background: rgb(255 255 255 / 0.9); border-bottom-color: var(--border-soft); }
+  @media (min-width: 900px) { .site-header[data-scrolled='true'] { -webkit-backdrop-filter: saturate(180%) blur(12px); backdrop-filter: saturate(180%) blur(12px); background: rgb(255 255 255 / 0.72); } }
+  .site-header[data-over-dark='true'] { background: rgb(11 11 13 / 0.92) !important; border-bottom-color: rgb(255 255 255 / 0.08); color: var(--gray-100); -webkit-backdrop-filter: none !important; backdrop-filter: none !important; --fg: var(--gray-100); --fg-2: var(--gray-300); --muted: #a1a1a6; --card: var(--gray-900); --bg: var(--black); }
+  .nav-desktop a[aria-current='page']::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; background: var(--red-600); border-radius: 2px; }
+  .site-header[data-over-dark='true'] .nav-desktop a[aria-current='page']::after { background: var(--red-300); }
   .header-inner { display: flex; align-items: center; gap: 16px; min-height: var(--header-h); }
   .brand { display: inline-flex; align-items: center; color: var(--fg); margin-right: 8px; }
   .nav-desktop { display: none; flex: 1; }
   .nav-desktop ul { display: flex; gap: 2px; align-items: center; }
-  .nav-desktop a { display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; padding: 0 12px; border-radius: var(--radius-pill); font-size: 0.9375rem; font-weight: 500; color: var(--fg-2); transition: background var(--dur) var(--ease), color var(--dur) var(--ease); }
+  .nav-desktop a { position: relative; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; padding: 0 12px; border-radius: var(--radius-pill); font-size: 0.9375rem; font-weight: 500; color: var(--fg-2); transition: background var(--dur) var(--ease), color var(--dur) var(--ease); }
   .nav-desktop a:hover { background: color-mix(in oklab, var(--fg), transparent 93%); color: var(--fg); }
-  .nav-desktop a[aria-current='page'] { color: var(--fg); background: color-mix(in oklab, var(--fg), transparent 93%); }
+  .nav-desktop a[aria-current='page'] { color: var(--fg); }
   .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-  .lang { display: flex; gap: 2px; padding: 3px; border-radius: var(--radius-pill); background: color-mix(in oklab, var(--fg), transparent 93%); }
-  .lang a { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 30px; padding: 0 8px; border-radius: var(--radius-pill); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); transition: background var(--dur) var(--ease), color var(--dur) var(--ease); }
-  .lang a[aria-current='true'] { background: var(--card); color: var(--fg); box-shadow: var(--shadow-ring); }
+  .lang { display: flex; gap: 2px; align-items: center; }
+  .lang a { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 0 6px; border-radius: var(--radius-pill); font-size: 0.875rem; font-weight: 500; color: var(--muted); transition: color var(--dur) var(--ease); }
+  .lang a + a::before { content: '·'; margin-right: 6px; color: var(--border); }
+  .lang a[aria-current='true'] { color: var(--fg); font-weight: 600; }
   .lang a:hover { color: var(--fg); }
   .phone { display: none; align-items: center; white-space: nowrap; gap: 8px; font-weight: 600; font-size: 0.9375rem; padding: 0 10px; min-height: 40px; border-radius: var(--radius-pill); color: var(--fg); }
   .phone:hover { background: color-mix(in oklab, var(--fg), transparent 93%); }
@@ -91,5 +96,11 @@ const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '
     btn.addEventListener('click', () => set(menu.hidden));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { set(false); btn.focus(); } });
     window.matchMedia('(min-width: 900px)').addEventListener('change', (e) => { if (e.matches) set(false); });
+  }
+  const header = document.getElementById('site-header');
+  if (header) {
+    const onScroll = () => header.setAttribute('data-scrolled', String(window.scrollY > 8));
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
 </script>

@@ -67,7 +67,8 @@ const localeOg = ogImage ?? `/og/${lang}.png`;
   <body class:list={[bodyClass, !hideMobileBar && 'has-mobile-bar']}>
     <a href="#main" class="skip-link">{lang === 'uz' ? 'Asosiy kontentga oʻtish' : lang === 'ru' ? 'Перейти к содержанию' : 'Skip to content'}</a>
     <Header lang={lang} alternates={alternates} currentPath={currentPath} />
-    <main id="main" tabindex="-1">
+    <main id="main" tabindex="-1" class="page-main">
+      <div class="gutter-line" aria-hidden="true"></div>
       <slot />
     </main>
     <Footer lang={lang} alternates={alternates} />
@@ -88,3 +89,6 @@ const localeOg = ogImage ?? `/og/${lang}.png`;
     </script>
   </body>
 </html>
+<style is:global>
+  .page-main { position: relative; }
+</style>
