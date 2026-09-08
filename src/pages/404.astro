@@ -1,0 +1,39 @@
+---
+/** Trilingual 404: all three blocks are in the HTML; a tiny inline script reveals the block matching the URL prefix. */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { locales, langMeta } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { pagePath } from '@/i18n/routes';
+import { telegramChat } from '@/lib/site';
+---
+<Base lang="uz" title="404 — Sahifa topilmadi" description="Bu sahifa topilmadi." pageKey="home" noindex hideMobileBar>
+  <section class="section nf">
+    <div class="container">
+      {locales.map((l) => (
+        <div class="nf-block" data-lang={l} lang={langMeta[l].htmlLang} hidden={l !== 'uz'}>
+          <p class="eyebrow">404</p>
+          <h1 class="display-2 measure-head">{common[l].notFound.title}</h1>
+          <p class="intro" style="max-width:52ch;margin-top:16px">{common[l].notFound.text}</p>
+          <div class="cluster" style="margin-top:32px">
+            <a href={pagePath(l, 'home')} class="btn btn-primary">{common[l].notFound.home}</a>
+            <a href={telegramChat(common[l].telegramDraft.general)} class="btn btn-secondary" target="_blank" rel="noopener"><Icon name="telegram" size={18} />{common[l].cta.telegram}</a>
+          </div>
+        </div>
+      ))}
+      <svg class="nf-van" viewBox="0 0 240 80" width="240" height="80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M2 62h236" stroke-dasharray="4 6" opacity=".5"/>
+        <path d="M60 58V30h56l16 12v16H60Z"/><path d="M116 30v12h16M70 58v-8h30v8"/>
+        <circle cx="76" cy="60" r="6"/><circle cx="118" cy="60" r="6"/>
+        <path d="M150 42h10M150 36h18M150 48h6" opacity=".6"/>
+      </svg>
+    </div>
+  </section>
+  <script is:inline>
+    (function(){var p=location.pathname,l=p.indexOf('/ru/')===0?'ru':p.indexOf('/en/')===0?'en':'uz';document.querySelectorAll('.nf-block').forEach(function(b){b.hidden=b.getAttribute('data-lang')!==l});})();
+  </script>
+</Base>
+<style>
+  .nf { min-height: 70svh; display: grid; align-items: center; }
+  .nf-van { margin-top: 48px; color: var(--meta); }
+</style>
