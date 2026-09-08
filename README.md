@@ -11,6 +11,8 @@ npm install        # Node 22+ kerak (.nvmrc)
 npm run dev        # http://localhost:4321 — jonli koʻrish
 npm run build      # dist/ papkasiga tayyor sayt
 npm run preview    # dist/ ni lokal koʻrish
+npm run test:pricing   # kalkulyator hisob-kitobini tekshirish (tariffs.json oʻzgarganda)
+npm run og         # OG rasmlarni qayta yaratish (public/og/)
 ```
 
 ## Saytni internetga chiqarish (hosting)
@@ -21,7 +23,7 @@ Sayt toʻliq statik — istalgan statik hostingda ishlaydi. Tavsiya: **Cloudflar
 1. dash.cloudflare.com → Workers & Pages → Create → Pages → Connect to Git → shu repozitoriyni tanlang.
 2. Build command: `npm run build`, Build output: `dist`, Node version: `22` (Environment variable `NODE_VERSION=22`).
 3. Custom domains → `gsrlogistics.uz` va `www.gsrlogistics.uz` qoʻshing (DNS Cloudflare'da boʻlsa avtomatik).
-4. Forma va kuzatuv uchun muhit oʻzgaruvchilari: `docs/DEPLOY-FUNCTIONS.md`.
+4. Forma va kuzatuv uchun muhit oʻzgaruvchilari (Settings → Environment variables): `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TRACK_SHEET_CSV_URL`, ixtiyoriy `TURNSTILE_SECRET` — batafsil: `docs/DEPLOY-FUNCTIONS.md`. Ular boʻlmasa ham sayt ishlaydi: forma va kuzatuv toʻgʻridan-toʻgʻri Telegramga yoʻnaltiradi.
 
 **GitHub Pages (muqobil):** Settings → Pages → Source: *GitHub Actions*. `.github/workflows/deploy.yml` har `main` push'ida saytni chiqaradi; `public/CNAME` domenni belgilaydi. Domen DNS'ida GitHub Pages A/AAAA yozuvlarini qoʻying.
 
