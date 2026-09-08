@@ -5,10 +5,13 @@ import { common } from '@/i18n/common';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
 import Logo from './ui/Logo.astro';
 import Icon from './ui/Icon.astro';
+import { services } from '@/data/services';
+import tariffs from '@/data/tariffs.json';
 interface Props { lang: Lang; alternates: Array<{ lang: Lang; href: string }>; currentPath: string }
 const { lang, alternates, currentPath } = Astro.props;
 const t = common[lang];
 const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '/en/' && currentPath.startsWith(href);
+const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–${tariffs.truck.days[1]} ${t.strings.days}` : key === 'air' ? `${tariffs.air.days[0]}–${tariffs.air.days[1]} ${t.strings.days}` : key === 'rail' ? `${tariffs.rail.days[0]}–${tariffs.rail.days[1]} ${t.strings.days}` : '';
 ---
 <header class="site-header" id="site-header" data-scrolled="false">
   <div class="container header-inner">
@@ -17,7 +20,27 @@ const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '
     </a>
     <nav class="nav-desktop" aria-label="Main">
       <ul role="list">
-        {t.nav.map((n) => { const href = pagePath(lang, n.key); return <li><a href={href} aria-current={isActive(href) ? 'page' : undefined}>{n.label}</a></li>; })}
+        {t.nav.map((n) => { const href = pagePath(lang, n.key); const mega = n.key === 'services'; return (
+          <li class:list={[mega && 'has-mega']}>
+            <a href={href} aria-current={isActive(href) ? 'page' : undefined}>{n.label}</a>
+            {mega && <button type="button" class="mega-toggle" aria-expanded="false" aria-controls="mega-services" aria-label={`${n.label}: ${t.cta.all}`}><Icon name="chevron-down" size={14} /></button>}
+            {mega && (
+              <div class="mega" id="mega-services">
+                <ul role="list" class="mega-grid">
+                  {services.map((s) => (
+                    <li>
+                      <a href={pagePath(lang, 'services', s.slug[lang])} class="mega-item">
+                        <Icon name={s.icon} size={20} class="mega-icon" />
+                        <span class="mega-body"><span class="mega-name">{s.name[lang]}</span><span class="mega-short">{s.short[lang]}</span>{daysFor(s.key) && <span class="mega-days tnum">{daysFor(s.key)}</span>}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                <a href={href} class="mega-all link">{t.cta.all}</a>
+              </div>
+            )}
+          </li>
+        ); })}
       </ul>
     </nav>
     <div class="header-actions">
@@ -61,6 +84,22 @@ const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '
   .nav-desktop a { position: relative; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; padding: 0 12px; border-radius: var(--radius-pill); font-size: 0.9375rem; font-weight: 500; color: var(--fg-2); transition: background var(--dur) var(--ease), color var(--dur) var(--ease); }
   .nav-desktop a:hover { background: color-mix(in oklab, var(--fg), transparent 93%); color: var(--fg); }
   .nav-desktop a[aria-current='page'] { color: var(--fg); }
+  .has-mega { position: relative; display: inline-flex; align-items: center; }
+  .mega-toggle { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 40px; margin-left: -8px; color: var(--muted); border-radius: var(--radius-pill); }
+  .mega-toggle:hover, .mega-toggle[aria-expanded='true'] { color: var(--fg); }
+  .mega { position: absolute; top: calc(100% + 8px); left: -8px; width: min(720px, calc(100vw - 48px)); padding: 12px; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur); z-index: 5; }
+  .has-mega:hover .mega, .has-mega:focus-within .mega, .has-mega.is-open .mega { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+  .mega-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .mega-item { display: flex; gap: 12px; padding: 10px 12px; border-radius: var(--radius); color: var(--fg); min-height: 0; }
+  .mega-item:hover { background: var(--bg-2); }
+  .mega-icon { flex: none; margin-top: 2px; color: var(--fg); }
+  .mega-body { display: grid; gap: 2px; }
+  .mega-name { font-weight: 600; font-size: 0.9375rem; white-space: normal; }
+  .mega-short { font-size: 0.8125rem; color: var(--muted); white-space: normal; line-height: 1.35; }
+  .mega-days { font-size: 0.75rem; color: var(--meta); }
+  .mega-all { display: inline-flex; margin: 8px 12px 4px; font-size: var(--text-small); }
+  .site-header[data-over-dark='true'] .mega { background: var(--gray-900); border-color: rgb(255 255 255 / 0.08); }
+  .site-header[data-over-dark='true'] .mega-item:hover { background: rgb(255 255 255 / 0.06); }
   .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
   .lang { display: flex; gap: 2px; align-items: center; }
   .lang a { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 0 6px; border-radius: var(--radius-pill); font-size: 0.875rem; font-weight: 500; color: var(--muted); transition: color var(--dur) var(--ease); }
@@ -96,6 +135,14 @@ const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '
     btn.addEventListener('click', () => set(menu.hidden));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { set(false); btn.focus(); } });
     window.matchMedia('(min-width: 900px)').addEventListener('change', (e) => { if (e.matches) set(false); });
+  }
+  const megaToggle = document.querySelector<HTMLButtonElement>('.mega-toggle');
+  const megaHost = megaToggle?.closest<HTMLElement>('.has-mega');
+  if (megaToggle && megaHost) {
+    const setMega = (open: boolean) => { megaToggle.setAttribute('aria-expanded', String(open)); megaHost.classList.toggle('is-open', open); };
+    megaToggle.addEventListener('click', () => setMega(!megaHost.classList.contains('is-open')));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMega(false); });
+    document.addEventListener('click', (e) => { if (!megaHost.contains(e.target as Node)) setMega(false); });
   }
   const header = document.getElementById('site-header');
   if (header) {
