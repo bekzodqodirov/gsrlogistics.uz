@@ -1,0 +1,504 @@
+{
+  "generatedBy": "scripts/build-map.mjs",
+  "source": {
+    "dataset": "ne_50m_admin_0_countries",
+    "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
+    "license": "Natural Earth — public domain"
+  },
+  "viewBox": "0 0 1600 923",
+  "clipBox": {
+    "lonMin": 55,
+    "lonMax": 125,
+    "latMin": 18,
+    "latMax": 52
+  },
+  "projection": {
+    "type": "Web Mercator (spherical), scaled to the viewBox",
+    "formula": "x = (lon − 60) × 24.62 ; y = (mercY(50) − mercY(lat)) × 24.62 ; mercY(lat) = ln(tan(π/4 + lat·π/360)) × 180/π",
+    "js": "const mercY=l=>Math.log(Math.tan(Math.PI/4+l*Math.PI/360))*180/Math.PI; const project=(lon,lat)=>[(lon-60)*24.62,(mercY(50)-mercY(lat))*24.62];",
+    "scalePxPerDegree": 24.62,
+    "lon0": 60,
+    "lat0": 50,
+    "mercY0": 57.907881,
+    "referenceMaxDeviationPx": 0.8,
+    "clipBoxPx": {
+      "left": -123.1,
+      "right": 1600.3,
+      "top": -78.3,
+      "bottom": 975.1
+    }
+  },
+  "simplification": {
+    "algorithm": "Douglas–Peucker per ring, output-space tolerance",
+    "tolerancePx": 1.3,
+    "minRingPoints": 4,
+    "minRingAreaPx2": 30,
+    "coordinateDecimals": 1
+  },
+  "cities": {
+    "Guangzhou": {
+      "lon": 113.26,
+      "lat": 23.13,
+      "x": 1311.3,
+      "y": 840.1,
+      "target": [
+        1311,
+        840
+      ],
+      "deviationPx": 0.3
+    },
+    "Yiwu": {
+      "lon": 120.07,
+      "lat": 29.31,
+      "x": 1478.9,
+      "y": 670.4,
+      "target": [
+        1479,
+        670
+      ],
+      "deviationPx": 0.4
+    },
+    "Xi'an": {
+      "lon": 108.94,
+      "lat": 34.34,
+      "x": 1204.9,
+      "y": 524.5,
+      "target": [
+        1205,
+        524
+      ],
+      "deviationPx": 0.6
+    },
+    "Lanzhou": {
+      "lon": 103.83,
+      "lat": 36.06,
+      "x": 1079.1,
+      "y": 472.7,
+      "target": [
+        1079,
+        473
+      ],
+      "deviationPx": 0.3
+    },
+    "Urumqi": {
+      "lon": 87.62,
+      "lat": 43.83,
+      "x": 680,
+      "y": 222.7,
+      "target": [
+        680,
+        223
+      ],
+      "deviationPx": 0.3
+    },
+    "Khorgos": {
+      "lon": 80.42,
+      "lat": 44.21,
+      "x": 502.7,
+      "y": 209.7,
+      "target": [
+        502,
+        210
+      ],
+      "deviationPx": 0.8
+    },
+    "Almaty": {
+      "lon": 76.95,
+      "lat": 43.24,
+      "x": 417.3,
+      "y": 242.8,
+      "target": [
+        417,
+        243
+      ],
+      "deviationPx": 0.4
+    },
+    "Shymkent": {
+      "lon": 69.6,
+      "lat": 42.32,
+      "x": 236.4,
+      "y": 273.6,
+      "target": [
+        236,
+        274
+      ],
+      "deviationPx": 0.5
+    },
+    "Kashgar": {
+      "lon": 75.99,
+      "lat": 39.47,
+      "x": 393.7,
+      "y": 366.5,
+      "target": [
+        394,
+        366
+      ],
+      "deviationPx": 0.6
+    },
+    "Tashkent": {
+      "lon": 69.28,
+      "lat": 41.31,
+      "x": 228.5,
+      "y": 307,
+      "target": [
+        228,
+        307
+      ],
+      "deviationPx": 0.5
+    },
+    "Samarkand": {
+      "lon": 66.97,
+      "lat": 39.65,
+      "x": 171.6,
+      "y": 360.7,
+      "target": [
+        172,
+        361
+      ],
+      "deviationPx": 0.5
+    },
+    "Irkeshtam": {
+      "lon": 73.92,
+      "lat": 39.68,
+      "x": 342.7,
+      "y": 359.8
+    },
+    "Osh": {
+      "lon": 72.8,
+      "lat": 40.53,
+      "x": 315.1,
+      "y": 332.4
+    },
+    "Andijan": {
+      "lon": 72.34,
+      "lat": 40.78,
+      "x": 303.8,
+      "y": 324.3
+    },
+    "Bukhara": {
+      "lon": 64.42,
+      "lat": 39.77,
+      "x": 108.8,
+      "y": 356.9
+    },
+    "Dostyk": {
+      "lon": 80.5,
+      "lat": 45.25,
+      "x": 504.7,
+      "y": 173.7
+    },
+    "Bishkek": {
+      "lon": 74.59,
+      "lat": 42.87,
+      "x": 359.2,
+      "y": 255.2
+    },
+    "Beijing": {
+      "lon": 116.4,
+      "lat": 39.9,
+      "x": 1388.6,
+      "y": 352.7
+    },
+    "Shanghai": {
+      "lon": 121.47,
+      "lat": 31.23,
+      "x": 1513.4,
+      "y": 615.6
+    },
+    "Shenzhen": {
+      "lon": 114.06,
+      "lat": 22.54,
+      "x": 1331,
+      "y": 855.9
+    },
+    "Turpan": {
+      "lon": 89.19,
+      "lat": 42.95,
+      "x": 718.7,
+      "y": 252.6
+    }
+  },
+  "routes": {
+    "route": {
+      "cities": [
+        "Yiwu",
+        "Xi'an",
+        "Lanzhou",
+        "Urumqi",
+        "Khorgos",
+        "Almaty",
+        "Shymkent",
+        "Tashkent"
+      ],
+      "d": "M1478.9 670.4C1433.2 646.1 1271.5 557.5 1204.9 524.5C1138.3 491.6 1166.6 523.0 1079.1 472.7C991.6 422.4 776.1 266.5 680.0 222.7C583.9 178.9 546.5 206.4 502.7 209.7C458.9 213.1 461.7 232.2 417.3 242.8C372.9 253.5 267.9 262.9 236.4 273.6C204.9 284.3 229.8 301.4 228.5 307.0",
+      "lengthPx": 1420.6
+    },
+    "rail": {
+      "cities": [
+        "Yiwu",
+        "Xi'an",
+        "Lanzhou",
+        "Urumqi",
+        "Dostyk",
+        "Almaty",
+        "Shymkent",
+        "Tashkent"
+      ],
+      "d": "M1478.9 670.4C1433.2 646.1 1271.5 557.5 1204.9 524.5C1138.3 491.6 1166.6 523.0 1079.1 472.7C991.6 422.4 775.7 272.5 680.0 222.7C584.3 172.9 548.5 170.4 504.7 173.7C460.9 177.0 462.0 226.2 417.3 242.8C372.6 259.5 267.9 262.9 236.4 273.6C204.9 284.3 229.8 301.4 228.5 307.0",
+      "lengthPx": 1445.6
+    },
+    "air": {
+      "cities": [
+        "Guangzhou",
+        "Tashkent"
+      ],
+      "d": "M1311.3 840.1Q769.9 313.5 228.5 307.0",
+      "controlPoint": [
+        769.9,
+        313.5
+      ],
+      "liftPx": 260
+    },
+    "kg": {
+      "cities": [
+        "Kashgar",
+        "Irkeshtam",
+        "Osh",
+        "Andijan",
+        "Tashkent"
+      ],
+      "d": "M393.7 366.5L342.7 359.8L315.1 332.4L303.8 324.3L228.5 307.0"
+    },
+    "curve": "Catmull–Rom → cubic Bézier, tension 0.5 (cp1 = P1 + τ(P2−P0)/3, cp2 = P2 − τ(P3−P1)/3)"
+  },
+  "routeD": "M1478.9 670.4C1433.2 646.1 1271.5 557.5 1204.9 524.5C1138.3 491.6 1166.6 523.0 1079.1 472.7C991.6 422.4 776.1 266.5 680.0 222.7C583.9 178.9 546.5 206.4 502.7 209.7C458.9 213.1 461.7 232.2 417.3 242.8C372.9 253.5 267.9 262.9 236.4 273.6C204.9 284.3 229.8 301.4 228.5 307.0",
+  "routeLengthPx": 1420.6,
+  "railD": "M1478.9 670.4C1433.2 646.1 1271.5 557.5 1204.9 524.5C1138.3 491.6 1166.6 523.0 1079.1 472.7C991.6 422.4 775.7 272.5 680.0 222.7C584.3 172.9 548.5 170.4 504.7 173.7C460.9 177.0 462.0 226.2 417.3 242.8C372.6 259.5 267.9 262.9 236.4 273.6C204.9 284.3 229.8 301.4 228.5 307.0",
+  "airD": "M1311.3 840.1Q769.9 313.5 228.5 307.0",
+  "kgD": "M393.7 366.5L342.7 359.8L315.1 332.4L303.8 324.3L228.5 307.0",
+  "countries": [
+    {
+      "iso": "AFG",
+      "name": "Afghanistan",
+      "class": "land",
+      "rings": 1,
+      "points": 117,
+      "sourcePoints": 409
+    },
+    {
+      "iso": "ARE",
+      "name": "United Arab Emirates",
+      "class": "land",
+      "rings": 1,
+      "points": 23,
+      "sourcePoints": 83
+    },
+    {
+      "iso": "BGD",
+      "name": "Bangladesh",
+      "class": "land",
+      "rings": 2,
+      "points": 100,
+      "sourcePoints": 377
+    },
+    {
+      "iso": "BTN",
+      "name": "Bhutan",
+      "class": "land",
+      "rings": 1,
+      "points": 27,
+      "sourcePoints": 99
+    },
+    {
+      "iso": "CHN",
+      "name": "People's Republic of China",
+      "class": "land land-cn",
+      "rings": 3,
+      "points": 619,
+      "sourcePoints": 2246
+    },
+    {
+      "iso": "HKG",
+      "name": "Hong Kong",
+      "class": "land",
+      "rings": 1,
+      "points": 6,
+      "sourcePoints": 36
+    },
+    {
+      "iso": "IND",
+      "name": "India",
+      "class": "land",
+      "rings": 1,
+      "points": 325,
+      "sourcePoints": 1191
+    },
+    {
+      "iso": "IRN",
+      "name": "Iran",
+      "class": "land",
+      "rings": 2,
+      "points": 82,
+      "sourcePoints": 272
+    },
+    {
+      "iso": "KAS",
+      "name": "Siachen Glacier",
+      "class": "land",
+      "rings": 1,
+      "points": 4,
+      "sourcePoints": 20
+    },
+    {
+      "iso": "KAZ",
+      "name": "Kazakhstan",
+      "class": "land land-kz",
+      "rings": 1,
+      "points": 146,
+      "sourcePoints": 590
+    },
+    {
+      "iso": "KGZ",
+      "name": "Kyrgyzstan",
+      "class": "land land-kg",
+      "rings": 2,
+      "points": 98,
+      "sourcePoints": 384
+    },
+    {
+      "iso": "LAO",
+      "name": "Laos",
+      "class": "land",
+      "rings": 1,
+      "points": 60,
+      "sourcePoints": 233
+    },
+    {
+      "iso": "MMR",
+      "name": "Myanmar",
+      "class": "land",
+      "rings": 1,
+      "points": 122,
+      "sourcePoints": 467
+    },
+    {
+      "iso": "MNG",
+      "name": "Mongolia",
+      "class": "land",
+      "rings": 1,
+      "points": 189,
+      "sourcePoints": 732
+    },
+    {
+      "iso": "NPL",
+      "name": "Nepal",
+      "class": "land",
+      "rings": 1,
+      "points": 54,
+      "sourcePoints": 201
+    },
+    {
+      "iso": "OMN",
+      "name": "Oman",
+      "class": "land",
+      "rings": 3,
+      "points": 49,
+      "sourcePoints": 179
+    },
+    {
+      "iso": "PAK",
+      "name": "Pakistan",
+      "class": "land",
+      "rings": 1,
+      "points": 155,
+      "sourcePoints": 570
+    },
+    {
+      "iso": "PHL",
+      "name": "Philippines",
+      "class": "land",
+      "rings": 1,
+      "points": 8,
+      "sourcePoints": 61
+    },
+    {
+      "iso": "PRK",
+      "name": "North Korea",
+      "class": "land",
+      "rings": 1,
+      "points": 13,
+      "sourcePoints": 39
+    },
+    {
+      "iso": "RUS",
+      "name": "Russia",
+      "class": "land",
+      "rings": 1,
+      "points": 162,
+      "sourcePoints": 571
+    },
+    {
+      "iso": "SAU",
+      "name": "Saudi Arabia",
+      "class": "land",
+      "rings": 1,
+      "points": 5,
+      "sourcePoints": 29
+    },
+    {
+      "iso": "THA",
+      "name": "Thailand",
+      "class": "land",
+      "rings": 1,
+      "points": 39,
+      "sourcePoints": 133
+    },
+    {
+      "iso": "TJK",
+      "name": "Tajikistan",
+      "class": "land",
+      "rings": 1,
+      "points": 102,
+      "sourcePoints": 366
+    },
+    {
+      "iso": "TKM",
+      "name": "Turkmenistan",
+      "class": "land",
+      "rings": 1,
+      "points": 80,
+      "sourcePoints": 293
+    },
+    {
+      "iso": "TWN",
+      "name": "Taiwan",
+      "class": "land",
+      "rings": 1,
+      "points": 15,
+      "sourcePoints": 66
+    },
+    {
+      "iso": "UZB",
+      "name": "Uzbekistan",
+      "class": "land land-uz",
+      "rings": 2,
+      "points": 134,
+      "sourcePoints": 580
+    },
+    {
+      "iso": "VNM",
+      "name": "Vietnam",
+      "class": "land",
+      "rings": 1,
+      "points": 59,
+      "sourcePoints": 278
+    }
+  ],
+  "sizes": {
+    "pathsFile": "src/components/journey/map-paths.svg.txt",
+    "bytes": 34524,
+    "gzipBytes": 12016,
+    "budgetBytes": 61440,
+    "budgetGzipBytes": 12288
+  }
+}
