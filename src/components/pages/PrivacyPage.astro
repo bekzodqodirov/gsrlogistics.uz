@@ -1,0 +1,52 @@
+---
+/** /maxfiylik/ — trilingual privacy policy. Props: { lang }. */
+import type { Lang } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { privacy } from '@/i18n/privacy';
+import { site, telegramChat } from '@/lib/site';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = privacy[lang];
+const c = common[lang];
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: c.footer.privacy, key: 'privacy' as const }];
+---
+<Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="privacy" breadcrumbs={breadcrumbs} dateModified="2026-09-08">
+  <article class="page">
+    <header class="hero">
+      <div class="container container-text">
+        <Breadcrumbs lang={lang} items={[{ name: c.footer.privacy }]} />
+        <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{t.h1}</h1>
+        <p class="caption" style="margin-top:12px">{t.effective}</p>
+        <p class="intro" style="margin-top:20px;max-width:62ch">{t.intro}</p>
+      </div>
+    </header>
+    <div class="container container-text">
+      <div class="prose policy">
+        <p><strong>{t.operatorLabel}:</strong> {site.legalEntity || t.operatorPlaceholder}. {site.address[lang]}. {site.email}.</p>
+        {t.sections.map((s) => (
+          <section>
+            <h2>{s.heading}</h2>
+            {s.paragraphs?.map((p) => <p>{p}</p>)}
+            {s.bullets && <ul>{s.bullets.map((b) => <li>{b}</li>)}</ul>}
+          </section>
+        ))}
+        <section>
+          <h2>{t.contactHeading}</h2>
+          <p>{t.contactText}</p>
+          <p><a href={telegramChat(c.telegramDraft.general)} target="_blank" rel="noopener">{c.cta.telegram}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+        </section>
+      </div>
+    </div>
+  </article>
+</Base>
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .policy { padding-bottom: clamp(48px, 8vw, 96px); color: var(--fg-2); }
+  .policy h2 { color: var(--fg); }
+</style>

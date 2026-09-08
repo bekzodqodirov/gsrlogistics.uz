@@ -1,0 +1,137 @@
+---
+/** /biz-haqimizda/ — company story, values, places, team roles, verifiable facts, CTA. Props: { lang }. */
+import type { Lang } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { about } from '@/i18n/about';
+import { pagePath } from '@/i18n/routes';
+import { site, phoneUrl, telegramChat } from '@/lib/site';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = about[lang];
+const c = common[lang];
+const aboutLabel = c.nav.find((n) => n.key === 'about')?.label ?? t.eyebrow;
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: aboutLabel, key: 'about' as const }];
+const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescription, mainEntity: { '@id': `${site.url}/#organization` } };
+---
+<Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="about" breadcrumbs={breadcrumbs} jsonLd={[aboutNode]}>
+  <article class="page">
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: aboutLabel }]} />
+        <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{t.h1}</h1>
+        <p class="intro answer">{t.intro}</p>
+      </div>
+    </header>
+
+    <section class="section-sm">
+      <div class="container">
+        <ul class="facts" role="list">
+          {t.facts.map((f) => <li><span class="stat-sm tnum">{f.value}</span><span class="caption">{f.label}</span></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section-sm">
+      <div class="container two">
+        <h2 class="h2 sticky">{t.story.heading}</h2>
+        <div class="prose-col">{t.story.paragraphs.map((p) => <p>{p}</p>)}</div>
+      </div>
+    </section>
+
+    <section class="section-sm">
+      <div class="container">
+        <h2 class="h2 mb">{t.how.heading}</h2>
+        <ol class="values" role="list">
+          {t.how.items.map((it, i) => <li class="card"><span class="idx tnum">0{i + 1}</span><h3 class="h4">{it.title}</h3><p class="fg2">{it.text}</p></li>)}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section-sm">
+      <div class="container">
+        <h2 class="h2 mb">{t.places.heading}</h2>
+        <div class="grid grid-2">
+          <div class="card place">
+            <Icon name="warehouse" size={28} />
+            <h3 class="h4">{t.places.yiwu.title}</h3>
+            <p class="fg2">{t.places.yiwu.text}</p>
+          </div>
+          <div class="card place">
+            <Icon name="map-pin" size={28} />
+            <h3 class="h4">{t.places.tashkent.title}</h3>
+            <p class="fg2">{t.places.tashkent.text}</p>
+            <p class="small muted">{t.places.tashkent.directions}</p>
+            <div class="cluster">
+              <a class="link" href={site.yandexMapsUrl} target="_blank" rel="noopener">{c.strings.viewOnMap}</a>
+              <a class="link" href={pagePath(lang, 'contact')}>{c.nav.find((n) => n.key === 'contact')?.label}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-sm">
+      <div class="container two">
+        <div class="sticky"><h2 class="h2">{t.team.heading}</h2><p class="muted" style="margin-top:12px;max-width:40ch">{t.team.text}</p></div>
+        <ul class="roles" role="list">
+          {t.team.roles.map((r) => <li><h3 class="h4">{r.title}</h3><p class="fg2">{r.text}</p></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section-sm">
+      <div class="container">
+        <div class="honesty">
+          <h2 class="h3">{t.honesty.heading}</h2>
+          <p class="fg2">{t.honesty.text}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark cta">
+      <div class="container">
+        <Eyebrow>{c.nav.find((n) => n.key === 'contact')?.label}</Eyebrow>
+        <h2 class="display-2 measure-head">{t.cta.title}</h2>
+        <p class="intro" style="margin-top:12px;max-width:52ch">{t.cta.text}</p>
+        <div class="cluster" style="margin-top:28px">
+          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+          <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
+        </div>
+        <p class="caption tnum" style="margin-top:20px">{site.phoneDisplay} · {site.hours[lang]}</p>
+      </div>
+    </section>
+  </article>
+</Base>
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { margin-top: 20px; max-width: 62ch; }
+  .facts { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+  .facts li { display: grid; gap: 6px; padding: 24px 20px 24px 0; border-right: 1px solid var(--border-soft); }
+  .facts li:nth-child(2n) { padding-left: 20px; border-right: 0; }
+  @media (min-width: 900px) { .facts { grid-template-columns: repeat(4, 1fr); } .facts li:nth-child(2n) { padding-left: 0; border-right: 1px solid var(--border-soft); } .facts li + li { padding-left: 24px; } .facts li:last-child { border-right: 0; } }
+  .stat-sm { font-size: clamp(28px, 2vw + 16px, 40px); font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .two { display: grid; gap: 24px; }
+  @media (min-width: 900px) { .two { grid-template-columns: 5fr 7fr; gap: 48px; } .sticky { position: sticky; top: 96px; align-self: start; } }
+  .prose-col { max-width: 62ch; }
+  .prose-col p + p { margin-top: 1em; }
+  .prose-col p { color: var(--fg-2); }
+  .mb { margin-bottom: 28px; }
+  .values { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+  .values li { display: grid; gap: 10px; align-content: start; }
+  .idx { font-size: var(--text-small); color: var(--accent-text); font-weight: 600; }
+  .fg2 { color: var(--fg-2); }
+  .place { display: grid; gap: 12px; align-content: start; }
+  .roles { display: grid; gap: 0; }
+  .roles li { padding: 20px 0; border-top: 1px solid var(--border-soft); display: grid; gap: 6px; }
+  .roles li:last-child { border-bottom: 1px solid var(--border-soft); }
+  .honesty { border: 1px solid var(--border-soft); border-radius: var(--radius-lg); padding: clamp(20px, 3vw, 32px); display: grid; gap: 10px; max-width: 72ch; }
+  .cta { padding-top: 96px; }
+</style>
