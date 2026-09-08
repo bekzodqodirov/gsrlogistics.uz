@@ -1,0 +1,367 @@
+---
+/**
+ * Service page template (DESIGN_BRIEF §7.1). Renders the ServiceContent shape from
+ * src/data/services/<key>.content.ts; when that file is missing it falls back to the
+ * short copy in src/data/services.ts so the build never fails.
+ * Props: { lang, service, content? }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { servicesStrings, serviceNumberLine, tpl } from '@/i18n/services';
+import { pagePath, pageUrl } from '@/i18n/routes';
+import { services, serviceByKey, serviceSubs, type ServiceMeta } from '@/data/services';
+import type { ServiceContent, ServiceSection } from '@/data/services/types';
+import { guideSlugs } from '@/data/guides';
+import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { fmtDate, fmtNumber } from '@/lib/format';
+import { faqNode, serviceNode } from '@/lib/schema';
+import tariffs from '@/data/tariffs.json';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props { lang: Lang; service: ServiceMeta; content?: ServiceContent }
+const { lang, service, content } = Astro.props;
+const t = pick(lang, servicesStrings);
+const c = common[lang];
+const name = service.name[lang];
+const short = service.short[lang];
+const index = services.indexOf(service) + 1;
+const indexLabel = String(index).padStart(2, '0');
+const updatedIso = content?.updated ?? tariffs.updated;
+const updated = fmtDate(updatedIso, lang);
+const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(tariffs.updated, lang)}`;
+
+/* ---------- Resolve page model (content or fallback) ---------- */
+const fb = t.page.fallback;
+const seoTitle = content?.seo.title ?? tpl(fb.seoTitle, { name });
+const seoDescription = content?.seo.description ?? tpl(fb.seoDescription, { short });
+const eyebrow = content?.hero.eyebrow ?? `${tpl(t.page.serviceIndex, { n: indexLabel })} — ${fb.eyebrow}`;
+const h1 = content?.hero.h1 ?? name;
+const intro = content?.hero.intro ?? tpl(fb.intro, { short });
+const facts = (content?.hero.facts?.length ? content.hero.facts : fb.facts).slice(0, 4);
+const sections: ServiceSection[] = content?.sections ?? [{ heading: fb.sectionTitle, body: fb.sectionBody }];
+const faq = content?.faq ?? [];
+const relatedKeys = (content?.related?.length ? content.related : services.filter((s) => s.key !== service.key).slice(0, 3).map((s) => s.key)).filter((k) => k !== service.key).slice(0, 3);
+const related = relatedKeys.map((k) => serviceByKey(k)).filter(Boolean);
+const guides = (content?.guideKeys ?? []).map((k) => ({ key: k, slug: guideSlugs[k]?.[lang], title: t.guideTitles[k] })).filter((g) => g.slug && g.title);
+const cta = content?.cta ?? { title: fb.ctaTitle, text: fb.ctaText, draft: tpl(fb.draft, { name }) };
+const daysFor: Partial<Record<string, [number, number]>> = { truck: tariffs.truck.days as [number, number], air: tariffs.air.days as [number, number], rail: tariffs.rail.days as [number, number] };
+const days = daysFor[service.key];
+const digitFact = facts.find((f) => /\d/.test(f.value));
+const stickyStat = days
+  ? { value: `${fmtNumber(days[0], lang)}–${fmtNumber(days[1], lang)}`, unit: t.line.days, label: t.page.stickyDays }
+  : digitFact ? { value: digitFact.value, unit: '', label: digitFact.label } : undefined;
+const numberLine = serviceNumberLine(lang, service.key);
+const subs = serviceSubs(service);
+const pageAbs = pageUrl(site.url, lang, 'services', service.slug[lang]);
+
+/* ---------- Breadcrumbs ---------- */
+const servicesLabel = c.nav.find((n) => n.key === 'services')?.label ?? t.index.eyebrow;
+const breadcrumbs = [
+  { name: c.breadcrumbHome, key: 'home' as const },
+  { name: servicesLabel, key: 'services' as const },
+  { name, key: 'services' as const, sub: service.slug[lang] },
+];
+
+/* ---------- JSON-LD: Service (+ offers only from tariffs.json for truck/air) + FAQPage ---------- */
+const offers = service.key === 'truck'
+  ? [
+      ...tariffs.truck.ladderPerKg.map((r) => ({ price: r.rate, unitCode: 'KGM' as const, validThrough: tariffs.validThrough, description: r.maxKg ? `≤ ${r.maxKg} kg` : `> ${tariffs.truck.ladderPerKg[tariffs.truck.ladderPerKg.length - 2].maxKg} kg` })),
+      { price: tariffs.truck.densePerKg.rate, unitCode: 'KGM' as const, validThrough: tariffs.validThrough, description: `dense cargo ≥ ${tariffs.truck.densePerKg.minKg} kg` },
+    ]
+  : service.key === 'air'
+    ? [{ price: tariffs.air.perKg.standard, unitCode: 'KGM' as const, validThrough: tariffs.validThrough, description: 'standard' }]
+    : undefined;
+const jsonLd: Array<Record<string, unknown>> = [
+  serviceNode(lang, { name, description: seoDescription, url: pageAbs, serviceType: service.name.en, offers }),
+  ...(faq.length ? [faqNode(faq)] : []),
+];
+
+/* ---------- Helpers ---------- */
+const isNumeric = (s: string) => /^[\s\d.,–\-−+~≈$%€₽/×÷]*\d[\s\d.,–\-−+~≈$%€₽/×÷a-zA-Zа-яА-Я³²ʻʼ]*$/.test(s.trim()) && s.trim().length <= 24 && /\d/.test(s);
+const slugify = (_s: string, i: number) => `s-${i + 1}`;
+const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? 'check-circle' : 'info');
+---
+<Base lang={lang} title={seoTitle} description={seoDescription} pageKey="services" subs={subs} breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={updatedIso}>
+  <article class="page">
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: servicesLabel, key: 'services' }, { name }]} />
+        <Eyebrow class="eyebrow-gap">{eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{h1}</h1>
+        <p class="intro answer">{intro}</p>
+        <div class="cta-row">
+          <Button href={pagePath(lang, 'calculator')} variant="primary">{c.cta.calculate}</Button>
+          <Button href={telegramChat(cta.draft)} variant="secondary" icon="telegram">{c.cta.telegram}</Button>
+        </div>
+      </div>
+    </header>
+
+    <div class="facts-wrap">
+      <div class="container">
+        <ul class="facts" role="list" aria-label={t.page.factsLabel} data-count={facts.length}>
+          {facts.map((f) => (
+            <li class="fact">
+              <p class:list={['fact-value', 'tnum', f.value.length > 12 && 'is-long']}>{f.value}</p>
+              <p class="caption fact-label">{f.label}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="caption facts-meta">{estimateMeta}</p>
+      </div>
+    </div>
+
+    <div class="container body-grid">
+      <div class="body">
+        {sections.map((sec, i) => (
+          <section class="block" id={slugify(sec.heading, i)} aria-labelledby={`${slugify(sec.heading, i)}-h`}>
+            <h2 id={`${slugify(sec.heading, i)}-h`}>{sec.heading}</h2>
+            {sec.body.map((p) => <p class="para">{p}</p>)}
+            {sec.bullets?.length ? (
+              <ul class="bullets">
+                {sec.bullets.map((b) => <li><span class="tick" aria-hidden="true"><Icon name="check" size={16} /></span><span>{b}</span></li>)}
+              </ul>
+            ) : null}
+            {sec.steps?.length ? (
+              <ol class="steps">
+                {sec.steps.map((st, j) => (
+                  <li class="step">
+                    <span class="step-index tnum" aria-hidden="true">{String(j + 1).padStart(2, '0')}</span>
+                    <div class="step-body">
+                      <h3 class="step-title">{st.title}</h3>
+                      <p class="step-text">{st.text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            ) : null}
+            {sec.table ? (
+              <figure class="tbl">
+                {sec.table.caption && <figcaption class="tbl-caption">{sec.table.caption}</figcaption>}
+                <div class="table-wrap">
+                  <table class="table">
+                    <thead>
+                      <tr>{sec.table.head.map((h, hi) => <th scope="col" class:list={[hi > 0 && sec.table!.rows.every((r) => !r[hi] || isNumeric(r[hi])) && 'num']}>{h}</th>)}</tr>
+                    </thead>
+                    <tbody>
+                      {sec.table.rows.map((r) => (
+                        <tr>{r.map((cell, ci) => ci === 0 ? <th scope="row">{cell}</th> : <td class:list={[isNumeric(cell) && 'num']}>{cell}</td>)}</tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p class="caption tbl-meta">{sec.table.note ?? estimateMeta}</p>
+              </figure>
+            ) : null}
+            {sec.callout ? (
+              <aside class:list={['callout', `tone-${sec.callout.tone ?? 'info'}`]}>
+                <span class="callout-icon" aria-hidden="true">
+                  {sec.callout.tone === 'warn'
+                    ? <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 20h18L12 4Z"/><path d="M12 10v4M12 17h0"/></svg>
+                    : <Icon name={toneIcon(sec.callout.tone)} size={20} />}
+                </span>
+                <div>
+                  <p class="callout-title">{sec.callout.title}</p>
+                  <p class="callout-text">{sec.callout.text}</p>
+                </div>
+              </aside>
+            ) : null}
+          </section>
+        ))}
+
+        {faq.length > 0 && (
+          <section class="block faq" aria-labelledby="faq-h">
+            <h2 id="faq-h">{t.page.faqTitle}</h2>
+            <div class="faq-list">
+              {faq.map((f) => (
+                <details class="faq-item">
+                  <summary>{f.q}</summary>
+                  <div class="faq-body"><p>{f.a}</p></div>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
+      <aside class="side">
+        <div class="card side-card">
+          <p class="caption side-label">{t.page.stickyLabel}</p>
+          {stickyStat && <p class="side-stat"><span class="stat">{stickyStat.value}</span>{stickyStat.unit && <span class="num-unit">{stickyStat.unit}</span>}</p>}
+          {stickyStat && <p class="caption side-fact">{stickyStat.label}</p>}
+          <p class="side-line tnum">{numberLine}</p>
+          <div class="side-actions">
+            <Button href={telegramChat(cta.draft)} variant="primary" icon="telegram" block>{c.cta.telegram}</Button>
+            <Button href={pagePath(lang, 'calculator')} variant="secondary" block>{c.cta.calculate}</Button>
+          </div>
+          <p class="side-hint">{t.page.stickyHint}</p>
+          <p class="side-phone"><a href={phoneUrl} class="tnum"><Icon name="phone" size={16} />{site.phoneDisplay}</a></p>
+          <p class="caption side-hours tnum">{site.hours[lang]}</p>
+        </div>
+      </aside>
+    </div>
+
+    {related.length > 0 && (
+      <section class="related below-fold" aria-labelledby="related-h">
+        <div class="container">
+          <h2 id="related-h" class="related-title">{t.page.relatedTitle}</h2>
+          <ul class="related-grid" role="list">
+            {related.map((r) => (
+              <li>
+                <a href={pagePath(lang, 'services', r.slug[lang])} class="card card-hover rel-card">
+                  <span class="rel-glyph"><Icon name={r.icon} size={24} /></span>
+                  <h3 class="rel-name">{r.name[lang]}</h3>
+                  <p class="rel-short">{r.short[lang]}</p>
+                  <p class="rel-num tnum">{serviceNumberLine(lang, r.key)}</p>
+                  <span class="link">{c.cta.details}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          {guides.length > 0 && (
+            <div class="guides">
+              <div class="guides-head">
+                <h2 class="guides-title">{t.page.guidesTitle}</h2>
+                <p class="guides-intro">{t.page.guidesIntro}</p>
+              </div>
+              <ul class="guides-list" role="list">
+                {guides.map((g) => (
+                  <li><a href={pagePath(lang, 'guides', g.slug)} class="guide-link"><Icon name="document" size={18} /><span>{g.title}</span><span class="chev" aria-hidden="true">›</span></a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <p class="caption updated"><Icon name="clock" size={14} />{c.updated}: <time datetime={updatedIso}>{updated}</time></p>
+        </div>
+      </section>
+    )}
+
+    <section class="section dark noise cta below-fold" aria-labelledby="cta-h">
+      <div class="container cta-inner">
+        <Eyebrow>{t.page.ctaEyebrow}</Eyebrow>
+        <h2 id="cta-h" class="display-2 measure-head cta-h2">{cta.title}</h2>
+        <p class="intro cta-text">{cta.text}</p>
+        <div class="cta-row">
+          <Button href={telegramChat(cta.draft)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+          <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
+        </div>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{site.hours[lang]}</span></p>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  /* ----- Hero ----- */
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(40px, 5vw, 64px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { max-width: 62ch; margin-top: 20px; color: var(--muted); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+  /* ----- Fact rail ----- */
+  .facts-wrap { background: var(--bg-3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+  .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
+  .facts[data-count='3'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fact { padding: 24px 24px 20px 0; display: grid; align-content: start; gap: 8px; min-width: 0; }
+  .fact + .fact { border-left: 1px solid var(--border-soft); padding-left: 24px; }
+  .fact-value { font-size: clamp(1.5rem, 1.6vw + 0.9rem, 2.25rem); line-height: 1.05; font-weight: 700; letter-spacing: -0.025em; color: var(--fg); text-wrap: balance; overflow-wrap: anywhere; }
+  .fact-value.is-long { font-size: clamp(1.25rem, 0.6vw + 1rem, 1.5rem); letter-spacing: -0.012em; line-height: 1.2; }
+  .fact-label { max-width: 28ch; text-wrap: pretty; }
+  .facts-meta { padding-bottom: 16px; }
+
+  /* ----- Body + sticky side ----- */
+  .body-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); padding-top: clamp(40px, 5vw, 72px); padding-bottom: clamp(40px, 5vw, 72px); }
+  .body { max-width: var(--container-text); min-width: 0; }
+  .block + .block { margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid var(--border-soft); }
+  .block h2 { font-size: var(--text-h2); max-width: 32ch; margin-bottom: 16px; }
+  .para { color: var(--fg-2); max-width: 70ch; text-wrap: pretty; }
+  .para + .para { margin-top: 0.9em; }
+  .bullets { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; max-width: 70ch; }
+  .bullets li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; color: var(--fg-2); }
+  .tick { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-2); color: var(--fg); margin-top: 1px; }
+  .steps { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 0; max-width: 70ch; position: relative; }
+  .steps::before { content: ''; position: absolute; left: 15px; top: 20px; bottom: 20px; width: 1px; background: var(--border); }
+  .step { display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding: 12px 0; position: relative; }
+  .step-index { position: relative; z-index: 1; width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; font-size: var(--text-caption); font-weight: 600; color: var(--fg); }
+  .step:first-child .step-index { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .step-body { padding-top: 4px; }
+  .step-title { font-size: var(--text-h4); font-weight: 600; margin-bottom: 4px; }
+  .step-text { color: var(--fg-2); text-wrap: pretty; }
+  .tbl { margin: 24px 0 0; }
+  .tbl-caption { font-size: var(--text-h4); font-weight: 600; color: var(--fg); margin-bottom: 12px; }
+  .tbl .table { border: 1px solid var(--border-soft); border-radius: var(--radius); overflow: hidden; }
+  .tbl .table tbody th { font-weight: 600; color: var(--fg); text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+  .tbl .table tbody tr:last-child th { border-bottom: 0; }
+  .tbl-meta { margin-top: 10px; }
+  .callout { display: grid; grid-template-columns: 24px 1fr; gap: 12px; margin-top: 24px; padding: 16px 18px; border: 1px solid var(--border); border-radius: var(--radius); max-width: 70ch; color: var(--fg-2); }
+  .callout-icon { color: var(--fg); display: inline-flex; margin-top: 1px; }
+  .callout-title { font-weight: 600; color: var(--fg); margin-bottom: 4px; }
+  .callout-text { font-size: var(--text-small); text-wrap: pretty; }
+  .faq-list { margin-top: 8px; max-width: 70ch; }
+
+  .side { display: none; }
+  .side-card { padding: 24px; display: grid; gap: 10px; }
+  .side-label { margin-bottom: 4px; }
+  .side-stat { display: flex; align-items: baseline; flex-wrap: wrap; }
+  .side-stat .stat { font-size: clamp(2rem, 2vw + 1rem, 2.5rem); line-height: 1.05; letter-spacing: -0.025em; overflow-wrap: anywhere; }
+  .side-fact { margin-top: -4px; }
+  .side-line { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); padding-top: 8px; border-top: 1px solid var(--border-soft); }
+  .side-actions { display: grid; gap: 8px; margin-top: 8px; }
+  .side-hint { font-size: var(--text-caption); color: var(--meta); line-height: 1.4; }
+  .side-phone a { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--fg); min-height: 32px; }
+  .side-phone a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .side-hours { margin-top: -6px; }
+
+  /* ----- Related + guides ----- */
+  .related { padding-block: clamp(48px, 6vw, 96px); background: var(--bg-2); }
+  .related-title { font-size: var(--text-h2); margin-bottom: 24px; }
+  .related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; list-style: none; margin: 0; padding: 0; }
+  .rel-card { display: flex; flex-direction: column; gap: 10px; height: 100%; color: var(--fg); }
+  .rel-glyph { color: var(--fg); margin-bottom: 4px; }
+  .rel-name { font-size: 1.25rem; font-weight: 600; }
+  .rel-short { color: var(--fg-2); text-wrap: pretty; }
+  .rel-num { font-size: var(--text-small); font-weight: 600; margin-top: auto; padding-top: 4px; }
+  .guides { margin-top: clamp(40px, 5vw, 64px); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; align-items: start; }
+  .guides-title { font-size: var(--text-h3); }
+  .guides-intro { color: var(--muted); margin-top: 8px; max-width: 40ch; }
+  .guides-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .guide-link { display: grid; grid-template-columns: 18px 1fr auto; gap: 12px; align-items: center; min-height: 52px; padding: 12px 16px; border: 1px solid var(--border-soft); border-radius: var(--radius); background: var(--card); color: var(--fg); font-weight: 500; transition: border-color var(--dur) var(--ease); }
+  .guide-link:hover { border-color: var(--meta); }
+  .guide-link .chev { color: var(--muted); transition: transform var(--dur) var(--ease); }
+  .guide-link:hover .chev { transform: translateX(2px); }
+  .updated { display: inline-flex; align-items: center; gap: 6px; margin-top: 32px; }
+
+  /* ----- CTA band ----- */
+  .cta { padding-block: clamp(96px, 10vw, 128px); }
+  .cta-h2 { margin-top: 16px; }
+  .cta-text { max-width: 56ch; margin-top: 16px; color: var(--muted); }
+  .cta-meta { margin-top: 16px; color: var(--muted); }
+  .cta-meta a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (min-width: 1100px) {
+    .body-grid { grid-template-columns: minmax(0, 1fr) 300px; }
+    .side { display: block; }
+    .side-card { position: sticky; top: calc(var(--header-h) + 24px); }
+  }
+  @media (max-width: 899px) {
+    .facts, .facts[data-count='3'] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .fact { padding: 18px 16px 16px 0; }
+    .fact + .fact { border-left: 0; padding-left: 0; }
+    .fact:nth-child(even) { border-left: 1px solid var(--border-soft); padding-left: 16px; }
+    .fact:nth-child(n + 3) { border-top: 1px solid var(--border-soft); }
+    .fact-value { font-size: 1.375rem; }
+    .cta-row { flex-direction: column; }
+    .cta-row :global(.btn) { width: 100%; }
+    .related-grid { grid-template-columns: 1fr; gap: 16px; }
+    .guides { grid-template-columns: 1fr; gap: 16px; }
+    .block h2 { font-size: var(--text-h3); }
+  }
+  @media (min-width: 900px) and (max-width: 1099px) {
+    .related-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  }
+</style>

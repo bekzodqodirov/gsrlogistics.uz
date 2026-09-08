@@ -1,0 +1,139 @@
+---
+/**
+ * Home hero (light) + route drawing + proof strip — DESIGN_BRIEF §2.
+ * The H1 text is the LCP element: no image, no opacity reveal on the copy.
+ * Props: { lang }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { hero } from '@/i18n/hero';
+import { common } from '@/i18n/common';
+import { pagePath } from '@/i18n/routes';
+import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { fmtNumber } from '@/lib/format';
+import tariffs from '@/data/tariffs.json';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+import RouteBand from './hero/RouteBand.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang, hero);
+const c = common[lang];
+const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)}`;
+const proof = [
+  { value: range(tariffs.truck.days[0], tariffs.truck.days[1]), unit: t.unitDays, caption: t.proof.truck },
+  { value: range(tariffs.air.days[0], tariffs.air.days[1]), unit: t.unitDays, caption: t.proof.air },
+  { value: t.proof.yiwuValue, caption: t.proof.yiwu },
+  { value: t.proof.sinceValue, caption: t.proof.since },
+];
+---
+<section class="hero" aria-labelledby="hero-title" data-hero>
+  <div class="container copy">
+    <Eyebrow>{t.eyebrow}</Eyebrow>
+    <h1 id="hero-title" class="display-1 title">
+      <span class="l1">{t.h1a}</span>
+      <span class="l2">{t.h1b}</span>
+    </h1>
+    <p class="intro sub">{t.sub}</p>
+    <div class="cta-row" data-hero-cta>
+      <Button href={pagePath(lang, 'calculator')} variant="primary">{t.ctaPrimary}</Button>
+      <Button href={telegramChat(c.telegramDraft.general)} variant="secondary" icon="telegram">{t.ctaSecondary}</Button>
+    </div>
+    <p class="meta-line">
+      <a href={phoneUrl} class="tnum phone">{site.phoneDisplay}</a>
+      <span class="dot" aria-hidden="true">·</span>
+      <span class="tnum">{site.hours[lang]}</span>
+    </p>
+  </div>
+
+  <div class="drawing-wrap">
+    <RouteBand lang={lang} />
+  </div>
+
+  <div class="proof-wrap">
+    <div class="container">
+      <ul class="proof" role="list" aria-label={t.proofLabel}>
+        {proof.map((p) => (
+          <li class="cell">
+            <p class="value"><span class="tnum">{p.value}</span>{p.unit && <span class="num-unit">{p.unit}</span>}</p>
+            <p class="caption">{p.caption}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; background: var(--bg); color: var(--fg); padding-top: clamp(40px, 5vw, 80px); }
+  .copy { display: grid; }
+  .copy > :global(.eyebrow) { margin-bottom: 20px; }
+  .title { max-width: 32ch; margin: 0; }
+  .title .l1, .title .l2 { display: block; }
+  .title .l2 { color: var(--fg-2); }
+  .title:lang(ru) { font-size: clamp(2.25rem, 2vw + 1.375rem, 4rem); letter-spacing: -0.01em; }
+  .sub { max-width: 60ch; margin-top: 24px; color: var(--muted); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .meta-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; font-size: var(--text-caption); font-weight: 500; letter-spacing: 0.01em; color: var(--meta); }
+  .meta-line .phone { color: var(--muted); display: inline-flex; align-items: center; min-height: 24px; }
+  .meta-line .phone:hover { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+
+  .drawing-wrap { margin-top: 64px; }
+
+  .proof-wrap { margin-top: 40px; background: var(--bg-3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+  .proof { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
+  .cell { padding: 24px 24px 24px 0; display: grid; align-content: start; gap: 8px; }
+  .cell + .cell { border-left: 1px solid var(--border-soft); padding-left: 24px; }
+  .value { margin: 0; font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--fg); white-space: nowrap; }
+  .value .num-unit { letter-spacing: 0; }
+  .caption { margin: 0; max-width: 28ch; text-wrap: pretty; }
+
+  @media (max-width: 899px) {
+    .hero { padding-top: 32px; }
+    .title { font-size: clamp(2.25rem, 8.5vw, 3rem); }
+    .title:lang(ru) { font-size: clamp(2rem, 7.6vw, 2.75rem); }
+    .sub { font-size: var(--text-body); margin-top: 20px; }
+    .cta-row { flex-direction: column; margin-top: 28px; }
+    .cta-row :global(.btn) { width: 100%; }
+    .drawing-wrap { margin-top: 40px; }
+    .proof-wrap { margin-top: 28px; }
+    .proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cell { padding: 20px 16px 20px 0; }
+    .cell + .cell { border-left: 0; padding-left: 0; }
+    .cell:nth-child(even) { border-left: 1px solid var(--border-soft); padding-left: 16px; }
+    .cell:nth-child(n + 3) { border-top: 1px solid var(--border-soft); }
+    .value { font-size: clamp(1.625rem, 6vw, 2rem); }
+  }
+  @media (max-width: 380px) { .value { white-space: normal; } }
+</style>
+
+<script>
+  // Start the route drawing once fonts are ready (so the LCP text never waits), and count the km readout 0 → ROUTE_KM.
+  const root = document.querySelector<HTMLElement>('[data-hero]');
+  if (root) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const start = () => {
+      root.classList.add('is-drawn');
+      const el = root.querySelector<HTMLElement>('[data-count]');
+      if (!el || reduce) return;
+      const target = Number(el.dataset.count || 0);
+      const lang = el.dataset.lang || 'uz';
+      const fmt = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'en' ? ',' : ' ');
+      const t0 = performance.now(), dur = 1100;
+      const tick = (now: number) => {
+        const p = Math.min(1, (now - t0) / dur);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(Math.round(target * e));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      el.textContent = fmt(0);
+      requestAnimationFrame(tick);
+    };
+    const ready = (document as Document & { fonts?: FontFaceSet }).fonts?.ready ?? Promise.resolve();
+    let done = false;
+    const once = () => { if (!done) { done = true; start(); } };
+    ready.then(once, once);
+    setTimeout(once, 900);
+  }
+</script>

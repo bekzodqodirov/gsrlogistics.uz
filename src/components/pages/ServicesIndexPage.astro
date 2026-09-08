@@ -1,0 +1,197 @@
+---
+/**
+ * /xizmatlar/ — index of the nine services grouped by job, a mode comparison table and a CTA band.
+ * Props: { lang }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { servicesStrings, serviceGroups, serviceNumberLine, tpl } from '@/i18n/services';
+import { pagePath, pageUrl } from '@/i18n/routes';
+import { services, serviceByKey } from '@/data/services';
+import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { fmtDate, fmtNumber } from '@/lib/format';
+import tariffs from '@/data/tariffs.json';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang, servicesStrings);
+const c = common[lang];
+const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)} ${t.line.days}`;
+const updated = fmtDate(tariffs.updated, lang);
+const estimateMeta = `${c.strings.estimateMeta}: ${updated}`;
+const compareRows = [
+  { key: 'truck' as const, days: range(tariffs.truck.days[0], tariffs.truck.days[1]) },
+  { key: 'air' as const, days: range(tariffs.air.days[0], tariffs.air.days[1]) },
+  { key: 'rail' as const, days: range(tariffs.rail.days[0], tariffs.rail.days[1]) },
+];
+const breadcrumbs = [
+  { name: c.breadcrumbHome, key: 'home' as const },
+  { name: c.nav.find((n) => n.key === 'services')?.label ?? t.index.eyebrow, key: 'services' as const },
+];
+const itemList = {
+  '@type': 'ItemList',
+  name: t.index.h1,
+  itemListOrder: 'https://schema.org/ItemListOrderAscending',
+  numberOfItems: services.length,
+  itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.name[lang], url: pageUrl(site.url, lang, 'services', s.slug[lang]) })),
+};
+---
+<Base lang={lang} title={t.index.seoTitle} description={t.index.seoDescription} pageKey="services" breadcrumbs={breadcrumbs} jsonLd={[itemList]} dateModified={tariffs.updated}>
+  <article class="page">
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: breadcrumbs[1].name }]} />
+        <Eyebrow class="eyebrow-gap">{t.index.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{t.index.h1}</h1>
+        <p class="intro answer">{t.index.intro}</p>
+        <div class="cta-row">
+          <Button href={pagePath(lang, 'calculator')} variant="primary">{c.cta.calculate}</Button>
+          <Button href={telegramChat(c.telegramDraft.general)} variant="secondary" icon="telegram">{c.cta.telegram}</Button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      {serviceGroups.map((g) => (
+        <section class="group" aria-labelledby={`group-${g.id}`}>
+          <div class="group-head">
+            <h2 id={`group-${g.id}`}>{t.index.groups[g.id]}</h2>
+            <p class="group-lead">{t.index.groupLead[g.id]}</p>
+          </div>
+          <ul class="rows" role="list">
+            {g.keys.map((k) => { const s = serviceByKey(k); const n = services.indexOf(s) + 1; return (
+              <li class="row reveal">
+                <a href={pagePath(lang, 'services', s.slug[lang])} class="row-link">
+                  <span class="row-index tnum" aria-hidden="true">{String(n).padStart(2, '0')}</span>
+                  <span class="row-glyph"><Icon name={s.icon} size={24} /></span>
+                  <span class="row-main">
+                    <span class="row-name">{s.name[lang]}{s.flagship && <span class="badge">{t.home.flagshipBadge}</span>}</span>
+                    <span class="row-short">{s.short[lang]}</span>
+                  </span>
+                  <span class="row-num tnum">{serviceNumberLine(lang, k)}</span>
+                  <span class="row-chev" aria-hidden="true"><Icon name="chevron-right" size={20} /></span>
+                </a>
+              </li>
+            ); })}
+          </ul>
+        </section>
+      ))}
+    </div>
+
+    <section class="compare" aria-labelledby="compare-title">
+      <div class="container">
+        <div class="compare-head">
+          <h2 id="compare-title">{t.index.compareTitle}</h2>
+          <p class="group-lead">{t.index.compareIntro}</p>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">{t.index.compareHead.mode}</th>
+                <th scope="col" class="num">{t.index.compareHead.days}</th>
+                <th scope="col">{t.index.compareHead.min}</th>
+                <th scope="col">{t.index.compareHead.rule}</th>
+                <th scope="col">{t.index.compareHead.fits}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {compareRows.map((r) => { const s = serviceByKey(r.key); return (
+                <tr>
+                  <th scope="row"><a href={pagePath(lang, 'services', s.slug[lang])} class="link-quiet">{s.name[lang]}</a></th>
+                  <td class="num">{r.days}</td>
+                  <td>{t.index.compareRows[r.key].min}</td>
+                  <td>{t.index.compareRows[r.key].rule}</td>
+                  <td>{t.index.compareRows[r.key].fits}</td>
+                </tr>
+              ); })}
+            </tbody>
+          </table>
+        </div>
+        <p class="caption table-meta">{estimateMeta} · <a href={pagePath(lang, 'pricing')} class="link-quiet">{c.strings.allRates} ›</a></p>
+
+        <div class="how">
+          <h2 class="how-title">{t.index.howTitle}</h2>
+          <p class="how-text">{t.index.how}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark noise cta" aria-labelledby="cta-title">
+      <div class="container cta-inner">
+        <div>
+          <Eyebrow>{t.page.ctaEyebrow}</Eyebrow>
+          <h2 id="cta-title" class="display-2 measure-head cta-h2">{t.index.ctaTitle}</h2>
+          <p class="intro cta-text">{t.index.ctaText}</p>
+          <div class="cta-row">
+            <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+            <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
+          </div>
+          <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{site.hours[lang]}</span></p>
+        </div>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(40px, 5vw, 64px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { max-width: 62ch; margin-top: 20px; color: var(--muted); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+  .group { padding-block: clamp(32px, 4vw, 56px); border-top: 1px solid var(--border-soft); }
+  .group-head { display: grid; gap: 8px; max-width: 60ch; margin-bottom: 24px; }
+  .group-head h2 { font-size: var(--text-h3); }
+  .group-lead { color: var(--muted); text-wrap: pretty; }
+  .rows { display: grid; gap: 12px; list-style: none; margin: 0; padding: 0; }
+  .row-link { display: grid; grid-template-columns: 40px 32px minmax(0, 1fr) auto 24px; align-items: center; gap: 16px; padding: 20px 24px; border: 1px solid var(--border-soft); border-radius: var(--radius-lg); background: var(--card); color: var(--fg); transition: border-color var(--dur) var(--ease); min-height: 88px; }
+  .row-link:hover { border-color: var(--meta); }
+  .row-link:hover .row-chev :global(svg) { transform: translateX(2px); }
+  .row-chev :global(svg) { transition: transform var(--dur) var(--ease); color: var(--muted); }
+  .row-index { font-size: var(--text-small); font-weight: 500; color: var(--meta); }
+  .row-glyph { color: var(--fg); display: inline-flex; }
+  .row-main { display: grid; gap: 4px; min-width: 0; }
+  .row-name { font-size: 1.25rem; font-weight: 600; line-height: 1.25; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .row-short { color: var(--fg-2); text-wrap: pretty; }
+  .row-num { font-weight: 600; color: var(--fg); font-size: var(--text-small); text-align: right; max-width: 22ch; }
+
+  .compare { padding-block: clamp(48px, 6vw, 96px); background: var(--bg-2); }
+  .compare-head { display: grid; gap: 8px; max-width: 60ch; margin-bottom: 28px; }
+  .table { background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); overflow: hidden; min-width: 720px; }
+  .table thead th { background: var(--card); }
+  .table tbody th { font-weight: 600; color: var(--fg); text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+  .table tbody tr:last-child th { border-bottom: 0; }
+  .table-wrap { border-radius: var(--radius-lg); }
+  .table-meta { margin-top: 12px; }
+  .how { margin-top: clamp(32px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; align-items: start; }
+  .how-title { font-size: var(--text-h3); }
+  .how-text { color: var(--fg-2); max-width: 60ch; text-wrap: pretty; }
+
+  .cta { padding-block: clamp(96px, 10vw, 128px); }
+  .cta-h2 { margin-top: 16px; }
+  .cta-text { max-width: 56ch; margin-top: 16px; color: var(--muted); }
+  .cta-meta { margin-top: 16px; color: var(--muted); }
+  .cta-meta a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 899px) {
+    .row-link { grid-template-columns: 32px minmax(0, 1fr) 20px; grid-template-areas: 'glyph main chev' 'glyph num chev'; padding: 18px; gap: 10px 14px; }
+    .row-index { display: none; }
+    .row-glyph { grid-area: glyph; align-self: start; }
+    .row-main { grid-area: main; }
+    .row-num { grid-area: num; text-align: left; max-width: none; }
+    .row-chev { grid-area: chev; }
+    .row-name { font-size: 1.125rem; }
+    .cta-row { flex-direction: column; }
+    .cta-row :global(.btn) { width: 100%; }
+    .how { grid-template-columns: 1fr; gap: 12px; }
+    .table { min-width: 640px; }
+  }
+</style>

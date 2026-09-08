@@ -1,0 +1,176 @@
+---
+/**
+ * Home "02 — Xizmatlar": bento grid of the 9 services from src/data/services.ts (DESIGN_BRIEF §3.3).
+ * Flagship (truck) first and wider, with the micro route-line and the day range at stat scale;
+ * the last row pairs the cars card with the quiet "which mode?" comparison strip.
+ * Props: { lang }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { servicesStrings, serviceNumberLine, tpl } from '@/i18n/services';
+import { pagePath } from '@/i18n/routes';
+import { services, type ServiceMeta } from '@/data/services';
+import { fmtDate, fmtNumber } from '@/lib/format';
+import tariffs from '@/data/tariffs.json';
+import Icon from '@/components/ui/Icon.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang, servicesStrings);
+const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)}`;
+const href = (s: ServiceMeta) => pagePath(lang, 'services', s.slug[lang]);
+const flagship = services.find((s) => s.flagship) ?? services[0];
+const rest = services.filter((s) => s !== flagship);
+const air = rest.find((s) => s.key === 'air');
+const cars = rest.find((s) => s.key === 'cars');
+const middle = rest.filter((s) => s !== air && s !== cars);
+const compare = [
+  { key: 'truck', icon: 'truck', name: services.find((s) => s.key === 'truck')!.name[lang], days: range(tariffs.truck.days[0], tariffs.truck.days[1]), fit: t.home.compare.truck },
+  { key: 'air', icon: 'plane', name: services.find((s) => s.key === 'air')!.name[lang], days: range(tariffs.air.days[0], tariffs.air.days[1]), fit: t.home.compare.air },
+  { key: 'rail', icon: 'train', name: services.find((s) => s.key === 'rail')!.name[lang], days: range(tariffs.rail.days[0], tariffs.rail.days[1]), fit: t.home.compare.rail },
+] as const;
+const truckDays = range(tariffs.truck.days[0], tariffs.truck.days[1]);
+---
+<section id="xizmatlar" class="section services below-fold" aria-labelledby="services-title">
+  <div class="container">
+    <div class="section-head">
+      <Eyebrow>{t.home.eyebrow}</Eyebrow>
+      <h2 id="services-title" class="measure-head">{t.home.h2}</h2>
+      <p class="intro">{t.home.intro}</p>
+    </div>
+
+    <ul class="bento" role="list" aria-label={t.home.listLabel}>
+      <li class="cell span-8 reveal">
+        <a href={href(flagship)} class="card card-hover flagship">
+          <div class="top">
+            <Icon name={flagship.icon} size={24} class="glyph" />
+            <span class="badge">{t.home.flagshipBadge}</span>
+          </div>
+          <div class="flag-body">
+            <div class="flag-copy">
+              <h3>{flagship.name[lang]}</h3>
+              <p class="sentence">{flagship.short[lang]}</p>
+              <p class="numline tnum">{serviceNumberLine(lang, flagship.key)}</p>
+              <span class="link">{t.home.details}</span>
+            </div>
+            <div class="flag-stat" aria-hidden="true">
+              <svg class="microline" viewBox="0 0 120 12" width="120" height="12" fill="none">
+                <path d="M2 10 C 30 10, 50 2, 118 2" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="118" cy="2" r="2.5" fill="var(--accent)" />
+                <circle cx="2" cy="10" r="2" fill="var(--border)" />
+              </svg>
+              <p class="stat-line"><span class="stat">{truckDays}</span><span class="num-unit">{t.line.days}</span></p>
+            </div>
+          </div>
+        </a>
+      </li>
+
+      {air && (
+        <li class="cell span-4 reveal" style="--reveal-delay:60ms">
+          <a href={href(air)} class="card card-hover">
+            <div class="top"><Icon name={air.icon} size={24} class="glyph" /></div>
+            <h3>{air.name[lang]}</h3>
+            <p class="sentence">{air.short[lang]}</p>
+            <p class="numline tnum">{serviceNumberLine(lang, air.key)}</p>
+            <span class="link">{t.home.details}</span>
+          </a>
+        </li>
+      )}
+
+      {middle.map((s, i) => (
+        <li class="cell span-4 reveal" style={`--reveal-delay:${(i % 3) * 60}ms`}>
+          <a href={href(s)} class="card card-hover">
+            <div class="top"><Icon name={s.icon} size={24} class="glyph" /></div>
+            <h3>{s.name[lang]}</h3>
+            <p class="sentence">{s.short[lang]}</p>
+            <p class="numline tnum">{serviceNumberLine(lang, s.key)}</p>
+            <span class="link">{t.home.details}</span>
+          </a>
+        </li>
+      ))}
+
+      {cars && (
+        <li class="cell span-4 reveal">
+          <a href={href(cars)} class="card card-hover">
+            <div class="top"><Icon name={cars.icon} size={24} class="glyph" /></div>
+            <h3>{cars.name[lang]}</h3>
+            <p class="sentence">{cars.short[lang]}</p>
+            <p class="numline tnum">{serviceNumberLine(lang, cars.key)}</p>
+            <span class="link">{t.home.details}</span>
+          </a>
+        </li>
+      )}
+
+      <li class="cell span-8 reveal" style="--reveal-delay:60ms">
+        <div class="card compare">
+          <h3 class="compare-title">{t.home.compare.title}</h3>
+          <ul class="compare-grid" role="list">
+            {compare.map((c) => (
+              <li class="compare-col">
+                <Icon name={c.icon} size={20} class="glyph" />
+                <p class="compare-days tnum"><span>{c.days}</span><span class="num-unit">{t.line.days}</span></p>
+                <p class="compare-name">{c.name}</p>
+                <p class="compare-fit">{c.fit}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </li>
+    </ul>
+
+    <p class="caption grid-meta">{tpl(t.home.meta, { date: fmtDate(tariffs.updated, lang) })}</p>
+  </div>
+</section>
+
+<style>
+  .services { background: var(--bg); }
+  .bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; list-style: none; margin: 0; padding: 0; }
+  .cell { display: grid; min-width: 0; }
+  .span-8 { grid-column: span 8; }
+  .span-4 { grid-column: span 4; }
+  .card { display: flex; flex-direction: column; gap: 12px; height: 100%; padding: 24px; color: var(--fg); }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+  :global(.glyph) { color: var(--fg); flex: none; }
+  h3 { font-size: clamp(1.375rem, 0.5vw + 1.1rem, 1.75rem); line-height: 1.14; font-weight: 600; letter-spacing: -0.006em; text-wrap: balance; }
+  .sentence { color: var(--fg-2); text-wrap: pretty; }
+  .numline { font-weight: 600; color: var(--fg); margin-top: auto; padding-top: 4px; }
+  .link { margin-top: 4px; }
+
+  .flagship { justify-content: space-between; }
+  .flag-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; flex: 1; }
+  .flag-copy { display: flex; flex-direction: column; gap: 12px; min-height: 100%; }
+  .flag-copy .numline { margin-top: auto; }
+  .flag-stat { display: grid; justify-items: end; gap: 12px; padding-bottom: 6px; }
+  .microline { width: 120px; height: 12px; overflow: visible; }
+  .stat-line { display: flex; align-items: baseline; white-space: nowrap; }
+  .stat-line .stat { font-size: clamp(2.5rem, 3vw + 1.25rem, 4rem); color: var(--fg); }
+
+  .compare { background: var(--bg-3); gap: 20px; }
+  .compare-title { font-size: var(--text-body); font-weight: 600; color: var(--fg); }
+  .compare-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; list-style: none; margin: 0; padding: 0; }
+  .compare-col { display: grid; gap: 6px; padding-right: 20px; align-content: start; }
+  .compare-col + .compare-col { border-left: 1px solid var(--border-soft); padding-left: 20px; }
+  .compare-col :global(.glyph) { color: var(--muted); margin-bottom: 4px; }
+  .compare-days { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); line-height: 1; display: flex; align-items: baseline; white-space: nowrap; }
+  .compare-name { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); }
+  .compare-fit { font-size: var(--text-small); color: var(--muted); text-wrap: pretty; }
+
+  .grid-meta { margin-top: 20px; max-width: 70ch; }
+
+  @media (max-width: 1099px) {
+    .span-8, .span-4 { grid-column: span 6; }
+  }
+  @media (max-width: 767px) {
+    .bento { gap: 16px; }
+    .span-8, .span-4 { grid-column: span 12; }
+    .card { padding: 20px; }
+    h3 { font-size: 1.375rem; }
+    .flag-body { grid-template-columns: 1fr; }
+    .flag-stat { justify-items: start; padding-top: 8px; border-top: 1px solid var(--border-soft); }
+    .stat-line .stat { font-size: 2.25rem; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-col { padding: 0; }
+    .compare-col + .compare-col { border-left: 0; padding-left: 0; padding-top: 16px; margin-top: 16px; border-top: 1px solid var(--border-soft); }
+  }
+</style>

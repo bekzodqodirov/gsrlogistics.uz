@@ -1,0 +1,12 @@
+---
+import ServicePage from '@/components/pages/ServicePage.astro';
+import { services, type ServiceMeta } from '@/data/services';
+import { getServiceContent } from '@/data/services/load';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug.en }, props: { service: s } }));
+}
+const { service } = Astro.props as { service: ServiceMeta };
+const content = getServiceContent(service.key)?.en;
+---
+<ServicePage lang="en" service={service} content={content} />

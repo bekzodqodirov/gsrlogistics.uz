@@ -1,0 +1,148 @@
+---
+/**
+ * Hero route drawing (DESIGN_BRIEF §2.2): one cubic curve from Ivu (right) to Toshkent (left) on a
+ * masked dot grid. The SVG stretches to the band (`preserveAspectRatio="none"`) so the curve stays
+ * full-bleed at every width; strokes use `vector-effect="non-scaling-stroke"` so hairlines never scale.
+ * Ticks, labels and half-marks are HTML positioned in % of the same 1600×320 grid.
+ * Draw animation: CSS only, started by the `.is-drawn` class the parent toggles at `document.fonts.ready`.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { hero } from '@/i18n/hero';
+import { routeNodes, routeKmLabel, ROUTE_KM, ROUTE_KM_VERIFIED } from '@/data/route';
+import { fmtNumber } from '@/lib/format';
+import tariffs from '@/data/tariffs.json';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang, hero);
+
+/* ---- geometry (viewBox 0 0 1600 320) ---- */
+const W = 1600, H = 320;
+// One gently descending cubic: Ivu top-right → Toshkent bottom-left.
+const P0 = { x: 1480, y: 84 }, C1 = { x: 1040, y: 84 }, C2 = { x: 720, y: 236 }, P3 = { x: 200, y: 236 };
+const bez = (a: number, b: number, c: number, d: number, s: number) =>
+  (1 - s) ** 3 * a + 3 * (1 - s) ** 2 * s * b + 3 * (1 - s) * s ** 2 * c + s ** 3 * d;
+/** y on the curve for a given x (x(t) is monotonic because control-point xs are ordered). */
+function yAt(x: number): number {
+  let lo = 0, hi = 1;
+  for (let i = 0; i < 40; i++) {
+    const mid = (lo + hi) / 2;
+    if (bez(P0.x, C1.x, C2.x, P3.x, mid) > x) lo = mid; else hi = mid;
+  }
+  return bez(P0.y, C1.y, C2.y, P3.y, (lo + hi) / 2);
+}
+const d = `M${P0.x} ${P0.y} C${C1.x} ${C1.y} ${C2.x} ${C2.y} ${P3.x} ${P3.y}`;
+
+// x per node id (travel order in route.ts is Ivu → … → Toshkent; spacing loosely follows road distance).
+const xs: Record<string, number> = { yiwu: 1480, xian: 1190, lanzhou: 1010, urumqi: 780, khorgos: 560, almaty: 450, shymkent: 330, tashkent: 200 };
+const nodes = routeNodes.map((n) => {
+  const x = xs[n.id] ?? 800;
+  const y = Math.round(yAt(x) * 10) / 10;
+  const second = n.id === 'yiwu' ? n.zh : n.id === 'khorgos' ? t.khorgosRole : n.id === 'tashkent' ? t.coords : undefined;
+  return { ...n, x, y, second, mobile: ['yiwu', 'urumqi', 'khorgos', 'tashkent'].includes(n.id) };
+});
+const pct = (v: number, of: number) => `${Math.round((v / of) * 10000) / 100}%`;
+
+const km = routeKmLabel(lang); // "5 000+ km" while unverified
+const kmNumber = fmtNumber(ROUTE_KM, lang);
+const kmSuffix = ROUTE_KM_VERIFIED ? '' : '+'; // the "+" disappears once the owner verifies the road distance
+const days = `${fmtNumber(tariffs.truck.days[0], lang)}–${fmtNumber(tariffs.truck.days[1], lang)}`;
+const routeText = `${t.drawingLabel}: ${nodes.map((n) => n.name[lang]).join(' → ')}`;
+---
+<div class="drawing" role="group" aria-label={routeText}>
+<div class="band">
+  <div class="grid" aria-hidden="true"></div>
+  <svg class="art" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path class="ghost" d={d} vector-effect="non-scaling-stroke" />
+    <path class="route" d={d} pathLength="1" vector-effect="non-scaling-stroke" />
+    <g class="head" style={`--p: path('${d}'); --tx:${P3.x}px; --ty:${P3.y}px`}>
+      <path class="head-halo" d="M0 0h.01" vector-effect="non-scaling-stroke" />
+      <path class="head-dot" d="M0 0h.01" vector-effect="non-scaling-stroke" />
+    </g>
+  </svg>
+  <ol class="nodes" role="list">
+    {nodes.map((n) => (
+      <li class:list={['node', n.role, n.mobile && 'm']} style={`left:${pct(n.x, W)};top:${pct(n.y, H)}`}>
+        {n.role === 'origin' && (
+          <svg class="half" viewBox="-50 -52 100 104" aria-hidden="true" focusable="false"><path d="M0 -50 L-43.3 -25 L-43.3 25 L-22.3 37.1 L20 12.7 L20 -5.77 L-28.3 22.1 L-33.3 19.23 L-33.3 -19.23 L10 -44.2 Z" /></svg>
+        )}
+        {n.role === 'destination' && (
+          <svg class="half" viewBox="-50 -52 100 104" aria-hidden="true" focusable="false"><path d="M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -22.1 L33.3 -19.23 L33.3 19.23 L-10 44.2 Z" /></svg>
+        )}
+        <span class="tick" aria-hidden="true"></span>
+        <span class="label">
+          <span class="name">{n.name[lang]}</span>
+          {n.second && <span class:list={['second', n.role === 'destination' && 'coords', n.id === 'yiwu' && 'zh']} lang={n.id === 'yiwu' ? 'zh' : undefined}>{n.second}</span>}
+        </span>
+      </li>
+    ))}
+  </ol>
+</div>
+  <p class="readout" aria-label={`${t.readoutLabel}: ${km} · ${days} ${t.unitDays}`}>
+    <span class="km"><span class="count tnum" data-count={ROUTE_KM} data-lang={lang}>{kmNumber}</span>{kmSuffix}<span class="unit">km</span></span>
+    <span class="sep" aria-hidden="true">·</span>
+    <span class="days"><span class="tnum">{days}</span><span class="unit">{t.unitDays}</span></span>
+  </p>
+</div>
+
+<style>
+  .drawing { position: relative; }
+  .band { position: relative; height: 320px; overflow: hidden; color: var(--fg); }
+  .grid { position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgb(29 29 31 / 0.08) 1px, transparent 1.2px); background-size: 24px 24px; background-position: 12px 12px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 48px, #000 calc(100% - 24px), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 48px, #000 calc(100% - 24px), transparent 100%); }
+  .art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .ghost { fill: none; stroke: var(--border); stroke-width: 1; stroke-linecap: round; }
+  .route { fill: none; stroke: var(--red-600); stroke-width: 1.5; stroke-linecap: round;
+    stroke-dasharray: 1.5; stroke-dashoffset: 1.5; }
+  .head { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+  .head-halo { stroke: var(--red-600); stroke-width: 10; stroke-linecap: round; opacity: 0.2; }
+  .head-dot { stroke: var(--red-600); stroke-width: 4; stroke-linecap: round; }
+
+  /* Draw once fonts are ready (class from Hero.astro). Before that the line is hidden; no-JS gets the final state. */
+  :global(.is-drawn) .route { animation: draw 1200ms var(--ease-out-expo) forwards; }
+  :global(.is-drawn) .head { animation: head-in 200ms 360ms linear forwards; }
+  @supports (offset-path: path('M0 0')) {
+    .head { offset-path: var(--p); offset-rotate: 0deg; offset-distance: 100%; transform: none; }
+    :global(.is-drawn) .head { animation: travel 1200ms var(--ease-out-expo) forwards, head-in 200ms 360ms linear forwards; }
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes travel { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+  @keyframes head-in { from { opacity: 0; } to { opacity: 1; } }
+  :global(html.no-js) .route { stroke-dashoffset: 0; }
+  :global(html.no-js) .head { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .route { stroke-dashoffset: 0; animation: none !important; }
+    .head { opacity: 1; animation: none !important; offset-distance: 100%; }
+  }
+
+  .nodes { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; }
+  .node { position: absolute; width: 0; height: 0; }
+  .tick { position: absolute; left: 0; top: -4px; width: 1px; height: 8px; background: var(--border); }
+  .half { position: absolute; left: -10px; bottom: 8px; width: 20px; height: 21px; max-width: none; fill: var(--border); }
+  .label { position: absolute; top: 12px; left: 0; transform: translateX(-50%); display: grid; justify-items: center; gap: 2px; white-space: nowrap;
+    font-size: var(--text-caption); line-height: 1.2; font-weight: 500; color: var(--meta); letter-spacing: 0.01em; }
+  .node.origin .label, .node.destination .label { color: var(--muted); }
+  .second { font-weight: 400; }
+  .coords { font-variant-numeric: tabular-nums; }
+  .node.origin .label, .node.destination .label { transform: translateX(-50%); }
+
+  .readout { position: absolute; top: 20px; right: max(var(--gutter), calc((100% - var(--container)) / 2)); margin: 0;
+    display: inline-flex; align-items: baseline; gap: 10px; font-size: var(--text-body); font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .readout .unit { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-left: 4px; }
+  .readout .sep { color: var(--meta); font-weight: 400; }
+  .count { display: inline-block; min-width: 5ch; text-align: right; }
+
+  @media (max-width: 899px) {
+    .band { height: 140px; }
+    .grid { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%); }
+    .node:not(.m) { display: none; }
+    .node .second { display: none; }
+    .half { width: 16px; height: 17px; left: -8px; bottom: 7px; }
+    .readout { position: static; display: flex; padding: 12px var(--gutter) 0; font-size: 1rem; }
+    .node.destination .label { transform: translateX(-4px); justify-items: start; }
+  }
+  @media (max-width: 599px) { .node.origin .label { transform: translateX(calc(-100% + 4px)); justify-items: end; } }
+</style>
