@@ -149,7 +149,8 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
   .gutter-line { display: block; position: absolute; top: 0; bottom: 0; left: calc((100% - var(--container)) / 2 - 32px); width: 1px; background: var(--border-soft); pointer-events: none; z-index: 1; }
   .gutter-line::after { content: ''; position: absolute; left: 0; top: 0; width: 1px; height: 0; background: var(--accent-text); }
   @supports (animation-timeline: scroll()) {
-    .gutter-line::after { height: 100%; transform-origin: top; transform: scaleY(0); animation: gutter-progress linear both; animation-timeline: scroll(root); }
+    .gutter-line::after { height: 100%; transform-origin: top; transform: scaleY(0); animation-name: gutter-progress; animation-timing-function: linear; animation-fill-mode: both; }
+    .gutter-line::after { animation-timeline: scroll(root); }
     @keyframes gutter-progress { to { transform: scaleY(1); } }
   }
 }

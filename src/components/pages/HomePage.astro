@@ -1,0 +1,66 @@
+---
+/**
+ * Home page composition — shared by /, /ru/ and /en/.
+ * Section order follows DESIGN_BRIEF §3: hero (light) → journey (dark, pinned) → services (light) →
+ * facts (dark) → process (light) → pricing (surface) → tracking (dark) → FAQ (light) → CTA (dark).
+ */
+import type { Lang } from '@/i18n/config';
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Journey from '@/components/journey/Journey.astro';
+import Services from '@/components/sections/Services.astro';
+import Proof from '@/components/sections/Proof.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import PricingTeaser from '@/components/sections/PricingTeaser.astro';
+import TrackingTeaser from '@/components/sections/TrackingTeaser.astro';
+import FaqShort from '@/components/sections/FaqShort.astro';
+import CtaBand from '@/components/sections/CtaBand.astro';
+import { serviceNode } from '@/lib/schema';
+import { pageUrl } from '@/i18n/routes';
+import { site } from '@/lib/site';
+import { services } from '@/data/services';
+import tariffs from '@/data/tariffs.json';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const seo: Record<Lang, { title: string; description: string }> = {
+  uz: {
+    title: 'Xitoydan Toshkentga kargo: yigʻma yuk 15–25 kun, avia 5–10 kun — GSR Logistics',
+    description: `Xitoydan Oʻzbekistonga yuk tashish, tovar topish va sotib olish. Ivu omboridan Xorgos orqali Toshkentgacha: yigʻma yuk taxminan 15–25 kun, avia 5–10 kun, ${tariffs.truck.ladderPerKg.at(-1)?.rate} $/kg dan. Bojxona rasmiylashtiruvi, foto-hisobot, 1688/Taobao’dan xarid. Toshkent, 2018-yildan.`.replace('’', 'ʼ'),
+  },
+  ru: {
+    title: 'Карго из Китая в Ташкент: сборный груз 15–25 дней, авиа 5–10 — GSR Logistics',
+    description: `Доставка грузов из Китая в Узбекистан, поиск и выкуп товаров. Со склада в Иу через Хоргос до Ташкента: сборный груз ориентировочно 15–25 дней, авиа 5–10 дней, от ${tariffs.truck.ladderPerKg.at(-1)?.rate} $/кг. Растаможка, фотоотчёт, выкуп с 1688/Taobao. Ташкент, с 2018 года.`,
+  },
+  en: {
+    title: 'Cargo from China to Tashkent: consolidated 15–25 days, air 5–10 — GSR Logistics',
+    description: `Freight from China to Uzbekistan, product sourcing and buying. From the Yiwu warehouse via Khorgos to Tashkent: consolidated truck cargo in roughly 15–25 days, air in 5–10, from $${tariffs.truck.ladderPerKg.at(-1)?.rate}/kg. Customs clearance, photo reports, 1688/Taobao buying. Tashkent, since 2018.`,
+  },
+};
+const siteUrl = Astro.site ?? new URL(site.url);
+const serviceGraph = services.slice(0, 3).map((s) =>
+  serviceNode(lang, {
+    name: s.name[lang],
+    description: s.short[lang],
+    url: pageUrl(siteUrl, lang, 'services', s.slug[lang]),
+    serviceType: s.key === 'air' ? 'Air freight' : s.key === 'rail' ? 'Rail freight' : 'Consolidated truck freight',
+    offers: s.key === 'truck'
+      ? [{ price: tariffs.truck.ladderPerKg.at(-1)!.rate, unitCode: 'KGM', validThrough: tariffs.validThrough, description: 'Consolidated truck cargo China → Tashkent, per kg (estimate)' }]
+      : s.key === 'air'
+        ? [{ price: tariffs.air.perKg.standard, unitCode: 'KGM', validThrough: tariffs.validThrough, description: 'Air cargo China → Tashkent, per kg (estimate)' }]
+        : undefined,
+  }),
+);
+---
+<Base lang={lang} title={seo[lang].title} description={seo[lang].description} pageKey="home" jsonLd={serviceGraph} dateModified={tariffs.updated}>
+  <Hero lang={lang} />
+  <Journey lang={lang} />
+  <Services lang={lang} />
+  <Proof lang={lang} index="03" />
+  <HowItWorks lang={lang} index="04" />
+  <PricingTeaser lang={lang} calculator />
+  <TrackingTeaser lang={lang} />
+  <FaqShort lang={lang} index="07" />
+  <CtaBand lang={lang} number="08" />
+</Base>
