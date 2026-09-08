@@ -1,0 +1,10 @@
+---
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Services from '@/components/sections/Services.astro';
+const lang = 'uz';
+---
+<Base lang={lang} title="dev" description="dev" pageKey="home" noindex>
+  <Hero lang={lang} />
+  <Services lang={lang} />
+</Base>

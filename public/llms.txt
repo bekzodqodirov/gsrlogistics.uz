@@ -1,0 +1,33 @@
+# GSR Logistics
+
+> GSR Logistics (Tashkent, Uzbekistan) ships cargo from China to Uzbekistan — consolidated truck cargo from its Yiwu warehouse via Khorgos to Tashkent in roughly 15–25 days, air cargo in 5–10 days, rail and containers in 20–35 days — and handles product sourcing, buying on 1688/Taobao/Alibaba, industrial equipment import, customs clearance and photo-reported quality control in China. Working with China since 2018. Office: 27 Alisher Navoiy St., Tashkent. Phone +998 95 018 33 33. Languages: Uzbek (default, /), Russian (/ru/), English (/en/).
+> Oʻzbekcha: GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk (avto kargo) 15–25 kun, avia kargo 5–10 kun, temir yoʻl va konteyner 20–35 kun; tovar topish, 1688/Taobaoʼdan sotib olish, uskunalar importi, bojxona rasmiylashtiruvi, Ivu omborida sifat nazorati va foto-hisobot. Toshkent, 2018-yildan.
+> Русский: GSR Logistics — сборные грузы из Китая в Узбекистан 15–25 дней, авиа 5–10 дней, ж/д и контейнеры 20–35 дней; поиск и выкуп товаров (1688/Taobao), импорт оборудования, растаможка, проверка и фотоотчёт на складе в Иу. Ташкент, с 2018 года.
+
+## Services (uz / ru / en)
+- [Avto kargo (yigʻma yuk)](https://gsrlogistics.uz/xizmatlar/avto-kargo/): consolidated truck cargo China → Tashkent, priced per kg or m³ by density, 15–25 days · [ru](https://gsrlogistics.uz/ru/uslugi/avto-kargo/) · [en](https://gsrlogistics.uz/en/services/truck-cargo/)
+- [Avia kargo](https://gsrlogistics.uz/xizmatlar/avia-kargo/): air cargo 5–10 days for urgent and high-value goods · [ru](https://gsrlogistics.uz/ru/uslugi/avia-kargo/) · [en](https://gsrlogistics.uz/en/services/air-cargo/)
+- [Temir yoʻl va konteyner](https://gsrlogistics.uz/xizmatlar/temir-yol-konteyner/): 20ft/40ft containers, FCL and LCL, 20–35 days · [ru](https://gsrlogistics.uz/ru/uslugi/zhd-konteyner/) · [en](https://gsrlogistics.uz/en/services/rail-container/)
+- [Tovar va ishlab chiqaruvchi topish](https://gsrlogistics.uz/xizmatlar/tovar-topish/): product and factory sourcing in China, samples, negotiation · [ru](https://gsrlogistics.uz/ru/uslugi/poisk-tovarov/) · [en](https://gsrlogistics.uz/en/services/sourcing/)
+- [1688 va Taobaoʼdan sotib olish](https://gsrlogistics.uz/xizmatlar/sotib-olish/): buying agent for 1688, Taobao, Alibaba; payment in yuan · [ru](https://gsrlogistics.uz/ru/uslugi/vykup-tovarov/) · [en](https://gsrlogistics.uz/en/services/buying-agent/)
+- [Uskunalar importi](https://gsrlogistics.uz/xizmatlar/uskunalar-importi/): turnkey industrial equipment import · [ru](https://gsrlogistics.uz/ru/uslugi/import-oborudovaniya/) · [en](https://gsrlogistics.uz/en/services/equipment-import/)
+- [Bojxona rasmiylashtiruvi](https://gsrlogistics.uz/xizmatlar/bojxona/): customs clearance in Uzbekistan, duty and VAT calculation, documents · [ru](https://gsrlogistics.uz/ru/uslugi/tamozhnya/) · [en](https://gsrlogistics.uz/en/services/customs/)
+- [Ivu ombori va sifat nazorati](https://gsrlogistics.uz/xizmatlar/ombor-sifat-nazorati/): Yiwu warehouse, consolidation, inspection, photo report, packing, insurance · [ru](https://gsrlogistics.uz/ru/uslugi/sklad-proverka/) · [en](https://gsrlogistics.uz/en/services/warehouse-quality-control/)
+- [Avtomobil va elektromobil](https://gsrlogistics.uz/xizmatlar/avtomobil-importi/): cars and EVs from China to order · [ru](https://gsrlogistics.uz/ru/uslugi/avto-iz-kitaya/) · [en](https://gsrlogistics.uz/en/services/car-import/)
+
+## Pricing & calculator
+- [Narxlar](https://gsrlogistics.uz/narxlar/): rate tables per kg and per m³, volumetric weight rule (÷6000 truck, ÷5000 air), density threshold 170 kg/m³, inclusions, extras, payment · [ru](https://gsrlogistics.uz/ru/ceny/) · [en](https://gsrlogistics.uz/en/pricing/)
+- [Kalkulyator](https://gsrlogistics.uz/kalkulyator/): instant estimate by weight, volume and mode · [ru](https://gsrlogistics.uz/ru/kalkulyator/) · [en](https://gsrlogistics.uz/en/calculator/)
+- [Kuzatuv](https://gsrlogistics.uz/kuzatuv/): cargo tracking by code and status glossary · [ru](https://gsrlogistics.uz/ru/otslezhivanie/) · [en](https://gsrlogistics.uz/en/tracking/)
+
+## Guides
+- [Qoʻllanma](https://gsrlogistics.uz/qollanma/): guides on shipping from China, how cargo prices are calculated, air vs truck vs rail, ordering from 1688, Uzbekistan customs duties 2026, finding a supplier, Yiwu and Guangzhou markets, prohibited goods, cargo glossary, China–Tashkent routes · [ru](https://gsrlogistics.uz/ru/gid/) · [en](https://gsrlogistics.uz/en/guides/)
+- [Savol-javob](https://gsrlogistics.uz/savol-javob/): 25+ customer questions with direct answers · [ru](https://gsrlogistics.uz/ru/faq/) · [en](https://gsrlogistics.uz/en/faq/)
+
+## Company
+- [Biz haqimizda](https://gsrlogistics.uz/biz-haqimizda/): who we are, how we work, office and warehouse · [ru](https://gsrlogistics.uz/ru/o-nas/) · [en](https://gsrlogistics.uz/en/about/)
+- [Aloqa](https://gsrlogistics.uz/aloqa/): address, hours, phone, Telegram · [ru](https://gsrlogistics.uz/ru/kontakty/) · [en](https://gsrlogistics.uz/en/contact/)
+
+## Optional
+- [Maxfiylik siyosati](https://gsrlogistics.uz/maxfiylik/): privacy policy · [ru](https://gsrlogistics.uz/ru/konfidencialnost/) · [en](https://gsrlogistics.uz/en/privacy/)
+- [llms-full.txt](https://gsrlogistics.uz/llms-full.txt): full text of every page in Markdown

@@ -1,0 +1,9 @@
+/* TEAM */
+GSR Logistics — Toshkent, Oʻzbekiston
+Xitoydan Oʻzbekistonga yuk tashish, tovar topish va sotib olish
+Telegram: https://t.me/gsrlogistics
+
+/* SITE */
+Standards: HTML5, CSS3, ES2022
+Components: Astro 7, GSAP 3, Onest Variable (OFL)
+Map data: Natural Earth (public domain)
