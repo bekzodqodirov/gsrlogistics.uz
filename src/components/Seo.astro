@@ -21,10 +21,18 @@ const siteUrl = Astro.site ?? new URL(site.url);
 const canonical = pageUrl(siteUrl, lang, pageKey, subs?.[lang]);
 const alts = alternates(siteUrl, pageKey, subs);
 const ogImageAbs = new URL(ogImage, siteUrl).toString();
-const fullTitle = title.includes(site.name) ? title : `${title} — ${site.name}`;
+// Keep <title> ≤ ~65 chars: append the brand only when there is room; long titles stand alone.
+const fullTitle = title.includes(site.name) || title.length > 48 ? title : `${title} — ${site.name}`;
+// Meta description: trim to ≤160 chars at a sentence/clause boundary (the page keeps the full text in its intro).
+const metaDescription = (() => {
+  if (description.length <= 160) return description;
+  const cut = description.slice(0, 158);
+  const at = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '), cut.lastIndexOf(' — '), cut.lastIndexOf(', '));
+  return (at > 90 ? cut.slice(0, at + 1) : cut.replace(/\s+\S*$/, '') + '…').trim();
+})();
 ---
 <title>{fullTitle}</title>
-<meta name="description" content={description} />
+<meta name="description" content={metaDescription} />
 <link rel="canonical" href={canonical} />
 {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
 {alts.map((a) => <link rel="alternate" hreflang={langMeta[a.lang].htmlLang} href={a.href} />)}
@@ -32,7 +40,7 @@ const fullTitle = title.includes(site.name) ? title : `${title} — ${site.name}
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={site.name} />
 <meta property="og:title" content={fullTitle} />
-<meta property="og:description" content={description} />
+<meta property="og:description" content={metaDescription} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImageAbs} />
 <meta property="og:image:width" content="1200" />
@@ -43,5 +51,5 @@ const fullTitle = title.includes(site.name) ? title : `${title} — ${site.name}
 {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />
-<meta name="twitter:description" content={description} />
+<meta name="twitter:description" content={metaDescription} />
 <meta name="twitter:image" content={ogImageAbs} />
