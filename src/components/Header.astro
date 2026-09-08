@@ -79,7 +79,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   .site-header[data-over-dark='true'] .nav-desktop > ul > li > a[aria-current='page']::after { background: var(--red-300); }
   .header-inner { display: flex; align-items: center; gap: 12px; min-height: var(--header-h); min-width: 0; }
   .brand { display: inline-flex; align-items: center; color: var(--fg); margin-right: 8px; }
-  .nav-desktop { display: none; flex: 1; min-width: 0; }
+  .nav-desktop { display: none; flex: 1 1 auto; }
   .nav-desktop > ul { display: flex; gap: 2px; align-items: center; }
   .nav-desktop > ul > li > a { position: relative; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; padding: 0 10px; border-radius: var(--radius-pill); font-size: 0.9375rem; font-weight: 500; color: var(--fg-2); transition: background var(--dur) var(--ease), color var(--dur) var(--ease); }
   .nav-desktop > ul > li > a:hover { background: color-mix(in oklab, var(--fg), transparent 93%); color: var(--fg); }
@@ -124,7 +124,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   @media (min-width: 900px) { .nav-desktop { display: block; } .menu-btn { display: none; } .mobile-menu { display: none !important; } }
   @media (min-width: 1280px) { .header-cta { display: inline-flex; } }
   :global(html:lang(ru)) .nav-desktop > ul > li > a { font-size: 0.875rem; padding: 0 8px; }
-  @media (min-width: 1440px) { .phone { display: inline-flex; } }
+  @media (min-width: 1520px) { .phone { display: inline-flex; } }
   :global(body.menu-open) { overflow: hidden; }
 </style>
 

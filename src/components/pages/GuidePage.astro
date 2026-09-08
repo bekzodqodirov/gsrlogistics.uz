@@ -1,0 +1,124 @@
+---
+/** Guide article template. Props: { lang, entry } where entry is a `guides` collection entry. */
+import type { Lang } from '@/i18n/config';
+import { render, getCollection, type CollectionEntry } from 'astro:content';
+import { common } from '@/i18n/common';
+import { guidesStrings } from '@/i18n/guides';
+import { pagePath, pageUrl } from '@/i18n/routes';
+import { guideSlugs } from '@/data/guides';
+import { services } from '@/data/services';
+import { site, telegramChat } from '@/lib/site';
+import { fmtDate, readingMinutes } from '@/lib/format';
+import { articleNode, faqNode } from '@/lib/schema';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+interface Props { lang: Lang; entry: CollectionEntry<'guides'> }
+const { lang, entry } = Astro.props;
+const t = guidesStrings[lang];
+const c = common[lang];
+const { Content } = await render(entry);
+const d = entry.data;
+const label = c.nav.find((n) => n.key === 'guides')?.label ?? t.eyebrow;
+const subs = guideSlugs[d.translationKey] ?? { [lang]: d.slug };
+const url = pageUrl(site.url, lang, 'guides', d.slug);
+const pub = d.publishDate.toISOString().slice(0, 10), upd = d.updatedDate.toISOString().slice(0, 10);
+const minutes = readingMinutes(entry.body ?? '');
+const slug = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
+const toc = [...(entry.body ?? '').matchAll(/^##\s+(.+)$/gm)].map((m) => ({ text: m[1].replace(/[*_`]/g, '').trim() })).map((h) => ({ ...h, id: slug(h.text) }));
+const related = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft && e.id !== entry.id)).filter((e) => e.data.tags.some((tag) => d.tags.includes(tag))).slice(0, 3);
+const relatedServices = services.filter((s) => d.tags.includes(s.key)).slice(0, 3);
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'guides' as const }, { name: d.title, url }];
+const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.description, datePublished: pub, dateModified: upd }), ...(d.faq.length ? [faqNode(d.faq)] : [])];
+---
+<Base lang={lang} title={d.title} description={d.description} pageKey="guides" subs={subs} ogType="article" breadcrumbs={breadcrumbs} jsonLd={jsonLd} datePublished={pub} dateModified={upd}>
+  <article class="page">
+    <header class="hero">
+      <div class="container container-text">
+        <Breadcrumbs lang={lang} items={[{ name: label, key: 'guides' }, { name: d.title }]} />
+        <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{d.title}</h1>
+        <p class="caption meta-row tnum">{t.updated}: {fmtDate(d.updatedDate, lang)} · {minutes} {t.minutes} · {t.author}: {d.author}</p>
+        <p class="intro answer">{d.description}</p>
+      </div>
+    </header>
+    <div class="container container-text layout">
+      {toc.length > 1 && (
+        <aside class="toc">
+          <details class="toc-mobile"><summary>{t.toc}</summary><ol role="list">{toc.map((h) => <li><a href={`#${h.id}`}>{h.text}</a></li>)}</ol></details>
+          <nav class="toc-desktop" aria-label={t.toc}><p class="caption toc-label">{t.toc}</p><ol role="list">{toc.map((h) => <li><a href={`#${h.id}`}>{h.text}</a></li>)}</ol></nav>
+        </aside>
+      )}
+      <div class="body">
+        <div class="prose article-body"><Content /></div>
+        {d.faq.length > 0 && (
+          <section class="faq">
+            <h2 class="h3">{t.faq}</h2>
+            {d.faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><div class="faq-body"><p>{f.a}</p></div></details>)}
+          </section>
+        )}
+        {d.sources.length > 0 && (
+          <section class="sources">
+            <h2 class="h4">{t.sources}</h2>
+            <ol>{d.sources.map((s) => <li><a href={s.url} rel="noopener nofollow" target="_blank">{s.title}</a>{s.date ? <span class="muted"> — {s.date}</span> : null}</li>)}</ol>
+          </section>
+        )}
+        <section class="ask card">
+          <div><h2 class="h4">{t.askTitle}</h2><p class="fg2">{t.askText}</p></div>
+          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+        </section>
+        {(related.length > 0 || relatedServices.length > 0) && (
+          <section class="related">
+            {relatedServices.length > 0 && <div><h2 class="h4">{t.relatedServices}</h2><ul role="list" class="rel-list">{relatedServices.map((s) => <li><a class="link" href={pagePath(lang, 'services', s.slug[lang])}>{s.name[lang]}</a></li>)}</ul></div>}
+            {related.length > 0 && <div><h2 class="h4">{t.related}</h2><ul role="list" class="rel-list">{related.map((e) => <li><a class="link" href={pagePath(lang, 'guides', e.data.slug)}>{e.data.title}</a></li>)}</ul></div>}
+            <p><a class="link" href={pagePath(lang, 'guides')}>{t.allGuides}</a></p>
+          </section>
+        )}
+      </div>
+    </div>
+  </article>
+</Base>
+<script>
+  // Give every h2/h3 in the article an id matching the TOC slugs (same algorithm as the frontmatter build).
+  const slug = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
+  document.querySelectorAll<HTMLElement>('.article-body h2, .article-body h3').forEach((h) => { if (!h.id) h.id = slug(h.textContent || ''); });
+</script>
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(24px, 4vw, 40px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .meta-row { margin-top: 14px; }
+  .answer { margin-top: 20px; max-width: 62ch; }
+  .layout { display: grid; gap: 32px; padding-bottom: clamp(48px, 8vw, 96px); }
+  @media (min-width: 1100px) { .layout { grid-template-columns: 220px 1fr; gap: 56px; } .toc-desktop { position: sticky; top: 96px; display: block; } .toc-mobile { display: none; } }
+  .toc-desktop { display: none; }
+  .toc-label { margin-bottom: 10px; }
+  .toc ol { display: grid; gap: 8px; font-size: var(--text-small); }
+  .toc a { color: var(--muted); display: block; padding-left: 12px; border-left: 1px solid var(--border-soft); }
+  .toc a:hover { color: var(--fg); border-left-color: var(--fg); }
+  .toc-mobile { border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 12px 16px; }
+  .toc-mobile summary { cursor: pointer; font-weight: 600; font-size: var(--text-small); }
+  .toc-mobile ol { margin-top: 12px; }
+  .body { min-width: 0; max-width: 720px; }
+  .article-body { font-size: var(--text-body); line-height: 1.6; color: var(--fg-2); }
+  .article-body :global(h2), .article-body :global(h3), .article-body :global(strong) { color: var(--fg); }
+  .article-body :global(h2) { scroll-margin-top: 96px; }
+  .article-body :global(table) { width: 100%; font-size: var(--text-small); border-collapse: collapse; margin: 1.2em 0; }
+  .article-body :global(th), .article-body :global(td) { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-soft); }
+  .article-body :global(th) { font-weight: 500; color: var(--muted); }
+  .article-body :global(td:first-child) { color: var(--fg); font-weight: 500; }
+  .article-body :global(.table-wrap), .article-body :global(table) { overflow-x: auto; display: block; }
+  .article-body :global(thead), .article-body :global(tbody), .article-body :global(tr) { display: table; width: 100%; table-layout: fixed; }
+  .article-body :global(blockquote) { border-left: 2px solid var(--border); padding-left: 16px; color: var(--muted); }
+  .faq { margin-top: 48px; }
+  .faq h2 { margin-bottom: 8px; }
+  .sources { margin-top: 40px; font-size: var(--text-small); color: var(--fg-2); }
+  .sources ol { padding-left: 1.4em; margin-top: 10px; }
+  .sources li + li { margin-top: 6px; }
+  .sources a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+  .ask { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+  .fg2 { color: var(--fg-2); margin-top: 4px; }
+  .related { margin-top: 40px; display: grid; gap: 20px; }
+  .rel-list { display: grid; gap: 8px; margin-top: 8px; }
+</style>

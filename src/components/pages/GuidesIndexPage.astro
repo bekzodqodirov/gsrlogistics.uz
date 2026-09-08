@@ -1,0 +1,64 @@
+---
+/** /qollanma/ — list of guides in the current language. Props: { lang }. */
+import type { Lang } from '@/i18n/config';
+import { getCollection } from 'astro:content';
+import { common } from '@/i18n/common';
+import { guidesStrings } from '@/i18n/guides';
+import { pagePath } from '@/i18n/routes';
+import { fmtDate, readingMinutes } from '@/lib/format';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = guidesStrings[lang];
+const c = common[lang];
+const label = c.nav.find((n) => n.key === 'guides')?.label ?? t.eyebrow;
+const entries = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => b.data.updatedDate.getTime() - a.data.updatedDate.getTime());
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'guides' as const }];
+const latest = entries[0]?.data.updatedDate.toISOString().slice(0, 10);
+---
+<Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="guides" breadcrumbs={breadcrumbs} dateModified={latest}>
+  <article class="page">
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: label }]} />
+        <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{t.h1}</h1>
+        <p class="intro answer">{t.intro}</p>
+      </div>
+    </header>
+    <div class="container">
+      <ol class="guides" role="list">
+        {entries.map((e, i) => (
+          <li class="card card-hover">
+            <a href={pagePath(lang, 'guides', e.data.slug)} class="g">
+              <span class="g-idx tnum">{String(i + 1).padStart(2, '0')}</span>
+              <span class="g-body">
+                <span class="h4 g-title">{e.data.title}</span>
+                <span class="g-desc">{e.data.description}</span>
+                <span class="caption g-meta tnum">{t.updated}: {fmtDate(e.data.updatedDate, lang)} · {readingMinutes(e.body ?? '')} {t.minutes}{e.data.tags.length ? ` · ${e.data.tags.slice(0, 3).join(' · ')}` : ''}</span>
+              </span>
+              <span class="chev" aria-hidden="true">›</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </article>
+</Base>
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { margin-top: 20px; max-width: 62ch; }
+  .guides { display: grid; gap: 12px; padding-bottom: clamp(48px, 8vw, 96px); max-width: 980px; }
+  .guides .card { padding: 0; }
+  .g { display: grid; grid-template-columns: 40px 1fr 24px; gap: 16px; align-items: start; padding: clamp(18px, 2.4vw, 28px); color: var(--fg); }
+  .g-idx { font-size: var(--text-small); color: var(--accent-text); font-weight: 600; padding-top: 4px; }
+  .g-body { display: grid; gap: 6px; }
+  .g-title { text-wrap: balance; }
+  .g-desc { color: var(--fg-2); font-size: var(--text-small); max-width: 72ch; }
+  .g-meta { margin-top: 4px; }
+  .chev { color: var(--meta); font-size: 22px; line-height: 1; padding-top: 2px; transition: transform var(--dur) var(--ease); }
+</style>
