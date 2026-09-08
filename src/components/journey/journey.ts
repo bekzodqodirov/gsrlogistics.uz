@@ -24,14 +24,18 @@ const ROUTE_BOX = { x0: 100, y0: 170, x1: 1650, y1: 720 };
 const L = { s0: 0, s1: 8, s2: 22, s3: 34, s3b: 43, s3c: 52, s4: 60, s5: 72, s6: 88, end: 100 } as const;
 const STAGE_START = [L.s1, L.s2, L.s3, L.s4, L.s5, L.s6];
 /** Route nodes (map units) used to find their progress along #route. */
-const NODE = { khorgos: [502.7, 209.7] } as const;
+const NODE = { khorgos: [502.7, 209.7], yiwu: [1478.9, 670.4] } as const;
+/** Yiwu shed + parcel choreography (map units) — must match RouteMap.astro `A`. Shed sits on land SW of the city dot. */
+const YIWU = { shed: [1450, 706], shedMobile: [1436, 716], parcelsFrom: [[1404, 732], [1420, 744], [1392, 722], [1432, 752]] } as const;
+/** Tashkent delivery choreography (map units). GSAP x/y on SVG groups are absolute (they replace the transform attribute). */
+const TASH = { shed: [197, 341], unload: [197, 333], vanFrom: 197, vanTo: { desktop: 160, mobile: 148 }, pin: { desktop: [122, 343], mobile: [106, 343] } } as const;
 
 interface CamTarget { x: number; y: number; k: number; fx?: number; fy?: number }
 /** Camera targets per stage (index 1–6); k is relative to the "whole map fits" scale. */
 const CAMS = {
   desktop: [
     null,
-    { x: 1440, y: 655, k: 1.6 },
+    { x: 1430, y: 665, k: 1.6 },
     { x: 1400, y: 640, k: 1.6 },
     { x: 860, y: 400, k: 1.2 },
     { x: 530, y: 215, k: 2.0 },
@@ -40,12 +44,12 @@ const CAMS = {
   ] as Array<CamTarget | null>,
   mobile: [
     null,
-    { x: 1480, y: 660, k: 2.2 },
-    { x: 1440, y: 650, k: 2.2 },
+    { x: 1456, y: 690, k: 2.2 },
+    { x: 1440, y: 660, k: 2.2 },
     { x: 860, y: 400, k: 1.45 },
     { x: 530, y: 215, k: 2.6 },
     { x: 300, y: 300, k: 2.2 },
-    { x: 200, y: 335, k: 2.8 },
+    { x: 190, y: 335, k: 2.8 },
   ] as Array<CamTarget | null>,
 };
 
@@ -80,6 +84,7 @@ export function init(root: HTMLElement): void {
   const stamp = $<SVGGElement>('stamp');
   const pin = $<SVGGElement>('pin');
   const van = $<SVGGElement>('van');
+  const shedYiwu = $<SVGGElement>('shed-yiwu');
   const markL = $<SVGPathElement>('mark-l');
   const markR = $<SVGPathElement>('mark-r');
   const labels = $$<SVGTextElement>('label');
@@ -124,16 +129,20 @@ export function init(root: HTMLElement): void {
     root.classList.add('is-live');
     const desktop = !!cond.isDesktop;
     const cams = desktop ? CAMS.desktop : CAMS.mobile;
-    const glyphScale = desktop ? 1 : 1.7;
+    const glyphScale = desktop ? 1 : 1.6;
+    const shedPos = desktop ? YIWU.shed : YIWU.shedMobile;
+    /** where the parcels gather in front of the shed door */
+    const hold = [shedPos[0] - 2, shedPos[1] - 6] as const;
+    const pinPos = desktop ? TASH.pin.desktop : TASH.pin.mobile;
 
     /* ---------- camera maths ---------- */
     const introCam = (): CamTarget => {
       const W = mapEl.clientWidth || 1, H = mapEl.clientHeight || 1;
       const s0 = Math.min(W / MAP.w, H / MAP.h);
       const bw = (ROUTE_BOX.x1 - ROUTE_BOX.x0) * s0, bh = (ROUTE_BOX.y1 - ROUTE_BOX.y0) * s0;
-      const availW = W - (desktop ? 64 : 16), availH = H * (desktop ? 0.6 : 0.45);
+      const availW = W - (desktop ? 64 : 16), availH = H * (desktop ? 0.6 : 0.5);
       const k = clamp(Math.min(availW / bw, availH / bh), 0.9, desktop ? 1.3 : 1.45);
-      return { x: (ROUTE_BOX.x0 + ROUTE_BOX.x1) / 2, y: (ROUTE_BOX.y0 + ROUTE_BOX.y1) / 2 + 20, k, fx: 0.5, fy: desktop ? 0.6 : 0.62 };
+      return { x: (ROUTE_BOX.x0 + ROUTE_BOX.x1) / 2, y: (ROUTE_BOX.y0 + ROUTE_BOX.y1) / 2 + 20, k, fx: 0.5, fy: desktop ? 0.6 : 0.4 };
     };
     const stageCam = (i: number) => (): CamTarget => cams[i] as CamTarget;
     /** Translate/scale for .cam (transform-origin 0 0) so that map point (x, y) lands on the focal point. */
@@ -145,7 +154,7 @@ export function init(root: HTMLElement): void {
       if (t.fx !== undefined) fx = W * t.fx;
       else if (desktop) { const free = cardsWrap.getBoundingClientRect().left - mapEl.getBoundingClientRect().left; fx = clamp(free, W * 0.4, W) * 0.5; }
       else fx = W * 0.5;
-      fy = H * (t.fy ?? (desktop ? 0.5 : 0.5));
+      fy = H * (t.fy ?? (desktop ? 0.5 : 0.3));
       return { x: fx - t.k * (offX + t.x * s0), y: fy - t.k * (offY + t.y * s0), scale: t.k };
     };
 
@@ -155,6 +164,8 @@ export function init(root: HTMLElement): void {
     if (glyphScale !== 1) {
       gsap.set(inners, { scale: glyphScale, transformOrigin: (_i: number, el: SVGGElement) => { const p = el.parentElement; return p && (p.classList.contains('j-shed') || p.classList.contains('j-pin')) ? '50% 100%' : '50% 50%'; } });
     }
+    gsap.set(pin, { x: pinPos[0], y: pinPos[1] });
+    if (shedYiwu) gsap.set(shedYiwu, { x: shedPos[0], y: shedPos[1] });
     kmEl.textContent = fmtKm(0);
     const kmProxy = { v: 0 };
 
@@ -170,11 +181,10 @@ export function init(root: HTMLElement): void {
         scrub: 0.8,
         anticipatePin: 1,
         invalidateOnRefresh: true,
-        onToggle: (self) => { cam.style.willChange = self.isActive ? 'transform' : ''; },
-        onEnter: () => header?.setAttribute('data-over-dark', 'true'),
-        onEnterBack: () => header?.setAttribute('data-over-dark', 'true'),
-        onLeave: () => header?.setAttribute('data-over-dark', 'false'),
-        onLeaveBack: () => header?.setAttribute('data-over-dark', 'false'),
+        onToggle: (self) => {
+          cam.style.willChange = self.isActive ? 'transform' : '';
+          header?.setAttribute('data-over-dark', self.isActive ? 'true' : 'false');
+        },
         onRefresh: () => setLabelSize(),
       },
       onUpdate: () => sync(tl.time()),
@@ -195,7 +205,7 @@ export function init(root: HTMLElement): void {
     const mp = (start: number, end: number) => ({ path: route, align: route, alignOrigin: [0.5, 0.5] as [number, number], autoRotate: 180, start, end });
     const drive = (from: number, to: number, at: number, dur: number, ease = 'none', first = false) => {
       tl.to(vehicle, { motionPath: mp(from, to), ease, duration: dur, immediateRender: first }, at);
-      tl.fromTo(route, { strokeDashoffset: 1 - from }, { strokeDashoffset: 1 - to, ease, duration: dur, immediateRender: first }, at);
+      tl.fromTo(route, { strokeDashoffset: 1 - from }, { strokeDashoffset: 1 - to, ease, duration: dur, immediateRender: first, autoRound: false }, at);
     };
 
     // s0 → s1: headline out, camera to Yiwu, card 1, parcels into the shed, container forms
@@ -205,18 +215,18 @@ export function init(root: HTMLElement): void {
     enter(0, L.s1 + 1);
     if (parcels.length) {
       tl.fromTo(parcels, { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.5, stagger: 0.4 }, 10);
-      tl.fromTo(parcels, { x: (i: number) => [1580, 1594, 1586, 1600][i], y: (i: number) => [700, 692, 684, 706][i] },
-        { x: (i: number) => 1546 + (i % 2 ? 2 : -2), y: 696, duration: 5, stagger: 1, ease: 'power2.inOut', immediateRender: false }, 11);
+      tl.fromTo(parcels, { x: (i: number) => YIWU.parcelsFrom[i][0], y: (i: number) => YIWU.parcelsFrom[i][1] },
+        { x: (i: number) => hold[0] + (i % 2 ? 3 : -3), y: (i: number) => hold[1] + (i < 2 ? 0 : -4), duration: 5, stagger: 1, ease: 'power2.inOut', immediateRender: false }, 11);
       tl.fromTo(parcels, { autoAlpha: 1 }, { autoAlpha: 0, duration: 1.5, immediateRender: false }, 18.5);
     }
-    tl.fromTo(container, { autoAlpha: 0, scale: 0.8, x: 1548, y: 692, transformOrigin: '50% 50%' }, { autoAlpha: 1, scale: 1, duration: 2 }, 19);
+    tl.fromTo(container, { autoAlpha: 0, scale: 0.8, x: hold[0], y: hold[1] - 4, transformOrigin: '50% 50%' }, { autoAlpha: 1, scale: 1, duration: 2 }, 19);
     tick(0, L.s2 - 2.5);
 
     // s2: loading — container hops onto the capsule, vehicle appears and departs
     exit(0, L.s2);
     enter(1, L.s2 + 2.5);
     camMove(stageCam(1), stageCam(2), L.s2, 4);
-    tl.fromTo(container, { x: 1548, y: 692 }, { x: 1479, y: 664, duration: 3, ease: 'power2.inOut', immediateRender: false }, 23);
+    tl.fromTo(container, { x: hold[0], y: hold[1] - 4 }, { x: NODE.yiwu[0], y: NODE.yiwu[1] - 6, duration: 3, ease: 'power2.inOut', immediateRender: false }, 23);
     tl.fromTo(vehicle, { autoAlpha: 0 }, { autoAlpha: 1, duration: 2 }, 25);
     tl.fromTo(container, { autoAlpha: 1 }, { autoAlpha: 0, duration: 1.5, immediateRender: false }, 25);
     drive(0, 0.1, 26, L.s3 - 26, 'none', true);
@@ -227,7 +237,7 @@ export function init(root: HTMLElement): void {
     enter(2, L.s3 + 2.5);
     camMove(stageCam(2), stageCam(3), L.s3, 6);
     drive(0.1, P_KHORGOS - 0.045, L.s3, L.s4 - L.s3);
-    tl.fromTo(railMask, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 24 }, L.s3);
+    tl.fromTo(railMask, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 24, autoRound: false }, L.s3);
     tl.to(plane, { motionPath: { path: air, align: air, alignOrigin: [0.5, 0.5], autoRotate: 180, start: 0, end: 1 }, duration: 50, immediateRender: true }, L.s3);
     tl.fromTo(plane, { autoAlpha: 0 }, { autoAlpha: 0.5, duration: 2 }, L.s3);
     tl.fromTo(plane, { autoAlpha: 0.5 }, { autoAlpha: 0, duration: 2, immediateRender: false }, 82);
@@ -250,7 +260,7 @@ export function init(root: HTMLElement): void {
     camMove(stageCam(4), stageCam(5), L.s5, 5);
     drive(P_KHORGOS + 0.01, 1, L.s5, 12);
     if (vehicleInner) tl.fromTo(vehicleInner, { autoAlpha: 1 }, { autoAlpha: 0, duration: 2, immediateRender: false }, 85);
-    tl.fromTo(container, { autoAlpha: 0, x: 197, y: 325, scale: 1 }, { autoAlpha: 1, y: 333, duration: 2.5, ease: 'power2.out', immediateRender: false }, 84.5);
+    tl.fromTo(container, { autoAlpha: 0, x: TASH.shed[0], y: TASH.unload[1] - 8, scale: 1 }, { autoAlpha: 1, y: TASH.unload[1], duration: 2.5, ease: 'power2.out', immediateRender: false }, 84.5);
     tick(4, L.s6 - 2.5);
 
     // s6: delivered — camera settles on Tashkent, map dims, van drives to the door pin, marks lock, CTA
@@ -261,8 +271,8 @@ export function init(root: HTMLElement): void {
     if (mapMarks.length) tl.fromTo(mapMarks, { autoAlpha: 0.7 }, { autoAlpha: 0, duration: 3 }, L.s6);
     tl.fromTo(container, { autoAlpha: 1 }, { autoAlpha: 0, duration: 2, immediateRender: false }, 90);
     tl.fromTo(pin, { autoAlpha: 0 }, { autoAlpha: 1, duration: 2 }, 89);
-    tl.fromTo(van, { autoAlpha: 0, x: 197, y: 343 }, { autoAlpha: 1, duration: 1.5 }, 90);
-    tl.fromTo(van, { x: 197 }, { x: 160, duration: 6, ease: 'power2.inOut', immediateRender: false }, 91);
+    tl.fromTo(van, { autoAlpha: 0, x: TASH.vanFrom, y: TASH.shed[1] + 2 }, { autoAlpha: 1, duration: 1.5 }, 90);
+    tl.fromTo(van, { x: TASH.vanFrom }, { x: desktop ? TASH.vanTo.desktop : TASH.vanTo.mobile, duration: 6, ease: 'power2.inOut', immediateRender: false }, 91);
     if (markL && markR) {
       tl.fromTo(markL, { x: -30, y: -18, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 3, ease: 'power2.out' }, 92);
       tl.fromTo(markR, { x: 30, y: 18, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 3, ease: 'power2.out' }, 92);

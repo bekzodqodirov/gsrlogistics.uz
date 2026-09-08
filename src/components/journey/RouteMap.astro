@@ -38,15 +38,16 @@ const suffix: Record<string, string | undefined> = {
 };
 const gz = extraPlaces.guangzhou;
 const alt = extraPlaces.osh;
-/** Actor anchors (map units). Sheds are anchored at their bottom-centre; the pin at its tip. */
+/** Actor anchors (map units), mirrored in journey.ts (YIWU / TASH). Sheds are anchored at their bottom-centre; the pin at its tip.
+ *  The Yiwu shed sits south-west of the city dot so it stays on land (the coast is at x ≈ 1510 on this row). */
 const A = {
-  yiwuShed: { x: 1548, y: 702 },
+  yiwuShed: { x: 1450, y: 706 },
   tashShed: { x: 197, y: 341 },
   pin: { x: 122, y: 343 },
   barrier: { x: 546, y: 212 },
   stamp: { x: 562, y: 184 },
-  parcels: [ { x: 1580, y: 700 }, { x: 1594, y: 692 }, { x: 1586, y: 684 }, { x: 1600, y: 706 } ],
-  container: { x: 1548, y: 692 },
+  parcels: [ { x: 1404, y: 732 }, { x: 1420, y: 744 }, { x: 1392, y: 722 }, { x: 1432, y: 752 } ],
+  container: { x: 1448, y: 696 },
   markL: { x: 1466, y: 652 },
   markR: { x: 246, y: 288 },
 };
@@ -63,7 +64,8 @@ const A = {
 
   <g class="jm-base" data-j="base">
     <g class="jm-land" set:html={mapPaths}></g>
-    <rect class="jm-grid" width="1600" height="923" fill="url(#j-dots)"></rect>
+    <!-- oversized so the plotting-table grid has no visible edge at any camera position -->
+    <rect class="jm-grid" x="-4000" y="-4000" width="9600" height="8923" fill="url(#j-dots)"></rect>
 
     <!-- secondary paths -->
     <path class="jm-kg jm-secondary" d={kgD}></path>

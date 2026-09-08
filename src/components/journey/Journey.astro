@@ -186,7 +186,8 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
 
   /* ============ map styling (global because the paths are injected) ============ */
   .journey .jmap .land { fill: var(--map-land); stroke: var(--map-stroke); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-  .journey .jmap .land-cn, .journey .jmap .land-uz { fill: var(--card); }
+  .journey .jmap .land-cn, .journey .jmap .land-uz { fill: color-mix(in oklab, var(--map-land), #fff 4%); }
+  .journey:not(.is-live) .jmap { overflow: hidden; }
   .journey .jmap .jm-route-idle { fill: none; stroke: var(--route-idle); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
   .journey .jmap .jm-route { fill: none; stroke: var(--accent-text); stroke-width: 2; stroke-linecap: butt; stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
   .journey .jmap .jm-rail-idle { fill: none; stroke: rgb(255 255 255 / 0.08); stroke-width: 1; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
@@ -245,7 +246,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   }
   @media (max-width: 899px) {
     .journey.is-live { height: calc(100svh * 5.5); }
-    .journey.is-live .journey-map { inset: 0 0 auto 0; height: 58svh; }
+    .journey.is-live .journey-map { inset: 0; }
     .journey.is-live .journey-head { top: calc(var(--header-h) + 12px); right: var(--gutter); }
     .journey.is-live .journey-head .display-2 { font-size: clamp(1.75rem, 6vw, 2.25rem); }
     .journey.is-live .journey-head .intro { font-size: 1rem; margin-top: 6px; }
