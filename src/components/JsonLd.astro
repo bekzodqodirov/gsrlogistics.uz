@@ -1,0 +1,8 @@
+---
+/** Renders one or more schema.org objects as JSON-LD. */
+interface Props { data: Record<string, unknown> | Array<Record<string, unknown>> }
+const { data } = Astro.props;
+const payload = Array.isArray(data) ? { '@context': 'https://schema.org', '@graph': data } : { '@context': 'https://schema.org', ...data };
+const json = JSON.stringify(payload).replace(/</g, '\\u003c');
+---
+<script type="application/ld+json" is:inline set:html={json}></script>
