@@ -1,0 +1,230 @@
+---
+/**
+ * Cargo-code form + 6-stage timeline (DESIGN_BRIEF §3.7 / §8.8 "Namuna strip").
+ * With JS: GET `/api/track?code=…` (functions/api/track.ts) → JSON {code, stage, status, updated_at, eta}
+ * renders the timeline; a JSON 404 shows "not found"; any other failure (function absent, network)
+ * opens the Telegram deep link `common.telegramDraft.track + code` and shows it as a visible link.
+ * Without JS the form is a GET to the Telegram chat with the code as the draft text.
+ * Props: { lang, id?, dark?, endpoint? }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { tracking, STAGE_KEYS } from '@/i18n/tracking';
+import { pagePath } from '@/i18n/routes';
+import { site, telegramChat } from '@/lib/site';
+import { fmtDate } from '@/lib/format';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props { lang: Lang; id?: string; dark?: boolean; endpoint?: string }
+const { lang, id = 'track', dark = false, endpoint = '/api/track' } = Astro.props;
+const t = pick(lang, tracking);
+const c = common[lang];
+const uid = (s: string) => `${id}-${s}`;
+const glossaryHref = `${pagePath(lang, 'tracking')}#holatlar`;
+const SAMPLE_INDEX = 2; // "Yoʻlda" is the current node in the sample strip
+const i18n = JSON.stringify({
+  stages: Object.fromEntries(STAGE_KEYS.map((k) => [k, t.stages[k].name])),
+  result: t.form.result,
+  notFound: t.form.notFound,
+  errorEmpty: t.form.errorEmpty,
+  checking: t.form.checking,
+  submit: t.form.submit,
+  draft: c.telegramDraft.track,
+  sampleTag: t.sampleTag,
+  // Month names in the site's own date convention (fmtDate) — Intl lacks uz-Latn data in some browsers.
+  months: Array.from({ length: 12 }, (_, m) => fmtDate(new Date(Date.UTC(2026, m, 15)), lang)),
+});
+---
+<div class:list={['track', dark && 'is-dark']} data-track data-lang={lang} data-endpoint={endpoint} data-tg={site.telegramDirect} data-i18n={i18n} id={id}>
+  <form class="track-form" method="get" action={telegramChat()} novalidate data-el="form">
+    <label class="label" for={uid('code')}>{t.form.label}</label>
+    <div class="track-row">
+      <input class="input code tnum" id={uid('code')} name="text" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder={t.form.placeholder} maxlength="32" required data-el="code" aria-describedby={`${uid('hint')} ${uid('err')}`} />
+      <button type="submit" class="btn btn-primary" data-el="submit"><Icon name="search" size={18} />{t.form.submit}</button>
+    </div>
+    <p class="hint" id={uid('hint')}>{t.form.hint}</p>
+    <p class="err" id={uid('err')} data-el="err" hidden></p>
+    <noscript><p class="hint">{t.form.noJs}</p></noscript>
+  </form>
+
+  <div class="strip-wrap" data-el="strip-wrap">
+    <p class="strip-head">
+      <span class="tag" data-el="tag">{t.sampleTag}</span>
+      <span class="strip-code tnum" data-el="strip-code" hidden></span>
+    </p>
+    <div class="strip-scroll">
+      <ol class="strip" role="list" data-el="strip" aria-label={t.glossary.title}>
+        {STAGE_KEYS.map((k, i) => (
+          <li class:list={['node', i < SAMPLE_INDEX && 'is-past', i === SAMPLE_INDEX && 'is-current']} data-stage={k} aria-current={i === SAMPLE_INDEX ? 'step' : undefined}>
+            <span class="dot" aria-hidden="true"></span>
+            <a class="node-label" href={glossaryHref}>{t.stages[k].short}</a>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <p class="caption strip-note" data-el="strip-note">{t.sampleNote}</p>
+  </div>
+
+  <div class="result" data-el="result" role="status" aria-live="polite" tabindex="-1" hidden>
+    <dl class="result-list">
+      <div><dt>{t.form.result.code}</dt><dd class="tnum" data-el="r-code"></dd></div>
+      <div><dt>{t.form.result.stage}</dt><dd class="strong" data-el="r-stage"></dd></div>
+      <div data-el="r-status-row" hidden><dt>{t.form.result.status}</dt><dd data-el="r-status"></dd></div>
+      <div><dt>{t.form.result.updated}</dt><dd class="tnum" data-el="r-updated"></dd></div>
+      <div><dt>{t.form.result.eta}</dt><dd class="tnum" data-el="r-eta"></dd></div>
+    </dl>
+  </div>
+
+  <div class="panel" data-el="notfound" role="status" aria-live="polite" tabindex="-1" hidden>
+    <p class="panel-title">{t.form.notFound.title}</p>
+    <p class="panel-text">{t.form.notFound.text}</p>
+    <a class="btn btn-secondary" data-el="nf-link" href={site.telegramDirect} target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.form.fallback.open}</a>
+  </div>
+
+  <div class="panel" data-el="fallback" role="status" aria-live="polite" tabindex="-1" hidden>
+    <p class="panel-title">{t.form.fallback.title}</p>
+    <p class="panel-text">{t.form.fallback.text}</p>
+    <a class="btn btn-primary" data-el="fb-link" href={site.telegramDirect} target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.form.fallback.open}</a>
+  </div>
+</div>
+
+<style>
+  .track { display: grid; gap: 24px; }
+  .track-form { display: grid; gap: 8px; }
+  .track-row { display: grid; gap: 10px; }
+  .code { min-height: 52px; font-size: 1.125rem; letter-spacing: 0.02em; }
+  .err { font-size: var(--text-small); color: #d93025; }
+  .is-dark .err { color: #ff7a7d; }
+  .track :global(.input[aria-invalid='true']) { border-color: #d93025; }
+  .strip-wrap { display: grid; gap: 12px; }
+  .strip-head { display: flex; align-items: center; gap: 10px; min-height: 24px; }
+  .tag { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: var(--radius-pill); border: 1px solid var(--border); font-size: var(--text-caption); font-weight: 600; color: var(--muted); letter-spacing: 0.02em; }
+  .strip-code { font-weight: 600; }
+  .strip-scroll { overflow-x: auto; scrollbar-width: none; margin-inline: -4px; padding-inline: 4px; }
+  .strip { display: grid; grid-template-columns: repeat(6, minmax(108px, 1fr)); gap: 0; position: relative; min-width: 648px; padding: 0; margin: 0; }
+  .strip::before { content: ''; position: absolute; left: 8px; right: 8px; top: 7px; height: 1.5px; background: var(--border); }
+  .node { position: relative; display: grid; gap: 10px; justify-items: start; padding-right: 8px; }
+  .dot { position: relative; z-index: 1; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--bg); box-sizing: border-box; }
+  .node.is-past .dot { background: var(--muted); border-color: var(--muted); }
+  .node.is-current .dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 82%); }
+  .node-label { font-size: var(--text-small); color: var(--muted); line-height: 1.3; max-width: 12ch; padding-right: 6px; }
+  .node.is-current .node-label { color: var(--fg); font-weight: 600; }
+  .node-label:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .strip-note { max-width: 60ch; }
+  .result-list { display: grid; gap: 0; border-top: 1px solid var(--border-soft); }
+  .result-list > div { display: grid; grid-template-columns: 160px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border-soft); }
+  .result-list dt { font-size: var(--text-small); font-weight: 500; color: var(--muted); }
+  .result-list dd { margin: 0; color: var(--fg); }
+  .strong { font-weight: 600; }
+  .panel { display: grid; gap: 8px; padding: 20px; border: 1px solid var(--border-soft); border-radius: var(--radius-lg); background: var(--bg-3); justify-items: start; }
+  .is-dark .panel { background: rgb(255 255 255 / 0.04); border-color: rgb(255 255 255 / 0.1); }
+  .panel-title { font-weight: 600; }
+  .panel-text { color: var(--muted); text-wrap: pretty; }
+  .panel :global(.btn) { margin-top: 6px; }
+  @media (max-width: 480px) { .result-list > div { grid-template-columns: 1fr; gap: 2px; } }
+  @media (min-width: 640px) {
+    .track-row { grid-template-columns: 1fr auto; }
+  }
+</style>
+
+<script>
+  interface TrackI18n {
+    stages: Record<string, string>;
+    result: { code: string; stage: string; status: string; updated: string; eta: string; etaUnknown: string };
+    notFound: { title: string; text: string };
+    errorEmpty: string; checking: string; submit: string; draft: string; sampleTag: string; months?: string[];
+  }
+  interface TrackResponse { code: string; stage: string; status?: string; updated_at?: string; eta?: string }
+  const STAGES = ['received', 'consolidation', 'transit', 'customs', 'tashkent', 'delivered'];
+  const CODE_RE = /^[A-Za-z0-9][A-Za-z0-9-]{2,31}$/;
+
+  document.querySelectorAll<HTMLElement>('[data-track]').forEach((root) => {
+    const i18n = JSON.parse(root.dataset.i18n || '{}') as TrackI18n;
+    const endpoint = root.dataset.endpoint || '/api/track';
+    const tgBase = root.dataset.tg || '';
+    const q = <T extends HTMLElement>(sel: string) => root.querySelector<T>(`[data-el="${sel}"]`)!;
+    const form = q<HTMLFormElement>('form');
+    const code = q<HTMLInputElement>('code');
+    const submit = q<HTMLButtonElement>('submit');
+    const err = q<HTMLElement>('err');
+    const tag = q<HTMLElement>('tag');
+    const stripCode = q<HTMLElement>('strip-code');
+    const stripNote = q<HTMLElement>('strip-note');
+    const nodes = Array.from(root.querySelectorAll<HTMLElement>('[data-stage]'));
+    const result = q<HTMLElement>('result');
+    const notfound = q<HTMLElement>('notfound');
+    const fallback = q<HTMLElement>('fallback');
+
+    // "2026-yil 8-sentabr" / "8 сентября 2026 г." / "September 8, 2026": rebuilt from the server-side
+    // sample strings (day 15 → replaced), so the client matches src/lib/format.ts exactly.
+    const fmtDate = (iso?: string) => {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return iso;
+      const sample = i18n.months?.[d.getUTCMonth()];
+      if (!sample) return iso;
+      return sample.replace('15', String(d.getUTCDate())).replace('2026', String(d.getUTCFullYear()));
+    };
+    const hideAll = () => { result.hidden = true; notfound.hidden = true; fallback.hidden = true; };
+    const setStrip = (stageKey: string, label?: string) => {
+      const idx = Math.max(0, STAGES.indexOf(stageKey));
+      nodes.forEach((n, i) => {
+        n.classList.toggle('is-past', i < idx);
+        n.classList.toggle('is-current', i === idx);
+        if (i === idx) n.setAttribute('aria-current', 'step'); else n.removeAttribute('aria-current');
+      });
+      if (label) { tag.hidden = true; stripCode.hidden = false; stripCode.textContent = label; stripNote.hidden = true; }
+    };
+    const tgUrl = (value: string) => `${tgBase}?text=${encodeURIComponent(i18n.draft + value)}`;
+    const showFallback = (value: string) => {
+      const url = tgUrl(value);
+      const link = q<HTMLAnchorElement>('fb-link'); link.href = url;
+      hideAll(); fallback.hidden = false; fallback.focus();
+      try { window.open(url, '_blank', 'noopener'); } catch { /* blocked — link stays visible */ }
+    };
+    const render = (data: TrackResponse) => {
+      const stage = STAGES.includes(data.stage) ? data.stage : 'received';
+      q('r-code').textContent = data.code;
+      q('r-stage').textContent = i18n.stages[stage] ?? data.stage;
+      const statusRow = q('r-status-row'); const status = (data.status || '').trim();
+      statusRow.hidden = !status; q('r-status').textContent = status;
+      q('r-updated').textContent = fmtDate(data.updated_at) || '—';
+      q('r-eta').textContent = data.eta ? fmtDate(data.eta) : i18n.result.etaUnknown;
+      setStrip(stage, data.code);
+      hideAll(); result.hidden = false; result.focus();
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const value = code.value.trim().toUpperCase();
+      if (!CODE_RE.test(value)) { err.textContent = i18n.errorEmpty; err.hidden = false; code.setAttribute('aria-invalid', 'true'); code.focus(); return; }
+      err.hidden = true; code.removeAttribute('aria-invalid');
+      submit.disabled = true; const label = submit.lastChild; const original = label?.textContent ?? i18n.submit;
+      if (label) label.textContent = i18n.checking;
+      try {
+        const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 8000);
+        const res = await fetch(`${endpoint}?code=${encodeURIComponent(value)}`, { headers: { Accept: 'application/json' }, signal: ctrl.signal, credentials: 'same-origin' });
+        clearTimeout(timer);
+        const isJson = (res.headers.get('content-type') || '').includes('application/json');
+        if (res.ok && isJson) {
+          const data = (await res.json()) as TrackResponse;
+          if (data && typeof data.stage === 'string') render({ ...data, code: data.code || value }); else showFallback(value);
+        } else if (res.status === 404 && isJson) {
+          q<HTMLAnchorElement>('nf-link').href = tgUrl(value);
+          hideAll(); notfound.hidden = false; notfound.focus();
+        } else {
+          showFallback(value);
+        }
+      } catch {
+        showFallback(value);
+      } finally {
+        submit.disabled = false; if (label) label.textContent = original;
+      }
+    });
+
+    // Deep link from the home teaser: /kuzatuv/?code=XYZ → prefill and run.
+    const fromUrl = new URLSearchParams(location.search).get('code');
+    if (fromUrl && CODE_RE.test(fromUrl.trim())) { code.value = fromUrl.trim().toUpperCase(); form.requestSubmit(); }
+  });
+</script>

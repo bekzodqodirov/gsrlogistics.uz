@@ -22,8 +22,8 @@ const content: ServiceContentByLang = {
         'Sotib olish xizmati («vykup») — bu Siz 1688, Taobao, Pinduoduo yoki Alibabaʼdan tovar havolasini yuborasiz, biz narxni Markaziy bank kursi boʻyicha dollarda hisoblab beramiz, sotuvchiga yuanda toʻlaymiz, tovarni Ivu (义乌) omborida qabul qilib tekshiramiz va yigʻma yuk bilan taxminan 15–25 kunda Toshkentga olib kelamiz. Xizmat haqi — buyurtma summasining 3% dan. Xitoy kartasi, Alipay yoki xitoy tili kerak emas.',
       facts: [
         { label: 'Komissiya, buyurtma summasidan', value: '3% dan' },
-        { label: 'Saytlar', value: '1688 · Taobao · Pinduoduo · Alibaba' },
-        { label: 'Yuan kursi', value: 'MB kursi asosida' },
+        { label: 'Saytlar: 1688, Taobao, Pinduoduo, Alibaba', value: '4 sayt' },
+        { label: 'Yuan kursi', value: 'MB kursi' },
         { label: 'Toshkentgacha, avto', value: '15–25 kun' },
       ],
     },
@@ -111,7 +111,7 @@ const content: ServiceContentByLang = {
         heading: 'Bojxona: jismoniy shaxsmi yoki tijorat partiyasimi?',
         body: [
           'Yigʻma yuk tarifiga bojxona rasmiylashtiruvi kompaniya hujjatlari bilan kiritilgan — «bojsiz» degan vaʼda bermaymiz, boj va QQS qonun boʻyicha toʻlanadi. Doʻkon yoki marketpleys uchun muntazam partiya olsangiz, tovarni oʻz firmangiz yoki YaTT nomiga rasmiy import qilishni tavsiya qilamiz: boj TN VED kodi boʻyicha (kiyim 20% + minimal stavka, telefon 5%, oʻyinchoq 10%), QQS 12%, bojxona yigʻimi BRV da — buni oldindan hisoblab beramiz.',
-          'Jismoniy shaxs sifatida xalqaro pochta yoki kuryer orqali oyiga 200 $ gacha tovar bojsiz keladi; undan ortigʻiga 30%, lekin kilogrammiga kamida 3 $ (2027-yil 1-yanvardan — 20% va 2 $). Bir xil tovardan koʻp miqdor bojxonada tijorat partiyasi deb baholanishi mumkin.',
+          'Jismoniy shaxs sifatida xalqaro pochta yoki kuryer orqali oyiga 200 $ gacha tovar uchun boj olinmaydi; undan ortigʻiga 30%, lekin kilogrammiga kamida 3 $ (2027-yil 1-yanvardan — 20% va 2 $). Bir xil tovardan koʻp miqdor bojxonada tijorat partiyasi deb baholanishi mumkin.',
         ],
         callout: {
           title: 'Menejer maslahati',
@@ -178,7 +178,7 @@ const content: ServiceContentByLang = {
         'Выкуп — это когда вы присылаете ссылку на товар с 1688, Taobao, Pinduoduo или Alibaba, а мы считаем цену в долларах по курсу Центрального банка, платим продавцу в юанях, принимаем и проверяем товар на складе в Иу (义乌) и привозим его в Ташкент сборным грузом ориентировочно за 15–25 дней. Стоимость услуги — от 3% суммы заказа. Китайская карта, Alipay и знание китайского не нужны.',
       facts: [
         { label: 'Комиссия от суммы заказа', value: 'от 3%' },
-        { label: 'Площадки', value: '1688 · Taobao · Pinduoduo · Alibaba' },
+        { label: 'Площадки: 1688, Taobao, Pinduoduo, Alibaba', value: '4 площадки' },
         { label: 'Курс юаня', value: 'по курсу ЦБ' },
         { label: 'До Ташкента, авто', value: '15–25 дней' },
       ],
@@ -334,7 +334,7 @@ const content: ServiceContentByLang = {
         'Our buying service works like this: you send a product link from 1688, Taobao, Pinduoduo or Alibaba; we quote the price in US dollars at the Central Bank rate, pay the seller in yuan, receive and check the goods at our Yiwu (义乌) warehouse and bring them to Tashkent by consolidated truck in roughly 15–25 days. The fee starts at 3% of the order value. No Chinese bank card, Alipay account or Chinese language needed.',
       facts: [
         { label: 'Commission on order value', value: 'from 3%' },
-        { label: 'Platforms', value: '1688 · Taobao · Pinduoduo · Alibaba' },
+        { label: 'Platforms: 1688, Taobao, Pinduoduo, Alibaba', value: '4 platforms' },
         { label: 'Yuan rate', value: 'Central Bank rate' },
         { label: 'To Tashkent by truck', value: '15–25 days' },
       ],

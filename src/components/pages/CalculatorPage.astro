@@ -1,0 +1,139 @@
+---
+/**
+ * Calculator page (/kalkulyator/, /ru/kalkulyator/, /en/calculator/): the live calculator,
+ * how it computes, what to keep in mind, and a link to the full tables. Props: { lang }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { pricingStrings, tpl } from '@/i18n/pricing';
+import { pagePath } from '@/i18n/routes';
+import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
+import type { Tariffs } from '@/lib/pricing';
+import tariffs from '@/data/tariffs.json';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Calculator from '@/components/Calculator.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang, pricingStrings);
+const p = t.calcPage;
+const c = common[lang];
+const T = tariffs as unknown as Tariffs;
+const n = (v: number, f = 2) => fmtNumber(v, lang, f);
+const ladder = T.truck.ladderPerKg;
+const updated = fmtDate(T.updated, lang);
+const vars = {
+  date: updated, truck: fmtUsd(ladder[ladder.length - 1].rate, lang), air: fmtUsd(T.air.perKg.standard, lang),
+  threshold: n(T.truck.densityThresholdKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
+  days: `${n(T.truck.days[0], 0)}–${n(T.truck.days[1], 0)}`,
+};
+const label = c.nav.find((x) => x.key === 'calculator')?.label ?? p.eyebrow;
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'calculator' as const }];
+---
+<Base lang={lang} title={p.seoTitle} description={tpl(p.seoDescription, vars)} pageKey="calculator" breadcrumbs={breadcrumbs} dateModified={T.updated}>
+  <article class="page">
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: label }]} />
+        <Eyebrow class="eyebrow-gap">{p.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{p.h1}</h1>
+        <p class="intro answer">{tpl(p.intro, vars)}</p>
+      </div>
+    </header>
+
+    <div class="calc-wrap">
+      <div class="container">
+        <div class="calc-holder dotgrid">
+          <Calculator lang={lang} id="calc" />
+        </div>
+      </div>
+    </div>
+
+    <div class="container body">
+      <section class="block" aria-labelledby="how-h">
+        <h2 id="how-h">{p.howTitle}</h2>
+        <ol class="steps">
+          {p.steps.map((s, i) => (
+            <li class="step">
+              <span class="step-index tnum" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 class="step-title">{s.title}</h3>
+                <p class="step-text">{tpl(s.text, vars)}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="block" aria-labelledby="notes-h">
+        <h2 id="notes-h">{p.notesTitle}</h2>
+        <ul class="bullets" role="list">
+          {p.notes.map((x) => <li><span class="tick"><Icon name="info" size={16} /></span><span>{x}</span></li>)}
+        </ul>
+      </section>
+
+      <section class="block rates" aria-labelledby="rates-h">
+        <div>
+          <h2 id="rates-h">{p.ratesTitle}</h2>
+          <p class="para">{p.ratesText}</p>
+        </div>
+        <Button href={pagePath(lang, 'pricing')} variant="secondary" iconRight="arrow-right">{p.ratesLink}</Button>
+      </section>
+    </div>
+
+    <section class="section dark noise cta below-fold" aria-labelledby="cta-h">
+      <div class="container">
+        <Eyebrow>{c.nav.find((x) => x.key === 'contact')?.label}</Eyebrow>
+        <h2 id="cta-h" class="display-2 measure-head cta-h2">{p.cta.title}</h2>
+        <p class="intro cta-text">{p.cta.text}</p>
+        <div class="cta-row">
+          <Button href={telegramChat(p.cta.draft)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+          <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
+        </div>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{site.hours[lang]}</span></p>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(32px, 4vw, 48px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { max-width: 66ch; margin-top: 20px; color: var(--muted); }
+  .calc-wrap { padding-bottom: clamp(24px, 4vw, 48px); }
+  .calc-holder { border-radius: var(--radius-xl); padding: clamp(8px, 2vw, 24px); background: var(--bg-2); }
+  .body { padding-top: clamp(32px, 4vw, 56px); padding-bottom: clamp(48px, 6vw, 96px); max-width: calc(var(--container-text) + 2 * var(--gutter)); }
+  .block + .block { margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid var(--border-soft); }
+  .block h2 { font-size: var(--text-h2); max-width: 32ch; margin-bottom: 16px; }
+  .para { color: var(--fg-2); max-width: 70ch; text-wrap: pretty; }
+  .steps { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 0; max-width: 70ch; position: relative; }
+  .steps::before { content: ''; position: absolute; left: 15px; top: 20px; bottom: 20px; width: 1px; background: var(--border); }
+  .step { display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding: 12px 0; position: relative; }
+  .step-index { position: relative; z-index: 1; width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; font-size: var(--text-caption); font-weight: 600; color: var(--fg); }
+  .step:first-child .step-index { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .step-title { font-size: var(--text-h4); font-weight: 600; margin: 4px 0; }
+  .step-text { color: var(--fg-2); text-wrap: pretty; }
+  .bullets { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; max-width: 70ch; }
+  .bullets li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; color: var(--fg-2); }
+  .tick { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-2); color: var(--fg); margin-top: 1px; }
+  .rates { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .rates h2 { margin-bottom: 8px; }
+  .cta { padding-block: clamp(96px, 10vw, 128px); }
+  .cta-h2 { margin-top: 16px; }
+  .cta-text { max-width: 56ch; margin-top: 16px; color: var(--muted); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .cta-meta { margin-top: 16px; color: var(--muted); }
+  .cta-meta a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 899px) {
+    .cta-row { flex-direction: column; }
+    .cta-row :global(.btn) { width: 100%; }
+    .block h2 { font-size: var(--text-h3); }
+  }
+</style>

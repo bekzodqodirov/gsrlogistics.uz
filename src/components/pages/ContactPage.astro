@@ -1,0 +1,219 @@
+---
+/**
+ * Contact page (/aloqa/, /ru/kontakty/, /en/contact/) — DESIGN_BRIEF §7.4.
+ * NAP from site.ts, hours, phones, Telegram (direct + group + channel), Instagram/Facebook,
+ * a static "map card" (no embeds) linking to Yandex/Google, the lead form and directions.
+ * The page IS the CTA: no closing CTA band, mobile bar hidden. Props: { lang }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { contact, fill } from '@/i18n/contact';
+import { site, phoneUrl, phone2Url, telegramUrl, telegramGroupUrl, telegramChat, instagramUrl, facebookUrl } from '@/lib/site';
+import { ORG_ID } from '@/lib/schema';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Icon from '@/components/ui/Icon.astro';
+import LeadForm from '@/components/LeadForm.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang, contact);
+const c = common[lang];
+const label = c.nav.find((n) => n.key === 'contact')?.label ?? t.eyebrow;
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'contact' as const }];
+const intro = fill(t.intro, { address: site.address[lang], hours: site.hours[lang] });
+const pageUrl = new URL(Astro.url.pathname, Astro.site ?? site.url).toString();
+const contactNode = {
+  '@type': 'ContactPage',
+  '@id': `${pageUrl}#contactpage`,
+  url: pageUrl,
+  name: t.seoTitle,
+  description: t.seoDescription,
+  mainEntity: { '@id': ORG_ID },
+};
+const tgDirect = telegramChat(c.telegramDraft.general);
+const channels = [
+  { href: tgDirect, icon: 'telegram', label: t.card.telegramDirect, meta: site.telegramDirect.replace('https://', '') },
+  { href: telegramGroupUrl, icon: 'users', label: t.card.telegramGroup, meta: `t.me/${site.telegramGroup}` },
+  { href: telegramUrl, icon: 'telegram', label: t.card.telegramChannel, meta: `t.me/${site.telegram}` },
+] as const;
+const socials = [
+  { href: instagramUrl, icon: 'instagram', label: t.card.instagram, meta: `@${site.instagram}` },
+  { href: facebookUrl, icon: 'facebook', label: t.card.facebook, meta: `facebook.com/${site.facebook}` },
+] as const;
+---
+<Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="contact" breadcrumbs={breadcrumbs} jsonLd={[contactNode]} hideMobileBar>
+  <article class="page">
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: label }]} />
+        <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{t.h1}</h1>
+        <p class="intro answer">{intro}</p>
+      </div>
+    </header>
+
+    <div class="container cols">
+      <div class="left">
+        <section class="card nap" aria-labelledby="nap-h">
+          <h2 id="nap-h" class="card-h">{t.card.title}</h2>
+          <dl class="nap-list">
+            <div class="row">
+              <dt><Icon name="map-pin" size={18} /><span>{t.card.addressLabel}</span></dt>
+              <dd><address class="addr">{site.address[lang]}<br /><span class="muted tnum">{site.address.postalCode}</span></address></dd>
+            </div>
+            <div class="row">
+              <dt><Icon name="phone" size={18} /><span>{t.card.phoneLabel}</span></dt>
+              <dd><a href={phoneUrl} class="val tnum">{site.phoneDisplay}</a></dd>
+            </div>
+            <div class="row">
+              <dt><Icon name="phone" size={18} /><span>{t.card.phone2Label}</span></dt>
+              <dd><a href={phone2Url} class="val tnum">{site.phone2Display}</a></dd>
+            </div>
+            <div class="row">
+              <dt><Icon name="clock" size={18} /><span>{t.card.hoursLabel}</span></dt>
+              <dd><span class="val tnum">{site.hours[lang]}</span></dd>
+            </div>
+            <div class="row">
+              <dt><Icon name="mail" size={18} /><span>{t.card.emailLabel}</span></dt>
+              <dd><a href={`mailto:${site.email}`} class="val">{site.email}</a></dd>
+            </div>
+            <div class="row">
+              <dt><Icon name="telegram" size={18} /><span>{t.card.telegramLabel}</span></dt>
+              <dd>
+                <ul class="links" role="list">
+                  {channels.map((x) => <li><a href={x.href} target="_blank" rel="noopener"><Icon name={x.icon} size={16} /><span class="val">{x.label}</span><span class="meta-s">{x.meta}</span></a></li>)}
+                </ul>
+              </dd>
+            </div>
+            <div class="row">
+              <dt><Icon name="globe" size={18} /><span>{t.card.socialLabel}</span></dt>
+              <dd>
+                <ul class="links" role="list">
+                  {socials.map((x) => <li><a href={x.href} target="_blank" rel="noopener"><Icon name={x.icon} size={16} /><span class="val">{x.label}</span><span class="meta-s">{x.meta}</span></a></li>)}
+                </ul>
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="card map" aria-labelledby="map-h">
+          <h2 id="map-h" class="card-h">{t.map.title}</h2>
+          <!-- Static "map card": an original monoline sketch of the metro sign, the street and building 27. No embeds. -->
+          <svg class="map-svg" viewBox="0 0 480 240" role="img" aria-label={`${t.map.street}, ${t.map.building} · ${t.map.metro}`}>
+            <defs>
+              <pattern id="ct-grid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="currentColor" opacity=".12" /></pattern>
+            </defs>
+            <rect width="480" height="240" fill="url(#ct-grid)" />
+            <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <!-- streets -->
+              <path d="M0 150 C 120 140, 300 135, 480 120" opacity=".35" stroke-width="10" />
+              <path d="M0 150 C 120 140, 300 135, 480 120" stroke-dasharray="6 10" opacity=".6" />
+              <path d="M330 0 C 322 60, 318 120, 300 240" opacity=".35" stroke-width="6" />
+              <!-- building 27 -->
+              <g transform="translate(150 52)">
+                <path d="M0 56 V12 l32-12 32 12 v44" />
+                <path d="M8 56 V24h48v32" />
+                <path d="M18 30h8M38 30h8M18 42h8M38 42h8" />
+                <path d="M0 56h64" />
+              </g>
+              <!-- metro sign -->
+              <g transform="translate(372 44)">
+                <circle cx="20" cy="20" r="18" />
+                <path d="M9 29V11l11 12 11-12v18" />
+              </g>
+              <!-- walking path metro → building -->
+              <path d="M372 76 C 330 96, 260 96, 214 108" stroke-dasharray="2 6" opacity=".7" />
+            </g>
+            <!-- door: the only red element -->
+            <polygon points="182,96 187,99 187,105 182,108 177,105 177,99" fill="var(--accent)" />
+            <g font-family="inherit" font-size="12" fill="currentColor">
+              <text x="150" y="128" font-weight="600">{t.map.building}</text>
+              <text x="372" y="102" opacity=".8">M · {t.map.metro}</text>
+              <text x="12" y="176" opacity=".8">{t.map.street}</text>
+              <text x="12" y="228" opacity=".55" font-variant="tabular-nums">{t.map.coords}</text>
+            </g>
+          </svg>
+          <div class="map-links">
+            <a class="btn btn-secondary btn-sm" href={site.yandexMapsUrl} target="_blank" rel="noopener"><Icon name="arrow-up-right" size={16} />{t.map.yandex}</a>
+            <a class="btn btn-secondary btn-sm" href={site.googleMapsUrl} target="_blank" rel="noopener"><Icon name="arrow-up-right" size={16} />{t.map.google}</a>
+          </div>
+        </section>
+      </div>
+
+      <div class="right">
+        <div class="card card-xl form-card">
+          <LeadForm lang={lang} id="lead" />
+        </div>
+        <section class="tips" aria-labelledby="tips-h">
+          <h2 id="tips-h" class="h4">{t.reasons.title}</h2>
+          <ul class="tip-list" role="list">
+            {t.reasons.items.map((x) => <li><span class="tip-t">{x.title}</span><span class="tip-x">{x.text}</span></li>)}
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <section class="visit section-sm" aria-labelledby="visit-h">
+      <div class="container visit-grid">
+        <div>
+          <h2 id="visit-h" class="h2">{t.visit.title}</h2>
+          <p class="visit-text">{t.visit.text}</p>
+          <p class="note-line"><Icon name="telegram" size={16} /><span>{t.visit.note}</span></p>
+        </div>
+        <ol class="steps">
+          {t.visit.steps.map((s, i) => <li><span class="idx tnum" aria-hidden="true">0{i + 1}</span><span>{s}</span></li>)}
+        </ol>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(32px, 4vw, 48px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { max-width: 66ch; margin-top: 20px; color: var(--muted); }
+  .cols { display: grid; gap: 24px; padding-bottom: clamp(48px, 6vw, 96px); }
+  .left, .right { display: grid; gap: 24px; align-content: start; }
+  .card-h { font-size: var(--text-h4); font-weight: 600; margin-bottom: 18px; }
+  .nap-list { display: grid; gap: 0; }
+  .row { display: grid; grid-template-columns: 148px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--border-soft); }
+  .row:first-child { border-top: 0; padding-top: 0; }
+  .row dt { display: flex; align-items: flex-start; gap: 8px; font-size: var(--text-small); font-weight: 500; color: var(--muted); padding-top: 2px; }
+  .row dt :global(svg) { flex: none; margin-top: 1px; }
+  .row dd { margin: 0; color: var(--fg); }
+  .addr { font-style: normal; }
+  .val { font-weight: 600; }
+  a.val:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .links { display: grid; gap: 6px; }
+  .links a { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; flex-wrap: wrap; }
+  .links a:hover .val { text-decoration: underline; text-underline-offset: 3px; }
+  .meta-s { font-size: var(--text-caption); color: var(--meta); }
+  .map-svg { width: 100%; height: auto; color: var(--fg); background: var(--bg-3); border: 1px solid var(--border-soft); border-radius: var(--radius); }
+  .map-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .form-card { padding: clamp(20px, 3vw, 40px); }
+  .tips { padding: 4px 8px 0; }
+  .tips h2 { margin-bottom: 12px; }
+  .tip-list { display: grid; gap: 8px; }
+  .tip-list li { display: grid; grid-template-columns: 88px 1fr; gap: 12px; font-size: var(--text-small); color: var(--fg-2); }
+  .tip-t { font-weight: 600; color: var(--fg); }
+  .visit { background: var(--bg-2); }
+  .visit-grid { display: grid; gap: 32px; }
+  .visit-text { margin-top: 12px; color: var(--fg-2); max-width: 52ch; text-wrap: pretty; }
+  .note-line { display: flex; gap: 8px; align-items: flex-start; margin-top: 16px; font-size: var(--text-small); color: var(--muted); }
+  .note-line :global(svg) { flex: none; margin-top: 3px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .steps li { display: grid; grid-template-columns: 32px 1fr; gap: 14px; align-items: start; color: var(--fg-2); }
+  .idx { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--border); font-size: var(--text-caption); font-weight: 600; color: var(--fg); background: var(--bg); }
+  @media (max-width: 520px) {
+    .row { grid-template-columns: 1fr; gap: 4px; }
+    .tip-list li { grid-template-columns: 1fr; gap: 2px; }
+  }
+  @media (min-width: 1000px) {
+    .cols { grid-template-columns: 5fr 7fr; align-items: start; }
+    .visit-grid { grid-template-columns: 5fr 7fr; align-items: start; }
+  }
+</style>

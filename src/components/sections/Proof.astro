@@ -1,0 +1,133 @@
+---
+/**
+ * Home dark section "Nima olasiz": what the client receives, as a chronological checklist on a
+ * vertical hairline (ring-tick per item), plus a sticky route-facts card: road distance from
+ * src/data/route.ts (printed "5 000+ km" while unverified), the two border crossings, and the
+ * consolidated-cargo day range from tariffs.json with the estimate footnote. No counters.
+ * Props: { lang, index? }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { proofStrings } from '@/i18n/proof';
+import { pagePath } from '@/i18n/routes';
+import { routeKmLabel } from '@/data/route';
+import { fmtNumber } from '@/lib/format';
+import tariffs from '@/data/tariffs.json';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+
+interface Props { lang: Lang; index?: string }
+const { lang, index = '04' } = Astro.props;
+const t = pick(lang, proofStrings);
+const km = routeKmLabel(lang);
+const [kmValue, kmUnit] = km.split(/\s(?=km$)/);
+const days = `${fmtNumber(tariffs.truck.days[0], lang)}–${fmtNumber(tariffs.truck.days[1], lang)}`;
+const hrefFor = (link: 'tracking' | 'pricing' | 'contact') => pagePath(lang, link);
+/* Mini route drawing: Ivu (right) → Xorgos → Yallama → Toshkent (left), viewBox 0 0 320 96. */
+const nodes = [
+  { x: 296, y: 62, label: t.facts.nodes[0], anchor: 'end' },
+  { x: 168, y: 30, label: t.facts.nodes[1], anchor: 'middle' },
+  { x: 76, y: 40, label: t.facts.nodes[2], anchor: 'middle' },
+  { x: 24, y: 52, label: t.facts.nodes[3], anchor: 'start' },
+] as const;
+const routeD = 'M296 62 C 250 60, 214 34, 168 30 C 132 28, 104 36, 76 40 C 56 43, 40 48, 24 52';
+---
+<section id="nima-olasiz" class="section dark noise proof below-fold" aria-labelledby="proof-title">
+  <div class="container">
+    <div class="section-head">
+      <Eyebrow>{index} — {t.eyebrow}</Eyebrow>
+      <h2 id="proof-title" class="measure-head">{t.h2}</h2>
+      <p class="intro">{t.intro}</p>
+    </div>
+
+    <div class="grid">
+      <ol class="list" role="list" aria-label={t.listLabel}>
+        {t.items.map((it, i) => (
+          <li class="item reveal" style={`--reveal-delay:${i * 60}ms`}>
+            <span class="tick" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.25 2.25 2.25 4.75-5"/></svg>
+            </span>
+            <div class="body">
+              <p class="when caption tnum">{it.when}</p>
+              <h3 class="title">{it.title}</h3>
+              <p class="text">{it.text}</p>
+              {it.link && it.linkLabel && <a class="link more" href={hrefFor(it.link)}>{it.linkLabel}</a>}
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <aside class="facts reveal" style="--reveal-delay:120ms" aria-labelledby="proof-facts-title">
+        <p id="proof-facts-title" class="facts-label">{t.facts.label}</p>
+        <svg class="route" viewBox="0 0 320 96" width="320" height="96" role="img" aria-label={t.facts.drawingLabel} preserveAspectRatio="xMidYMid meet">
+          <path d={routeD} fill="none" stroke="var(--route-idle)" stroke-width="1.5" />
+          <path class="route-line" d={routeD} fill="none" stroke="var(--accent-text)" stroke-width="1.5" stroke-linecap="round" pathLength="1" />
+          {nodes.map((n, i) => (
+            <g>
+              <circle cx={n.x} cy={n.y} r={i === 0 || i === 3 ? 3.5 : 2.5} fill={i === 3 ? 'var(--accent-text)' : 'var(--bg)'} stroke={i === 3 ? 'var(--accent-text)' : 'var(--fg)'} stroke-width="1.5" />
+              <text x={n.x + (n.anchor === 'start' ? -2 : n.anchor === 'end' ? 2 : 0)} y={n.y + (i === 0 || i === 3 ? 22 : -12)} text-anchor={n.anchor} class="lbl">{n.label}</text>
+            </g>
+          ))}
+        </svg>
+        <dl class="stats">
+          <div class="stat-row">
+            <dt class="caption">{t.facts.distance}</dt>
+            <dd><span class="val tnum">{kmValue}</span><span class="num-unit">{kmUnit}</span></dd>
+          </div>
+          <div class="stat-row">
+            <dt class="caption">{t.facts.borders}</dt>
+            <dd><span class="val tnum">2</span><span class="num-unit">{t.facts.bordersUnit}</span></dd>
+          </div>
+          <div class="stat-row">
+            <dt class="caption">{t.facts.days}</dt>
+            <dd><span class="val tnum">{days}</span><span class="num-unit">{t.facts.daysUnit}</span></dd>
+          </div>
+        </dl>
+        <p class="footnote caption">{t.facts.note}</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .proof { padding-top: max(var(--section-y), 96px); background: radial-gradient(70% 60% at 100% 0%, var(--black-2), var(--black) 70%); }
+  .grid { display: grid; grid-template-columns: 7fr 5fr; gap: 48px clamp(32px, 5vw, 80px); align-items: start; }
+  .list { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .list::before { content: ''; position: absolute; left: 11.5px; top: 12px; bottom: 12px; width: 1px; background: var(--border); }
+  .item { position: relative; display: grid; grid-template-columns: 24px 1fr; gap: 20px; padding: 0 0 36px; }
+  .item:last-child { padding-bottom: 0; }
+  .tick { position: relative; width: 24px; height: 24px; color: var(--muted); background: var(--bg); border-radius: 50%; }
+  .tick svg { display: block; }
+  .body { min-width: 0; padding-top: 1px; }
+  .when { color: var(--meta); margin-bottom: 6px; }
+  .title { font-size: 1.375rem; line-height: 1.2; font-weight: 600; letter-spacing: -0.008em; color: var(--fg); text-wrap: balance; }
+  .text { margin-top: 8px; color: var(--muted); max-width: 56ch; text-wrap: pretty; }
+  .more { margin-top: 10px; font-size: var(--text-small); }
+
+  .facts { position: sticky; top: calc(var(--header-h) + 24px); background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 24px; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06); }
+  .facts-label { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-bottom: 16px; }
+  .route { width: 100%; height: auto; max-width: 360px; overflow: visible; }
+  .lbl { font: 500 11px/1 var(--font-sans); fill: var(--muted); letter-spacing: 0.01em; }
+  .stats { display: grid; margin-top: 8px; }
+  .stat-row { display: flex; flex-direction: column-reverse; gap: 4px; padding: 16px 0; border-top: 1px solid var(--border); }
+  .stat-row dd { margin: 0; display: flex; align-items: baseline; }
+  .val { font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; color: var(--fg); }
+  .stat-row .caption { color: var(--muted); }
+  .footnote { margin-top: 12px; }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .route { view-timeline-name: --route; }
+      .route-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw linear both; }
+      .route .route-line { animation-timeline: --route; animation-range: entry 40% cover 45%; }
+      @keyframes draw { to { stroke-dashoffset: 0; } }
+    }
+  }
+
+  @media (max-width: 1099px) { .grid { grid-template-columns: 1fr; gap: 40px; } .facts { position: static; } }
+  @media (max-width: 767px) {
+    .item { gap: 16px; padding-bottom: 28px; }
+    .title { font-size: 1.25rem; }
+    .facts { padding: 20px; }
+    .val { font-size: 1.75rem; }
+  }
+</style>

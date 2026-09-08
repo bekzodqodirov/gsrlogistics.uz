@@ -83,6 +83,8 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
   // Give every h2/h3 in the article an id matching the TOC slugs (same algorithm as the frontmatter build).
   const slug = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
   document.querySelectorAll<HTMLElement>('.article-body h2, .article-body h3').forEach((h) => { if (!h.id) h.id = slug(h.textContent || ''); });
+  // Wrap wide tables in a scroll container (markdown cannot emit the wrapper itself).
+  document.querySelectorAll<HTMLTableElement>('.article-body table').forEach((t) => { if (t.parentElement?.classList.contains('table-wrap')) return; const w = document.createElement('div'); w.className = 'table-wrap'; t.replaceWith(w); w.appendChild(t); });
 </script>
 <style>
   .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(24px, 4vw, 40px); }
@@ -104,12 +106,14 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
   .article-body { font-size: var(--text-body); line-height: 1.6; color: var(--fg-2); }
   .article-body :global(h2), .article-body :global(h3), .article-body :global(strong) { color: var(--fg); }
   .article-body :global(h2) { scroll-margin-top: 96px; }
-  .article-body :global(table) { width: 100%; font-size: var(--text-small); border-collapse: collapse; margin: 1.2em 0; }
+  :global(html.no-js) .article-body :global(table) { display: block; overflow-x: auto; }
+  .article-body :global(table) { width: 100%; min-width: 560px; font-size: var(--text-small); border-collapse: collapse; margin: 0; }
   .article-body :global(th), .article-body :global(td) { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-soft); }
   .article-body :global(th) { font-weight: 500; color: var(--muted); }
   .article-body :global(td:first-child) { color: var(--fg); font-weight: 500; }
-  .article-body :global(.table-wrap), .article-body :global(table) { overflow-x: auto; display: block; }
-  .article-body :global(thead), .article-body :global(tbody), .article-body :global(tr) { display: table; width: 100%; table-layout: fixed; }
+  .article-body :global(.table-wrap) { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.2em 0; border: 1px solid var(--border-soft); border-radius: var(--radius); }
+  .article-body :global(.table-wrap table) { min-width: 560px; }
+  .article-body :global(.table-wrap th:first-child), .article-body :global(.table-wrap td:first-child) { position: sticky; left: 0; background: var(--bg); }
   .article-body :global(blockquote) { border-left: 2px solid var(--border); padding-left: 16px; color: var(--muted); }
   .faq { margin-top: 48px; }
   .faq h2 { margin-bottom: 8px; }

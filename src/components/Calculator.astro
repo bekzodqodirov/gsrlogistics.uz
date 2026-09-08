@@ -1,0 +1,292 @@
+---
+/**
+ * Live price calculator (DESIGN_BRIEF §3.6 / §7.3). One <form> per instance; the bundled script
+ * runs src/lib/pricing.ts in the browser with src/data/tariffs.json and the localized fragments
+ * serialised into `data-i18n`. Without JS the form still submits to the pricing page tables.
+ * Props: { lang, id?, compact? }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { pricingStrings, tpl } from '@/i18n/pricing';
+import { pagePath } from '@/i18n/routes';
+import { site } from '@/lib/site';
+import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
+import { CATEGORIES } from '@/lib/pricing';
+import tariffs from '@/data/tariffs.json';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props { lang: Lang; id?: string; compact?: boolean }
+const { lang, id = 'calc', compact = false } = Astro.props;
+const t = pick(lang, pricingStrings);
+const c = common[lang];
+const b = t.breakdown;
+const pricingUrl = pagePath(lang, 'pricing');
+const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(tariffs.updated, lang)}`;
+const kursNote = tpl(t.calc.kursNote, { rate: fmtNumber(tariffs.usdToSom, lang, 0) });
+const i18n = JSON.stringify({
+  b,
+  resultEmpty: t.calc.resultEmpty,
+  switchNote: t.calc.switchNote,
+  draft: t.calc.draft,
+  draftRail: t.calc.draftRail,
+  draftNoVolume: t.calc.draftNoVolume,
+  volumeLabel: t.calc.volumeLabel,
+});
+const rateOf = (v: number) => `${fmtUsd(v, lang)}${b.units.perKg}`;
+const quick = [
+  { label: b.modes.truck, value: `${rateOf(tariffs.truck.ladderPerKg[tariffs.truck.ladderPerKg.length - 1].rate)} ${c.strings.from}` },
+  { label: b.modes.air, value: `${rateOf(tariffs.air.perKg.standard)} ${c.strings.from}` },
+  { label: t.page.tiles.lcl, value: `${fmtUsd(tariffs.truck.lclPerM3ByDensity[0].rate, lang)}${b.units.perM3} ${c.strings.from}` },
+];
+const modes = [
+  { key: 'truck', icon: 'truck', label: t.calc.modes.truck, checked: true },
+  { key: 'air', icon: 'plane', label: t.calc.modes.air, checked: false },
+  { key: 'rail', icon: 'train', label: t.calc.modes.rail, checked: false },
+] as const;
+const uid = (s: string) => `${id}-${s}`;
+---
+<form class:list={['calc', compact && 'is-compact']} data-calc data-lang={lang} data-i18n={i18n} data-tg={site.telegramDirect} data-mode="truck" action={`${pricingUrl}#tariflar`} method="get" aria-labelledby={uid('title')} id={id}>
+  <div class="calc-form">
+    <h3 id={uid('title')} class="calc-title">{t.calc.title}</h3>
+    <p class="calc-lead">{t.calc.lead}</p>
+
+    <fieldset class="group">
+      <legend class="label">{t.calc.modeLabel}</legend>
+      <div class="segmented seg" role="radiogroup" aria-label={t.calc.modeLabel}>
+        {modes.map((m) => (
+          <label class="seg-item">
+            <input type="radio" name="mode" value={m.key} checked={m.checked} class="sr-only" data-el="mode" />
+            <Icon name={m.icon} size={16} />
+            <span>{m.label}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+
+    <div class="for-cargo">
+      <div class="field">
+        <label for={uid('kg')}>{t.calc.weight}</label>
+        <div class="unit-field">
+          <input class="input tnum" id={uid('kg')} name="kg" type="number" inputmode="decimal" min="0" step="0.1" placeholder="20" data-el="kg" aria-describedby={uid('kg-hint')} />
+          <span class="unit" aria-hidden="true">{b.units.kg}</span>
+        </div>
+        <p class="hint" id={uid('kg-hint')}>{t.calc.weightHint}</p>
+      </div>
+
+      <fieldset class="group">
+        <legend class="label">{t.calc.volumeLabel}</legend>
+        <div class="segmented seg seg-vol" role="radiogroup" aria-label={t.calc.volumeLabel}>
+          <label class="seg-item"><input type="radio" name="vol" value="dims" checked class="sr-only" data-el="vol" /><span>{t.calc.volumeModes.dims}</span></label>
+          <label class="seg-item"><input type="radio" name="vol" value="m3" class="sr-only" data-el="vol" /><span>{t.calc.volumeModes.m3}</span></label>
+        </div>
+        <div class="dims" data-vol="dims">
+          {(['l', 'w', 'h'] as const).map((d, i) => (
+            <div class="field">
+              <label for={uid(d)}>{t.calc.dims[d]}</label>
+              <div class="unit-field">
+                <input class="input tnum" id={uid(d)} name={d} type="number" inputmode="decimal" min="0" step="1" placeholder={['50', '40', '30'][i]} data-el={d} />
+                <span class="unit" aria-hidden="true">{b.units.cm}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="field m3" data-vol="m3">
+          <label for={uid('m3')}>{t.calc.m3}</label>
+          <div class="unit-field">
+            <input class="input tnum" id={uid('m3')} name="m3" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,8" data-el="m3" />
+            <span class="unit" aria-hidden="true">{b.units.m3}</span>
+          </div>
+        </div>
+        <p class="hint">{t.calc.volumeHint}</p>
+      </fieldset>
+
+      <div class="field">
+        <label for={uid('cat')}>{t.calc.category}</label>
+        <select class="select" id={uid('cat')} name="category" data-el="category" aria-describedby={uid('cat-hint')}>
+          {CATEGORIES.map((k) => <option value={k}>{b.categories[k]}</option>)}
+        </select>
+        <p class="hint" id={uid('cat-hint')}>{t.calc.categoryHint}</p>
+      </div>
+    </div>
+
+    <div class="field for-rail">
+      <label for={uid('container')}>{t.calc.container}</label>
+      <select class="select" id={uid('container')} name="container" data-el="container">
+        <option value="20ft">{b.containers['20ft']}</option>
+        <option value="40ft">{b.containers['40ft']}</option>
+      </select>
+    </div>
+
+    <p class="switch-note" data-el="switch" role="status" aria-live="polite" hidden></p>
+    <button type="submit" class="btn btn-secondary calc-submit">{t.calc.submit}</button>
+  </div>
+
+  <div class="calc-result" aria-live="polite" aria-atomic="true">
+    <p class="caption result-label">{t.calc.resultLabel}</p>
+
+    <div class="calc-nojs">
+      <p class="nojs-text">{t.calc.noJsText}</p>
+      <dl class="quick">
+        {quick.map((q) => <div class="quick-row"><dt>{q.label}</dt><dd class="tnum">{q.value}</dd></div>)}
+      </dl>
+      <a href={`${pricingUrl}#tariflar`} class="link">{t.calc.noJsLink}</a>
+    </div>
+
+    <div class="calc-live">
+      <p class="empty" data-el="empty">{t.calc.resultEmpty}</p>
+      <div class="result-body" data-el="body" hidden>
+        <p class="total"><span class="stat total-usd" data-el="total">—</span></p>
+        <p class="total-som tnum" data-el="som"></p>
+        <p class="rule" data-el="rule"></p>
+        <dl class="rows" data-el="rows"></dl>
+        <ul class="notes" data-el="notes" role="list"></ul>
+        <a class="btn btn-primary confirm" data-el="tg" href={site.telegramDirect} target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.calc.confirm}</a>
+        <p class="draft caption"><span class="draft-label">{t.calc.draftPreview}:</span> <span data-el="draft"></span></p>
+      </div>
+    </div>
+
+    <p class="caption meta">{estimateMeta} · <span class="tnum">{kursNote}</span></p>
+    <p class="caption final">{t.calc.finalNote}</p>
+    <a href={pricingUrl} class="link all-rates">{t.calc.allRates}</a>
+  </div>
+</form>
+
+<style>
+  .calc { display: grid; gap: 24px; background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-xl); padding: clamp(20px, 2.4vw, 32px); box-shadow: var(--shadow-ring); }
+  .calc-title { font-size: var(--text-h3); }
+  .calc-lead { color: var(--muted); margin-top: 6px; margin-bottom: 20px; text-wrap: pretty; }
+  .group { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .group > .label { margin-bottom: 8px; display: block; }
+  .calc-form { display: grid; gap: 20px; min-width: 0; }
+  .for-cargo { display: grid; gap: 20px; }
+  .for-rail { display: none; }
+  .calc[data-mode='rail'] .for-cargo { display: none; }
+  .calc[data-mode='rail'] .for-rail { display: grid; }
+  .seg { display: flex; width: 100%; }
+  .seg-item { flex: 1; justify-content: center; min-height: 40px; position: relative; white-space: nowrap; }
+  .seg-item:has(input:checked) { background: var(--card); color: var(--fg); box-shadow: var(--shadow-ring); }
+  .seg-item:has(input:focus-visible) { box-shadow: var(--focus-ring); }
+  .seg-item svg { width: 16px; height: 16px; }
+  .unit-field { position: relative; }
+  .unit-field .input { padding-right: 48px; }
+  .unit-field .unit { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: var(--text-small); font-weight: 500; color: var(--muted); pointer-events: none; }
+  .dims { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+  .m3 { display: none; margin-top: 12px; }
+  .calc[data-vol='m3'] .dims { display: none; }
+  .calc[data-vol='m3'] .m3 { display: grid; }
+  .group .hint { margin-top: 8px; }
+  .switch-note { font-size: var(--text-small); color: var(--fg-2); padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius); }
+  .calc-submit { justify-self: start; }
+  html.js .calc-submit { display: none; }
+
+  .calc-result { display: grid; gap: 12px; align-content: start; background: var(--bg-2); border-radius: var(--radius-lg); padding: clamp(18px, 2vw, 24px); min-width: 0; }
+  .dark .calc-result { background: var(--bg-3); }
+  .result-label { margin-bottom: 4px; }
+  html.js .calc-nojs { display: none; }
+  html.no-js .calc-live { display: none; }
+  .nojs-text { font-size: var(--text-small); color: var(--fg-2); }
+  .quick { display: grid; gap: 0; margin: 12px 0; }
+  .quick-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border-soft); font-size: var(--text-small); }
+  .quick-row dt { color: var(--muted); }
+  .quick-row dd { margin: 0; font-weight: 600; color: var(--fg); }
+  .empty { color: var(--muted); }
+  .result-body { display: grid; gap: 10px; }
+  .total { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .total-usd { color: var(--accent-text); font-size: clamp(2.25rem, 2.6vw + 1.2rem, 3.5rem); overflow-wrap: anywhere; }
+  .total-som { font-weight: 600; color: var(--fg-2); margin-top: -6px; }
+  .rule { font-size: var(--text-small); color: var(--muted); }
+  .rows { display: grid; margin: 4px 0 0; border-top: 1px solid var(--border-soft); }
+  .rows :global(.row) { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border-soft); font-size: var(--text-small); }
+  .rows :global(dt) { color: var(--muted); }
+  .rows :global(dd) { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--fg); text-align: right; }
+  .notes { display: grid; gap: 6px; font-size: var(--text-caption); color: var(--fg-2); }
+  .notes:empty { display: none; }
+  .notes :global(li) { padding-left: 14px; position: relative; }
+  .notes :global(li)::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 1px; background: var(--meta); }
+  .confirm { margin-top: 8px; width: 100%; }
+  .draft { overflow-wrap: anywhere; }
+  .draft-label { font-weight: 600; }
+  .meta, .final { text-wrap: pretty; }
+  .all-rates { justify-self: start; font-size: var(--text-small); }
+
+  @media (min-width: 900px) {
+    .calc { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; }
+    .calc.is-compact { grid-template-columns: 1fr; gap: 24px; }
+  }
+  @media (max-width: 480px) {
+    .dims { gap: 8px; }
+    .dims .unit-field .input { padding-right: 36px; padding-inline-start: 10px; }
+    .dims .unit-field .unit { right: 10px; }
+    .seg-item { padding: 0 8px; }
+    .seg-item span { font-size: 0.8125rem; }
+    .seg-item svg { display: none; }
+  }
+</style>
+
+<script>
+  import tariffs from '@/data/tariffs.json';
+  import { estimate, isAirAllowed, formatBreakdown, type Category, type Container, type Mode, type Tariffs, type BreakdownStrings } from '@/lib/pricing';
+  import { fmtNumber } from '@/lib/format';
+  import type { Lang } from '@/i18n/config';
+
+  interface I18n { b: BreakdownStrings; resultEmpty: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string }
+  const T = tariffs as unknown as Tariffs;
+  const sub = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : ''));
+
+  function init(form: HTMLFormElement) {
+    const lang = (form.dataset.lang || 'uz') as Lang;
+    const i18n = JSON.parse(form.dataset.i18n || '{}') as I18n;
+    const tgBase = form.dataset.tg || '';
+    const el = <E extends HTMLElement = HTMLElement>(name: string) => form.querySelector<E>(`[data-el="${name}"]`);
+    const els = (name: string) => Array.from(form.querySelectorAll<HTMLInputElement>(`[data-el="${name}"]`));
+    const num = (name: string) => { const v = parseFloat((el<HTMLInputElement>(name)?.value || '').replace(',', '.')); return Number.isFinite(v) && v > 0 ? v : 0; };
+    const checked = (name: string) => els(name).find((r) => r.checked)?.value || '';
+    const setMode = (m: Mode) => { els('mode').forEach((r) => { r.checked = r.value === m; }); form.dataset.mode = m; };
+    const body = el('body')!, empty = el('empty')!, switchNote = el('switch')!;
+    let switched = false; // true after an air-forbidden category forced truck; the note stays until the category is allowed again
+
+    function render() {
+      let mode = (checked('mode') || 'truck') as Mode;
+      const category = (el<HTMLSelectElement>('category')?.value || 'standard') as Category;
+      const container = (el<HTMLSelectElement>('container')?.value || '20ft') as Container;
+      form.dataset.vol = checked('vol') || 'dims';
+      if (mode === 'air' && !isAirAllowed(category)) { mode = 'truck'; setMode('truck'); switched = true; }
+      if (isAirAllowed(category) || mode === 'rail') switched = false;
+      switchNote.textContent = i18n.switchNote; switchNote.hidden = !switched;
+      form.dataset.mode = mode;
+
+      const kg = num('kg');
+      const useM3 = form.dataset.vol === 'm3';
+      const dims = !useM3 && num('l') && num('w') && num('h') ? { l: num('l'), w: num('w'), h: num('h') } : undefined;
+      const m3 = useM3 ? num('m3') : undefined;
+      if (mode !== 'rail' && kg <= 0) { body.hidden = true; empty.hidden = false; return; }
+
+      const e = estimate({ mode, kg, dims, m3, category, container }, T);
+      const r = formatBreakdown(e, lang, i18n.b, T);
+      el('total')!.textContent = r.total;
+      el('som')!.textContent = r.totalSom;
+      el('rule')!.textContent = r.rule;
+      el('rows')!.innerHTML = r.rows.map((row) => `<div class="row"><dt>${row.label}</dt><dd>${row.value}</dd></div>`).join('');
+      el('notes')!.innerHTML = r.notes.map((n) => `<li>${n}</li>`).join('');
+
+      const volText = e.mode === 'rail' ? i18n.b.containers[container]
+        : useM3 && m3 ? `${fmtNumber(m3, lang)} ${i18n.b.units.m3}`
+        : dims ? `${fmtNumber(dims.l, lang)} × ${fmtNumber(dims.w, lang)} × ${fmtNumber(dims.h, lang)} ${i18n.b.units.cm}`
+        : i18n.draftNoVolume;
+      const draft = e.mode === 'rail'
+        ? sub(i18n.draftRail, { container: i18n.b.containers[container], total: r.total })
+        : sub(i18n.draft, { mode: i18n.b.modes[e.mode], kg: fmtNumber(kg, lang), volume: volText, category: i18n.b.categories[category], total: r.total });
+      el('draft')!.textContent = draft;
+      el<HTMLAnchorElement>('tg')!.href = `${tgBase}?text=${encodeURIComponent(draft)}`;
+      body.hidden = false; empty.hidden = true;
+    }
+
+    form.addEventListener('input', render);
+    form.addEventListener('change', render);
+    form.addEventListener('submit', (ev) => { ev.preventDefault(); render(); (body.hidden ? empty : body).scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+    render();
+  }
+
+  document.querySelectorAll<HTMLFormElement>('form[data-calc]').forEach(init);
+</script>

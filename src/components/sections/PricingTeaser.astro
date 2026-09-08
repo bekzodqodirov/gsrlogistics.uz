@@ -1,0 +1,104 @@
+---
+/**
+ * Home "05 — Narxlar" (DESIGN_BRIEF §3.6): rule lines + worked example on the left, three price
+ * tiles (avto / avia / LCL) from tariffs.json on the right with the calculator CTA.
+ * Pass `calculator` to embed the live Calculator card instead of the tiles. Props: { lang, calculator? }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { pricingStrings, tpl } from '@/i18n/pricing';
+import { pagePath } from '@/i18n/routes';
+import { fmtDate, fmtNumber } from '@/lib/format';
+import type { Tariffs } from '@/lib/pricing';
+import tariffs from '@/data/tariffs.json';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Calculator from '@/components/Calculator.astro';
+
+interface Props { lang: Lang; calculator?: boolean }
+const { lang, calculator = false } = Astro.props;
+const t = pick(lang, pricingStrings);
+const c = common[lang];
+const T = tariffs as unknown as Tariffs;
+const n = (v: number, f = 2) => fmtNumber(v, lang, f);
+const ladder = T.truck.ladderPerKg;
+const vars = { threshold: n(T.truck.densityThresholdKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0) };
+const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(T.updated, lang)}`;
+const range = (a: number[]) => `${n(a[0], 0)}–${n(a[1], 0)} ${t.breakdown.units.days}`;
+const tiles = [
+  { icon: 'truck', label: t.teaser.tiles.truck, value: n(ladder[ladder.length - 1].rate), unit: t.teaser.perKgFrom, days: range(T.truck.days) },
+  { icon: 'plane', label: t.teaser.tiles.air, value: n(T.air.perKg.standard), unit: t.teaser.perKgFrom, days: range(T.air.days) },
+  { icon: 'cube', label: t.teaser.tiles.lcl, value: n(T.truck.lclPerM3ByDensity[0].rate, 0), unit: t.teaser.perM3From, days: range(T.truck.days) },
+] as const;
+---
+<section id="narxlar" class="section teaser below-fold" aria-labelledby="pricing-title">
+  <div class="container grid">
+    <div class="copy">
+      <Eyebrow>{t.teaser.eyebrow}</Eyebrow>
+      <h2 id="pricing-title" class="measure-head">{t.teaser.h2}</h2>
+      <ul class="rules" role="list">
+        {t.teaser.rules.map((r) => <li>{tpl(r, vars)}</li>)}
+      </ul>
+      <p class="example tnum">{t.teaser.example}</p>
+      <a href={pagePath(lang, 'pricing')} class="link">{t.teaser.allRates}</a>
+    </div>
+
+    <div class="panel dotgrid">
+      {calculator ? (
+        <Calculator lang={lang} id="home-calc" />
+      ) : (
+        <div class="tiles-card">
+          <ul class="tiles" role="list">
+            {tiles.map((x, i) => (
+              <li class="tile reveal" style={`--reveal-delay:${i * 60}ms`}>
+                <span class="tile-glyph"><Icon name={x.icon} size={20} /></span>
+                <p class="tile-label">{x.label}</p>
+                <p class="tile-value"><span class="stat tnum">{x.value}</span><span class="num-unit">{x.unit}</span></p>
+                <p class="caption tile-days tnum">{c.strings.approx} {x.days}</p>
+              </li>
+            ))}
+          </ul>
+          <p class="caption meta">{estimateMeta}</p>
+          <div class="mini-cta">
+            <p class="mini-text">{t.teaser.ctaText}</p>
+            <Button href={pagePath(lang, 'calculator')} variant="primary" icon="calculator">{t.teaser.cta}</Button>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .teaser { background: var(--bg-2); }
+  .grid { display: grid; gap: clamp(32px, 4vw, 56px); align-items: start; }
+  .copy { display: grid; gap: 16px; align-content: start; }
+  .rules { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 12px; color: var(--fg-2); max-width: 46ch; }
+  .rules li { padding-left: 20px; position: relative; text-wrap: pretty; }
+  .rules li::before { content: ''; position: absolute; left: 0; top: 11px; width: 10px; height: 1.5px; background: var(--fg); }
+  .example { font-size: var(--text-small); color: var(--muted); }
+  .panel { border-radius: var(--radius-xl); padding: clamp(8px, 2vw, 24px); }
+  .tiles-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-xl); padding: clamp(20px, 2.4vw, 32px); box-shadow: var(--shadow-ring); display: grid; gap: 20px; }
+  .tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .tile { display: grid; gap: 6px; align-content: start; padding: 16px; border: 1px solid var(--border-soft); border-radius: var(--radius-lg); min-width: 0; }
+  .tile-glyph { color: var(--fg); margin-bottom: 4px; }
+  .tile-label { font-size: var(--text-small); font-weight: 500; color: var(--fg-2); min-height: 2.6em; }
+  .tile-value { display: flex; align-items: baseline; flex-wrap: wrap; }
+  .tile-value .stat { font-size: clamp(1.75rem, 1.5vw + 1rem, 2.5rem); letter-spacing: -0.03em; }
+  .mini-cta { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid var(--border-soft); }
+  .mini-text { font-size: var(--text-small); color: var(--muted); max-width: 40ch; }
+  @media (min-width: 1000px) {
+    .grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .copy { position: sticky; top: calc(var(--header-h) + 24px); }
+  }
+  @media (max-width: 640px) {
+    .tiles { grid-template-columns: 1fr; }
+    .tile { grid-template-columns: 20px 1fr; column-gap: 12px; align-items: center; }
+    .tile-glyph { grid-row: span 3; margin: 0; }
+    .tile-label { min-height: 0; }
+    .mini-cta { flex-direction: column; align-items: stretch; }
+    .mini-cta :global(.btn) { width: 100%; }
+  }
+</style>

@@ -60,8 +60,8 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 .prose h3 { margin-top: 1.8em; margin-bottom: 0.5em; font-size: var(--text-h4); }
 .prose ul, .prose ol { padding-left: 1.4em; }
 .prose li + li { margin-top: 0.4em; }
-.prose a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-.prose a:hover { color: var(--accent-hover); }
+.prose a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-color: var(--border); }
+.prose a:hover { text-decoration-color: var(--fg); }
 .prose strong { font-weight: 600; }
 .prose blockquote { border-left: 3px solid var(--accent); padding-left: 1em; color: var(--fg-2); }
 .prose table { font-size: var(--text-small); }

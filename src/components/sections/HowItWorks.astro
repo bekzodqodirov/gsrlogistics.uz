@@ -1,0 +1,132 @@
+---
+/**
+ * Home "Jarayon": the company's five steps as a numbered <ol> on a straightened route rail
+ * (DESIGN_BRIEF §3.5). Desktop: horizontal 1.5px rail with five hexagon nodes, one step per
+ * column; mobile: vertical rail in the left gutter. The rail draws and nodes fill on a
+ * scroll-driven timeline behind @supports; without support (or with reduced motion) the final
+ * state is static: rail drawn, passed nodes `--fg`, the last node `--accent`.
+ * Props: { lang, index? } — `index` is the section number printed in the eyebrow ("04").
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { processStrings } from '@/i18n/process';
+import { common } from '@/i18n/common';
+import { pagePath } from '@/i18n/routes';
+import { telegramChat } from '@/lib/site';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+
+interface Props { lang: Lang; index?: string }
+const { lang, index = '04' } = Astro.props;
+const t = pick(lang, processStrings);
+const c = common[lang];
+
+/* Original monoline glyphs, 24-unit grid, 1.5 stroke, round caps. */
+const glyphs: Record<string, string> = {
+  chat: '<path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7.5a2.5 2.5 0 0 1-2.5 2.5H10.5L6 20v-3.5h.5A2.5 2.5 0 0 1 4 14z"/><path d="M8.5 9.25h7M8.5 12.25h4.5"/>',
+  exchange: '<path d="M4.5 8h13.5l-3.25-3.25"/><path d="M19.5 16H6l3.25 3.25"/><path d="M11 12h2"/>',
+  contract: '<path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/><path d="m12 10 3 1.75v3.5L12 17l-3-1.75v-3.5L12 10Z"/>',
+  pin: '<path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21Z"/><circle cx="12" cy="10.5" r="2.25"/>',
+  parcel: '<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/><path d="M8 5.25 16 9.75"/>',
+};
+const contactHref = pagePath(lang, 'contact');
+const telegramHref = telegramChat(c.telegramDraft.general);
+---
+<section id="jarayon" class="section process below-fold" aria-labelledby="process-title">
+  <div class="container">
+    <div class="section-head">
+      <Eyebrow>{index} — {t.eyebrow}</Eyebrow>
+      <h2 id="process-title" class="measure-head">{t.h2}</h2>
+      <p class="intro">{t.intro}</p>
+    </div>
+
+    <ol class="steps" role="list" aria-label={t.listLabel}>
+      {t.steps.map((s, i) => (
+        <li class="step reveal" style={`--reveal-delay:${i * 60}ms`}>
+          <span class="node" aria-hidden="true"></span>
+          <div class="body">
+            <div class="top">
+              <svg class="glyph" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={glyphs[s.glyph]}></svg>
+              <span class="idx tnum"><span class="sr-only">{t.stepWord} </span>0{i + 1}</span>
+            </div>
+            <h3 class="title">{s.title}</h3>
+            <p class="text">{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <div class="cta-row">
+      <Button href={contactHref} variant="secondary">{c.cta.sendRequest}</Button>
+      <Button href={telegramHref} variant="ghost" icon="telegram">{c.cta.telegram}</Button>
+    </div>
+    <p class="footnote caption">{t.note}</p>
+  </div>
+</section>
+
+<style>
+  .process { --hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); --node: 12px; --rail-w: 1.5px; }
+  .steps { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: 24px; list-style: none; margin: 0; padding: 0; view-timeline-name: --steps; view-timeline-axis: block; }
+  /* the rail: undrawn track + drawn line */
+  .steps::before, .steps::after { content: ''; position: absolute; pointer-events: none; }
+  .steps::before { left: 0; right: 0; top: calc(var(--node) / 2 - var(--rail-w) / 2); height: var(--rail-w); background: var(--border-soft); }
+  .steps::after { left: 0; right: 0; top: calc(var(--node) / 2 - var(--rail-w) / 2); height: var(--rail-w); background: var(--fg); transform-origin: left center; }
+  .step { position: relative; padding-top: calc(var(--node) + 20px); min-width: 0; }
+  .node { position: absolute; top: 0; left: 0; width: var(--node); height: calc(var(--node) * 1.1); clip-path: var(--hex); background: var(--fg); z-index: 1; }
+  .node::after { content: ''; position: absolute; inset: 2px; clip-path: var(--hex); background: var(--fg); }
+  .step:last-child .node, .step:last-child .node::after { background: var(--accent); }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .glyph { color: var(--fg); flex: none; }
+  .idx { font-size: var(--text-small); font-weight: 500; color: var(--meta); }
+  .title { font-size: 1.25rem; line-height: 1.25; font-weight: 600; letter-spacing: -0.006em; text-wrap: balance; }
+  .text { margin-top: 8px; font-size: 0.9375rem; line-height: 1.5; color: var(--fg-2); text-wrap: pretty; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; margin-top: clamp(32px, 4vw, 48px); }
+  .footnote { margin-top: 12px; max-width: 60ch; }
+
+  /* Scroll-driven draw: rail scales in, nodes go outline → current (red) → passed (fg).
+     `animation-timeline` is declared in rules WITHOUT the `animation` shorthand: the CSS minifier
+     otherwise folds it into the shorthand, which browsers reject. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .steps::after { transform: scaleX(0); animation: rail-x linear both; }
+      .steps.steps::after { animation-timeline: --steps; animation-range: cover 12% cover 46%; }
+      .node { background: var(--border); animation: node-out linear both; }
+      .node::after { background: var(--bg); animation: node-in linear both; }
+      .step:nth-child(1) .node, .step:nth-child(1) .node::after { animation-timeline: --steps; animation-range: cover 6% cover 12%; }
+      .step:nth-child(2) .node, .step:nth-child(2) .node::after { animation-timeline: --steps; animation-range: cover 15% cover 21%; }
+      .step:nth-child(3) .node, .step:nth-child(3) .node::after { animation-timeline: --steps; animation-range: cover 23% cover 29%; }
+      .step:nth-child(4) .node, .step:nth-child(4) .node::after { animation-timeline: --steps; animation-range: cover 32% cover 38%; }
+      .step:nth-child(5) .node, .step:nth-child(5) .node::after { animation-timeline: --steps; animation-range: cover 40% cover 46%; }
+      .step:last-child .node { animation-name: node-out-last; }
+      .step:last-child .node::after { animation-name: node-in-last; }
+      @keyframes rail-x { to { transform: scaleX(1); } }
+      @keyframes node-out { 0% { background: var(--border); } 45% { background: var(--accent); } 100% { background: var(--fg); } }
+      @keyframes node-in { 0% { background: var(--bg); } 45% { background: var(--accent); } 100% { background: var(--fg); } }
+      @keyframes node-out-last { 0% { background: var(--border); } 100% { background: var(--accent); } }
+      @keyframes node-in-last { 0% { background: var(--bg); } 100% { background: var(--accent); } }
+    }
+  }
+
+  @media (max-width: 899px) {
+    .steps { grid-template-columns: 1fr; row-gap: 32px; padding-left: calc(var(--node) + 20px); }
+    .steps::before, .steps::after { top: 0; bottom: 0; left: calc(var(--node) / 2 - var(--rail-w) / 2); right: auto; width: var(--rail-w); height: auto; }
+    .steps::after { transform-origin: center top; }
+    .step { padding-top: 0; }
+    .node { top: 4px; left: calc(-1 * (var(--node) + 20px)); }
+    .top { margin-bottom: 10px; }
+    .text { font-size: var(--text-body); }
+    @supports (animation-timeline: view()) {
+      @media (prefers-reduced-motion: no-preference) {
+        .steps::after { transform: scaleY(0); animation-name: rail-y; }
+        .steps.steps::after { animation-range: cover 8% cover 62%; }
+        .step:nth-child(n) .node, .step:nth-child(n) .node::after { animation-timeline: view(); animation-range: cover 22% cover 32%; }
+        @keyframes rail-y { to { transform: scaleY(1); } }
+      }
+    }
+  }
+  @media (min-width: 900px) and (max-width: 1099px) {
+    .steps { column-gap: 16px; }
+    .title { font-size: 1.125rem; }
+    .text { font-size: var(--text-small); }
+  }
+</style>

@@ -1,0 +1,115 @@
+---
+/**
+ * Tracking page (/kuzatuv/, /ru/otslezhivanie/, /en/tracking/): code form + 6-stage timeline,
+ * status glossary, "where is my code", FAQ and the closing CTA band. Props: { lang }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { tracking, STAGE_KEYS } from '@/i18n/tracking';
+import { faqNode } from '@/lib/schema';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Icon from '@/components/ui/Icon.astro';
+import TrackingForm from '@/components/TrackingForm.astro';
+import CtaBand from '@/components/sections/CtaBand.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang, tracking);
+const c = common[lang];
+const label = c.nav.find((n) => n.key === 'tracking')?.label ?? t.eyebrow;
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'tracking' as const }];
+---
+<Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="tracking" breadcrumbs={breadcrumbs} jsonLd={[faqNode(t.faq.items)]}>
+  <article class="page">
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: label }]} />
+        <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{t.h1}</h1>
+        <p class="intro answer">{t.intro}</p>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="card card-xl form-card dotgrid">
+        <div class="form-inner">
+          <TrackingForm lang={lang} id="track" />
+        </div>
+      </div>
+    </div>
+
+    <div class="container body">
+      <section class="block" id="holatlar" aria-labelledby="gl-h">
+        <h2 id="gl-h">{t.glossary.title}</h2>
+        <p class="para">{t.glossary.intro}</p>
+        <dl class="glossary">
+          {STAGE_KEYS.map((k, i) => (
+            <div class="g-row" id={`holat-${k}`}>
+              <dt><span class="g-idx tnum" aria-hidden="true">0{i + 1}</span><span class="g-name">{t.stages[k].name}</span></dt>
+              <dd>{t.stages[k].text}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section class="block" aria-labelledby="code-h">
+        <h2 id="code-h">{t.whereCode.title}</h2>
+        <p class="para">{t.whereCode.text}</p>
+        <ul class="bullets" role="list">
+          {t.whereCode.items.map((x) => <li><span class="tick"><Icon name="check" size={16} /></span><span>{x}</span></li>)}
+        </ul>
+        <p class="note"><span class="note-glyph"><Icon name="info" size={18} /></span><span>{t.whereCode.note}</span></p>
+      </section>
+
+      <section class="block" aria-labelledby="faq-h">
+        <h2 id="faq-h">{t.faq.title}</h2>
+        <div class="faq">
+          {t.faq.items.map((f) => (
+            <details class="faq-item">
+              <summary>{f.q}</summary>
+              <div class="faq-body"><p>{f.a}</p></div>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <CtaBand lang={lang} />
+  </article>
+</Base>
+
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(32px, 4vw, 48px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { max-width: 66ch; margin-top: 20px; color: var(--muted); }
+  .form-card { padding: clamp(8px, 2vw, 24px); background: var(--bg-2); border-color: transparent; }
+  .form-inner { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: clamp(20px, 3vw, 40px); }
+  .body { padding-top: clamp(40px, 5vw, 64px); padding-bottom: clamp(48px, 6vw, 96px); max-width: calc(var(--container-text) + 2 * var(--gutter)); }
+  .block + .block { margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid var(--border-soft); }
+  .block h2 { font-size: var(--text-h2); max-width: 32ch; margin-bottom: 12px; scroll-margin-top: calc(var(--header-h) + 24px); }
+  .para { color: var(--fg-2); max-width: 70ch; text-wrap: pretty; }
+  .glossary { margin-top: 24px; border-top: 1px solid var(--border-soft); }
+  .g-row { display: grid; gap: 6px; padding: 16px 0; border-bottom: 1px solid var(--border-soft); scroll-margin-top: calc(var(--header-h) + 24px); }
+  .g-row dt { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: var(--text-h4); }
+  .g-idx { font-size: var(--text-small); font-weight: 600; color: var(--accent-text); width: 28px; flex: none; }
+  .g-row dd { margin: 0 0 0 40px; color: var(--fg-2); max-width: 68ch; text-wrap: pretty; }
+  .bullets { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; max-width: 70ch; }
+  .bullets li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; color: var(--fg-2); }
+  .tick { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-2); color: var(--fg); margin-top: 1px; }
+  .note { margin-top: 20px; max-width: 70ch; grid-template-columns: 24px 1fr; }
+  .note-glyph { color: var(--fg); }
+  .faq { margin-top: 16px; max-width: 70ch; }
+  @media (max-width: 640px) {
+    .g-row dt { font-size: var(--text-body); }
+    .g-row dd { margin-left: 0; }
+    .block h2 { font-size: var(--text-h3); }
+  }
+  @media (min-width: 1000px) {
+    .g-row { grid-template-columns: 300px 1fr; gap: 24px; align-items: start; }
+    .g-row dd { margin-left: 0; }
+  }
+</style>

@@ -1,0 +1,431 @@
+---
+/**
+ * Pricing page (/narxlar/, /ru/ceny/, /en/pricing/) — DESIGN_BRIEF §7.3.
+ * Every figure is read from src/data/tariffs.json; worked examples are computed with src/lib/pricing.ts
+ * so the page, the calculator and the tests can never disagree. Props: { lang }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { pricingStrings, tpl, monthYear } from '@/i18n/pricing';
+import { pagePath, pageUrl } from '@/i18n/routes';
+import { services } from '@/data/services';
+import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { fmtDate, fmtNumber, fmtUsd, fmtSom } from '@/lib/format';
+import { faqNode, serviceNode } from '@/lib/schema';
+import { estimateAir, estimateTruck, formatBreakdown, DENSE_DENSITY_FALLBACK, type Tariffs } from '@/lib/pricing';
+import tariffs from '@/data/tariffs.json';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Calculator from '@/components/Calculator.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang, pricingStrings);
+const p = t.page;
+const b = t.breakdown;
+const c = common[lang];
+const T = tariffs as unknown as Tariffs;
+
+/* ---------- Numbers ---------- */
+const n = (v: number, f = 2) => fmtNumber(v, lang, f);
+const usd = (v: number) => fmtUsd(v, lang);
+const perKg = (v: number) => `${usd(v)}${b.units.perKg}`;
+const perM3 = (v: number) => `${usd(v)}${b.units.perM3}`;
+const range = (a: number[]) => `${n(a[0], 0)}–${n(a[1], 0)}`;
+const ladder = T.truck.ladderPerKg;
+const lcl = T.truck.lclPerM3ByDensity;
+const truckFrom = ladder[ladder.length - 1].rate;
+const airFrom = T.air.perKg.standard;
+const lclFrom = lcl[0].rate;
+const month = monthYear(T.updated, lang);
+const updated = fmtDate(T.updated, lang);
+const estimateMeta = `${c.strings.estimateMeta}: ${updated}`;
+const denseDensity = T.truck.densePerKg.minDensityKgM3 ?? DENSE_DENSITY_FALLBACK;
+const vars = {
+  truck: usd(truckFrom), air: usd(airFrom), lcl: usd(lclFrom), month, date: updated,
+  threshold: n(T.truck.densityThresholdKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
+  kgPerM3: n(Math.round(1_000_000 / T.truck.volumetricDivisor), 0), airMin: n(T.air.minKg), minM3: n(T.truck.minM3), insurance: n(T.extras.insurancePct),
+  days: range(T.truck.days), rate: n(T.usdToSom, 0), free: n(T.extras.freeStorageDaysTashkent, 0),
+  door: `${n(T.regions.doorDeliverySom[0], 0)}–${n(T.regions.doorDeliverySom[1], 0)}`, kg: n(T.regions.tashkentDoorFreeFromKg, 0),
+};
+const seoTitle = p.seoTitle;
+const seoDescription = tpl(p.seoDescription, vars);
+const intro = tpl(p.intro, vars);
+
+/* ---------- Tables ---------- */
+const ladderRows = ladder.map((s, i) => {
+  const prev = i > 0 ? ladder[i - 1].maxKg ?? 0 : 0;
+  const label = s.maxKg === null ? tpl(p.truck.from, { a: n(prev, 0) }) : i === 0 ? tpl(p.truck.upTo, { b: n(s.maxKg, 0) }) : tpl(p.truck.between, { a: n(prev, 0), b: n(s.maxKg, 0) });
+  return { label, value: perKg(s.rate) };
+});
+ladderRows.push({ label: tpl(p.truck.dense, { kg: n(T.truck.densePerKg.minKg, 0), density: n(denseDensity, 0) }), value: perKg(T.truck.densePerKg.rate) });
+const lclRows = lcl.map((s, i) => {
+  const prev = i > 0 ? lcl[i - 1].maxKgM3 ?? 0 : 0;
+  const label = s.maxKgM3 === null ? tpl(p.lcl.from, { a: n(prev, 0) }) : i === 0 ? tpl(p.lcl.upTo, { b: n(s.maxKgM3, 0) }) : tpl(p.lcl.between, { a: n(prev, 0), b: n(s.maxKgM3, 0) });
+  return { label, value: perM3(s.rate) };
+});
+const airRows = [
+  { label: p.air.rows.standard, value: perKg(T.air.perKg.standard) },
+  { label: p.air.rows.brand, value: perKg(T.air.perKg.brand) },
+  { label: p.air.rows.commercial, value: perKg(T.air.perKg.commercial) },
+  { label: p.air.rows.battery, value: p.air.truckOnly, muted: true },
+  { label: p.air.rows.liquid, value: p.air.truckOnly, muted: true },
+];
+const railRows = [
+  { label: p.rail.c20, value: `${usd(T.rail.container20ft[0])}–${usd(T.rail.container20ft[1])}` },
+  { label: p.rail.c40, value: `${usd(T.rail.container40ft[0])}–${usd(T.rail.container40ft[1])}` },
+];
+const extrasRows = [
+  { label: p.inclusions.extras.photo, value: `${usd(T.extras.photoReportUsd)} · ${p.inclusions.perReceipt}` },
+  { label: p.inclusions.extras.repack, value: perKg(T.extras.repackPerKg) },
+  { label: p.inclusions.extras.inspection, value: perKg(T.extras.inspectionPerKg) },
+  { label: p.inclusions.extras.insurance, value: `${n(T.extras.insurancePct)} % · ${p.inclusions.ofValue}` },
+  { label: p.inclusions.extras.commission, value: `${n(T.extras.sourcingCommissionPct)} % ${c.strings.from}` },
+  { label: p.inclusions.extras.storageChina, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysChina, 0) }) },
+  { label: p.inclusions.extras.storageTashkent, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysTashkent, 0) }) },
+];
+const tiles = [
+  { label: p.tiles.truck, value: n(truckFrom), unit: p.tiles.fromKg, sub: `${range(T.truck.days)} ${b.units.days}` },
+  { label: p.tiles.air, value: n(airFrom), unit: p.tiles.fromKg, sub: `${range(T.air.days)} ${b.units.days}` },
+  { label: p.tiles.lcl, value: n(lclFrom, 0), unit: p.tiles.fromM3, sub: `${range(T.truck.days)} ${b.units.days}` },
+  { label: p.tiles.rail, value: n(T.rail.container20ft[0], 0), unit: p.tiles.fromContainer, sub: `${range(T.rail.days)} ${b.units.days}` },
+];
+
+/* ---------- Worked examples (computed) ---------- */
+const exampleEstimates = [
+  estimateAir({ kg: 20, dims: { l: 50, w: 40, h: 30 }, category: 'commercial' }, T),
+  estimateTruck({ kg: 300, m3: 1.2, category: 'standard' }, T),
+  estimateTruck({ kg: 180, m3: 2, category: 'standard' }, T),
+];
+const examples = p.examples.items.map((item, i) => ({ ...item, r: formatBreakdown(exampleEstimates[i], lang, b, T) }));
+
+/* ---------- FAQ + JSON-LD ---------- */
+const faq = p.faq.items.map((f) => ({ q: tpl(f.q, vars), a: tpl(f.a, vars) }));
+const pageAbs = pageUrl(site.url, lang, 'pricing');
+const truckService = services.find((s) => s.key === 'truck')!;
+const airService = services.find((s) => s.key === 'air')!;
+const jsonLd: Array<Record<string, unknown>> = [
+  serviceNode(lang, {
+    name: truckService.name[lang], description: truckService.short[lang], url: pageUrl(site.url, lang, 'services', truckService.slug[lang]), serviceType: truckService.name.en,
+    offers: [
+      ...ladder.map((s) => ({ price: s.rate, unitCode: 'KGM' as const, validThrough: T.validThrough, description: s.maxKg === null ? `over ${ladder[ladder.length - 2].maxKg} kg` : `up to ${s.maxKg} kg` })),
+      ...lcl.map((s) => ({ price: s.rate, unitCode: 'MTQ' as const, validThrough: T.validThrough, description: s.maxKgM3 === null ? `density over ${lcl[lcl.length - 2].maxKgM3} kg/m³` : `density up to ${s.maxKgM3} kg/m³` })),
+    ],
+  }),
+  serviceNode(lang, {
+    name: airService.name[lang], description: airService.short[lang], url: pageUrl(site.url, lang, 'services', airService.slug[lang]), serviceType: airService.name.en,
+    offers: (['standard', 'brand', 'commercial'] as const).map((k) => ({ price: T.air.perKg[k], unitCode: 'KGM' as const, validThrough: T.validThrough, description: k })),
+  }),
+  faqNode(faq),
+];
+const pricingLabel = c.nav.find((x) => x.key === 'pricing')?.label ?? p.h1;
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: pricingLabel, key: 'pricing' as const }];
+const ctaDraft = p.cta.draft;
+---
+<Base lang={lang} title={seoTitle} description={seoDescription} pageKey="pricing" breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={T.updated}>
+  <article class="page">
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: pricingLabel }]} />
+        <Eyebrow class="eyebrow-gap">{tpl(p.eyebrow, vars)}</Eyebrow>
+        <h1 class="display-2 measure-head">{p.h1}</h1>
+        <p class="intro answer">{intro}</p>
+        <p class="caption hero-meta"><Icon name="clock" size={14} />{estimateMeta}</p>
+        <div class="cta-row">
+          <Button href={pagePath(lang, 'calculator')} variant="primary">{c.cta.calculate}</Button>
+          <Button href={telegramChat(ctaDraft)} variant="secondary" icon="telegram">{c.cta.telegram}</Button>
+        </div>
+      </div>
+    </header>
+
+    <div class="tiles-wrap">
+      <div class="container">
+        <ul class="tiles" role="list">
+          {tiles.map((x) => (
+            <li class="tile">
+              <p class="tile-value"><span class="tnum">{x.value}</span><span class="num-unit">{x.unit}</span></p>
+              <p class="tile-label">{x.label}</p>
+              <p class="caption tile-sub tnum">{c.strings.approx} {x.sub}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="container body">
+      <!-- Truck -->
+      <section class="block" id="tariflar" aria-labelledby="truck-h">
+        <h2 id="truck-h">{p.truck.title}</h2>
+        <p class="para">{p.truck.intro}</p>
+        <figure class="tbl">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th scope="col">{p.truck.head[0]}</th><th scope="col" class="num">{p.truck.head[1]}</th></tr></thead>
+              <tbody>{ladderRows.map((r) => <tr><th scope="row">{r.label}</th><td class="num">{r.value}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <figcaption class="caption tbl-meta">{estimateMeta}</figcaption>
+        </figure>
+        <p class="para small-note">{tpl(p.truck.note, { divisor: n(T.truck.volumetricDivisor, 0) })}</p>
+        <p class="para small-note">{tpl(p.truck.days, { days: range(T.truck.days), express: range(T.truck.expressDays) })}</p>
+      </section>
+
+      <!-- LCL -->
+      <section class="block" aria-labelledby="lcl-h">
+        <h2 id="lcl-h">{p.lcl.title}</h2>
+        <p class="para">{tpl(p.lcl.intro, vars)}</p>
+        <figure class="tbl">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th scope="col">{p.lcl.head[0]}</th><th scope="col" class="num">{p.lcl.head[1]}</th></tr></thead>
+              <tbody>{lclRows.map((r) => <tr><th scope="row">{r.label}</th><td class="num">{r.value}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <figcaption class="caption tbl-meta">{estimateMeta}</figcaption>
+        </figure>
+        <p class="para small-note">{tpl(p.lcl.note, vars)}</p>
+      </section>
+
+      <!-- Air -->
+      <section class="block" aria-labelledby="air-h">
+        <h2 id="air-h">{p.air.title}</h2>
+        <p class="para">{tpl(p.air.intro, { divisor: n(T.air.volumetricDivisor, 0) })}</p>
+        <figure class="tbl">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th scope="col">{p.air.head[0]}</th><th scope="col" class="num">{p.air.head[1]}</th></tr></thead>
+              <tbody>{airRows.map((r) => <tr><th scope="row">{r.label}</th><td class:list={['num', r.muted && 'is-muted']}>{r.value}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <figcaption class="caption tbl-meta">{estimateMeta}</figcaption>
+        </figure>
+        <p class="para small-note">{tpl(p.air.note, { minKg: n(T.air.minKg), days: range(T.air.days) })}</p>
+      </section>
+
+      <!-- Rail -->
+      <section class="block" aria-labelledby="rail-h">
+        <h2 id="rail-h">{p.rail.title}</h2>
+        <p class="para">{p.rail.intro}</p>
+        <figure class="tbl">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th scope="col">{p.rail.head[0]}</th><th scope="col" class="num">{p.rail.head[1]}</th></tr></thead>
+              <tbody>{railRows.map((r) => <tr><th scope="row">{r.label}</th><td class="num">{r.value}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <figcaption class="caption tbl-meta">{estimateMeta}</figcaption>
+        </figure>
+        <p class="para small-note">{tpl(p.rail.note, { days: range(T.rail.days) })}</p>
+      </section>
+
+      <!-- Rules + examples -->
+      <section class="block" aria-labelledby="rules-h">
+        <h2 id="rules-h">{p.rules.title}</h2>
+        <div class="rules">
+          <div class="rule-card">
+            <span class="rule-glyph"><Icon name="cube" size={24} /></span>
+            <h3 class="rule-title">{p.rules.formula}</h3>
+            <p class="rule-text">{tpl(p.rules.formulaLine, vars)}</p>
+          </div>
+          <div class="rule-card">
+            <span class="rule-glyph"><Icon name="scale" size={24} /></span>
+            <h3 class="rule-title">{p.rules.density}</h3>
+            <p class="rule-text">{tpl(p.rules.densityLine, vars)}</p>
+          </div>
+        </div>
+        <p class="para">{p.rules.chargeable}</p>
+
+        <h3 class="examples-title">{p.examples.title}</h3>
+        <p class="para">{p.examples.intro}</p>
+        <ol class="examples" role="list">
+          {examples.map((ex, i) => (
+            <li class="example">
+              <p class="ex-index tnum" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+              <h4 class="ex-title">{ex.title}</h4>
+              <p class="ex-input"><span class="ex-label">{p.examples.inputLabel}:</span> <span class="tnum">{ex.input}</span></p>
+              <p class="ex-rule">{ex.r.rule}</p>
+              <p class="ex-total"><span class="stat">{ex.r.total}</span></p>
+              <p class="ex-som tnum">{ex.r.totalSom} · {c.strings.approx} {ex.r.days}</p>
+              {ex.r.notes.length > 0 && <ul class="ex-notes" role="list">{ex.r.notes.map((note) => <li>{note}</li>)}</ul>}
+            </li>
+          ))}
+        </ol>
+        <p class="caption">{estimateMeta}</p>
+      </section>
+
+      <!-- Inclusions -->
+      <section class="block" aria-labelledby="incl-h">
+        <h2 id="incl-h">{p.inclusions.title}</h2>
+        <div class="two-lists">
+          <div>
+            <h3 class="list-title">{p.inclusions.includedTitle}</h3>
+            <ul class="bullets" role="list">{p.inclusions.included.map((x) => <li><span class="tick"><Icon name="check" size={16} /></span><span>{x}</span></li>)}</ul>
+          </div>
+          <div>
+            <h3 class="list-title">{p.inclusions.excludedTitle}</h3>
+            <ul class="bullets" role="list">{p.inclusions.excluded.map((x) => <li><span class="tick dash" aria-hidden="true"></span><span>{x}</span></li>)}</ul>
+          </div>
+        </div>
+        <h3 class="extras-title">{p.inclusions.extrasTitle}</h3>
+        <figure class="tbl">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th scope="col">{p.inclusions.head[0]}</th><th scope="col" class="num">{p.inclusions.head[1]}</th></tr></thead>
+              <tbody>{extrasRows.map((r) => <tr><th scope="row">{r.label}</th><td class="num">{r.value}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <figcaption class="caption tbl-meta">{estimateMeta}</figcaption>
+        </figure>
+      </section>
+
+      <!-- Regions + payment -->
+      <section class="block" aria-labelledby="regions-h">
+        <h2 id="regions-h">{p.regions.title}</h2>
+        <p class="para">{tpl(p.regions.text, vars)}</p>
+      </section>
+      <section class="block" aria-labelledby="pay-h">
+        <h2 id="pay-h">{p.payment.title}</h2>
+        {p.payment.paragraphs.map((x) => <p class="para">{tpl(x, vars)}</p>)}
+      </section>
+
+      <!-- How prices form -->
+      <section class="block" aria-labelledby="how-h">
+        <h2 id="how-h">{p.how.title}</h2>
+        {p.how.paragraphs.map((x) => <p class="para">{tpl(x, vars)}</p>)}
+        <p class="caption sources">{tpl(p.sources, vars)}</p>
+      </section>
+    </div>
+
+    <!-- Calculator -->
+    <section class="section calc-band below-fold" aria-labelledby="calc-h">
+      <div class="container">
+        <div class="section-head">
+          <Eyebrow>{c.nav.find((x) => x.key === 'calculator')?.label}</Eyebrow>
+          <h2 id="calc-h">{p.calcTitle}</h2>
+          <p class="intro">{p.calcIntro}</p>
+        </div>
+        <div class="calc-holder dotgrid">
+          <Calculator lang={lang} id="pricing-calc" />
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq below-fold" aria-labelledby="faq-h">
+      <div class="container container-text">
+        <h2 id="faq-h" class="faq-title">{p.faq.title}</h2>
+        <div class="faq-list">
+          {faq.map((f) => (
+            <details class="faq-item">
+              <summary>{f.q}</summary>
+              <div class="faq-body"><p>{f.a}</p></div>
+            </details>
+          ))}
+        </div>
+        <p class="faq-more"><a href={pagePath(lang, 'faq')} class="link">{c.nav.find((x) => x.key === 'faq')?.label ?? c.cta.all}</a></p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section dark noise cta below-fold" aria-labelledby="cta-h">
+      <div class="container">
+        <Eyebrow>{p.cta.eyebrow}</Eyebrow>
+        <h2 id="cta-h" class="display-2 measure-head cta-h2">{p.cta.title}</h2>
+        <p class="intro cta-text">{p.cta.text}</p>
+        <div class="cta-row">
+          <Button href={telegramChat(ctaDraft)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+          <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
+        </div>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{site.hours[lang]}</span></p>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(40px, 5vw, 64px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { max-width: 66ch; margin-top: 20px; color: var(--muted); }
+  .hero-meta { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+  .tiles-wrap { background: var(--bg-3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
+  .tile { padding: 24px 24px 20px 0; display: grid; gap: 6px; min-width: 0; }
+  .tile + .tile { border-left: 1px solid var(--border-soft); padding-left: 24px; }
+  .tile-value { display: flex; align-items: baseline; flex-wrap: wrap; font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; color: var(--fg); }
+  .tile-label { font-size: var(--text-small); font-weight: 500; color: var(--fg-2); }
+  .tile-sub { margin-top: -2px; }
+
+  .body { padding-top: clamp(40px, 5vw, 72px); padding-bottom: clamp(40px, 5vw, 72px); max-width: calc(var(--container-text) + 2 * var(--gutter)); }
+  .block + .block { margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid var(--border-soft); }
+  .block h2 { font-size: var(--text-h2); max-width: 32ch; margin-bottom: 16px; scroll-margin-top: calc(var(--header-h) + 16px); }
+  .para { color: var(--fg-2); max-width: 70ch; text-wrap: pretty; }
+  .para + .para { margin-top: 0.9em; }
+  .small-note { font-size: var(--text-small); color: var(--muted); margin-top: 12px; }
+  .small-note + .small-note { margin-top: 6px; }
+  .tbl { margin: 24px 0 0; }
+  .tbl .table { border: 1px solid var(--border-soft); border-radius: var(--radius); overflow: hidden; }
+  .tbl .table tbody th { font-weight: 500; color: var(--fg); text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+  .tbl .table tbody tr:last-child th { border-bottom: 0; }
+  .tbl .table td.num { color: var(--fg); }
+  .tbl .table td.is-muted { color: var(--muted); font-weight: 500; }
+  .tbl-meta { margin-top: 10px; }
+
+  .rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 20px 0 20px; }
+  .rule-card { border: 1px solid var(--border-soft); border-radius: var(--radius-lg); padding: 20px; display: grid; gap: 8px; align-content: start; }
+  .rule-glyph { color: var(--fg); }
+  .rule-title { font-size: var(--text-h4); font-weight: 600; }
+  .rule-text { color: var(--fg-2); font-size: var(--text-small); text-wrap: pretty; }
+  .examples-title { font-size: var(--text-h3); margin-top: 36px; margin-bottom: 8px; }
+  .examples { list-style: none; margin: 20px 0 16px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .example { border: 1px solid var(--border-soft); border-radius: var(--radius-lg); padding: 20px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+  .ex-index { font-size: var(--text-small); font-weight: 600; color: var(--accent-text); }
+  .ex-title { font-size: var(--text-h4); font-weight: 600; }
+  .ex-input { font-size: var(--text-small); color: var(--fg-2); }
+  .ex-label { color: var(--muted); }
+  .ex-rule { font-size: var(--text-caption); color: var(--muted); line-height: 1.4; }
+  .ex-total .stat { font-size: clamp(1.75rem, 1.5vw + 1rem, 2.25rem); letter-spacing: -0.025em; overflow-wrap: anywhere; }
+  .ex-som { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); }
+  .ex-notes { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; font-size: var(--text-caption); color: var(--muted); }
+  .ex-notes li { padding-left: 12px; position: relative; }
+  .ex-notes li::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 1px; background: var(--meta); }
+
+  .two-lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 8px; }
+  .list-title { font-size: var(--text-h4); font-weight: 600; margin-bottom: 12px; }
+  .bullets { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .bullets li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; color: var(--fg-2); }
+  .tick { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-2); color: var(--fg); margin-top: 1px; }
+  .tick.dash::before { content: ''; width: 10px; height: 1.5px; background: var(--muted); }
+  .extras-title { font-size: var(--text-h4); font-weight: 600; margin-top: 32px; }
+  .sources { margin-top: 16px; }
+
+  .calc-band { background: var(--bg-2); }
+  .calc-holder { border-radius: var(--radius-xl); padding: clamp(8px, 2vw, 24px); }
+  .faq { padding-top: clamp(48px, 6vw, 96px); }
+  .faq-title { font-size: var(--text-h2); margin-bottom: 16px; }
+  .faq-more { margin-top: 24px; }
+  .cta { padding-block: clamp(96px, 10vw, 128px); }
+  .cta-h2 { margin-top: 16px; }
+  .cta-text { max-width: 56ch; margin-top: 16px; color: var(--muted); }
+  .cta-meta { margin-top: 16px; color: var(--muted); }
+  .cta-meta a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 899px) {
+    .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile { padding: 18px 16px 16px 0; }
+    .tile + .tile { border-left: 0; padding-left: 0; }
+    .tile:nth-child(even) { border-left: 1px solid var(--border-soft); padding-left: 16px; }
+    .tile:nth-child(n + 3) { border-top: 1px solid var(--border-soft); }
+    .tile-value { font-size: 1.5rem; }
+    .cta-row { flex-direction: column; }
+    .cta-row :global(.btn) { width: 100%; }
+    .block h2 { font-size: var(--text-h3); }
+    .rules, .examples, .two-lists { grid-template-columns: 1fr; }
+  }
+</style>

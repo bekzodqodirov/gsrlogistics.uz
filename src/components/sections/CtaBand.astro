@@ -1,0 +1,75 @@
+---
+/**
+ * Closing dark CTA band (DESIGN_BRIEF §3.9 without the form): headline, Telegram + call buttons,
+ * address line. `number` prefixes the eyebrow on the home page ("08"). Props: { lang, number?, id? }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { contact } from '@/i18n/contact';
+import { pagePath } from '@/i18n/routes';
+import { site, phoneUrl, telegramChat } from '@/lib/site';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+import Logo from '@/components/ui/Logo.astro';
+
+interface Props { lang: Lang; number?: string; id?: string }
+const { lang, number, id = 'aloqa' } = Astro.props;
+const t = pick(lang, contact).cta;
+const c = common[lang];
+const eyebrow = number ? `${number} — ${t.eyebrow}` : t.eyebrow;
+---
+<section id={id} class="section dark noise cta below-fold" aria-labelledby={`${id}-h`}>
+  <div class="container">
+    <Eyebrow>{eyebrow}</Eyebrow>
+    <div class="cta-grid">
+      <div class="copy">
+        <div class="lock" aria-hidden="true"><span class="lock-line"></span><Logo variant="mark" size={28} /></div>
+        <h2 id={`${id}-h`} class="display-2 measure-head">{t.h2}</h2>
+        <p class="intro cta-text">{t.text}</p>
+        <div class="cta-row">
+          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram">{t.telegram}</Button>
+          <Button href={phoneUrl} variant="secondary" icon="phone">{t.call}</Button>
+        </div>
+      </div>
+      <dl class="addr-card">
+        <div class="addr-row">
+          <dt>{t.addressLabel}</dt>
+          <dd><address class="addr">{site.address[lang]}</address><a class="link map-link" href={pagePath(lang, 'contact')}>{c.strings.viewOnMap}</a></dd>
+        </div>
+        <div class="addr-row">
+          <dt>{t.hoursLabel}</dt>
+          <dd class="tnum">{site.hours[lang]}</dd>
+        </div>
+        <div class="addr-row">
+          <dt>{c.header.phoneLabel}</dt>
+          <dd><a href={phoneUrl} class="tnum phone">{site.phoneDisplay}</a></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { padding-block: clamp(96px, 10vw, 128px); }
+  .cta-grid { display: grid; gap: 40px; margin-top: 16px; }
+  .lock { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .lock-line { width: 48px; height: 1px; background: var(--accent-text); }
+  .cta-text { max-width: 56ch; margin-top: 16px; color: var(--muted); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .addr-card { display: grid; gap: 0; align-self: end; border: 1px solid rgb(255 255 255 / 0.1); border-radius: var(--radius-lg); background: var(--card); padding: 8px 24px; margin: 0; }
+  .addr-row { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 14px 0; border-top: 1px solid rgb(255 255 255 / 0.08); }
+  .addr-row:first-child { border-top: 0; }
+  .addr-row dt { font-size: var(--text-small); font-weight: 500; color: var(--muted); padding-top: 2px; }
+  .addr-row dd { margin: 0; color: var(--fg); }
+  .addr { font-style: normal; }
+  .map-link { margin-top: 6px; font-size: var(--text-small); }
+  .phone { font-weight: 600; }
+  .phone:hover { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 899px) {
+    .cta-row { flex-direction: column; }
+    .cta-row :global(.btn) { width: 100%; }
+  }
+  @media (max-width: 480px) { .addr-row { grid-template-columns: 1fr; gap: 4px; } }
+  @media (min-width: 1000px) { .cta-grid { grid-template-columns: 7fr 5fr; align-items: end; gap: 64px; } }
+</style>

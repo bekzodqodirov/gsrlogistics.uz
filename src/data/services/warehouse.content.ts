@@ -51,7 +51,7 @@ const content: ServiceContentByLang = {
           { title: 'Tashqi koʻrik va foto', text: 'Quti tashqaridan koʻrikdan oʻtkaziladi: ezilgan, hoʻl yoki ochilgan boʻlsa, darhol suratga olib xabar beramiz. Har qabulda tarozi va yorliq surati Telegramga keladi.' },
           { title: 'Ochib tekshirish (ixtiyoriy)', text: 'Soʻrovingiz boʻyicha qutini ochamiz: tovarni sanaymiz, model, rang va oʻlchamni buyurtma bilan solishtiramiz, koʻrinib turgan nuqsonlarni suratga olamiz. Narxi 1 $/kg, tafsilotli foto-hisobot — har bir joy uchun 1 $.' },
           { title: 'Qaror sizniki', text: 'Foto-hisobotni koʻrib, yukni joʻnatish, qayta qadoqlash yoki nuqson boʻlsa, sotuvchiga qaytarish haqida siz qaror qilasiz. Sotuvchi bilan biz oʻzimiz xitoy tilida gaplashamiz.' },
-          { title: 'Konsolidatsiya', text: 'Tayyor joylar sizning yuk kodingiz ostida bitta partiyaga jamlanadi va eng yaqin fura yoki konteynerga yuklanadi. Sizga partiya raqami va joʻnatilgan sana yuboriladi.' },
+          { title: 'Konsolidatsiya', text: 'Tayyor joylar yuk kodingiz ostida bitta partiyaga jamlanadi va eng yaqin fura yoki konteynerga yuklanadi. Sizga partiya raqami va joʻnatilgan sana yuboriladi.' },
         ],
       },
       {

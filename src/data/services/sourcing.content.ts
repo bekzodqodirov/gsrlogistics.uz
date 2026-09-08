@@ -22,7 +22,7 @@ const content: ServiceContentByLang = {
       facts: [
         { label: 'Komissiya, buyurtma summasidan', value: '3% dan' },
         { label: 'Jarayon', value: '5 bosqich' },
-        { label: 'Menejer tillari', value: 'oʻzbek · rus · xitoy' },
+        { label: 'Menejer tillari: oʻzbek, rus, xitoy', value: '3 til' },
         { label: 'Toshkentgacha, avto', value: '15–25 kun' },
       ],
     },
@@ -178,7 +178,7 @@ const content: ServiceContentByLang = {
       facts: [
         { label: 'Комиссия от суммы заказа', value: 'от 3%' },
         { label: 'Процесс', value: '5 этапов' },
-        { label: 'Языки менеджеров', value: 'узбекский · русский · китайский' },
+        { label: 'Языки менеджеров: узбекский, русский, китайский', value: '3 языка' },
         { label: 'До Ташкента, авто', value: '15–25 дней' },
       ],
     },
@@ -334,7 +334,7 @@ const content: ServiceContentByLang = {
       facts: [
         { label: 'Commission on order value', value: 'from 3%' },
         { label: 'Process', value: '5 stages' },
-        { label: 'Manager languages', value: 'Uzbek · Russian · Chinese' },
+        { label: 'Manager languages: Uzbek, Russian, Chinese', value: '3 languages' },
         { label: 'To Tashkent by truck', value: '15–25 days' },
       ],
     },

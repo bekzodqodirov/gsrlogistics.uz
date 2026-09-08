@@ -1,0 +1,200 @@
+---
+/**
+ * FAQ page (/savol-javob/, /ru/faq/, /en/faq/): grouped <details> lists, a sticky group nav on
+ * desktop, FAQPage JSON-LD for every question, an answer-first intro and a closing CTA band.
+ * All questions/answers come from src/data/faq.ts (numbers from tariffs.json). Props: { lang }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { faqStrings, faqTpl } from '@/i18n/faq';
+import { faq, faqItems } from '@/data/faq';
+import { pagePath } from '@/i18n/routes';
+import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
+import { faqNode } from '@/lib/schema';
+import tariffs from '@/data/tariffs.json';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Button from '@/components/ui/Button.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang, faqStrings);
+const c = common[lang];
+const groups = faq[lang];
+const all = faqItems(lang);
+const ladder = tariffs.truck.ladderPerKg;
+const truckFrom = ladder[ladder.length - 1].rate;
+const vars = {
+  count: all.length,
+  truckDays: `${fmtNumber(tariffs.truck.days[0], lang)}–${fmtNumber(tariffs.truck.days[1], lang)}`,
+  airDays: `${fmtNumber(tariffs.air.days[0], lang)}–${fmtNumber(tariffs.air.days[1], lang)}`,
+  truckFrom: lang === 'en' ? `$${truckFrom.toFixed(2)}` : fmtUsd(truckFrom, lang),
+  date: fmtDate(tariffs.updated, lang),
+};
+const intro = faqTpl(t.intro, vars);
+const priceMeta = faqTpl(t.priceMeta, vars);
+const faqLabel = c.nav.find((n) => n.key === 'faq')?.label ?? t.eyebrow;
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: faqLabel, key: 'faq' as const }];
+const telegramHref = telegramChat(c.telegramDraft.general);
+
+/* Original monoline glyphs (24 grid, 1.5 stroke) — one per group, in data order. */
+const glyphs = [
+  '<rect x="3.5" y="6.5" width="17" height="12" rx="2.5"/><path d="M3.5 10.5h17M15.5 14.5h2"/>',
+  '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  '<path d="m12 3.5 7.5 4.25v8.5L12 20.5l-7.5-4.25v-8.5L12 3.5Z"/><path d="m4.5 7.75 7.5 4.25 7.5-4.25M12 12v8.5"/>',
+  '<path d="M6.5 20.5h11M9 17h6v-2.5a3.5 3.5 0 0 0-1.75-3V7a1.25 1.25 0 0 0-2.5 0v4.5A3.5 3.5 0 0 0 9 14.5V17Z"/>',
+  '<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/><path d="M8 10.5h5M10.5 8v5"/>',
+  '<path d="M12 3.5 5.5 6v6c0 4.25 2.75 7.25 6.5 8.5 3.75-1.25 6.5-4.25 6.5-8.5V6L12 3.5Z"/><path d="m9.25 12 2 2 3.75-4"/>',
+];
+let n = 0;
+---
+<Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="faq" breadcrumbs={breadcrumbs} jsonLd={[faqNode(all)]} dateModified={tariffs.updated}>
+  <article class="page">
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: faqLabel }]} />
+        <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{t.h1}</h1>
+        <p class="intro answer">{intro}</p>
+        <p class="caption tnum meta-line">{priceMeta}</p>
+      </div>
+    </header>
+
+    <div class="container layout">
+      <nav class="groupnav" aria-label={t.navLabel}>
+        <p class="caption navtitle">{t.navTitle}</p>
+        <ol role="list">
+          {groups.map((g, i) => (
+            <li>
+              <a href={`#${g.id}`} data-group={g.id}>
+                <svg class="glyph" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={glyphs[i % glyphs.length]}></svg>
+                <span class="label">{g.group}</span>
+                <span class="count tnum" aria-hidden="true">{g.items.length}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <div class="groups">
+        {groups.map((g, gi) => (
+          <section class="group" id={g.id} aria-labelledby={`${g.id}-h`}>
+            <div class="group-head">
+              <h2 id={`${g.id}-h`} class="h2">{g.group}</h2>
+              <p class="caption tnum">{g.items.length} {t.questionsWord}</p>
+            </div>
+            <div class="faq-list">
+              {g.items.map((it) => {
+                n += 1;
+                const id = `q${n}`;
+                return (
+                  <details class="faq-item" id={id}>
+                    <summary><span class="q">{it.q}</span></summary>
+                    <div class="faq-body"><p>{it.a}</p></div>
+                  </details>
+                );
+              })}
+            </div>
+            {gi === 0 && <p class="caption tnum group-meta">{priceMeta}</p>}
+          </section>
+        ))}
+      </div>
+    </div>
+
+    <section class="section dark cta" aria-labelledby="faq-cta-h">
+      <div class="container">
+        <Eyebrow>{c.nav.find((x) => x.key === 'contact')?.label}</Eyebrow>
+        <h2 id="faq-cta-h" class="display-2 measure-head">{t.cta.title}</h2>
+        <p class="intro cta-text">{t.cta.text}</p>
+        <div class="cluster cta-row">
+          <Button href={telegramHref} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+          <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
+          <a class="link" href={pagePath(lang, 'calculator')}>{c.cta.calculate}</a>
+        </div>
+        <p class="caption tnum cta-meta">{site.phoneDisplay} · {site.hours[lang]}</p>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<script>
+  // Progressive enhancement only: open the question a hash points to, and highlight the group in view.
+  const openHash = () => {
+    const id = location.hash.slice(1);
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (el instanceof HTMLDetailsElement) { el.open = true; el.scrollIntoView({ block: 'start' }); }
+  };
+  openHash();
+  window.addEventListener('hashchange', openHash);
+
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.groupnav a[data-group]'));
+  const sections = links.map((a) => document.getElementById(a.dataset.group!)).filter((s): s is HTMLElement => Boolean(s));
+  if (links.length && sections.length) {
+    const setActive = (id: string) => links.forEach((a) => { const on = a.dataset.group === id; a.classList.toggle('is-active', on); if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const line = window.scrollY + window.innerHeight * 0.3;
+      let current = sections[0].id;
+      for (const s of sections) if (s.offsetTop <= line) current = s.id;
+      setActive(current);
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+</script>
+
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { margin-top: 20px; max-width: 62ch; }
+  .meta-line { margin-top: 16px; }
+
+  .layout { display: grid; gap: 32px; padding-bottom: clamp(48px, 6vw, 96px); }
+  @media (min-width: 1000px) { .layout { grid-template-columns: 260px minmax(0, 1fr); gap: 64px; align-items: start; } }
+
+  /* Group nav: sticky rail on desktop, horizontally scrolling chip row on mobile. */
+  .groupnav ol { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
+  .groupnav ol::-webkit-scrollbar { display: none; }
+  .navtitle { display: none; }
+  .groupnav a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius-pill); font-size: var(--text-small); font-weight: 500; color: var(--fg-2); white-space: nowrap; transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease); }
+  .groupnav a:hover { border-color: var(--meta); }
+  .groupnav a.is-active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .groupnav .glyph { display: none; }
+  .groupnav .count { color: var(--meta); font-weight: 500; }
+  .groupnav a.is-active .count { color: color-mix(in oklab, var(--bg), transparent 30%); }
+  @media (min-width: 1000px) {
+    .groupnav { position: sticky; top: calc(var(--header-h) + 24px); }
+    .navtitle { display: block; margin-bottom: 12px; }
+    .groupnav ol { flex-direction: column; gap: 2px; overflow: visible; margin-inline: 0; padding-inline: 0; }
+    .groupnav a { display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; min-height: 44px; padding: 0 12px 0 10px; border: 0; border-radius: var(--radius); white-space: normal; color: var(--fg-2); }
+    .groupnav .glyph { display: block; color: var(--muted); }
+    .groupnav a:hover { background: var(--bg-2); }
+    .groupnav a.is-active { background: var(--bg-2); color: var(--fg); }
+    .groupnav a.is-active .glyph { color: var(--accent-text); }
+    .groupnav a.is-active .count { color: var(--meta); }
+  }
+
+  .groups { display: grid; gap: clamp(40px, 5vw, 64px); min-width: 0; }
+  .group { scroll-margin-top: calc(var(--header-h) + 24px); }
+  .group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+  .group-head .h2 { font-size: var(--text-h3); }
+  .faq-item { scroll-margin-top: calc(var(--header-h) + 16px); }
+  .faq-item summary { font-size: 1.0625rem; line-height: 1.35; padding: 18px 0; min-height: 44px; }
+  .faq-item summary:hover .q { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .faq-item .faq-body { max-width: 70ch; }
+  .group-meta { margin-top: 12px; }
+  @media (min-width: 600px) { .faq-item summary { font-size: 1.125rem; } }
+
+  .cta { padding-top: 96px; }
+  .cta-text { margin-top: 12px; max-width: 52ch; }
+  .cta-row { margin-top: 28px; }
+  .cta-meta { margin-top: 20px; }
+</style>

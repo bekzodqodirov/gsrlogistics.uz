@@ -1,0 +1,288 @@
+---
+/**
+ * Lead form (DESIGN_BRIEF §7.4). Fields: name, phone (+998, light mask), service select,
+ * cargo textarea, consent checkbox → privacy page, honeypot.
+ *
+ * Submit flow (bundled script):
+ *   1. POST JSON to `window.__LEAD_ENDPOINT` (set from `data-endpoint`, default '/api/lead' —
+ *      the Cloudflare Pages Function in functions/api/lead.ts). 2xx → success panel.
+ *   2. Anything else (404 when the function is not deployed, 5xx, network error) → the composed
+ *      message opens as a Telegram deep link AND is shown with a copy-to-clipboard fallback.
+ * Without JS the form is a plain GET to the Telegram chat: the textarea is named `text`, which
+ * t.me reads as the draft; other fields travel as harmless extra params.
+ * Props: { lang, id?, dark? }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { contact } from '@/i18n/contact';
+import { pagePath } from '@/i18n/routes';
+import { site, telegramChat } from '@/lib/site';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props { lang: Lang; id?: string; dark?: boolean; endpoint?: string }
+const { lang, id = 'lead', dark = false, endpoint = '/api/lead' } = Astro.props;
+const t = pick(lang, contact).form;
+const uid = (s: string) => `${id}-${s}`;
+const privacyHref = pagePath(lang, 'privacy');
+const [consentBefore, consentAfter] = t.consent.split('{link}');
+const routes = [
+  { value: 'truck', label: t.routeOptions.truck },
+  { value: 'air', label: t.routeOptions.air },
+  { value: 'rail', label: t.routeOptions.rail },
+  { value: 'sourcing', label: t.routeOptions.sourcing },
+  { value: 'other', label: t.routeOptions.other },
+];
+const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.fromEntries(routes.map((r) => [r.value, r.label])), sending: t.sending, submit: t.submit, copied: t.copied, copy: t.fallback.copy, copyFail: t.fallback.copyFail });
+---
+<form
+  class:list={['lead', dark && 'is-dark']}
+  id={id}
+  method="get"
+  action={telegramChat()}
+  data-lead
+  data-lang={lang}
+  data-endpoint={endpoint}
+  data-tg={site.telegramDirect}
+  data-i18n={i18n}
+  novalidate
+  aria-labelledby={uid('title')}
+>
+  <div class="lead-head">
+    <h2 id={uid('title')} class="lead-title">{t.title}</h2>
+    <p class="lead-lead">{t.lead}</p>
+  </div>
+
+  <div class="lead-fields" data-el="fields">
+    <div class="field">
+      <label for={uid('name')}>{t.name}</label>
+      <input class="input" id={uid('name')} name="name" type="text" autocomplete="name" placeholder={t.namePlaceholder} required maxlength="80" data-el="name" aria-describedby={uid('name-err')} />
+      <p class="err" id={uid('name-err')} data-err="name" hidden></p>
+    </div>
+
+    <div class="field">
+      <label for={uid('phone')}>{t.phone}</label>
+      <input class="input tnum" id={uid('phone')} name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+998" required maxlength="20" data-el="phone" aria-describedby={`${uid('phone-hint')} ${uid('phone-err')}`} />
+      <p class="hint" id={uid('phone-hint')}>{t.phoneHint}</p>
+      <p class="err" id={uid('phone-err')} data-err="phone" hidden></p>
+    </div>
+
+    <div class="field">
+      <label for={uid('route')}>{t.route}</label>
+      <select class="select" id={uid('route')} name="route" data-el="route">
+        <option value="">{t.routePlaceholder}</option>
+        {routes.map((r) => <option value={r.value}>{r.label}</option>)}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for={uid('text')}>{t.cargo}</label>
+      <textarea class="textarea" id={uid('text')} name="text" rows="4" placeholder={t.cargoPlaceholder} required maxlength="1500" data-el="text" aria-describedby={`${uid('text-hint')} ${uid('text-err')}`}></textarea>
+      <p class="hint" id={uid('text-hint')}>{t.cargoHint}</p>
+      <p class="err" id={uid('text-err')} data-err="cargo" hidden></p>
+    </div>
+
+    <!-- Honeypot: hidden from people, filled by bots. Never labelled as a real field. -->
+    <div class="hp" aria-hidden="true">
+      <label for={uid('website')}>Website</label>
+      <input id={uid('website')} name="website" type="text" tabindex="-1" autocomplete="off" data-el="hp" />
+    </div>
+
+    <div class="field">
+      <label class="checkbox" for={uid('consent')}>
+        <input id={uid('consent')} name="consent" type="checkbox" value="yes" required data-el="consent" aria-describedby={uid('consent-err')} />
+        <span>{consentBefore}<a href={privacyHref} class="consent-link">{t.consentLink}</a>{consentAfter}</span>
+      </label>
+      <p class="err" id={uid('consent-err')} data-err="consent" hidden></p>
+    </div>
+
+    <input type="hidden" name="page" value={Astro.url.pathname} data-el="page" />
+    <input type="hidden" name="lang" value={lang} />
+
+    <div class="lead-actions">
+      <button type="submit" class="btn btn-primary" data-el="submit"><Icon name="arrow-right" size={18} />{t.submit}</button>
+      <noscript><p class="hint nojs">{t.noJs}</p></noscript>
+    </div>
+  </div>
+
+  <div class="panel panel-ok" data-el="success" role="status" aria-live="polite" tabindex="-1" hidden>
+    <span class="panel-glyph"><Icon name="check-circle" size={24} /></span>
+    <p class="panel-title">{t.success.title}</p>
+    <p class="panel-text">{t.success.text}</p>
+    <button type="button" class="link" data-el="again">{t.success.again}</button>
+  </div>
+
+  <div class="panel panel-fallback" data-el="fallback" role="status" aria-live="polite" tabindex="-1" hidden>
+    <span class="panel-glyph"><Icon name="telegram" size={24} /></span>
+    <p class="panel-title">{t.fallback.title}</p>
+    <p class="panel-text">{t.fallback.text}</p>
+    <div class="fallback-actions">
+      <a class="btn btn-primary" data-el="tg-link" href={site.telegramDirect} target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.fallback.open}</a>
+      <button type="button" class="btn btn-secondary" data-el="copy"><Icon name="copy" size={18} />{t.fallback.copy}</button>
+    </div>
+    <label class="sr-only" for={uid('draft')}>{t.fallback.title}</label>
+    <textarea class="textarea draft" id={uid('draft')} readonly rows="6" data-el="draft"></textarea>
+    <p class="hint" data-el="copy-status" role="status"></p>
+    <button type="button" class="link" data-el="again">{t.success.again}</button>
+  </div>
+</form>
+
+<style>
+  .lead { display: grid; gap: 20px; }
+  .lead-title { font-size: var(--text-h3); font-weight: 600; }
+  .lead-lead { margin-top: 8px; color: var(--muted); text-wrap: pretty; }
+  .lead-fields { display: grid; gap: 18px; }
+  .err { font-size: var(--text-small); color: #d93025; }
+  .lead.is-dark .err { color: #ff7a7d; }
+  .lead :global(.input[aria-invalid='true']), .lead :global(.textarea[aria-invalid='true']) { border-color: #d93025; }
+  .hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+  .checkbox { cursor: pointer; }
+  .consent-link { text-decoration: underline; text-underline-offset: 3px; color: var(--fg); }
+  .lead-actions { display: grid; gap: 10px; }
+  .lead-actions :global(.btn) { width: 100%; }
+  .nojs { margin-top: 4px; }
+  .panel { display: grid; gap: 10px; padding: 24px; border: 1px solid var(--border-soft); border-radius: var(--radius-lg); background: var(--bg-3); }
+  .lead.is-dark .panel { background: rgb(255 255 255 / 0.04); border-color: rgb(255 255 255 / 0.1); }
+  .panel-glyph { display: inline-flex; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 50%; background: var(--bg); border: 1px solid var(--border-soft); color: var(--fg); }
+  .lead.is-dark .panel-glyph { background: rgb(255 255 255 / 0.06); border-color: rgb(255 255 255 / 0.1); }
+  .panel-title { font-weight: 600; font-size: var(--text-h4); }
+  .panel-text { color: var(--muted); text-wrap: pretty; }
+  .panel .link { justify-self: start; min-height: 44px; }
+  .fallback-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .draft { min-height: 140px; font-size: var(--text-small); }
+  @media (max-width: 480px) {
+    .fallback-actions { flex-direction: column; }
+    .fallback-actions :global(.btn) { width: 100%; }
+  }
+  @media (min-width: 900px) {
+    .lead-fields { grid-template-columns: 1fr 1fr; }
+    .lead-fields > .field:nth-child(3), .lead-fields > .field:nth-child(4), .lead-fields > .field:nth-child(6), .lead-actions { grid-column: 1 / -1; }
+    .lead-actions :global(.btn) { width: auto; justify-self: start; }
+  }
+</style>
+
+<script>
+  interface LeadI18n {
+    errors: { name: string; phone: string; cargo: string; consent: string };
+    draft: { intro: string; name: string; phone: string; route: string; cargo: string; page: string };
+    routes: Record<string, string>;
+    sending: string; submit: string; copied: string; copy: string; copyFail: string;
+  }
+  declare global { interface Window { __LEAD_ENDPOINT?: string } }
+
+  const forms = document.querySelectorAll<HTMLFormElement>('form[data-lead]');
+
+  /** Light +998 mask: keeps digits, forces the 998 prefix, groups as +998 XX XXX XX XX. */
+  function formatPhone(raw: string): string {
+    let d = raw.replace(/\D/g, '');
+    if (d.startsWith('998')) d = d.slice(3);
+    else if (d.startsWith('8') && d.length === 10) d = d.slice(1);
+    d = d.slice(0, 9);
+    const parts = [d.slice(0, 2), d.slice(2, 5), d.slice(5, 7), d.slice(7, 9)].filter(Boolean);
+    return '+998' + (parts.length ? ' ' + parts.join(' ') : '');
+  }
+  const phoneOk = (v: string) => /^\+998\d{9}$/.test(v.replace(/\s/g, ''));
+
+  forms.forEach((form) => {
+    const i18n = JSON.parse(form.dataset.i18n || '{}') as LeadI18n;
+    const q = <T extends HTMLElement>(sel: string) => form.querySelector<T>(`[data-el="${sel}"]`)!;
+    const fields = q<HTMLElement>('fields');
+    const name = q<HTMLInputElement>('name');
+    const phone = q<HTMLInputElement>('phone');
+    const route = q<HTMLSelectElement>('route');
+    const text = q<HTMLTextAreaElement>('text');
+    const hp = q<HTMLInputElement>('hp');
+    const consent = q<HTMLInputElement>('consent');
+    const submit = q<HTMLButtonElement>('submit');
+    const success = q<HTMLElement>('success');
+    const fallback = q<HTMLElement>('fallback');
+    const tgLink = q<HTMLAnchorElement>('tg-link');
+    const draft = q<HTMLTextAreaElement>('draft');
+    const copyBtn = q<HTMLButtonElement>('copy');
+    const copyStatus = q<HTMLElement>('copy-status');
+    const endpoint = window.__LEAD_ENDPOINT ?? (window.__LEAD_ENDPOINT = form.dataset.endpoint || '/api/lead');
+    const tgBase = form.dataset.tg || '';
+
+    // Progressive enhancement: JS owns submission from here on; keep the GET action only as a no-JS path.
+    form.setAttribute('data-enhanced', 'true');
+    phone.addEventListener('focus', () => { if (!phone.value) phone.value = '+998 '; });
+    phone.addEventListener('input', () => { phone.value = formatPhone(phone.value); });
+    phone.addEventListener('blur', () => { if (phone.value.trim() === '+998') phone.value = ''; });
+
+    const setError = (key: string, el: HTMLElement | null, msg: string) => {
+      const box = form.querySelector<HTMLElement>(`[data-err="${key}"]`);
+      if (box) { box.textContent = msg; box.hidden = !msg; }
+      if (el) { if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid'); }
+    };
+    const validate = (): boolean => {
+      let firstBad: HTMLElement | null = null;
+      const check = (ok: boolean, key: string, el: HTMLElement, msg: string) => { setError(key, el, ok ? '' : msg); if (!ok && !firstBad) firstBad = el; };
+      check(name.value.trim().length >= 2, 'name', name, i18n.errors.name);
+      check(phoneOk(phone.value), 'phone', phone, i18n.errors.phone);
+      check(text.value.trim().length >= 5, 'cargo', text, i18n.errors.cargo);
+      check(consent.checked, 'consent', consent, i18n.errors.consent);
+      if (firstBad) (firstBad as HTMLElement).focus();
+      return !firstBad;
+    };
+
+    const compose = (): string => {
+      const d = i18n.draft;
+      const lines = [d.intro, `${d.name}: ${name.value.trim()}`, `${d.phone}: ${phone.value.trim()}`];
+      if (route.value) lines.push(`${d.route}: ${i18n.routes[route.value] ?? route.value}`);
+      lines.push(`${d.cargo}: ${text.value.trim()}`);
+      lines.push(`${d.page}: ${location.origin}${location.pathname}`);
+      return lines.join('\n');
+    };
+    const show = (panel: HTMLElement) => { fields.hidden = true; success.hidden = panel !== success; fallback.hidden = panel !== fallback; panel.focus?.(); };
+    const showFallback = (msg: string) => {
+      const url = `${tgBase}?text=${encodeURIComponent(msg)}`;
+      tgLink.href = url;
+      draft.value = msg;
+      show(fallback);
+      // Try to open Telegram directly; if the browser blocks it the visible link still works.
+      try { window.open(url, '_blank', 'noopener'); } catch { /* blocked — link is visible */ }
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validate()) return;
+      const msg = compose();
+      if (hp.value) { show(success); return; } // bot: pretend success, send nothing
+      submit.disabled = true;
+      const label = submit.lastChild;
+      const original = label?.textContent ?? i18n.submit;
+      if (label) label.textContent = i18n.sending;
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 10000);
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ name: name.value.trim(), phone: phone.value.replace(/\s/g, ''), route: route.value, text: text.value.trim(), lang: form.dataset.lang, page: location.pathname, website: hp.value }),
+          signal: ctrl.signal,
+          credentials: 'same-origin',
+        });
+        clearTimeout(timer);
+        if (res.ok) show(success); else showFallback(msg);
+      } catch {
+        showFallback(msg);
+      } finally {
+        submit.disabled = false;
+        if (label) label.textContent = original;
+      }
+    });
+
+    form.querySelectorAll<HTMLButtonElement>('[data-el="again"]').forEach((b) => b.addEventListener('click', () => {
+      form.reset(); fields.hidden = false; success.hidden = true; fallback.hidden = true; copyStatus.textContent = ''; name.focus();
+    }));
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(draft.value);
+        copyStatus.textContent = i18n.copied;
+      } catch {
+        draft.focus(); draft.select();
+        copyStatus.textContent = i18n.copyFail;
+      }
+    });
+  });
+</script>

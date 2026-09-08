@@ -1,0 +1,53 @@
+---
+/**
+ * Home "Savol-javob" (DESIGN_BRIEF §3.8): the six questions flagged `top` in src/data/faq.ts as
+ * <details> in a 980px column, plus a link to the full FAQ page. Props: { lang, index? } — `index`
+ * is the section number printed in the eyebrow ("07"). All copy is server-rendered.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { faqStrings, faqTpl } from '@/i18n/faq';
+import { faqTop } from '@/data/faq';
+import { pagePath } from '@/i18n/routes';
+import { fmtDate } from '@/lib/format';
+import tariffs from '@/data/tariffs.json';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+
+interface Props { lang: Lang; index?: string }
+const { lang, index = '07' } = Astro.props;
+const t = pick(lang, faqStrings);
+const items = faqTop(lang);
+const priceMeta = faqTpl(t.priceMeta, { date: fmtDate(tariffs.updated, lang) });
+---
+<section id="savol-javob" class="section faq-short below-fold" aria-labelledby="faq-short-title">
+  <div class="container container-text">
+    <div class="section-head">
+      <Eyebrow>{index} — {t.home.eyebrow}</Eyebrow>
+      <h2 id="faq-short-title" class="measure-head">{t.home.h2}</h2>
+      <p class="sub">{t.home.sub}</p>
+    </div>
+
+    <div class="faq-list">
+      {items.map((it, i) => (
+        <details class="faq-item reveal" style={`--reveal-delay:${i * 60}ms`}>
+          <summary><span class="q">{it.q}</span></summary>
+          <div class="faq-body"><p>{it.a}</p></div>
+        </details>
+      ))}
+    </div>
+
+    <div class="foot">
+      <a class="link" href={pagePath(lang, 'faq')}>{t.home.all}</a>
+      <p class="caption tnum">{priceMeta}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-short .section-head { max-width: none; margin-bottom: clamp(24px, 3vw, 40px); }
+  .sub { color: var(--muted); font-size: var(--text-body); }
+  .faq-item summary { font-size: 1.125rem; line-height: 1.35; padding: 20px 0; min-height: 44px; }
+  .faq-item summary:hover .q { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  @media (min-width: 900px) { .faq-item summary { font-size: 1.25rem; } }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; margin-top: 24px; }
+</style>

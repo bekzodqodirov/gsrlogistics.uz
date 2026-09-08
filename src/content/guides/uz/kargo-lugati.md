@@ -13,7 +13,7 @@ faq:
   - q: "Hajmiy vazn haqiqiy vazndan katta boʻlsa nima boʻladi?"
     a: "Toʻlov kattasi boʻyicha olinadi. Masalan, 20 kg keladigan, lekin 60×50×40 sm qutining hajmiy vazni 120 000 ÷ 6000 = 20 kg — teng; 80×60×50 sm boʻlsa 40 kg — hajmiy vazn boʻyicha toʻlanadi."
   - q: "GTD nima va u menga kerakmi?"
-    a: "GTD — yuk bojxona deklaratsiyasi (ГТД). U yuridik shaxs yoki YaTT sifatida rasmiy import qilganda rasmiylashtiriladi va tovarni doʻkon yoki marketpleysda sotish uchun asos boʻladi. Shaxsiy foydalanish uchun kichik jo'natmalarda GTD rasmiylashtirilmaydi."
+    a: "GTD — yuk bojxona deklaratsiyasi (ГТД). U yuridik shaxs yoki YaTT sifatida rasmiy import qilganda rasmiylashtiriladi va tovarni doʻkon yoki marketpleysda sotish uchun asos boʻladi. Shaxsiy foydalanish uchun kichik joʼnatmalarda GTD rasmiylashtirilmaydi."
 sources:
   - title: "Oʻzbekiston Respublikasi Bojxona kodeksi (lex.uz)"
     url: "https://lex.uz/docs/2876352"
@@ -34,7 +34,7 @@ Kargo lugʻati — bu Xitoydan Oʻzbekistonga yuk olib kelishda menejer, bojxona
 Oʻzbekistonda Xitoydan yuk olib kelish xizmatining xalq tilidagi nomi (карго, «kitay kargo» deb ham qidiriladi). Odatda 1 kg uchun dollarda narx bilan sotiladi va Xitoy omborida qabul, konsolidatsiya, chegara va Toshkentgacha yetkazishni oʻz ichiga oladi.
 
 ### Yigʻma yuk (сборный груз, LCL)
-Bir nechta mijozning yuklari bitta fura yoki konteynerda birga yuboriladi. Siz butun konteyner uchun emas, faqat oʻz joyingiz (kg yoki m³) uchun toʻlaysiz. GSR Logistics'ning asosiy xizmati.
+Bir nechta mijozning yuklari bitta fura yoki konteynerda birga yuboriladi. Siz butun konteyner uchun emas, faqat oʻz joyingiz (kg yoki m³) uchun toʻlaysiz. GSR Logisticsʼning asosiy xizmati.
 
 ### Avto kargo
 Yukni fura (yuk mashinasi) bilan Xitoydan Qozogʻiston orqali Toshkentga olib kelish. Taxminan 15–25 kun. Ogʻir va hajmli yuklar uchun eng arzon yoʻnalish.
@@ -58,7 +58,7 @@ Tezlashtirilgan avto yoʻnalish: kamroq toʻxtash, tezroq chegara. GSR tajribasi
 Bir mijozning turli yetkazib beruvchilardan kelgan partiyalarini Xitoy omborida bitta yukka birlashtirish. Har partiyani alohida joʻnatishdan arzon.
 
 ### Ombor manzili (mijoz kodi)
-Xitoydagi ombor manzili + sizga berilgan kod. Siz 1688 yoki Taobao'da buyurtma berganda yetkazish manziliga shu manzilni yozasiz; kod yordamida ombor xodimlari yukni sizniki deb aniqlaydi.
+Xitoydagi ombor manzili + sizga berilgan kod. Siz 1688 yoki Taobaoʼda buyurtma berganda yetkazish manziliga shu manzilni yozasiz; kod yordamida ombor xodimlari yukni sizniki deb aniqlaydi.
 
 ### Foto-hisobot
 Yuk omborga kelganda olingan suratlar: qadoq, soni, holati, ogʻirligi. Telegramga yuboriladi.
