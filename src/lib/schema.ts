@@ -1,0 +1,144 @@
+import { langMeta, type Lang } from '@/i18n/config';
+import { pagePath, pageUrl, type PageKey } from '@/i18n/routes';
+import { site, telegramUrl, instagramUrl, facebookUrl } from './site';
+
+const SITE = site.url;
+export const ORG_ID = `${SITE}/#organization`;
+export const WEBSITE_ID = `${SITE}/#website`;
+
+const descriptions: Record<Lang, string> = {
+  uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent.',
+  ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент.',
+  en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent.',
+};
+
+/** Organization + LocalBusiness node, shared @id across locales. */
+export function organizationNode(lang: Lang) {
+  return {
+    '@type': ['Organization', 'LocalBusiness'],
+    '@id': ORG_ID,
+    name: site.name,
+    alternateName: ['GSR Group', 'The Great Silk Road Group'],
+    url: SITE,
+    logo: { '@type': 'ImageObject', url: `${SITE}/icons/icon-512.png`, width: 512, height: 512 },
+    image: `${SITE}/og/default.png`,
+    description: descriptions[lang],
+    telephone: site.phoneE164,
+    email: site.email,
+    foundingDate: String(site.foundingYear),
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: site.address.streetAddress,
+      addressLocality: site.address.locality,
+      addressRegion: site.address.region,
+      postalCode: site.address.postalCode,
+      addressCountry: site.address.country,
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+    hasMap: site.yandexMapsUrl,
+    openingHoursSpecification: site.openingHoursSpec.map((s) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: s.days, opens: s.opens, closes: s.closes })),
+    priceRange: '$$',
+    currenciesAccepted: 'UZS, USD',
+    areaServed: [
+      { '@type': 'Country', name: 'Uzbekistan' },
+      { '@type': 'Country', name: 'China' },
+    ],
+    availableLanguage: ['uz', 'ru', 'en', 'zh'],
+    knowsAbout: ['freight forwarding', 'China to Uzbekistan cargo', 'consolidated cargo', 'customs clearance Uzbekistan', 'product sourcing in China', '1688 buying agent'],
+    sameAs: [telegramUrl, instagramUrl, facebookUrl, site.yandexMapsUrl].filter(Boolean),
+    contactPoint: [{ '@type': 'ContactPoint', telephone: site.phoneE164, contactType: 'sales', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: site.telegramDirect }],
+  };
+}
+
+export function websiteNode(lang: Lang) {
+  return {
+    '@type': 'WebSite',
+    '@id': WEBSITE_ID,
+    url: SITE,
+    name: site.name,
+    inLanguage: langMeta[lang].htmlLang,
+    publisher: { '@id': ORG_ID },
+  };
+}
+
+export function webPageNode(lang: Lang, opts: { url: string; name: string; description: string; datePublished?: string; dateModified?: string; type?: string }) {
+  return {
+    '@type': opts.type ?? 'WebPage',
+    '@id': `${opts.url}#webpage`,
+    url: opts.url,
+    name: opts.name,
+    description: opts.description,
+    inLanguage: langMeta[lang].htmlLang,
+    isPartOf: { '@id': WEBSITE_ID },
+    about: { '@id': ORG_ID },
+    ...(opts.datePublished ? { datePublished: opts.datePublished } : {}),
+    ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
+  };
+}
+
+export interface Crumb { name: string; key?: PageKey; sub?: string; url?: string }
+
+export function breadcrumbNode(lang: Lang, crumbs: Crumb[]) {
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.name,
+      item: c.url ?? (c.key ? pageUrl(SITE, lang, c.key, c.sub) : undefined),
+    })),
+  };
+}
+
+export function faqNode(items: Array<{ q: string; a: string }>) {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: items.map((i) => ({ '@type': 'Question', name: i.q, acceptedAnswer: { '@type': 'Answer', text: i.a } })),
+  };
+}
+
+export function serviceNode(lang: Lang, opts: { name: string; description: string; url: string; serviceType: string; offers?: Array<{ price: number; unitCode: 'KGM' | 'MTQ'; validThrough: string; description?: string }> }) {
+  return {
+    '@type': 'Service',
+    '@id': `${opts.url}#service`,
+    name: opts.name,
+    description: opts.description,
+    url: opts.url,
+    serviceType: opts.serviceType,
+    provider: { '@id': ORG_ID },
+    areaServed: [{ '@type': 'Country', name: 'Uzbekistan' }, { '@type': 'Country', name: 'China' }],
+    availableLanguage: ['uz', 'ru', 'en'],
+    ...(opts.offers?.length
+      ? {
+          offers: opts.offers.map((o) => ({
+            '@type': 'Offer',
+            priceCurrency: 'USD',
+            priceSpecification: { '@type': 'UnitPriceSpecification', price: o.price, priceCurrency: 'USD', unitCode: o.unitCode, validThrough: o.validThrough, ...(o.description ? { description: o.description } : {}) },
+            availability: 'https://schema.org/InStock',
+            url: opts.url,
+          })),
+        }
+      : {}),
+  };
+}
+
+export function articleNode(lang: Lang, opts: { url: string; headline: string; description: string; datePublished: string; dateModified: string; image?: string }) {
+  return {
+    '@type': 'Article',
+    '@id': `${opts.url}#article`,
+    headline: opts.headline,
+    description: opts.description,
+    url: opts.url,
+    inLanguage: langMeta[lang].htmlLang,
+    datePublished: opts.datePublished,
+    dateModified: opts.dateModified,
+    author: { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },
+    image: opts.image ?? `${SITE}/og/default.png`,
+    mainEntityOfPage: { '@id': `${opts.url}#webpage` },
+  };
+}
+
+/** Helper: absolute URL of the localized home page. */
+export function homeUrl(lang: Lang) { return pageUrl(SITE, lang, 'home'); }
+export { pagePath };

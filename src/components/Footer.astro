@@ -1,0 +1,79 @@
+---
+import { langMeta, locales, type Lang } from '@/i18n/config';
+import { pagePath } from '@/i18n/routes';
+import { common } from '@/i18n/common';
+import { site, phoneUrl, phone2Url, telegramUrl, telegramGroupUrl, instagramUrl, facebookUrl, telegramChat } from '@/lib/site';
+import { services } from '@/data/services';
+import Logo from './ui/Logo.astro';
+import Icon from './ui/Icon.astro';
+interface Props { lang: Lang; alternates: Array<{ lang: Lang; href: string }> }
+const { lang, alternates } = Astro.props;
+const t = common[lang];
+const year = new Date().getFullYear();
+---
+<footer class="site-footer dark" id="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <Logo size={32} mono />
+        <p class="muted footer-desc">{t.footer.desc}</p>
+        <div class="socials">
+          <a href={telegramUrl} target="_blank" rel="noopener" aria-label={t.footer.channel}><Icon name="telegram" /></a>
+          <a href={instagramUrl} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" /></a>
+          <a href={facebookUrl} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" /></a>
+        </div>
+      </div>
+      <nav aria-label={t.footer.services}>
+        <h2 class="footer-h">{t.footer.services}</h2>
+        <ul role="list">
+          {services.map((s) => <li><a href={pagePath(lang, 'services', s.slug[lang])}>{s.name[lang]}</a></li>)}
+        </ul>
+      </nav>
+      <nav aria-label={t.footer.company}>
+        <h2 class="footer-h">{t.footer.company}</h2>
+        <ul role="list">
+          {t.nav.map((n) => <li><a href={pagePath(lang, n.key)}>{n.label}</a></li>)}
+          <li><a href={pagePath(lang, 'privacy')}>{t.footer.privacy}</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h2 class="footer-h">{t.footer.contacts}</h2>
+        <ul role="list" class="contact-list">
+          <li><a href={phoneUrl} class="tnum"><Icon name="phone" size={16} />{site.phoneDisplay}</a></li>
+          <li><a href={phone2Url} class="tnum"><Icon name="phone" size={16} />{site.phone2Display}</a></li>
+          <li><a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener"><Icon name="telegram" size={16} />{t.cta.telegram}</a></li>
+          <li><a href={telegramGroupUrl} target="_blank" rel="noopener"><Icon name="users" size={16} />{t.footer.group}</a></li>
+          <li><a href={`mailto:${site.email}`}><Icon name="mail" size={16} />{site.email}</a></li>
+          <li><a href={site.yandexMapsUrl} target="_blank" rel="noopener"><Icon name="map-pin" size={16} /><span>{site.address[lang]}</span></a></li>
+          <li><span class="muted"><Icon name="clock" size={16} />{site.hours[lang]}</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="caption">© {site.foundingYear}–{year} {site.name}. {t.footer.rights}</p>
+      <div class="footer-langs" role="group" aria-label={t.footer.languages}>
+        {locales.map((l) => { const alt = alternates.find((a) => a.lang === l); const href = alt ? new URL(alt.href).pathname : pagePath(l, 'home'); return <a href={href} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined}>{langMeta[l].label}</a>; })}
+      </div>
+    </div>
+  </div>
+</footer>
+<style>
+  .site-footer { background: var(--bg); color: var(--fg); padding-block: clamp(48px, 6vw, 80px) clamp(24px, 3vw, 40px); border-top: 1px solid var(--border-soft); }
+  .footer-grid { display: grid; gap: 40px 32px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1.3fr; } }
+  .footer-desc { margin-top: 16px; max-width: 34ch; font-size: var(--text-small); }
+  .socials { display: flex; gap: 8px; margin-top: 20px; }
+  .socials a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: color-mix(in oklab, var(--fg), transparent 92%); color: var(--fg); transition: background var(--dur) var(--ease); }
+  .socials a:hover { background: color-mix(in oklab, var(--fg), transparent 84%); }
+  .footer-h { font-size: var(--text-small); font-weight: 600; color: var(--meta); margin-bottom: 14px; letter-spacing: 0.02em; }
+  .site-footer ul li + li { margin-top: 10px; }
+  .site-footer ul a { color: var(--fg-2); font-size: 0.9375rem; transition: color var(--dur) var(--ease); }
+  .site-footer ul a:hover { color: var(--fg); }
+  .contact-list a, .contact-list span { display: inline-flex; gap: 10px; align-items: flex-start; }
+  .contact-list svg { margin-top: 3px; flex: none; }
+  .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-top: clamp(32px, 5vw, 56px); padding-top: 24px; border-top: 1px solid var(--border-soft); }
+  .footer-langs { display: flex; gap: 16px; }
+  .footer-langs a { font-size: var(--text-small); color: var(--muted); }
+  .footer-langs a[aria-current='true'] { color: var(--fg); font-weight: 600; }
+</style>

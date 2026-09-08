@@ -1,0 +1,90 @@
+---
+/**
+ * Page shell: <head> with SEO + fonts + JSON-LD, header, main, footer, mobile bar.
+ * Every page passes `lang`, `title`, `description`, `pageKey` (+ `subs` for item pages).
+ */
+import '@fontsource-variable/onest';
+import '@/styles/global.css';
+import { langMeta, type Lang } from '@/i18n/config';
+import { alternates as buildAlternates, pagePath, type PageKey } from '@/i18n/routes';
+import { site } from '@/lib/site';
+import { organizationNode, websiteNode, webPageNode, breadcrumbNode, type Crumb } from '@/lib/schema';
+import Seo from '@/components/Seo.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import MobileBar from '@/components/MobileBar.astro';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  pageKey: PageKey;
+  subs?: Partial<Record<Lang, string>>;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  /** Extra schema.org nodes appended to the page @graph. */
+  jsonLd?: Array<Record<string, unknown>>;
+  breadcrumbs?: Crumb[];
+  datePublished?: string;
+  dateModified?: string;
+  bodyClass?: string;
+  hideMobileBar?: boolean;
+}
+const { lang, title, description, pageKey, subs, ogImage, ogType, noindex, jsonLd = [], breadcrumbs, datePublished, dateModified, bodyClass, hideMobileBar = false } = Astro.props;
+const siteUrl = Astro.site ?? new URL(site.url);
+const alternates = buildAlternates(siteUrl, pageKey, subs);
+const currentPath = pagePath(lang, pageKey, subs?.[lang]);
+const pageUrlAbs = new URL(currentPath, siteUrl).toString();
+const graph: Array<Record<string, unknown>> = [
+  organizationNode(lang),
+  websiteNode(lang),
+  webPageNode(lang, { url: pageUrlAbs, name: title, description, datePublished, dateModified, type: ogType === 'article' ? 'WebPage' : 'WebPage' }),
+  ...(breadcrumbs?.length ? [breadcrumbNode(lang, breadcrumbs)] : []),
+  ...jsonLd,
+];
+const localeOg = ogImage ?? `/og/${lang}.png`;
+---
+<!doctype html>
+<html lang={langMeta[lang].htmlLang} dir="ltr" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <Seo lang={lang} title={title} description={description} pageKey={pageKey} subs={subs} ogImage={localeOg} ogType={ogType} noindex={noindex} publishedTime={datePublished} modifiedTime={dateModified} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0b0d" media="(prefers-color-scheme: dark)" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="generator" content={Astro.generator} />
+    <script is:inline>document.documentElement.classList.replace('no-js','js')</script>
+    <JsonLd data={graph} />
+    <slot name="head" />
+  </head>
+  <body class:list={[bodyClass, !hideMobileBar && 'has-mobile-bar']}>
+    <a href="#main" class="skip-link">{lang === 'uz' ? 'Asosiy kontentga oʻtish' : lang === 'ru' ? 'Перейти к содержанию' : 'Skip to content'}</a>
+    <Header lang={lang} alternates={alternates} currentPath={currentPath} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} alternates={alternates} />
+    {!hideMobileBar && <MobileBar lang={lang} />}
+    <script>
+      // Reveal-on-scroll: adds .is-in to .reveal elements as they enter; respects reduced motion.
+      const els = document.querySelectorAll<HTMLElement>('.reveal');
+      if (els.length) {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+          els.forEach((el) => el.classList.add('is-in'));
+        } else {
+          const io = new IntersectionObserver((entries) => {
+            for (const e of entries) if (e.isIntersecting) { (e.target as HTMLElement).classList.add('is-in'); io.unobserve(e.target); }
+          }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+          els.forEach((el) => io.observe(el));
+        }
+      }
+    </script>
+  </body>
+</html>

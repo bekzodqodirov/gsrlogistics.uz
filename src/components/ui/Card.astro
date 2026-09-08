@@ -1,0 +1,10 @@
+---
+interface Props { href?: string; class?: string; hover?: boolean; dark?: boolean; xl?: boolean; as?: 'div' | 'article' | 'li' }
+const { href, class: className, hover = Boolean(href), dark = false, xl = false, as: Tag = 'div' } = Astro.props;
+const classes = ['card', hover && 'card-hover', dark && 'card-dark', xl && 'card-xl', className];
+---
+{href ? (
+  <a href={href} class:list={classes}><slot /></a>
+) : (
+  <Tag class:list={classes}><slot /></Tag>
+)}

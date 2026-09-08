@@ -1,0 +1,17 @@
+---
+/** Brand lockup: hexagonal S mark + wordmark. `variant="mark"` for the mark only. */
+interface Props { variant?: 'full' | 'mark'; size?: number; class?: string; wordmark?: string; mono?: boolean }
+const { variant = 'full', size = 28, class: className, wordmark = 'GSR Logistics', mono = false } = Astro.props;
+const fill = mono ? 'currentColor' : '#a80a0d';
+---
+<span class:list={['logo', className]} style={`--logo-size:${size}px`}>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -52 100 104" width={size} height={Math.round(size * 1.04)} fill={fill} aria-hidden="true" focusable="false">
+    <path d="M0 -50 L-43.3 -25 L-43.3 25 L-22.3 37.1 L20 12.7 L20 -5.77 L-28.3 22.1 L-33.3 19.23 L-33.3 -19.23 L10 -44.2 Z"/>
+    <path d="M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -22.1 L33.3 -19.23 L33.3 19.23 L-10 44.2 Z"/>
+  </svg>
+  {variant === 'full' && <span class="logo-word">{wordmark}</span>}
+</span>
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 10px; line-height: 1; }
+  .logo-word { font-weight: 700; letter-spacing: -0.02em; font-size: calc(var(--logo-size) * 0.68); white-space: nowrap; }
+</style>

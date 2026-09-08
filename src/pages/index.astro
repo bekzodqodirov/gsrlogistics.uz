@@ -1,0 +1,20 @@
+---
+import Base from '@/layouts/Base.astro';
+import Section from '@/components/ui/Section.astro';
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+const lang = 'uz';
+---
+<Base lang={lang} title="Xitoydan Oʻzbekistonga yuk tashish, tovar topish va sotib olish" description="GSR Logistics — Xitoydan Toshkentga yigʻma yuk 15–25 kunda." pageKey="home">
+  <Section>
+    <Container>
+      <p class="eyebrow">Skaffold</p>
+      <h1 class="display-1 measure-head">Xitoydan eshigingizgacha.</h1>
+      <p class="intro">Foundation probe page — sections will replace this.</p>
+      <div class="cluster" style="margin-top:24px"><Button href="/narxlar/" icon="calculator">Narxni hisoblang</Button><Button variant="outline" href="/aloqa/">Aloqa</Button></div>
+    </Container>
+  </Section>
+  <Section theme="dark" noise>
+    <Container><h2>Dark section probe</h2><p class="muted">Muted text on dark.</p></Container>
+  </Section>
+</Base>

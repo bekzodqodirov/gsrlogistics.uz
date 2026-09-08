@@ -1,0 +1,11 @@
+---
+/** Page section with theme + spacing. Adds `.dark` for dark surfaces so semantic tokens remap. */
+interface Props { id?: string; theme?: 'light' | 'dark' | 'gray'; size?: 'md' | 'sm'; class?: string; noise?: boolean; lazy?: boolean; ariaLabelledby?: string }
+const { id, theme = 'light', size = 'md', class: className, noise = false, lazy = false, ariaLabelledby } = Astro.props;
+---
+<section id={id} aria-labelledby={ariaLabelledby} class:list={['section', size === 'sm' && 'section-sm', theme === 'dark' && 'dark', theme === 'gray' && 'section-gray', noise && 'noise', lazy && 'below-fold', className]}>
+  <slot />
+</section>
+<style>
+  .section-gray { background: var(--bg-2); }
+</style>

@@ -1,0 +1,18 @@
+---
+import type { Lang } from '@/i18n/config';
+import { pagePath, type PageKey } from '@/i18n/routes';
+import { common } from '@/i18n/common';
+export interface CrumbItem { name: string; key?: PageKey; sub?: string; href?: string }
+interface Props { lang: Lang; items: CrumbItem[]; class?: string }
+const { lang, items, class: className } = Astro.props;
+const all: CrumbItem[] = [{ name: common[lang].breadcrumbHome, key: 'home' }, ...items];
+---
+<nav aria-label="Breadcrumb" class:list={['breadcrumbs-nav', className]}>
+  <ol class="breadcrumbs" role="list">
+    {all.map((c, i) => {
+      const last = i === all.length - 1;
+      const href = c.href ?? (c.key ? pagePath(lang, c.key, c.sub) : undefined);
+      return <li>{last || !href ? <span aria-current={last ? 'page' : undefined}>{c.name}</span> : <a href={href}>{c.name}</a>}</li>;
+    })}
+  </ol>
+</nav>

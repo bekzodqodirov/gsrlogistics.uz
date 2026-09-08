@@ -1,0 +1,24 @@
+---
+/**
+ * Button or link with the design-system variants.
+ * <Button href="/x" variant="primary" size="lg" icon="telegram">Label</Button>
+ */
+import Icon, { type IconName } from './Icon.astro';
+interface Props {
+  href?: string; variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'soft' | 'white';
+  size?: 'sm' | 'md' | 'lg'; icon?: IconName; iconRight?: IconName; block?: boolean; class?: string;
+  type?: 'button' | 'submit'; external?: boolean; ariaLabel?: string; id?: string; [key: string]: unknown;
+}
+const { href, variant = 'primary', size = 'md', icon, iconRight, block = false, class: className, type = 'button', external, ariaLabel, id, ...rest } = Astro.props;
+const classes = ['btn', `btn-${variant}`, size !== 'md' && `btn-${size}`, block && 'btn-block', className];
+const isExternal = external ?? (href ? /^https?:\/\//.test(href) : false);
+---
+{href ? (
+  <a href={href} class:list={classes} id={id} aria-label={ariaLabel} rel={isExternal ? 'noopener' : undefined} target={isExternal ? '_blank' : undefined} {...rest}>
+    {icon && <Icon name={icon} size={18} />}<slot />{iconRight && <Icon name={iconRight} size={18} />}
+  </a>
+) : (
+  <button type={type} class:list={classes} id={id} aria-label={ariaLabel} {...rest}>
+    {icon && <Icon name={icon} size={18} />}<slot />{iconRight && <Icon name={iconRight} size={18} />}
+  </button>
+)}

@@ -1,0 +1,121 @@
+/* GSR Logistics design tokens — the only place colours, type, spacing and motion are defined. */
+:root {
+  color-scheme: light;
+  --font-sans: 'Onest Variable', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Palette */
+  --white: #ffffff;
+  --gray-50: #fbfbfd;
+  --gray-100: #f5f5f7;
+  --gray-200: #e8e8ed;
+  --gray-300: #d2d2d7;
+  --gray-400: #aeaeb2;
+  --gray-500: #86868b;
+  --gray-600: #6e6e73;
+  --gray-800: #424245;
+  --gray-900: #1d1d1f;
+  --black-2: #151517;
+  --black: #0b0b0d;
+  --red-700: #8f080b;
+  --red-600: #a80a0d; /* brand */
+  --red-500: #c41216;
+  --red-400: #e5262b;
+  --red-300: #ff4d50;
+  --red-100: #fbe9e9;
+  --red-50: #fdf4f4;
+  --gold: #e4a11b;
+  --green: #1e9e5a;
+  --amber: #e0a100;
+
+  /* Semantic — light */
+  --bg: var(--white);
+  --bg-2: var(--gray-100);
+  --bg-3: var(--gray-50);
+  --fg: var(--gray-900);
+  --fg-2: var(--gray-800);
+  --muted: var(--gray-600);
+  --meta: var(--gray-500);
+  --border: var(--gray-300);
+  --border-soft: var(--gray-200);
+  --card: var(--white);
+  --card-border: var(--gray-200);
+  --accent: var(--red-600);
+  --accent-hover: var(--red-500);
+  --accent-active: var(--red-700);
+  --accent-fg: #ffffff;
+  --accent-soft: var(--red-100);
+  --accent-text: var(--red-600);
+  --map-land: #ededf0;
+  --map-stroke: #d2d2d7;
+  --route-idle: rgb(0 0 0 / 0.12);
+  --shadow-ring: 0 0 0 1px rgb(0 0 0 / 0.06);
+  --shadow-raised: 0 12px 32px rgb(0 0 0 / 0.08);
+  --shadow-float: 0 24px 64px -12px rgb(0 0 0 / 0.18);
+  --focus-ring: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 65%);
+
+  /* Type scale (Apple-like, fluid) */
+  --text-display-1: clamp(2.5rem, 2.4vw + 1.625rem, 5rem);      /* 40–80 */
+  --text-display-2: clamp(2rem, 1.6vw + 1.375rem, 3.5rem);        /* 32–56 */
+  --text-h2: clamp(1.75rem, 1vw + 1.375rem, 2.5rem);              /* 28–40 */
+  --text-h3: clamp(1.375rem, 0.5vw + 1.1rem, 1.75rem);            /* 22–28 */
+  --text-h4: 1.25rem;
+  --text-intro: clamp(1.125rem, 0.4vw + 1rem, 1.3125rem);         /* 18–21 */
+  --text-body: 1.0625rem;                                          /* 17 */
+  --text-small: 0.875rem;
+  --text-caption: 0.75rem;
+  --text-stat: clamp(2.5rem, 3vw + 1.25rem, 4rem);                 /* 40–64 */
+  --leading-display: 1.05;
+  --leading-tight: 1.15;
+  --leading-body: 1.47;
+  --tracking-display: -0.02em;
+  --tracking-tight: -0.01em;
+
+  /* Spacing (4pt) */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px;
+  --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px;
+  --space-20: 80px; --space-24: 96px; --space-32: 128px; --space-40: 160px;
+  --section-y: clamp(64px, 8vw, 128px);
+  --container: 1200px;
+  --container-text: 980px;
+  --container-narrow: 720px;
+  --gutter: clamp(16px, 4vw, 24px);
+  --header-h: 64px;
+  --mobile-bar-h: 64px;
+
+  /* Radii & motion */
+  --radius-sm: 8px; --radius: 12px; --radius-lg: 18px; --radius-xl: 24px; --radius-pill: 999px;
+  --dur-fast: 150ms; --dur: 220ms; --dur-slow: 400ms; --dur-reveal: 600ms;
+  --ease: cubic-bezier(0.28, 0, 0.22, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --reveal-distance: 16px;
+}
+
+/* Dark surfaces: apply `.dark` to any section (or `data-theme="dark"`) to remap semantic tokens. */
+.dark, [data-theme='dark'] {
+  color-scheme: dark;
+  --bg: var(--black);
+  --bg-2: var(--black-2);
+  --bg-3: #111114;
+  --fg: var(--gray-100);
+  --fg-2: var(--gray-300);
+  --muted: #a1a1a6;
+  --meta: #86868b;
+  --border: #2c2c30;
+  --border-soft: #232327;
+  --card: var(--gray-900);
+  --card-border: rgb(255 255 255 / 0.08);
+  --accent: var(--red-500);
+  --accent-hover: var(--red-400);
+  --accent-active: var(--red-600);
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(196 18 22 / 0.16);
+  --accent-text: var(--red-300);
+  --map-land: #1c1c1f;
+  --map-stroke: #2c2c30;
+  --route-idle: rgb(255 255 255 / 0.14);
+  --shadow-ring: 0 0 0 1px rgb(255 255 255 / 0.08);
+  --shadow-raised: 0 12px 32px rgb(0 0 0 / 0.4);
+  --shadow-float: 0 24px 64px -12px rgb(0 0 0 / 0.6);
+}
