@@ -13,7 +13,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
-    "postbuild": "node scripts/generate-llms-full.mjs dist",
+    "postbuild": "node scripts/generate-sitemap.mjs dist && node scripts/generate-llms-full.mjs dist",
     "og": "node scripts/generate-og.mjs",
     "indexnow": "node scripts/indexnow.mjs dist",
     "map": "node scripts/build-map.mjs",

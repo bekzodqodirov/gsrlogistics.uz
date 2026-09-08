@@ -3,8 +3,10 @@
  * Page shell: <head> with SEO + fonts + JSON-LD, header, main, footer, mobile bar.
  * Every page passes `lang`, `title`, `description`, `pageKey` (+ `subs` for item pages).
  */
-import '@fontsource-variable/onest';
+import '@/styles/fonts.css';
 import '@/styles/global.css';
+import onestLatin from '@/assets/fonts/onest-latin.woff2?url';
+import onestCyrillic from '@/assets/fonts/onest-cyrillic.woff2?url';
 import { langMeta, type Lang } from '@/i18n/config';
 import { alternates as buildAlternates, pagePath, type PageKey } from '@/i18n/routes';
 import { site } from '@/lib/site';
@@ -52,6 +54,8 @@ const localeOg = ogImage ?? `/og/${lang}.png`;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <Seo lang={lang} title={title} description={description} pageKey={pageKey} subs={subs} ogImage={localeOg} ogType={ogType} noindex={noindex} publishedTime={datePublished} modifiedTime={dateModified} />
+    <link rel="preload" href={onestLatin} as="font" type="font/woff2" crossorigin />
+    {lang === 'ru' && <link rel="preload" href={onestCyrillic} as="font" type="font/woff2" crossorigin />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
