@@ -91,7 +91,9 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   .mega-toggle { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 40px; margin-left: -8px; color: var(--muted); border-radius: var(--radius-pill); }
   .mega-toggle:hover, .mega-toggle[aria-expanded='true'] { color: var(--fg); }
   .mega { position: absolute; top: calc(100% + 8px); left: -8px; width: min(720px, calc(100vw - 48px)); padding: 12px; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur); z-index: 5; }
-  .has-mega:hover .mega, .has-mega:focus-within .mega, .has-mega.is-open .mega { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+  /* Without JS the panel opens on hover and focus alone. Once the script boots it adds .mega-js and
+     takes over, so Escape can actually close a panel the pointer or focus is still inside. */
+  .has-mega.is-open .mega, .has-mega:not(.mega-js):hover .mega, .has-mega:not(.mega-js):focus-within .mega { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
   .mega-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
   .mega-item { display: flex; gap: 12px; padding: 10px 12px; border-radius: var(--radius); color: var(--fg); min-height: 0; }
   .mega-item:hover { background: var(--bg-2); }
@@ -145,10 +147,33 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   const megaToggle = document.querySelector<HTMLButtonElement>('.mega-toggle');
   const megaHost = megaToggle?.closest<HTMLElement>('.has-mega');
   if (megaToggle && megaHost) {
-    const setMega = (open: boolean) => { megaToggle.setAttribute('aria-expanded', String(open)); megaHost.classList.toggle('is-open', open); };
-    megaToggle.addEventListener('click', () => setMega(!megaHost.classList.contains('is-open')));
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMega(false); });
-    document.addEventListener('click', (e) => { if (!megaHost.contains(e.target as Node)) setMega(false); });
+    // One open state drives both the class and aria-expanded, so a screen reader never hears
+    // "collapsed" while the links inside are focusable, and Escape closes even under hover or focus.
+    megaHost.classList.add('mega-js');
+    let hover = false;
+    let focus = false;
+    let pinned = false;
+    let dismissed = false;
+    const apply = () => {
+      const open = !dismissed && (hover || focus || pinned);
+      megaHost.classList.toggle('is-open', open);
+      megaToggle.setAttribute('aria-expanded', String(open));
+    };
+    megaToggle.addEventListener('click', () => { dismissed = false; pinned = !pinned; apply(); });
+    megaHost.addEventListener('pointerenter', () => { dismissed = false; hover = true; apply(); });
+    megaHost.addEventListener('pointerleave', () => { hover = false; apply(); });
+    megaHost.addEventListener('focusin', () => { focus = true; apply(); });
+    megaHost.addEventListener('focusout', (e) => {
+      if (megaHost.contains(e.relatedTarget as Node)) return;
+      focus = false; pinned = false; dismissed = false; apply();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !megaHost.classList.contains('is-open')) return;
+      // move focus out before hiding, or it would be left on a visibility:hidden link
+      if (megaHost.contains(document.activeElement)) megaToggle.focus();
+      dismissed = true; pinned = false; apply();
+    });
+    document.addEventListener('click', (e) => { if (!megaHost.contains(e.target as Node)) { pinned = false; hover = false; apply(); } });
   }
   const header = document.getElementById('site-header');
   if (header) {

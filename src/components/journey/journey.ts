@@ -326,6 +326,10 @@ export function init(root: HTMLElement): void {
         trigger: root,
         pin: stage,
         pinSpacing: false,
+        // The default 'fixed' pin flips the stage out of flow on every pin and unpin, and the browser
+        // scores each flip as a full-viewport layout shift (measured CLS 3.2 mobile / 4.8 desktop).
+        // 'transform' keeps the stage in flow and moves it with translate3d, which never shifts layout.
+        pinType: 'transform',
         start: 'top top',
         end,
         anticipatePin: 1,
