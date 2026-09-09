@@ -330,7 +330,7 @@ const content: ServiceContentByLang = {
       eyebrow: 'Service 04 — Sourcing',
       h1: 'Product and supplier sourcing in China',
       intro:
-        'Sourcing means finding a manufacturer or supplier in China against your specification, negotiating the price and minimum order, checking a sample and bringing the finished batch to Tashkent. Our staff speak Chinese, so you never have to deal with the factory yourself. The fee starts at 3% of the order value. Goods arrive at our Yiwu (义乌) warehouse and reach Tashkent by consolidated truck in roughly 15–25 days.',
+        'Sourcing means finding a manufacturer or supplier in China against your specification, negotiating the price and minimum order, checking a sample and bringing the finished batch to Tashkent. Our staff speak Chinese, so you never have to deal with the factory yourself. The fee starts at 3% of the order value. Goods arrive at the Yiwu (义乌) warehouse and reach Tashkent by consolidated truck in roughly 15–25 days.',
       facts: [
         { label: 'Commission on order value', value: 'from 3%' },
         { label: 'Process', value: '5 stages' },

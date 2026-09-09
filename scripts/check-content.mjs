@@ -27,7 +27,7 @@ const FORBIDDEN = [
   [/viloyat filial/i, 'claims regional branches'],
   // Who operates each of the three China receiving points is unverified — the Guangzhou and Kashgar
   // cards both name third-party logistics firms — so none of them is ever "ours".
-  [/omborimiz|наш(его|ем|) склад|our (Yiwu|Guangzhou|Kashgar) warehouse/i, 'claims a China receiving point as our own'],
+  [/omborimiz|наш(его|ем|) склад|our (Yiwu|Guangzhou|Kashgar)[^.]{0,12}warehouse/i, 'claims a China receiving point as our own'],
   // ...and equally, we no longer receive Guangzhou cargo only "through partners": there is an address.
   [/(Guanchjou|Гуанчжоу|Guangzhou)[^.!?]{0,80}(hamkorlar orqali|через партнёров|through partners)/i, 'stale "through partners" claim for Guangzhou'],
   [/(hamkorlar orqali|через партнёров|through partners)[^.!?]{0,80}(Guanchjou|Гуанчжоу|Guangzhou)/i, 'stale "through partners" claim for Guangzhou'],

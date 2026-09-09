@@ -337,7 +337,7 @@ const content: ServiceContentByLang = {
       eyebrow: 'Service 05 — Buying agent',
       h1: 'Buying from 1688, Taobao and Alibaba',
       intro:
-        'Our buying service works like this: you send a product link from 1688, Taobao, Pinduoduo or Alibaba; we quote the price in US dollars at the Central Bank rate, pay the seller in yuan, receive and check the goods at our Yiwu (义乌) warehouse and bring them to Tashkent by consolidated truck in roughly 15–25 days. The fee starts at 3% of the order value. No Chinese bank card, Alipay account or Chinese language needed.',
+        'Our buying service works like this: you send a product link from 1688, Taobao, Pinduoduo or Alibaba; we quote the price in US dollars at the Central Bank rate, pay the seller in yuan, receive and check the goods at the Yiwu (义乌) warehouse and bring them to Tashkent by consolidated truck in roughly 15–25 days. The fee starts at 3% of the order value. No Chinese bank card, Alipay account or Chinese language needed.',
       facts: [
         { label: 'Commission on order value', value: 'from 3%' },
         { label: 'Platforms: 1688, Taobao, Pinduoduo, Alibaba', value: '4 platforms' },
