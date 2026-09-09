@@ -126,7 +126,7 @@ const uz: ServicesStrings = {
     seoDescription: 'GSR Logistics xizmatlari: Xitoydan Toshkentga yigʻma yuk 15–25 kun, avia 5–10 kun, temir yoʻl konteynerlari, tovar topish, 1688 va Taobaodan sotib olish, uskunalar importi, bojxona rasmiylashtiruvi, Xitoyda uchta qabul manzili (Ivu, Guanchjou, Qashqar) va avtomobil importi.',
     eyebrow: 'Xizmatlar',
     h1: 'Xitoydan yuk tashish va xarid boʻyicha xizmatlar',
-    intro: 'GSR Logistics Xitoy bilan bogʻliq toʻqqiz ishni bajaradi: Xitoyda uchta qabul manzili — Ivu, Guanchjou va Qashqar; Ivu omboridan Xorgos orqali Toshkentga yigʻma yuk taxminan 15–25 kunda, avia kargo 5–10 kunda, temir yoʻl konteynerlari 20–35 kunda keladi. Tovar topamiz, 1688 va Taobaodan sotib olamiz, uskunalarni «kalit topshirish» sharti bilan keltiramiz, bojxonani rasmiylashtiramiz. Bitta menejer, bitta shartnoma — 2018-yildan beri.',
+    intro: 'GSR Logistics Xitoy bilan bogʻliq toʻqqiz ishni bajaradi: Ivu omboridan Xorgos orqali Toshkentga yigʻma yuk taxminan 15–25 kunda, avia kargo 5–10 kunda, temir yoʻl konteynerlari 20–35 kunda keladi. Xitoyda uchta qabul manzili — Ivu, Guanchjou va Qashqar. Tovar topamiz, 1688 va Taobaodan sotib olamiz, uskunalarni «kalit topshirish» sharti bilan keltiramiz, bojxonani rasmiylashtiramiz. Bitta menejer, bitta shartnoma — 2018-yildan beri.',
     groups: { shipping: 'Yuk tashish', buying: 'Xitoyda topish va sotib olish', paperwork: 'Rasmiylashtiruv va nazorat', vehicles: 'Avtomobillar' },
     groupLead: {
       shipping: 'Uch yoʻnalish — avto, avia, temir yoʻl. Muddat va narx yukning ogʻirligi, hajmi va shoshilinchligiga bogʻliq.',
@@ -143,7 +143,7 @@ const uz: ServicesStrings = {
       rail: { min: '20ft konteyner', rule: 'konteyner uchun, FCL yoki LCL', fits: 'katta partiya, uskunalar' },
     },
     howTitle: 'Qanday boshlaymiz?',
-    how: 'Telegramda yoki telefon orqali yozasiz: yuk, shahar va muddatni aytasiz. Menejer yoʻnalish va narxni taklif qiladi, shartnoma tuzamiz va Xitoydagi qabul manzilini beramiz — Ivu, Guanchjou yoki Qashqar, qaysi biriga joʻnatish kerakligini menejer aytadi. Shundan soʻng yuk yoʻlga chiqadi.',
+    how: 'Telegramda yoki telefon orqali yozasiz: yuk, shahar va muddatni aytasiz. Menejer yoʻnalish va narxni taklif qiladi, shartnoma tuzamiz va Xitoydagi qabul manzilini beramiz — Ivu, Guanchjou yoki Qashqar. Qaysi biriga joʻnatish kerakligini menejer aytadi. Shundan soʻng yuk yoʻlga chiqadi.',
     ctaTitle: 'Qaysi xizmat kerakligini bilmaysizmi?',
     ctaText: 'Yozing — yukingizni tavsiflang, biz yoʻnalish, muddat va narxni taklif qilamiz.',
   },
@@ -229,7 +229,7 @@ const ru: ServicesStrings = {
     seoDescription: 'Услуги GSR Logistics: сборный груз из Китая в Ташкент за 15–25 дней, авиа за 5–10, ж/д контейнеры, поиск товаров, выкуп с 1688 и Taobao, импорт оборудования, таможенное оформление, три адреса приёма в Китае (Иу, Гуанчжоу, Кашгар) и авто из Китая.',
     eyebrow: 'Услуги',
     h1: 'Услуги доставки и закупок в Китае',
-    intro: 'GSR Logistics закрывает девять задач, связанных с Китаем: в Китае три адреса приёма — Иу, Гуанчжоу и Кашгар; сборный груз со склада в Иу через Хоргос в Ташкент — ориентировочно 15–25 дней, авиа карго — 5–10, ж/д контейнеры — 20–35. Находим товар, выкупаем на 1688 и Taobao, привозим оборудование под ключ, оформляем таможню. Один менеджер, один договор — с 2018 года.',
+    intro: 'GSR Logistics закрывает девять задач, связанных с Китаем: сборный груз со склада в Иу через Хоргос в Ташкент — ориентировочно 15–25 дней, авиа карго — 5–10, ж/д контейнеры — 20–35. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар. Находим товар, выкупаем на 1688 и Taobao, привозим оборудование под ключ, оформляем таможню. Один менеджер, один договор — с 2018 года.',
     groups: { shipping: 'Доставка грузов', buying: 'Поиск и выкуп в Китае', paperwork: 'Оформление и контроль', vehicles: 'Автомобили' },
     groupLead: {
       shipping: 'Три способа — авто, авиа, ж/д. Срок и цена зависят от веса, объёма и срочности груза.',
@@ -246,7 +246,7 @@ const ru: ServicesStrings = {
       rail: { min: 'контейнер 20ft', rule: 'за контейнер, FCL или LCL', fits: 'крупные партии, оборудование' },
     },
     howTitle: 'С чего начать?',
-    how: 'Напишите в Telegram или позвоните: груз, город, сроки. Менеджер предложит способ и цену, заключаем договор и даём адрес приёма в Китае — Иу, Гуанчжоу или Кашгар, на какой отправлять — скажет менеджер. После этого груз отправляется.',
+    how: 'Напишите в Telegram или позвоните: груз, город, сроки. Менеджер предложит способ и цену, заключаем договор и даём адрес приёма в Китае — Иу, Гуанчжоу или Кашгар. На какой отправлять — скажет менеджер. После этого груз отправляется.',
     ctaTitle: 'Не знаете, какая услуга нужна?',
     ctaText: 'Напишите — опишите груз, а мы предложим способ, срок и цену.',
   },
@@ -276,7 +276,7 @@ const ru: ServicesStrings = {
       sectionTitle: 'Как мы работаем?',
       sectionBody: [
         'Вы оставляете заявку — в Telegram или по телефону. Менеджер уточняет груз, город и сроки, предлагает способ и цену.',
-        'Заключаем договор: цена, срок и ответственность — на бумаге. Груз, пришедший на адрес приёма в Китае, взвешиваем, обмеряем и фотографируем — отчёт приходит в Telegram.',
+        'Заключаем договор: цена, срок и ответственность — на бумаге. Груз, поступивший на адрес приёма в Китае, взвешиваем, обмеряем и фотографируем — отчёт приходит в Telegram.',
         'Таможенное оформление в Ташкенте берём на себя, пошлина и НДС платятся по закону. Груз забираете со склада или отправляем в регион.',
       ],
       ctaTitle: 'Есть вопрос по этой услуге?',
@@ -332,7 +332,7 @@ const en: ServicesStrings = {
     seoDescription: 'GSR Logistics services: consolidated truck cargo from China to Tashkent in 15–25 days, air in 5–10, rail containers, product sourcing, buying from 1688 and Taobao, equipment import, customs clearance, three receiving addresses in China (Yiwu, Guangzhou, Kashgar) and car import.',
     eyebrow: 'Services',
     h1: 'Shipping and buying services for China',
-    intro: 'GSR Logistics handles nine China-related jobs: three receiving addresses in China — Yiwu, Guangzhou and Kashgar; consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent in roughly 15–25 days, air cargo in 5–10, rail containers in 20–35. We source products, buy on 1688 and Taobao, import equipment turnkey and clear customs. One manager, one contract — since 2018.',
+    intro: 'GSR Logistics handles nine China-related jobs: consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent in roughly 15–25 days, air cargo in 5–10, rail containers in 20–35. There are three receiving addresses in China — Yiwu, Guangzhou and Kashgar. We source products, buy on 1688 and Taobao, import equipment turnkey and clear customs. One manager, one contract — since 2018.',
     groups: { shipping: 'Freight', buying: 'Sourcing and buying in China', paperwork: 'Paperwork and control', vehicles: 'Vehicles' },
     groupLead: {
       shipping: 'Three modes — truck, air, rail. Time and price depend on weight, volume and urgency.',
@@ -369,7 +369,7 @@ const en: ServicesStrings = {
       seoTitle: '{name} — from China to Uzbekistan',
       seoDescription: '{short} GSR Logistics, Tashkent — working with China since 2018.',
       eyebrow: 'Service',
-      intro: '{short} We receive your cargo at a receiving address in China — Yiwu, Guangzhou or Kashgar — inspect it and send a photo report, and clear customs officially in Tashkent. One contract, one manager — working with China since 2018.',
+      intro: '{short} We receive your cargo at a receiving address in China (Yiwu, Guangzhou or Kashgar), inspect it and send a photo report, and clear customs officially in Tashkent. One contract, one manager — working with China since 2018.',
       facts: [
         { label: 'Receiving addresses in China', value: 'Yiwu · Guangzhou · Kashgar' },
         { label: 'With China', value: 'since 2018' },
