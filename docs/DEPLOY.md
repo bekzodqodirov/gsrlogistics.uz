@@ -34,8 +34,13 @@ Shundan keyin keyingi barcha ishlar `main` dan boshlanadi.
 → **Build and deployment** → **Source:** `GitHub Actions`.
 
 Boshqa hech narsa tanlash shart emas — workflow tayyor. **Actions** boʻlimida
-«Deploy to GitHub Pages» yashil boʻlishini kuting (2–3 daqiqa). Shundan keyin sayt
-vaqtinchalik manzilda ochiladi: `https://bekzodqodirov.github.io/gsrlogistics.uz/`
+«Deploy to GitHub Pages» yashil boʻlishini kuting (2–3 daqiqa).
+
+> Vaqtinchalik manzil `https://bekzodqodirov.github.io/gsrlogistics.uz/` da faqat
+> **bosh sahifa** koʻrinadi, ichki havolalar va rasmlar 404 beradi. Bu xato emas:
+> sayt `gsrlogistics.uz` domeni uchun qurilgan (`astro.config.mjs` da `base` yoʻq),
+> shuning uchun barcha yoʻllar domen ildizidan boshlanadi. Domen ulangach hammasi
+> joyiga tushadi. Deploy oʻtganini tekshirish uchun shu manzil kifoya.
 
 ### 4-qadam. Domenni qoʻshing
 
@@ -101,10 +106,17 @@ oʻtadi.
 
 ## B varianti — Cloudflare Pages
 
-GitHub Pages'da **`functions/api/` ishlamaydi**: aloqa formasi Telegram chatini
-ochadi (deep link), kuzatuv esa Telegramga xabar bilan yoʻnaltiradi — hech narsa
-yoʻqolmaydi, lekin avtomatik emas. Forma soʻrovlari **oʻzi** Telegram guruhingizga
-tushishini xohlasangiz, Cloudflare Pages'ni tanlang.
+GitHub Pages'da ikkita narsa ishlamaydi:
+
+- **`functions/api/`** — aloqa formasi Telegram chatini ochadi (deep link), kuzatuv
+  esa Telegramga xabar bilan yoʻnaltiradi. Hech narsa yoʻqolmaydi, lekin avtomatik emas.
+- **`public/_headers`** — bu Cloudflare/Netlify fayli, GitHub Pages uni oʻqimaydi.
+  Yaʼni undagi toʻrtta xavfsizlik sarlavhasi yuborilmaydi va kesh siyosati (`immutable`)
+  qoʻllanmaydi — GitHub barcha fayllarni `max-age=600` bilan beradi. Faylni oʻchirmang:
+  Cloudflare Pages'ga oʻtsangiz u oʻsha holicha ishlaydi.
+
+Forma soʻrovlari **oʻzi** Telegram guruhingizga tushishini xohlasangiz, Cloudflare
+Pages'ni tanlang.
 
 1. <https://dash.cloudflare.com> → **Workers & Pages** → **Create** → **Pages** →
    **Connect to Git** → repozitoriyni tanlang.

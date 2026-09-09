@@ -70,7 +70,7 @@ const breadcrumbs = [
 /* ---------- JSON-LD: Service (+ offers only from tariffs.json for truck/air) + FAQPage ---------- */
 const offers = service.key === 'truck'
   ? [
-      ...tariffs.truck.lclPerM3ByDensity.map((r, i, all) => ({ price: r.rate, unitCode: 'MTQ' as const, validThrough: tariffs.validThrough, description: r.maxKgM3 ? `≤ ${r.maxKgM3} kg/m³` : `≤ ${tariffs.truck.perKgFromDensityKgM3} kg/m³` })),
+      ...tariffs.truck.lclPerM3ByDensity.map((r, i, all) => ({ price: r.rate, unitCode: 'MTQ' as const, validThrough: tariffs.validThrough, description: r.maxKgM3 ? `≤ ${r.maxKgM3} kg/m³` : `< ${tariffs.truck.perKgFromDensityKgM3} kg/m³` })),
       { price: tariffs.truck.perKgAboveDensity, unitCode: 'KGM' as const, validThrough: tariffs.validThrough, description: `≥ ${tariffs.truck.perKgFromDensityKgM3} kg/m³, per kg` },
     ]
   : service.key === 'air'

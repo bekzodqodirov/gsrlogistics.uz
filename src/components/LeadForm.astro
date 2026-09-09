@@ -32,7 +32,7 @@ const routes = [
   { value: 'sourcing', label: t.routeOptions.sourcing },
   { value: 'other', label: t.routeOptions.other },
 ];
-const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.fromEntries(routes.map((r) => [r.value, r.label])), sending: t.sending, submit: t.submit, copied: t.copied, copy: t.fallback.copy, copyFail: t.fallback.copyFail });
+const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.fromEntries(routes.map((r) => [r.value, r.label])), sending: t.sending, submit: t.submit, copied: t.fallback.copied, copy: t.fallback.copy, copyFail: t.fallback.copyFail });
 ---
 <form
   class:list={['lead', dark && 'is-dark']}
@@ -44,7 +44,6 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   data-endpoint={endpoint}
   data-tg={site.telegramDirect}
   data-i18n={i18n}
-  novalidate
   aria-labelledby={uid('title')}
 >
   <div class="lead-head">
@@ -207,6 +206,7 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
 
     // Progressive enhancement: JS owns submission from here on; keep the GET action only as a no-JS path.
     form.setAttribute('data-enhanced', 'true');
+    form.noValidate = true; // JS owns validation and its localized messages; no-JS keeps the native one
     phone.addEventListener('focus', () => { if (!phone.value) phone.value = '+998 '; });
     phone.addEventListener('input', () => { phone.value = formatPhone(phone.value); });
     phone.addEventListener('blur', () => { if (phone.value.trim() === '+998') phone.value = ''; });

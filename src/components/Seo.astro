@@ -31,7 +31,7 @@ const shortTitle = (() => {
   const m = title.match(/^(.{25,62}?[?:—])\s/);
   if (m) return m[1].replace(/[:—]$/, '').trim();
   const cut = title.slice(0, 62);
-  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,:—]$/, '').trim() + '…';
+  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s|,:—]+(?:GSR|\S{1,2})$/u, '').replace(/[,:—|]$/, '').trim() + '…';
 })();
 const fullTitle = shortTitle.includes(site.name) || shortTitle.length > 48 ? shortTitle : `${shortTitle} — ${site.name}`;
 // Meta description: trim to ≤160 chars at a sentence/clause boundary (the page keeps the full text in its intro).
@@ -39,7 +39,7 @@ const metaDescription = (() => {
   if (description.length <= 160) return description;
   const cut = description.slice(0, 158);
   const at = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '), cut.lastIndexOf(' — '), cut.lastIndexOf(', '));
-  return (at > 90 ? cut.slice(0, at + 1) : cut.replace(/\s+\S*$/, '') + '…').trim();
+  return (at > 90 ? cut.slice(0, at + 1).trim().replace(/[,;]$/, '…') : cut.replace(/\s+\S*$/, '') + '…').trim();
 })();
 ---
 <title>{fullTitle}</title>
