@@ -181,7 +181,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Minimal ogʻirlik yoki hajm bormi?',
-        a: 'Yoʻq, 1 kg yoki 0,1 m³ dan qabul qilamiz. Mayda partiya kilogramm hisobida, hajmli yuk esa 0,1 m³ dan kub metr hisobida hisoblanadi.',
+        a: 'Ha, minimal partiya — 1 kg yoki 0,1 m³; yuqori chegara yoʻq. Mayda partiya kilogramm hisobida, hajmli yuk esa 0,1 m³ dan kub metr hisobida hisoblanadi.',
       },
       {
         q: 'Hajmiy vazn nima va u qachon hisoblanadi?',

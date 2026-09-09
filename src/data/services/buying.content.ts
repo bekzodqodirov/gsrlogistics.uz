@@ -4,6 +4,8 @@ import type { ServiceContentByLang } from './types';
  * 1688 / Taobao / Pinduoduo / Alibaba buying agent (vykup) — long-form page content.
  * Figures: commission "3% dan" = site.sourcingCommissionPct / tariffs.extras.sourcingCommissionPct;
  * freight, inspection (1 $/kg), photo (1 $), repack (0,4 $/kg), 14 free storage days — tariffs.json (2026-09-08).
+ * Own vs partner warehouse is unverified — always "Ivu ombori" / "склад в Иу" / "the Yiwu warehouse",
+ * never "omborimiz" / "нашего склада" / "our Yiwu warehouse".
  * FX example uses the CBU rates of 2026-09-08 (USD 11 789,33 · CNY 1 756,72 soʻm, research wf/10 §6) — illustrative only.
  * Payment channels in Uzbekistan (soʻm, card, Click/Payme, bank transfer for legal entities) are market practice — owner to confirm.
  */
@@ -187,7 +189,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Как работает выкуп?',
         body: [
-          'Китайские площадки принимают оплату только с китайской карты или Alipay, продавцы пишут только по-китайски, а товар отправляют только на адрес внутри Китая. Мы убираем все три барьера: платим, переписываемся и даём адрес нашего склада в Иу.',
+          'Китайские площадки принимают оплату только с китайской карты или Alipay, продавцы пишут только по-китайски, а товар отправляют только на адрес внутри Китая. Мы убираем все три барьера: платим, переписываемся и даём адрес склада в Иу.',
         ],
         steps: [
           { title: 'Вы присылаете ссылку', text: 'В Telegram пишете ссылку на товар, цвет, размер и количество. В одном сообщении может быть и одна, и пятьдесят ссылок; достаточно кнопки «поделиться» в приложении площадки.' },
@@ -235,7 +237,7 @@ const content: ServiceContentByLang = {
             ['Pinduoduo', 'самые дешёвые мелкие товары, для теста', '1 шт.', 'качество разное; рекомендуем проверку и фото в Иу'],
             ['Alibaba.com', 'экспортные заказы, в долларах, крупные партии, договор', '100–500 шт.', 'Trade Assurance; цена указана как FOB/EXW'],
           ],
-          note: 'Площадки отправляют только на адрес внутри Китая — адрес нашего склада в Иу вы получаете до заказа.',
+          note: 'Площадки отправляют только на адрес внутри Китая — адрес склада в Иу вы получаете до заказа.',
         },
       },
       {
@@ -325,7 +327,7 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Buying agent for 1688, Taobao and Alibaba — commission from 3%',
       description:
-        'Send us a link — we quote in US dollars, pay the seller in yuan, check the goods at our Yiwu warehouse and deliver to Tashkent. 1688, Taobao, Pinduoduo, Alibaba. Commission from 3%, payment in UZS.',
+        'Send us a link — we quote in US dollars, pay the seller in yuan, check the goods at the Yiwu warehouse and deliver to Tashkent. 1688, Taobao, Pinduoduo, Alibaba. Commission from 3%, payment in UZS.',
     },
     hero: {
       eyebrow: 'Service 05 — Buying agent',
@@ -343,7 +345,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'How does the buying service work?',
         body: [
-          'Chinese marketplaces accept payment only from a Chinese bank card or Alipay, sellers write only in Chinese, and goods ship only to an address inside China. We remove all three barriers: we pay, we write, and we provide the address of our Yiwu warehouse.',
+          'Chinese marketplaces accept payment only from a Chinese bank card or Alipay, sellers write only in Chinese, and goods ship only to an address inside China. We remove all three barriers: we pay, we write, and we provide the Yiwu warehouse address.',
         ],
         steps: [
           { title: 'You send the link', text: 'On Telegram you send the product link, colour, size and quantity. One message can hold one link or fifty; the “share” button in the marketplace app is enough.' },
@@ -391,7 +393,7 @@ const content: ServiceContentByLang = {
             ['Pinduoduo', 'cheapest small goods, for testing', '1 pc', 'quality varies; inspection and photos in Yiwu recommended'],
             ['Alibaba.com', 'export orders, in dollars, large batches, contract', '100–500 pcs', 'Trade Assurance; prices quoted FOB/EXW'],
           ],
-          note: 'Marketplaces ship only to an address inside China — you receive our Yiwu warehouse address before ordering.',
+          note: 'Marketplaces ship only to an address inside China — you receive the Yiwu warehouse address before ordering.',
         },
       },
       {

@@ -145,7 +145,7 @@ const ru: ContactStrings = {
   seoDescription: 'Свяжитесь с GSR Logistics: Ташкент, ул. Алишера Навои 27 (у метро), Пн–Сб 9:00–19:00. Telegram, телефон, Instagram и форма заявки по грузам из Китая.',
   eyebrow: 'Контакты',
   h1: 'Контакты',
-  intro: 'Офис GSR Logistics — {address}, рядом со станцией метро «Алишер Навои». Часы работы: {hours}. Быстрее всего ответим в Telegram; можно также позвонить или заполнить форму ниже.',
+  intro: 'Офис GSR Logistics — {address}, рядом со станцией метро «Алишер Навои». Часы работы: {hours}. Telegram — самый удобный канал: напишите, и менеджер ответит в рабочее время. Можно также позвонить или заполнить форму ниже.',
   card: {
     title: 'Реквизиты',
     addressLabel: 'Адрес',
@@ -239,7 +239,7 @@ const en: ContactStrings = {
   seoDescription: 'Contact GSR Logistics: 27 Alisher Navoiy St., Tashkent (next to the metro), Mon–Sat 9:00–19:00. Telegram, phone, Instagram and a request form for cargo from China.',
   eyebrow: 'Contact',
   h1: 'Contact',
-  intro: 'The GSR Logistics office is at {address}, next to Alisher Navoiy metro station. Hours: {hours}. Telegram gets the fastest reply; you can also call or use the form below.',
+  intro: 'The GSR Logistics office is at {address}, next to Alisher Navoiy metro station. Hours: {hours}. Telegram is the easiest channel: leave a message and a manager replies during working hours. You can also call or use the form below.',
   card: {
     title: 'Details',
     addressLabel: 'Address',

@@ -77,7 +77,7 @@ const ru: AboutStrings = {
     heading: 'Как мы работаем?',
     items: [
       { title: 'Честность', text: 'Цена, сроки и ответственность — в договоре. Без скрытых платежей: формула объёмного веса и правило плотности опубликованы на сайте.' },
-      { title: 'Открытость', text: 'Фотоотчёт при каждой приёмке, сообщения менеджера в пути, статус по коду груза в Ташкенте. На вопросы отвечаем сейчас, а не «потом».' },
+      { title: 'Открытость', text: 'Фотоотчёт при каждой приёмке, сообщения менеджера в пути, статус по коду груза в Ташкенте. На вопросы отвечаем цифрами, а не догадками.' },
       { title: 'Качество', text: 'Проверяем груз ещё в Китае: количество, состояние, упаковку. Вопрос с повреждённым или не тем товаром решаем до отправки в Ташкент.' },
       { title: 'Без языкового барьера', text: 'Наши менеджеры говорят по-узбекски, по-русски и по-китайски. Переговоры с поставщиком ведём мы.' },
     ],
@@ -124,7 +124,7 @@ const en: AboutStrings = {
     heading: 'How we work',
     items: [
       { title: 'Honesty', text: 'Price, timing and liability are in the contract. No hidden fees: the volumetric-weight formula and density rule are published on the site.' },
-      { title: 'Transparency', text: 'A photo report at every intake, manager updates in transit, status by cargo code in Tashkent. We answer now, not “later”.' },
+      { title: 'Transparency', text: 'A photo report at every intake, manager updates in transit, status by cargo code in Tashkent. We answer with numbers, not guesses.' },
       { title: 'Quality', text: 'We inspect cargo while it is still in China: quantity, condition, packaging. Damaged or wrong goods are resolved before they leave for Tashkent.' },
       { title: 'No language barrier', text: 'Our managers speak Uzbek, Russian and Chinese. We handle negotiations with the supplier.' },
     ],
