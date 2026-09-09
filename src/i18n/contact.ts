@@ -82,7 +82,7 @@ const uz: ContactStrings = {
     steps: [
       'Metroda «Alisher Navoiy» bekatida tushing (Oʻzbekiston yoki Chilonzor liniyasi).',
       'Alisher Navoiy koʻchasi boʻylab 27-uyga yuring — piyoda bir necha daqiqa.',
-      'Taksida «GSR Group» yoki manzilni koʻrsating: Alisher Navoiy koʻchasi, 27.',
+      'Taksida manzilni koʻrsating: Alisher Navoiy koʻchasi, 27.',
     ],
     note: 'Kelishdan oldin Telegramda yozing — menejer sizni kutib oladi.',
   },
@@ -176,7 +176,7 @@ const ru: ContactStrings = {
     steps: [
       'Выйдите на станции метро «Алишер Навои» (Узбекистанская или Чиланзарская линия).',
       'Пройдите по улице Алишера Навои до дома 27 — несколько минут пешком.',
-      'В такси укажите «GSR Group» или адрес: ул. Алишера Навои, 27.',
+      'В такси укажите адрес: ул. Алишера Навои, 27.',
     ],
     note: 'Перед визитом напишите в Telegram — менеджер вас встретит.',
   },
@@ -270,7 +270,7 @@ const en: ContactStrings = {
     steps: [
       'Get off at Alisher Navoiy metro station (Uzbekistan or Chilonzor line).',
       'Walk along Alisher Navoiy Street to building 27 — a few minutes on foot.',
-      'By taxi, ask for “GSR Group” or the address: 27 Alisher Navoiy Street.',
+      'By taxi, give the address: 27 Alisher Navoiy Street.',
     ],
     note: 'Message us on Telegram before you come — a manager will meet you.',
   },

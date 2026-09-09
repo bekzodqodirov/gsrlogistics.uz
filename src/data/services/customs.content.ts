@@ -2,12 +2,12 @@ import type { ServiceContentByLang } from './types';
 
 /**
  * Bojxona rasmiylashtiruvi — long-form page content.
- * Legal facts verified 2026-09-08 (research wf/12): PKM-244 (19.04.2025, in force 1 May 2025) — individuals
- * 200 $/month via courier per PINFL; PP-4508 (07.11.2019) — 30 % of the excess, min 3 $/kg; PF-174 (2026) —
- * 20 % / 2 $/kg planned from 2027-01-01; PKM-55 (31.01.2025) — clearance fee in BRV + 2 % BRV/kg courier fee;
- * PP-3818 (29.06.2018) Annex 1 as amended by PP-58 (11.02.2026) — duty rates; VAT 12 %; UP-140 (15.08.2023) —
- * Uzbek Latin-script labelling from 2024-01-01; PKM-554 (02.09.2025) — certification list; PKM-283 (14.05.2020) —
- * 180-day rule; UP-250 (17.12.2025) — preliminary declaration −20 % fee. Never print "bojsiz" / "hujjatsiz".
+ * Legal facts verified 2026-09-08 (research wf/12): VMQ-244 (19.04.2025, in force 1 May 2025) — individuals
+ * 200 $/month via courier per PINFL; PQ-4508 (07.11.2019) — 30% of the excess, min 3 $/kg; PF-174 (2026) —
+ * 20% / 2 $/kg planned from 2027-01-01; VMQ-55 (31.01.2025) — clearance fee in BRV + 2% BRV/kg courier fee;
+ * PQ-3818 (29.06.2018) Annex 1 as amended by PQ-58 (11.02.2026) — duty rates; VAT 12%; PF-140 (15.08.2023) —
+ * Uzbek Latin-script labelling from 2024-01-01; VMQ-554 (02.09.2025) — certification list; VMQ-283 (14.05.2020) —
+ * 180-day rule; PF-250 (17.12.2025) — preliminary declaration −20% fee. Never print "bojsiz" / "hujjatsiz".
  */
 const content: ServiceContentByLang = {
   uz: {
@@ -15,18 +15,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Xitoydan yuk uchun bojxona rasmiylashtiruvi — boj, QQS, hujjatlar 2026',
       description:
-        'Xitoydan olib kelingan yuk uchun bojxona rasmiylashtiruvi: jismoniy shaxslar uchun oyiga 200 $ limit va undan oshgan qismiga 30 %, yuridik shaxslar uchun TN VED boʻyicha boj va 12 % QQS. Hujjatlar, GTD, sertifikat — oldindan hisoblab beramiz.',
+        'Xitoydan olib kelingan yuk uchun bojxona rasmiylashtiruvi: jismoniy shaxslar uchun oyiga 200 $ limit va undan oshgan qismiga 30%, yuridik shaxslar uchun TN VED boʻyicha boj va 12% QQS. Hujjatlar, GTD, sertifikat — oldindan hisoblab beramiz.',
     },
     hero: {
       eyebrow: 'Xizmat 07 — Bojxona',
       h1: 'Xitoydan yuk uchun bojxona rasmiylashtiruvi',
       intro:
-        'Bojxona rasmiylashtiruvi — bu Xitoydan kelgan yukni Oʻzbekiston qonunlari boʻyicha deklaratsiya qilib, boj va QQSni toʻlab, erkin muomalaga chiqarish. Jismoniy shaxs kuryer orqali oyiga 200 $ gacha tovarni toʻlovsiz oladi, undan oshgan qismiga 30 % (kamida 3 $/kg) toʻlaydi. Yuridik shaxs uchun boj TN VED kodi boʻyicha (0–30 %) va 12 % QQS hisoblanadi. Biz toʻlovlarni yuk joʻnatilishidan oldin hisoblab beramiz va GTD bilan rasmiylashtiramiz.',
+        'Bojxona rasmiylashtiruvi — bu Xitoydan kelgan yukni Oʻzbekiston qonunlari boʻyicha deklaratsiya qilib, boj va QQSni toʻlab, erkin muomalaga chiqarish. Jismoniy shaxs kuryer orqali oyiga 200 $ gacha tovarni toʻlovsiz oladi, undan oshgan qismiga 30% (kamida 3 $/kg) toʻlaydi. Yuridik shaxs uchun boj TN VED kodi boʻyicha (0–30%) va 12% QQS hisoblanadi. Biz toʻlovlarni yuk joʻnatilishidan oldin hisoblab beramiz va GTD bilan rasmiylashtiramiz.',
       facts: [
         { label: 'Jismoniy shaxs, kuryer orqali', value: '200 $/oy' },
-        { label: 'Limitdan oshgan qismiga', value: '30 %' },
-        { label: 'Import QQS', value: '12 %' },
-        { label: 'Boj, TN VED boʻyicha', value: '0–30 %' },
+        { label: 'Limitdan oshgan qismiga', value: '30%' },
+        { label: 'Import QQS', value: '12%' },
+        { label: 'Boj, TN VED boʻyicha', value: '0–30%' },
       ],
     },
     sections: [
@@ -39,52 +39,52 @@ const content: ServiceContentByLang = {
           caption: 'Rasmiylashtiruvning uch modeli',
           head: ['Model', 'Import qiluvchi', 'Toʻlovlar', 'Sizga qoladigan hujjat'],
           rows: [
-            ['1. Jismoniy shaxsga posilka', 'Siz — oluvchi (PINFL boʻyicha)', 'Oyiga 200 $ gacha — 0; oshgan qismiga 30 %, kamida 3 $/kg; har kg uchun BRVning 2 % yigʻimi', 'Kuryer operatorining kvitansiyasi'],
-            ['2. GSR import qiluvchi', 'GSR Logistics — oʻz shartnomasi bilan', 'Boj TN VED boʻyicha + 12 % QQS + rasmiylashtiruv yigʻimi — narxga kiritiladi', 'Ichki sotuv: elektron hisob-faktura'],
-            ['3. Sizning shartnomangiz', 'Sizning firmangiz yoki YaTT', 'Boj + 12 % QQS + yigʻim — oʻz nomingizdan toʻlaysiz', 'Toʻliq import paketi: GTD, kontrakt, invoys, sertifikat'],
+            ['1. Jismoniy shaxsga posilka', 'Siz — oluvchi (PINFL boʻyicha)', 'Oyiga 200 $ gacha — 0; oshgan qismiga 30%, kamida 3 $/kg; har kg uchun BRVning 2% yigʻimi', 'Kuryer operatorining kvitansiyasi'],
+            ['2. GSR import qiluvchi', 'GSR Logistics — oʻz shartnomasi bilan', 'Boj TN VED boʻyicha + 12% QQS + rasmiylashtiruv yigʻimi — narxga kiritiladi', 'Ichki sotuv: elektron hisob-faktura'],
+            ['3. Sizning shartnomangiz', 'Sizning firmangiz yoki YaTT', 'Boj + 12% QQS + yigʻim — oʻz nomingizdan toʻlaysiz', 'Toʻliq import paketi: GTD, kontrakt, invoys, sertifikat'],
           ],
-          note: 'Stavkalar: PKM-244 (2025-yil 19-aprel), PP-4508 (2019-yil 7-noyabr), PKM-55 (2025-yil 31-yanvar). Tekshirilgan sana: 2026-yil 8-sentabr.',
+          note: 'Stavkalar: VMQ-244 (2025-yil 19-aprel), PQ-4508 (2019-yil 7-noyabr), VMQ-55 (2025-yil 31-yanvar). Tekshirilgan sana: 2026-yil 8-sentabr.',
         },
         callout: {
           title: 'Muhim',
-          text: 'Doʻkon yoki marketpleys uchun tovarni jismoniy shaxs posilkasi sifatida olib kelish mumkin emas: bojxona bir xil tovarning koʻpligi va takroriy buyurtmalarni tijorat deb hisoblaydi (PKM-244 mezonlari). Bunday yuk 2- yoki 3-model boʻyicha rasmiylashtiriladi. Boshqa odamlarning PINFL maʼlumotlari bilan ishlamaymiz.',
+          text: 'Doʻkon yoki marketpleys uchun tovarni jismoniy shaxs posilkasi sifatida olib kelish mumkin emas: bojxona bir xil tovarning koʻpligi va takroriy buyurtmalarni tijorat deb hisoblaydi (VMQ-244 mezonlari). Bunday yuk 2- yoki 3-model boʻyicha rasmiylashtiriladi. Boshqa odamlarning PINFL maʼlumotlari bilan ishlamaymiz.',
           tone: 'warn',
         },
       },
       {
         heading: 'Jismoniy shaxs uchun qoidalar qanday?',
         body: [
-          '2025-yil 1-maydan boshlab xalqaro kuryer orqali keladigan tovarlar uchun shaxsiy limit — kalendar oyiga 200 $ (PKM-244, 2025-yil 19-aprel). Limit har bir posilkaga emas, oy davomidagi barcha buyurtmalarga jamlab, oluvchining PINFL raqami boʻyicha hisoblanadi. Xalqaro pochta orqali limit — 100 $.',
-          'Limitdan oshgan qismiga yagona bojxona toʻlovi — 30 %, lekin har kilogramm uchun kamida 3 $ (PP-4508). Masalan, 250 $ lik posilka uchun toʻlov 50 $ dan, yaʼni 15 $ boʻladi. Bundan tashqari, har bir kuryer posilkasining har kilogrammi uchun BRVning 2 % miqdorida yigʻim olinadi (PKM-55, 2025-yil 4-maydan) — uni kuryer operatori toʻlaydi va odatda oluvchiga qoʻshib qoʻyadi.',
-          'Qolgan limitni my.gov.uz portalidagi «Xalqaro kuryerlik joʻnatmalari» xizmati yoki E-Tijorat ilovasida koʻrish mumkin. Rejalashtirilgan oʻzgarish: «Yangi bojxona 2030» farmoniga (PF-174, 2026-yil avgust) koʻra 2027-yil 1-yanvardan stavka 20 %, minimal summa 2 $/kg boʻladi — bu hozircha amalda emas.',
+          '2025-yil 1-maydan boshlab xalqaro kuryer orqali keladigan tovarlar uchun shaxsiy limit — kalendar oyiga 200 $ (VMQ-244, 2025-yil 19-aprel). Limit har bir posilkaga emas, oy davomidagi barcha buyurtmalarga jamlab, oluvchining PINFL raqami boʻyicha hisoblanadi. Xalqaro pochta orqali limit — 100 $.',
+          'Limitdan oshgan qismiga yagona bojxona toʻlovi — 30%, lekin har kilogramm uchun kamida 3 $ (PQ-4508). Masalan, 250 $ lik posilka uchun toʻlov 50 $ dan, yaʼni 15 $ boʻladi. Bundan tashqari, har bir kuryer posilkasining har kilogrammi uchun BRVning 2% miqdorida yigʻim olinadi (VMQ-55, 2025-yil 4-maydan) — uni kuryer operatori toʻlaydi va odatda oluvchiga qoʻshib qoʻyadi.',
+          'Qolgan limitni my.gov.uz portalidagi «Xalqaro kuryerlik joʻnatmalari» xizmati yoki E-Tijorat ilovasida koʻrish mumkin. Rejalashtirilgan oʻzgarish: «Yangi bojxona 2030» farmoniga (PF-174, 2026-yil avgust) koʻra 2027-yil 1-yanvardan stavka 20%, minimal summa 2 $/kg boʻladi — bu hozircha amalda emas.',
         ],
       },
       {
         heading: 'Yuridik shaxs va YaTT uchun boj qancha?',
         body: [
-          'Firma yoki yakka tartibdagi tadbirkor uchun boj tovarning 10 xonali TN VED kodi boʻyicha PP-3818 jadvalidan olinadi (2026-yil 11-fevraldagi PP-58 tahririda). Xitoy bilan erkin savdo bitimi yoʻq, shuning uchun eng qulay rejim stavkalari amal qiladi; kelib chiqish sertifikati boʻlmasa stavka ikki baravar oshadi. Bojga QQS qoʻshiladi: bojxona qiymati + boj + aksiz summasidan 12 %. Oddiy isteʼmol tovarlariga aksiz yoʻq.',
+          'Firma yoki yakka tartibdagi tadbirkor uchun boj tovarning 10 xonali TN VED kodi boʻyicha PQ-3818 jadvalidan olinadi (2026-yil 11-fevraldagi PQ-58 tahririda). Xitoy bilan erkin savdo bitimi yoʻq, shuning uchun eng qulay rejim stavkalari amal qiladi; kelib chiqish sertifikati boʻlmasa stavka ikki baravar oshadi. Bojga QQS qoʻshiladi: bojxona qiymati + boj + aksiz summasidan 12%. Oddiy isteʼmol tovarlariga aksiz yoʻq.',
         ],
         table: {
           caption: 'Koʻp soʻraladigan tovar guruhlari boʻyicha boj',
           head: ['Tovar (TN VED)', 'Boj', 'QQS'],
           rows: [
-            ['Kiyim-kechak (61, 62)', '20 % + dona uchun minimal (0,5–4 $)', '12 %'],
-            ['Poyabzal (64)', '20 %, kamida 3 $/juft', '12 %'],
-            ['Smartfonlar (8517)', '5 %', '12 %'],
-            ['Kompyuter va noutbuklar (8471)', '0 %', '12 %'],
-            ['Sanoat uskunalari (8479 va boshq.)', '0 %', '12 %'],
-            ['Mebel (9403)', '15 %, kamida 0,4 $/kg', '12 %'],
-            ['Oʻyinchoqlar (9503)', '10 %', '12 %'],
-            ['Kosmetika (3304)', '30 %, kamida 0,5 $/kg', '12 %'],
+            ['Kiyim-kechak (61, 62)', '20% + dona uchun minimal (0,5–4 $)', '12%'],
+            ['Poyabzal (64)', '20%, kamida 3 $/juft', '12%'],
+            ['Smartfonlar (8517)', '5%', '12%'],
+            ['Kompyuter va noutbuklar (8471)', '0%', '12%'],
+            ['Sanoat uskunalari (8479 va boshq.)', '0%', '12%'],
+            ['Mebel (9403)', '15%, kamida 0,4 $/kg', '12%'],
+            ['Oʻyinchoqlar (9503)', '10%', '12%'],
+            ['Kosmetika (3304)', '30%, kamida 0,5 $/kg', '12%'],
           ],
-          note: 'Manba: PP-3818 (2018-yil 29-iyun), 1-ilova, PP-58 (2026-yil 11-fevral) tahririda. Aniq stavka faqat 10 xonali kod boʻyicha aniqlanadi — biz kodni oldindan tanlab, toʻlovni hisoblab beramiz.',
+          note: 'Manba: PQ-3818 (2018-yil 29-iyun), 1-ilova, PQ-58 (2026-yil 11-fevral) tahririda. Aniq stavka faqat 10 xonali kod boʻyicha aniqlanadi — biz kodni oldindan tanlab, toʻlovni hisoblab beramiz.',
         },
       },
       {
         heading: 'Rasmiylashtiruv yigʻimi va toʻlov muddati',
         body: [
-          'Bojxona rasmiylashtiruvi uchun yigʻim bazaviy hisoblash miqdorida (BRV) olinadi va yukning qiymatiga bogʻliq (PKM-55, 2025-yil 31-yanvar): 10 000 $ gacha — 1 BRV, 10–20 ming $ — 1,5 BRV, 20–40 ming $ — 2,5 BRV, 40–60 ming $ — 4 BRV, 60–100 ming $ — 7 BRV, yuqorisi — 10 dan 25 BRV gacha. BRV har yili oʻzgargani uchun summani soʻmda emas, BRVda koʻrsatamiz.',
-          '2026-yil 1-martdan dastlabki deklaratsiya topshirsangiz yigʻim 20 % kam boʻladi, 2026-yil 1-iyundan esa toʻlovni 120 kungacha boʻlib toʻlash mumkin (UP-250, 2025-yil 17-dekabr). Oldindan toʻlov majburiy emas, lekin toʻlangan tovar 180 kun ichida kelishi yoki pul qaytishi shart (PKM-283, 2020-yil 14-may).',
+          'Bojxona rasmiylashtiruvi uchun yigʻim bazaviy hisoblash miqdorida (BRV) olinadi va yukning qiymatiga bogʻliq (VMQ-55, 2025-yil 31-yanvar): 10 000 $ gacha — 1 BRV, 10–20 ming $ — 1,5 BRV, 20–40 ming $ — 2,5 BRV, 40–60 ming $ — 4 BRV, 60–100 ming $ — 7 BRV, yuqorisi — 10 dan 25 BRV gacha. BRV har yili oʻzgargani uchun summani soʻmda emas, BRVda koʻrsatamiz.',
+          '2026-yil 1-martdan dastlabki deklaratsiya topshirsangiz yigʻim 20% kam boʻladi, 2026-yil 1-iyundan esa toʻlovni 120 kungacha boʻlib toʻlash mumkin (PF-250, 2025-yil 17-dekabr). Oldindan toʻlov majburiy emas, lekin toʻlangan tovar 180 kun ichida kelishi yoki pul qaytishi shart (VMQ-283, 2020-yil 14-may).',
         ],
       },
       {
@@ -98,13 +98,13 @@ const content: ServiceContentByLang = {
           'Transport hujjati: CMR (avto), SMGS (temir yoʻl) yoki AWB (avia)',
           'Kelib chiqish sertifikati — eng qulay rejim stavkasini saqlab qolish uchun',
           'Har bir tovar uchun 10 xonali TN VED kodi',
-          'Muvofiqlik sertifikati yoki deklaratsiyasi — roʻyxat PKM-554 (2025-yil 2-sentabr) bilan qisqartirilgan, lekin elektr buyumlar, bolalar tovarlari, kosmetika va oziq-ovqat uchun saqlanib qolgan',
-          'SES xulosasi — oziq-ovqat, kosmetika, bolalar tovarlari, polimerlar uchun (PKM-379/2012)',
+          'Muvofiqlik sertifikati yoki deklaratsiyasi — roʻyxat VMQ-554 (2025-yil 2-sentabr) bilan qisqartirilgan, lekin elektr buyumlar, bolalar tovarlari, kosmetika va oziq-ovqat uchun saqlanib qolgan',
+          'SES xulosasi — oziq-ovqat, kosmetika, bolalar tovarlari, polimerlar uchun (VMQ-379/2012)',
           'Yuk deklaratsiyasi (GTD) — elektron shaklda; bojxona uchinchi tomon kelishuvlarisiz 1 ish kuni ichida chiqaradi',
         ],
         callout: {
           title: 'Oʻzbek tilidagi yorliq',
-          text: 'Sertifikat yoki SES xulosasi talab qilinadigan isteʼmol tovarlarida oʻzbek tilida lotin yozuvidagi markirovka boʻlishi shart (UP-140, 2023-yil 15-avgust, 2024-yil 1-yanvardan amalda). Yorliqda import qiluvchining nomi va manzili koʻrsatiladi. Yorliqni Ivu omborida yopishtirib beramiz — matnni oldindan kelishamiz.',
+          text: 'Sertifikat yoki SES xulosasi talab qilinadigan isteʼmol tovarlarida oʻzbek tilida lotin yozuvidagi markirovka boʻlishi shart (PF-140, 2023-yil 15-avgust, 2024-yil 1-yanvardan amalda). Yorliqda import qiluvchining nomi va manzili koʻrsatiladi. Yorliqni Ivu omborida yopishtirib beramiz — matnni oldindan kelishamiz.',
           tone: 'info',
         },
       },
@@ -126,7 +126,7 @@ const content: ServiceContentByLang = {
         ],
         bullets: [
           'Dronlar — jismoniy shaxslar uchun taqiqlangan, ruxsat faqat yuridik shaxslarga rasmiy vazifalar uchun beriladi',
-          'Ratsiya, uzatgich va koʻp routerlar — Elektromagnit moslik markazi ruxsatnomasisiz (PKM-801, 2020-yil 22-dekabr) olib kelib boʻlmaydi',
+          'Ratsiya, uzatgich va koʻp routerlar — Elektromagnit moslik markazi ruxsatnomasisiz (VMQ-801, 2020-yil 22-dekabr) olib kelib boʻlmaydi',
           'Dori vositalari tijorat maqsadida — davlat roʻyxati va Sogʻliqni saqlash vazirligi ruxsati kerak',
           'Oziq-ovqat, oʻsimlik va hayvon mahsulotlari — SES, fitosanitariya va veterinariya hujjatlarisiz',
           'Brend nusxalari (kontrafakt), qurol, portlovchi moddalar, ekstremistik materiallar — hech qanday holatda',
@@ -139,12 +139,12 @@ const content: ServiceContentByLang = {
       },
     ],
     faq: [
-      { q: 'Xitoydan oyiga qancha summagacha toʻlovsiz buyurtma qilsam boʻladi?', a: 'Kuryer orqali kalendar oyiga 200 $, xalqaro pochta orqali 100 $ — har bir jismoniy shaxs uchun, PINFL boʻyicha jamlab (PKM-244, 2025-yil 1-maydan). Bu limit faqat shaxsiy foydalanish uchun; doʻkon tovariga amal qilmaydi.' },
-      { q: 'Limitdan oshsa qancha toʻlayman?', a: 'Oshgan qismidan 30 %, lekin kamida 3 $/kg (PP-4508). 2027-yil 1-yanvardan 20 % va 2 $/kg boʻlishi rejalashtirilgan (PF-174) — hozircha eski stavka amalda.' },
-      { q: 'Doʻkonim uchun tovarni qanday rasmiy olib kelaman?', a: 'Ikki yoʻl bor: GSR oʻz shartnomasi bilan import qiladi va sizga elektron hisob-faktura bilan sotadi, yoki siz YaTT/MChJ sifatida EEISVOda shartnoma roʻyxatdan oʻtkazasiz va GTD sizning nomingizga chiqadi. Ikkala holatda boj TN VED boʻyicha va 12 % QQS toʻlanadi.' },
-      { q: 'Kiyim va poyabzalga boj necha foiz?', a: 'Kiyim — 20 % va dona uchun minimal summa (0,5–4 $), poyabzal — 20 %, kamida 3 $/juft, bolalar trikotaji — 10 % (PP-3818, PP-58/2026 tahririda). Ustiga 12 % QQS qoʻshiladi.' },
-      { q: 'Sertifikat har doim kerakmi?', a: 'Yoʻq, TN VED kodiga bogʻliq. PKM-554 (2025-yil 2-sentabr) roʻyxatni qisqartirdi, lekin elektr buyumlar, bolalar tovarlari, kosmetika va oziq-ovqat uchun sertifikat yoki deklaratsiya kerak — u yuk chiqarilishidan oldin boʻlishi shart. Shaxsiy foydalanish tovarlariga talab qilinmaydi.' },
-      { q: 'Bojxona rasmiylashtiruvi necha kun oladi?', a: 'Hujjatlar toʻliq boʻlsa, Bojxona kodeksi boʻyicha yuk 1 ish kuni ichida chiqariladi; amalda Yallamada 2–5 kun ketadi, chunki navbat va tekshiruv boʻlishi mumkin. Dastlabki deklaratsiya vaqtni qisqartiradi va yigʻimni 20 % kamaytiradi.' },
+      { q: 'Xitoydan oyiga qancha summagacha toʻlovsiz buyurtma qilsam boʻladi?', a: 'Kuryer orqali kalendar oyiga 200 $, xalqaro pochta orqali 100 $ — har bir jismoniy shaxs uchun, PINFL boʻyicha jamlab (VMQ-244, 2025-yil 1-maydan). Bu limit faqat shaxsiy foydalanish uchun; doʻkon tovariga amal qilmaydi.' },
+      { q: 'Limitdan oshsa qancha toʻlayman?', a: 'Oshgan qismidan 30%, lekin kamida 3 $/kg (PQ-4508). 2027-yil 1-yanvardan 20% va 2 $/kg boʻlishi rejalashtirilgan (PF-174) — hozircha eski stavka amalda.' },
+      { q: 'Doʻkonim uchun tovarni qanday rasmiy olib kelaman?', a: 'Ikki yoʻl bor: GSR oʻz shartnomasi bilan import qiladi va sizga elektron hisob-faktura bilan sotadi, yoki siz YaTT/MChJ sifatida EEISVOda shartnoma roʻyxatdan oʻtkazasiz va GTD sizning nomingizga chiqadi. Ikkala holatda boj TN VED boʻyicha va 12% QQS toʻlanadi.' },
+      { q: 'Kiyim va poyabzalga boj necha foiz?', a: 'Kiyim — 20% va dona uchun minimal summa (0,5–4 $), poyabzal — 20%, kamida 3 $/juft, bolalar trikotaji — 10% (PQ-3818, PQ-58/2026 tahririda). Ustiga 12% QQS qoʻshiladi.' },
+      { q: 'Sertifikat har doim kerakmi?', a: 'Yoʻq, TN VED kodiga bogʻliq. VMQ-554 (2025-yil 2-sentabr) roʻyxatni qisqartirdi, lekin elektr buyumlar, bolalar tovarlari, kosmetika va oziq-ovqat uchun sertifikat yoki deklaratsiya kerak — u yuk chiqarilishidan oldin boʻlishi shart. Shaxsiy foydalanish tovarlariga talab qilinmaydi.' },
+      { q: 'Bojxona rasmiylashtiruvi necha kun oladi?', a: 'Hujjatlar toʻliq boʻlsa, Bojxona kodeksi boʻyicha yuk 1 ish kuni ichida chiqariladi; amalda Yallamada 2–5 kun ketadi, chunki navbat va tekshiruv boʻlishi mumkin. Dastlabki deklaratsiya vaqtni qisqartiradi va yigʻimni 20% kamaytiradi.' },
       { q: 'Bojxona toʻlovlarini kim va qachon toʻlaydi?', a: 'Import qiluvchi toʻlaydi: posilkada — siz, kuryer kvitansiyasi boʻyicha; GSR shartnomasida — biz, summa narxga kiradi; oʻz shartnomangizda — firmangiz, GTD boʻyicha yuk chiqarilishidan oldin. Summani har doim yuk joʻnatilishidan oldin hisoblab beramiz.' },
       { q: 'Yigʻma yuk narxiga bojxona kiradimi?', a: 'Ha, avto kargo tarifi kompaniya hujjatlari bilan rasmiylashtiruvni oʻz ichiga oladi. Oʻz shartnomangiz bilan import qilsangiz, boj va QQS alohida hisoblanadi — kalkulyator yoki menejer orqali oldindan bilib olasiz.' },
     ],
@@ -163,18 +163,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Таможенное оформление грузов из Китая — пошлины, НДС, документы 2026',
       description:
-        'Растаможка груза из Китая в Узбекистане: для физлиц лимит 200 $ в месяц и 30 % с превышения, для юрлиц пошлина по ТН ВЭД и НДС 12 %. Документы, ГТД, сертификаты — считаем платежи заранее.',
+        'Растаможка груза из Китая в Узбекистане: для физлиц лимит 200 $ в месяц и 30% с превышения, для юрлиц пошлина по ТН ВЭД и НДС 12%. Документы, ГТД, сертификаты — считаем платежи заранее.',
     },
     hero: {
       eyebrow: 'Услуга 07 — Таможня',
       h1: 'Таможенное оформление грузов из Китая',
       intro:
-        'Таможенное оформление — это декларирование груза из Китая по законам Узбекистана, уплата пошлины и НДС и выпуск товара в свободное обращение. Физическое лицо получает через курьера до 200 $ в месяц без платежей, с превышения платит 30 % (минимум 3 $/кг). Для юридического лица пошлина считается по коду ТН ВЭД (0–30 %) плюс НДС 12 %. Мы рассчитываем платежи до отправки груза и оформляем его с ГТД.',
+        'Таможенное оформление — это декларирование груза из Китая по законам Узбекистана, уплата пошлины и НДС и выпуск товара в свободное обращение. Физическое лицо получает через курьера до 200 $ в месяц без платежей, с превышения платит 30% (минимум 3 $/кг). Для юридического лица пошлина считается по коду ТН ВЭД (0–30%) плюс НДС 12%. Мы рассчитываем платежи до отправки груза и оформляем его с ГТД.',
       facts: [
         { label: 'Физлицо, через курьера', value: '200 $/мес' },
-        { label: 'С превышения лимита', value: '30 %' },
-        { label: 'НДС при импорте', value: '12 %' },
-        { label: 'Пошлина по ТН ВЭД', value: '0–30 %' },
+        { label: 'С превышения лимита', value: '30%' },
+        { label: 'НДС при импорте', value: '12%' },
+        { label: 'Пошлина по ТН ВЭД', value: '0–30%' },
       ],
     },
     sections: [
@@ -187,9 +187,9 @@ const content: ServiceContentByLang = {
           caption: 'Три модели оформления',
           head: ['Модель', 'Импортёр', 'Платежи', 'Документ на руках'],
           rows: [
-            ['1. Посылка физлицу', 'Вы — получатель (по ПИНФЛ)', 'До 200 $ в месяц — 0; с превышения 30 %, минимум 3 $/кг; сбор 2 % БРВ за каждый кг', 'Квитанция курьерского оператора'],
-            ['2. GSR — импортёр', 'GSR Logistics по своему контракту', 'Пошлина по ТН ВЭД + НДС 12 % + сбор за оформление — входят в цену', 'Внутренняя продажа: электронный счёт-фактура'],
-            ['3. Ваш контракт', 'Ваша компания или ИП', 'Пошлина + НДС 12 % + сбор — платите от своего имени', 'Полный импортный пакет: ГТД, контракт, инвойс, сертификат'],
+            ['1. Посылка физлицу', 'Вы — получатель (по ПИНФЛ)', 'До 200 $ в месяц — 0; с превышения 30%, минимум 3 $/кг; сбор 2% БРВ за каждый кг', 'Квитанция курьерского оператора'],
+            ['2. GSR — импортёр', 'GSR Logistics по своему контракту', 'Пошлина по ТН ВЭД + НДС 12% + сбор за оформление — входят в цену', 'Внутренняя продажа: электронный счёт-фактура'],
+            ['3. Ваш контракт', 'Ваша компания или ИП', 'Пошлина + НДС 12% + сбор — платите от своего имени', 'Полный импортный пакет: ГТД, контракт, инвойс, сертификат'],
           ],
           note: 'Ставки: ПКМ-244 (19 апреля 2025 г.), ПП-4508 (7 ноября 2019 г.), ПКМ-55 (31 января 2025 г.). Дата проверки: 8 сентября 2026 г.',
         },
@@ -203,27 +203,27 @@ const content: ServiceContentByLang = {
         heading: 'Какие правила действуют для физлиц?',
         body: [
           'С 1 мая 2025 года личный лимит для товаров, поступающих через международного курьера, — 200 $ в календарный месяц (ПКМ-244 от 19 апреля 2025 г.). Лимит считается не на каждую посылку, а суммарно на все заказы за месяц по ПИНФЛ получателя. Для международной почты лимит — 100 $.',
-          'С превышения взимается единый таможенный платёж — 30 %, но не менее 3 $ за килограмм (ПП-4508). Например, за посылку стоимостью 250 $ платёж считается с 50 $ и составит 15 $. Кроме того, с каждого килограмма курьерской посылки удерживается сбор 2 % от БРВ (ПКМ-55, с 4 мая 2025 г.) — его платит курьерский оператор и, как правило, включает в счёт получателю.',
-          'Остаток лимита виден в сервисе «Международные курьерские отправления» на my.gov.uz и в приложении E-Tijorat. Планируемое изменение: по указу «Новая таможня 2030» (ПФ-174, август 2026 г.) с 1 января 2027 года ставка снизится до 20 %, минимум — до 2 $/кг. Пока действует прежняя ставка.',
+          'С превышения взимается единый таможенный платёж — 30%, но не менее 3 $ за килограмм (ПП-4508). Например, за посылку стоимостью 250 $ платёж считается с 50 $ и составит 15 $. Кроме того, с каждого килограмма курьерской посылки удерживается сбор 2% от БРВ (ПКМ-55, с 4 мая 2025 г.) — его платит курьерский оператор и, как правило, включает в счёт получателю.',
+          'Остаток лимита виден в сервисе «Международные курьерские отправления» на my.gov.uz и в приложении E-Tijorat. Планируемое изменение: по указу «Новая таможня 2030» (УП-174, август 2026 г.) с 1 января 2027 года ставка снизится до 20%, минимум — до 2 $/кг. Пока действует прежняя ставка.',
         ],
       },
       {
         heading: 'Сколько платит юрлицо или ИП?',
         body: [
-          'Для компании или индивидуального предпринимателя пошлина берётся из таблицы ПП-3818 по 10-значному коду ТН ВЭД (в редакции ПП-58 от 11 февраля 2026 г.). Соглашения о свободной торговле с Китаем нет, поэтому применяются ставки режима наибольшего благоприятствования; без сертификата происхождения ставка удваивается. К пошлине добавляется НДС — 12 % от суммы таможенной стоимости, пошлины и акциза. На обычные потребительские товары акциза нет.',
+          'Для компании или индивидуального предпринимателя пошлина берётся из таблицы ПП-3818 по 10-значному коду ТН ВЭД (в редакции ПП-58 от 11 февраля 2026 г.). Соглашения о свободной торговле с Китаем нет, поэтому применяются ставки режима наибольшего благоприятствования; без сертификата происхождения ставка удваивается. К пошлине добавляется НДС — 12% от суммы таможенной стоимости, пошлины и акциза. На обычные потребительские товары акциза нет.',
         ],
         table: {
           caption: 'Пошлины на самые частые группы товаров',
           head: ['Товар (ТН ВЭД)', 'Пошлина', 'НДС'],
           rows: [
-            ['Одежда (61, 62)', '20 % + минимум за штуку (0,5–4 $)', '12 %'],
-            ['Обувь (64)', '20 %, минимум 3 $/пара', '12 %'],
-            ['Смартфоны (8517)', '5 %', '12 %'],
-            ['Компьютеры и ноутбуки (8471)', '0 %', '12 %'],
-            ['Промышленное оборудование (8479 и др.)', '0 %', '12 %'],
-            ['Мебель (9403)', '15 %, минимум 0,4 $/кг', '12 %'],
-            ['Игрушки (9503)', '10 %', '12 %'],
-            ['Косметика (3304)', '30 %, минимум 0,5 $/кг', '12 %'],
+            ['Одежда (61, 62)', '20% + минимум за штуку (0,5–4 $)', '12%'],
+            ['Обувь (64)', '20%, минимум 3 $/пара', '12%'],
+            ['Смартфоны (8517)', '5%', '12%'],
+            ['Компьютеры и ноутбуки (8471)', '0%', '12%'],
+            ['Промышленное оборудование (8479 и др.)', '0%', '12%'],
+            ['Мебель (9403)', '15%, минимум 0,4 $/кг', '12%'],
+            ['Игрушки (9503)', '10%', '12%'],
+            ['Косметика (3304)', '30%, минимум 0,5 $/кг', '12%'],
           ],
           note: 'Источник: ПП-3818 (29 июня 2018 г.), приложение 1, в редакции ПП-58 (11 февраля 2026 г.). Точная ставка определяется только по 10-значному коду — мы подбираем код заранее и считаем платёж.',
         },
@@ -232,7 +232,7 @@ const content: ServiceContentByLang = {
         heading: 'Сбор за оформление и сроки оплаты',
         body: [
           'Сбор за таможенное оформление взимается в базовых расчётных величинах (БРВ) и зависит от стоимости партии (ПКМ-55 от 31 января 2025 г.): до 10 000 $ — 1 БРВ, 10–20 тыс. $ — 1,5 БРВ, 20–40 тыс. $ — 2,5 БРВ, 40–60 тыс. $ — 4 БРВ, 60–100 тыс. $ — 7 БРВ, выше — от 10 до 25 БРВ. БРВ меняется ежегодно, поэтому мы указываем сбор в БРВ, а не в сумах.',
-          'С 1 марта 2026 года при подаче предварительной декларации сбор ниже на 20 %, а с 1 июня 2026 года платежи можно вносить с рассрочкой до 120 дней (УП-250 от 17 декабря 2025 г.). Предоплата поставщику не обязательна, но оплаченный товар должен быть ввезён или деньги возвращены в течение 180 дней (ПКМ-283 от 14 мая 2020 г.).',
+          'С 1 марта 2026 года при подаче предварительной декларации сбор ниже на 20%, а с 1 июня 2026 года платежи можно вносить с рассрочкой до 120 дней (УП-250 от 17 декабря 2025 г.). Предоплата поставщику не обязательна, но оплаченный товар должен быть ввезён или деньги возвращены в течение 180 дней (ПКМ-283 от 14 мая 2020 г.).',
         ],
       },
       {
@@ -263,7 +263,7 @@ const content: ServiceContentByLang = {
           { title: 'Вы присылаете список товаров', text: 'Наименование, количество, цена, материал и фото. Мы подбираем код ТН ВЭД, считаем пошлину, НДС и сбор и сравниваем три схемы.' },
           { title: 'Выбираем схему', text: 'Для личного пользования — посылка; для магазина — контракт GSR или ваш собственный. При необходимости помогаем зарегистрировать контракт в ЕЭИСВО.' },
           { title: 'Готовим документы', text: 'Получаем от поставщика правильный инвойс, упаковочный лист и сертификат происхождения; если нужны сертификат и СЭС, заранее отправляем образец.' },
-          { title: 'Подаём декларацию', text: 'Когда груз прошёл Хоргос и прибыл на Яллама, подаётся электронная ГТД, платежи вносятся по счёту.' },
+          { title: 'Подаём декларацию', text: 'Когда груз прошёл Хоргос и прибыл на Ялламу, подаётся электронная ГТД, платежи вносятся по счёту.' },
           { title: 'Груз выпущен', text: 'Таможня выпускает товар в свободное обращение; вы получаете ГТД (схема 3) или электронный счёт-фактуру (схема 2). Груз приходит на склад в Ташкенте.' },
         ],
       },
@@ -288,11 +288,11 @@ const content: ServiceContentByLang = {
     ],
     faq: [
       { q: 'На какую сумму в месяц можно заказывать из Китая без платежей?', a: 'Через курьера — 200 $ в календарный месяц, через международную почту — 100 $, на каждое физлицо суммарно по ПИНФЛ (ПКМ-244, с 1 мая 2025 г.). Лимит действует только для личного пользования и не распространяется на товар для магазина.' },
-      { q: 'Сколько я заплачу при превышении лимита?', a: '30 % с суммы превышения, но не менее 3 $/кг (ПП-4508). С 1 января 2027 года планируется 20 % и 2 $/кг (ПФ-174) — пока действует прежняя ставка.' },
-      { q: 'Как легально ввезти товар для магазина?', a: 'Два пути: GSR ввозит по своему контракту и продаёт вам с электронным счётом-фактурой, либо вы как ИП/ООО регистрируете контракт в ЕЭИСВО, и ГТД оформляется на ваше имя. В обоих случаях платятся пошлина по ТН ВЭД и НДС 12 %.' },
-      { q: 'Какая пошлина на одежду и обувь?', a: 'Одежда — 20 % плюс минимум за штуку (0,5–4 $), обувь — 20 %, не менее 3 $/пара, детский трикотаж — 10 % (ПП-3818 в редакции ПП-58/2026). Сверху добавляется НДС 12 %.' },
+      { q: 'Сколько я заплачу при превышении лимита?', a: '30% с суммы превышения, но не менее 3 $/кг (ПП-4508). С 1 января 2027 года планируется 20% и 2 $/кг (УП-174) — пока действует прежняя ставка.' },
+      { q: 'Как легально ввезти товар для магазина?', a: 'Два пути: GSR ввозит по своему контракту и продаёт вам с электронным счётом-фактурой, либо вы как ИП/ООО регистрируете контракт в ЕЭИСВО, и ГТД оформляется на ваше имя. В обоих случаях платятся пошлина по ТН ВЭД и НДС 12%.' },
+      { q: 'Какая пошлина на одежду и обувь?', a: 'Одежда — 20% плюс минимум за штуку (0,5–4 $), обувь — 20%, не менее 3 $/пара, детский трикотаж — 10% (ПП-3818 в редакции ПП-58/2026). Сверху добавляется НДС 12%.' },
       { q: 'Сертификат нужен всегда?', a: 'Нет, это зависит от кода ТН ВЭД. ПКМ-554 (2 сентября 2025 г.) сократил перечень, но для электротоваров, детских товаров, косметики и продуктов сертификат или декларация нужны — и должны быть получены до выпуска груза. Товары для личного пользования освобождены.' },
-      { q: 'Сколько дней занимает растаможка?', a: 'При полном пакете документов по Таможенному кодексу груз выпускается в течение 1 рабочего дня; на практике на посту Яллама уходит 2–5 дней из-за очереди и досмотра. Предварительная декларация сокращает срок и снижает сбор на 20 %.' },
+      { q: 'Сколько дней занимает растаможка?', a: 'При полном пакете документов по Таможенному кодексу груз выпускается в течение 1 рабочего дня; на практике на посту Яллама уходит 2–5 дней из-за очереди и досмотра. Предварительная декларация сокращает срок и снижает сбор на 20%.' },
       { q: 'Кто и когда платит таможенные платежи?', a: 'Платит импортёр: при посылке — вы по квитанции курьера; по контракту GSR — мы, сумма входит в цену; по вашему контракту — ваша компания до выпуска груза по ГТД. Сумму мы всегда считаем до отправки груза.' },
       { q: 'Входит ли таможня в цену сборного груза?', a: 'Да, тариф авто карго включает оформление по документам компании. Если вы импортируете по собственному контракту, пошлина и НДС считаются отдельно — узнать их заранее можно в калькуляторе или у менеджера.' },
     ],
@@ -352,7 +352,7 @@ const content: ServiceContentByLang = {
         body: [
           'Since May 1, 2025 the personal allowance for goods arriving by international courier is $200 per calendar month (PKM-244 of April 19, 2025). The allowance applies not per parcel but to all orders in the month combined, tracked by the recipient’s PINFL. For international post the allowance is $100.',
           'Anything above the allowance is charged a single customs payment of 30%, but no less than $3 per kilogram (PP-4508). For a $250 parcel, for example, the payment is calculated on $50 and comes to $15. On top of that, every kilogram of a courier parcel carries a fee of 2% of the base calculation value (BRV) under PKM-55, in force since May 4, 2025 — the courier operator pays it and usually passes it on to the recipient.',
-          'The remaining allowance is shown in the “International courier shipments” service on my.gov.uz and in the E-Tijorat app. A planned change: under the “New Customs 2030” decree (PF-174, August 2026), from January 1, 2027 the rate drops to 20% and the minimum to $2/kg. Until then the current rate applies.',
+          'The remaining allowance is shown in the “International courier shipments” service on my.gov.uz and in the E-Tijorat app. A planned change: under the “New Customs 2030” decree (UP-174, August 2026), from January 1, 2027 the rate drops to 20% and the minimum to $2/kg. Until then the current rate applies.',
         ],
       },
       {
@@ -436,7 +436,7 @@ const content: ServiceContentByLang = {
     ],
     faq: [
       { q: 'How much can I order from China per month without customs payments?', a: '$200 per calendar month by courier and $100 by international post, per individual, combined across all parcels by PINFL (PKM-244, since May 1, 2025). The allowance is for personal use only and does not cover shop stock.' },
-      { q: 'How much do I pay above the allowance?', a: '30% of the excess, but no less than $3/kg (PP-4508). From January 1, 2027 the rate is planned to fall to 20% and $2/kg (PF-174) — until then the current rate applies.' },
+      { q: 'How much do I pay above the allowance?', a: '30% of the excess, but no less than $3/kg (PP-4508). From January 1, 2027 the rate is planned to fall to 20% and $2/kg (UP-174) — until then the current rate applies.' },
       { q: 'How do I import goods for my shop legally?', a: 'Two ways: GSR imports under its own contract and sells to you with an electronic invoice, or you register a contract in EEISVO as a sole trader or LLC and the GTD is issued in your name. In both cases duty by HS code and 12% VAT are paid.' },
       { q: 'What is the duty on clothing and footwear?', a: 'Clothing — 20% plus a per-piece minimum ($0.50–4); footwear — 20%, at least $3 per pair; children’s knitwear — 10% (PP-3818 as amended by PP-58/2026). VAT of 12% is added on top.' },
       { q: 'Is a certificate always required?', a: 'No, it depends on the HS code. PKM-554 (September 2, 2025) shortened the list, but electrical goods, children’s products, cosmetics and food still need a certificate or declaration, and it must exist before release. Goods for personal use are exempt.' },

@@ -11,15 +11,15 @@ const content: ServiceContentByLang = {
   uz: {
     key: 'buying',
     seo: {
-      title: '1688, Taobao va Alibabaʼdan tovar sotib olish — komissiya 3% dan',
+      title: '1688, Taobao va Alibabadan tovar sotib olish — komissiya 3% dan',
       description:
         'Havolani yuborasiz — biz narxni dollarda hisoblaymiz, sotuvchiga yuanda toʻlaymiz, tovarni Ivu omborida tekshirib Toshkentga olib kelamiz. 1688, Taobao, Pinduoduo, Alibaba. Komissiya 3% dan, toʻlov soʻmda.',
     },
     hero: {
       eyebrow: 'Xizmat 05 — Sotib olish',
-      h1: '1688, Taobao va Alibabaʼdan tovar sotib olish',
+      h1: '1688, Taobao va Alibabadan tovar sotib olish',
       intro:
-        'Sotib olish xizmati («vykup») — bu Siz 1688, Taobao, Pinduoduo yoki Alibabaʼdan tovar havolasini yuborasiz, biz narxni Markaziy bank kursi boʻyicha dollarda hisoblab beramiz, sotuvchiga yuanda toʻlaymiz, tovarni Ivu (义乌) omborida qabul qilib tekshiramiz va yigʻma yuk bilan taxminan 15–25 kunda Toshkentga olib kelamiz. Xizmat haqi — buyurtma summasining 3% dan. Xitoy kartasi, Alipay yoki xitoy tili kerak emas.',
+        'Sotib olish xizmati (выкуп) — bu siz 1688, Taobao, Pinduoduo yoki Alibabadan tovar havolasini yuborasiz, biz narxni Markaziy bank kursi boʻyicha dollarda hisoblab beramiz, sotuvchiga yuanda toʻlaymiz, tovarni Ivu (义乌) omborida qabul qilib tekshiramiz va yigʻma yuk bilan taxminan 15–25 kunda Toshkentga olib kelamiz. Xizmat haqi — buyurtma summasining 3% dan. Xitoy kartasi, Alipay yoki xitoy tili kerak emas.',
       facts: [
         { label: 'Komissiya, buyurtma summasidan', value: '3% dan' },
         { label: 'Saytlar: 1688, Taobao, Pinduoduo, Alibaba', value: '4 sayt' },
@@ -53,14 +53,14 @@ const content: ServiceContentByLang = {
           rows: [
             ['Tovar narxi', 'yuan → dollar, hisob-kitob kunidagi MB kursi', 'saytdagi narx'],
             ['Komissiya', 'tovar narxidan foiz', '3% dan'],
-            ['Xitoy ichidagi yetkazib berish', 'sotuvchi belgilaydi; 1688 da koʻpincha bepul yoki 5–15 yuan', 'sotuvchi narxi'],
+            ['Xitoy ichidagi yetkazib berish', 'sotuvchi belgilaydi; 1688-da koʻpincha bepul yoki 5–15 yuan', 'sotuvchi narxi'],
             ['Ivu → Toshkent tashish', 'kg yoki m³ hisobida, zichlikka qarab', '6,5 $/kg dan · 110 $/m³ dan'],
             ['Qoʻshimcha (ixtiyoriy)', 'tekshiruv 1 $/kg · foto qutini ochib 1 $ · qayta qadoqlash 0,4 $/kg', 'tanlovga qarab'],
           ],
           note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. Yuan va dollar kursi Markaziy bank kursi asosida hisob-kitob kunida koʻrsatiladi.',
         },
         callout: {
-          title: 'Misol: 1688 dan 50 ta sumka',
+          title: 'Misol: 1688-dan 50 ta sumka',
           text: '50 dona × 38 yuan = 1 900 yuan. 2026-yil 8-sentabrdagi MB kursi (1 yuan = 1 756,72 soʻm, 1 $ = 11 789,33 soʻm) boʻyicha bu ≈ 283 $; komissiya 3% ≈ 8,5 $. Tovar ≈ 3 340 000 soʻm + komissiya ≈ 100 000 soʻm. Tashish alohida: 50 sumka ≈ 20 kg, 0,15 m³ → zichlik 133 kg/m³ → hajmiy vazn boʻyicha hisoblanadi.',
           tone: 'info',
         },
@@ -68,14 +68,14 @@ const content: ServiceContentByLang = {
       {
         heading: 'Qaysi saytdan nima olgan maʼqul?',
         body: [
-          'Toʻrt sayt — toʻrt xil vazifa. Bir xil tovar 1688 da Taobaodagidan 20–40% arzon turadi, lekin 1688 ulgurji sayt va sotuvchi 2–10 donadan kam sotmaydi. Pinduoduo eng arzon, sifat esa eng notekis — tekshiruvsiz olmang.',
+          'Toʻrt sayt — toʻrt xil vazifa. Bir xil tovar 1688-da Taobaodagidan 20–40% arzon turadi, lekin 1688 ulgurji sayt va sotuvchi 2–10 donadan kam sotmaydi. Pinduoduo eng arzon, sifat esa eng notekis — tekshiruvsiz olmang.',
         ],
         table: {
           caption: 'Xitoy saytlarini taqqoslash',
           head: ['Sayt', 'Nima uchun', 'Minimal buyurtma', 'Eʼtibor bering'],
           rows: [
             ['1688.com', 'ulgurji: kiyim, poyabzal, aksessuar, uy-roʻzgʻor, ehtiyot qismlar', '2–10 dona (sotuvchiga qarab)', 'sotuvchi reytingi, «回头率» (qayta xarid foizi), zavod belgisi'],
-            ['Taobao / Tmall', 'chakana, brend doʻkonlar, keng tanlov, 1 dona', '1 dona', 'Tmall — rasmiy doʻkonlar; Taobao da sotuvchi reytingi va sharhlar'],
+            ['Taobao / Tmall', 'chakana, brend doʻkonlar, keng tanlov, 1 dona', '1 dona', 'Tmall — rasmiy doʻkonlar; Taobaoda sotuvchi reytingi va sharhlar'],
             ['Pinduoduo', 'eng arzon mayda tovarlar, sinov uchun', '1 dona', 'sifat turlicha; Ivuda tekshiruv va foto tavsiya etiladi'],
             ['Alibaba.com', 'eksport buyurtmalari, dollarda, katta partiya, shartnoma', '100–500 dona', 'Trade Assurance; narx FOB/EXW deb koʻrsatiladi'],
           ],
@@ -85,7 +85,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Toʻlovni qanday qilaman va yuan kursi qanday?',
         body: [
-          'Oʻzbekistonda Siz soʻmda toʻlaysiz: Humo yoki Uzcard kartadan oʻtkazma, Click va Payme, ofisimizda naqd (Toshkent, Alisher Navoiy koʻchasi, 27). Yuridik shaxslar va YaTT uchun hisob-faktura va bank oʻtkazmasi mumkin — bu holda tovar oʻz firmangiz nomiga rasmiylashtiriladi.',
+          'Oʻzbekistonda siz soʻmda toʻlaysiz: Humo yoki Uzcard kartadan oʻtkazma, Click va Payme, ofisimizda naqd (Toshkent, Alisher Navoiy koʻchasi, 27). Yuridik shaxslar va YaTT uchun hisob-faktura va bank oʻtkazmasi mumkin — bu holda tovar oʻz firmangiz nomiga rasmiylashtiriladi.',
           'Yuan kursi hisob-kitob kunidagi Oʻzbekiston Markaziy banki kursi asosida olinadi; ustama boʻlsa, u hisobda alohida qator sifatida yoziladi. Sotuvchiga toʻlovni biz Alipay, WeChat Pay yoki xitoy kompaniya hisobimizdan oʻtkazamiz — 1688 va Taobao tizimida pul tovar qabul qilinguncha platformada turadi, shuning uchun sotuvchi joʻnatmasa, summa qaytadi.',
         ],
         callout: {
@@ -98,7 +98,7 @@ const content: ServiceContentByLang = {
         heading: 'Tovar kelganda nimani tekshirasiz?',
         body: [
           'Ivu omboridagi standart qabul tashish narxiga kiradi: posilka soni, tashqi holati, ogʻirligi va oʻlchami, kodingiz bilan markirovka, tashqi foto. Qoʻshimcha 1 $/kg evaziga qutini ochib sonini, rangini, oʻlchamini va koʻrinadigan nuqsonlarini tekshiramiz; elektronikani tokka ulab koʻramiz.',
-          'Tovar tavsifga mos kelmasa, sotuvchi bilan qaytarishni oʻzimiz rasmiylashtiramiz: 1688 va Taobao da qabuldan keyin 7 kun ichida sababsiz qaytarish huquqi bor, Xitoy ichidagi qaytarish pochtasini sotuvchi yoki Siz toʻlaysiz (odatda 5–12 yuan). Shuning uchun tekshiruvni Ivuda — tovar Toshkentga chiqib ketmasdan oldin — buyurtma qiling.',
+          'Tovar tavsifga mos kelmasa, sotuvchi bilan qaytarishni oʻzimiz rasmiylashtiramiz: 1688 va Taobaoda qabuldan keyin 7 kun ichida sababsiz qaytarish huquqi bor, Xitoy ichidagi qaytarish pochtasini sotuvchi yoki siz toʻlaysiz (odatda 5–12 yuan). Shuning uchun tekshiruvni Ivuda — tovar Toshkentga chiqib ketmasdan oldin — buyurtma qiling.',
         ],
         bullets: [
           'Kiyim va poyabzal: soni, oʻlcham jadvali, tikuv, dogʻ — 1 $/kg tekshiruv bilan.',
@@ -115,14 +115,14 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Menejer maslahati',
-          text: '1688 da bir sotuvchidan 10 donadan koʻp olsangiz, yozib narxni soʻrang — koʻp sotuvchilar «拿样价» (namuna narxi) oʻrniga «批发价» (ulgurji narx) beradi, farq 10–15%. Buni biz sotuvchi bilan oʻzimiz gaplashib olamiz; siz faqat «narxni tushirib koʻring» deb yozsangiz kifoya.',
+          text: '1688-da bir sotuvchidan 10 donadan koʻp olsangiz, yozib narxni soʻrang — koʻp sotuvchilar «拿样价» (namuna narxi) oʻrniga «批发价» (ulgurji narx) beradi, farq 10–15%. Buni biz sotuvchi bilan oʻzimiz gaplashib olamiz; siz faqat «narxni tushirib koʻring» deb yozsangiz kifoya.',
           tone: 'success',
         },
       },
     ],
     faq: [
       {
-        q: '1688 dan buyurtma bersam komissiya qancha?',
+        q: '1688-dan buyurtma bersam komissiya qancha?',
         a: 'Buyurtma summasining 3% dan; foiz hisob-kitobda alohida qator sifatida koʻrsatiladi. Xitoy ichidagi yetkazib berish va Ivu → Toshkent tashish (6,5 $/kg dan yoki 110 $/m³ dan, taxminan, 2026-yil 8-sentabr) alohida hisoblanadi.',
       },
       {
@@ -134,7 +134,7 @@ const content: ServiceContentByLang = {
         a: 'Yoʻq. Sotuvchiga biz oʻz akkauntimizdan Alipay yoki WeChat Pay orqali yuanda toʻlaymiz va u bilan xitoy tilida yozishamiz. Siz soʻmda toʻlaysiz va Telegramda oʻzbek yoki rus tilida yozasiz.',
       },
       {
-        q: 'Taobao va Pinduoduo dan ham olib berasizmi?',
+        q: 'Taobao va Pinduoduodan ham olib berasizmi?',
         a: 'Ha: 1688, Taobao, Tmall, Pinduoduo va Alibaba. Pinduoduo tovarini Ivu omborida 1 $/kg evaziga ochib tekshirishni tavsiya qilamiz — u yerda sifat notekis, qaytarish esa faqat Xitoy ichida ishlaydi.',
       },
       {
@@ -143,11 +143,11 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Tovar nuqsonli yoki boshqa chiqsa nima boʻladi?',
-        a: 'Ivuda tekshiruvda aniqlansa, sotuvchiga qaytarishni oʻzimiz rasmiylashtiramiz (1688 va Taobao da 7 kun ichida) va pul platformadan qaytadi. Toshkentda aniqlansa, qaytarish qiyin — shuning uchun tekshiruvni Ivuda buyurtma qiling.',
+        a: 'Ivuda tekshiruvda aniqlansa, sotuvchiga qaytarishni oʻzimiz rasmiylashtiramiz (1688 va Taobaoda 7 kun ichida) va pul platformadan qaytadi. Toshkentda aniqlansa, qaytarish qiyin — shuning uchun tekshiruvni Ivuda buyurtma qiling.',
       },
       {
         q: 'Bitta dona buyurtma qilsam boʻladimi?',
-        a: 'Ha, Taobao va Pinduoduo dan 1 donadan olamiz. 1688 da sotuvchilar odatda 2–10 donadan sotadi. Tashishda minimal ogʻirlik 1 kg (avto) yoki 0,5 kg (avia).',
+        a: 'Ha, Taobao va Pinduoduodan 1 donadan olamiz. 1688-da sotuvchilar odatda 2–10 donadan sotadi. Tashishda minimal ogʻirlik 1 kg (avto) yoki 0,5 kg (avia).',
       },
       {
         q: 'Toʻlovni qanday va qachon qilaman?',
@@ -159,7 +159,7 @@ const content: ServiceContentByLang = {
     cta: {
       title: 'Havolani yuboring — hisob-kitobni olasiz.',
       text: 'Tovar havolasi, rangi, oʻlchami va sonini yozing. Menejer narxni MB kursi boʻyicha dollarda, komissiya va tashish bilan alohida qatorlarda hisoblab beradi.',
-      draft: 'Assalomu alaykum! 1688 / Taobao dan tovar sotib olish kerak. Havola: … Rang/oʻlcham: … Soni: … Yetkazish: avto / avia',
+      draft: 'Assalomu alaykum! 1688 / Taobaodan tovar sotib olish kerak. Havola: … Rang/oʻlcham: … Soni: … Yetkazish: avto / avia',
     },
     updated: '2026-09-08',
   },
@@ -443,7 +443,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Do I need a Chinese card, Alipay or Chinese?',
-        a: 'No. We pay the seller in yuan from our own account via Alipay or WeChat Pay and message them in Chinese. You pay in soʻm and write to us on Telegram in Uzbek, Russian or English.',
+        a: 'No. We pay the seller in yuan from our own account via Alipay or WeChat Pay and message them in Chinese. You pay in soʻm and write to us on Telegram in Uzbek or Russian.',
       },
       {
         q: 'Do you also buy from Taobao and Pinduoduo?',

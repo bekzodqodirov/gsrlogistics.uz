@@ -13,7 +13,7 @@ faq:
   - q: "Ivu va Guanchjou — qaysi biri arzon?"
     a: "Tovarga bogʻliq. Mayda ulgurji tovar (oʻyinchoq, taqinchoq, xoʻjalik mollari, paypoq) Ivuda arzon va bir joyda; kiyim, sumka, poyabzal va elektronika Guanchjou va Shenchjenda kengroq va sifat darajasi yuqoriroq. Guanchjoudan Ivu omborigacha yuk taxminan 2–4 kunda keladi, bu tannarxga sezilarli taʼsir qilmaydi."
   - q: "Xitoyga oʻzim borishim shartmi?"
-    a: "Yoʻq. Takroriy buyurtma va 1688ʼda topiladigan tovarlar uchun masofaviy xarid yetarli: siz havola yoki namunani yuborasiz, GSR Logistics sotib oladi, Ivu omborida tekshiradi va foto-hisobot beradi. Safar yangi yoʻnalish, katta partiya, mebel yoki uskuna tanlashda oʻzini oqlaydi — u yerda tovarni qoʻlda koʻrish muhim."
+    a: "Yoʻq. Takroriy buyurtma va 1688-da topiladigan tovarlar uchun masofaviy xarid yetarli: siz havola yoki namunani yuborasiz, GSR Logistics sotib oladi, Ivu omborida tekshiradi va foto-hisobot beradi. Safar yangi yoʻnalish, katta partiya, mebel yoki uskuna tanlashda oʻzini oqlaydi — u yerda tovarni qoʻlda koʻrish muhim."
   - q: "Ivu bozori qachon yopiq boʻladi?"
     a: "Xitoy Yangi yilida — 2027-yilda bayram 6-fevral — bozor taxminan 2–3 hafta, zavodlar 3–4 hafta ishlamaydi. 1–7 oktabr (Oltin hafta) bozorlar 3–7 kun yopiladi. Oddiy kunlarda Futian bozori haftaning yetti kuni taxminan 9:00–17:00 ishlaydi."
 sources:
@@ -88,13 +88,13 @@ Yukni Guanchjou, Shenchjen va boshqa shaharlardan hamkorlar orqali qabul qilamiz
 | Vaqt va xarajat | Kamida 7–10 kun, aviabilet, mehmonxona, tarjimon | Xabar va havolalar; agent komissiyasi 3% dan |
 | Sifat nazorati | Tovarni qoʻlda koʻrasiz, sotuvchi bilan yuzma-yuz kelishasiz | Namuna avia orqali 5–10 kunda, ombordagi foto va video hisobot |
 | Assortiment | Butun bozor, yangi mahsulotlar | 1688, Yiwugo va menejer tanlovi |
-| Kimga mos | Yangi yoʻnalish, katta partiya, mebel va uskuna | Takroriy buyurtma, 1688ʼda mavjud tovarlar |
+| Kimga mos | Yangi yoʻnalish, katta partiya, mebel va uskuna | Takroriy buyurtma, 1688-da mavjud tovarlar |
 
 Safar rejalashtirsangiz, jarayon shunday:
 
 1. **Reja.** Bozorlar, korpus va qavatlar roʻyxatini tuzing. Toshkentdan Urumchi va Pekinga toʻgʻridan-toʻgʻri reyslar bor; Ivuga Shanxay yoki Xanchjou orqali tezyurar poyezdda boriladi (Xanchjou–Ivu taxminan 1 soat). Viza shartlarini safar oldidan tekshiring.
 2. **Bozorda.** Har doʻkonning raqamini, vizitkasini va tovar fotosini bir joyga yozib boring: korpus, qavat, doʻkon raqami, narx, minimal partiya, tayyorlash muddati. Bir kunda 100 dan ortiq doʻkon koʻrasiz — yozuvsiz esda qolmaydi.
-3. **Toʻlov.** Sotuvchilar yuanda, WeChat Pay yoki Alipay orqali oladi; xorijiy karta ularga ulanadi, lekin ulgurji summalar odatda agent hisobidan toʻlanadi. GSR Logistics toʻlovni Markaziy bank kursi boʻyicha yuanda oʻtkazadi — [1688 va Taobaoʼdan sotib olish](/xizmatlar/sotib-olish/).
+3. **Toʻlov.** Sotuvchilar yuanda, WeChat Pay yoki Alipay orqali oladi; xorijiy karta ularga ulanadi, lekin ulgurji summalar odatda agent hisobidan toʻlanadi. GSR Logistics toʻlovni Markaziy bank kursi boʻyicha yuanda oʻtkazadi — [1688 va Taobaodan sotib olish](/xizmatlar/sotib-olish/).
 4. **Manzil.** Sotuvchiga yetkazish manzili sifatida GSR Logisticsning Ivu ombori va mijoz kodingiz beriladi. Ivu ichida sotuvchi tovarni 1–2 kunda odatda bepul yetkazadi; boshqa shaharlardan — ichki ekspress orqali.
 5. **Ombor va reys.** Har quti tortiladi, oʻlchanadi, raqamlanadi; foto-hisobot Telegramga keladi; yuk avto bilan taxminan 15–25 kunda, avia bilan 5–10 kunda Toshkentga yetadi.
 

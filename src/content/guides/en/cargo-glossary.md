@@ -11,7 +11,7 @@ faq:
   - q: "Are “cargo” and “logistics” the same thing?"
     a: "No. In Uzbekistan “kargo” is the everyday name for the China-to-Uzbekistan shipping service, usually priced per kg. Logistics is the wider discipline: planning the route, warehouse, documents and customs."
   - q: "What happens if volumetric weight is higher than actual weight?"
-    a: "You pay for the larger one. A 20 kg box of 60×50×40 cm gives 120,000 ÷ 6000 = 20 kg — equal; at 80×60×50 cm it becomes 40 kg and volumetric weight applies."
+    a: "You pay for the larger one. A 20 kg box of 60×50×40 cm gives 120,000 ÷ 6 000 = 20 kg — equal; at 80×60×50 cm it becomes 40 kg and volumetric weight applies."
   - q: "What is a GTD and do I need one?"
     a: "GTD is the cargo customs declaration. It is issued when a legal entity or sole trader imports officially and is the basis for selling goods in a shop or on a marketplace. Small personal parcels do not get a GTD."
 sources:
@@ -69,7 +69,7 @@ Photos taken when goods arrive at the warehouse: packaging, quantity, condition,
 Weight on the scale, in kg.
 
 ### Volumetric weight
-A “weight” calculated from the box dimensions: length × width × height (cm) ÷ 6000 (truck) or ÷ 5000 (air). You pay for the greater of actual and volumetric weight.
+A “weight” calculated from the box dimensions: length × width × height (cm) ÷ 6 000 (truck) or ÷ 5 000 (air). You pay for the greater of actual and volumetric weight.
 
 ### Density, kg/m³
 Weight divided by volume: 300 kg ÷ 2 m³ = 150 kg/m³. Above 170 kg/m³ the price is per kg; below it, per m³.

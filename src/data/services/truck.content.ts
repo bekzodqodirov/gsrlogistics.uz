@@ -3,8 +3,8 @@ import type { ServiceContentByLang } from './types';
 /**
  * Avto kargo (yigʻma yuk) — long-form page content.
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): truck ladder 7,5 / 7 / 6,5 $/kg,
- * dense wholesale ≥100 kg 3,5 $/kg, LCL 110–190 $/m³ by density, ÷6000 volumetric, 170 kg/m³ threshold,
- * extras 1 $ photo, 0,4 $/kg repack, 1 $/kg inspection, 1 % insurance, 14/3 free storage days,
+ * dense wholesale ≥100 kg 3,5 $/kg, LCL 110–190 $/m³ by density, ÷ 6 000 volumetric, 170 kg/m³ threshold,
+ * extras 1 $ photo, 0,4 $/kg repack, 1 $/kg inspection, 1% insurance, 14/3 free storage days,
  * door delivery 20 000–30 000 soʻm (free from 5 kg in Tashkent). Keep them in sync when tariffs change.
  */
 const content: ServiceContentByLang = {
@@ -24,14 +24,14 @@ const content: ServiceContentByLang = {
         { label: 'Muddat, Xitoy omboridan', value: '15–25 kun' },
         { label: 'Narx, kg hisobida', value: '6,5 $/kg dan' },
         { label: 'Narx, m³ hisobida', value: '110 $/m³ dan' },
-        { label: 'Hajmiy vazn qoidasi', value: '÷ 6000' },
+        { label: 'Hajmiy vazn qoidasi', value: '÷ 6 000' },
       ],
     },
     sections: [
       {
         heading: 'Yigʻma yuk kimga toʻgʻri keladi?',
         body: [
-          'Yigʻma yuk (LCL, «sborniy») — Xitoydan tovar olib kelishning eng koʻp tarqalgan usuli. Yukingiz Ivu (义乌) omborida boshqa mijozlarning yuklari bilan bitta fura yoki konteynerga joylanadi, shuning uchun 1 kg yuk uchun ham, 10 m³ yuk uchun ham faqat oʻz ulushingizga toʻlaysiz. Guanchjou, Shenchjen va boshqa shaharlardan ham qabul qilamiz: yetkazib beruvchi yukni Ivu omboriga joʻnatadi yoki hamkorlarimiz olib keladi.',
+          'Yigʻma yuk (LCL, сборный груз) — Xitoydan tovar olib kelishning eng koʻp tarqalgan usuli. Yukingiz Ivu (义乌) omborida boshqa mijozlarning yuklari bilan bitta fura yoki konteynerga joylanadi, shuning uchun 1 kg yuk uchun ham, 10 m³ yuk uchun ham faqat oʻz ulushingizga toʻlaysiz. Guanchjou, Shenchjen va boshqa shaharlardan ham qabul qilamiz: yetkazib beruvchi yukni Ivu omboriga joʻnatadi yoki hamkorlarimiz olib keladi.',
           'Bu usul quyidagi holatlarda oʻzini oqlaydi:',
         ],
         bullets: [
@@ -45,7 +45,7 @@ const content: ServiceContentByLang = {
         heading: 'Narx qanday hisoblanadi?',
         body: [
           'Avval yukning zichligini aniqlaymiz: umumiy ogʻirlikni (kg) umumiy hajmga (m³) boʻlamiz. Zichlik 170 kg/m³ va undan yuqori boʻlsa — kilogramm hisobida, past boʻlsa — kub metr hisobida toʻlaysiz. Ikkala holatda ham koʻrsatilgan narx Ivu omboridan Toshkent omborigacha boʻlgan toʻliq yoʻlni qamraydi.',
-          'Mayda partiyalarda (100 kg gacha) hajmiy vazn qoidasi ishlaydi: uzunlik × en × balandlik (sm) ÷ 6000. Haqiqiy va hajmiy vazndan kattasi hisobga olinadi. Kilogramm boʻyicha tarif partiya ogʻirligi oshgan sari pasayadi, kub metr boʻyicha tarif esa zichlik oshgan sari koʻtariladi — jadvalda ikkala shkala berilgan.',
+          'Mayda partiyalarda (100 kg gacha) hajmiy vazn qoidasi ishlaydi: uzunlik × en × balandlik (sm) ÷ 6 000. Haqiqiy va hajmiy vazndan kattasi hisobga olinadi. Kilogramm boʻyicha tarif partiya ogʻirligi oshgan sari pasayadi, kub metr boʻyicha tarif esa zichlik oshgan sari koʻtariladi — jadvalda ikkala shkala berilgan.',
         ],
         table: {
           caption: 'Avto kargo tariflari, Ivu → Toshkent',
@@ -54,7 +54,7 @@ const content: ServiceContentByLang = {
             ['Aralash yuk, kg hisobida', '30 kg gacha', '7,5 $/kg'],
             ['Aralash yuk, kg hisobida', '30–100 kg', '7 $/kg'],
             ['Aralash yuk, kg hisobida', '100 kg dan koʻp', '6,5 $/kg'],
-            ['Zich ulgurji yuk (kiyim, gazlama, poyabzal)', '100 kg dan, zichlik ≥ 170 kg/m³', '3,5 $/kg dan'],
+            ['Zich ulgurji yuk (kiyim, gazlama, poyabzal)', '100 kg dan, zichlik ≥ 300 kg/m³', '3,5 $/kg dan'],
             ['Hajmli yuk, m³ hisobida', 'zichlik 100 kg/m³ gacha', '110 $/m³'],
             ['Hajmli yuk, m³ hisobida', '100–200 kg/m³', '130 $/m³'],
             ['Hajmli yuk, m³ hisobida', '200–300 kg/m³', '150 $/m³'],
@@ -65,7 +65,7 @@ const content: ServiceContentByLang = {
         },
         callout: {
           title: 'Misol: hajmiy vazn',
-          text: '60 × 40 × 40 sm li quti — 96 000 sm³, ÷ 6000 = 16 kg hajmiy vazn. Qutining haqiqiy ogʻirligi 10 kg boʻlsa, 16 kg uchun toʻlaysiz; 25 kg boʻlsa — 25 kg uchun. Kalkulyatorda oʻlchamlarni kiritsangiz, qoida oʻzi tanlanadi.',
+          text: '60 × 40 × 40 sm li quti — 96 000 sm³, ÷ 6 000 = 16 kg hajmiy vazn. Qutining haqiqiy ogʻirligi 10 kg boʻlsa, 16 kg uchun toʻlaysiz; 25 kg boʻlsa — 25 kg uchun. Kalkulyatorda oʻlchamlarni kiritsangiz, qoida oʻzi tanlanadi.',
           tone: 'info',
         },
       },
@@ -153,7 +153,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Qanday hujjatlar kerak?',
         body: [
-          'Yigʻma yuk kompaniya hujjatlari bilan rasmiylashtiriladi: sizdan bojxona uchun alohida hujjat talab qilinmaydi, lekin tovarning nomi, soni va qiymati toʻgʻri koʻrsatilishi shart — shu maʼlumot asosida deklaratsiya toʻldiriladi. Bojxona toʻlovlari tarifga kiritilgan, «bojsiz» degan vaʼda bermaymiz.',
+          'Yigʻma yuk kompaniya hujjatlari bilan rasmiylashtiriladi: sizdan bojxona uchun alohida hujjat talab qilinmaydi, lekin tovarning nomi, soni va qiymati toʻgʻri koʻrsatilishi shart — shu maʼlumot asosida deklaratsiya toʻldiriladi. Bojxona rasmiylashtiruvi — hujjatlar va deklaratsiya — tarifga kiritilgan; boj va QQS esa TN VED kodi boʻyicha alohida hisoblanadi. «Bojsiz» degan vaʼda bermaymiz.',
           'Tovarni oʻz firmangiz yoki YaTT nomiga rasmiy import qilmoqchi boʻlsangiz, biz ekspeditor va deklarant sifatida ishlaymiz. Bu holda kerak boʻladi:',
         ],
         bullets: [
@@ -185,7 +185,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Hajmiy vazn nima va u qachon hisoblanadi?',
-        a: 'Hajmiy vazn — qutining uzunligi × eni × balandligi (sm) ÷ 6000. Haqiqiy vazn undan kichik boʻlsa, hajmiy vazn uchun toʻlaysiz. Partiya 100 kg dan oshsa, zichlik qoidasi ishlaydi: 170 kg/m³ dan zich yuk — kg, yengil yuk — m³ hisobida.',
+        a: 'Hajmiy vazn — qutining uzunligi × eni × balandligi (sm) ÷ 6 000. Haqiqiy vazn undan kichik boʻlsa, hajmiy vazn uchun toʻlaysiz. Partiya 100 kg dan oshsa, zichlik qoidasi ishlaydi: 170 kg/m³ dan zich yuk — kg, yengil yuk — m³ hisobida.',
       },
       {
         q: 'Yukim Guanchjou yoki boshqa shaharda boʻlsa-chi?',
@@ -230,7 +230,7 @@ const content: ServiceContentByLang = {
         { label: 'Срок от склада в Китае', value: '15–25 дней' },
         { label: 'Цена по килограммам', value: 'от 6,5 $/кг' },
         { label: 'Цена по кубометрам', value: 'от 110 $/м³' },
-        { label: 'Объёмный вес', value: '÷ 6000' },
+        { label: 'Объёмный вес', value: '÷ 6 000' },
       ],
     },
     sections: [
@@ -251,7 +251,7 @@ const content: ServiceContentByLang = {
         heading: 'Как считается цена?',
         body: [
           'Сначала определяем плотность груза: общий вес (кг) делим на общий объём (м³). Если плотность 170 кг/м³ и выше — платите по килограммам, если ниже — по кубометрам. В обоих случаях цена покрывает весь путь от склада в Иу до склада в Ташкенте.',
-          'Для небольших партий (до 100 кг) действует правило объёмного веса: длина × ширина × высота (см) ÷ 6000. К оплате берётся большее из фактического и объёмного веса. Ставка за килограмм снижается с ростом партии, ставка за кубометр растёт с ростом плотности — в таблице обе шкалы.',
+          'Для небольших партий (до 100 кг) действует правило объёмного веса: длина × ширина × высота (см) ÷ 6 000. К оплате берётся большее из фактического и объёмного веса. Ставка за килограмм снижается с ростом партии, ставка за кубометр растёт с ростом плотности — в таблице обе шкалы.',
         ],
         table: {
           caption: 'Тарифы авто карго, Иу → Ташкент',
@@ -260,7 +260,7 @@ const content: ServiceContentByLang = {
             ['Смешанный груз, по кг', 'до 30 кг', '7,5 $/кг'],
             ['Смешанный груз, по кг', '30–100 кг', '7 $/кг'],
             ['Смешанный груз, по кг', 'от 100 кг', '6,5 $/кг'],
-            ['Плотный оптовый груз (одежда, ткани, обувь)', 'от 100 кг, плотность ≥ 170 кг/м³', 'от 3,5 $/кг'],
+            ['Плотный оптовый груз (одежда, ткани, обувь)', 'от 100 кг, плотность ≥ 300 кг/м³', 'от 3,5 $/кг'],
             ['Объёмный груз, по м³', 'плотность до 100 кг/м³', '110 $/м³'],
             ['Объёмный груз, по м³', '100–200 кг/м³', '130 $/м³'],
             ['Объёмный груз, по м³', '200–300 кг/м³', '150 $/м³'],
@@ -271,7 +271,7 @@ const content: ServiceContentByLang = {
         },
         callout: {
           title: 'Пример: объёмный вес',
-          text: 'Коробка 60 × 40 × 40 см — это 96 000 см³, ÷ 6000 = 16 кг объёмного веса. Если фактический вес коробки 10 кг, платите за 16 кг; если 25 кг — за 25 кг. Введите размеры в калькулятор, и правило подберётся само.',
+          text: 'Коробка 60 × 40 × 40 см — это 96 000 см³, ÷ 6 000 = 16 кг объёмного веса. Если фактический вес коробки 10 кг, платите за 16 кг; если 25 кг — за 25 кг. Введите размеры в калькулятор, и правило подберётся само.',
           tone: 'info',
         },
       },
@@ -359,7 +359,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Какие документы нужны?',
         body: [
-          'Сборный груз оформляется под документы компании: от вас отдельные документы для таможни не требуются, но наименование, количество и стоимость товара должны быть указаны верно — по этим данным заполняется декларация. Таможенные платежи включены в тариф; «без пошлин» мы не обещаем.',
+          'Сборный груз оформляется под документы компании: от вас отдельные документы для таможни не требуются, но наименование, количество и стоимость товара должны быть указаны верно — по этим данным заполняется декларация. Таможенное оформление — документы и декларация — входит в тариф; пошлина и НДС считаются отдельно по коду ТН ВЭД. «Без пошлин» мы не обещаем.',
           'Если хотите ввезти товар официально на свою фирму или ИП, мы работаем как экспедитор и декларант. Тогда понадобятся:',
         ],
         bullets: [
@@ -391,7 +391,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Что такое объёмный вес и когда он применяется?',
-        a: 'Объёмный вес — это длина × ширина × высота коробки (см) ÷ 6000. Если фактический вес меньше, платите за объёмный. Для партий свыше 100 кг действует правило плотности: груз плотнее 170 кг/м³ считается по кг, легче — по м³.',
+        a: 'Объёмный вес — это длина × ширина × высота коробки (см) ÷ 6 000. Если фактический вес меньше, платите за объёмный. Для партий свыше 100 кг действует правило плотности: груз плотнее 170 кг/м³ считается по кг, легче — по м³.',
       },
       {
         q: 'А если мой товар в Гуанчжоу или другом городе?',
@@ -436,7 +436,7 @@ const content: ServiceContentByLang = {
         { label: 'Transit from the China warehouse', value: '15–25 days' },
         { label: 'Price per kilogram', value: 'from $6.50/kg' },
         { label: 'Price per cubic metre', value: 'from $110/m³' },
-        { label: 'Volumetric weight rule', value: '÷ 6000' },
+        { label: 'Volumetric weight rule', value: '÷ 6 000' },
       ],
     },
     sections: [
@@ -457,7 +457,7 @@ const content: ServiceContentByLang = {
         heading: 'How is the price calculated?',
         body: [
           'First we determine the density of your cargo: total weight (kg) divided by total volume (m³). At 170 kg/m³ or more you pay per kilogram; below that, per cubic metre. Either way the quoted price covers the whole journey from the Yiwu warehouse to the Tashkent warehouse.',
-          'For small lots (up to 100 kg) the volumetric-weight rule applies: length × width × height (cm) ÷ 6000. We charge the greater of actual and volumetric weight. The per-kilogram rate falls as the lot grows; the per-cubic-metre rate rises with density — the table shows both scales.',
+          'For small lots (up to 100 kg) the volumetric-weight rule applies: length × width × height (cm) ÷ 6 000. We charge the greater of actual and volumetric weight. The per-kilogram rate falls as the lot grows; the per-cubic-metre rate rises with density — the table shows both scales.',
         ],
         table: {
           caption: 'Truck cargo rates, Yiwu → Tashkent',
@@ -466,7 +466,7 @@ const content: ServiceContentByLang = {
             ['Mixed cargo, per kg', 'up to 30 kg', '$7.50/kg'],
             ['Mixed cargo, per kg', '30–100 kg', '$7.00/kg'],
             ['Mixed cargo, per kg', 'over 100 kg', '$6.50/kg'],
-            ['Dense wholesale cargo (clothing, fabrics, footwear)', 'from 100 kg, density ≥ 170 kg/m³', 'from $3.50/kg'],
+            ['Dense wholesale cargo (clothing, fabrics, footwear)', 'from 100 kg, density ≥ 300 kg/m³', 'from $3.50/kg'],
             ['Bulky cargo, per m³', 'density up to 100 kg/m³', '$110/m³'],
             ['Bulky cargo, per m³', '100–200 kg/m³', '$130/m³'],
             ['Bulky cargo, per m³', '200–300 kg/m³', '$150/m³'],
@@ -477,7 +477,7 @@ const content: ServiceContentByLang = {
         },
         callout: {
           title: 'Example: volumetric weight',
-          text: 'A 60 × 40 × 40 cm box is 96,000 cm³; ÷ 6000 = 16 kg volumetric weight. If the box actually weighs 10 kg, you pay for 16 kg; if it weighs 25 kg, you pay for 25 kg. Enter the dimensions in the calculator and the rule is applied automatically.',
+          text: 'A 60 × 40 × 40 cm box is 96,000 cm³; ÷ 6 000 = 16 kg volumetric weight. If the box actually weighs 10 kg, you pay for 16 kg; if it weighs 25 kg, you pay for 25 kg. Enter the dimensions in the calculator and the rule is applied automatically.',
           tone: 'info',
         },
       },
@@ -565,7 +565,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Which documents are needed?',
         body: [
-          'Consolidated cargo is cleared under the company’s documents: you do not need to supply customs paperwork, but the product name, quantity and value must be stated correctly — the declaration is filled in from that data. Customs payments are included in the rate; we never promise “no duties”.',
+          'Consolidated cargo is cleared under the company’s documents: you do not need to supply customs paperwork, but the product name, quantity and value must be stated correctly — the declaration is filled in from that data. Customs clearance — documents and the declaration — is included in the rate; duty and VAT are calculated separately by HS code. We never promise “no duties”.',
           'If you want to import officially under your own company or sole proprietorship, we act as forwarder and declarant. In that case you will need:',
         ],
         bullets: [
@@ -597,7 +597,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'What is volumetric weight and when does it apply?',
-        a: 'Volumetric weight is the box’s length × width × height (cm) ÷ 6000. If the actual weight is lower, you pay for the volumetric weight. For lots over 100 kg the density rule applies: cargo denser than 170 kg/m³ is billed per kg, lighter cargo per m³.',
+        a: 'Volumetric weight is the box’s length × width × height (cm) ÷ 6 000. If the actual weight is lower, you pay for the volumetric weight. For lots over 100 kg the density rule applies: cargo denser than 170 kg/m³ is billed per kg, lighter cargo per m³.',
       },
       {
         q: 'What if my goods are in Guangzhou or another city?',

@@ -1,6 +1,6 @@
 ---
 title: "Xitoydan kargo narxi qanday hisoblanadi? Hajmiy vazn, zichlik, kg va m³ (2026)"
-description: "Kargo narxi 3 narsaga bogʻliq: yoʻnalish, vazn va zichlik. Hajmiy vazn formulasi (÷6000 avto, ÷5000 avia), 170 kg/m³ zichlik qoidasi, 5 ta hisoblangan misol, narxga nima kiradi va kirmaydi, bojxona toʻlovlari — 2026-yil sentabr holatiga taxminiy narxlar bilan."
+description: "Kargo narxi 3 narsaga bogʻliq: yoʻnalish, vazn va zichlik. Hajmiy vazn formulasi (÷ 6 000 avto, ÷ 5 000 avia), 170 kg/m³ zichlik qoidasi, 5 ta hisoblangan misol, narxga nima kiradi va kirmaydi, bojxona toʻlovlari — 2026-yil sentabr holatiga taxminiy narxlar bilan."
 lang: uz
 translationKey: cargo-pricing
 slug: kargo-narxlari-qanday-hisoblanadi
@@ -11,11 +11,11 @@ faq:
   - q: "Kargo narxi kg boʻyicha hisoblanadimi yoki m³ boʻyicha?"
     a: "Avto kargoda zichlik hal qiladi: 170 kg/m³ dan yuqori boʻlsa — kg boʻyicha, past boʻlsa — m³ boʻyicha. Avia har doim kg boʻyicha: haqiqiy va hajmiy vazndan kattasi olinadi."
   - q: "Hajmiy vazn qanday hisoblanadi?"
-    a: "Uzunlik × en × balandlik (sm) ÷ 6000 avto uchun, ÷ 5000 avia uchun. Masalan, 50×40×40 sm quti: 80 000 ÷ 6000 = 13,3 kg (avto), 80 000 ÷ 5000 = 16 kg (avia)."
+    a: "Uzunlik × en × balandlik (sm) ÷ 6 000 avto uchun, ÷ 5 000 avia uchun. Masalan, 50×40×40 sm quti: 80 000 ÷ 6 000 = 13,3 kg (avto), 80 000 ÷ 5 000 = 16 kg (avia)."
   - q: "Xitoydan 1 kg yuk narxi qancha?"
     a: "2026-yil sentabr holatiga taxminan: avto kargo 6,5–7,5 $/kg (30 kg gacha 7,5 $, 30–100 kg 7 $, 100 kg dan 6,5 $), avia 9–12 $/kg. Aniq narx yuk Ivu omborida tortilgandan keyin belgilanadi."
   - q: "Narxga bojxona toʻlovlari kiradimi?"
-    a: "Bojxona rasmiylashtiruvi va GTD kiradi, boj va QQS — kirmaydi: ular TN VED kodi boʻyicha qonunda belgilangan va yuk egasi tomonidan toʻlanadi. Biz summani oldindan hisoblab beramiz."
+    a: "Bojxona rasmiylashtiruvi va GTD kiradi, boj va QQS — kirmaydi: ular TN VED kodi boʻyicha qonunda belgilangan va ularni yuk egasi toʻlaydi. Biz summani oldindan hisoblab beramiz."
   - q: "Yukni tortganda narx oʻzgarishi mumkinmi?"
     a: "Ha, shuning uchun soʻrovdagi narx taxminiy. Yakuniy narx omborda oʻlchangan vazn, hajm va tovar toifasi boʻyicha belgilanadi va foto-hisobot bilan birga Telegramga yuboriladi."
 sources:
@@ -25,7 +25,7 @@ sources:
   - title: "iCargo — yigʻma yuk uchun zichlik boʻyicha m³ tariflari"
     url: "https://icargo.uz/"
     date: "2026-09-01"
-  - title: "Transasia — Xitoydan Oʻzbekistonga yetkazib berish qancha turadi (÷5000 va ÷6000 qoidasi, B2B narxlari)"
+  - title: "Transasia — Xitoydan Oʻzbekistonga yetkazib berish qancha turadi (÷ 5 000 va ÷ 6 000 qoidasi, B2B narxlari)"
     url: "https://transasia.uz/blog/tpost/eyyh7ibc71-skolko-stoit-dostavka-iz-kitaya-v-uzbeki"
     date: "2026-06-23"
   - title: "Oʻzbekiston Respublikasi Markaziy banki — AQSH dollarining rasmiy kursi"
@@ -34,7 +34,7 @@ sources:
   - title: "Vazirlar Mahkamasining 244-son qarori — jismoniy shaxslar uchun boj toʻlanmaydigan olib kirish normalari (lex.uz)"
     url: "https://lex.uz/docs/7484114"
     date: "2025-04-19"
-  - title: "Gazeta.uz — 2027-yil 1-yanvardan yagona bojxona toʻlovi 20 % ga tushiriladi (PF-174)"
+  - title: "Gazeta.uz — 2027-yil 1-yanvardan yagona bojxona toʻlovi 20% ga tushiriladi (PF-174)"
     url: "https://www.gazeta.uz/oz/2026/09/02/customs-payment/"
     date: "2026-09-02"
 ---
@@ -57,16 +57,16 @@ Hajmiy vazn — bu qutining hajmidan hisoblanadigan shartli «vazn». Fura yoki 
 
 | Yoʻnalish | Formula | 1 m³ necha kg deb hisoblanadi |
 |---|---|---|
-| Avto kargo | uzunlik × en × balandlik (sm) ÷ 6000 | ≈ 167 kg |
-| Avia kargo | uzunlik × en × balandlik (sm) ÷ 5000 | 200 kg |
+| Avto kargo | uzunlik × en × balandlik (sm) ÷ 6 000 | ≈ 167 kg |
+| Avia kargo | uzunlik × en × balandlik (sm) ÷ 5 000 | 200 kg |
 
-Toʻlanadigan vazn = haqiqiy va hajmiy vazndan kattasi. Misol: 50×40×40 sm quti, 8 kg. Hajmiy vazn: 80 000 ÷ 5000 = 16 kg (avia) yoki 80 000 ÷ 6000 = 13,3 kg (avto). Aviada 16 kg uchun toʻlanadi, chunki 16 > 8. Bu qoida Toshkent bozorida deyarli barcha tashuvchilarda bir xil: ÷6000 avto, ÷5000 avia (Transasia, 2026-yil 23-iyun).
+Toʻlanadigan vazn = haqiqiy va hajmiy vazndan kattasi. Misol: 50×40×40 sm quti, 8 kg. Hajmiy vazn: 80 000 ÷ 5 000 = 16 kg (avia) yoki 80 000 ÷ 6 000 = 13,3 kg (avto). Aviada 16 kg uchun toʻlanadi, chunki 16 > 8. Bu qoida Toshkent bozorida deyarli barcha tashuvchilarda bir xil: ÷ 6 000 avto, ÷ 5 000 avia (Transasia, 2026-yil 23-iyun).
 
 ## Zichlik nima va kg yoki m³ qachon qoʻllanadi?
 
 Zichlik — bu yuk ogʻirligining hajmiga nisbati, kg/m³. Hisoblash: umumiy vazn ÷ umumiy hajm. 300 kg va 2 m³ → 150 kg/m³; 48 kg va 0,2 m³ → 240 kg/m³.
 
-Avto kargoda qoida: **zichlik 170 kg/m³ dan yuqori — kg boʻyicha, past — m³ boʻyicha.** 170 raqami tasodifiy emas: ÷6000 formulasi boʻyicha 1 m³ ≈ 167 kg, yaʼni shu chegaradan yuqorida haqiqiy vazn hajmiy vazndan katta boʻladi. Avia har doim kg boʻyicha hisoblanadi.
+Avto kargoda qoida: **zichlik 170 kg/m³ dan yuqori — kg boʻyicha, past — m³ boʻyicha.** 170 raqami tasodifiy emas: ÷ 6 000 formulasi boʻyicha 1 m³ ≈ 167 kg, yaʼni shu chegaradan yuqorida haqiqiy vazn hajmiy vazndan katta boʻladi. Avia har doim kg boʻyicha hisoblanadi.
 
 Odatiy zichliklar: kiyim (zich qadoqlangan) 250–350 kg/m³, poyabzal qutida 150–200, mato rulonlarda 350–500, plastmassa oʻyinchoq 60–100, mebel 80–150, ehtiyot qismlar va metall buyum 400–700. Demak kiyim va zapchast kg boʻyicha, oʻyinchoq va mebel — m³ boʻyicha ketadi.
 
@@ -97,9 +97,9 @@ Taqqoslash uchun: MK Express 2025-yil 27-martda avto uchun aynan shu zinapoyani 
 
 **3-misol. Mato, ulgurji, avto.** 400 kg, 1 m³. Zichlik 400 kg/m³ → kg boʻyicha. Standart tarif 6,5 $/kg → 2 600 $; zich ulgurji tarif 3,5 $/kg dan → 1 400 $ dan. Yakuniy narx omborda tortilgach tasdiqlanadi: **1 400–2 600 $**.
 
-**4-misol. Elektronika, avia.** 50×40×40 sm quti, 8 kg. Hajmiy vazn: 80 000 ÷ 5000 = 16 kg > 8 kg → 16 kg uchun toʻlanadi. Oddiy tovar 9 $/kg → **144 $**; brend boʻlsa 12 $/kg → 192 $.
+**4-misol. Elektronika, avia.** 50×40×40 sm quti, 8 kg. Hajmiy vazn: 80 000 ÷ 5 000 = 16 kg > 8 kg → 16 kg uchun toʻlanadi. Oddiy tovar 9 $/kg → **144 $**; brend boʻlsa 12 $/kg → 192 $.
 
-**5-misol. Namuna, avia yoki avto?** 40×40×30 sm quti, 20 kg. Avia: hajmiy vazn 48 000 ÷ 5000 = 9,6 kg < 20 → 20 × 9 = **180 $**, 5–10 kun. Avto: zichlik 20 ÷ 0,048 = 417 kg/m³ → kg, 20 × 7,5 = **150 $**, 15–25 kun. Farq 30 $ — shoshilinch namuna uchun avia oʻzini oqlaydi.
+**5-misol. Namuna, avia yoki avto?** 40×40×30 sm quti, 20 kg. Avia: hajmiy vazn 48 000 ÷ 5 000 = 9,6 kg < 20 → 20 × 9 = **180 $**, 5–10 kun. Avto: zichlik 20 ÷ 0,048 = 417 kg/m³ → kg, 20 × 7,5 = **150 $**, 15–25 kun. Farq 30 $ — shoshilinch namuna uchun avia oʻzini oqlaydi.
 
 Oʻz yukingiz uchun raqamni [Kalkulyator](/kalkulyator/) shu qoidalar boʻyicha beradi: qoʻllangan qoida, tarif va yangilangan sana koʻrsatiladi.
 
@@ -116,17 +116,17 @@ Oʻz yukingiz uchun raqamni [Kalkulyator](/kalkulyator/) shu qoidalar boʻyicha 
 | Toshkentda saqlash | Ha, 3 kungacha | keyin kunlik toʻlov |
 | Tovarni ochib tekshirish | Yoʻq | 1 $/kg dan |
 | Qayta qadoqlash (hajmni kamaytirish) | Yoʻq | 0,4 $/kg |
-| Sugʻurta | Yoʻq | eʼlon qilingan qiymatning 1 % |
+| Sugʻurta | Yoʻq | eʼlon qilingan qiymatning 1% |
 | Boj, QQS, bojxona yigʻimi | Yoʻq | qonun boʻyicha, oldindan hisoblab beramiz |
 | Viloyatga yetkazish | Filialgacha bepul | uygacha 20 000–30 000 soʻm |
-| Tovar topish va sotib olish | Yoʻq | komissiya 3 % dan |
+| Tovar topish va sotib olish | Yoʻq | komissiya 3% dan |
 
 ## Bojxona toʻlovlari narxga kiradimi?
 
 Bojxona rasmiylashtiruvi — hujjatlar, TN VED kodi, GTD — bizning ishimiz va u narxga kiradi. Boj va QQS esa davlatga toʻlanadi va tovar kodiga bogʻliq, shuning uchun ular kargo tarifiga kirmaydi; biz ularni soʻrov bosqichida hisoblab beramiz.
 
-- **Yuridik shaxs yoki YaTT:** boj 0–30 % (kiyim 20 %, telefon 5 %, mebel 15 %, kompyuter 0 %), QQS 12 % (bojxona qiymati + boj), bojxona yigʻimi 10 000 $ gacha yuk uchun 1 BRV. Masalan, 5 000 $ lik kiyim partiyasi: boj 1 000 $, QQS (5 000 + 1 000) × 12 % = 720 $ — jami taxminan 1 720 $ + 1 BRV.
-- **Jismoniy shaxs:** 2025-yil 1-maydan kuryer joʻnatmalari uchun oyiga 200 $ limit, oshgan qismiga 30 %, kamida 3 $/kg (Vazirlar Mahkamasining 244-son qarori). Har bir joʻnatma uchun 1 kg ga BRVning 2 % miqdorida bojxona yigʻimi ham bor (55-son qaror, 2025-yil 4-maydan). Gazeta.uz 2026-yil 2-sentabrda yozganidek, 2027-yil 1-yanvardan stavka 20 % va 2 $/kg boʻladi.
+- **Yuridik shaxs yoki YaTT:** boj 0–30% (kiyim 20%, telefon 5%, mebel 15%, kompyuter 0%), QQS 12% (bojxona qiymati + boj), bojxona yigʻimi 10 000 $ gacha yuk uchun 1 BRV. Masalan, 5 000 $ lik kiyim partiyasi: boj 1 000 $, QQS (5 000 + 1 000) × 12% = 720 $ — jami taxminan 1 720 $ + 1 BRV.
+- **Jismoniy shaxs:** 2025-yil 1-maydan kuryer joʻnatmalari uchun oyiga 200 $ limit, oshgan qismiga 30%, kamida 3 $/kg (Vazirlar Mahkamasining 244-son qarori). Har bir joʻnatma uchun 1 kg ga BRVning 2% miqdorida bojxona yigʻimi ham bor (55-son qaror, 2025-yil 4-maydan). Gazeta.uz 2026-yil 2-sentabrda yozganidek, 2027-yil 1-yanvardan stavka 20% va 2 $/kg boʻladi.
 
 Doʻkon yoki marketpleys uchun tovar — tijorat yuki; uni boj toʻlamasdan olib kelish mumkin emas, va biz bunday vaʼda bermaymiz. Batafsil: [Bojxona rasmiylashtiruvi](/xizmatlar/bojxona/).
 

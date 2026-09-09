@@ -123,10 +123,10 @@ const uz: ServicesStrings = {
   },
   index: {
     seoTitle: 'Xitoydan yuk tashish va xarid xizmatlari — kargo, tovar topish, bojxona',
-    seoDescription: 'GSR Logistics xizmatlari: Xitoydan Toshkentga yigʻma yuk 15–25 kun, avia 5–10 kun, temir yoʻl konteynerlari, tovar topish, 1688 va Taobaoʼdan sotib olish, uskunalar importi, bojxona rasmiylashtiruvi, Ivu ombori va avtomobil importi.',
+    seoDescription: 'GSR Logistics xizmatlari: Xitoydan Toshkentga yigʻma yuk 15–25 kun, avia 5–10 kun, temir yoʻl konteynerlari, tovar topish, 1688 va Taobaodan sotib olish, uskunalar importi, bojxona rasmiylashtiruvi, Ivu ombori va avtomobil importi.',
     eyebrow: 'Xizmatlar',
     h1: 'Xitoydan yuk tashish va xarid boʻyicha xizmatlar',
-    intro: 'GSR Logistics Xitoy bilan bogʻliq toʻqqiz ishni bajaradi: Ivu omboridan Xorgos orqali Toshkentga yigʻma yuk taxminan 15–25 kunda, avia kargo 5–10 kunda, temir yoʻl konteynerlari 20–35 kunda keladi. Tovar topamiz, 1688 va Taobaoʼdan sotib olamiz, uskunalarni «kalit topshirish» sharti bilan keltiramiz, bojxonani rasmiylashtiramiz. Bitta menejer, bitta shartnoma — 2018-yildan beri.',
+    intro: 'GSR Logistics Xitoy bilan bogʻliq toʻqqiz ishni bajaradi: Ivu omboridan Xorgos orqali Toshkentga yigʻma yuk taxminan 15–25 kunda, avia kargo 5–10 kunda, temir yoʻl konteynerlari 20–35 kunda keladi. Tovar topamiz, 1688 va Taobaodan sotib olamiz, uskunalarni «kalit topshirish» sharti bilan keltiramiz, bojxonani rasmiylashtiramiz. Bitta menejer, bitta shartnoma — 2018-yildan beri.',
     groups: { shipping: 'Yuk tashish', buying: 'Xitoyda topish va sotib olish', paperwork: 'Rasmiylashtiruv va nazorat', vehicles: 'Avtomobillar' },
     groupLead: {
       shipping: 'Uch yoʻnalish — avto, avia, temir yoʻl. Muddat va narx yukning ogʻirligi, hajmi va shoshilinchligiga bogʻliq.',

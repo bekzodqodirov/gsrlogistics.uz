@@ -45,7 +45,7 @@ Xitoydan Oʻzbekistonga yukni uch yoʻl bilan olib kelish mumkin: **avia** (taxm
 | Qaysi yuk uchun | Elektronika aksessuarlari, namunalar, brend kiyim, ehtiyot qismlar, shoshilinch partiya | Kiyim, poyabzal, oʻyinchoq, maishiy tovarlar, uskunalar, qurilish mollari | Bitta mijozning katta partiyasi: mebel, xomashyo, dastgohlar |
 | Taqiqlar | Litiy batareya, suyuqlik, atir, magnit, dori, dron — olinmaydi | Umumiy roʻyxat: portlovchi va yonuvchi moddalar, tez buziladigan mahsulot, pul va qimmatbaho metall, hujjatlar | Avto bilan bir xil; xavfli yuk alohida kelishuv bilan |
 | Minimal | 0,5 kg | 1 kg (kg boʻyicha) · 0,1 m³ (m³ boʻyicha) | Bitta konteyner (20 yoki 40 fut) |
-| Hajmiy vazn | uzunlik × en × balandlik (sm) ÷ 5000 | ÷ 6000 | Konteyner sigʻimi: ≈ 33 m³ (20 fut) / ≈ 76 m³ (40 fut HC) |
+| Hajmiy vazn | uzunlik × en × balandlik (sm) ÷ 5 000 | ÷ 6 000 | Konteyner sigʻimi: ≈ 33 m³ (20 fut) / ≈ 76 m³ (40 fut HC) |
 | Chegara | Toshkent aeroporti | Xorgos (Qozogʻiston) → Shimkent → Toshkent | Doʻstiq yoki Oltinkoʻl → Saryagash → Toshkent |
 
 *Taxminiy narx · Yangilangan: 2026-yil 8-sentabr. Yakuniy narx yuk Ivu omborida tortilib, oʻlchangandan keyin aniqlanadi.* Barcha tariflar — [Narxlar](/narxlar/) sahifasida, tezkor hisob — [Kalkulyator](/kalkulyator/)da.
@@ -65,7 +65,7 @@ Narx qoidasi: zichlik 170 kg/m³ dan yuqori boʻlsa — kg boʻyicha, past boʻl
 
 ## Avia kargo qachon oʻzini oqlaydi?
 
-Avia kargo — yukni samolyotda olib kelish, taxminan 5–10 kun. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi, Toshkent aeroportida rasmiylashtiriladi va omborga tushadi. 1 kg narxi 9 $ dan (brend tovar 12 $, tijorat partiya 11,5 $), minimal 0,5 kg. Hajmiy vazn ÷ 5000 boʻyicha hisoblanadi, yaʼni yengil, lekin katta quti aviada avtodagidan «ogʻirroq» chiqadi.
+Avia kargo — yukni samolyotda olib kelish, taxminan 5–10 kun. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi, Toshkent aeroportida rasmiylashtiriladi va omborga tushadi. 1 kg narxi 9 $ dan (brend tovar 12 $, tijorat partiya 11,5 $), minimal 0,5 kg. Hajmiy vazn ÷ 5 000 boʻyicha hisoblanadi, yaʼni yengil, lekin katta quti aviada avtodagidan «ogʻirroq» chiqadi.
 
 Avia mos keladi, agar:
 

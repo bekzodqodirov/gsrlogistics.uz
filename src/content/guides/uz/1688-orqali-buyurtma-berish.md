@@ -39,14 +39,14 @@ sources:
 
 1688 (1688.com) — bu Alibaba guruhining Xitoy ichki bozori uchun ulgurji savdo maydonchasi: zavod narxi, minimal partiya (MOQ) 2–100 dona, faqat xitoy tili va faqat Xitoy toʻlov tizimlari. Oʻzbekistondan unga toʻgʻridan-toʻgʻri toʻlab boʻlmaydi, shuning uchun buyurtma vositachi orqali beriladi. GSR Logistics tovarni siz uchun sotib oladi — yuan Markaziy bank kursi boʻyicha + 3% dan komissiya, — Ivu omborida qabul qiladi, tekshiradi va avto bilan 15–25 kunda Toshkentga yetkazadi. Buyurtmadan Toshkentgacha jami taxminan 25–40 kun.
 
-## 1688 nima va Taobao, Pinduoduoʼdan farqi?
+## 1688 nima va Taobao, Pinduoduodan farqi?
 
 1688 — «Alibabaning ichki tomoni». Alibaba.com xorijiy xaridorlar uchun ingliz tilida va dollarda ishlaydi, 1688 esa xitoylik doʻkon va sotuvchilar uchun: oʻsha zavodlar, lekin narx 20–40% past, chunki eksport ustamasi va vositachi yoʻq. Bu — Uzum, Instagram doʻkoni yoki Abu Sahiy rastasi uchun tovar olishning eng arzon manbai.
 
 | Mezon | 1688 | Taobao | Pinduoduo |
 |---|---|---|---|
 | Kim uchun | Ulgurji xaridor, doʻkon, reseller | Chakana xaridor | Chakana xaridor, arzon segment |
-| Narx | Zavod narxi, eng past | 1688-dan 20–40% yuqori | Taobaoʼdan past, sifat beqaror |
+| Narx | Zavod narxi, eng past | 1688-dan 20–40% yuqori | Taobaodan past, sifat beqaror |
 | Minimal partiya | 2–100 dona (起批量), koʻpincha narx pogʻonali: 10 / 100 / 1 000 dona | 1 dona | 1 dona |
 | Til | Faqat xitoy | Faqat xitoy | Faqat xitoy |
 | Sotuvchi | Zavod (工厂) yoki savdo kompaniyasi | Doʻkon, xususiy sotuvchi | Kichik sotuvchi |
@@ -54,7 +54,7 @@ sources:
 | Xitoy ichida yetkazish | Odatda pullik (5–30 yuan), katta partiyada bepul | Koʻpincha bepul | Bepul |
 | Nimaga mos | Partiya uchun, brend yaratish, marketpleys | Namuna, kam sonli buyurtma | Arzon mayda tovarlar |
 
-Xulosa: namunani Taobaoʼdan 1 dona olib koʻring, partiyani 1688-dan bering. Pinduoduo — faqat arzon, sifatga talab past tovarlar uchun.
+Xulosa: namunani Taobaodan 1 dona olib koʻring, partiyani 1688-dan bering. Pinduoduo — faqat arzon, sifatga talab past tovarlar uchun.
 
 ## Akkaunt va ilova: nima kerak?
 
@@ -69,7 +69,7 @@ Amaliy tavsiya:
 ## 1688-da tovarni qanday qidirish?
 
 1. **Kalit soʻzni xitoychaga tarjima qiling.** «Telefon gʻilofi» → 手机壳, «ayollar sumkasi» → 女包, «LED chiroq» → LED灯. Bir nechta sinonim ishlating — natijalar tubdan farq qiladi.
-2. **Rasm boʻyicha qidiring.** Ilovadagi kamera belgisi (拍照搜索) Taobao, Instagram yoki Uzumʼdagi rasmni yuklab, oʻsha tovarni ishlab chiqaruvchi zavodlarni topadi.
+2. **Rasm boʻyicha qidiring.** Ilovadagi kamera belgisi (拍照搜索) Taobao, Instagram yoki Uzumdagi rasmni yuklab, oʻsha tovarni ishlab chiqaruvchi zavodlarni topadi.
 3. **Filtrlarni qoʻying.** 实力商家 (kuchli sotuvchi), 48小时发货 (48 soatda joʻnatish), 一件代发 (1 donadan joʻnatish), 7天无理由退换 (7 kun qaytarish).
 4. **Sotuvchini tekshiring.** Saytda ishlagan yillari (5 yildan koʻp — yaxshi), 回头率 (qayta xarid ulushi, 30% dan yuqori — yaxshi), 工厂 belgisi (zavodning oʻzi) va sharhlar soni.
 5. **Narx pogʻonalarini oʻqing.** Odatda uchta narx: masalan, 2–99 dona — 8,5 yuan, 100–999 — 7,8 yuan, 1 000+ — 7,2 yuan. Rasmda koʻrinadigan eng past narx — eng katta partiya uchun.
@@ -85,7 +85,7 @@ Amaliy tavsiya:
 6. **Qabul, tekshiruv, foto-hisobot.** Omborda har qutini tortamiz, oʻlchaymiz, ochib sanaymiz; foto-hisobot Telegramga keladi. Kerak boʻlsa — qayta qadoqlash (0,4 $/kg) va batafsil tekshiruv (1 $/kg). Turli sotuvchilardan kelgan buyurtmalar bitta yukka yigʻiladi — [Ivu ombori va sifat nazorati](/xizmatlar/ombor-sifat-nazorati/).
 7. **Toshkentga joʻnatamiz.** Avto (yigʻma yuk) 15–25 kun yoki avia 5–10 kun. Toshkentda bojxona rasmiylashtiruvi, keyin omborda olib ketasiz yoki viloyatga joʻnatamiz.
 
-Xizmat shartlari — [1688 / Taobao / Alibabaʼdan sotib olish](/xizmatlar/sotib-olish/) sahifasida.
+Xizmat shartlari — [1688 / Taobao / Alibabadan sotib olish](/xizmatlar/sotib-olish/) sahifasida.
 
 ## Narx qanday shakllanadi: hisoblangan misol
 
@@ -106,7 +106,7 @@ Buyurtma: 300 dona telefon gʻilofi, 1688-da 100+ dona uchun narx 10 yuan.
 
 Bitta gʻilof taxminan 29 700 soʻmga tushadi — bojxonasiz. *Taxminiy narx · Yangilangan: 2026-yil 8-sentabr.*
 
-**Bojxona alohida.** 300 dona bir xil tovar — tijorat partiyasi: u yuridik shaxs yoki YaTT nomiga rasmiylashtiriladi, boj TN VED kodi boʻyicha va QQS 12% toʻlanadi, GTD beriladi — shundagina tovarni Uzumʼda yoki doʻkonda rasman sotish mumkin. Shaxsiy foydalanish uchun kichik buyurtmada kuryer limiti 200 $/oy; undan oshgan qismidan 30% (kamida 3 $/kg), 2027-yil 1-yanvardan 20% (kamida 2 $/kg). Hisobni menejer oldindan beradi — [Bojxona rasmiylashtiruvi](/xizmatlar/bojxona/) va [Bojxona toʻlovlari 2026](/qollanma/bojxona-tolovlari-2026/).
+**Bojxona alohida.** 300 dona bir xil tovar — tijorat partiyasi: u yuridik shaxs yoki YaTT nomiga rasmiylashtiriladi, boj TN VED kodi boʻyicha va QQS 12% toʻlanadi, GTD beriladi — shundagina tovarni Uzumda yoki doʻkonda rasman sotish mumkin. Shaxsiy foydalanish uchun kichik buyurtmada kuryer limiti 200 $/oy; undan oshgan qismidan 30% (kamida 3 $/kg), 2027-yil 1-yanvardan 20% (kamida 2 $/kg). Hisobni menejer oldindan beradi — [Bojxona rasmiylashtiruvi](/xizmatlar/bojxona/) va [Bojxona toʻlovlari 2026](/qollanma/bojxona-tolovlari-2026/).
 
 ## Taobao va Pinduoduo: nimasi boshqacha?
 
@@ -118,7 +118,7 @@ Uchala platformada ham GSR Logistics bir xil sxemada ishlaydi: havola → hisob 
 
 ## Koʻp uchraydigan xatolar
 
-1. **Eng past narxni MOQʼsiz koʻrish.** Kartadagi 7,2 yuan 1 000 dona uchun; 50 dona 8,5 yuandan chiqadi.
+1. **Eng past narxni MOQsiz koʻrish.** Kartadagi 7,2 yuan 1 000 dona uchun; 50 dona 8,5 yuandan chiqadi.
 2. **Rasmga ishonish.** 规格 (spetsifikatsiya) ustunini oʻqimasdan «shu rasmdagi» deb buyurtma berish — kelgan tovar boshqa oʻlchamda yoki bir dona emas, 10 donalik qadoqda boʻlishi mumkin.
 3. **Sotuvchini tekshirmaslik.** 1 yil ishlagan, 回头率 10% boʻlgan sotuvchi arzon boʻlsa ham xavfli. 实力商家 va 工厂 belgisini qidiring.
 4. **Oʻz manzilingizni yozish.** 1688 Oʻzbekistonga yetkazmaydi; manzil — Ivu ombori + mijoz kodi. Kod yozilmasa, yukni sizniki deb aniqlash qiyin.

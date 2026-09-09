@@ -1,6 +1,6 @@
 ---
 title: "How to order from 1688 to Uzbekistan: buying, paying in yuan and shipping to Tashkent"
-description: "1688 is Alibaba's wholesale marketplace for China's domestic market: factory prices, MOQs, Chinese only, Chinese payment only. You cannot pay it from Uzbekistan directly — GSR Logistics buys for you: yuan at the Central Bank rate + 3% commission, Yiwu warehouse, truck in 15–25 days. Steps, mistakes, a worked example."
+description: "1688 is Alibaba’s wholesale marketplace for China’s domestic market: factory prices, MOQs, Chinese only, Chinese payment only. You cannot pay it from Uzbekistan directly — GSR Logistics buys for you: yuan at the Central Bank rate + 3% commission, Yiwu warehouse, truck in 15–25 days. Steps, mistakes, a worked example."
 lang: en
 translationKey: order-from-1688
 slug: how-to-order-from-1688
@@ -17,7 +17,7 @@ faq:
   - q: "Which is cheaper, 1688 or Taobao?"
     a: "1688 is cheaper — it is a wholesale market, and the price applies from a minimum lot of 10–50 pieces. Taobao is retail, 20–40% more expensive, but you can buy a single piece. Pinduoduo has the lowest retail prices, but quality and seller vetting are weaker."
 sources:
-  - title: "1688.com — Alibaba Group's wholesale marketplace for China's domestic market"
+  - title: "1688.com — Alibaba Group’s wholesale marketplace for China’s domestic market"
     url: "https://www.1688.com/"
     date: "2026-09-08"
   - title: "Central Bank of Uzbekistan — official CNY rate archive (1,756.72 UZS)"
@@ -37,7 +37,7 @@ sources:
     date: "2026-07-16"
 ---
 
-1688 (1688.com) is Alibaba Group's wholesale marketplace for China's domestic market: factory prices, minimum order quantities (MOQ) from 2–100 pieces, Chinese language only and Chinese payment systems only. You cannot pay it from Uzbekistan directly, so orders go through an agent. GSR Logistics buys the goods for you — yuan at the Central Bank rate plus a commission from 3% — receives them at the Yiwu warehouse, inspects them and trucks them to Tashkent in 15–25 days. From order to Tashkent takes roughly 25–40 days in total.
+1688 (1688.com) is Alibaba Group’s wholesale marketplace for China’s domestic market: factory prices, minimum order quantities (MOQ) from 2–100 pieces, Chinese language only and Chinese payment systems only. You cannot pay it from Uzbekistan directly, so orders go through an agent. GSR Logistics buys the goods for you — yuan at the Central Bank rate plus a commission from 3% — receives them at the Yiwu warehouse, inspects them and trucks them to Tashkent in 15–25 days. From order to Tashkent takes roughly 25–40 days in total.
 
 ## What is 1688, and how is it different from Taobao and Pinduoduo?
 
@@ -58,7 +58,7 @@ Bottom line: order one sample on Taobao, order the lot on 1688. Pinduoduo is onl
 
 ## Account and app: what do you need?
 
-You do not need an account to browse — 1688.com opens in a browser and search works. Placing an order, however, requires an account tied to a Chinese phone number, Alipay and often Chinese identity verification — which is why a buyer in Uzbekistan normally orders through an agent's account.
+You do not need an account to browse — 1688.com opens in a browser and search works. Placing an order, however, requires an account tied to a Chinese phone number, Alipay and often Chinese identity verification — which is why a buyer in Uzbekistan normally orders through an agent’s account.
 
 Practical tips:
 
@@ -67,7 +67,7 @@ Practical tips:
 
 ## How to search for products on 1688
 
-1. **Translate the keyword into Chinese.** "Phone case" → 手机壳, "women's bag" → 女包, "LED lamp" → LED灯. Try several synonyms — the results differ dramatically.
+1. **Translate the keyword into Chinese.** "Phone case" → 手机壳, "women’s bag" → 女包, "LED lamp" → LED灯. Try several synonyms — the results differ dramatically.
 2. **Search by image.** The camera icon in the app (拍照搜索) takes a picture from Taobao, Instagram or Uzum and finds the factories that make that product.
 3. **Apply filters.** 实力商家 (strong seller), 48小时发货 (ships within 48 hours), 一件代发 (ships from 1 piece), 7天无理由退换 (7-day returns).
 4. **Check the seller.** Years on the platform (more than 5 is good), 回头率 (repeat-purchase rate, above 30% is good), the 工厂 badge (the factory itself) and the number of reviews.
@@ -79,8 +79,8 @@ Practical tips:
 1. **You send the links.** In Telegram: the product link, the colour/size you need and the quantity. If the product has not been found yet, we search for it through the [Sourcing](/en/services/sourcing/) service.
 2. **You get a quote.** Your manager messages the seller in Chinese and confirms the price, MOQ, delivery inside China and the dispatch date. You see the total in yuan and in soʻm: goods + delivery inside China + 3% commission. Yuan is converted at the Central Bank of Uzbekistan rate, and the rate date is printed on the quote.
 3. **You pay.** In soʻm: card transfer, Click/Payme, or an invoice for legal entities. The order is placed once payment is confirmed.
-4. **We pay in yuan.** Through the 1688 platform, not to the seller's private account — if the goods do not arrive or do not match, the platform refunds the money.
-5. **The delivery address is the Yiwu warehouse.** The order names GSR Logistics' warehouse in Yiwu (义乌) and your client code as the delivery address. Inside China the goods take 2–5 days.
+4. **We pay in yuan.** Through the 1688 platform, not to the seller’s private account — if the goods do not arrive or do not match, the platform refunds the money.
+5. **The delivery address is the Yiwu warehouse.** The order names GSR Logistics’ warehouse in Yiwu (义乌) and your client code as the delivery address. Inside China the goods take 2–5 days.
 6. **Receiving, inspection, photo report.** At the warehouse we weigh, measure, open and count every box; the photo report lands in your Telegram. On request — repacking ($0.40/kg) and detailed inspection ($1/kg). Orders from different sellers are grouped into one shipment — see [Yiwu warehouse and quality control](/en/services/warehouse-quality-control/).
 7. **We ship to Tashkent.** Truck (consolidated freight) in 15–25 days or air in 5–10 days. Customs clearance in Tashkent, then you collect at the warehouse or we forward the cargo to your region.
 
@@ -93,7 +93,7 @@ Order: 300 phone cases, 1688 price for 100+ pcs — 10 yuan.
 | Item | Calculation | Amount |
 |---|---|---|
 | Goods | 300 × 10 yuan | 3,000 yuan |
-| Delivery inside China (seller → Yiwu) | seller's rate | 60 yuan |
+| Delivery inside China (seller → Yiwu) | seller’s rate | 60 yuan |
 | Commission 3% | 3,060 × 0.03 | 91.8 yuan |
 | Total in yuan | | 3,151.8 yuan |
 | In soʻm (Central Bank rate 1,756.72 on September 8, 2026) | 3,151.8 × 1,756.72 | ≈ UZS 5,537,000 |
@@ -124,8 +124,8 @@ On all three platforms GSR Logistics works the same way: link → quote → paym
 5. **Planning battery goods by air.** Power banks, wireless earbuds, electronic toys — truck only. Plan the timeline accordingly.
 6. **Goods with brand logos.** Copies of Nike, Apple or Disney are seized at customs with no compensation. Ask for the unbranded (无标) version.
 7. **A big lot without a sample.** The first time, take 20–50 pieces rather than 1,000 — air brings them in 7 days and you see the quality yourself.
-8. **Paying outside the platform.** If the seller offers "cheaper via WeChat", decline: you lose the platform's protection.
-9. **Ignoring the yuan rate.** An agent's "no commission" offer often hides a 5–8% markup in the exchange rate. Ask for the rate and its date on the quote.
+8. **Paying outside the platform.** If the seller offers "cheaper via WeChat", decline: you lose the platform’s protection.
+9. **Ignoring the yuan rate.** An agent’s "no commission" offer often hides a 5–8% markup in the exchange rate. Ask for the rate and its date on the quote.
 
 ## Timeline: from order to Tashkent
 
@@ -144,6 +144,6 @@ On all three platforms GSR Logistics works the same way: link → quote → paym
 
 During Chinese New Year (late January to mid-February) and Golden Week (October 1–7) sellers do not ship — place orders 3–4 weeks ahead.
 
-> **Manager's tip.** Before sending a link, check 起批量 (minimum order) and 发货地 (shipping city) on the seller's page. From a seller near Yiwu or Guangzhou the goods reach the warehouse in 1–2 days; from the northern provinces in 5–7. That is the difference between catching the next departure and waiting for the one after.
+> **Manager’s tip.** Before sending a link, check 起批量 (minimum order) and 发货地 (shipping city) on the seller’s page. From a seller near Yiwu or Guangzhou the goods reach the warehouse in 1–2 days; from the northern provinces in 5–7. That is the difference between catching the next departure and waiting for the one after.
 
 Send the link to the product you want to buy — within one working day your manager will work out the price, the MOQ and the full cost to Tashkent.

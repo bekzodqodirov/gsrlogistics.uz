@@ -11,9 +11,9 @@ faq:
   - q: "Kargo va logistika bir narsami?"
     a: "Yoʻq. Kargo — bu Oʻzbekistonda Xitoydan yuk olib kelish xizmatining xalq tilidagi nomi (odatda kg boʻyicha narx bilan). Logistika — kengroq tushuncha: marshrut, ombor, hujjatlar va bojxonani rejalashtirish."
   - q: "Hajmiy vazn haqiqiy vazndan katta boʻlsa nima boʻladi?"
-    a: "Toʻlov kattasi boʻyicha olinadi. Masalan, 20 kg keladigan, lekin 60×50×40 sm qutining hajmiy vazni 120 000 ÷ 6000 = 20 kg — teng; 80×60×50 sm boʻlsa 40 kg — hajmiy vazn boʻyicha toʻlanadi."
+    a: "Toʻlov kattasi boʻyicha olinadi. Masalan, 20 kg keladigan, lekin 60×50×40 sm qutining hajmiy vazni 120 000 ÷ 6 000 = 20 kg — teng; 80×60×50 sm boʻlsa 40 kg — hajmiy vazn boʻyicha toʻlanadi."
   - q: "GTD nima va u menga kerakmi?"
-    a: "GTD — yuk bojxona deklaratsiyasi (ГТД). U yuridik shaxs yoki YaTT sifatida rasmiy import qilganda rasmiylashtiriladi va tovarni doʻkon yoki marketpleysda sotish uchun asos boʻladi. Shaxsiy foydalanish uchun kichik joʼnatmalarda GTD rasmiylashtirilmaydi."
+    a: "GTD — yuk bojxona deklaratsiyasi (ГТД). U yuridik shaxs yoki YaTT sifatida rasmiy import qilganda rasmiylashtiriladi va tovarni doʻkon yoki marketpleysda sotish uchun asos boʻladi. Shaxsiy foydalanish uchun kichik joʻnatmalarda GTD rasmiylashtirilmaydi."
 sources:
   - title: "Oʻzbekiston Respublikasi Bojxona kodeksi (lex.uz)"
     url: "https://lex.uz/docs/2876352"
@@ -58,7 +58,7 @@ Tezlashtirilgan avto yoʻnalish: kamroq toʻxtash, tezroq chegara. GSR tajribasi
 Bir mijozning turli yetkazib beruvchilardan kelgan partiyalarini Xitoy omborida bitta yukka birlashtirish. Har partiyani alohida joʻnatishdan arzon.
 
 ### Ombor manzili (mijoz kodi)
-Xitoydagi ombor manzili + sizga berilgan kod. Siz 1688 yoki Taobaoʼda buyurtma berganda yetkazish manziliga shu manzilni yozasiz; kod yordamida ombor xodimlari yukni sizniki deb aniqlaydi.
+Xitoydagi ombor manzili + sizga berilgan kod. Siz 1688 yoki Taobaoda buyurtma berganda yetkazish manziliga shu manzilni yozasiz; kod yordamida ombor xodimlari yukni sizniki deb aniqlaydi.
 
 ### Foto-hisobot
 Yuk omborga kelganda olingan suratlar: qadoq, soni, holati, ogʻirligi. Telegramga yuboriladi.
@@ -69,7 +69,7 @@ Yuk omborga kelganda olingan suratlar: qadoq, soni, holati, ogʻirligi. Telegram
 Tarozidagi ogʻirlik, kg.
 
 ### Hajmiy vazn (объёмный вес)
-Qutining hajmidan hisoblanadigan «vazn»: uzunlik × en × balandlik (sm) ÷ 6000 (avto) yoki ÷ 5000 (avia). Toʻlov haqiqiy va hajmiy vaznning kattasi boʻyicha olinadi.
+Qutining hajmidan hisoblanadigan «vazn»: uzunlik × en × balandlik (sm) ÷ 6 000 (avto) yoki ÷ 5 000 (avia). Toʻlov haqiqiy va hajmiy vaznning kattasi boʻyicha olinadi.
 
 ### Zichlik (плотность), kg/m³
 Yukning ogʻirligini hajmiga boʻlish: 300 kg ÷ 2 m³ = 150 kg/m³. Zichlik 170 kg/m³ dan yuqori boʻlsa — kg boʻyicha, past boʻlsa — m³ boʻyicha narx qoʻllanadi.
@@ -163,4 +163,4 @@ Bitta fura yoki konteynerning joʻnatilishi. Kargo kompaniyalari «AK-123» kabi
 Toshkent yoki viloyatdagi yukni olib ketish nuqtasi.
 
 ### Uygacha yetkazish
-Toshkent ombordan mijoz manziligacha; viloyatlarga kuryer yoki filial orqali.
+Toshkent ombordan mijoz manziligacha; viloyatlarga kuryer yoki transport kompaniyasi orqali, shartlari kelishiladi.

@@ -42,10 +42,10 @@ There are three ways to bring cargo from China to Uzbekistan: **air** (roughly 5
 |---|---|---|---|
 | Price | $9/kg standard · $12/kg brand · $11.50/kg commercial | $7.50 → $7 → $6.50/kg (0–30 / 30–100 / 100+ kg) · dense wholesale lots from 100 kg $3.50/kg · light cargo $110–190/m³ | 20 ft $2,800–5,500 · 40 ft $5,200–6,800 |
 | Transit (from warehouse departure) | 5–10 days | 15–25 days (express 13–18) | 20–35 days |
-| Best for | Electronics accessories, samples, branded clothing, spare parts, urgent lots | Clothing, footwear, toys, household goods, equipment, building materials | One client's large lot: furniture, raw materials, machinery |
+| Best for | Electronics accessories, samples, branded clothing, spare parts, urgent lots | Clothing, footwear, toys, household goods, equipment, building materials | One client’s large lot: furniture, raw materials, machinery |
 | Restrictions | Lithium batteries, liquids, perfume, magnets, medicines, drones — not accepted | General list: explosives and flammables, perishables, cash and precious metals, documents | Same as truck; dangerous goods by separate agreement |
 | Minimum | 0.5 kg | 1 kg (per kg) · 0.1 m³ (per m³) | One container (20 or 40 ft) |
-| Volumetric weight | length × width × height (cm) ÷ 5000 | ÷ 6000 | Capacity: ≈ 33 m³ (20 ft) / ≈ 76 m³ (40 ft HC) |
+| Volumetric weight | length × width × height (cm) ÷ 5 000 | ÷ 6 000 | Capacity: ≈ 33 m³ (20 ft) / ≈ 76 m³ (40 ft HC) |
 | Border | Tashkent airport | Khorgos (Kazakhstan) → Shymkent → Tashkent | Dostyk or Altynkol → Saryagash → Tashkent |
 
 *Estimate · Updated September 8, 2026. The final price is set after the cargo is weighed and measured at the Yiwu warehouse.* All rates are on the [Pricing](/en/pricing/) page; for a quick figure use the [Calculator](/en/calculator/).
@@ -126,7 +126,7 @@ By truck, most of the waiting happens at the Khorgos border: a 1–3-day queue, 
 2. **Check the restrictions.** Any battery, liquid or magnet? If yes, rule out air straight away.
 3. **Work out the value per kilogram.** Divide the goods' price by their weight. Above $30/kg the air premium is barely noticeable; below $5/kg only truck or rail makes sense.
 4. **Turn the lead time into money.** What does a 10-day delay cost you (lost sales, an idle workshop)? If it is more than the air–truck difference, choose air.
-5. **Compare both options in the calculator** and message your manager — they will give an exact price and departure date based on the cargo's density and category.
+5. **Compare both options in the calculator** and message your manager — they will give an exact price and departure date based on the cargo’s density and category.
 
 ## Seasons: when does each mode slow down?
 
@@ -135,6 +135,6 @@ By truck, most of the waiting happens at the Khorgos border: a 1–3-day queue, 
 - **11.11 and December.** Couriers inside China and border terminals are overloaded; truck transit moves towards the upper limit of 25 days. Cargo companies usually announce discounts in this period.
 - **Winter.** Snow on the Khorgos road can add 1–3 days; rail does not depend on the weather.
 
-> **Manager's tip.** Splitting one lot in two is often the best answer: the first 20–30 kg of samples and urgent items go by air, the main volume by truck. You start selling in 7 days, and the main lot arrives at the low rate.
+> **Manager’s tip.** Splitting one lot in two is often the best answer: the first 20–30 kg of samples and urgent items go by air, the main volume by truck. You start selling in 7 days, and the main lot arrives at the low rate.
 
 Not sure which mode fits? Send the product name, approximate weight and the date you need it by — your manager will compare the three options in numbers.

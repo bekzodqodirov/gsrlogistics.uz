@@ -29,7 +29,7 @@ export const services: ServiceMeta[] = [
     name: { uz: 'Tovar va ishlab chiqaruvchi topish', ru: 'Поиск товаров и производителей', en: 'Product & supplier sourcing' },
     short: { uz: 'Kerakli tovarni zavoddan topamiz, namunani tekshiramiz, narxni kelishamiz.', ru: 'Найдём товар на фабрике, проверим образец, договоримся о цене.', en: 'We find the product at the factory, check samples and negotiate the price.' } },
   { key: 'buying', icon: 'cart', slug: { uz: 'sotib-olish', ru: 'vykup-tovarov', en: 'buying-agent' },
-    name: { uz: '1688 va Taobaoʼdan sotib olish', ru: 'Выкуп с 1688 и Taobao', en: 'Buying from 1688 & Taobao' },
+    name: { uz: '1688 va Taobaodan sotib olish', ru: 'Выкуп с 1688 и Taobao', en: 'Buying from 1688 & Taobao' },
     short: { uz: 'Siz tanlaysiz — biz sotib olamiz, yuanda toʻlaymiz va Toshkentga keltiramiz.', ru: 'Вы выбираете — мы выкупаем, платим в юанях и привозим в Ташкент.', en: 'You choose, we buy, pay in yuan and deliver to Tashkent.' } },
   { key: 'equipment', icon: 'factory', slug: { uz: 'uskunalar-importi', ru: 'import-oborudovaniya', en: 'equipment-import' },
     name: { uz: 'Uskunalar importi', ru: 'Импорт оборудования', en: 'Equipment import' },

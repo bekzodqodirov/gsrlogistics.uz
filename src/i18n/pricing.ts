@@ -194,7 +194,7 @@ const uz: PricingStrings = {
       title: 'Temir yoʻl va konteyner narxlari',
       intro: 'Katta partiyalar uchun — butun konteyner (FCL) yoki konteynerdagi joy (LCL). Narx yoʻnalish, mavsum va yuk turiga qarab oraliqda beriladi; aniq summa — soʻrov boʻyicha.',
       head: ['Konteyner', 'Narx (Xitoy → Toshkent)'],
-      c20: '20 futlik konteyner (≈ 33 m³, 28 t gacha)',
+      c20: '20 futlik konteyner (≈ 33 m³, 20 t gacha)',
       c40: '40 futlik / 40 HC konteyner (≈ 67–76 m³, 26 t gacha)',
       note: 'Muddat: taxminan {days} kun. Konteyner Xitoy ichidagi tashish, bojxona rasmiylashtiruvi va Toshkentda tushirishni oʻz ichiga olmaydi — soʻrovda alohida hisoblaymiz.',
     },
@@ -220,7 +220,7 @@ const uz: PricingStrings = {
     inclusions: {
       title: 'Narxga nimalar kiradi?',
       includedTitle: 'Kiradi',
-      included: ['Ivu omborida qabul, tortish va oʻlchash', 'Har qabulda foto-hisobot Telegramga', 'Konsolidatsiya — bir necha yetkazib beruvchidan bitta yuk', 'Xitoydan Toshkent omborigacha tashish', 'Menejer: joylashuv va holat haqida xabar', 'Toshkent omboridan olib ketish yoki viloyat filialiga joʻnatish'],
+      included: ['Ivu omborida qabul, tortish va oʻlchash', 'Har qabulda foto-hisobot Telegramga', 'Konsolidatsiya — bir necha yetkazib beruvchidan bitta yuk', 'Xitoydan Toshkent omborigacha tashish', 'Menejer: joylashuv va holat haqida xabar', 'Toshkent omboridan olib ketish yoki viloyatga joʻnatish (shartlari kelishiladi)'],
       extrasTitle: 'Qoʻshimcha xizmatlar',
       head: ['Xizmat', 'Narx'],
       extras: { photo: 'Batafsil foto-hisobot (har bir joy)', repack: 'Qayta qadoqlash, hajmni kamaytirish', inspection: 'Tovarni sanash va tekshirish', insurance: 'Sugʻurta', commission: 'Tovar topish va sotib olish komissiyasi', storageChina: 'Ivu omborida saqlash', storageTashkent: 'Toshkent omborida saqlash' },
@@ -232,7 +232,7 @@ const uz: PricingStrings = {
     },
     regions: {
       title: 'Viloyatlarga yetkazish',
-      text: 'Toshkent omboridan olib ketish va viloyat filialigacha joʻnatish — bepul. Uygacha yetkazish — {door} soʻm. Toshkent shahrida {kg} kg dan ortiq yuk uygacha bepul.',
+      text: 'Toshkent omboridan olib ketish — bepul. Viloyatga joʻnatish shartlarini menejer aytadi. Uygacha yetkazish — {door} soʻm. Toshkent shahrida {kg} kg dan ortiq yuk uygacha bepul.',
     },
     payment: {
       title: 'Toʻlov qanday?',
@@ -409,7 +409,7 @@ const ru: PricingStrings = {
       title: 'Ж/д и контейнерные перевозки',
       intro: 'Для крупных партий — целый контейнер (FCL) или место в контейнере (LCL). Цена даётся диапазоном в зависимости от маршрута, сезона и типа груза; точная сумма — по запросу.',
       head: ['Контейнер', 'Цена (Китай → Ташкент)'],
-      c20: '20-футовый контейнер (≈ 33 м³, до 28 т)',
+      c20: '20-футовый контейнер (≈ 33 м³, до 20 т)',
       c40: '40-футовый / 40 HC контейнер (≈ 67–76 м³, до 26 т)',
       note: 'Срок: ориентировочно {days} дней. В цену не входят перевозка внутри Китая, таможенное оформление и выгрузка в Ташкенте — считаем отдельно в запросе.',
     },
@@ -435,7 +435,7 @@ const ru: PricingStrings = {
     inclusions: {
       title: 'Что входит в цену?',
       includedTitle: 'Входит',
-      included: ['Приёмка, взвешивание и обмер на складе в Иу', 'Фотоотчёт в Telegram при каждой приёмке', 'Консолидация — один груз от нескольких поставщиков', 'Перевозка из Китая до склада в Ташкенте', 'Менеджер: сообщения о местоположении и статусе', 'Самовывоз со склада в Ташкенте или отправка в филиал региона'],
+      included: ['Приёмка, взвешивание и обмер на складе в Иу', 'Фотоотчёт в Telegram при каждой приёмке', 'Консолидация — один груз от нескольких поставщиков', 'Перевозка из Китая до склада в Ташкенте', 'Менеджер: сообщения о местоположении и статусе', 'Самовывоз со склада в Ташкенте или отправка в регион (условия согласуются)'],
       extrasTitle: 'Дополнительные услуги',
       head: ['Услуга', 'Цена'],
       extras: { photo: 'Подробный фотоотчёт (каждое место)', repack: 'Переупаковка, уменьшение объёма', inspection: 'Пересчёт и проверка товара', insurance: 'Страховка', commission: 'Комиссия за поиск и выкуп товара', storageChina: 'Хранение на складе в Иу', storageTashkent: 'Хранение на складе в Ташкенте' },
@@ -447,7 +447,7 @@ const ru: PricingStrings = {
     },
     regions: {
       title: 'Доставка в регионы',
-      text: 'Самовывоз со склада в Ташкенте и отправка до филиала в регионе — бесплатно. Доставка до двери — {door} сум. По Ташкенту груз от {kg} кг до двери бесплатно.',
+      text: 'Самовывоз со склада в Ташкенте — бесплатно. Условия отправки в регион уточняет менеджер. Доставка до двери — {door} сум. По Ташкенту груз от {kg} кг до двери бесплатно.',
     },
     payment: {
       title: 'Как оплачивать?',
@@ -624,7 +624,7 @@ const en: PricingStrings = {
       title: 'Rail and container rates',
       intro: 'For large lots — a full container (FCL) or space in one (LCL). Prices are given as a range depending on route, season and cargo type; the exact figure comes with a quote.',
       head: ['Container', 'Price (China → Tashkent)'],
-      c20: '20 ft container (≈ 33 m³, up to 28 t)',
+      c20: '20 ft container (≈ 33 m³, up to 20 t)',
       c40: '40 ft / 40 HC container (≈ 67–76 m³, up to 26 t)',
       note: 'Transit roughly {days} days. The price excludes trucking inside China, customs clearance and unloading in Tashkent — quoted separately.',
     },
@@ -650,7 +650,7 @@ const en: PricingStrings = {
     inclusions: {
       title: 'What does the price include?',
       includedTitle: 'Included',
-      included: ['Receiving, weighing and measuring at the Yiwu warehouse', 'A photo report to Telegram at every receipt', 'Consolidation — one shipment from several suppliers', 'Transport from China to the Tashkent warehouse', 'A manager who reports location and status', 'Collection at the Tashkent warehouse or forwarding to a regional branch'],
+      included: ['Receiving, weighing and measuring at the Yiwu warehouse', 'A photo report to Telegram at every receipt', 'Consolidation — one shipment from several suppliers', 'Transport from China to the Tashkent warehouse', 'A manager who reports location and status', 'Collection at the Tashkent warehouse or forwarding to your region (terms agreed)'],
       extrasTitle: 'Extra services',
       head: ['Service', 'Price'],
       extras: { photo: 'Detailed photo report (per piece)', repack: 'Repacking to reduce volume', inspection: 'Counting and inspecting goods', insurance: 'Insurance', commission: 'Sourcing and buying commission', storageChina: 'Storage at the Yiwu warehouse', storageTashkent: 'Storage at the Tashkent warehouse' },
@@ -662,7 +662,7 @@ const en: PricingStrings = {
     },
     regions: {
       title: 'Delivery to the regions',
-      text: 'Collection at the Tashkent warehouse and forwarding to a regional branch are free. Door delivery costs {door} UZS. In Tashkent, cargo over {kg} kg is delivered to the door free of charge.',
+      text: 'Collection at the Tashkent warehouse is free. Your manager confirms the terms for forwarding to a region. Door delivery costs {door} UZS. In Tashkent, cargo over {kg} kg is delivered to the door free of charge.',
     },
     payment: {
       title: 'How do I pay?',

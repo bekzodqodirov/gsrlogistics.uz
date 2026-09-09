@@ -11,9 +11,9 @@ const uz: GuidesStrings = {
   seoTitle: 'Qoʻllanma: Xitoydan yuk olib kelish, kargo narxlari, bojxona, 1688 — GSR Logistics',
   seoDescription: 'Xitoydan Oʻzbekistonga yuk olib kelish boʻyicha amaliy qoʻllanmalar: kargo narxi qanday hisoblanadi, avia/avto/temir yoʻl taqqoslash, 1688 orqali buyurtma, 2026-yil bojxona toʻlovlari, ishlab chiqaruvchi topish, Ivu va Guanchjou bozorlari, taqiqlangan tovarlar, lugʻat, yoʻnalishlar.',
   eyebrow: 'Qoʻllanma', h1: 'Xitoydan yuk olib kelish: qoʻllanmalar',
-  intro: 'Bu yerda Xitoydan Oʻzbekistonga yuk olib kelishning har bir bosqichi raqamlar bilan tushuntirilgan: narx qanday hisoblanadi, qaysi yoʻnalish qachon mos, bojxonada nima boʻladi, 1688ʼdan qanday buyurtma beriladi. Maqolalar 2026-yil sentabr holatiga yangilangan.',
+  intro: 'Bu yerda Xitoydan Oʻzbekistonga yuk olib kelishning har bir bosqichi raqamlar bilan tushuntirilgan: narx qanday hisoblanadi, qaysi yoʻnalish qachon mos, bojxonada nima boʻladi, 1688-dan qanday buyurtma beriladi. Maqolalar 2026-yil sentabr holatiga yangilangan.',
   readMore: 'Oʻqish', minutes: 'daqiqa', toc: 'Mundarija', sources: 'Manbalar', faq: 'Koʻp beriladigan savollar', related: 'Oʻxshash maqolalar', relatedServices: 'Bogʻliq xizmatlar',
-  askTitle: 'Savolingiz qoldimi?', askText: 'Telegramda yozing — menejer sizning yukingiz boʻyicha aniq javob beradi.', author: 'Muallif', updated: 'Yangilangan', published: 'Chop etilgan', allGuides: 'Barcha qoʻllanmalar', tags: 'Mavzular',
+  askTitle: 'Savolingiz qoldimi?', askText: 'Telegramda yozing — menejer yukingiz boʻyicha aniq javob beradi.', author: 'Muallif', updated: 'Yangilangan', published: 'Chop etilgan', allGuides: 'Barcha qoʻllanmalar', tags: 'Mavzular',
   tagLabels: { truck: 'Avto kargo', air: 'Avia', rail: 'Temir yoʻl', customs: 'Bojxona', warehouse: 'Ombor', sourcing: 'Tovar topish', buying: 'Xarid', suppliers: 'Yetkazib beruvchilar', import: 'Import', '1688': '1688', glossary: 'Lugʻat', lugat: 'Lugʻat', slovar: 'Lugʻat', routes: 'Yoʻnalishlar', yonalishlar: 'Yoʻnalishlar', marshruty: 'Yoʻnalishlar', taqqoslash: 'Taqqoslash', bozorlar: 'Bozorlar' },
 };
 const ru: GuidesStrings = {

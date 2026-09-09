@@ -3,7 +3,7 @@ import type { ServiceContentByLang } from './types';
 /**
  * Ivu (Yiwu) ombori va sifat nazorati — long-form page content.
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): extras — photo report 1 $ per place,
- * inspection 1 $/kg, repack 0,4 $/kg, insurance 1 % of declared value; free storage 14 days in Yiwu,
+ * inspection 1 $/kg, repack 0,4 $/kg, insurance 1% of declared value; free storage 14 days in Yiwu,
  * 3 days in Tashkent. Keep in sync when tariffs change. Own vs partner warehouse is unverified —
  * always "Ivu ombori", never "omborimiz"; Guangzhou/Shenzhen goods are received via partners.
  */
@@ -13,18 +13,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Ivu (Yiwu) ombori: qabul, sifat tekshiruvi, foto-hisobot, qadoqlash — GSR Logistics',
       description:
-        'Xitoyning Ivu shahridagi omborda yukni qabul qilamiz, kodingiz bilan belgilaymiz, ochib tekshiramiz, foto-hisobot yuboramiz, bir necha yetkazib beruvchidan jamlaymiz, qadoqlaymiz va 1 % sugʻurta qilamiz. 14 kun bepul saqlash.',
+        'Xitoyning Ivu shahridagi omborda yukni qabul qilamiz, kodingiz bilan belgilaymiz, ochib tekshiramiz, foto-hisobot yuboramiz, bir necha yetkazib beruvchidan jamlaymiz, qadoqlaymiz va 1% sugʻurta qilamiz. 14 kun bepul saqlash.',
     },
     hero: {
       eyebrow: 'Xizmat 08 — Ivu ombori',
       h1: 'Ivu ombori: qabul, sifat nazorati va foto-hisobot',
       intro:
-        'Ivu (义乌) ombori — Xitoydan Toshkentga ketadigan har bir yukning birinchi bekati. Bu yerda yetkazib beruvchidan kelgan har bir joyni tortamiz, oʻlchaymiz, sizning kodingiz bilan belgilaymiz va foto-hisobot yuboramiz. Xohlasangiz, qutini ochib tovarni sanaymiz va tekshiramiz (1 $/kg), qayta qadoqlaymiz (0,4 $/kg) va eʼlon qilingan qiymatning 1 % evaziga sugʻurta qilamiz. Saqlash 14 kungacha bepul.',
+        'Ivu (义乌) ombori — Xitoydan Toshkentga ketadigan har bir yukning birinchi bekati. Bu yerda yetkazib beruvchidan kelgan har bir joyni tortamiz, oʻlchaymiz, sizning kodingiz bilan belgilaymiz va foto-hisobot yuboramiz. Xohlasangiz, qutini ochib tovarni sanaymiz va tekshiramiz (1 $/kg), qayta qadoqlaymiz (0,4 $/kg) va eʼlon qilingan qiymatning 1% evaziga sugʻurta qilamiz. Saqlash 14 kungacha bepul.',
       facts: [
         { label: 'Bepul saqlash, Ivu', value: '14 kun' },
         { label: 'Tekshiruv, ochib sanash', value: '1 $/kg' },
         { label: 'Qayta qadoqlash', value: '0,4 $/kg' },
-        { label: 'Sugʻurta, qiymatning', value: '1 %' },
+        { label: 'Sugʻurta, qiymatning', value: '1%' },
       ],
     },
     sections: [
@@ -78,7 +78,7 @@ const content: ServiceContentByLang = {
             ['Standart: qop yoki quti + skotch', 'kiyim, gazlama, mayda buyumlar', 'narxga kiradi'],
             ['Qayta qadoqlash: yangi quti, zichlashtirish', 'bir necha sotuvchidan kelgan mayda qutilar', '0,4 $/kg'],
             ['Pufakchali plyonka + karton burchaklar', 'elektronika, chinni, shisha, chiroqlar', '0,4 $/kg dan'],
-            ['Yogʻoch panjara (obreshyotka)', 'uskunalar, mebel, katta oynali buyumlar', 'yuk oʻlchamiga qarab'],
+            ['Yogʻoch panjara (обрешётка)', 'uskunalar, mebel, katta oynali buyumlar', 'yuk oʻlchamiga qarab'],
             ['Pallet va streych-plyonka', '300 kg dan ortiq bir xil yuk', 'yuk oʻlchamiga qarab'],
           ],
           note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. Yogʻoch panjara va pallet narxi yukning oʻlchamiga qarab hisoblanadi.',
@@ -87,7 +87,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Sugʻurta qanday ishlaydi?',
         body: [
-          'Sugʻurta — eʼlon qilingan qiymatning 1 %. Qiymatni siz invoys yoki buyurtma summasi boʻyicha koʻrsatasiz; yuk yoʻqolsa yoki shikastlansa, shu qiymat qoplanadi. Sugʻurtasiz yuk uchun javobgarlik shartnomada belgilangan chegarada boʻladi. Elektronika, chinni, shisha va qimmat tovarlar uchun sugʻurtani tavsiya qilamiz; kiyim va gazlama uchun koʻpchilik mijozlar sugʻurtasiz joʻnatadi.',
+          'Sugʻurta — eʼlon qilingan qiymatning 1%. Qiymatni siz invoys yoki buyurtma summasi boʻyicha koʻrsatasiz; yuk yoʻqolsa yoki shikastlansa, shu qiymat qoplanadi. Sugʻurtasiz yuk uchun javobgarlik shartnomada belgilangan chegarada boʻladi. Elektronika, chinni, shisha va qimmat tovarlar uchun sugʻurtani tavsiya qilamiz; kiyim va gazlama uchun koʻpchilik mijozlar sugʻurtasiz joʻnatadi.',
           'Shikast holatida qabul chogʻida olingan foto-hisobot dalil boʻlib xizmat qiladi — shuning uchun Ivuda har bir joy suratga olinadi, Toshkentda esa yuk sizning koʻz oʻngingizda ochiladi.',
         ],
       },
@@ -105,7 +105,7 @@ const content: ServiceContentByLang = {
             ['Tafsilotli foto-hisobot (ochilgan quti)', '1 $ / joy'],
             ['Ochib sanash va tekshirish', '1 $/kg'],
             ['Qayta qadoqlash', '0,4 $/kg'],
-            ['Sugʻurta', 'qiymatning 1 %'],
+            ['Sugʻurta', 'qiymatning 1%'],
             ['Saqlash, Ivu', '14 kun bepul'],
             ['Saqlash, Toshkent', '3 kun bepul'],
           ],
@@ -136,7 +136,7 @@ const content: ServiceContentByLang = {
       { q: 'Yuk omborga kelganini qanday bilaman?', a: 'Har qabulda tarozi va yorliq surati yuk kodi bilan Telegramga keladi — odatda quti kelgan kuni. Kutilayotgan qutining trek raqamini oldindan yuborsangiz, ombor uni kelgan zahoti sizniki deb taniydi.' },
       { q: 'Tovarni ochib tekshirish shartmi?', a: 'Yoʻq, bu ixtiyoriy xizmat — 1 $/kg. Birinchi marta ishlayotgan sotuvchi, elektronika va brak ehtimoli yuqori tovarlar uchun tavsiya qilamiz; doimiy sotuvchilarda tashqi koʻrik va bepul foto yetarli.' },
       { q: 'Bir necha sotuvchidan yuk kelsa, bitta yukka jamlash mumkinmi?', a: 'Ha, bu konsolidatsiya — ombor asosiy vazifalaridan biri. Barcha qutilar sizning kodingiz ostida 14 kungacha bepul kutadi, keyin bitta partiyaga jamlanib joʻnatiladi. Xohlasangiz, qutilarni qayta qadoqlab hajmni kamaytiramiz (0,4 $/kg).' },
-      { q: 'Sugʻurta qancha turadi va nimani qoplaydi?', a: 'Eʼlon qilingan qiymatning 1 %. Yuk yoʻqolsa yoki shikastlansa, eʼlon qilingan qiymat qoplanadi; qabul chogʻidagi foto-hisobot dalil boʻladi. Sugʻurtasiz yuk uchun javobgarlik shartnomada belgilangan chegarada.' },
+      { q: 'Sugʻurta qancha turadi va nimani qoplaydi?', a: 'Eʼlon qilingan qiymatning 1%. Yuk yoʻqolsa yoki shikastlansa, eʼlon qilingan qiymat qoplanadi; qabul chogʻidagi foto-hisobot dalil boʻladi. Sugʻurtasiz yuk uchun javobgarlik shartnomada belgilangan chegarada.' },
       { q: 'Yuk omborda qancha vaqt bepul turadi?', a: 'Ivuda 14 kun, Toshkentda 3 kun. Undan keyin kunlik saqlash haqi shartnoma boʻyicha hisoblanadi. Xitoy Yangi yili oldidan ombor bir hafta oldin qabulni toʻxtatadi — partiyani shunga qarab rejalashtiring.' },
       { q: 'Tovar buyurtmaga mos kelmasa nima boʻladi?', a: 'Foto-hisobotni koʻrib, siz qaror qilasiz: joʻnatish, sotuvchiga qaytarish yoki yetishmagan qismini talab qilish. Sotuvchi bilan biz xitoy tilida gaplashamiz; tovar hali Xitoyda turganda daʼvo koʻpincha bir necha kunda hal boʻladi.' },
     ],
@@ -155,18 +155,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Склад в Иу: приёмка, проверка качества, фотоотчёт, упаковка — GSR Logistics',
       description:
-        'На складе в Иу (Китай) принимаем груз, маркируем вашим кодом, вскрываем и проверяем, отправляем фотоотчёт, консолидируем от нескольких поставщиков, упаковываем и страхуем за 1 %. 14 дней бесплатного хранения.',
+        'На складе в Иу (Китай) принимаем груз, маркируем вашим кодом, вскрываем и проверяем, отправляем фотоотчёт, консолидируем от нескольких поставщиков, упаковываем и страхуем за 1%. 14 дней бесплатного хранения.',
     },
     hero: {
       eyebrow: 'Услуга 08 — Склад в Иу',
       h1: 'Склад в Иу: приёмка, проверка качества и фотоотчёт',
       intro:
-        'Склад в Иу (义乌) — первая остановка каждого груза на пути из Китая в Ташкент. Здесь каждое место от поставщика взвешивают, обмеряют, маркируют вашим кодом и фотографируют. По желанию вскрываем коробки, пересчитываем и проверяем товар (1 $/кг), переупаковываем (0,4 $/кг) и страхуем груз за 1 % от объявленной стоимости. Хранение до 14 дней бесплатно.',
+        'Склад в Иу (义乌) — первая остановка каждого груза на пути из Китая в Ташкент. Здесь каждое место от поставщика взвешивают, обмеряют, маркируют вашим кодом и фотографируют. По желанию вскрываем коробки, пересчитываем и проверяем товар (1 $/кг), переупаковываем (0,4 $/кг) и страхуем груз за 1% от объявленной стоимости. Хранение до 14 дней бесплатно.',
       facts: [
         { label: 'Бесплатное хранение, Иу', value: '14 дней' },
         { label: 'Проверка со вскрытием', value: '1 $/кг' },
         { label: 'Переупаковка', value: '0,4 $/кг' },
-        { label: 'Страховка от стоимости', value: '1 %' },
+        { label: 'Страховка от стоимости', value: '1%' },
       ],
     },
     sections: [
@@ -229,7 +229,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Как работает страховка?',
         body: [
-          'Страховка — 1 % от объявленной стоимости. Стоимость вы указываете по инвойсу или сумме заказа; при утере или повреждении груза возмещается именно она. Ответственность за незастрахованный груз ограничена пределом, прописанным в договоре. Для электроники, фарфора, стекла и дорогих товаров страховку рекомендуем; одежду и ткани большинство клиентов отправляют без неё.',
+          'Страховка — 1% от объявленной стоимости. Стоимость вы указываете по инвойсу или сумме заказа; при утере или повреждении груза возмещается именно она. Ответственность за незастрахованный груз ограничена пределом, прописанным в договоре. Для электроники, фарфора, стекла и дорогих товаров страховку рекомендуем; одежду и ткани большинство клиентов отправляют без неё.',
           'При повреждении доказательством служит фотоотчёт, сделанный при приёмке, — поэтому в Иу фотографируется каждое место, а в Ташкенте груз вскрывается при вас.',
         ],
       },
@@ -247,7 +247,7 @@ const content: ServiceContentByLang = {
             ['Подробный фотоотчёт (вскрытая коробка)', '1 $ / место'],
             ['Пересчёт и проверка со вскрытием', '1 $/кг'],
             ['Переупаковка', '0,4 $/кг'],
-            ['Страховка', '1 % от стоимости'],
+            ['Страховка', '1% от стоимости'],
             ['Хранение, Иу', '14 дней бесплатно'],
             ['Хранение, Ташкент', '3 дня бесплатно'],
           ],
@@ -278,7 +278,7 @@ const content: ServiceContentByLang = {
       { q: 'Как я узнаю, что груз поступил на склад?', a: 'При каждой приёмке в Telegram приходит фото весов и этикетки с кодом груза — обычно в день поступления коробки. Если заранее прислать трек-номер ожидаемой коробки, склад опознает её сразу.' },
       { q: 'Обязательно ли вскрывать и проверять товар?', a: 'Нет, это услуга по желанию — 1 $/кг. Рекомендуем её для новых продавцов, электроники и товаров с высоким риском брака; у постоянных продавцов достаточно внешнего осмотра и бесплатного фото.' },
       { q: 'Можно ли собрать груз от нескольких продавцов в одну отправку?', a: 'Да, это консолидация — одна из главных задач склада. Все коробки ждут под вашим кодом до 14 дней бесплатно, затем собираются в одну партию и отправляются. По желанию переупакуем коробки, чтобы уменьшить объём (0,4 $/кг).' },
-      { q: 'Сколько стоит страховка и что она покрывает?', a: '1 % от объявленной стоимости. При утере или повреждении возмещается объявленная стоимость; доказательством служит фотоотчёт при приёмке. Ответственность за незастрахованный груз ограничена договором.' },
+      { q: 'Сколько стоит страховка и что она покрывает?', a: '1% от объявленной стоимости. При утере или повреждении возмещается объявленная стоимость; доказательством служит фотоотчёт при приёмке. Ответственность за незастрахованный груз ограничена договором.' },
       { q: 'Сколько груз хранится бесплатно?', a: 'В Иу — 14 дней, в Ташкенте — 3 дня. Дальше начисляется посуточная плата по договору. Перед китайским Новым годом склад прекращает приём за неделю до праздников — планируйте партию с учётом этого.' },
       { q: 'Что делать, если товар не соответствует заказу?', a: 'Посмотрев фотоотчёт, вы решаете: отправлять, возвращать продавцу или требовать недостающее. С продавцом мы общаемся по-китайски; пока товар в Китае, претензия чаще всего решается за несколько дней.' },
     ],

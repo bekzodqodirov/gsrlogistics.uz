@@ -1,6 +1,6 @@
 ---
 title: "How are cargo prices from China calculated? Volumetric weight, density, kg vs m³ (2026)"
-description: "Cargo prices depend on three things: mode, weight and density. The volumetric weight formula (÷6000 truck, ÷5000 air), the 170 kg/m³ rule, 5 worked examples, what the price includes and excludes, and customs payments — with estimated prices as of September 2026."
+description: "Cargo prices depend on three things: mode, weight and density. The volumetric weight formula (÷ 6 000 truck, ÷ 5 000 air), the 170 kg/m³ rule, 5 worked examples, what the price includes and excludes, and customs payments — with estimated prices as of September 2026."
 lang: en
 translationKey: cargo-pricing
 slug: how-cargo-prices-are-calculated
@@ -11,7 +11,7 @@ faq:
   - q: "Is cargo priced per kilogram or per cubic metre?"
     a: "For truck cargo, density decides: above 170 kg/m³ it is priced per kilogram, below that per cubic metre. Air is always per kilogram, charged on the greater of actual and volumetric weight."
   - q: "How is volumetric weight calculated?"
-    a: "Length × width × height (cm) ÷ 6000 for truck and ÷ 5000 for air. For example, a 50×40×40 cm box: 80,000 ÷ 6000 = 13.3 kg (truck), 80,000 ÷ 5000 = 16 kg (air)."
+    a: "Length × width × height (cm) ÷ 6 000 for truck and ÷ 5 000 for air. For example, a 50×40×40 cm box: 80,000 ÷ 6 000 = 13.3 kg (truck), 80,000 ÷ 5 000 = 16 kg (air)."
   - q: "How much does 1 kg of cargo from China cost?"
     a: "As of September 2026, roughly: truck cargo $6.50–7.50/kg (up to 30 kg $7.50, 30–100 kg $7, from 100 kg $6.50), air $9–12/kg. The final price is fixed after weighing at the Yiwu warehouse."
   - q: "Are customs payments included in the price?"
@@ -25,7 +25,7 @@ sources:
   - title: "iCargo — per-m³ rates by density for consolidated cargo"
     url: "https://icargo.uz/"
     date: "2026-09-01"
-  - title: "Transasia — how much shipping from China to Uzbekistan costs (÷5000 and ÷6000 rule, B2B prices)"
+  - title: "Transasia — how much shipping from China to Uzbekistan costs (÷ 5 000 and ÷ 6 000 rule, B2B prices)"
     url: "https://transasia.uz/blog/tpost/eyyh7ibc71-skolko-stoit-dostavka-iz-kitaya-v-uzbeki"
     date: "2026-06-23"
   - title: "Central Bank of the Republic of Uzbekistan — official US dollar rate"
@@ -34,7 +34,7 @@ sources:
   - title: "Cabinet of Ministers Resolution No. 244 — duty-free import norms for individuals (lex.uz)"
     url: "https://lex.uz/docs/7484114"
     date: "2025-04-19"
-  - title: "Gazeta.uz — single customs payment drops to 20% from January 1, 2027 (PF-174)"
+  - title: "Gazeta.uz — single customs payment drops to 20% from January 1, 2027 (UP-174)"
     url: "https://www.gazeta.uz/ru/2026/09/02/customs-payment/"
     date: "2026-09-02"
 ---
@@ -57,16 +57,16 @@ Volumetric weight is a notional "weight" derived from the box dimensions. Space 
 
 | Mode | Formula | How many kg one m³ counts as |
 |---|---|---|
-| Truck cargo | length × width × height (cm) ÷ 6000 | ≈ 167 kg |
-| Air cargo | length × width × height (cm) ÷ 5000 | 200 kg |
+| Truck cargo | length × width × height (cm) ÷ 6 000 | ≈ 167 kg |
+| Air cargo | length × width × height (cm) ÷ 5 000 | 200 kg |
 
-Chargeable weight = the greater of actual and volumetric. Example: a 50×40×40 cm box weighing 8 kg. Volumetric weight: 80,000 ÷ 5000 = 16 kg (air) or 80,000 ÷ 6000 = 13.3 kg (truck). By air you pay for 16 kg, because 16 > 8. Almost every carrier on the Tashkent market applies the same rule: ÷6000 for truck, ÷5000 for air (Transasia, June 23, 2026).
+Chargeable weight = the greater of actual and volumetric. Example: a 50×40×40 cm box weighing 8 kg. Volumetric weight: 80,000 ÷ 5 000 = 16 kg (air) or 80,000 ÷ 6 000 = 13.3 kg (truck). By air you pay for 16 kg, because 16 > 8. Almost every carrier on the Tashkent market applies the same rule: ÷ 6 000 for truck, ÷ 5 000 for air (Transasia, June 23, 2026).
 
 ## What is density, and when is cargo priced per kg or per m³?
 
 Density is the ratio of cargo weight to its volume, in kg/m³. Calculation: total weight ÷ total volume. 300 kg and 2 m³ → 150 kg/m³; 48 kg and 0.2 m³ → 240 kg/m³.
 
-The truck cargo rule: **density above 170 kg/m³ is priced per kilogram, below it per cubic metre.** The number 170 is no accident: under the ÷6000 formula one cubic metre holds about 167 kg, so above that threshold the actual weight exceeds the volumetric weight. Air is always priced per kilogram.
+The truck cargo rule: **density above 170 kg/m³ is priced per kilogram, below it per cubic metre.** The number 170 is no accident: under the ÷ 6 000 formula one cubic metre holds about 167 kg, so above that threshold the actual weight exceeds the volumetric weight. Air is always priced per kilogram.
 
 Typical densities: tightly packed clothing 250–350 kg/m³, boxed footwear 150–200, fabric on rolls 350–500, plastic toys 60–100, furniture 80–150, spare parts and metal goods 400–700. So clothing and spare parts go per kilogram; toys and furniture go per cubic metre.
 
@@ -97,9 +97,9 @@ For comparison: on March 27, 2025 MK Express published exactly this truck ladder
 
 **Example 3. Fabric, wholesale, truck.** 400 kg, 1 m³. Density 400 kg/m³ → per kg. Standard tariff $6.50/kg → $2,600; dense wholesale tariff from $3.50/kg → from $1,400. The final figure is confirmed after weighing: **$1,400–2,600**.
 
-**Example 4. Electronics, air.** A 50×40×40 cm box, 8 kg. Volumetric weight: 80,000 ÷ 5000 = 16 kg > 8 kg → you pay for 16 kg. Standard goods $9/kg → **$144**; branded $12/kg → $192.
+**Example 4. Electronics, air.** A 50×40×40 cm box, 8 kg. Volumetric weight: 80,000 ÷ 5 000 = 16 kg > 8 kg → you pay for 16 kg. Standard goods $9/kg → **$144**; branded $12/kg → $192.
 
-**Example 5. Samples: air or truck?** A 40×40×30 cm box, 20 kg. Air: volumetric weight 48,000 ÷ 5000 = 9.6 kg < 20 → 20 × 9 = **$180**, 5–10 days. Truck: density 20 ÷ 0.048 = 417 kg/m³ → per kg, 20 × 7.50 = **$150**, 15–25 days. A $30 difference — for urgent samples, air pays for itself.
+**Example 5. Samples: air or truck?** A 40×40×30 cm box, 20 kg. Air: volumetric weight 48,000 ÷ 5 000 = 9.6 kg < 20 → 20 × 9 = **$180**, 5–10 days. Truck: density 20 ÷ 0.048 = 417 kg/m³ → per kg, 20 × 7.50 = **$150**, 15–25 days. A $30 difference — for urgent samples, air pays for itself.
 
 The [Calculator](/en/calculator/) applies the same rules to your own cargo and shows the rule used, the rate and the update date.
 

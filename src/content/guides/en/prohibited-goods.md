@@ -1,6 +1,6 @@
 ---
-title: "What can't you ship from China to Uzbekistan? Prohibited and restricted goods (2026)"
-description: "Three groups: banned by law (narcotics, weapons, counterfeits, drones, unlicensed radio equipment, plants and animals, cash and jewellery), truck-only (lithium batteries, magnets, liquids, aerosols) and certificate required (cosmetics, children's goods, appliances, food, medicines) — tables and consequences."
+title: "What can’t you ship from China to Uzbekistan? Prohibited and restricted goods (2026)"
+description: "Three groups: banned by law (narcotics, weapons, counterfeits, drones, unlicensed radio equipment, plants and animals, cash and jewellery), truck-only (lithium batteries, magnets, liquids, aerosols) and certificate required (cosmetics, children’s goods, appliances, food, medicines) — tables and consequences."
 lang: en
 translationKey: prohibited-goods
 slug: prohibited-goods
@@ -48,7 +48,7 @@ sources:
     date: "2024-01-01"
 ---
 
-You cannot ship narcotics, weapons, explosives, counterfeits, drones, radio equipment without a permit, live plants and animals, cash or jewellery from China to Uzbekistan — these 9 groups are banned by law. Another 4 groups (lithium batteries, magnets, liquids, aerosols) are refused by airlines and travel by truck only, and 5 groups (cosmetics, children's goods, electrical appliances, food, medicines) require a certificate or a permit. Below are the full tables, the legal basis for each restriction, and what happens if the goods are shipped anyway.
+You cannot ship narcotics, weapons, explosives, counterfeits, drones, radio equipment without a permit, live plants and animals, cash or jewellery from China to Uzbekistan — these 9 groups are banned by law. Another 4 groups (lithium batteries, magnets, liquids, aerosols) are refused by airlines and travel by truck only, and 5 groups (cosmetics, children’s goods, electrical appliances, food, medicines) require a certificate or a permit. Below are the full tables, the legal basis for each restriction, and what happens if the goods are shipped anyway.
 
 ## Why is the list split into three groups?
 
@@ -91,7 +91,7 @@ Air cargo runs under the IATA Dangerous Goods Regulations. Lithium batteries (UN
 | Aerosols, gas cartridges, lighters, sprays | Pressurised containers | Quantity limits, packaging requirements |
 | Medicines and medical devices (within the personal allowance) | Airline restriction | Within the allowance only |
 
-The practical takeaway: if it is electronics, check for a battery first. Earbuds, smartwatches, scales and children's toys often arrive with a lithium battery inside. Send such a lot on an air departure and it will show up on the scanner and the whole consignment comes back — see the terms on the [Air cargo](/en/services/air-cargo/) and [Truck cargo](/en/services/truck-cargo/) pages.
+The practical takeaway: if it is electronics, check for a battery first. Earbuds, smartwatches, scales and children’s toys often arrive with a lithium battery inside. Send such a lot on an air departure and it will show up on the scanner and the whole consignment comes back — see the terms on the [Air cargo](/en/services/air-cargo/) and [Truck cargo](/en/services/truck-cargo/) pages.
 
 ## Permit or certificate required: restricted goods
 
@@ -100,7 +100,7 @@ These goods are not banned, but a commercial lot needs a document to be imported
 | Product group | Document and issuer | Note |
 |---|---|---|
 | Cosmetics and perfumery | SES conclusion, conformity document (Uzstandard), Uzbek-language label | Duty 30% (cosmetics minimum $0.50/kg, perfume $2.50/kg); an extra permit on first import |
-| Children's goods and toys | Certificate or declaration of conformity (Uzstandard), SES conclusion | Duty 10%; label in Uzbek, Latin script |
+| Children’s goods and toys | Certificate or declaration of conformity (Uzstandard), SES conclusion | Duty 10%; label in Uzbek, Latin script |
 | Electrical appliances and household electronics | Certificate or declaration of conformity (Uzstandard; Cabinet Resolution 554 of September 2, 2025 shortened the list) | "Asl belgisi" digital marking for household appliances; phones need IMEI registration |
 | Food, drinks, dietary supplements | SES, state registration, quarantine or veterinary certificate, Uzbek-language label | In consolidated cargo only dry, long-life products and only with documents |
 | Medicines and medical products (commercial) | State registration, Ministry of Health permit | A lot without documents is not accepted |
@@ -125,7 +125,7 @@ In practice it is caught at one of four stages, and the consequences get heavier
 
 1. **At the Yiwu warehouse.** Every carton is weighed, measured and opened when needed. A prohibited item is refused: returned to the seller (return costs charged to the client) or, if it belongs to the "truck only" group, moved from the air to the truck departure. Loss — a few days.
 2. **At the airline scanner.** A hidden battery or liquid shows up on the X-ray. The airline sends the whole consignment back and issues a fine; the cargo moves to the next truck departure. Loss — 2–3 weeks and a fine.
-3. **At the Khorgos or Yallama border.** If customs finds counterfeit or prohibited goods in one carton, the entire truck goes to inspection: every other client's cargo waits for days. The goods are confiscated, the cargo owner is fined, and the demurrage and inspection costs fall on the cargo owner.
+3. **At the Khorgos or Yallama border.** If customs finds counterfeit or prohibited goods in one carton, the entire truck goes to inspection: every other client’s cargo waits for days. The goods are confiscated, the cargo owner is fined, and the demurrage and inspection costs fall on the cargo owner.
 4. **Criminal liability.** For narcotics, weapons, drones and explosives it does not end with an administrative fine — the Criminal Code applies; for a drone, Article 244-4 carries up to 3 years, 3–5 years for a repeat offence.
 
 Insurance does not cover prohibited goods. So the rule is simple: when in doubt, ask before shipping.
@@ -140,4 +140,4 @@ Insurance does not cover prohibited goods. So the rule is simple: when in doubt,
 
 If you are not sure which group your cargo falls into, [message us on Telegram](/en/contact/) — a manager answers in one message. What to expect at customs — [Customs clearance](/en/services/customs/); the terminology — [Cargo glossary](/en/guides/cargo-glossary/).
 
-> **Manager's tip.** Most trouble comes from small things shipped "without knowing": a gift power bank in a carton, a magnet inside a toy, one spray in a cosmetics set. Write the seller a single line — "batteries, magnets, liquids and aerosols in a separate carton" — and at the warehouse we split the lot: the dry part goes by air, the rest by truck, and the whole shipment stops waiting.
+> **Manager’s tip.** Most trouble comes from small things shipped "without knowing": a gift power bank in a carton, a magnet inside a toy, one spray in a cosmetics set. Write the seller a single line — "batteries, magnets, liquids and aerosols in a separate carton" — and at the warehouse we split the lot: the dry part goes by air, the rest by truck, and the whole shipment stops waiting.

@@ -174,8 +174,10 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   /** Light +998 mask: keeps digits, forces the 998 prefix, groups as +998 XX XXX XX XX. */
   function formatPhone(raw: string): string {
     let d = raw.replace(/\D/g, '');
-    if (d.startsWith('998')) d = d.slice(3);
-    else if (d.startsWith('8') && d.length === 10) d = d.slice(1);
+    // Strip repeated country prefixes: the field pre-fills '+998 ', so a pasted '+998 90 …' or
+    // '998901234567' would otherwise leave a doubled 998 in front of the subscriber number.
+    while (d.startsWith('998') && d.length > 9) d = d.slice(3);
+    if (d.startsWith('8') && d.length === 10) d = d.slice(1);
     d = d.slice(0, 9);
     const parts = [d.slice(0, 2), d.slice(2, 5), d.slice(5, 7), d.slice(7, 9)].filter(Boolean);
     return '+998' + (parts.length ? ' ' + parts.join(' ') : '');

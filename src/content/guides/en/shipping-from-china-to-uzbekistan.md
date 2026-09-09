@@ -22,7 +22,7 @@ sources:
   - title: "Cabinet of Ministers Resolution No. 244 — duty-free import norms for individuals (lex.uz)"
     url: "https://lex.uz/docs/7484114"
     date: "2025-04-19"
-  - title: "Presidential Decree PF-174 'New Customs 2030': single customs payment 20% from January 1, 2027 (lex.uz)"
+  - title: "Presidential Decree UP-174 'New Customs 2030': single customs payment 20% from January 1, 2027 (lex.uz)"
     url: "https://lex.uz/docs/8444993"
     date: "2026-08-27"
   - title: "Buxgalter.uz — new customs fee rates approved (Cabinet Resolution No. 55)"
@@ -59,13 +59,13 @@ Consolidated cargo is a method where shipments from several clients are combined
 
 It suits lots from 10 kg to 15 m³ best: Uzum and Yandex Market sellers, shop and market-stall owners, entrepreneurs testing a first batch. Above 15–20 m³ a dedicated container (FCL) or rail usually works out cheaper.
 
-GSR Logistics has been shipping consolidated cargo since June 2022; the third consolidation truck left the Yiwu warehouse on August 2, 2022. Yiwu (义乌) is home to the world's largest small-commodity wholesale market, which is why the warehouse is there; goods from Guangzhou, Shenzhen and other cities are received through partners.
+GSR Logistics has been shipping consolidated cargo since June 2022; the third consolidation truck left the Yiwu warehouse on August 2, 2022. Yiwu (义乌) is home to the world’s largest small-commodity wholesale market, which is why the warehouse is there; goods from Guangzhou, Shenzhen and other cities are received through partners.
 
 ## Which route does the cargo take?
 
 The main corridor for truck and rail runs through Kazakhstan:
 
-1. **Yiwu → Xi'an → Lanzhou → Urumqi** — about 4,000 km inside China, 4–6 days.
+1. **Yiwu → Xi’an → Lanzhou → Urumqi** — about 4,000 km inside China, 4–6 days.
 2. **Urumqi → Khorgos** — the China–Kazakhstan border. Export formalities and queues happen here: usually 1–3 days, 5–7 days before holidays.
 3. **Khorgos → Almaty → Shymkent → Tashkent** — 1,100 km across Kazakhstan, entering Uzbekistan at the Yallama (Gishtkuprik) post. An electronic queue has operated at Yallama since June 2025.
 
@@ -89,7 +89,7 @@ Air cargo flies from Guangzhou or Urumqi to Tashkent airport and is cleared at t
 
 Customs distinguishes two regimes, and they must not be mixed.
 
-**Individuals, personal use.** Under Cabinet of Ministers Resolution No. 244 of April 19, 2025, from May 1, 2025 the limit for international courier shipments is $200 per calendar month, cumulative across all orders and tracked by personal ID (PINFL). The excess is subject to the single customs payment of 30%, minimum $3/kg. Decree PF-174 of August 27, 2026 lowers this to 20% and $2/kg from January 1, 2027 — a planned change, not yet in force. Large quantities of identical goods or repeated orders may be classed by customs as a commercial shipment.
+**Individuals, personal use.** Under Cabinet of Ministers Resolution No. 244 of April 19, 2025, from May 1, 2025 the limit for international courier shipments is $200 per calendar month, cumulative across all orders and tracked by personal ID (PINFL). The excess is subject to the single customs payment of 30%, minimum $3/kg. Decree UP-174 of August 27, 2026 lowers this to 20% and $2/kg from January 1, 2027 — a planned change, not yet in force. Large quantities of identical goods or repeated orders may be classed by customs as a commercial shipment.
 
 **Legal entities and sole traders, commercial goods.** The set: a contract registered in E-Contract (mandatory since May 19, 2025), invoice, packing list, CMR (road) or SMGS (rail) waybill, certificate of origin, a 10-digit HS (TN VED) code and, where required, a conformity certificate and a sanitary (SES) conclusion. Payments: duty by HS code at 0–30% (clothing 20%, phones 5%, computers 0%, furniture 15%), VAT 12%, and the customs fee of 1 BRV for values up to $10,000 (Cabinet Resolution No. 55 of January 31, 2025). The GTD is what allows the goods to be sold legally in a shop or on a marketplace.
 
@@ -109,7 +109,7 @@ Truck only: lithium batteries and power banks, liquids, cosmetics and perfume, m
 
 ## How long does it take and what causes delays?
 
-In normal conditions a truck arrives in 15–25 days; the fastest deliveries in GSR's experience took 12–13 days, but that is not the standard. What stretches the timeline:
+In normal conditions a truck arrives in 15–25 days; the fastest deliveries in GSR’s experience took 12–13 days, but that is not the standard. What stretches the timeline:
 
 - **Chinese New Year** (late January – February): warehouses stop shipping a week before the holiday and the first truck leaves 2–3 weeks later. Order February stock in December.
 - **October 1–7** (Golden Week) and the **November 11** sales — factories and warehouses are overloaded, and queues form at the border.

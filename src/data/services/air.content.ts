@@ -3,8 +3,8 @@ import type { ServiceContentByLang } from './types';
 /**
  * Avia kargo — long-form page content.
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): air standard 9 / brand 12 / commercial 11,5 $/kg,
- * minimum 0,5 kg, ÷5000 volumetric, 5–10 days; extras 1 $ photo, 0,4 $/kg repack, 1 $/kg inspection,
- * 1 % insurance, 14/3 free storage days, door delivery 20 000–30 000 soʻm (free from 5 kg in Tashkent).
+ * minimum 0,5 kg, ÷ 5 000 volumetric, 5–10 days; extras 1 $ photo, 0,4 $/kg repack, 1 $/kg inspection,
+ * 1% insurance, 14/3 free storage days, door delivery 20 000–30 000 soʻm (free from 5 kg in Tashkent).
  * Truck figures quoted for comparison: 7,5 $/kg up to 30 kg, 15–25 days. Keep in sync when tariffs change.
  */
 const content: ServiceContentByLang = {
@@ -13,18 +13,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Xitoydan Toshkentga avia kargo — 1 kg narxi va muddati',
       description:
-        'Xitoydan Toshkentga avia kargo: taxminan 5–10 kun, 9 $/kg dan, 0,5 kg dan qabul qilamiz. Ivu omborida qabul, konsolidatsiya, bojxona rasmiylashtiruvi va Toshkent omborigacha yetkazib berish narxga kiradi. Hajmiy vazn ÷ 5000.',
+        'Xitoydan Toshkentga avia kargo: taxminan 5–10 kun, 9 $/kg dan, 0,5 kg dan qabul qilamiz. Ivu omborida qabul, konsolidatsiya, bojxona rasmiylashtiruvi va Toshkent omborigacha yetkazib berish narxga kiradi. Hajmiy vazn ÷ 5 000.',
     },
     hero: {
       eyebrow: 'Xizmat 02 — Avia kargo',
       h1: 'Xitoydan Toshkentga avia kargo',
       intro:
-        'Avia kargo — bu shoshilinch, yengil va qimmat yuklarni Xitoydan samolyotda olib kelish. Yuk Xitoy omboridan joʻnatilgach, Toshkentga taxminan 5–10 kunda keladi. Narx kilogramm hisobida: oddiy tovar 9 $/kg dan, brend 12 $/kg, seriyali (tijorat) 11,5 $/kg; hajmiy vazn ÷ 5000 bilan hisoblanadi. Minimal ogʻirlik — 0,5 kg. Ivu omborida qabul va bojxona rasmiylashtiruvi narxga kiradi.',
+        'Avia kargo — bu shoshilinch, yengil va qimmat yuklarni Xitoydan samolyotda olib kelish. Yuk Xitoy omboridan joʻnatilgach, Toshkentga taxminan 5–10 kunda keladi. Narx kilogramm hisobida: oddiy tovar 9 $/kg dan, brend 12 $/kg, seriyali (tijorat) 11,5 $/kg; hajmiy vazn ÷ 5 000 bilan hisoblanadi. Minimal ogʻirlik — 0,5 kg. Ivu omborida qabul va bojxona rasmiylashtiruvi narxga kiradi.',
       facts: [
         { label: 'Muddat, Xitoy omboridan', value: '5–10 kun' },
         { label: 'Oddiy tovar', value: '9 $/kg dan' },
         { label: 'Minimal ogʻirlik', value: '0,5 kg' },
-        { label: 'Hajmiy vazn qoidasi', value: '÷ 5000' },
+        { label: 'Hajmiy vazn qoidasi', value: '÷ 5 000' },
       ],
     },
     sections: [
@@ -51,7 +51,7 @@ const content: ServiceContentByLang = {
         heading: 'Avia kargo narxi qanday hisoblanadi?',
         body: [
           'Avia kargoda narx har doim kilogramm hisobida va tovar toifasiga bogʻliq: oddiy tovar, brend tovar (original, qutisi va yorligʻi bilan) yoki seriyali tovar — bir xil mahsulotdan 3 donadan koʻp, tijorat partiyasi. Elektronika va kosmetika ham seriyali tarif boʻyicha hisoblanadi.',
-          'Hajmiy vazn qoidasi: uzunlik × en × balandlik (sm) ÷ 5000. Samolyotda joy qimmat, shuning uchun boʻluvchi avtodagi 6000 emas, 5000. Haqiqiy va hajmiy vazndan kattasi hisobga olinadi. Qadoqni ixchamlash uchun Ivu omborida qayta qadoqlash xizmati bor — koʻpincha u oʻz narxini qoplaydi.',
+          'Hajmiy vazn qoidasi: uzunlik × en × balandlik (sm) ÷ 5 000. Samolyotda joy qimmat, shuning uchun boʻluvchi avtodagi 6000 emas, 5000. Haqiqiy va hajmiy vazndan kattasi hisobga olinadi. Qadoqni ixchamlash uchun Ivu omborida qayta qadoqlash xizmati bor — koʻpincha u oʻz narxini qoplaydi.',
         ],
         table: {
           caption: 'Avia kargo tariflari, Xitoy → Toshkent',
@@ -65,8 +65,8 @@ const content: ServiceContentByLang = {
           note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. Narx har reys uchun aniqlanadi; yakuniy summa yuk Ivu omborida tortilgandan keyin maʼlum boʻladi.',
         },
         callout: {
-          title: 'Misol: hajmiy vazn ÷ 5000',
-          text: '50 × 40 × 30 sm li quti — 60 000 sm³, ÷ 5000 = 12 kg hajmiy vazn. Ichida 4 kg gʻilof boʻlsa ham, 12 kg uchun toʻlaysiz: 12 × 9 = 108 $. Qayta qadoqlab hajmni 40 × 30 × 25 sm ga tushirsak — 6 kg, yaʼni 54 $. Shuning uchun yengil tovarni zich qadoqlash muhim.',
+          title: 'Misol: hajmiy vazn ÷ 5 000',
+          text: '50 × 40 × 30 sm li quti — 60 000 sm³, ÷ 5 000 = 12 kg hajmiy vazn. Ichida 4 kg gʻilof boʻlsa ham, 12 kg uchun toʻlaysiz: 12 × 9 = 108 $. Qayta qadoqlab hajmni 40 × 30 × 25 sm ga tushirsak — 6 kg, yaʼni 54 $. Shuning uchun yengil tovarni zich qadoqlash muhim.',
           tone: 'info',
         },
       },
@@ -156,12 +156,12 @@ const content: ServiceContentByLang = {
       {
         heading: 'Qanday hujjatlar kerak?',
         body: [
-          'Avia kargo kompaniya hujjatlari bilan rasmiylashtiriladi: sizdan bojxona uchun alohida hujjat talab qilinmaydi, lekin tovarning nomi, soni va qiymati toʻgʻri koʻrsatilishi shart. Brend tovar uchun sotuvchining invoysi va tovar haqiqiyligini tasdiqlovchi hujjat soʻralishi mumkin. Bojxona toʻlovlari tarifga kiritilgan; «bojsiz» degan vaʼda bermaymiz.',
+          'Avia kargo kompaniya hujjatlari bilan rasmiylashtiriladi: sizdan bojxona uchun alohida hujjat talab qilinmaydi, lekin tovarning nomi, soni va qiymati toʻgʻri koʻrsatilishi shart. Brend tovar uchun sotuvchining invoysi va tovar haqiqiyligini tasdiqlovchi hujjat soʻralishi mumkin. Bojxona rasmiylashtiruvi — hujjatlar va deklaratsiya — tarifga kiritilgan; boj va QQS esa TN VED kodi boʻyicha alohida hisoblanadi. «Bojsiz» degan vaʼda bermaymiz.',
           'Tovarni oʻz firmangiz yoki YaTT nomiga rasmiy import qilmoqchi boʻlsangiz, ekspeditor va deklarant sifatida ishlaymiz. Bunda E-Contract tizimida roʻyxatdan oʻtgan shartnoma, invoys, qadoqlash roʻyxati, avia yuk xati (AWB), kelib chiqish sertifikati va har bir tovar uchun TN VED kodi kerak boʻladi.',
         ],
         callout: {
           title: 'Menejer maslahati',
-          text: 'Sotuvchidan tovarni zich va kichik qutida joʻnatishni soʻrang: avia narxi hajmiy vazn ÷ 5000 bilan hisoblanadi va boʻsh joy uchun ham toʻlaysiz. Namunani avia bilan, asosiy partiyani avto bilan yuborish — koʻp sotuvchilar uchun eng tejamli sxema.',
+          text: 'Sotuvchidan tovarni zich va kichik qutida joʻnatishni soʻrang: avia narxi hajmiy vazn ÷ 5 000 bilan hisoblanadi va boʻsh joy uchun ham toʻlaysiz. Namunani avia bilan, asosiy partiyani avto bilan yuborish — koʻp sotuvchilar uchun eng tejamli sxema.',
           tone: 'success',
         },
       },
@@ -189,7 +189,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Hajmiy vazn avia uchun qanday hisoblanadi?',
-        a: 'Uzunlik × en × balandlik (sm) ÷ 5000. Masalan, 50 × 40 × 30 sm quti = 12 kg hajmiy vazn. Haqiqiy va hajmiy vazndan kattasi uchun toʻlaysiz; qayta qadoqlash (0,4 $/kg) koʻpincha hajmni 30–40% ga kamaytiradi.',
+        a: 'Uzunlik × en × balandlik (sm) ÷ 5 000. Masalan, 50 × 40 × 30 sm quti = 12 kg hajmiy vazn. Haqiqiy va hajmiy vazndan kattasi uchun toʻlaysiz; qayta qadoqlash (0,4 $/kg) koʻpincha hajmni 30–40% ga kamaytiradi.',
       },
       {
         q: 'Yukim Guanchjou yoki Shenchjenda boʻlsa-chi?',
@@ -215,18 +215,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Авиа карго из Китая в Ташкент — цена за кг и сроки',
       description:
-        'Авиа карго из Китая в Ташкент: ориентировочно 5–10 дней, от 9 $/кг, принимаем от 0,5 кг. В цену входят приёмка на складе в Иу, консолидация, таможенное оформление и доставка до склада в Ташкенте. Объёмный вес ÷ 5000.',
+        'Авиа карго из Китая в Ташкент: ориентировочно 5–10 дней, от 9 $/кг, принимаем от 0,5 кг. В цену входят приёмка на складе в Иу, консолидация, таможенное оформление и доставка до склада в Ташкенте. Объёмный вес ÷ 5 000.',
     },
     hero: {
       eyebrow: 'Услуга 02 — Авиа карго',
       h1: 'Авиа карго из Китая в Ташкент',
       intro:
-        'Авиа карго — это доставка срочных, лёгких и дорогих грузов из Китая самолётом. После отправки со склада в Китае груз приходит в Ташкент ориентировочно за 5–10 дней. Цена считается по килограммам: обычный товар от 9 $/кг, бренд 12 $/кг, серийный (коммерческий) 11,5 $/кг; объёмный вес — по формуле ÷ 5000. Минимальный вес — 0,5 кг. Приёмка на складе в Иу и таможенное оформление включены.',
+        'Авиа карго — это доставка срочных, лёгких и дорогих грузов из Китая самолётом. После отправки со склада в Китае груз приходит в Ташкент ориентировочно за 5–10 дней. Цена считается по килограммам: обычный товар от 9 $/кг, бренд 12 $/кг, серийный (коммерческий) 11,5 $/кг; объёмный вес — по формуле ÷ 5 000. Минимальный вес — 0,5 кг. Приёмка на складе в Иу и таможенное оформление включены.',
       facts: [
         { label: 'Срок от склада в Китае', value: '5–10 дней' },
         { label: 'Обычный товар', value: 'от 9 $/кг' },
         { label: 'Минимальный вес', value: '0,5 кг' },
-        { label: 'Объёмный вес', value: '÷ 5000' },
+        { label: 'Объёмный вес', value: '÷ 5 000' },
       ],
     },
     sections: [
@@ -253,7 +253,7 @@ const content: ServiceContentByLang = {
         heading: 'Как считается цена авиа карго?',
         body: [
           'В авиа карго цена всегда считается по килограммам и зависит от категории товара: обычный товар, брендовый (оригинал, с коробкой и биркой) или серийный — больше трёх одинаковых единиц, коммерческая партия. Электроника и косметика тоже идут по серийному тарифу.',
-          'Правило объёмного веса: длина × ширина × высота (см) ÷ 5000. Место в самолёте дорогое, поэтому делитель — 5000, а не 6000, как у авто. К оплате берётся большее из фактического и объёмного веса. На складе в Иу есть переупаковка для уплотнения — чаще всего она окупает себя.',
+          'Правило объёмного веса: длина × ширина × высота (см) ÷ 5 000. Место в самолёте дорогое, поэтому делитель — 5000, а не 6000, как у авто. К оплате берётся большее из фактического и объёмного веса. На складе в Иу есть переупаковка для уплотнения — чаще всего она окупает себя.',
         ],
         table: {
           caption: 'Тарифы авиа карго, Китай → Ташкент',
@@ -267,8 +267,8 @@ const content: ServiceContentByLang = {
           note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Цена фиксируется на каждый рейс; итоговая сумма известна после взвешивания на складе в Иу.',
         },
         callout: {
-          title: 'Пример: объёмный вес ÷ 5000',
-          text: 'Коробка 50 × 40 × 30 см — это 60 000 см³, ÷ 5000 = 12 кг объёмного веса. Даже если внутри 4 кг чехлов, платите за 12 кг: 12 × 9 = 108 $. Если переупаковать до 40 × 30 × 25 см — 6 кг, то есть 54 $. Поэтому лёгкий товар важно паковать плотно.',
+          title: 'Пример: объёмный вес ÷ 5 000',
+          text: 'Коробка 50 × 40 × 30 см — это 60 000 см³, ÷ 5 000 = 12 кг объёмного веса. Даже если внутри 4 кг чехлов, платите за 12 кг: 12 × 9 = 108 $. Если переупаковать до 40 × 30 × 25 см — 6 кг, то есть 54 $. Поэтому лёгкий товар важно паковать плотно.',
           tone: 'info',
         },
       },
@@ -358,12 +358,12 @@ const content: ServiceContentByLang = {
       {
         heading: 'Какие документы нужны?',
         body: [
-          'Авиа карго оформляется под документы компании: отдельные документы для таможни от вас не требуются, но наименование, количество и стоимость товара должны быть указаны верно. Для брендового товара могут запросить инвойс продавца и подтверждение подлинности. Таможенные платежи включены в тариф; «без пошлин» мы не обещаем.',
+          'Авиа карго оформляется под документы компании: отдельные документы для таможни от вас не требуются, но наименование, количество и стоимость товара должны быть указаны верно. Для брендового товара могут запросить инвойс продавца и подтверждение подлинности. Таможенное оформление — документы и декларация — входит в тариф; пошлина и НДС считаются отдельно по коду ТН ВЭД. «Без пошлин» мы не обещаем.',
           'Если хотите ввезти товар официально на свою фирму или ИП, мы работаем как экспедитор и декларант. Тогда понадобятся контракт, зарегистрированный в E-Contract, инвойс, упаковочный лист, авианакладная (AWB), сертификат происхождения и код ТН ВЭД на каждый товар.',
         ],
         callout: {
           title: 'Совет менеджера',
-          text: 'Попросите продавца упаковать товар плотно и в маленькую коробку: авиа считается по объёмному весу ÷ 5000, и за пустое место вы тоже платите. Образец — самолётом, основную партию — авто: для большинства продавцов это самая экономная схема.',
+          text: 'Попросите продавца упаковать товар плотно и в маленькую коробку: авиа считается по объёмному весу ÷ 5 000, и за пустое место вы тоже платите. Образец — самолётом, основную партию — авто: для большинства продавцов это самая экономная схема.',
           tone: 'success',
         },
       },
@@ -391,7 +391,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Как считается объёмный вес для авиа?',
-        a: 'Длина × ширина × высота (см) ÷ 5000. Например, коробка 50 × 40 × 30 см = 12 кг объёмного веса. Платите за большее из фактического и объёмного веса; переупаковка (0,4 $/кг) обычно уменьшает объём на 30–40%.',
+        a: 'Длина × ширина × высота (см) ÷ 5 000. Например, коробка 50 × 40 × 30 см = 12 кг объёмного веса. Платите за большее из фактического и объёмного веса; переупаковка (0,4 $/кг) обычно уменьшает объём на 30–40%.',
       },
       {
         q: 'А если мой товар в Гуанчжоу или Шэньчжэне?',
@@ -417,18 +417,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Air cargo from China to Tashkent — price per kg and transit time',
       description:
-        'Air cargo from China to Tashkent: roughly 5–10 days, from $9/kg, accepted from 0.5 kg. Receiving at the Yiwu warehouse, consolidation, customs clearance and delivery to the Tashkent warehouse are included. Volumetric weight ÷ 5000.',
+        'Air cargo from China to Tashkent: roughly 5–10 days, from $9/kg, accepted from 0.5 kg. Receiving at the Yiwu warehouse, consolidation, customs clearance and delivery to the Tashkent warehouse are included. Volumetric weight ÷ 5 000.',
     },
     hero: {
       eyebrow: 'Service 02 — Air cargo',
       h1: 'Air cargo from China to Tashkent',
       intro:
-        'Air cargo is the way to bring urgent, light and high-value goods from China by plane. Once dispatched from the warehouse in China, it reaches Tashkent in roughly 5–10 days. Pricing is per kilogram: standard goods from $9/kg, branded goods $12/kg, commercial lots $11.50/kg, with volumetric weight at ÷ 5000. The minimum is 0.5 kg. Receiving at the Yiwu warehouse and customs clearance are included.',
+        'Air cargo is the way to bring urgent, light and high-value goods from China by plane. Once dispatched from the warehouse in China, it reaches Tashkent in roughly 5–10 days. Pricing is per kilogram: standard goods from $9/kg, branded goods $12/kg, commercial lots $11.50/kg, with volumetric weight at ÷ 5 000. The minimum is 0.5 kg. Receiving at the Yiwu warehouse and customs clearance are included.',
       facts: [
         { label: 'Transit from the China warehouse', value: '5–10 days' },
         { label: 'Standard goods', value: 'from $9/kg' },
         { label: 'Minimum weight', value: '0.5 kg' },
-        { label: 'Volumetric weight rule', value: '÷ 5000' },
+        { label: 'Volumetric weight rule', value: '÷ 5 000' },
       ],
     },
     sections: [
@@ -455,7 +455,7 @@ const content: ServiceContentByLang = {
         heading: 'How is the air cargo price calculated?',
         body: [
           'Air cargo is always priced per kilogram, and the rate depends on the goods category: standard goods, branded goods (originals with box and label) or commercial lots — more than three identical units. Electronics and cosmetics are also billed at the commercial rate.',
-          'Volumetric weight: length × width × height (cm) ÷ 5000. Space on a plane is expensive, so the divisor is 5000 rather than the 6000 used for trucks. We charge the greater of actual and volumetric weight. The Yiwu warehouse offers repacking to compress boxes — it usually pays for itself.',
+          'Volumetric weight: length × width × height (cm) ÷ 5 000. Space on a plane is expensive, so the divisor is 5000 rather than the 6000 used for trucks. We charge the greater of actual and volumetric weight. The Yiwu warehouse offers repacking to compress boxes — it usually pays for itself.',
         ],
         table: {
           caption: 'Air cargo rates, China → Tashkent',
@@ -469,8 +469,8 @@ const content: ServiceContentByLang = {
           note: 'Estimates · Updated September 8, 2026. Rates are fixed per flight; the final amount is known after weighing at the Yiwu warehouse.',
         },
         callout: {
-          title: 'Example: volumetric weight ÷ 5000',
-          text: 'A 50 × 40 × 30 cm box is 60,000 cm³; ÷ 5000 = 12 kg volumetric weight. Even if it holds 4 kg of phone cases, you pay for 12 kg: 12 × $9 = $108. Repacked to 40 × 30 × 25 cm it becomes 6 kg, or $54. That is why light goods should be packed tight.',
+          title: 'Example: volumetric weight ÷ 5 000',
+          text: 'A 50 × 40 × 30 cm box is 60,000 cm³; ÷ 5 000 = 12 kg volumetric weight. Even if it holds 4 kg of phone cases, you pay for 12 kg: 12 × $9 = $108. Repacked to 40 × 30 × 25 cm it becomes 6 kg, or $54. That is why light goods should be packed tight.',
           tone: 'info',
         },
       },
@@ -560,12 +560,12 @@ const content: ServiceContentByLang = {
       {
         heading: 'Which documents are needed?',
         body: [
-          'Air cargo is cleared under the company’s documents: you do not need to supply customs paperwork, but the product name, quantity and value must be stated correctly. For branded goods we may ask for the seller’s invoice and proof of authenticity. Customs payments are included in the rate; we never promise “no duties”.',
+          'Air cargo is cleared under the company’s documents: you do not need to supply customs paperwork, but the product name, quantity and value must be stated correctly. For branded goods we may ask for the seller’s invoice and proof of authenticity. Customs clearance — documents and the declaration — is included in the rate; duty and VAT are calculated separately by HS code. We never promise “no duties”.',
           'If you want to import officially under your own company or sole proprietorship, we act as forwarder and declarant. You will then need a contract registered in E-Contract, an invoice, a packing list, the air waybill (AWB), a certificate of origin and an HS code for every product.',
         ],
         callout: {
           title: 'Manager’s tip',
-          text: 'Ask the seller to pack tight and in a small box: air is billed on volumetric weight ÷ 5000, and you pay for empty space too. Sample by air, main lot by truck — for most sellers that is the most economical setup.',
+          text: 'Ask the seller to pack tight and in a small box: air is billed on volumetric weight ÷ 5 000, and you pay for empty space too. Sample by air, main lot by truck — for most sellers that is the most economical setup.',
           tone: 'success',
         },
       },
@@ -593,7 +593,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'How is volumetric weight calculated for air?',
-        a: 'Length × width × height (cm) ÷ 5000. For example, a 50 × 40 × 30 cm box is 12 kg volumetric weight. You pay for the greater of actual and volumetric weight; repacking ($0.40/kg) usually cuts the volume by 30–40%.',
+        a: 'Length × width × height (cm) ÷ 5 000. For example, a 50 × 40 × 30 cm box is 12 kg volumetric weight. You pay for the greater of actual and volumetric weight; repacking ($0.40/kg) usually cuts the volume by 30–40%.',
       },
       {
         q: 'What if my goods are in Guangzhou or Shenzhen?',

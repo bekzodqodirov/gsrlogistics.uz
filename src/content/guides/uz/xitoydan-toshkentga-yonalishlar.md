@@ -83,7 +83,7 @@ Batafsil — [Temir yoʻl va konteyner](/xizmatlar/temir-yol-konteyner/).
 
 ## Avia yoʻl qanday ishlaydi?
 
-Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi (2–4 kun), parvoz 1 kun, Toshkent aeroportida bojxona 1–2 ish kuni. Jami taxminan 3–10 kun, odatda 5–10. Narx 9 $/kg dan, hajmiy vazn ÷ 5000. Litiy batareya, suyuqlik, magnit va atir aviaga olinmaydi — ular faqat avto yoki temir yoʻl bilan keladi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
+Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi (2–4 kun), parvoz 1 kun, Toshkent aeroportida bojxona 1–2 ish kuni. Jami taxminan 3–10 kun, odatda 5–10. Narx 9 $/kg dan, hajmiy vazn ÷ 5 000. Litiy batareya, suyuqlik, magnit va atir aviaga olinmaydi — ular faqat avto yoki temir yoʻl bilan keladi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
 
 ## Toʻrt yoʻl bir jadvalda
 

@@ -63,7 +63,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Bojxona toʻlovlari qanday hisoblanadi?',
         body: [
-          'Avtomobil uchun toʻrt xil toʻlov bor: bojxona boji, aksiz, QQS (12 %) va utilizatsiya yigʻimi. Ularning har biri avtomobil turiga bogʻliq: benzinli mashinada dvigatel hajmi va yoshi, elektromobilda batareya quvvati va motor kuchi hisobga olinadi. Elektromobillar uchun imtiyozlar bor, lekin ular muddatli va vaqti-vaqti bilan oʻzgaradi — shuning uchun biz bu sahifada stavka yozmaymiz.',
+          'Avtomobil uchun toʻrt xil toʻlov bor: bojxona boji, aksiz, QQS (12%) va utilizatsiya yigʻimi. Ularning har biri avtomobil turiga bogʻliq: benzinli mashinada dvigatel hajmi va yoshi, elektromobilda batareya quvvati va motor kuchi hisobga olinadi. Elektromobillar uchun imtiyozlar bor, lekin ular muddatli va vaqti-vaqti bilan oʻzgaradi — shuning uchun biz bu sahifada stavka yozmaymiz.',
           'Buyurtmadan oldin siz tanlagan aniq model uchun barcha toʻlovlarni joriy qonunchilik boʻyicha hisoblab, shartnomaga kiritamiz. Toʻlovlar rasmiy kvitansiya boʻyicha, sizning nomingizga toʻlanadi — avtomobil sizning mulkingiz sifatida roʻyxatdan oʻtadi.',
         ],
         table: {
@@ -72,7 +72,7 @@ const content: ServiceContentByLang = {
           rows: [
             ['Bojxona boji', 'avtomobil turi, dvigatel hajmi, yoshi', 'siz, rasmiy kvitansiya boʻyicha'],
             ['Aksiz', 'dvigatel hajmi yoki motor quvvati', 'siz, rasmiy kvitansiya boʻyicha'],
-            ['QQS', '12 % — bojxona qiymati + boj + aksiz summasidan', 'siz, rasmiy kvitansiya boʻyicha'],
+            ['QQS', '12% — bojxona qiymati + boj + aksiz summasidan', 'siz, rasmiy kvitansiya boʻyicha'],
             ['Utilizatsiya yigʻimi', 'avtomobil turi, dvigatel hajmi, yoshi', 'siz, rasmiy kvitansiya boʻyicha'],
             ['Rasmiylashtiruv yigʻimi', 'bojxona qiymati, BRVda', 'siz, rasmiy kvitansiya boʻyicha'],
             ['Yetkazish va xizmat haqi', 'shartnoma boʻyicha', 'narx tarkibida'],
@@ -185,7 +185,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Как считаются таможенные платежи?',
         body: [
-          'На автомобиль приходится четыре платежа: таможенная пошлина, акциз, НДС (12 %) и утилизационный сбор. Каждый зависит от типа машины: для бензиновой учитываются объём двигателя и возраст, для электромобиля — ёмкость батареи и мощность мотора. Для электромобилей действуют льготы, но они срочные и периодически меняются — поэтому на этой странице мы не пишем ставки.',
+          'На автомобиль приходится четыре платежа: таможенная пошлина, акциз, НДС (12%) и утилизационный сбор. Каждый зависит от типа машины: для бензиновой учитываются объём двигателя и возраст, для электромобиля — ёмкость батареи и мощность мотора. Для электромобилей действуют льготы, но они срочные и периодически меняются — поэтому на этой странице мы не пишем ставки.',
           'До заказа мы рассчитываем все платежи для выбранной вами модели по действующему законодательству и вносим их в договор. Платежи вносятся по официальным квитанциям на ваше имя — автомобиль регистрируется как ваша собственность.',
         ],
         table: {
@@ -194,7 +194,7 @@ const content: ServiceContentByLang = {
           rows: [
             ['Таможенная пошлина', 'тип автомобиля, объём двигателя, возраст', 'вы, по официальной квитанции'],
             ['Акциз', 'объём двигателя или мощность мотора', 'вы, по официальной квитанции'],
-            ['НДС', '12 % от суммы таможенной стоимости, пошлины и акциза', 'вы, по официальной квитанции'],
+            ['НДС', '12% от суммы таможенной стоимости, пошлины и акциза', 'вы, по официальной квитанции'],
             ['Утилизационный сбор', 'тип автомобиля, объём двигателя, возраст', 'вы, по официальной квитанции'],
             ['Сбор за оформление', 'таможенная стоимость, в БРВ', 'вы, по официальной квитанции'],
             ['Доставка и вознаграждение', 'по договору', 'в составе цены'],
