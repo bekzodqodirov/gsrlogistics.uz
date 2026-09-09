@@ -44,6 +44,11 @@ export const site = {
    * owned or run by a partner is NOT established — copy says "Ivu ombori", never "our warehouse".
    * Flip publishChinaAddresses to false to keep the full street addresses off the public pages;
    * the city names stay either way.
+   *
+   * The city labels are the company's own, taken from its address card — the third point is billed as
+   * KASHI (KASHGAR) although the street address sits in Wuqia County, Kizilsu prefecture. Keep the
+   * company's label (it is what the manager will say on the phone) and let the Chinese address carry
+   * the precision. Uzbek spells the city «Qashqar» everywhere else on the site; match that.
    */
   publishChinaAddresses: true,
   chinaWarehouses: [
@@ -51,6 +56,8 @@ export const site = {
       key: 'yiwu',
       city: { uz: 'Ivu', ru: 'Иу', en: 'Yiwu' },
       cityZh: '义乌',
+      localityZh: '义乌市',
+      regionZh: '浙江省',
       address: '浙江省义乌市稠江街道荷花南街2255号',
       contact: '周先生（小周）',
       note: '',
@@ -60,6 +67,8 @@ export const site = {
       key: 'guangzhou',
       city: { uz: 'Guanchjou', ru: 'Гуанчжоу', en: 'Guangzhou' },
       cityZh: '广州',
+      localityZh: '广州市白云区',
+      regionZh: '广东省',
       address: '广州市白云区钟落潭镇小罗永宁路89号 嘉宇物流有限公司',
       contact: '',
       note: '高德导航', // the card tells the sender to navigate with Amap
@@ -70,8 +79,10 @@ export const site = {
     },
     {
       key: 'kashgar',
-      city: { uz: 'Kashgar', ru: 'Кашгар', en: 'Kashgar' },
+      city: { uz: 'Qashqar', ru: 'Кашгар', en: 'Kashgar' },
       cityZh: '喀什',
+      localityZh: '乌恰县',
+      regionZh: '新疆维吾尔自治区',
       address: '新疆维吾尔自治区克孜勒苏柯尔克孜自治州乌恰县黑孜苇派出所西南侧250米 陆途仓储',
       contact: '小买',
       note: '',

@@ -25,8 +25,16 @@ const FORBIDDEN = [
   [/\b(1[0-9]{3}|[0-9]{3})\+ mijoz/i, 'invented client counter'],
   [/One Belt|Bir makon, bir yoʻl assotsiatsiyasining rasmiy vakili/i, 'unverified association claim'],
   [/viloyat filial/i, 'claims regional branches'],
-  // Whether the Yiwu warehouse is owned or a partner's is unverified, so it is never "ours".
-  [/omborimiz|нашего склада|our Yiwu warehouse/i, 'claims the Yiwu warehouse as our own'],
+  // Who operates each of the three China receiving points is unverified — the Guangzhou and Kashgar
+  // cards both name third-party logistics firms — so none of them is ever "ours".
+  [/omborimiz|наш(его|ем|) склад|our (Yiwu|Guangzhou|Kashgar) warehouse/i, 'claims a China receiving point as our own'],
+  // ...and equally, we no longer receive Guangzhou cargo only "through partners": there is an address.
+  [/(Guanchjou|Гуанчжоу|Guangzhou)[^.!?]{0,80}(hamkorlar orqali|через партнёров|through partners)/i, 'stale "through partners" claim for Guangzhou'],
+  [/(hamkorlar orqali|через партнёров|through partners)[^.!?]{0,80}(Guanchjou|Гуанчжоу|Guangzhou)/i, 'stale "through partners" claim for Guangzhou'],
+  // Contact details the owner replaced on 2026-09-09; none of them may come back.
+  [/\+998 ?97 ?333 ?39 ?33|998973333933/, 'retired second phone number'],
+  [/info@gsrlogistics\.uz/i, 'retired e-mail address'],
+  [/t\.me\/\+998950183333/, 'retired Telegram phone deep link — use the manager username'],
   // No promise about how fast a reply arrives: the channel is dormant and nobody has staffed a target.
   [/hozir javob beramiz|отвечаем сейчас|answer now, not|Eng tez javob|[Бб]ыстрее всего|fastest reply/i, 'promises a reply speed'],
   [/uzel(ini|i)\b/i, 'Russian loan "uzel" → "tugun"'],
