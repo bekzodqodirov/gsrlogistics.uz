@@ -325,7 +325,7 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Buying agent for 1688, Taobao and Alibaba — commission from 3%',
       description:
-        'Send us a link — we quote in US dollars, pay the seller in yuan, check the goods at our Yiwu warehouse and deliver to Tashkent. 1688, Taobao, Pinduoduo, Alibaba. Commission from 3%, payment in soʻm.',
+        'Send us a link — we quote in US dollars, pay the seller in yuan, check the goods at our Yiwu warehouse and deliver to Tashkent. 1688, Taobao, Pinduoduo, Alibaba. Commission from 3%, payment in UZS.',
     },
     hero: {
       eyebrow: 'Service 05 — Buying agent',
@@ -348,7 +348,7 @@ const content: ServiceContentByLang = {
         steps: [
           { title: 'You send the link', text: 'On Telegram you send the product link, colour, size and quantity. One message can hold one link or fifty; the “share” button in the marketplace app is enough.' },
           { title: 'You get a quote', text: 'Your manager converts the price from yuan to dollars at the Central Bank rate and adds the seller’s domestic shipping and our commission. Every line is shown separately — the rate and the percentage included.' },
-          { title: 'You pay', text: 'In soʻm at the rate on the day of the quote: card transfer, Click or Payme, cash at the office. Legal entities get an invoice and pay by bank transfer. The order is placed the same day.' },
+          { title: 'You pay', text: 'In UZS at the rate on the day of the quote: card transfer, Click or Payme, cash at the office. Legal entities get an invoice and pay by bank transfer. The order is placed the same day.' },
           { title: 'We pay the seller in yuan', text: 'We place the order from our own account and message the seller in Chinese to confirm colour, size and dispatch date. The platform holds the money until the goods reach Yiwu.' },
           { title: 'We receive in Yiwu', text: 'Inside China the goods usually reach the warehouse in 1–5 days. We receive each parcel under your code, check the count and outer condition and send a photo report. Defective goods go back to the seller.' },
           { title: 'Consolidation and Tashkent', text: 'Parcels from different sellers are combined into one shipment, repacked and sent to Tashkent by consolidated truck (roughly 15–25 days) or air (5–10 days). In Tashkent you collect or we deliver to your door.' },
@@ -373,7 +373,7 @@ const content: ServiceContentByLang = {
         },
         callout: {
           title: 'Example: 50 bags from 1688',
-          text: '50 pcs × 38 yuan = 1,900 yuan. At the Central Bank rate of September 8, 2026 (1 yuan = 1,756.72 soʻm, $1 = 11,789.33 soʻm) that is ≈ $283; the 3% commission ≈ $8.50. Goods ≈ 3,340,000 soʻm + commission ≈ 100,000 soʻm. Freight is separate: 50 bags ≈ 20 kg, 0.15 m³ → density 133 kg/m³ → priced by volumetric weight.',
+          text: '50 pcs × 38 yuan = 1,900 yuan. At the Central Bank rate of September 8, 2026 (1 yuan = 1,756.72 UZS, $1 = 11,789.33 UZS) that is ≈ $283; the 3% commission ≈ $8.50. Goods ≈ 3,340,000 UZS + commission ≈ 100,000 UZS. Freight is separate: 50 bags ≈ 20 kg, 0.15 m³ → density 133 kg/m³ → priced by volumetric weight.',
           tone: 'info',
         },
       },
@@ -397,12 +397,12 @@ const content: ServiceContentByLang = {
       {
         heading: 'How do I pay, and which yuan rate applies?',
         body: [
-          'In Uzbekistan you pay in soʻm: transfer from a Humo or Uzcard card, Click and Payme, or cash at our office (27 Alisher Navoiy Street, Tashkent). Legal entities and sole traders can pay by bank transfer against an invoice — in that case the goods are imported in your company’s name.',
+          'In Uzbekistan you pay in UZS: transfer from a Humo or Uzcard card, Click and Payme, or cash at our office (27 Alisher Navoiy Street, Tashkent). Legal entities and sole traders can pay by bank transfer against an invoice — in that case the goods are imported in your company’s name.',
           'The yuan rate follows the Central Bank of Uzbekistan on the day of the quote; if a margin applies, it is written as a separate line. We pay the seller through Alipay, WeChat Pay or our Chinese company account. On 1688 and Taobao the platform holds the money until receipt is confirmed, so if the seller fails to ship, the amount comes back.',
         ],
         callout: {
           title: 'When do I pay?',
-          text: 'Product price and commission — before the order (we pay the seller upfront). Freight Yiwu → Tashkent — when the cargo arrives at the Tashkent warehouse, in soʻm. Regular clients can agree a different schedule in the contract.',
+          text: 'Product price and commission — before the order (we pay the seller upfront). Freight Yiwu → Tashkent — when the cargo arrives at the Tashkent warehouse, in UZS. Regular clients can agree a different schedule in the contract.',
           tone: 'info',
         },
       },
@@ -439,11 +439,11 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Which yuan exchange rate do you use?',
-        a: 'The Central Bank of Uzbekistan rate on the day of the quote; on September 8, 2026, for example, 1 yuan = 1,756.72 soʻm. Any margin is never hidden in the product price but shown as its own line.',
+        a: 'The Central Bank of Uzbekistan rate on the day of the quote; on September 8, 2026, for example, 1 yuan = 1,756.72 UZS. Any margin is never hidden in the product price but shown as its own line.',
       },
       {
         q: 'Do I need a Chinese card, Alipay or Chinese?',
-        a: 'No. We pay the seller in yuan from our own account via Alipay or WeChat Pay and message them in Chinese. You pay in soʻm and write to us on Telegram in Uzbek or Russian.',
+        a: 'No. We pay the seller in yuan from our own account via Alipay or WeChat Pay and message them in Chinese. You pay in UZS and write to us on Telegram in Uzbek or Russian.',
       },
       {
         q: 'Do you also buy from Taobao and Pinduoduo?',
@@ -463,7 +463,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'How and when do I pay?',
-        a: 'Product price and commission — before the order, in soʻm: card, Click, Payme or cash at the office; legal entities pay by bank transfer against an invoice. Freight — when the cargo arrives in Tashkent.',
+        a: 'Product price and commission — before the order, in UZS: card, Click, Payme or cash at the office; legal entities pay by bank transfer against an invoice. Freight — when the cargo arrives in Tashkent.',
       },
     ],
     related: ['truck', 'warehouse', 'sourcing'],

@@ -411,7 +411,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'How are the contract, payment and commission arranged?',
         body: [
-          'The contract with the factory is drawn up in Chinese and Russian (or English) and covers the specification, quality criteria, packaging, production time, penalties for delay and return terms. The usual payment pattern in China is 30% upfront and the balance before shipment; we make the payment in yuan while you settle in soʻm or US dollars. If you import in your own company’s name, the contract is registered in the E-Contract (EEISVO) system.',
+          'The contract with the factory is drawn up in Chinese and Russian (or English) and covers the specification, quality criteria, packaging, production time, penalties for delay and return terms. The usual payment pattern in China is 30% upfront and the balance before shipment; we make the payment in yuan while you settle in UZS or US dollars. If you import in your own company’s name, the contract is registered in the E-Contract (EEISVO) system.',
           'Our fee is a commission on the order value. It depends on how complex the search is and on who finances the purchase:',
         ],
         table: {

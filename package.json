@@ -13,11 +13,12 @@
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
-    "postbuild": "node scripts/generate-sitemap.mjs dist && node scripts/generate-llms-full.mjs dist",
+    "postbuild": "node scripts/generate-sitemap.mjs dist && node scripts/generate-llms-full.mjs dist && node scripts/check-content.mjs dist",
     "og": "node scripts/generate-og.mjs",
     "indexnow": "node scripts/indexnow.mjs dist",
     "map": "node scripts/build-map.mjs",
-    "test:pricing": "node scripts/test-pricing.mjs"
+    "test:pricing": "node scripts/test-pricing.mjs",
+    "check:content": "node scripts/check-content.mjs dist"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

@@ -77,8 +77,8 @@ Practical tips:
 ## How GSR Logistics buys for you
 
 1. **You send the links.** In Telegram: the product link, the colour/size you need and the quantity. If the product has not been found yet, we search for it through the [Sourcing](/en/services/sourcing/) service.
-2. **You get a quote.** Your manager messages the seller in Chinese and confirms the price, MOQ, delivery inside China and the dispatch date. You see the total in yuan and in soʻm: goods + delivery inside China + 3% commission. Yuan is converted at the Central Bank of Uzbekistan rate, and the rate date is printed on the quote.
-3. **You pay.** In soʻm: card transfer, Click/Payme, or an invoice for legal entities. The order is placed once payment is confirmed.
+2. **You get a quote.** Your manager messages the seller in Chinese and confirms the price, MOQ, delivery inside China and the dispatch date. You see the total in yuan and in UZS: goods + delivery inside China + 3% commission. Yuan is converted at the Central Bank of Uzbekistan rate, and the rate date is printed on the quote.
+3. **You pay.** In UZS: card transfer, Click/Payme, or an invoice for legal entities. The order is placed once payment is confirmed.
 4. **We pay in yuan.** Through the 1688 platform, not to the seller’s private account — if the goods do not arrive or do not match, the platform refunds the money.
 5. **The delivery address is the Yiwu warehouse.** The order names GSR Logistics’ warehouse in Yiwu (义乌) and your client code as the delivery address. Inside China the goods take 2–5 days.
 6. **Receiving, inspection, photo report.** At the warehouse we weigh, measure, open and count every box; the photo report lands in your Telegram. On request — repacking ($0.40/kg) and detailed inspection ($1/kg). Orders from different sellers are grouped into one shipment — see [Yiwu warehouse and quality control](/en/services/warehouse-quality-control/).
@@ -96,7 +96,7 @@ Order: 300 phone cases, 1688 price for 100+ pcs — 10 yuan.
 | Delivery inside China (seller → Yiwu) | seller’s rate | 60 yuan |
 | Commission 3% | 3,060 × 0.03 | 91.8 yuan |
 | Total in yuan | | 3,151.8 yuan |
-| In soʻm (Central Bank rate 1,756.72 on September 8, 2026) | 3,151.8 × 1,756.72 | ≈ UZS 5,537,000 |
+| In UZS (Central Bank rate 1,756.72 on September 8, 2026) | 3,151.8 × 1,756.72 | ≈ UZS 5,537,000 |
 | Freight: 40 kg, 0.2 m³ → 200 kg/m³ ≥ 170 → per kg | 40 × $7 | $280 |
 | Photo report | | $1 |
 | Insurance 1% (declared value ≈ $470) | | ≈ $4.70 |
@@ -113,7 +113,7 @@ One case costs about UZS 29,700 — before customs. *Estimate · Updated Septemb
 
 **Pinduoduo** has the lowest retail prices, often apparently below 1688. But the sellers are small, quality varies from lot to lot, returns are difficult, and goods that do not match the picture are common. It works for cheap small items (stationery, accessories, household goods); for a private label or a marketplace, 1688 is more reliable.
 
-On all three platforms GSR Logistics works the same way: link → quote → payment in soʻm → purchase in yuan → Yiwu warehouse → Tashkent.
+On all three platforms GSR Logistics works the same way: link → quote → payment in UZS → purchase in yuan → Yiwu warehouse → Tashkent.
 
 ## Common mistakes
 
