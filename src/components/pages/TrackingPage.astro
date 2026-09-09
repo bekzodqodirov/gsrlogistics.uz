@@ -85,7 +85,10 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: l
   .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
   .answer { max-width: 66ch; margin-top: 20px; color: var(--muted); }
   .form-card { padding: clamp(20px, 3vw, 40px); }
-  .body { padding-top: clamp(40px, 5vw, 64px); padding-bottom: clamp(48px, 6vw, 96px); max-width: calc(var(--container-text) + 2 * var(--gutter)); }
+  /* the measure belongs to the blocks, not the container — capping the container centres it and
+     gives the page a second left edge 110px inside the one the form card and hero already use */
+  .body { padding-top: clamp(40px, 5vw, 64px); padding-bottom: clamp(48px, 6vw, 96px); }
+  .body > .block { max-width: var(--container-text); }
   .block + .block { margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid var(--border-soft); }
   .block h2 { font-size: var(--text-h2); max-width: 32ch; margin-bottom: 12px; scroll-margin-top: calc(var(--header-h) + 24px); }
   .para { color: var(--fg-2); max-width: 70ch; text-wrap: pretty; }

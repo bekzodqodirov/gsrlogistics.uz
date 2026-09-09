@@ -149,7 +149,8 @@ const truckDays = range(tariffs.truck.days[0], tariffs.truck.days[1]);
   .stat-line { display: flex; align-items: baseline; white-space: nowrap; }
   .stat-line .stat { font-size: clamp(2.5rem, 3vw + 1.25rem, 4rem); color: var(--fg); }
 
-  .compare { background: var(--bg-3); gap: 20px; }
+  /* the card is stretched by its row, so centre the block instead of pooling the slack at the bottom */
+  .compare { background: var(--bg-3); gap: 20px; justify-content: center; }
   .compare-title { font-size: var(--text-body); font-weight: 600; color: var(--fg); }
   .compare-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; list-style: none; margin: 0; padding: 0; }
   .compare-col { display: grid; gap: 6px; padding-right: 20px; align-content: start; }
