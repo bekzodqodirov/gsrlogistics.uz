@@ -31,7 +31,7 @@ sources:
   - title: "Logistan — Qozogʻiston Doʻstiq va Oltinkoʻlga boʻsh platformalar taqiqini uzaytirdi"
     url: "https://logistan.info/7645-kazahstan-prodlil-zapret-na-poroznie-platformy-na-dostyk-i-altynkol/"
     date: "2025-05-15"
-  - title: "Ritm Eurasia — Oltinkoʻl — Xorgos temir yoʻl uzeli modernizatsiyasi 2026-yilda yakunlanadi"
+  - title: "Ritm Eurasia — Oltinkoʻl — Xorgos temir yoʻl tuguni modernizatsiyasi 2026-yilda yakunlanadi"
     url: "https://www.ritmeurasia.ru/news--2026-02-24--modernizacija-zh-d-uzla-altynkol-horgos-na-granice-s-kitaem-zavershitsja-v-2026-godu-86044"
     date: "2026-02-24"
   - title: "RZD-Partner — Xitoy — Qirgʻiziston — Oʻzbekiston transport yoʻlagi boʻylab birinchi poyezd joʻnatildi"
@@ -76,7 +76,7 @@ Temir yoʻl yuki Xitoy stansiyasidan (Sian, Chengdu, Lyanyungan, Ivu) **Alashank
 Nima sekinlashtiradi:
 
 - **Doʻstiq va Oltinkoʻlda tiqilinch.** 2025-yil birinchi yarmida Qozogʻiston temir yoʻli boʻsh platformalarni Doʻstiq va Oltinkoʻlga yuborishni taqiqlagan, 49 poyezd kutib turgan. Doʻstiq — Moyinti ikkinchi yoʻli 2025-yil sentabrida ochilib, oʻtkazuvchanlik 42% oshdi.
-- **Oltinkoʻl — Xorgos uzeli modernizatsiyasi** 2026-yilda tugaydi: kuniga 18 dan 33 juft poyezdgacha.
+- **Oltinkoʻl — Xorgos tuguni modernizatsiyasi** 2026-yilda tugaydi: kuniga 18 dan 33 juft poyezdgacha.
 - **Xitoy — Qirgʻiziston — Oʻzbekiston temir yoʻli** (Qashqar → Torugart → Makmal → Jalolobod → Andijon) hali qurilmoqda. Bu — kelajak, bugungi xizmat emas; 2026-yilda barcha temir yoʻl yuklari Qozogʻiston orqali keladi.
 
 Batafsil — [Temir yoʻl va konteyner](/xizmatlar/temir-yol-konteyner/).

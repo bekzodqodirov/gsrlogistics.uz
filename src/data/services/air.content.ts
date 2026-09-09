@@ -138,7 +138,7 @@ const content: ServiceContentByLang = {
           'Aviatsiya xavfsizlik qoidalari avtodagidan qattiqroq. Quyidagi tovarlar avia kargoga olinmaydi, lekin koʻpchiligini avto kargo orqali yuborish mumkin:',
         ],
         bullets: [
-          'Litiy batareya va akkumulyatorlar: powerbank, batareyali telefon, noutbuk, elektr skuter va oʻyinchoqlar',
+          'Litiy batareya va akkumulyatorlar: power bank, batareyali telefon, noutbuk, elektr skuter va oʻyinchoqlar',
           'Magnitlar va kuchli magnitli buyumlar (dinamik, magnit ushlagichlar)',
           'Suyuqlik, aerozol, atir, suyuq kosmetika, boʻyoq va yelim',
           'Bosim ostidagi ballonlar, yonuvchi va portlovchi moddalar, zajigalka',
@@ -149,7 +149,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Batareyali tovar boʻlsa — avto kargo',
-          text: 'Telefon, noutbuk, powerbank, elektr asboblar va batareyali oʻyinchoqlarni avto kargo bilan yuboramiz: 15–25 kun, 6,5–7,5 $/kg. Buyurtma berishdan oldin menejerga tovar tarkibini ayting — yuk omborda ushlanib qolmaydi.',
+          text: 'Telefon, noutbuk, power bank, elektr asboblar va batareyali oʻyinchoqlarni avto kargo bilan yuboramiz: 15–25 kun, 6,5–7,5 $/kg. Buyurtma berishdan oldin menejerga tovar tarkibini ayting — yuk omborda ushlanib qolmaydi.',
           tone: 'info',
         },
       },
@@ -184,7 +184,7 @@ const content: ServiceContentByLang = {
         a: 'Oddiy tovar — brendsiz kundalik mahsulotlar (9 $/kg). Seriyali — bir xil mahsulotdan 3 donadan koʻp, tijorat partiyasi, batareyasiz elektronika va kosmetika (11,5 $/kg). Brend — original brend mahsulot qutisi va yorligʻi bilan (12 $/kg). Toifani omborda qabul paytida aniqlaymiz.',
       },
       {
-        q: 'Telefon yoki powerbank avia bilan boradimi?',
+        q: 'Telefon yoki power bank avia bilan boradimi?',
         a: 'Yoʻq, litiy batareyali tovarlar avia kargoga olinmaydi — ularni avto kargo bilan 15–25 kunda olib kelamiz. Suyuqlik, atir, magnit va aerozollar ham faqat avto orqali boradi.',
       },
       {

@@ -27,6 +27,7 @@ const kursNote = tpl(t.calc.kursNote, { rate: fmtNumber(tariffs.usdToSom, lang, 
 const i18n = JSON.stringify({
   b,
   resultEmpty: t.calc.resultEmpty,
+  overLimit: t.calc.overLimit,
   switchNote: t.calc.switchNote,
   draft: t.calc.draft,
   draftRail: t.calc.draftRail,
@@ -140,7 +141,7 @@ const uid = (s: string) => `${id}-${s}`;
     <div class="calc-live">
       <div class="empty" data-el="empty">
         <p class="total"><span class="stat total-usd is-placeholder" aria-hidden="true">≈ —</span></p>
-        <p class="empty-text">{t.calc.resultEmpty}</p>
+        <p class="empty-text" data-el="empty-text">{t.calc.resultEmpty}</p>
         <dl class="quick">
           {quick.map((q) => <div class="quick-row"><dt>{q.label}</dt><dd class="tnum">{q.value}</dd></div>)}
         </dl>
@@ -250,7 +251,7 @@ const uid = (s: string) => `${id}-${s}`;
   import { fmtNumber } from '@/lib/format';
   import type { Lang } from '@/i18n/config';
 
-  interface I18n { b: BreakdownStrings; resultEmpty: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string }
+  interface I18n { b: BreakdownStrings; resultEmpty: string; overLimit: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string }
   const T = tariffs as unknown as Tariffs;
   const sub = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : ''));
 
@@ -260,10 +261,17 @@ const uid = (s: string) => `${id}-${s}`;
     const tgBase = form.dataset.tg || '';
     const el = <E extends HTMLElement = HTMLElement>(name: string) => form.querySelector<E>(`[data-el="${name}"]`);
     const els = (name: string) => Array.from(form.querySelectorAll<HTMLInputElement>(`[data-el="${name}"]`));
-    const num = (name: string) => { const v = parseFloat((el<HTMLInputElement>(name)?.value || '').trim().replace(/\s/g, '').replace(',', '.').replace(/[^0-9.]/g, '')); return Number.isFinite(v) && v > 0 ? v : 0; };
+    // a minus sign is not stripped into a positive number: "-20" would then be quoted as 20 kg while
+    // the field still reads -20, so it counts as no input at all
+    const num = (name: string) => { const raw = (el<HTMLInputElement>(name)?.value || '').trim().replace(/\s/g, '').replace(',', '.'); if (raw.includes('-')) return 0; const v = parseFloat(raw.replace(/[^0-9.]/g, '')); return Number.isFinite(v) && v > 0 ? v : 0; };
     const checked = (name: string) => els(name).find((r) => r.checked)?.value || '';
     const setMode = (m: Mode) => { els('mode').forEach((r) => { r.checked = r.value === m; }); form.dataset.mode = m; };
     const body = el('body')!, empty = el('empty')!, switchNote = el('switch')!;
+    const emptyText = el('empty-text');
+    // Above these the quote stops being a quote: a container or a charter is negotiated, not calculated,
+    // and without a ceiling a stray paste prints a nine-figure number in the same confident type.
+    const MAX = { kg: 20000, m3: 100, cm: 1200 };
+    const showEmpty = (msg: string) => { if (emptyText) emptyText.textContent = msg; body.hidden = true; empty.hidden = false; };
     let switched = false; // true after an air-forbidden category forced truck; the note stays until the category is allowed again
 
     function render() {
@@ -280,7 +288,9 @@ const uid = (s: string) => `${id}-${s}`;
       const useM3 = form.dataset.vol === 'm3';
       const dims = !useM3 && num('l') && num('w') && num('h') ? { l: num('l'), w: num('w'), h: num('h') } : undefined;
       const m3 = useM3 ? num('m3') : undefined;
-      if (mode !== 'rail' && kg <= 0) { body.hidden = true; empty.hidden = false; return; }
+      if (mode !== 'rail' && kg <= 0) { showEmpty(i18n.resultEmpty); return; }
+      const over = kg > MAX.kg || (m3 ?? 0) > MAX.m3 || (dims ? Math.max(dims.l, dims.w, dims.h) > MAX.cm : false);
+      if (mode !== 'rail' && over) { showEmpty(i18n.overLimit); return; }
 
       const e = estimate({ mode, kg, dims, m3, category, container }, T);
       const r = formatBreakdown(e, lang, i18n.b, T);

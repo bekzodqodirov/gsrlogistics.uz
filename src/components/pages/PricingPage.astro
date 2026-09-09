@@ -83,7 +83,8 @@ const extrasRows = [
   { label: p.inclusions.extras.photo, value: `${usd(T.extras.photoReportUsd)} · ${p.inclusions.perReceipt}` },
   { label: p.inclusions.extras.repack, value: perKg(T.extras.repackPerKg) },
   { label: p.inclusions.extras.inspection, value: perKg(T.extras.inspectionPerKg) },
-  { label: p.inclusions.extras.insurance, value: `${n(T.extras.insurancePct)}% · ${p.inclusions.ofValue}` },
+  // one phrase, not "1% · of the declared value": Uzbek is head-final, so the percentage comes last
+  { label: p.inclusions.extras.insurance, value: tpl(p.inclusions.ofValue, { n: n(T.extras.insurancePct) }) },
   { label: p.inclusions.extras.commission, value: withFrom(`${n(T.extras.sourcingCommissionPct)}%`, lang, c.strings.from) },
   { label: p.inclusions.extras.storageChina, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysChina, 0), days: daysWord(T.extras.freeStorageDaysChina, lang, b.units.days) }) },
   { label: p.inclusions.extras.storageTashkent, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysTashkent, 0), days: daysWord(T.extras.freeStorageDaysTashkent, lang, b.units.days) }) },

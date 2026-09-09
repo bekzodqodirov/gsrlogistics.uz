@@ -146,7 +146,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Avia orqali boʻlmaydi — avto orqali boʻladi',
-          text: 'Litiy batareyali texnika, powerbank, magnit, suyuqlik va kosmetika avia kargoga olinmaydi, lekin avto kargoda qabul qilinadi. Bunday tovarni oldindan aytib qoʻying — alohida qadoqlanadi.',
+          text: 'Litiy batareyali texnika, power bank, magnit, suyuqlik va kosmetika avia kargoga olinmaydi, lekin avto kargoda qabul qilinadi. Bunday tovarni oldindan aytib qoʻying — alohida qadoqlanadi.',
           tone: 'info',
         },
       },

@@ -29,6 +29,7 @@ export interface PricingStrings {
     submit: string;
     resultLabel: string;
     resultEmpty: string;
+    overLimit: string;
     ruleLabel: string;
     switchNote: string;
     kursNote: string;
@@ -142,6 +143,7 @@ const uz: PricingStrings = {
     submit: 'Hisoblash',
     resultLabel: 'Taxminiy narx',
     resultEmpty: 'Vaznni kiriting — narx shu yerda chiqadi.',
+    overLimit: 'Bunday hajmdagi yuk uchun kalkulyator narx bermaydi — konteyner yoki charter shartlari alohida hisoblanadi. Telegramda yozing, aniq narxni beramiz.',
     ruleLabel: 'Qoʻllangan qoida',
     switchNote: 'Bu toifa avia bilan joʻnatilmaydi — kalkulyator avto tarifiga oʻtdi.',
     kursNote: 'Hisob-kitob kursi: 1 $ = {rate} soʻm (taxminiy).',
@@ -226,7 +228,7 @@ const uz: PricingStrings = {
       head: ['Xizmat', 'Narx'],
       extras: { photo: 'Batafsil foto-hisobot (har bir joy)', repack: 'Qayta qadoqlash, hajmni kamaytirish', inspection: 'Tovarni sanash va tekshirish', insurance: 'Sugʻurta', commission: 'Tovar topish va sotib olish komissiyasi', storageChina: 'Ivu omborida saqlash', storageTashkent: 'Toshkent omborida saqlash' },
       perReceipt: 'har qabulda',
-      ofValue: 'eʼlon qilingan qiymatning',
+      ofValue: 'eʼlon qilingan qiymatning {n}%',
       daysFree: '{n} {days} bepul',
       excludedTitle: 'Alohida toʻlanadi',
       excluded: ['Boj, QQS va bojxona yigʻimlari — qonun boʻyicha, TN VED kodiga qarab; oldindan hisoblab beramiz', 'Tovarning oʻzi va Xitoy ichidagi yetkazib berish (yetkazib beruvchidan Ivu omborigacha)', 'Uygacha yetkazish — quyida'],
@@ -358,6 +360,7 @@ const ru: PricingStrings = {
     submit: 'Рассчитать',
     resultLabel: 'Ориентировочная цена',
     resultEmpty: 'Введите вес — цена появится здесь.',
+    overLimit: 'Для такого объёма калькулятор цену не даёт — контейнер или чартер считаются отдельно. Напишите в Telegram, посчитаем точно.',
     ruleLabel: 'Применённое правило',
     switchNote: 'Эта категория не летит авиа — калькулятор перешёл на тариф авто.',
     kursNote: 'Расчётный курс: 1 $ = {rate} сум (ориентировочно).',
@@ -442,7 +445,7 @@ const ru: PricingStrings = {
       head: ['Услуга', 'Цена'],
       extras: { photo: 'Подробный фотоотчёт (каждое место)', repack: 'Переупаковка, уменьшение объёма', inspection: 'Пересчёт и проверка товара', insurance: 'Страховка', commission: 'Комиссия за поиск и выкуп товара', storageChina: 'Хранение на складе в Иу', storageTashkent: 'Хранение на складе в Ташкенте' },
       perReceipt: 'за приёмку',
-      ofValue: 'от заявленной стоимости',
+      ofValue: '{n}% от заявленной стоимости',
       daysFree: '{n} {days} бесплатно',
       excludedTitle: 'Оплачивается отдельно',
       excluded: ['Пошлина, НДС и таможенные сборы — по закону, в зависимости от кода ТН ВЭД; считаем заранее', 'Сам товар и доставка внутри Китая (от поставщика до склада в Иу)', 'Доставка до двери — ниже'],
@@ -574,6 +577,7 @@ const en: PricingStrings = {
     submit: 'Calculate',
     resultLabel: 'Estimate',
     resultEmpty: 'Enter a weight — the price appears here.',
+    overLimit: 'The calculator does not price a shipment this large — container and charter loads are quoted separately. Message us on Telegram and we will price it exactly.',
     ruleLabel: 'Rule applied',
     switchNote: 'This category cannot fly — the calculator switched to the truck rate.',
     kursNote: 'Settlement rate: $1 = {rate} UZS (indicative).',
@@ -658,7 +662,7 @@ const en: PricingStrings = {
       head: ['Service', 'Price'],
       extras: { photo: 'Detailed photo report (per piece)', repack: 'Repacking to reduce volume', inspection: 'Counting and inspecting goods', insurance: 'Insurance', commission: 'Sourcing and buying commission', storageChina: 'Storage at the Yiwu warehouse', storageTashkent: 'Storage at the Tashkent warehouse' },
       perReceipt: 'per receipt',
-      ofValue: 'of declared value',
+      ofValue: '{n}% of declared value',
       daysFree: '{n} {days} free',
       excludedTitle: 'Paid separately',
       excluded: ['Duty, VAT and customs fees — by law, according to the HS code; we calculate them in advance', 'The goods themselves and domestic delivery in China (supplier to the Yiwu warehouse)', 'Door delivery — see below'],

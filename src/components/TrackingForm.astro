@@ -177,10 +177,14 @@ const i18n = JSON.stringify({
       if (label) { tag.hidden = true; stripCode.hidden = false; stripCode.textContent = label; stripNote.hidden = true; }
     };
     const tgUrl = (value: string) => `${tgBase}?text=${encodeURIComponent(i18n.draft + value)}`;
+    // true while the submit came from the ?code= deep link rather than from a tap: without user
+    // activation window.open is blocked and the browser shows a "pop-up blocked" bar for nothing.
+    let autoRan = false;
     const showFallback = (value: string) => {
       const url = tgUrl(value);
       const link = q<HTMLAnchorElement>('fb-link'); link.href = url;
       hideAll(); fallback.hidden = false; fallback.focus();
+      if (autoRan) return; // the visible link in the panel is the affordance on that path
       try { window.open(url, '_blank', 'noopener'); } catch { /* blocked — link stays visible */ }
     };
     const render = (data: TrackResponse) => {
@@ -223,8 +227,12 @@ const i18n = JSON.stringify({
       }
     });
 
+    // any real interaction with the form clears the flag, so a hand-typed retry still opens Telegram
+    form.addEventListener('pointerdown', () => { autoRan = false; });
+    form.addEventListener('keydown', () => { autoRan = false; });
+
     // Deep link from the home teaser: /kuzatuv/?code=XYZ → prefill and run.
     const fromUrl = new URLSearchParams(location.search).get('code');
-    if (fromUrl && CODE_RE.test(fromUrl.trim())) { code.value = fromUrl.trim().toUpperCase(); form.requestSubmit(); }
+    if (fromUrl && CODE_RE.test(fromUrl.trim())) { code.value = fromUrl.trim().toUpperCase(); autoRan = true; form.requestSubmit(); }
   });
 </script>

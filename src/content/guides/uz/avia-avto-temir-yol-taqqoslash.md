@@ -23,7 +23,7 @@ sources:
   - title: "Transasia — Сколько стоит доставка из Китая в Узбекистан (avia, avto, temir yoʻl narxlari)"
     url: "https://transasia.uz/blog/tpost/eyyh7ibc71-skolko-stoit-dostavka-iz-kitaya-v-uzbeki"
     date: "2026-06-23"
-  - title: "Ritm Eurasia — Oltinkoʻl–Xorgos temir yoʻl uzelini modernizatsiya qilish 2026-yilda yakunlanadi"
+  - title: "Ritm Eurasia — Oltinkoʻl–Xorgos temir yoʻl tugunini modernizatsiya qilish 2026-yilda yakunlanadi"
     url: "https://www.ritmeurasia.ru/news--2026-02-24--modernizacija-zh-d-uzla-altynkol-horgos-na-granice-s-kitaem-zavershitsja-v-2026-godu-86044"
     date: "2026-02-24"
   - title: "IATA — Lithium Batteries: havo transportida litiy batareyalar boʻyicha talablar"
@@ -110,7 +110,7 @@ Barcha raqamlar tariflar jadvalidan olingan va taxminiy; sugʻurta (eʼlon qilin
 | Toshkentda bojxona rasmiylashtiruvi | 1–2 ish kuni | 1–2 ish kuni | 1–3 ish kuni |
 | Jami (taxminan) | 9–20 kun | 19–35 kun | 25–50 kun |
 
-Avtoda eng koʻp vaqt Xorgos chegarasida ketadi: navbat 1–3 kun, bayram oldi 5 kungacha. Temir yoʻlda — Doʻstiq/Oltinkoʻl terminalida vagon oʻzgartirish; 2026-yilda Oltinkoʻl–Xorgos uzeli modernizatsiya qilinmoqda, oʻtkazuvchanlik oshadi. Aviada muddat asosan reys jadvaliga bogʻliq: partiya haftada 1–2 marta joʻnaydi.
+Avtoda eng koʻp vaqt Xorgos chegarasida ketadi: navbat 1–3 kun, bayram oldi 5 kungacha. Temir yoʻlda — Doʻstiq/Oltinkoʻl terminalida vagon oʻzgartirish; 2026-yilda Oltinkoʻl–Xorgos tuguni modernizatsiya qilinmoqda, oʻtkazuvchanlik oshadi. Aviada muddat asosan reys jadvaliga bogʻliq: partiya haftada 1–2 marta joʻnaydi.
 
 ## Qaysi tovar qaysi yoʻlga olinmaydi?
 
