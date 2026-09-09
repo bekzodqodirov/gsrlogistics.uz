@@ -9,7 +9,8 @@
  *   live    — `.is-live` (set synchronously by the inline gate below). Stage is 100svh, the section
  *             reserves the full pin distance in CSS (6.5 × 100svh desktop / 5.5 mobile → CLS 0), and
  *             ./journey.ts (GSAP core + ScrollTrigger + MotionPathPlugin) is imported only when the
- *             section comes within 100 % rootMargin; its init() waits for main-thread idle (INP).
+ *             section comes within 100 % rootMargin, and the observer that watches for that is armed
+ *             after `load` so the chunk never competes with the hero; init() waits for idle (INP).
  * Props: { lang }.
  */
 import { pick, type Lang } from '@/i18n/config';
@@ -128,6 +129,8 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
 <script>
   // Lazy-load the GSAP module only when the live journey is within one viewport of the fold, and run its setup
   // only once the main thread is idle (≤ 1.5 s wait) so a tap on the hero CTAs never lands inside it (INP).
+  // The observer itself is armed after `load`: with a one-viewport rootMargin it fires immediately on a
+  // 900px-tall screen, which put the 55 KB gz GSAP chunk on the critical path against the hero's own resources.
   const root = document.querySelector<HTMLElement>('[data-journey].is-live');
   if (root) {
     const fail = () => { root.classList.remove('is-live'); };
@@ -137,10 +140,14 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
         .then((m) => { idle(() => { try { m.init(root); } catch { fail(); } }); })
         .catch(fail);
     };
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
-    }, { rootMargin: '100% 0px 100% 0px' });
-    io.observe(root);
+    const observe = () => {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
+      }, { rootMargin: '100% 0px 100% 0px' });
+      io.observe(root);
+    };
+    if (document.readyState === 'complete') observe();
+    else window.addEventListener('load', observe, { once: true });
   }
 </script>
 

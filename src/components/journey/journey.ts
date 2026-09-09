@@ -289,7 +289,9 @@ export function init(root: HTMLElement): void {
       enter(4, L.s5 + 2.5);
       camMove(stageCam(4), stageCam(5), L.s5, 5);
       drive(P_KHORGOS + 0.01, 1, L.s5, 12);
-      if (vehicleInner) t.fromTo(vehicleInner, { autoAlpha: 1 }, { autoAlpha: 0, duration: 2, immediateRender: false }, 85);
+      // fade the capsule out as it lands (drive ends at 84), not after: three glyphs and the node label
+      // otherwise share the same ~40px on a 390px screen
+      if (vehicleInner) t.fromTo(vehicleInner, { autoAlpha: 1 }, { autoAlpha: 0, duration: 2, immediateRender: false }, 82.5);
       t.fromTo(container, { autoAlpha: 0, x: TASH.shed[0], y: TASH.unload[1] - 8, scale: 1 }, { autoAlpha: 1, y: TASH.unload[1], duration: 2.5, ease: 'power2.out', immediateRender: false }, 84.5);
       tick(4, L.s6 - 2.5);
 

@@ -87,7 +87,7 @@ const uz: TrackingStrings = {
   teaser: {
     eyebrow: '06 — Kuzatuv',
     h2: 'Yukingiz hozir qayerda?',
-    text: 'Yuk kodini kiriting — menejer Telegramda joriy holat va foto bilan javob beradi.',
+    text: 'Menejer Telegramda joriy holat va foto bilan javob beradi.',
     link: 'Holatlar nimani anglatadi',
   },
 };
@@ -143,7 +143,7 @@ const ru: TrackingStrings = {
   teaser: {
     eyebrow: '06 — Отслеживание',
     h2: 'Где ваш груз сейчас?',
-    text: 'Введите код груза — менеджер ответит в Telegram с текущим статусом и фото.',
+    text: 'Менеджер ответит в Telegram с текущим статусом и фото.',
     link: 'Что означают статусы',
   },
 };
@@ -199,7 +199,7 @@ const en: TrackingStrings = {
   teaser: {
     eyebrow: '06 — Tracking',
     h2: 'Where is your cargo right now?',
-    text: 'Enter your cargo code — your manager replies on Telegram with the current status and a photo.',
+    text: 'Your manager replies on Telegram with the current status and a photo.',
     link: 'What the statuses mean',
   },
 };

@@ -36,8 +36,10 @@
  *        src/components/journey/map-paths.svg.txt   — bare <path …/> lines
  *        src/components/journey/map-meta.json       — projection, city pixel
  *          coordinates, route path data (routeD / railD / airD / kgD), sizes.
- *      Size budget: paths ≤ 60 KB raw and ≤ 12 KB gzipped. The tolerance starts
- *      at 1.2 px and is raised in 0.1 px steps (max 2.5 px) until both fit.
+ *      Size budget: paths ≤ 20 KB raw and ≤ 7 KB gzipped. The tolerance starts
+ *      at 1.2 px and is raised in 0.1 px steps (max 5 px) until both fit; it
+ *      settles at 3 px, which is indistinguishable from 1.2 px even at the
+ *      journey's tightest camera (2.4×).
  *   6. Optionally (--preview=path) rasterises a dark preview PNG with the
  *      project's `sharp` so the result can be eyeballed.
  */
@@ -85,10 +87,13 @@ const mercY = (lat) => (Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360)) 
 const MERC_Y0 = mercY(LAT0);
 const project = (lon, lat) => [(lon - LON0) * K, (MERC_Y0 - mercY(lat)) * K];
 
-const MAX_RAW_BYTES = 60 * 1024;
-const MAX_GZIP_BYTES = 12 * 1024;
+// The whole <svg class="jmap"> element ships inline in every home page. Non-path markup inside it (route,
+// rail, city labels, glyph defs) is about 3.4 KB gz, so 7 KB of path data puts the element at ~10.3 KB gz.
+// Going lower means a visibly coarser coastline at the journey's 2.4x camera, so 7 KB is the floor.
+const MAX_RAW_BYTES = 20 * 1024;
+const MAX_GZIP_BYTES = 7 * 1024;
 const TOLERANCE_START = 1.2;
-const TOLERANCE_MAX = 2.5;
+const TOLERANCE_MAX = 5.0;
 const TOLERANCE_STEP = 0.1;
 const MIN_RING_POINTS = 4; // closing point included (GeoJSON style)
 const MIN_RING_AREA = 30; // px²
