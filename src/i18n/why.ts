@@ -34,7 +34,7 @@ const uz: WhyStrings = {
     {
       glyph: 'warehouse',
       title: 'Xitoyda uchta qabul punkti va konsolidatsiya',
-      text: 'Bir necha yetkazib beruvchidan kelgan yukni bitta joyda yigʻamiz, tortamiz, oʻlchaymiz va qayta qadoqlaymiz. Xitoyda uchta qabul punkti bor: Ivu, Guanchjou va Qashqar — qaysi biriga joʻnatish kerakligini menejer aytadi.',
+      text: 'Bir necha yetkazib beruvchidan kelgan yukni bitta joyda yigʻamiz, tortamiz, oʻlchaymiz va qayta qadoqlaymiz. Qabul punktlari — Ivu, Guanchjou va Qashqar. Qaysi biriga joʻnatish kerakligini menejer aytadi.',
       fact: 'Ivu 义乌 · Guanchjou 广州 · Qashqar 喀什 · bitta joy raqami, bitta hisob',
       link: 'warehouse',
       linkLabel: 'Ombor va sifat nazorati',
@@ -88,7 +88,7 @@ const ru: WhyStrings = {
     {
       glyph: 'warehouse',
       title: 'Три пункта приёма в Китае и консолидация',
-      text: 'Грузы от нескольких поставщиков собираем в одном месте, взвешиваем, обмеряем и переупаковываем. В Китае три пункта приёма: Иу, Гуанчжоу и Кашгар — на какой отправлять, скажет менеджер.',
+      text: 'Грузы от нескольких поставщиков собираем в одном месте, взвешиваем, обмеряем и переупаковываем. Пункты приёма — Иу, Гуанчжоу и Кашгар. На какой отправлять, скажет менеджер.',
       fact: 'Иу 义乌 · Гуанчжоу 广州 · Кашгар 喀什 · один номер места, один счёт',
       link: 'warehouse',
       linkLabel: 'Склад и проверка качества',
@@ -142,7 +142,7 @@ const en: WhyStrings = {
     {
       glyph: 'warehouse',
       title: 'Three receiving points in China and consolidation',
-      text: 'Goods from several suppliers are gathered in one place, weighed, measured and repacked. There are three receiving points in China — Yiwu, Guangzhou and Kashgar; your manager tells you which one applies.',
+      text: 'Goods from several suppliers are gathered in one place, weighed, measured and repacked. The receiving points are Yiwu, Guangzhou and Kashgar. Your manager tells you which one applies.',
       fact: 'Yiwu 义乌 · Guangzhou 广州 · Kashgar 喀什 · one lot number, one invoice',
       link: 'warehouse',
       linkLabel: 'Warehouse and quality control',
