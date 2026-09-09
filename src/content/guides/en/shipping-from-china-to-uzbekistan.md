@@ -13,7 +13,7 @@ faq:
   - q: "Do I need my own warehouse in China or someone who speaks Chinese?"
     a: "No. Your supplier ships to the consolidation warehouse in Yiwu (义乌); we give you the warehouse address and your GS code (shipping mark). Our managers speak Uzbek, Russian and Chinese and handle the supplier correspondence."
   - q: "Do you take small shipments?"
-    a: "Yes. With consolidated cargo you pay only for your space, not for a whole container. Truck cargo starts from 1 kg, air from 0.5 kg; lots above 10 m³ get an individual rate."
+    a: "Yes. With consolidated cargo you pay only for your space, not for a whole container. Truck cargo is billed by volume, with a minimum billable volume of 0.1 m³; air starts from 0.5 kg; lots above 10 m³ get an individual rate."
   - q: "Who pays customs duties?"
     a: "Commercial goods are cleared officially: the legal entity or sole trader pays duty (0–30% by HS code), 12% VAT and the customs fee as required by law. We prepare the documents, file the customs declaration (GTD) and calculate the payments in advance. Personal parcels are subject to the $200-per-month limit in force since May 1, 2025."
   - q: "How do I know where my cargo is?"
@@ -39,15 +39,15 @@ sources:
     date: "2026-06-23"
 ---
 
-Cargo travels from China to Uzbekistan in three ways: consolidated truck freight in roughly 15–25 days at $6.50–7.50/kg, air in 5–10 days at $9–12/kg, and rail containers in 20–35 days at $2,800–5,500 per 20-foot box. The main route runs Yiwu warehouse → Urumqi → Khorgos → Almaty → Shymkent → Tashkent. Below is the whole process in 7 steps, from request to pickup, with documents and estimated prices as of September 2026.
+Cargo travels from China to Uzbekistan in three ways: consolidated truck freight in roughly 15–25 days from $110 per m³, air in 5–10 days at $9–12/kg, and rail containers in 20–35 days at $2,800–5,500 per 20-foot box. The main route runs Yiwu warehouse → Urumqi → Khorgos → Almaty → Shymkent → Tashkent. Below is the whole process in 7 steps, from request to pickup, with documents and estimated prices as of September 2026.
 
 ## What are the ways to ship from China to Uzbekistan?
 
-Three questions decide the mode: how heavy and bulky the cargo is, how urgent it is, and what is inside. The table uses estimated Tashkent market prices for September 2026; the final price is fixed after weighing at the Yiwu warehouse.
+Three questions decide the mode: how heavy and bulky the cargo is, how urgent it is, and what is inside. The table uses estimated Tashkent market prices for September 2026; the final price is fixed after weighing and measuring at the Yiwu warehouse.
 
 | Mode | Estimated price (September 2026) | Transit | Best for |
 |---|---|---|---|
-| Truck cargo (consolidated) | $6.50–7.50/kg; dense cargo over 100 kg from $3.50/kg; light bulky cargo $110–190/m³ | 15–25 days | Wholesale lots, heavy and bulky goods, items with batteries or liquids |
+| Truck cargo (consolidated) | From $110 per m³; $110–320 per m³ depending on density, $0.55/kg above 1,000 kg/m³ | 15–25 days | Wholesale lots, heavy and bulky goods, items with batteries or liquids |
 | Air cargo | $9–12/kg (standard $9, branded $12) | 5–10 days | Urgent, light and valuable: samples, electronics, branded goods |
 | Rail and containers | 20 ft $2,800–5,500, 40 ft $5,200–6,800 | 20–35 days | Lots above 15 m³, equipment, raw materials |
 
@@ -55,7 +55,7 @@ Transit times count from departure from the China warehouse. Full tariffs and ru
 
 ## What is consolidated cargo and who is it for?
 
-Consolidated cargo is a method where shipments from several clients are combined into one lot at the China warehouse and sent in one truck or container. You do not rent a whole container; you pay only for your space, in kilograms or cubic metres. The international term is LCL (Less than Container Load); in Uzbek it is yigʻma yuk, in Russian сборный груз.
+Consolidated cargo is a method where shipments from several clients are combined into one lot at the China warehouse and sent in one truck or container. You do not rent a whole container; you pay only for your space — by the cubic metre on the truck, by the kilogram by air. The international term is LCL (Less than Container Load); in Uzbek it is yigʻma yuk, in Russian сборный груз.
 
 It suits lots from 10 kg to 15 m³ best: Uzum and Yandex Market sellers, shop and market-stall owners, entrepreneurs testing a first batch. Above 15–20 m³ a dedicated container (FCL) or rail usually works out cheaper.
 
@@ -97,7 +97,26 @@ We prepare the documents, classify the goods and calculate the payments in advan
 
 ## How much does shipping cost?
 
-The price depends on three things: the mode, the weight (actual or volumetric, whichever is greater) and the density. Above 170 kg/m³ we charge per kilogram; below it, per cubic metre. Example: 48 kg and 0.2 m³ → 240 kg/m³ → per kg → the 30–100 kg rate of $7/kg → about $336. The price includes intake at the Yiwu warehouse, consolidation, packing and the photo report; insurance, duty and VAT are extra.
+Truck cargo is priced **by volume**. First we work out the density of your cargo — total weight (kg) divided by total volume (m³) — and the density sets the price of a cubic metre: the denser the cargo, the more its cubic metre costs.
+
+| Density (kg/m³) | Price |
+|---|---|
+| Up to 100 | $110 per m³ |
+| 101–150 | $130 per m³ |
+| 151–200 | $160 per m³ |
+| 201–250 | $180 per m³ |
+| 251–300 | $200 per m³ |
+| 301–350 | $230 per m³ |
+| 351–400 | $260 per m³ |
+| 401–450 | $280 per m³ |
+| 451–500 | $290 per m³ |
+| 501–700 | $300 per m³ |
+| 701–1,000 | $320 per m³ |
+| 1,000 and above | $0.55 per kg |
+
+The minimum billable volume is 0.1 m³. Example: 48 kg in 0.2 m³ → density 240 kg/m³ → $180 per m³ → 0.2 × 180 = **$36**. Light bulky cargo: 180 kg in 2 m³ → 90 kg/m³ → 2 × 110 = **$220**. Very dense cargo such as fasteners or tiles: 1,200 kg in 1 m³ → 1,200 kg/m³ → 1,200 × 0.55 = **$660**. Air cargo works the other way round and is charged per kilogram ($9–12/kg).
+
+The price includes intake at the Yiwu warehouse, consolidation, packing and the photo report; insurance, duty and VAT are extra.
 
 The full method is in the guide [How cargo prices are calculated](/en/guides/how-cargo-prices-are-calculated/); the [Calculator](/en/calculator/) gives a figure for your own cargo. All prices are estimates, updated September 8, 2026.
 
@@ -120,7 +139,7 @@ In normal conditions a truck arrives in 15–25 days; the fastest deliveries in 
 
 - **An unknown "cargo" demanding full prepayment** — do not transfer money to channels without an office in Tashkent and a contract. Payment is settled in soums once the cargo has arrived in Tashkent.
 - **Commercial goods under a personal passport** — the $200 limit is not meant for shop stock; customs will class such a lot as commercial and apply penalties.
-- **Ignoring volumetric weight** — a 60×50×40 cm box weighing 12 kg is charged as 20 kg by truck.
+- **Judging cargo by weight alone** — by truck you pay for volume: a 60×50×40 cm box occupies 0.12 m³, and at 12 kg that is a density of 100 kg/m³, so 0.12 × 110 = $13.20. Give your manager the dimensions, not only the weight.
 - **Valuable cargo without insurance** — 1% insurance covers the full value in case of loss or damage.
 - **An unchecked supplier** — that is what the photo report and warehouse inspection are for: defects are found before the goods leave China.
 
