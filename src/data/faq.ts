@@ -5,8 +5,11 @@ import tariffs from './tariffs.json';
 /**
  * FAQ content for /savol-javob/ (+ the six `top` items on the home page).
  * Every price, day range and percentage is read from src/data/tariffs.json at build time, so the
- * answers can never disagree with the pricing page or the calculator. Answers are plain text
- * (no HTML) because they are also emitted as FAQPage JSON-LD.
+ * answers can never disagree with the pricing page or the calculator. The worked truck examples are
+ * computed the same way (see `ex` below) rather than typed in, so their arithmetic cannot go stale.
+ * Truck cargo is priced per m³ from the cargo's density — there is no per-kilogram truck rate, and
+ * an answer must never imply one. Answers are plain text (no HTML) because they are also emitted as
+ * FAQPage JSON-LD.
  */
 export interface FaqItem { q: string; a: string; top?: boolean }
 export interface FaqGroup { id: string; group: string; items: FaqItem[] }
@@ -17,20 +20,47 @@ const T = tariffs;
 function nums(lang: Lang) {
   const n = (x: number, f = 0) => fmtNumber(x, lang, f);
   const usd = (x: number) => (lang === 'en' && !Number.isInteger(x) ? `$${x.toFixed(2)}` : fmtUsd(x, lang));
+  const M3 = lang === 'ru' ? 'м³' : 'm³';
+  const KG = lang === 'ru' ? 'кг' : 'kg';
   /** Truck is billed per m³ by density, so its figures carry the m³ unit. */
-  const usdM3 = (x: number) => `${usd(x)}${lang === 'en' ? '/m³' : ' $/m³'.slice(2)}`;
+  const usdM3 = (x: number) => `${usd(x)}/${M3}`;
   const usdRange = (a: number, b: number) => (lang === 'en' ? `$${n(a)}–${n(b)}` : `${n(a)}–${n(b)} $`);
   const som = (a: number, b: number) => (lang === 'uz' ? `${n(a)}–${n(b)} soʻm` : lang === 'ru' ? `${n(a)}–${n(b)} сум` : `UZS ${n(a)}–${n(b)}`);
   const days = (r: number[]) => `${n(r[0])}–${n(r[1])}`;
   const lcl = T.truck.lclPerM3ByDensity;
+  /** The same band lookup the calculator uses: the first band the density still fits under. */
+  const rateFor = (density: number) => {
+    for (const b of lcl) { const max = b.maxKgM3; if (max === null || density <= max) return b.rate; }
+    return lcl[lcl.length - 1].rate;
+  };
+  /**
+   * A worked truck example, computed from the sheet instead of typed by hand, so the arithmetic
+   * printed in an answer can never drift from the calculator: kg ÷ m³ → density → rate → total.
+   */
+  const ex = (kg: number, m3: number) => {
+    const density = Math.round(kg / m3);
+    const perKg = density >= T.truck.perKgFromDensityKgM3;
+    const total = perKg ? kg * T.truck.perKgAboveDensity : Math.max(m3, T.truck.minM3) * rateFor(density);
+    return {
+      kg: n(kg), m3: n(m3, 2), d: n(density),
+      rate: perKg ? `${usd(T.truck.perKgAboveDensity)}/${KG}` : usdM3(rateFor(density)),
+      total: usd(Math.round(total * 100) / 100),
+    };
+  };
   return {
-    t1: usdM3(lcl[0].rate), t1max: n(lcl[0].maxKgM3 ?? 0), t2: usdM3(lcl[1].rate), t2max: n(lcl[1].maxKgM3 ?? 0), t3: usdM3(lcl[lcl.length - 1].rate),
-    dense: usd(T.truck.perKgAboveDensity), denseMin: n(T.truck.perKgFromDensityKgM3),
+    t1: usdM3(lcl[0].rate), t1max: n(lcl[0].maxKgM3 ?? 0), t2: usdM3(lcl[1].rate), t2max: n(lcl[1].maxKgM3 ?? 0),
+    t3: usdM3(lcl[2].rate), t3max: n(lcl[2].maxKgM3 ?? 0), t4: usdM3(lcl[3].rate), t4max: n(lcl[3].maxKgM3 ?? 0),
+    tTop: usdM3(lcl[lcl.length - 1].rate), tTopMin: n((lcl[lcl.length - 2].maxKgM3 ?? 0) + 1),
+    dense: usd(T.truck.perKgAboveDensity),
     airStd: usd(T.air.perKg.standard), airBrand: usd(T.air.perKg.brand), airCom: usd(T.air.perKg.commercial), airMin: n(T.air.minKg, 1),
-    lclFrom: usdM3(lcl[0].rate), lclTo: usdM3(lcl[lcl.length - 1].rate), minM3: n(T.truck.minM3, 1),
+    lclFrom: usdM3(lcl[0].rate), minM3: n(T.truck.minM3, 1),
     r20: usdRange(T.rail.container20ft[0], T.rail.container20ft[1]), r40: usdRange(T.rail.container40ft[0], T.rail.container40ft[1]),
     truckDays: days(T.truck.days), airDays: days(T.air.days), railDays: days(T.rail.days), expressDays: days(T.truck.expressDays),
-    threshold: n(T.truck.perKgFromDensityKgM3), divTruck: n(T.truck.volumetricDivisor), divAir: n(T.air.volumetricDivisor),
+    threshold: n(T.truck.perKgFromDensityKgM3), divAir: n(T.air.volumetricDivisor),
+    /** Worked examples, all straight from the density sheet: small, dense, light, denser-than-water. */
+    exSmall: ex(48, 0.2), exDense: ex(300, 1.2), exLight: ex(180, 2), exHeavy: ex(1200, 1),
+    /** The same 300 kg loosely packed — paired with `exDense` to show what repacking is worth. */
+    exBulky: ex(300, 2),
     photo: usd(T.extras.photoReportUsd), repack: usd(T.extras.repackPerKg), inspect: usd(T.extras.inspectionPerKg),
     ins: n(T.extras.insurancePct), comm: n(T.extras.sourcingCommissionPct),
     storeCn: n(T.extras.freeStorageDaysChina), storeTz: n(T.extras.freeStorageDaysTashkent),
@@ -47,11 +77,11 @@ function uz(): FaqGroup[] {
       id: 'narxlar', group: 'Narxlar va toʻlov',
       items: [
         { top: true, q: 'Kargo narxi qanday hisoblanadi — kg yoki m³?',
-          a: `Zichligi ${v.threshold} kg/m³ dan yuqori yuk kilogramm boʻyicha, undan past — yengil va hajmli — yuk kub metr boʻyicha hisoblanadi. Yigʻma yuk (avto kargo, карго) uchun taxminiy narx ${v.t3}/kg dan, hajmli yuk uchun ${v.lclFrom}/m³ dan, avia kargo ${v.airStd}/kg dan boshlanadi. Hajmiy vazn = uzunlik × en × balandlik (sm) ÷ ${v.divTruck} (avia uchun ÷ ${v.divAir}); haqiqiy va hajmiy vazndan kattasi olinadi. Masalan, 48 kg va 0,2 m³ yuk — 240 kg/m³, demak kg boʻyicha. Aniq summani kalkulyatorda hisoblang, menejer Telegramda tasdiqlaydi.` },
+          a: `Avto kargo (yigʻma yuk, карго) kub metr boʻyicha hisoblanadi: yukning zichligi — umumiy ogʻirlik (kg) ÷ umumiy hajm (m³) — bir m³ narxini tanlaydi. ${v.t1max} kg/m³ gacha ${v.t1}, ${v.t2max} kg/m³ gacha ${v.t2}, ${v.t3max} kg/m³ gacha ${v.t3}, ${v.t4max} kg/m³ gacha ${v.t4} — jadval shu tartibda koʻtarilib, ${v.tTopMin} kg/m³ dan boshlab ${v.tTop} ga yetadi; zichlik ${v.threshold} kg/m³ ga yetsa (metall, plitka kabi), hisob kilogrammga oʻtadi — ${v.dense}/kg. Masalan, ${v.exSmall.kg} kg yuk ${v.exSmall.m3} m³ joyni egallasa, zichlik ${v.exSmall.d} kg/m³, bir m³ narxi ${v.exSmall.rate}, jami ${v.exSmall.total}. Avia kargo esa kilogramm boʻyicha: haqiqiy va hajmiy vazndan (uzunlik × en × balandlik (sm) ÷ ${v.divAir}) kattasi olinadi, ${v.airStd}/kg dan. Minimal hisob hajmi ${v.minM3} m³; narxlar taxminiy — aniq summani kalkulyatorda hisoblang, menejer Telegramda tasdiqlaydi.` },
         { q: 'Xitoydan 1 kg yuk olib kelish qancha turadi?',
-          a: `Yigʻma yuk uchun taxminan ${v.t1}/kg (${v.t1max} kg gacha), ${v.t2}/kg (${v.t1max}–${v.t2max} kg) va ${v.t3}/kg (${v.t2max} kg dan yuqori); zich ulgurji yuk — kiyim, poyabzal, ${v.denseMin} kg dan — taxminan ${v.dense}/kg. Avia kargo: oddiy tovar ${v.airStd}/kg, brend ${v.airBrand}/kg, tijorat seriyasi ${v.airCom}/kg. Narxlar taxminiy (yangilangan: ${v.updated}); yakuniy narx yukning zichligi, toifasi va partiyasiga qarab shartnomada belgilanadi.` },
+          a: `Avto kargoda kilogramm narxi yoʻq: hisob kub metr boʻyicha yuritiladi, shuning uchun bitta kilogramm qancha joy egallashiga qarab turlicha turadi. Yengil va hajmli yuk (zichlik ${v.t1max} kg/m³ gacha) — ${v.t1}, oʻrtacha zich yuk ${v.t3max} kg/m³ gacha — ${v.t3}, ${v.threshold} kg/m³ va undan zich yuk esa kilogramm boʻyicha ${v.dense}/kg (${v.exHeavy.kg} kg ${v.exHeavy.m3} m³ da — ${v.exHeavy.total}). Masalan, ${v.exLight.kg} kg yengil tovar ${v.exLight.m3} m³ da ${v.exLight.total} turadi, ${v.exDense.kg} kg zichroq tovar esa ${v.exDense.m3} m³ da ${v.exDense.total} — ogʻirroq partiya arzonroq chiqdi, chunki u kamroq joy egalladi. Avia kargo aksincha, kilogramm boʻyicha: oddiy tovar ${v.airStd}/kg, brend ${v.airBrand}/kg, tijorat seriyasi ${v.airCom}/kg. Narxlar taxminiy (yangilangan: ${v.updated}); yakuniy narx yukning zichligi, toifasi va partiyasiga qarab shartnomada belgilanadi.` },
         { q: 'Minimal ogʻirlik yoki hajm bormi?',
-          a: `Avia kargo uchun ${v.airMin} kg dan, yigʻma yuk uchun 1 kg yoki ${v.minM3} m³ dan qabul qilamiz. Partiya ogʻirligi ${v.denseMin} kg dan oshsa, zich yuk tarifi qoʻllanadi. Kichik joylar boshqa mijozlar yuki bilan bitta furaga yigʻiladi — butun konteyner shart emas, faqat oʻz joyingiz uchun toʻlaysiz.` },
+          a: `Avia kargo uchun ${v.airMin} kg dan qabul qilamiz. Avto kargoda oʻlchov birligi — hajm: minimal hisob hajmi ${v.minM3} m³, undan kichik joy ham shu hajm boʻyicha hisoblanadi. Ogʻirlik boʻyicha eng kam chegara yoʻq — narxni ogʻirlik emas, zichlik (kg/m³) belgilaydi. Kichik joylar boshqa mijozlar yuki bilan bitta furaga yigʻiladi — butun konteyner shart emas, faqat oʻz hajmingiz uchun toʻlaysiz.` },
         { q: 'Narxga nimalar kiradi, nimalar alohida toʻlanadi?',
           a: `Narxga Ivu omborida qabul, tortish va oʻlchash, konsolidatsiya, Xorgos orqali Toshkentgacha tashish va Toshkent omboriga tushirish kiradi. Alohida toʻlanadi: sugʻurta (eʼlon qilingan qiymatning ${v.ins}%), boj va QQS (tovar kodi boʻyicha hisoblanadi), qayta qadoqlash (${v.repack}/kg), batafsil tekshiruv (${v.inspect}/kg) va viloyatda uygacha yetkazish. Har bir qoʻshimcha xizmat shartnomada alohida qatorda yoziladi — yashirin toʻlovlar yoʻq.` },
         { q: 'Toʻlovni qachon va qanday qilaman?',
@@ -68,7 +98,7 @@ function uz(): FaqGroup[] {
         { q: 'Yuk qaysi yoʻnalish orqali keladi?',
           a: `Asosiy yoʻnalish: Ivu → Urumchi → Xorgos (Xitoy–Qozogʻiston chegarasi) → Olmaota → Shimkent → Toshkent, taxminan 5 000+ km. Fargʻona vodiysi uchun Qashqar → Irkeshtam → Oʻsh → Andijon yoʻli ham bor — Xitoyning gʻarbidan bu yoʻl yuzlab kilometr qisqa; yigʻma yukni odatda Xorgos orqali olib kelamiz. Avia yuk Guanchjou yoki Urumchidan uchadi, temir yoʻl konteynerlari Dostiq va Altinkoʻl orqali oʻtadi. Xitoy–Qirgʻiziston–Oʻzbekiston temir yoʻli hali qurilmoqda — u bizning yoʻnalishimizga kirmaydi.` },
         { q: 'Avia, avto va temir yoʻl — qaysi biri menga mos?',
-          a: `Shoshilinch, yengil va qimmat tovar uchun avia (${v.airDays} kun, ${v.airStd}/kg dan); kiyim, poyabzal, maishiy tovarlar kabi hajmli yuk uchun avto yigʻma yuk (${v.truckDays} kun, ${v.t3}/kg dan); 10 m³ dan katta partiyalar uchun 20 yoki 40 futlik konteyner (${v.railDays} kun, 20 ft taxminan ${v.r20}, 40 ft ${v.r40}). Batareyali, suyuq va magnitli tovarlar faqat avto yoki temir yoʻl orqali ketadi. Menejer yukingizni koʻrib, ikki-uch variantni narxi bilan taklif qiladi.` },
+          a: `Shoshilinch, yengil va qimmat tovar uchun avia (${v.airDays} kun, ${v.airStd}/kg dan); kiyim, poyabzal, maishiy tovarlar kabi hajmli yuk uchun avto yigʻma yuk (${v.truckDays} kun, ${v.lclFrom} dan); 10 m³ dan katta partiyalar uchun 20 yoki 40 futlik konteyner (${v.railDays} kun, 20 ft taxminan ${v.r20}, 40 ft ${v.r40}). Batareyali, suyuq va magnitli tovarlar faqat avto yoki temir yoʻl orqali ketadi. Menejer yukingizni koʻrib, ikki-uch variantni narxi bilan taklif qiladi.` },
         { q: 'Xorgosda kechikishlar boʻladimi?',
           a: `Ha, chegarada navbat boʻlishi mumkin — odatda 1–3 kun, bayram va mavsum oldi haftalarida koʻproq. Shuning uchun muddatni aniq kun bilan emas, oraliq bilan (${v.truckDays} kun) aytamiz. Kechikish boʻlsa, menejer sababini va yangi taxminiy sanani Telegramda yozadi.` },
         { q: 'Yuk qayerdaligini qanday bilaman?',
@@ -81,13 +111,13 @@ function uz(): FaqGroup[] {
         { q: 'Ishni qanday boshlayman va yukni Xitoyda qayerga yuboraman?',
           a: `Telegramda yozasiz yoki qoʻngʻiroq qilasiz; transport turi, hujjatlar va qadoqlashni kelishib, shartnoma tuzamiz. Xitoyda uchta qabul manzili bor: Ivu (义乌), Guanchjou va Qashqar — qaysi biriga joʻnatish kerakligini menejer aytadi. Menejer sizga GS kodingizni (markirovka) ham beradi: yetkazib beruvchi joʻnatishdan oldin GS kodni har bir qutiga yozadi va tovarni shu manzilga joʻnatadi. Yukni faqat qabul manzili (ombor, sklad, склад) va GS kod tasdiqlangandan keyin joʻnating — tovar adashib ketmasligi uchun.` },
         { q: 'Bir nechta yetkazib beruvchidan kelgan tovarni birlashtira olasizmi?',
-          a: `Ha, konsolidatsiya — asosiy ishimiz. Turli zavod va doʻkonlardan kelgan joylarni Ivu omborida bitta GS kodi ostida yigʻamiz, qayta oʻlchaymiz va bitta partiyada joʻnatamiz. Bu har joyni alohida joʻnatishdan arzon: umumiy ogʻirlik ${v.denseMin} kg dan oshsa, pastroq tarif qoʻllanadi. Kutilayotgan joylar haqida menejerga oldindan xabar bering.` },
+          a: `Ha, konsolidatsiya — asosiy ishimiz. Turli zavod va doʻkonlardan kelgan joylarni Ivu omborida bitta GS kodi ostida yigʻamiz, qayta oʻlchaymiz va bitta partiyada joʻnatamiz. Bu har joyni alohida joʻnatishdan arzon: har bir joy uchun alohida minimal hajm (${v.minM3} m³) toʻlanmaydi, joylar zich taxlanadi va partiyaning umumiy hajmi kichrayadi — avto kargo aynan hajm boʻyicha hisoblangani uchun bu summani tushiradi. Kutilayotgan joylar haqida menejerga oldindan xabar bering.` },
         { q: 'Omborda yuk necha kun bepul saqlanadi?',
           a: `Ivu omborida ${v.storeCn} kun, Toshkent omborida ${v.storeTz} kun bepul. Undan keyin saqlash uchun kunlik toʻlov shartnoma boʻyicha hisoblanadi. Uzoqroq saqlash kerak boʻlsa — masalan, partiyani toʻldirish uchun — menejer bilan oldindan kelishib oling.` },
         { q: 'Tovarni tekshirib, foto yuborasizmi?',
           a: `Ha, har bir qabulda standart foto-hisobot: qadoq, yorliq, ogʻirlik va oʻlchamlar (${v.photo} har bir joy uchun). Batafsil tekshiruv — soni, rangi, oʻlchami, ishlashi — ${v.inspect}/kg dan buyurtma qilinadi. Nuqson topilsa, almashtirish yoki qaytarishni yetkazib beruvchi bilan Xitoyning oʻzida hal qilamiz — tovar Toshkentga joʻnatilmasdan turib.` },
         { q: 'Qayta qadoqlash bepulmi?',
-          a: `Yoʻq, qayta qadoqlash ${v.repack}/kg. Lekin koʻp hollarda u oʻzini oqlaydi: zavod qadogʻidagi havo hajmiy vaznni oshiradi, zichroq qadoqlash esa hisobni m³ dan kg ga oʻtkazishi mumkin. Mebel va shisha kabi nozik tovarlar uchun yogʻoch ramka alohida hisoblanadi.` },
+          a: `Yoʻq, qayta qadoqlash ${v.repack}/kg. Lekin koʻp hollarda u oʻzini oqlaydi: zavod qadogʻidagi havo hajmni oshiradi, avto kargo hisobi esa hajmdan yuritiladi. Zichroq taxlanganda bir m³ narxi biroz koʻtariladi, lekin m³ soni kamayib umumiy summa odatda tushadi: ${v.exBulky.kg} kg tovar ${v.exBulky.m3} m³ da ${v.exBulky.rate} boʻyicha ${v.exBulky.total}, oʻsha ${v.exDense.kg} kg ${v.exDense.m3} m³ ga siqilganda ${v.exDense.rate} boʻyicha ${v.exDense.total}. Menejer qayta qadoqlashdan oldin ikkala hisobni koʻrsatadi. Mebel va shisha kabi nozik tovarlar uchun yogʻoch ramka alohida hisoblanadi.` },
         { q: 'Yukni Toshkent omboridan oʻzim olib keta olamanmi?',
           a: `Ha, toʻlovdan keyin GS kodi bilan Toshkent omboridan oʻzingiz olib ketishingiz mumkin; ombor manzili va ish vaqtini menejer yuboradi. Istasangiz, shahar boʻylab (${v.doorFreeKg} kg dan bepul) yoki viloyatga yetkazamiz. Yuk omborda ${v.storeTz} kun bepul saqlanadi.` },
       ],
@@ -148,11 +178,11 @@ function ru(): FaqGroup[] {
       id: 'ceny', group: 'Цены и оплата',
       items: [
         { top: true, q: 'Как считается стоимость карго — по кг или по м³?',
-          a: `Груз плотностью выше ${v.threshold} кг/м³ считается по килограммам, ниже — лёгкий и объёмный — по кубометрам. Ориентировочно: сборный груз (авто карго) от ${v.t3}/кг, объёмный груз от ${v.lclFrom}/м³, авиа карго от ${v.airStd}/кг. Объёмный вес = длина × ширина × высота (см) ÷ ${v.divTruck} (для авиа ÷ ${v.divAir}); к оплате берётся больший из фактического и объёмного. Пример: 48 кг и 0,2 м³ — это 240 кг/м³, значит считаем по кг. Точную сумму посчитайте в калькуляторе, менеджер подтвердит её в Telegram.` },
+          a: `Авто карго (сборный груз) считается по кубометрам: плотность груза — общий вес (кг) ÷ общий объём (м³) — выбирает цену за 1 м³. До ${v.t1max} кг/м³ — ${v.t1}, до ${v.t2max} кг/м³ — ${v.t2}, до ${v.t3max} кг/м³ — ${v.t3}, до ${v.t4max} кг/м³ — ${v.t4}, и дальше по шкале: от ${v.tTopMin} кг/м³ — ${v.tTop}; при плотности ${v.threshold} кг/м³ и выше (металл, плитка) расчёт переходит на килограммы — ${v.dense}/кг. Пример: ${v.exSmall.kg} кг занимают ${v.exSmall.m3} м³ — это ${v.exSmall.d} кг/м³, значит ${v.exSmall.rate}, итого ${v.exSmall.total}. Авиа карго, наоборот, считается по килограммам: берётся больший из фактического и объёмного веса (длина × ширина × высота (см) ÷ ${v.divAir}), от ${v.airStd}/кг. Минимальный расчётный объём — ${v.minM3} м³; цены ориентировочные — точную сумму посчитайте в калькуляторе, менеджер подтвердит её в Telegram.` },
         { q: 'Сколько стоит доставить 1 кг из Китая?',
-          a: `Сборный груз — ориентировочно ${v.t1}/кг (до ${v.t1max} кг), ${v.t2}/кг (${v.t1max}–${v.t2max} кг) и ${v.t3}/кг (свыше ${v.t2max} кг); плотный оптовый груз — одежда, обувь, от ${v.denseMin} кг — около ${v.dense}/кг. Авиа карго: обычный товар ${v.airStd}/кг, бренд ${v.airBrand}/кг, коммерческая серия ${v.airCom}/кг. Цены ориентировочные (обновлено: ${v.updated}); итоговая ставка фиксируется в договоре с учётом плотности, категории товара и партии.` },
+          a: `В авто карго цены за килограмм нет: расчёт идёт по кубометрам, поэтому один и тот же килограмм стоит по-разному — всё зависит от того, сколько места он занимает. Лёгкий и объёмный груз (плотность до ${v.t1max} кг/м³) — ${v.t1}, груз средней плотности до ${v.t3max} кг/м³ — ${v.t3}, а груз плотностью ${v.threshold} кг/м³ и выше считается по килограммам, ${v.dense}/кг (${v.exHeavy.kg} кг в ${v.exHeavy.m3} м³ — ${v.exHeavy.total}). Пример: ${v.exLight.kg} кг лёгкого товара в ${v.exLight.m3} м³ стоят ${v.exLight.total}, а ${v.exDense.kg} кг плотного товара в ${v.exDense.m3} м³ — ${v.exDense.total}: партия тяжелее, а вышла дешевле, потому что заняла меньше места. Авиа карго, наоборот, считается по килограммам: обычный товар ${v.airStd}/кг, бренд ${v.airBrand}/кг, коммерческая серия ${v.airCom}/кг. Цены ориентировочные (обновлено: ${v.updated}); итоговая ставка фиксируется в договоре с учётом плотности, категории товара и партии.` },
         { q: 'Есть ли минимальный вес или объём?',
-          a: `Авиа карго принимаем от ${v.airMin} кг, сборный груз — от 1 кг или ${v.minM3} м³. Если партия тяжелее ${v.denseMin} кг, действует тариф для плотного груза. Небольшие места едут в одной фуре с грузом других клиентов — целый контейнер не нужен, вы платите только за своё место.` },
+          a: `Авиа карго принимаем от ${v.airMin} кг. В авто карго единица расчёта — объём: минимальный расчётный объём ${v.minM3} м³, всё меньше считается по нему. Нижней границы по весу нет — цену определяет не вес, а плотность (кг/м³). Небольшие места едут в одной фуре с грузом других клиентов — целый контейнер не нужен, вы платите только за свой объём.` },
         { q: 'Что входит в цену, а что оплачивается отдельно?',
           a: `В цену входят приёмка на складе в Иу, взвешивание и обмер, консолидация, перевозка через Хоргос до Ташкента и выгрузка на ташкентском складе. Отдельно: страховка (${v.ins}% от заявленной стоимости), пошлина и НДС (считаются по коду товара), переупаковка (${v.repack}/кг), детальная проверка (${v.inspect}/кг) и доставка до двери в регионах. Каждая дополнительная услуга — отдельной строкой в договоре, скрытых платежей нет.` },
         { q: 'Когда и как я плачу?',
@@ -169,7 +199,7 @@ function ru(): FaqGroup[] {
         { q: 'По какому маршруту едет груз?',
           a: `Основной маршрут: Иу → Урумчи → Хоргос (граница Китая и Казахстана) → Алматы → Шымкент → Ташкент, ориентировочно 5 000+ км. Для Ферганской долины есть путь Кашгар → Иркештам → Ош → Андижан — из западного Китая он на сотни километров короче; сборный груз мы обычно везём через Хоргос. Авиагруз летит из Гуанчжоу или Урумчи, ж/д контейнеры идут через Достык и Алтынколь. Железная дорога Китай — Кыргызстан — Узбекистан ещё строится и в наши маршруты не входит.` },
         { q: 'Авиа, авто или ж/д — что выбрать?',
-          a: `Срочный, лёгкий и дорогой товар — авиа (${v.airDays} дней, от ${v.airStd}/кг); объёмный груз вроде одежды, обуви и бытовых товаров — сборный авто (${v.truckDays} дней, от ${v.t3}/кг); партии больше 10 м³ — контейнер 20 или 40 футов (${v.railDays} дней, 20 ft ориентировочно ${v.r20}, 40 ft ${v.r40}). Товары с батареями, жидкости и магниты едут только авто или по железной дороге. Менеджер посмотрит на ваш груз и предложит два-три варианта с ценой.` },
+          a: `Срочный, лёгкий и дорогой товар — авиа (${v.airDays} дней, от ${v.airStd}/кг); объёмный груз вроде одежды, обуви и бытовых товаров — сборный авто (${v.truckDays} дней, от ${v.lclFrom}); партии больше 10 м³ — контейнер 20 или 40 футов (${v.railDays} дней, 20 ft ориентировочно ${v.r20}, 40 ft ${v.r40}). Товары с батареями, жидкости и магниты едут только авто или по железной дороге. Менеджер посмотрит на ваш груз и предложит два-три варианта с ценой.` },
         { q: 'Бывают ли задержки на Хоргосе?',
           a: `Да, на границе бывает очередь — обычно 1–3 дня, перед праздниками и в сезон дольше. Поэтому срок мы называем интервалом (${v.truckDays} дней), а не точной датой. Если задержка случилась, менеджер пишет в Telegram причину и новую ориентировочную дату.` },
         { q: 'Как узнать, где сейчас мой груз?',
@@ -182,13 +212,13 @@ function ru(): FaqGroup[] {
         { q: 'С чего начать и куда отправлять груз в Китае?',
           a: `Пишете в Telegram или звоните; согласуем вид транспорта, документы и упаковку, заключаем договор. В Китае три адреса приёма: Иу (义乌), Гуанчжоу и Кашгар — на какой отправлять, скажет менеджер. Он же даёт ваш GS-код (маркировка): поставщик пишет GS-код на каждой коробке до отправки и шлёт товар на этот адрес. Отправляйте товар только с подтверждённым адресом приёма (склад) и GS-кодом — чтобы груз не потерялся.` },
         { q: 'Можно ли объединить товар от нескольких поставщиков?',
-          a: `Да, консолидация — наша основная работа. Места от разных фабрик и магазинов собираем на складе в Иу под одним GS-кодом, перемеряем и отправляем одной партией. Это дешевле, чем везти каждое место отдельно: если общий вес превышает ${v.denseMin} кг, действует более низкая ставка. Предупредите менеджера заранее, какие места ожидаются.` },
+          a: `Да, консолидация — наша основная работа. Места от разных фабрик и магазинов собираем на складе в Иу под одним GS-кодом, перемеряем и отправляем одной партией. Это дешевле, чем везти каждое место отдельно: не нужно оплачивать минимальный объём (${v.minM3} м³) за каждое место, коробки укладываются плотно и общий объём партии становится меньше — а авто карго считается именно по объёму. Предупредите менеджера заранее, какие места ожидаются.` },
         { q: 'Сколько дней груз хранится на складе бесплатно?',
           a: `На складе в Иу — ${v.storeCn} дней, на складе в Ташкенте — ${v.storeTz} дня. Дальше хранение считается посуточно по договору. Если нужно держать груз дольше — например, чтобы добрать партию, — договоритесь с менеджером заранее.` },
         { q: 'Проверяете ли товар и присылаете ли фото?',
           a: `Да, при каждой приёмке — стандартный фотоотчёт: упаковка, маркировка, вес и габариты (${v.photo} за место). Детальная проверка — количество, цвет, размер, работоспособность — заказывается от ${v.inspect}/кг. Если найден брак, замену или возврат решаем с поставщиком ещё в Китае — до отправки в Ташкент.` },
         { q: 'Переупаковка бесплатная?',
-          a: `Нет, переупаковка стоит ${v.repack}/кг. Но чаще всего она окупается: воздух в заводской упаковке увеличивает объёмный вес, а плотная упаковка может перевести расчёт с м³ на кг. Для хрупких товаров — мебель, стекло — деревянная обрешётка считается отдельно.` },
+          a: `Нет, переупаковка стоит ${v.repack}/кг. Но чаще всего она окупается: воздух в заводской упаковке раздувает объём, а авто карго считается по объёму. При плотной укладке цена за 1 м³ немного растёт, но кубометров становится меньше и итог обычно падает: ${v.exBulky.kg} кг в ${v.exBulky.m3} м³ — это ${v.exBulky.rate}, то есть ${v.exBulky.total}, а те же ${v.exDense.kg} кг, ужатые в ${v.exDense.m3} м³, — ${v.exDense.rate}, то есть ${v.exDense.total}. Менеджер покажет оба расчёта до переупаковки. Для хрупких товаров — мебель, стекло — деревянная обрешётка считается отдельно.` },
         { q: 'Могу ли я забрать груз со склада в Ташкенте сам?',
           a: `Да, после оплаты вы забираете груз по GS-коду со склада в Ташкенте; адрес и часы работы склада присылает менеджер. По желанию доставим по городу (от ${v.doorFreeKg} кг бесплатно) или в регион. На складе груз хранится бесплатно ${v.storeTz} дня.` },
       ],
@@ -249,11 +279,11 @@ function en(): FaqGroup[] {
       id: 'prices', group: 'Prices and payment',
       items: [
         { top: true, q: 'How is the cargo price calculated — per kg or per m³?',
-          a: `Cargo denser than ${v.threshold} kg/m³ is priced per kilogram; lighter, bulkier cargo is priced per cubic metre. As a guide, consolidated truck freight starts at ${v.t3}/kg, bulky freight at ${v.lclFrom}/m³ and air cargo at ${v.airStd}/kg. Volumetric weight = length × width × height (cm) ÷ ${v.divTruck} (÷ ${v.divAir} for air); you pay for the greater of actual and volumetric weight. Example: 48 kg in 0.2 m³ is 240 kg/m³, so it is priced per kg. Run the numbers in the calculator and a manager confirms them on Telegram.` },
+          a: `Truck cargo (consolidated freight) is priced per cubic metre: the density of the load — total weight (kg) ÷ total volume (m³) — picks the rate for one m³. Up to ${v.t1max} kg/m³ that is ${v.t1}, up to ${v.t2max} kg/m³ ${v.t2}, up to ${v.t3max} kg/m³ ${v.t3}, up to ${v.t4max} kg/m³ ${v.t4}, and the table climbs on: from ${v.tTopMin} kg/m³ it is ${v.tTop}. At ${v.threshold} kg/m³ and above — metal, tiles and the like — the sheet switches to weight at ${v.dense}/kg. Example: ${v.exSmall.kg} kg filling ${v.exSmall.m3} m³ is ${v.exSmall.d} kg/m³, so the rate is ${v.exSmall.rate} and the total ${v.exSmall.total}. Air cargo is the mode priced per kilogram: you pay for the greater of actual and volumetric weight (length × width × height (cm) ÷ ${v.divAir}), from ${v.airStd}/kg. The minimum billable volume is ${v.minM3} m³; every price is indicative — run the numbers in the calculator and a manager confirms them on Telegram.` },
         { q: 'How much does it cost to ship 1 kg from China?',
-          a: `Consolidated truck freight is roughly ${v.t1}/kg up to ${v.t1max} kg, ${v.t2}/kg for ${v.t1max}–${v.t2max} kg and ${v.t3}/kg above ${v.t2max} kg; dense wholesale cargo such as clothing and footwear from ${v.denseMin} kg is around ${v.dense}/kg. Air cargo: ordinary goods ${v.airStd}/kg, branded goods ${v.airBrand}/kg, commercial series ${v.airCom}/kg. These are estimates (updated ${v.updated}); the final rate is fixed in the contract based on density, goods category and batch.` },
+          a: `Truck freight has no per-kilogram price: it is billed per cubic metre, so the same kilogram costs a different amount depending on how much space it takes. Light, bulky cargo (density up to ${v.t1max} kg/m³) is ${v.t1}, mid-density cargo up to ${v.t3max} kg/m³ is ${v.t3}, and cargo at ${v.threshold} kg/m³ and above is billed by weight at ${v.dense}/kg (${v.exHeavy.kg} kg in ${v.exHeavy.m3} m³ comes to ${v.exHeavy.total}). For example, ${v.exLight.kg} kg of light goods in ${v.exLight.m3} m³ costs ${v.exLight.total}, while ${v.exDense.kg} kg of denser goods in ${v.exDense.m3} m³ costs ${v.exDense.total} — the heavier lot is cheaper because it takes up less space. Air cargo is the mode priced per kilogram: ordinary goods ${v.airStd}/kg, branded goods ${v.airBrand}/kg, commercial series ${v.airCom}/kg. These are estimates (updated ${v.updated}); the final rate is fixed in the contract based on density, goods category and batch.` },
         { q: 'Is there a minimum weight or volume?',
-          a: `We accept air cargo from ${v.airMin} kg and consolidated truck freight from 1 kg or ${v.minM3} m³. Above ${v.denseMin} kg per batch the dense-cargo rate applies. Small lots share a truck with other clients’ goods — no whole container needed, you pay only for your space.` },
+          a: `We accept air cargo from ${v.airMin} kg. Truck freight is measured in volume instead: the minimum billable volume is ${v.minM3} m³, and anything smaller is charged as that. There is no minimum weight — the price is set by density (kg/m³), not by the scales. Small lots share a truck with other clients’ goods — no whole container needed, you pay only for your volume.` },
         { q: 'What does the price include, and what is extra?',
           a: `The price covers receiving at the Yiwu warehouse, weighing and measuring, consolidation, transport via Khorgos to Tashkent and unloading at the Tashkent warehouse. Charged separately: insurance (${v.ins}% of declared value), duty and VAT (calculated by HS code), repacking (${v.repack}/kg), detailed inspection (${v.inspect}/kg) and door delivery in the regions. Every extra appears as its own line in the contract — no hidden fees.` },
         { q: 'When and how do I pay?',
@@ -270,7 +300,7 @@ function en(): FaqGroup[] {
         { q: 'Which route does the cargo take?',
           a: `The main route is Yiwu → Urumqi → Khorgos (the China–Kazakhstan border) → Almaty → Shymkent → Tashkent, roughly 5,000+ km. For the Fergana Valley there is also Kashgar → Irkeshtam → Osh → Andijan, hundreds of kilometres shorter from western China; we move consolidated freight through Khorgos by default. Air cargo flies from Guangzhou or Urumqi; rail containers cross at Dostyk and Altynkol. The China–Kyrgyzstan–Uzbekistan railway is still under construction and is not part of our routes.` },
         { q: 'Air, truck or rail — which one suits me?',
-          a: `Urgent, light and high-value goods: air (${v.airDays} days, from ${v.airStd}/kg). Bulky goods such as clothing, footwear and household items: consolidated truck (${v.truckDays} days, from ${v.t3}/kg). Lots above 10 m³: a 20 ft or 40 ft container (${v.railDays} days, 20 ft roughly ${v.r20}, 40 ft ${v.r40}). Goods with batteries, liquids and magnets travel only by truck or rail. A manager looks at your cargo and proposes two or three options with prices.` },
+          a: `Urgent, light and high-value goods: air (${v.airDays} days, from ${v.airStd}/kg). Bulky goods such as clothing, footwear and household items: consolidated truck (${v.truckDays} days, from ${v.lclFrom}). Lots above 10 m³: a 20 ft or 40 ft container (${v.railDays} days, 20 ft roughly ${v.r20}, 40 ft ${v.r40}). Goods with batteries, liquids and magnets travel only by truck or rail. A manager looks at your cargo and proposes two or three options with prices.` },
         { q: 'Are there delays at Khorgos?',
           a: `Yes, queues at the border happen — usually 1–3 days, longer before holidays and in peak season. That is why we quote transit as a range (${v.truckDays} days), not a date. If a delay occurs, your manager writes on Telegram with the reason and a new estimated date.` },
         { q: 'How do I know where my cargo is?',
@@ -283,13 +313,13 @@ function en(): FaqGroup[] {
         { q: 'How do I start, and where do I send goods in China?',
           a: `Message us on Telegram or call; we agree the transport mode, documents and packing and sign a contract. There are three receiving addresses in China — Yiwu (义乌), Guangzhou and Kashgar — and your manager tells you which one applies. The manager also gives you your GS code (shipping mark): the supplier writes the GS code on every carton before dispatch and ships to that address. Send your goods only once the receiving address and the GS code are confirmed, so that nothing goes astray.` },
         { q: 'Can you combine goods from several suppliers?',
-          a: `Yes — consolidation is our core service. Pieces from different factories and shops are gathered at the Yiwu warehouse under one GS code, re-measured and shipped as one batch. It is cheaper than shipping each piece alone: once the total passes ${v.denseMin} kg, a lower rate applies. Tell your manager in advance which pieces to expect.` },
+          a: `Yes — consolidation is our core service. Pieces from different factories and shops are gathered at the Yiwu warehouse under one GS code, re-measured and shipped as one batch. It is cheaper than shipping each piece alone: you do not pay the ${v.minM3} m³ minimum for every piece, the cartons stack tightly and the batch ends up occupying fewer cubic metres — and cubic metres are what truck freight is billed on. Tell your manager in advance which pieces to expect.` },
         { q: 'How many days is storage free?',
           a: `${v.storeCn} days at the Yiwu warehouse and ${v.storeTz} days at the Tashkent warehouse. After that, storage is charged per day under the contract. If you need longer — for example to complete a batch — agree it with your manager in advance.` },
         { q: 'Do you inspect the goods and send photos?',
           a: `Yes, every intake comes with a standard photo report: packaging, label, weight and dimensions (${v.photo} per piece). A detailed check — quantity, colour, size, function — can be ordered from ${v.inspect}/kg. If we find a defect, we settle a replacement or return with the supplier while the goods are still in China, before dispatch to Tashkent.` },
         { q: 'Is repacking free?',
-          a: `No, repacking costs ${v.repack}/kg. It usually pays for itself, though: air in factory packaging inflates the volumetric weight, and denser packing can move the calculation from m³ to kg. Wooden crating for fragile goods such as furniture or glass is quoted separately.` },
+          a: `No, repacking costs ${v.repack}/kg. It usually pays for itself, though: air in factory packaging inflates the volume, and truck freight is billed on volume. Packing denser lifts the rate per m³ a little but cuts the number of m³, so the total normally falls: ${v.exBulky.kg} kg in ${v.exBulky.m3} m³ bills at ${v.exBulky.rate}, or ${v.exBulky.total}, while the same ${v.exDense.kg} kg squeezed into ${v.exDense.m3} m³ bills at ${v.exDense.rate}, or ${v.exDense.total}. Your manager shows you both calculations before repacking. Wooden crating for fragile goods such as furniture or glass is quoted separately.` },
         { q: 'Can I collect the cargo from the Tashkent warehouse myself?',
           a: `Yes, after payment you can collect with your GS code; your manager sends the warehouse address and opening hours. If you prefer, we deliver within the city (free from ${v.doorFreeKg} kg) or to your region. Storage at the warehouse is free for ${v.storeTz} days.` },
       ],

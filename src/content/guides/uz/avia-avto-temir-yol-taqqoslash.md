@@ -82,13 +82,13 @@ Masalan, 48 kg va 0,2 m³ yuk — zichligi 240 kg/m³, demak 0,2 × 180 = 36 $; 
 
 ## Avia kargo qachon oʻzini oqlaydi?
 
-Avia kargo — yukni samolyotda olib kelish, taxminan 5–10 kun. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi, Toshkent aeroportida rasmiylashtiriladi va omborga tushadi. 1 kg narxi 9 $ dan (brend tovar 12 $, tijorat partiya 11,5 $), minimal 0,5 kg. Hajmiy vazn ÷ 5 000 boʻyicha hisoblanadi, yaʼni yengil, lekin katta quti aviada oʻzining haqiqiy vaznidan «ogʻirroq» chiqadi; avtoda esa vazn emas, hajm va zichlik hisobga olinadi.
+Avia kargo — yukni samolyotda olib kelish, taxminan 5–10 kun. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi, Toshkent aeroportida rasmiylashtiriladi va omborga tushadi. 1 kg narxi 9 $ dan (brend tovar 12 $, tijorat partiya 11,5 $), minimal 0,5 kg. Hajmiy vazn ÷ 5 000 boʻyicha hisoblanadi, yaʼni yengil, lekin katta quti aviada oʻzining haqiqiy vaznidan «ogʻirroq» chiqadi; avtoda esa vazn oʻzi narxni belgilamaydi — u faqat zichlikni beradi, toʻlov esa hajm uchun.
 
 Avia mos keladi, agar:
 
 - 1 kg tovarning qiymati yuqori — telefon aksessuarlari, kichik elektronika, brend kiyim, ehtiyot qismlar;
 - muddat pulga teng: mavsumiy kolleksiya, marketpleysda tugab qolgan tovar, ishlab chiqarish toʻxtab turgan dastgoh qismi;
-- yuk kichik va zich — 20–30 kg gacha: bunday partiyada avia bilan avto oʻrtasidagi farq bir necha yuz dollar, tezlik esa koʻpincha shunga arziydi.
+- yuk kichik va zich — 20–30 kg gacha: bunday partiyada avia avtodan taxminan 150–250 $ qimmatga tushadi — qimmat tovar yoki qatʼiy muddat uchun bu ustama koʻpincha oʻzini oqlaydi.
 
 Avia mos kelmaydi: litiy batareyali tovar (power bank, elektr skuter, SIM-li soat), suyuqlik va kosmetika, atir, magnit, dori, dron. Bunday yuk faqat avto yoki temir yoʻl bilan keladi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
 

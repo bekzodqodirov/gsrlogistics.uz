@@ -146,7 +146,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Toshkentga yetkazib berish komissiyaga kiradimi?',
-        a: 'Yoʻq, tashish alohida: yigʻma yuk 6,5 $/kg dan yoki 110 $/m³ dan, taxminan 15–25 kun; avia 9 $/kg dan, 5–10 kun. Narxlar taxminiy, 2026-yil 8-sentabrda yangilangan. Ivu omborida qabul, tekshiruv va foto-hisobot tashish narxiga kiradi.',
+        a: 'Yoʻq, tashish alohida: yigʻma yuk hajm boʻyicha hisoblanadi — 110 $/m³ dan, stavka yuk zichligiga qarab; taxminan 15–25 kun. Avia 9 $/kg dan, 5–10 kun. Narxlar taxminiy, 2026-yil 8-sentabrda yangilangan. Ivu omborida qabul, tekshiruv va foto-hisobot tashish narxiga kiradi.',
       },
       {
         q: 'Guanchjou yoki Shenchjendagi zavodlar bilan ham ishlaysizmi?',
@@ -302,7 +302,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Входит ли доставка в Ташкент в комиссию?',
-        a: 'Нет, перевозка считается отдельно: сборный груз от 6,5 $/кг или от 110 $/м³, ориентировочно 15–25 дней; авиа от 9 $/кг, 5–10 дней. Цены ориентировочные, обновлены 8 сентября 2026 г. Приёмка на складе в Иу, проверка и фотоотчёт входят в стоимость перевозки.',
+        a: 'Нет, перевозка считается отдельно: сборный груз считается по объёму — от 110 $/м³, ставка зависит от плотности груза; ориентировочно 15–25 дней. Авиа от 9 $/кг, 5–10 дней. Цены ориентировочные, обновлены 8 сентября 2026 г. Приёмка на складе в Иу, проверка и фотоотчёт входят в стоимость перевозки.',
       },
       {
         q: 'Работаете ли с фабриками в Гуанчжоу или Шэньчжэне?',
@@ -458,7 +458,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Is delivery to Tashkent included in the commission?',
-        a: 'No, freight is separate: consolidated truck from $6.50/kg or from $110/m³ in roughly 15–25 days; air from $9/kg in 5–10 days. Prices are estimates updated September 8, 2026. Receiving, inspection and the photo report at the Yiwu warehouse are included in the freight price.',
+        a: 'No, freight is separate: consolidated truck is priced by volume — from $110 per m³, with the rate set by cargo density — in roughly 15–25 days; air from $9/kg in 5–10 days. Prices are estimates updated September 8, 2026. Receiving, inspection and the photo report at the Yiwu warehouse are included in the freight price.',
       },
       {
         q: 'Do you work with factories in Guangzhou or Shenzhen?',

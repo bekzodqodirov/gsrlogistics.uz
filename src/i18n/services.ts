@@ -29,7 +29,10 @@ export interface ServicesStrings {
   /** Building blocks of the one-line "number line" under each card name. */
   line: {
     days: string;
+    /** "{n} kg dan" — minimum billable weight, air only. */
     fromKg: string;
+    /** "110 $/m³ dan" — truck headline rate, taken from the first density band. */
+    fromM3: string;
     commissionFrom: string;
     yuanPayment: string;
     containers: string;
@@ -111,6 +114,7 @@ const uz: ServicesStrings = {
   line: {
     days: 'kun',
     fromKg: '{n} kg dan',
+    fromM3: '{n} $/m³ dan',
     commissionFrom: 'komissiya {n}% dan',
     yuanPayment: 'yuanda toʻlov',
     containers: '20ft / 40ft',
@@ -138,7 +142,7 @@ const uz: ServicesStrings = {
     compareIntro: 'Uch yoʻnalishni bir jadvalda taqqoslang. Muddatlar taxminiy, yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi.',
     compareHead: { mode: 'Yoʻnalish', days: 'Muddat', min: 'Minimal', rule: 'Narx qoidasi', fits: 'Kimga mos' },
     compareRows: {
-      truck: { min: '1 kg', rule: 'zichlik ≥ 170 kg/m³ — kg boʻyicha, past — m³ boʻyicha', fits: 'ulgurji partiya, ogʻir va hajmli yuk' },
+      truck: { min: '0,1 m³', rule: 'm³ boʻyicha, stavka zichlikka qarab — 110 $/m³ dan', fits: 'ulgurji partiya, ogʻir va hajmli yuk' },
       air: { min: '0,5 kg', rule: 'kg boʻyicha, hajmiy vazn ÷ 5 000', fits: 'shoshilinch, qimmat va yengil tovar' },
       rail: { min: '20ft konteyner', rule: 'konteyner uchun, FCL yoki LCL', fits: 'katta partiya, uskunalar' },
     },
@@ -214,6 +218,7 @@ const ru: ServicesStrings = {
   line: {
     days: 'дней',
     fromKg: 'от {n} кг',
+    fromM3: 'от {n} $/м³',
     commissionFrom: 'комиссия от {n}%',
     yuanPayment: 'оплата в юанях',
     containers: '20ft / 40ft',
@@ -241,7 +246,7 @@ const ru: ServicesStrings = {
     compareIntro: 'Сравните три способа в одной таблице. Сроки ориентировочные, считаются после отправки со склада в Китае.',
     compareHead: { mode: 'Способ', days: 'Срок', min: 'Минимум', rule: 'Правило цены', fits: 'Кому подходит' },
     compareRows: {
-      truck: { min: '1 кг', rule: 'плотность ≥ 170 кг/м³ — по кг, ниже — по м³', fits: 'оптовые партии, тяжёлый и объёмный груз' },
+      truck: { min: '0,1 м³', rule: 'по м³, ставка по плотности — от 110 $/м³', fits: 'оптовые партии, тяжёлый и объёмный груз' },
       air: { min: '0,5 кг', rule: 'по кг, объёмный вес ÷ 5 000', fits: 'срочный, дорогой и лёгкий товар' },
       rail: { min: 'контейнер 20ft', rule: 'за контейнер, FCL или LCL', fits: 'крупные партии, оборудование' },
     },
@@ -317,6 +322,7 @@ const en: ServicesStrings = {
   line: {
     days: 'days',
     fromKg: 'from {n} kg',
+    fromM3: 'from ${n} per m³',
     commissionFrom: 'commission from {n}%',
     yuanPayment: 'payment in yuan',
     containers: '20ft / 40ft',
@@ -344,7 +350,7 @@ const en: ServicesStrings = {
     compareIntro: 'Compare the three modes in one table. Transit times are indicative and count from departure from the China warehouse.',
     compareHead: { mode: 'Mode', days: 'Transit', min: 'Minimum', rule: 'Pricing rule', fits: 'Best for' },
     compareRows: {
-      truck: { min: '1 kg', rule: 'density ≥ 170 kg/m³ — per kg, lower — per m³', fits: 'wholesale lots, heavy and bulky cargo' },
+      truck: { min: '0.1 m³', rule: 'per m³, rate by density — from $110 per m³', fits: 'wholesale lots, heavy and bulky cargo' },
       air: { min: '0.5 kg', rule: 'per kg, volumetric weight ÷ 5,000', fits: 'urgent, valuable and light goods' },
       rail: { min: '20ft container', rule: 'per container, FCL or LCL', fits: 'large lots, machinery' },
     },
@@ -424,7 +430,7 @@ export function serviceNumberLine(lang: Lang, key: ServiceKey): string {
   const t = servicesStrings[lang].line;
   const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)} ${t.days}`;
   switch (key) {
-    case 'truck': return `${range(tariffs.truck.days[0], tariffs.truck.days[1])} · ${tpl(t.fromKg, { n: 1 })}`;
+    case 'truck': return `${range(tariffs.truck.days[0], tariffs.truck.days[1])} · ${tpl(t.fromM3, { n: fmtNumber(tariffs.truck.lclPerM3ByDensity[0].rate, lang) })}`;
     case 'air': return `${range(tariffs.air.days[0], tariffs.air.days[1])} · ${tpl(t.fromKg, { n: fmtNumber(tariffs.air.minKg, lang) })}`;
     case 'rail': return `${range(tariffs.rail.days[0], tariffs.rail.days[1])} · ${t.containers}`;
     case 'sourcing': return tpl(t.commissionFrom, { n: tariffs.extras.sourcingCommissionPct });

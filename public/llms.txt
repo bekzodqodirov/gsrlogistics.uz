@@ -5,7 +5,7 @@
 > Русский: GSR Logistics — сборные грузы из Китая в Узбекистан 15–25 дней, авиа 5–10 дней, ж/д и контейнеры 20–35 дней; поиск и выкуп товаров (1688/Taobao), импорт оборудования, растаможка, проверка и фотоотчёт на складе в Иу. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар. На какой отправлять — скажет менеджер. Ташкент, с 2018 года.
 
 ## Services (uz / ru / en)
-- [Avto kargo (yigʻma yuk)](https://gsrlogistics.uz/xizmatlar/avto-kargo/): consolidated truck cargo China → Tashkent, priced per kg or m³ by density, 15–25 days · [ru](https://gsrlogistics.uz/ru/uslugi/avto-kargo/) · [en](https://gsrlogistics.uz/en/services/truck-cargo/)
+- [Avto kargo (yigʻma yuk)](https://gsrlogistics.uz/xizmatlar/avto-kargo/): consolidated truck cargo China → Tashkent, priced per m³ by cargo density, 15–25 days · [ru](https://gsrlogistics.uz/ru/uslugi/avto-kargo/) · [en](https://gsrlogistics.uz/en/services/truck-cargo/)
 - [Avia kargo](https://gsrlogistics.uz/xizmatlar/avia-kargo/): air cargo 5–10 days for urgent and high-value goods · [ru](https://gsrlogistics.uz/ru/uslugi/avia-kargo/) · [en](https://gsrlogistics.uz/en/services/air-cargo/)
 - [Temir yoʻl va konteyner](https://gsrlogistics.uz/xizmatlar/temir-yol-konteyner/): 20ft/40ft containers, FCL and LCL, 20–35 days · [ru](https://gsrlogistics.uz/ru/uslugi/zhd-konteyner/) · [en](https://gsrlogistics.uz/en/services/rail-container/)
 - [Tovar va ishlab chiqaruvchi topish](https://gsrlogistics.uz/xizmatlar/tovar-topish/): product and factory sourcing in China, samples, negotiation · [ru](https://gsrlogistics.uz/ru/uslugi/poisk-tovarov/) · [en](https://gsrlogistics.uz/en/services/sourcing/)
@@ -16,7 +16,7 @@
 - [Avtomobil va elektromobil](https://gsrlogistics.uz/xizmatlar/avtomobil-importi/): cars and EVs from China to order · [ru](https://gsrlogistics.uz/ru/uslugi/avto-iz-kitaya/) · [en](https://gsrlogistics.uz/en/services/car-import/)
 
 ## Pricing & calculator
-- [Narxlar](https://gsrlogistics.uz/narxlar/): rate tables per kg and per m³, volumetric weight rule (÷6000 truck, ÷5000 air), density threshold 170 kg/m³, inclusions, extras, payment · [ru](https://gsrlogistics.uz/ru/ceny/) · [en](https://gsrlogistics.uz/en/pricing/)
+- [Narxlar](https://gsrlogistics.uz/narxlar/): truck rates per m³ by cargo density (110–320 $/m³, and 0.55 $/kg above 1000 kg/m³), air rates per kg with the ÷5000 volumetric rule, inclusions, extras, payment · [ru](https://gsrlogistics.uz/ru/ceny/) · [en](https://gsrlogistics.uz/en/pricing/)
 - [Kalkulyator](https://gsrlogistics.uz/kalkulyator/): instant estimate by weight, volume and mode · [ru](https://gsrlogistics.uz/ru/kalkulyator/) · [en](https://gsrlogistics.uz/en/calculator/)
 - [Kuzatuv](https://gsrlogistics.uz/kuzatuv/): cargo tracking by code and status glossary · [ru](https://gsrlogistics.uz/ru/otslezhivanie/) · [en](https://gsrlogistics.uz/en/tracking/)
 

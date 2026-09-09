@@ -3,7 +3,8 @@ import type { ServiceContentByLang } from './types';
 /**
  * 1688 / Taobao / Pinduoduo / Alibaba buying agent (vykup) — long-form page content.
  * Figures: commission "3% dan" = site.sourcingCommissionPct / tariffs.extras.sourcingCommissionPct;
- * freight, inspection (1 $/kg), photo (1 $), repack (0,4 $/kg), 14 free storage days — tariffs.json (2026-09-08).
+ * truck freight is priced by VOLUME from cargo density (110 $/m³ dan; never per kg);
+ * inspection (1 $/kg), photo (1 $), repack (0,4 $/kg), 14 free storage days — tariffs.json (2026-09-08).
  * Ownership of each point is unverified — always "Ivu ombori" / "склад в Иу" / "the Yiwu warehouse",
  * never "omborimiz" / "нашего склада" / "our warehouse".
  * There are THREE receiving addresses in China — Ivu / Иу / Yiwu, Guanchjou / Гуанчжоу / Guangzhou,
@@ -62,14 +63,14 @@ const content: ServiceContentByLang = {
             ['Tovar narxi', 'yuan → dollar, hisob-kitob kunidagi MB kursi', 'saytdagi narx'],
             ['Komissiya', 'tovar narxidan foiz', '3% dan'],
             ['Xitoy ichidagi yetkazib berish', 'sotuvchi belgilaydi; 1688-da koʻpincha bepul yoki 5–15 yuan', 'sotuvchi narxi'],
-            ['Ivu → Toshkent tashish', 'kg yoki m³ hisobida, zichlikka qarab', '6,5 $/kg dan · 110 $/m³ dan'],
+            ['Ivu → Toshkent tashish', 'm³ hisobida; stavka yuk zichligiga qarab', '110 $/m³ dan'],
             ['Qoʻshimcha (ixtiyoriy)', 'tekshiruv 1 $/kg · foto qutini ochib 1 $ · qayta qadoqlash 0,4 $/kg', 'tanlovga qarab'],
           ],
           note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. Yuan va dollar kursi Markaziy bank kursi asosida hisob-kitob kunida koʻrsatiladi.',
         },
         callout: {
           title: 'Misol: 1688-dan 50 ta sumka',
-          text: '50 dona × 38 yuan = 1 900 yuan. 2026-yil 8-sentabrdagi MB kursi (1 yuan = 1 756,72 soʻm, 1 $ = 11 789,33 soʻm) boʻyicha bu ≈ 283 $; komissiya 3% ≈ 8,5 $. Tovar ≈ 3 340 000 soʻm + komissiya ≈ 100 000 soʻm. Tashish alohida: 50 sumka ≈ 20 kg, 0,15 m³ → zichlik 133 kg/m³ → hajmiy vazn boʻyicha hisoblanadi.',
+          text: '50 dona × 38 yuan = 1 900 yuan. 2026-yil 8-sentabrdagi MB kursi (1 yuan = 1 756,72 soʻm, 1 $ = 11 789,33 soʻm) boʻyicha bu ≈ 283 $; komissiya 3% ≈ 8,5 $. Tovar ≈ 3 340 000 soʻm + komissiya ≈ 100 000 soʻm. Tashish alohida: 50 sumka ≈ 20 kg, 0,15 m³ → zichlik ≈ 133 kg/m³ → shu zichlikka 130 $/m³ stavkasi toʻgʻri keladi: 0,15 × 130 $ ≈ 19,5 $.',
           tone: 'info',
         },
       },
@@ -131,7 +132,7 @@ const content: ServiceContentByLang = {
     faq: [
       {
         q: '1688-dan buyurtma bersam komissiya qancha?',
-        a: 'Buyurtma summasining 3% dan; foiz hisob-kitobda alohida qator sifatida koʻrsatiladi. Xitoy ichidagi yetkazib berish va Ivu → Toshkent tashish (6,5 $/kg dan yoki 110 $/m³ dan, taxminan, 2026-yil 8-sentabr) alohida hisoblanadi.',
+        a: 'Buyurtma summasining 3% dan; foiz hisob-kitobda alohida qator sifatida koʻrsatiladi. Xitoy ichidagi yetkazib berish va Ivu → Toshkent tashish (hajm boʻyicha, 110 $/m³ dan, stavka yuk zichligiga qarab; taxminiy, 2026-yil 8-sentabr) alohida hisoblanadi.',
       },
       {
         q: 'Yuan kursi qaysi?',
@@ -155,7 +156,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Bitta dona buyurtma qilsam boʻladimi?',
-        a: 'Ha, Taobao va Pinduoduodan 1 donadan olamiz. 1688-da sotuvchilar odatda 2–10 donadan sotadi. Tashishda minimal ogʻirlik 1 kg (avto) yoki 0,5 kg (avia).',
+        a: 'Ha, Taobao va Pinduoduodan 1 donadan olamiz. 1688-da sotuvchilar odatda 2–10 donadan sotadi. Tashishda minimal hisob-kitob: avto uchun 0,1 m³, avia uchun 0,5 kg.',
       },
       {
         q: 'Toʻlovni qanday va qachon qilaman?',
@@ -218,14 +219,14 @@ const content: ServiceContentByLang = {
             ['Цена товара', 'юани → доллары по курсу ЦБ на день расчёта', 'цена на площадке'],
             ['Комиссия', 'процент от цены товара', 'от 3%'],
             ['Доставка внутри Китая', 'назначает продавец; на 1688 часто бесплатно или 5–15 юаней', 'тариф продавца'],
-            ['Перевозка Иу → Ташкент', 'по кг или м³ в зависимости от плотности', 'от 6,5 $/кг · от 110 $/м³'],
+            ['Перевозка Иу → Ташкент', 'по м³; ставка зависит от плотности груза', 'от 110 $/м³'],
             ['Дополнительно (по желанию)', 'проверка 1 $/кг · фото со вскрытием 1 $ · переупаковка 0,4 $/кг', 'по выбору'],
           ],
           note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Курс юаня и доллара берётся по курсу Центрального банка и показывается в расчёте на день оплаты.',
         },
         callout: {
           title: 'Пример: 50 сумок с 1688',
-          text: '50 шт. × 38 юаней = 1 900 юаней. По курсу ЦБ на 8 сентября 2026 г. (1 юань = 1 756,72 сума, 1 $ = 11 789,33 сума) это ≈ 283 $; комиссия 3% ≈ 8,5 $. Товар ≈ 3 340 000 сумов + комиссия ≈ 100 000 сумов. Перевозка отдельно: 50 сумок ≈ 20 кг, 0,15 м³ → плотность 133 кг/м³ → считаем по объёмному весу.',
+          text: '50 шт. × 38 юаней = 1 900 юаней. По курсу ЦБ на 8 сентября 2026 г. (1 юань = 1 756,72 сума, 1 $ = 11 789,33 сума) это ≈ 283 $; комиссия 3% ≈ 8,5 $. Товар ≈ 3 340 000 сумов + комиссия ≈ 100 000 сумов. Перевозка отдельно: 50 сумок ≈ 20 кг, 0,15 м³ → плотность ≈ 133 кг/м³ → этой плотности соответствует ставка 130 $/м³: 0,15 × 130 $ ≈ 19,5 $.',
           tone: 'info',
         },
       },
@@ -287,7 +288,7 @@ const content: ServiceContentByLang = {
     faq: [
       {
         q: 'Какая комиссия за выкуп с 1688?',
-        a: 'От 3% суммы заказа; процент показан в расчёте отдельной строкой. Доставка внутри Китая и перевозка Иу → Ташкент (от 6,5 $/кг или от 110 $/м³, ориентировочно, 8 сентября 2026 г.) считаются отдельно.',
+        a: 'От 3% суммы заказа; процент показан в расчёте отдельной строкой. Доставка внутри Китая и перевозка Иу → Ташкент (по объёму, от 110 $/м³, ставка зависит от плотности груза; ориентировочно, 8 сентября 2026 г.) считаются отдельно.',
       },
       {
         q: 'По какому курсу считаете юань?',
@@ -311,7 +312,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Можно заказать одну штуку?',
-        a: 'Да, с Taobao и Pinduoduo выкупаем от 1 шт. На 1688 продавцы обычно отпускают от 2–10 шт. Минимальный вес перевозки — 1 кг (авто) или 0,5 кг (авиа).',
+        a: 'Да, с Taobao и Pinduoduo выкупаем от 1 шт. На 1688 продавцы обычно отпускают от 2–10 шт. Минимальный расчёт перевозки — 0,1 м³ (авто) или 0,5 кг (авиа).',
       },
       {
         q: 'Как и когда платить?',
@@ -374,14 +375,14 @@ const content: ServiceContentByLang = {
             ['Product price', 'yuan → dollars at the Central Bank rate on the day of the quote', 'marketplace price'],
             ['Commission', 'percentage of the product price', 'from 3%'],
             ['Shipping inside China', 'set by the seller; on 1688 often free or 5–15 yuan', 'seller’s rate'],
-            ['Freight Yiwu → Tashkent', 'per kg or m³ depending on density', 'from $6.50/kg · from $110/m³'],
+            ['Freight Yiwu → Tashkent', 'per m³; the rate depends on cargo density', 'from $110 per m³'],
             ['Optional extras', 'inspection $1/kg · opened-box photo $1 · repacking $0.40/kg', 'as chosen'],
           ],
           note: 'Estimates · Updated September 8, 2026. Yuan and dollar rates follow the Central Bank of Uzbekistan and are shown in the quote on the day of payment.',
         },
         callout: {
           title: 'Example: 50 bags from 1688',
-          text: '50 pcs × 38 yuan = 1,900 yuan. At the Central Bank rate of September 8, 2026 (1 yuan = 1,756.72 UZS, $1 = 11,789.33 UZS) that is ≈ $283; the 3% commission ≈ $8.50. Goods ≈ 3,340,000 UZS + commission ≈ 100,000 UZS. Freight is separate: 50 bags ≈ 20 kg, 0.15 m³ → density 133 kg/m³ → priced by volumetric weight.',
+          text: '50 pcs × 38 yuan = 1,900 yuan. At the Central Bank rate of September 8, 2026 (1 yuan = 1,756.72 UZS, $1 = 11,789.33 UZS) that is ≈ $283; the 3% commission ≈ $8.50. Goods ≈ 3,340,000 UZS + commission ≈ 100,000 UZS. Freight is separate: 50 bags ≈ 20 kg, 0.15 m³ → density ≈ 133 kg/m³, which falls in the $130 per m³ band → 0.15 × $130 ≈ $19.50.',
           tone: 'info',
         },
       },
@@ -443,7 +444,7 @@ const content: ServiceContentByLang = {
     faq: [
       {
         q: 'What is the commission for buying from 1688?',
-        a: 'From 3% of the order value; the percentage appears as a separate line in the quote. Shipping inside China and freight Yiwu → Tashkent (from $6.50/kg or from $110/m³, estimates as of September 8, 2026) are charged separately.',
+        a: 'From 3% of the order value; the percentage appears as a separate line in the quote. Shipping inside China and freight Yiwu → Tashkent (by volume, from $110 per m³, with the rate set by cargo density; estimate as of September 8, 2026) are charged separately.',
       },
       {
         q: 'Which yuan exchange rate do you use?',
@@ -467,7 +468,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Can I order a single item?',
-        a: 'Yes, from Taobao and Pinduoduo we buy from 1 piece. On 1688 sellers usually ship from 2–10 pieces. The minimum freight weight is 1 kg by truck or 0.5 kg by air.',
+        a: 'Yes, from Taobao and Pinduoduo we buy from 1 piece. On 1688 sellers usually ship from 2–10 pieces. The minimum billable freight is 0.1 m³ by truck or 0.5 kg by air.',
       },
       {
         q: 'How and when do I pay?',

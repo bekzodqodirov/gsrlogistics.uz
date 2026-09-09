@@ -34,7 +34,7 @@ sources:
     date: "2025-11-12"
 ---
 
-There are three ways to bring cargo from China to Uzbekistan: **air** (roughly 5–10 days, from $9/kg), **truck — consolidated freight** (15–25 days, from $110 per m³, with the rate set by the cargo's density) and **rail** (20–35 days, a 20 ft container at $2,800–5,500). The rule of thumb is simple: light, valuable and urgent goes by air; heavy, bulky and ordinary goes by truck; a uniform lot above 25 m³ goes in a container. Prices are estimates as of September 8, 2026.
+There are three ways to bring cargo from China to Uzbekistan: **air** (roughly 5–10 days, from $9/kg), **truck — consolidated freight** (15–25 days, from $110 per m³, with the rate set by the cargo’s density) and **rail** (20–35 days, a 20 ft container at $2,800–5,500). The rule of thumb is simple: light, valuable and urgent goes by air; heavy, bulky and ordinary goes by truck; a uniform lot above 25 m³ goes in a container. Prices are estimates as of September 8, 2026.
 
 ## The three modes in one table
 
@@ -82,13 +82,13 @@ For example, 48 kg in 0.2 m³ is 240 kg/m³, so 0.2 × $180 = $36; 180 kg of toy
 
 ## When does air cargo pay off?
 
-Air cargo is delivery by plane, roughly 5–10 days. The goods are received at the China warehouse, grouped into an air lot, cleared at Tashkent airport and released from the warehouse. The price starts at $9/kg (branded goods $12, commercial lots $11.50), minimum 0.5 kg. Volumetric weight is calculated with a divisor of 5000, so a light but large box "weighs" more by air than it actually does on the scales; by truck weight is not the deciding number at all — volume and density are.
+Air cargo is delivery by plane, roughly 5–10 days. The goods are received at the China warehouse, grouped into an air lot, cleared at Tashkent airport and released from the warehouse. The price starts at $9/kg (branded goods $12, commercial lots $11.50), minimum 0.5 kg. Volumetric weight is calculated with a divisor of 5000, so a light but large box "weighs" more by air than it actually does on the scales; by truck the weight on its own sets nothing — it only fixes the density, and you pay for the volume.
 
 Air suits you if:
 
 - the value per kilogram is high — phone accessories, small electronics, branded clothing, spare parts;
 - time is money: a seasonal collection, a marketplace listing that has sold out, a part for an idle machine;
-- the cargo is small and dense — up to 20–30 kg: on a lot that size the gap between air and truck is a few hundred dollars, and the speed is often worth it.
+- the cargo is small and dense — up to 20–30 kg: on a lot that size air costs roughly $150–250 more than truck — a premium worth paying for expensive goods or a fixed deadline.
 
 Air does not suit goods with lithium batteries (power banks, e-scooters, SIM smartwatches), liquids and cosmetics, perfume, magnets, medicines or drones. Such cargo goes only by truck or rail. Details on the [Air cargo](/en/services/air-cargo/) page.
 

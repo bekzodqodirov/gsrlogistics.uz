@@ -11,7 +11,7 @@ faq:
   - q: "Can I order from 1688 to Uzbekistan directly?"
     a: "In practice, no. 1688 delivers only inside China, takes payment via Alipay or a Chinese bank card (Humo, Uzcard and usually Visa do not work), and sellers write only in Chinese. So the order goes through an agent: GSR Logistics buys the goods, receives them at the Yiwu warehouse and ships them to Tashkent."
   - q: "What is the commission for buying on 1688?"
-    a: "GSR Logistics charges from 3% of the order value (an estimate as of September 8, 2026). Yuan is converted at the Central Bank of Uzbekistan rate with no hidden markup. Freight (truck $6.50–7.50/kg) is calculated separately."
+    a: "GSR Logistics charges from 3% of the order value (an estimate as of September 8, 2026). Yuan is converted at the Central Bank of Uzbekistan rate with no hidden markup. Freight is calculated separately: truck cargo is priced by volume, from the density of the shipment — from $110 per m³ (indicative)."
   - q: "How long does a 1688 order take to reach Tashkent?"
     a: "By truck roughly 25–40 days: the seller ships in 1–3 days, the goods reach the Yiwu warehouse in 2–5 days, inspection and consolidation take 1–3 days, the road 15–25 days, customs 1–2 working days. By air 12–20 days. Made-to-order goods (with an MOQ) add 7–15 days."
   - q: "Which is cheaper, 1688 or Taobao?"
@@ -97,13 +97,15 @@ Order: 300 phone cases, 1688 price for 100+ pcs — 10 yuan.
 | Commission 3% | 3,060 × 0.03 | 91.8 yuan |
 | Total in yuan | | 3,151.8 yuan |
 | In UZS (Central Bank rate 1,756.72 on September 8, 2026) | 3,151.8 × 1,756.72 | ≈ UZS 5,537,000 |
-| Freight: 40 kg, 0.2 m³ → 200 kg/m³ ≥ 170 → per kg | 40 × $7 | $280 |
+| Freight, truck: 40 kg, 0.2 m³ → density 200 kg/m³ → $160/m³ | 0.2 × $160 | $32 |
 | Photo report | | $1 |
 | Insurance 1% (declared value ≈ $470) | | ≈ $4.70 |
-| Freight total (UZS 11,800 per $) | ≈ $286 | ≈ UZS 3,375,000 |
-| **Total to the Tashkent warehouse** | | **≈ UZS 8,912,000** |
+| Freight total (UZS 11,800 per $) | ≈ $37.70 | ≈ UZS 445,000 |
+| **Total to the Tashkent warehouse** | | **≈ UZS 5,982,000** |
 
-One case costs about UZS 29,700 — before customs. *Estimate · Updated September 8, 2026.*
+One case costs about UZS 19,940 — before customs. *Estimate · Updated September 8, 2026.*
+
+**Truck cargo is charged by volume.** The density of the shipment picks the rate: density = weight (kg) ÷ volume (m³). Light cargo starts at $110 per m³ (up to 100 kg/m³) and the rate climbs as the load gets denser — $320 per m³ at 701–1,000 kg/m³; anything denser than 1,000 kg/m³ is charged at $0.55 per kg instead. The minimum billable volume is 0.1 m³. That is why the same 40 kg costs $32 in 0.2 m³ but 0.5 × $110 = $55 in a loosely packed 0.5 m³ carton (density 80 kg/m³) — tight packing saves money directly.
 
 **Customs is separate.** 300 identical items are a commercial lot: it is cleared in the name of a legal entity or a sole proprietor, duty is paid by HS code plus 12% VAT, and a customs declaration (GTD) is issued — only then can the goods be sold legally on Uzum or in a shop. A small order for personal use falls under the courier allowance of $200 per month; the excess is charged at 30% (minimum $3/kg), and from January 1, 2027 at 20% (minimum $2/kg). Your manager calculates this in advance — see [Customs clearance](/en/services/customs/) and the guide [Uzbekistan customs duties 2026](/en/guides/uzbekistan-customs-duties-2026/).
 

@@ -47,7 +47,7 @@ const vars = {
   truck: usd(truckFrom), air: usd(airFrom), lcl: usd(lclFrom), month, date: updated,
   threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
   denseRate: usd(T.truck.perKgAboveDensity), denseDensity: n(T.truck.perKgFromDensityKgM3, 0),
-  kgPerM3: n(Math.round(1_000_000 / T.truck.volumetricDivisor), 0), airMin: n(T.air.minKg), minM3: n(T.truck.minM3), insurance: n(T.extras.insurancePct),
+  airMin: n(T.air.minKg), minM3: n(T.truck.minM3), insurance: n(T.extras.insurancePct),
   days: range(T.truck.days), rate: n(T.usdToSom, 0), free: n(T.extras.freeStorageDaysTashkent, 0),
   door: `${n(T.regions.doorDeliverySom[0], 0)}–${n(T.regions.doorDeliverySom[1], 0)}`, kg: n(T.regions.tashkentDoorFreeFromKg, 0),
 };
@@ -61,7 +61,8 @@ const intro = tpl(p.intro, vars);
 const lclRows = lcl.map((s, i) => {
   const prev = i > 0 ? lcl[i - 1].maxKgM3 ?? 0 : 0;
   const hi = s.maxKgM3 ?? T.truck.perKgFromDensityKgM3;
-  const label = i === 0 ? tpl(p.lcl.upTo, { b: n(hi, 0) }) : tpl(p.lcl.between, { a: n(prev, 0), b: n(hi, 0) });
+  // the owner's sheet writes 101–150, not 100–150: bands are inclusive, so start the next one at +1
+  const label = i === 0 ? tpl(p.lcl.upTo, { b: n(hi, 0) }) : tpl(p.lcl.between, { a: n(prev + 1, 0), b: n(hi, 0) });
   return { label, value: perM3(s.rate) };
 });
 lclRows.push({ label: tpl(p.lcl.from, { a: n(T.truck.perKgFromDensityKgM3, 0) }), value: perKg(T.truck.perKgAboveDensity) });
@@ -86,7 +87,7 @@ const extrasRows = [
   { label: p.inclusions.extras.storageChina, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysChina, 0), days: daysWord(T.extras.freeStorageDaysChina, lang, b.units.days) }) },
   { label: p.inclusions.extras.storageTashkent, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysTashkent, 0), days: daysWord(T.extras.freeStorageDaysTashkent, lang, b.units.days) }) },
 ];
-/* Hero tiles: uz keeps the postposition in the unit ("6,5 $/kg dan"); ru/en put "от" / "from" before the figure ("от 6,5 $/кг", "from $6.50/kg"). */
+/* Hero tiles: the truck headline is a price per m³, never per kg. uz keeps the postposition in the unit ("110 $/m³ dan"); ru/en put "от" / "from" before the figure ("от 110 $/м³", "from $110/m³"). */
 const tileValue = (v: number) => (lang === 'en' ? usd(v) : n(v));
 const tilePrefix = lang === 'uz' ? '' : c.strings.from;
 const tiles = [

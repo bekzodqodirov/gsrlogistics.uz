@@ -5,7 +5,7 @@ import type { ServiceContentByLang } from './types';
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): air standard 9 / brand 12 / commercial 11,5 $/kg,
  * minimum 0,5 kg, ÷ 5 000 volumetric, 5–10 days; extras 1 $ photo, 0,4 $/kg repack, 1 $/kg inspection,
  * 1% insurance, 14/3 free storage days, door delivery 20 000–30 000 soʻm (free from 5 kg in Tashkent).
- * Truck figures quoted for comparison: 7,5 $/kg up to 30 kg, 15–25 days. Keep in sync when tariffs change.
+ * Truck figures quoted for comparison: priced by volume from density, from 110 $/m³, 15–25 days. Keep in sync when tariffs change.
  */
 const content: ServiceContentByLang = {
   uz: {
@@ -31,7 +31,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Avia kargo kimga toʻgʻri keladi?',
         body: [
-          'Avia kargo — vaqt puldan qimmat boʻlgan holatlar uchun. Yigʻma yuk furada 15–25 kun yursa, samolyot bilan yuk 5–10 kunda keladi. Farq 2 hafta, narx farqi esa 1 kg uchun taxminan 1,5–2,5 $ — yengil va qimmat tovarda bu farq sezilmaydi, ogʻir va arzon tovarda esa avto kargo oʻzini oqlaydi.',
+          'Avia kargo — vaqt puldan qimmat boʻlgan holatlar uchun. Yigʻma yuk furada 15–25 kun yursa, samolyot bilan yuk 5–10 kunda keladi. Farq 2 hafta. Narxni toʻgʻridan-toʻgʻri solishtirib boʻlmaydi: avia kilogramm hisobida (9 $/kg dan), avto kargo esa hajm hisobida — yukning zichligiga qarab 110 $/m³ dan — hisoblanadi. Yengil, qimmat va shoshilinch tovarda avia oʻzini oqlaydi; ogʻir yoki zich yukda avto bir necha barobar arzonga tushadi.',
           'Odatda avia orqali quyidagilar yuboriladi:',
         ],
         bullets: [
@@ -42,8 +42,8 @@ const content: ServiceContentByLang = {
           'Ulgurji buyurtmadan oldin tekshirish uchun namunalar — 1–2 dona.',
         ],
         callout: {
-          title: 'Misol: 20 kg telefon aksessuari',
-          text: 'Avia: 20 kg × 9 $ = 180 $, taxminan 7 kun. Avto: 20 kg × 7,5 $ = 150 $, taxminan 20 kun. 30 $ farq uchun tovar 2 hafta oldin sotuvga chiqadi. 200 kg poyabzalda esa farq 300 $ dan oshadi — bunday yukni avto bilan yuborgan maʼqul.',
+          title: 'Misol: 48 kg telefon aksessuari, 0,2 m³',
+          text: 'Avia: 48 kg × 9 $ = 432 $, taxminan 7 kun. Avto: zichlik 48 ÷ 0,2 = 240 kg/m³ — bu 180 $/m³ toifasi, yaʼni 0,2 × 180 = 36 $, taxminan 20 kun. Namunani yoki birinchi mayda partiyani 2 hafta oldin sotuvga chiqarish uchun bu farqni toʻlashga arziydi. Hajm oshgani sayin farq tez oʻsadi: 300 kg, 1,2 m³ yukda avto 1,2 × 180 = 216 $, avia esa 300 × 9 = 2 700 $ — bunday yuk albatta avto bilan boradi.',
           tone: 'info',
         },
       },
@@ -51,7 +51,7 @@ const content: ServiceContentByLang = {
         heading: 'Avia kargo narxi qanday hisoblanadi?',
         body: [
           'Avia kargoda narx har doim kilogramm hisobida va tovar toifasiga bogʻliq: oddiy tovar, brend tovar (original, qutisi va yorligʻi bilan) yoki seriyali tovar — bir xil mahsulotdan 3 donadan koʻp, tijorat partiyasi. Elektronika va kosmetika ham seriyali tarif boʻyicha hisoblanadi.',
-          'Hajmiy vazn qoidasi: uzunlik × en × balandlik (sm) ÷ 5 000. Samolyotda joy qimmat, shuning uchun boʻluvchi avtodagi 6000 emas, 5000. Haqiqiy va hajmiy vazndan kattasi hisobga olinadi. Qadoqni ixchamlash uchun Ivu omborida qayta qadoqlash xizmati bor — koʻpincha u oʻz narxini qoplaydi.',
+          'Hajmiy vazn qoidasi: uzunlik × en × balandlik (sm) ÷ 5 000. Samolyotda joy qimmat, shuning uchun boʻluvchi 5 000 — yaʼni avia hisobida 1 m³ taxminan 200 kg ga teng. Haqiqiy va hajmiy vazndan kattasi hisobga olinadi. Avto kargoda esa kilogramm umuman hisoblanmaydi: u yerda narx yuk zichligidan (kg/m³) kelib chiqib m³ boʻyicha belgilanadi. Qadoqni ixchamlash uchun Ivu omborida qayta qadoqlash xizmati bor — koʻpincha u oʻz narxini qoplaydi.',
         ],
         table: {
           caption: 'Avia kargo tariflari, Xitoy → Toshkent',
@@ -149,7 +149,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Batareyali tovar boʻlsa — avto kargo',
-          text: 'Telefon, noutbuk, power bank, elektr asboblar va batareyali oʻyinchoqlarni avto kargo bilan yuboramiz: 15–25 kun, 6,5–7,5 $/kg. Buyurtma berishdan oldin menejerga tovar tarkibini ayting — yuk omborda ushlanib qolmaydi.',
+          text: 'Telefon, noutbuk, power bank, elektr asboblar va batareyali oʻyinchoqlarni avto kargo bilan yuboramiz: 15–25 kun, narx hajm boʻyicha — zichlikka qarab 110 $/m³ dan. Buyurtma berishdan oldin menejerga tovar tarkibini ayting — yuk omborda ushlanib qolmaydi.',
           tone: 'info',
         },
       },
@@ -233,7 +233,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Кому подходит авиа карго?',
         body: [
-          'Авиа карго — для случаев, когда время дороже денег. Сборный груз в фуре идёт 15–25 дней, самолётом груз приходит за 5–10. Разница — две недели, а разница в цене — ориентировочно 1,5–2,5 $ за килограмм. На лёгком и дорогом товаре она незаметна, на тяжёлом и дешёвом выгоднее авто карго.',
+          'Авиа карго — для случаев, когда время дороже денег. Сборный груз в фуре идёт 15–25 дней, самолётом груз приходит за 5–10. Разница — две недели. Цены напрямую не сравнить: авиа считается по килограммам (от 9 $/кг), а авто карго — по объёму, исходя из плотности груза, от 110 $/м³. На лёгком, дорогом и срочном товаре авиа себя оправдывает, на тяжёлом и плотном авто дешевле в несколько раз.',
           'Самолётом обычно отправляют:',
         ],
         bullets: [
@@ -244,8 +244,8 @@ const content: ServiceContentByLang = {
           'Образцы для проверки перед оптовым заказом — 1–2 штуки.',
         ],
         callout: {
-          title: 'Пример: 20 кг аксессуаров для телефонов',
-          text: 'Авиа: 20 кг × 9 $ = 180 $, ориентировочно 7 дней. Авто: 20 кг × 7,5 $ = 150 $, ориентировочно 20 дней. За 30 $ разницы товар выходит в продажу на две недели раньше. А на 200 кг обуви разница превысит 300 $ — такой груз лучше отправить авто.',
+          title: 'Пример: 48 кг аксессуаров для телефонов, 0,2 м³',
+          text: 'Авиа: 48 кг × 9 $ = 432 $, ориентировочно 7 дней. Авто: плотность 48 ÷ 0,2 = 240 кг/м³ — это ставка 180 $/м³, то есть 0,2 × 180 = 36 $, ориентировочно 20 дней. Ради образца или первой небольшой партии эту разницу имеет смысл заплатить: товар выходит в продажу на две недели раньше. С ростом объёма разрыв быстро растёт: на грузе 300 кг в 1,2 м³ авто стоит 1,2 × 180 = 216 $, а авиа — 300 × 9 = 2 700 $, такой груз однозначно едет авто.',
           tone: 'info',
         },
       },
@@ -253,7 +253,7 @@ const content: ServiceContentByLang = {
         heading: 'Как считается цена авиа карго?',
         body: [
           'В авиа карго цена всегда считается по килограммам и зависит от категории товара: обычный товар, брендовый (оригинал, с коробкой и биркой) или серийный — больше трёх одинаковых единиц, коммерческая партия. Электроника и косметика тоже идут по серийному тарифу.',
-          'Правило объёмного веса: длина × ширина × высота (см) ÷ 5 000. Место в самолёте дорогое, поэтому делитель — 5000, а не 6000, как у авто. К оплате берётся большее из фактического и объёмного веса. На складе в Иу есть переупаковка для уплотнения — чаще всего она окупает себя.',
+          'Правило объёмного веса: длина × ширина × высота (см) ÷ 5 000. Место в самолёте дорогое, поэтому делитель — 5 000: это 200 кг на кубометр. К оплате берётся большее из фактического и объёмного веса. В авто карго килограммы вообще не считают: там цена берётся за м³ и зависит от плотности груза. На складе в Иу есть переупаковка для уплотнения — чаще всего она окупает себя.',
         ],
         table: {
           caption: 'Тарифы авиа карго, Китай → Ташкент',
@@ -351,7 +351,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Товар с батареей — только авто карго',
-          text: 'Телефоны, ноутбуки, пауэрбанки, электроинструмент и игрушки с батареями отправляем авто карго: 15–25 дней, 6,5–7,5 $/кг. Перед заказом скажите менеджеру, что внутри, — груз не задержится на складе.',
+          text: 'Телефоны, ноутбуки, пауэрбанки, электроинструмент и игрушки с батареями отправляем авто карго: 15–25 дней, цена по объёму — от 110 $/м³ в зависимости от плотности груза. Перед заказом скажите менеджеру, что внутри, — груз не задержится на складе.',
           tone: 'info',
         },
       },
@@ -435,7 +435,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Who is air cargo for?',
         body: [
-          'Air cargo is for when time is worth more than money. Consolidated truck cargo takes 15–25 days; by plane it arrives in 5–10. That is a two-week difference for roughly $1.50–2.50 more per kilogram. On light, expensive goods the extra cost is barely noticeable; on heavy, cheap goods the truck wins.',
+          'Air cargo is for when time is worth more than money. Consolidated truck cargo takes 15–25 days; by plane it arrives in 5–10. That is a two-week difference. The two prices are not directly comparable: air is billed per kilogram (from $9/kg), while truck cargo is billed by volume, from $110 per m³ depending on how dense the load is. On light, valuable, urgent goods air earns its keep; on heavy or dense loads the truck is several times cheaper.',
           'Typical air shipments:',
         ],
         bullets: [
@@ -446,8 +446,8 @@ const content: ServiceContentByLang = {
           'One or two samples to check before placing a wholesale order.',
         ],
         callout: {
-          title: 'Example: 20 kg of phone accessories',
-          text: 'Air: 20 kg × $9 = $180, roughly 7 days. Truck: 20 kg × $7.50 = $150, roughly 20 days. For a $30 difference the goods go on sale two weeks earlier. On 200 kg of footwear, though, the gap exceeds $300 — that load belongs on a truck.',
+          title: 'Example: 48 kg of phone accessories in 0.2 m³',
+          text: 'Air: 48 kg × $9 = $432, roughly 7 days. Truck: density is 48 ÷ 0.2 = 240 kg/m³, which falls in the $180 per m³ band, so 0.2 × $180 = $36, roughly 20 days. For a sample or a first small lot that difference buys two extra weeks of selling time. The gap widens fast with size: a 300 kg load in 1.2 m³ costs 1.2 × $180 = $216 by truck against 300 × $9 = $2,700 by air — that one clearly belongs on a truck.',
           tone: 'info',
         },
       },
@@ -455,7 +455,7 @@ const content: ServiceContentByLang = {
         heading: 'How is the air cargo price calculated?',
         body: [
           'Air cargo is always priced per kilogram, and the rate depends on the goods category: standard goods, branded goods (originals with box and label) or commercial lots — more than three identical units. Electronics and cosmetics are also billed at the commercial rate.',
-          'Volumetric weight: length × width × height (cm) ÷ 5 000. Space on a plane is expensive, so the divisor is 5000 rather than the 6000 used for trucks. We charge the greater of actual and volumetric weight. The Yiwu warehouse offers repacking to compress boxes — it usually pays for itself.',
+          'Volumetric weight: length × width × height (cm) ÷ 5 000. Space on a plane is expensive, so the divisor is 5,000 — that is 200 kg to the cubic metre. We charge the greater of actual and volumetric weight. Truck cargo does not work in kilograms at all: there the price is per m³ and follows the density of the load. The Yiwu warehouse offers repacking to compress boxes — it usually pays for itself.',
         ],
         table: {
           caption: 'Air cargo rates, China → Tashkent',
@@ -553,7 +553,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Anything with a battery goes by truck',
-          text: 'Phones, laptops, power banks, power tools and battery toys travel by truck cargo: 15–25 days, $6.50–7.50/kg. Tell your manager what is inside before you order, so the cargo is not held at the warehouse.',
+          text: 'Phones, laptops, power banks, power tools and battery toys travel by truck cargo: 15–25 days, priced by volume from $110 per m³ depending on density. Tell your manager what is inside before you order, so the cargo is not held at the warehouse.',
           tone: 'info',
         },
       },

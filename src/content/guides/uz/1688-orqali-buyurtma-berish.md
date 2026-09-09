@@ -11,7 +11,7 @@ faq:
   - q: "1688-dan Oʻzbekistonga toʻgʻridan-toʻgʻri buyurtma berib boʻladimi?"
     a: "Amalda yoʻq. 1688 faqat Xitoy ichida yetkazadi, toʻlovni Alipay yoki xitoy bank kartasi orqali qabul qiladi (Humo, Uzcard va koʻpincha Visa oʻtmaydi), sotuvchilar faqat xitoy tilida yozadi. Shuning uchun buyurtma vositachi orqali beriladi: GSR Logistics tovarni sotib oladi, Ivu omboriga qabul qiladi va Toshkentga yetkazadi."
   - q: "1688-da sotib olish komissiyasi qancha?"
-    a: "GSR Logistics komissiyasi buyurtma summasining 3% dan (taxminiy, 2026-yil 8-sentabr holatiga). Yuan Oʻzbekiston Markaziy banki kursi boʻyicha hisoblanadi, yashirin kurs ustamasi yoʻq. Kargo narxi (avto 6,5–7,5 $/kg) alohida hisoblanadi."
+    a: "GSR Logistics komissiyasi buyurtma summasining 3% dan (taxminiy, 2026-yil 8-sentabr holatiga). Yuan Oʻzbekiston Markaziy banki kursi boʻyicha hisoblanadi, yashirin kurs ustamasi yoʻq. Kargo narxi alohida hisoblanadi: avto yuk vazn boʻyicha emas, hajm boʻyicha — yukning zichligiga qarab 110 $/m³ dan (taxminiy)."
   - q: "1688-dan buyurtma Toshkentga necha kunda keladi?"
     a: "Avto bilan taxminan 25–40 kun: sotuvchi 1–3 kunda joʻnatadi, Ivu omboriga 2–5 kunda yetadi, tekshiruv va konsolidatsiya 1–3 kun, yoʻl 15–25 kun, bojxona 1–2 ish kuni. Avia bilan 12–20 kun. Buyurtmaga tayyorlanadigan tovar (MOQ bilan) 7–15 kun qoʻshadi."
   - q: "1688 va Taobao qaysi biri arzon?"
@@ -98,13 +98,15 @@ Buyurtma: 300 dona telefon gʻilofi, 1688-da 100+ dona uchun narx 10 yuan.
 | Komissiya 3% | 3 060 × 0,03 | 91,8 yuan |
 | Jami yuanda | | 3 151,8 yuan |
 | Soʻmda (MB kursi 1 756,72, 2026-yil 8-sentabr) | 3 151,8 × 1 756,72 | ≈ 5 537 000 soʻm |
-| Kargo: 40 kg, 0,2 m³ → 200 kg/m³ ≥ 170 → kg boʻyicha | 40 × 7 $ | 280 $ |
+| Kargo, avto: 40 kg, 0,2 m³ → zichlik 200 kg/m³ → 160 $/m³ | 0,2 × 160 $ | 32 $ |
 | Foto-hisobot | | 1 $ |
 | Sugʻurta 1% (eʼlon qilingan qiymat ≈ 470 $) | | ≈ 4,7 $ |
-| Kargo jami (11 800 soʻm/$) | ≈ 286 $ | ≈ 3 375 000 soʻm |
-| **Toshkent omborigacha jami** | | **≈ 8 912 000 soʻm** |
+| Kargo jami (11 800 soʻm/$) | ≈ 37,7 $ | ≈ 445 000 soʻm |
+| **Toshkent omborigacha jami** | | **≈ 5 982 000 soʻm** |
 
-Bitta gʻilof taxminan 29 700 soʻmga tushadi — bojxonasiz. *Taxminiy narx · Yangilangan: 2026-yil 8-sentabr.*
+Bitta gʻilof taxminan 19 940 soʻmga tushadi — bojxonasiz. *Taxminiy narx · Yangilangan: 2026-yil 8-sentabr.*
+
+**Avto kargo hajm boʻyicha hisoblanadi.** Tarifni yukning zichligi tanlaydi: zichlik = vazn (kg) ÷ hajm (m³). Yengil yuk uchun narx 110 $/m³ dan boshlanadi (100 kg/m³ gacha) va zichlashgani sari koʻtariladi — 701–1 000 kg/m³ uchun 320 $/m³; 1 000 kg/m³ dan zich yuk esa 0,55 $/kg boʻyicha hisoblanadi. Hisobga olinadigan eng kichik hajm — 0,1 m³. Shuning uchun oʻsha 40 kg quti 0,2 m³ da 32 $, lekin havo bilan toʻlgan 0,5 m³ qutida (zichlik 80 kg/m³) 0,5 × 110 = 55 $ turadi — qadoqni zich qilish toʻgʻridan-toʻgʻri pulni tejaydi.
 
 **Bojxona alohida.** 300 dona bir xil tovar — tijorat partiyasi: u yuridik shaxs yoki YaTT nomiga rasmiylashtiriladi, boj TN VED kodi boʻyicha va QQS 12% toʻlanadi, GTD beriladi — shundagina tovarni Uzumda yoki doʻkonda rasman sotish mumkin. Shaxsiy foydalanish uchun kichik buyurtmada kuryer limiti 200 $/oy; undan oshgan qismidan 30% (kamida 3 $/kg), 2027-yil 1-yanvardan 20% (kamida 2 $/kg). Hisobni menejer oldindan beradi — [Bojxona rasmiylashtiruvi](/xizmatlar/bojxona/) va [Bojxona toʻlovlari 2026](/qollanma/bojxona-tolovlari-2026/).
 
