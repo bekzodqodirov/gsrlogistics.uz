@@ -193,7 +193,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Yukim Guanchjou yoki Shenchjenda boʻlsa-chi?',
-        a: 'Qabul qilamiz: sotuvchi yukni Ivu omboriga Xitoy ichki pochtasi bilan joʻnatadi (odatda 1–3 kun), yoki hamkor ombor orqali toʻgʻridan-toʻgʻri Guanchjou aeroportiga yuboramiz. Qaysi variant tezroq — menejer aytadi.',
+        a: 'Qabul qilamiz: sotuvchi yukni Xitoy ichki pochtasi bilan (odatda 1–3 kun) Ivu omboriga yoki biz beradigan Guanchjou qabul manziliga joʻnatadi — joʻnatish aeroporti ham shu shaharda. Qaysi biriga joʻnatish kerakligini menejer aytadi.',
       },
       {
         q: 'Bojxona toʻlovlari narxga kiradimi?',
@@ -395,7 +395,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'А если мой товар в Гуанчжоу или Шэньчжэне?',
-        a: 'Принимаем: продавец отправляет груз на склад в Иу внутрикитайской доставкой (обычно 1–3 дня), либо через партнёрский склад отправляем напрямую в аэропорт Гуанчжоу. Какой вариант быстрее — подскажет менеджер.',
+        a: 'Принимаем: продавец внутрикитайской доставкой (обычно 1–3 дня) отправляет груз на склад в Иу или на адрес приёма в Гуанчжоу, который мы даём, — аэропорт вылета в том же городе. На какой отправлять — скажет менеджер.',
       },
       {
         q: 'Таможенные платежи входят в цену?',
@@ -597,7 +597,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'What if my goods are in Guangzhou or Shenzhen?',
-        a: 'We accept them: the seller ships to the Yiwu warehouse by domestic delivery (usually 1–3 days), or we send them straight to Guangzhou airport through a partner warehouse. Your manager will tell you which option is faster.',
+        a: 'We accept them: by domestic delivery (usually 1–3 days) the seller ships to the Yiwu warehouse or to the Guangzhou receiving address we give you — the departure airport is in the same city. Your manager tells you which one applies.',
       },
       {
         q: 'Are customs payments included in the price?',

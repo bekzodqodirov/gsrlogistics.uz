@@ -59,7 +59,7 @@ Yigʻma yuk — bu bir nechta mijozning yuklari Xitoy omborida bitta partiyaga b
 
 Bu usul 10 kg dan 15 m³ gacha boʻlgan partiyalar uchun eng qulay: Uzum va Yandex Market sotuvchilari, bozor va doʻkon egalari, birinchi partiyasini sinab koʻrayotgan tadbirkorlar. Partiya 15–20 m³ dan oshsa, alohida konteyner (FCL) yoki temir yoʻl arzonroq chiqadi.
 
-GSR Logistics yigʻma yukni 2022-yil iyunidan yuboradi; uchinchi konsolidatsiya furasi Ivu omboridan 2022-yil 2-avgustda chiqqan. Ivu (义乌) — dunyodagi eng katta mayda ulgurji bozor shahri, shu bois konsolidatsiya ombori aynan shu yerda. Xitoyda yana ikkita qabul manzili bor — Guanchjou (广州) va Qashqar (喀什); qaysi biriga joʻnatish kerakligini menejer aytadi.
+GSR Logistics yigʻma yukni 2022-yil iyunidan yuboradi; uchinchi konsolidatsiya furasi Ivu omboridan 2022-yil 2-avgustda chiqqan. Ivu (义乌) — dunyodagi eng katta mayda ulgurji bozor shahri, shu bois konsolidatsiya ombori aynan shu yerda. Xitoyda yana ikkita qabul manzili bor — Guanchjou (广州) va Qashqar (喀什); yukni qaysi manzilga joʻnatish kerakligini menejer aytadi.
 
 ## Yuk qaysi yoʻldan yuradi?
 
@@ -79,7 +79,7 @@ Avia yuk Guanchjou yoki Urumchidan Toshkent aeroportiga uchadi, soʻng bojxona o
 
 1. **Soʻrov qoldirasiz.** Telegramda yoki telefon orqali yukning nomi, shahri, taxminiy vazni yoki hajmi va kerakli muddatni aytasiz. Menejer yoʻnalish va taxminiy narxni taklif qiladi.
 2. **Shartnoma va ombor manzili.** Narx qoidasi, muddat va javobgarlik qogʻozda. Siz Ivu ombori manzilini va shaxsiy GS kodingizni (markirovka) olasiz.
-3. **Yuk omborga keladi.** Yetkazib beruvchi joʻnatishdan oldin har bir qutiga GS kodingizni yozadi va tovarni ombor manziliga joʻnatadi. Tovar hali topilmagan boʻlsa, 1688, Taobao yoki Alibabadan biz sotib olamiz (komissiya 3% dan).
+3. **Yuk omborga keladi.** Yetkazib beruvchi joʻnatishdan oldin har bir qutiga GS kodingizni yozadi va tovarni ombor manziliga yuboradi. Tovar hali topilmagan boʻlsa, 1688, Taobao yoki Alibabadan biz sotib olamiz (komissiya 3% dan).
 4. **Qabul va foto-hisobot.** Har bir joy tortiladi, oʻlchanadi, raqamlanadi. Suratlar Telegramga keladi. Kerak boʻlsa — tekshiruv (1 $/kg dan), qayta qadoqlash (0,4 $/kg) va sugʻurta (eʼlon qilingan qiymatning 1%).
 5. **Konsolidatsiya va yuklash.** Yuk partiyaga qoʻshiladi, invoys, qadoqlash roʻyxati va TN VED kodi tayyorlanadi. Ombor Xitoyda 14 kungacha bepul saqlaydi — bir nechta yetkazib beruvchidan kelgan partiyalarni kutib, birlashtirish mumkin.
 6. **Yoʻl va bojxona.** Menejer yuklash, Xorgosdan oʻtish va Toshkentga kelish haqida xabar beradi. Bojxona rasmiylashtiruvi va GTD — bizning zimmamizda, boj va QQS qonun boʻyicha toʻlanadi.

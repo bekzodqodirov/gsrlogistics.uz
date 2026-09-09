@@ -1,6 +1,6 @@
 ---
 title: "Kargo lugʻati: yigʻma yuk, hajmiy vazn, GTD, FCL — 40 ta atama oddiy tilda"
-description: "Xitoydan yuk olib kelishda uchraydigan 40 ta atama — kargo, yigʻma yuk, hajmiy vazn, zichlik, trek-kod, konsolidatsiya, GTD, TN VED, FCL/LCL, CMR, Incoterms — qisqa va aniq taʼriflar bilan. 2026-yil sentabr holatiga."
+description: "Xitoydan yuk olib kelishda uchraydigan 40 ta atama — kargo, yigʻma yuk, hajmiy vazn, zichlik, GS kod, konsolidatsiya, GTD, TN VED, FCL/LCL, CMR, Incoterms — qisqa va aniq taʼriflar bilan. 2026-yil sentabr holatiga."
 lang: uz
 translationKey: glossary
 slug: kargo-lugati
@@ -57,8 +57,8 @@ Tezlashtirilgan avto yoʻnalish: kamroq toʻxtash, tezroq chegara. GSR tajribasi
 ### Konsolidatsiya
 Bir mijozning turli yetkazib beruvchilardan kelgan partiyalarini Xitoy omborida bitta yukka birlashtirish. Har partiyani alohida joʻnatishdan arzon.
 
-### Ombor manzili (mijoz kodi)
-Xitoydagi ombor manzili + sizga berilgan kod. Siz 1688 yoki Taobaoda buyurtma berganda yetkazish manziliga shu manzilni yozasiz; kod yordamida ombor xodimlari yukni sizniki deb aniqlaydi.
+### Ombor manzili (GS kodi bilan)
+Menejer beradigan Xitoydagi qabul manzili va sizga berilgan GS kodi (markirovka). Siz 1688 yoki Taobaoda buyurtma berganda yetkazish manziliga shu manzilni yozasiz, GS kodini esa yetkazib beruvchi joʻnatishdan oldin har bir qutiga yozadi — shundagina qabul punktida yukni sizniki deb aniqlashadi.
 
 ### Foto-hisobot
 Yuk omborga kelganda olingan suratlar: qadoq, soni, holati, ogʻirligi. Telegramga yuboriladi.
@@ -153,8 +153,8 @@ Xitoy–Qirgʻiziston chegarasidagi oʻtish punktlari; Qashqar → Oʻsh → And
 ### Yallama (Gʻishtkoʻprik)
 Qozogʻiston–Oʻzbekiston chegarasidagi avto punkti, Toshkent yaqinida.
 
-### Trek-kod (yuk kodi)
-Har bir yukka beriladigan raqam; u orqali menejerdan yoki kuzatuv sahifasida holatni bilasiz.
+### GS kod (markirovka, 唛头)
+Shartnomadan keyin sizga beriladigan shaxsiy kod. Yetkazib beruvchi uni joʻnatishdan oldin har bir qutiga yozadi; shu kod boʻyicha menejerdan yoki [Kuzatuv](/kuzatuv/) sahifasida holatni bilasiz. Xitoy ichidagi kuryer trek-kodi (1688, Taobao) bundan alohida narsa.
 
 ### Reys / partiya
 Bitta fura yoki konteynerning joʻnatilishi. Kargo kompaniyalari «AK-123» kabi raqamlaydi; toʻlov koʻpincha reys boʻyicha qilinadi.

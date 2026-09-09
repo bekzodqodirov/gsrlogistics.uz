@@ -26,8 +26,8 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: c
     </header>
     <div class="container container-text">
       <div class="prose policy">
-        {/* Operator line: site.legalEntity (legal name, STIR) when filled in; otherwise the trade name + address from src/lib/site.ts */}
-        <p><strong>{t.operatorLabel}:</strong> {site.legalEntity || t.operatorFallback}. {site.address[lang]}. {site.email}.</p>
+        {/* Operator line: trade name + site.legalEntity from src/lib/site.ts; the STIR is added there once the owner supplies it */}
+        <p><strong>{t.operatorLabel}:</strong> {site.legalEntity ? `${t.operatorFallback} (${site.legalEntity})` : t.operatorFallback}. {site.address[lang]}. {site.email}.</p>
         {t.sections.map((s) => (
           <section>
             <h2>{s.heading}</h2>

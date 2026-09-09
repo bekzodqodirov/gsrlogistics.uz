@@ -56,7 +56,7 @@ The restrictions come from three sources, and it pays not to mix them up:
 
 1. **Uzbek law** — the Customs Code, the Criminal Code, Cabinet of Ministers resolutions. These bans do not depend on the mode of transport: the goods will not cross the border by truck or by air.
 2. **Carrier rules** — the IATA Dangerous Goods Regulations (DGR) for aircraft, road-haulage rules for trucks. This is why the same product is refused by an airline and accepted on a truck.
-3. **GSR Logistics warehouse rules** — the checklist applied at intake in Yiwu. It is the sum of the legal and carrier requirements: one carton of goods we do not accept can hold up a truck carrying a hundred clients' cargo.
+3. **GSR Logistics warehouse rules** — the checklist applied at intake in Yiwu, Guangzhou and Kashgar. It is the sum of the legal and carrier requirements: one carton of goods we do not accept can hold up a truck carrying a hundred clients' cargo.
 
 Each group has its own table below.
 
@@ -77,7 +77,7 @@ Each group has its own table below.
 
 The IP register is the customs register of intellectual property: once a brand owner has entered its mark, copies are detained at the border.
 
-If goods from this list reach the Yiwu warehouse, they are refused and returned to the seller. If they are found at the border — confiscation and liability for the cargo owner.
+If goods from this list reach a receiving point in China, they are refused and returned to the seller. If they are found at the border — confiscation and liability for the cargo owner.
 
 ## Truck only: goods that airlines refuse
 
@@ -123,7 +123,7 @@ Figures and documents — in the guide [Uzbekistan customs duties 2026](/en/guid
 
 In practice it is caught at one of four stages, and the consequences get heavier at each:
 
-1. **At the Yiwu warehouse.** Every carton is weighed, measured and opened when needed. A prohibited item is refused: returned to the seller (return costs charged to the client) or, if it belongs to the "truck only" group, moved from the air to the truck departure. Loss — a few days.
+1. **At the receiving point in China.** Every carton is weighed, measured and opened when needed. A prohibited item is refused: returned to the seller (return costs charged to the client) or, if it belongs to the "truck only" group, moved from the air to the truck departure. Loss — a few days.
 2. **At the airline scanner.** A hidden battery or liquid shows up on the X-ray. The airline sends the whole consignment back and issues a fine; the cargo moves to the next truck departure. Loss — 2–3 weeks and a fine.
 3. **At the Khorgos or Yallama border.** If customs finds counterfeit or prohibited goods in one carton, the entire truck goes to inspection: every other client’s cargo waits for days. The goods are confiscated, the cargo owner is fined, and the demurrage and inspection costs fall on the cargo owner.
 4. **Criminal liability.** For narcotics, weapons, drones and explosives it does not end with an administrative fine — the Criminal Code applies; for a drone, Article 244-4 carries up to 3 years, 3–5 years for a repeat offence.

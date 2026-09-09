@@ -31,7 +31,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Yigʻma yuk kimga toʻgʻri keladi?',
         body: [
-          'Yigʻma yuk (LCL, сборный груз) — Xitoydan tovar olib kelishning eng koʻp tarqalgan usuli. Yukingiz Ivu (义乌) omborida boshqa mijozlarning yuklari bilan bitta fura yoki konteynerga joylanadi, shuning uchun 1 kg yuk uchun ham, 10 m³ yuk uchun ham faqat oʻz ulushingizga toʻlaysiz. Guanchjou, Shenchjen va boshqa shaharlardan ham qabul qilamiz: yetkazib beruvchi yukni Ivu omboriga joʻnatadi yoki hamkorlarimiz olib keladi.',
+          'Yigʻma yuk (LCL, сборный груз) — Xitoydan tovar olib kelishning eng koʻp tarqalgan usuli. Yukingiz Ivu (义乌) omborida boshqa mijozlarning yuklari bilan bitta fura yoki konteynerga joylanadi, shuning uchun 1 kg yuk uchun ham, 10 m³ yuk uchun ham faqat oʻz ulushingizga toʻlaysiz. Xitoyda uchta qabul manzili bor: Ivu, Guanchjou va Qashqar — qaysi biriga joʻnatish kerakligini menejer aytadi. Boshqa shaharlardan, masalan Shenchjendan, yetkazib beruvchi yukni Xitoy ichki pochtasi bilan shu manzillardan biriga joʻnatadi.',
           'Bu usul quyidagi holatlarda oʻzini oqlaydi:',
         ],
         bullets: [
@@ -98,9 +98,9 @@ const content: ServiceContentByLang = {
         ],
         steps: [
           { title: 'Soʻrov qoldirasiz', text: 'Telegram yoki telefon orqali tovar nomini, taxminiy ogʻirlik va hajmni aytasiz. Biz zichlikka qarab taxminiy narxni hisoblab beramiz.' },
-          { title: 'Ombor manzilini olasiz', text: 'Sizga Ivu omborining manzili va shaxsiy kodingiz beriladi. Yetkazib beruvchi yoki 1688/Taobao sotuvchisi yukni shu manzilga joʻnatadi.' },
+          { title: 'Qabul manzilini olasiz', text: 'Menejer qaysi qabul manziliga joʻnatish kerakligini aytadi — Ivu, Guanchjou yoki Qashqar — va sizga shaxsiy GS kodingizni (markirovka) beradi. Yetkazib beruvchi yoki 1688/Taobao sotuvchisi GS kodini joʻnatishdan oldin har bir qutiga yozib, yukni shu manzilga joʻnatadi.' },
           { title: 'Yukni qabul qilamiz', text: 'Omborda har bir joyni tortamiz, oʻlchaymiz, kodingiz bilan markirovka qilamiz va foto-hisobot yuboramiz. Xohlasangiz — ichini ochib tekshiramiz va qayta qadoqlaymiz.' },
-          { title: 'Konsolidatsiya va joʻnatish', text: 'Yuk eng yaqin partiyaga joylanadi. Sizga partiya raqami va yuk kodi beriladi; joʻnatilgan kundan muddat hisobi boshlanadi.' },
+          { title: 'Konsolidatsiya va joʻnatish', text: 'Yuk eng yaqin partiyaga joylanadi. Sizga partiya raqami beriladi; joʻnatilgan kundan muddat hisobi boshlanadi.' },
           { title: 'Yoʻl va bojxona', text: 'Menejer yukning qayerdaligini bosqichma-bosqich xabar qilib boradi. Xorgos va Yallamada rasmiylashtiruv kompaniya hujjatlari bilan oʻtadi.' },
           { title: 'Toshkentda qabul qilasiz', text: 'Yuk Toshkent omboriga keladi. Toʻlovni yakunlaysiz va yukni olib ketasiz yoki eshikkacha yetkazib beramiz; viloyatlarga yetkazishni alohida kelishamiz.' },
         ],
@@ -116,7 +116,7 @@ const content: ServiceContentByLang = {
           'Xitoydan chiqish va Oʻzbekistonga kirishdagi bojxona rasmiylashtiruvi kompaniya hujjatlari bilan',
           'Toshkent omborigacha yetkazib berish va 3 kungacha bepul saqlash',
           'Ivu omborida 14 kungacha bepul saqlash',
-          'Yuk kodi boʻyicha holat xabarlari va menejer bilan aloqa',
+          'GS kod boʻyicha holat xabarlari va menejer bilan aloqa',
         ],
         table: {
           caption: 'Qoʻshimcha xizmatlar',
@@ -165,7 +165,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Menejer maslahati',
-          text: 'Yetkazib beruvchidan har bir qutiga sizning kodingizni va tovar nomini yozib joʻnatishni soʻrang — omborda yuk tez topiladi va aralashib ketmaydi. Ogʻir va yengil tovarlarni bitta partiyada yuborsangiz, umumiy zichlik oshadi va koʻpincha kilogramm hisobi arzonroq chiqadi.',
+          text: 'Yetkazib beruvchi har bir qutiga GS kodingizni va tovar nomini yukni joʻnatishdan oldin yozishi shart — omborda yuk tez topiladi va aralashib ketmaydi. Ogʻir va yengil tovarlarni bitta partiyada yuborsangiz, umumiy zichlik oshadi va koʻpincha kilogramm hisobi arzonroq chiqadi.',
           tone: 'success',
         },
       },
@@ -189,7 +189,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Yukim Guanchjou yoki boshqa shaharda boʻlsa-chi?',
-        a: 'Qabul qilamiz: yetkazib beruvchi yukni Ivu omboriga Xitoy ichki pochtasi bilan joʻnatadi (odatda 1–3 kun), yoki hamkor ombor orqali olamiz. Xitoy ichidagi yetkazib berish narxi sotuvchi bilan kelishiladi.',
+        a: 'Qabul qilamiz. Xitoyda uchta qabul manzili bor — Ivu, Guanchjou va Qashqar; qaysi biriga joʻnatish kerakligini menejer aytadi. Yetkazib beruvchi yukni shu manzilga Xitoy ichki pochtasi bilan joʻnatadi (odatda 1–3 kun). Xitoy ichidagi yetkazib berish narxi sotuvchi bilan kelishiladi.',
       },
       {
         q: 'Yuk yoʻqolsa yoki shikastlansa nima boʻladi?',
@@ -237,7 +237,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Кому подходит сборный груз?',
         body: [
-          'Сборный груз (LCL) — самый распространённый способ привезти товар из Китая. Ваш груз на складе в Иу (义乌) укладывается в одну фуру или контейнер вместе с грузами других клиентов, поэтому и за 1 кг, и за 10 м³ вы платите только за свою долю. Принимаем также из Гуанчжоу, Шэньчжэня и других городов: поставщик отправляет товар на склад в Иу или его забирают наши партнёры.',
+          'Сборный груз (LCL) — самый распространённый способ привезти товар из Китая. Ваш груз на складе в Иу (义乌) укладывается в одну фуру или контейнер вместе с грузами других клиентов, поэтому и за 1 кг, и за 10 м³ вы платите только за свою долю. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар — на какой отправлять, скажет менеджер. Из других городов, например из Шэньчжэня, поставщик отправляет товар внутрикитайской доставкой на один из этих адресов.',
           'Такой формат выгоден в следующих случаях:',
         ],
         bullets: [
@@ -304,9 +304,9 @@ const content: ServiceContentByLang = {
         ],
         steps: [
           { title: 'Оставляете заявку', text: 'В Telegram или по телефону называете товар, примерный вес и объём. Мы считаем ориентировочную цену по плотности.' },
-          { title: 'Получаете адрес склада', text: 'Вы получаете адрес склада в Иу и личный код. Поставщик или продавец на 1688/Taobao отправляет товар на этот адрес.' },
+          { title: 'Получаете адрес приёма', text: 'Менеджер говорит, на какой адрес приёма отправлять — Иу, Гуанчжоу или Кашгар, — и даёт ваш личный GS-код (маркировка). Поставщик или продавец на 1688/Taobao пишет GS-код на каждой коробке до отправки и шлёт груз на этот адрес.' },
           { title: 'Принимаем груз', text: 'На складе взвешиваем и обмеряем каждое место, маркируем вашим кодом и отправляем фотоотчёт. По желанию вскрываем, проверяем и переупаковываем.' },
-          { title: 'Консолидация и отправка', text: 'Груз идёт в ближайшую партию. Вы получаете номер партии и код груза; со дня отправки начинается отсчёт срока.' },
+          { title: 'Консолидация и отправка', text: 'Груз идёт в ближайшую партию. Вы получаете номер партии; со дня отправки начинается отсчёт срока.' },
           { title: 'Дорога и таможня', text: 'Менеджер сообщает, где находится груз, на каждом этапе. Оформление в Хоргосе и Ялламе проходит под документы компании.' },
           { title: 'Получаете в Ташкенте', text: 'Груз приходит на склад в Ташкенте. Вы закрываете оплату и забираете груз, либо мы доставляем до двери; доставку в регионы согласуем отдельно.' },
         ],
@@ -322,7 +322,7 @@ const content: ServiceContentByLang = {
           'Экспортное оформление в Китае и импортное в Узбекистане под документы компании',
           'Доставка до склада в Ташкенте и бесплатное хранение до 3 дней',
           'Бесплатное хранение на складе в Иу до 14 дней',
-          'Уведомления о статусе по коду груза и связь с менеджером',
+          'Уведомления о статусе по GS-коду и связь с менеджером',
         ],
         table: {
           caption: 'Дополнительные услуги',
@@ -371,7 +371,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Совет менеджера',
-          text: 'Попросите поставщика писать на каждой коробке ваш код и название товара — на складе груз найдут быстро и ничего не перепутают. Если отправлять тяжёлые и лёгкие товары одной партией, общая плотность растёт и расчёт по килограммам чаще выходит дешевле.',
+          text: 'Поставщик обязан написать на каждой коробке ваш GS-код и название товара до отправки — на складе груз найдут быстро и ничего не перепутают. Если отправлять тяжёлые и лёгкие товары одной партией, общая плотность растёт и расчёт по килограммам чаще выходит дешевле.',
           tone: 'success',
         },
       },
@@ -395,7 +395,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'А если мой товар в Гуанчжоу или другом городе?',
-        a: 'Принимаем: поставщик отправляет груз на склад в Иу внутрикитайской доставкой (обычно 1–3 дня) либо мы забираем его через партнёрский склад. Стоимость доставки внутри Китая согласуется с продавцом.',
+        a: 'Принимаем. В Китае три адреса приёма — Иу, Гуанчжоу и Кашгар; на какой отправлять, скажет менеджер. Поставщик отправляет груз на этот адрес внутрикитайской доставкой (обычно 1–3 дня). Стоимость доставки внутри Китая согласуется с продавцом.',
       },
       {
         q: 'Что будет, если груз потеряется или повредится?',
@@ -443,7 +443,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Who is consolidated cargo for?',
         body: [
-          'Consolidated cargo (LCL, groupage) is the most common way to bring goods from China. Your shipment is loaded at our Yiwu (义乌) warehouse into one truck or container together with other clients’ goods, so whether you send 1 kg or 10 m³ you pay only for your share. We also receive from Guangzhou, Shenzhen and other cities: the supplier ships to the Yiwu warehouse, or our partners collect it.',
+          'Consolidated cargo (LCL, groupage) is the most common way to bring goods from China. Your shipment is loaded at the Yiwu (义乌) warehouse into one truck or container together with other clients’ goods, so whether you send 1 kg or 10 m³ you pay only for your share. There are three receiving addresses in China: Yiwu, Guangzhou and Kashgar — your manager tells you which one applies. From other cities, Shenzhen for example, the supplier ships to one of those addresses by domestic delivery.',
           'It pays off in these cases:',
         ],
         bullets: [
@@ -510,9 +510,9 @@ const content: ServiceContentByLang = {
         ],
         steps: [
           { title: 'You leave a request', text: 'On Telegram or by phone you tell us the product, approximate weight and volume. We estimate the price from the density.' },
-          { title: 'You get a warehouse address', text: 'We give you the address of the Yiwu warehouse and your personal code. Your supplier or 1688/Taobao seller ships to that address.' },
+          { title: 'You get the receiving address', text: 'Your manager tells you which receiving address applies — Yiwu, Guangzhou or Kashgar — and gives you your personal GS code (shipping mark). Your supplier or 1688/Taobao seller writes the GS code on every carton before dispatch and ships to that address.' },
           { title: 'We receive the goods', text: 'At the warehouse we weigh and measure every piece, label it with your code and send a photo report. On request we open, inspect and repack.' },
-          { title: 'Consolidation and dispatch', text: 'Your cargo joins the next load. You receive the load number and your cargo code; transit time counts from the dispatch date.' },
+          { title: 'Consolidation and dispatch', text: 'Your cargo joins the next load. You receive the load number; transit time counts from the dispatch date.' },
           { title: 'Road and customs', text: 'Your manager reports where the cargo is at each stage. Clearance at Khorgos and Yallama runs under the company’s documents.' },
           { title: 'You collect in Tashkent', text: 'The cargo arrives at the Tashkent warehouse. You settle the invoice and pick it up, or we deliver to your door; delivery to the regions is arranged separately.' },
         ],
@@ -528,7 +528,7 @@ const content: ServiceContentByLang = {
           'Export clearance in China and import clearance in Uzbekistan under the company’s documents',
           'Delivery to the Tashkent warehouse and free storage for up to 3 days',
           'Free storage at the Yiwu warehouse for up to 14 days',
-          'Status updates by cargo code and a manager you can reach',
+          'Status updates by GS code and a manager you can reach',
         ],
         table: {
           caption: 'Optional extras',
@@ -577,7 +577,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Manager’s tip',
-          text: 'Ask the supplier to write your code and the product name on every box — the warehouse finds your cargo fast and nothing gets mixed up. Sending heavy and light goods in the same lot raises the overall density, and per-kilogram billing often comes out cheaper.',
+          text: 'Your supplier must write your GS code and the product name on every carton before dispatch — the warehouse finds your cargo fast and nothing gets mixed up. Sending heavy and light goods in the same lot raises the overall density, and per-kilogram billing often comes out cheaper.',
           tone: 'success',
         },
       },
@@ -601,7 +601,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'What if my goods are in Guangzhou or another city?',
-        a: 'We accept them: the supplier ships to the Yiwu warehouse by domestic delivery (usually 1–3 days), or we collect through a partner warehouse. The cost of delivery inside China is agreed with the seller.',
+        a: 'We accept them. There are three receiving addresses in China — Yiwu, Guangzhou and Kashgar; your manager tells you which one applies. The supplier ships to that address by domestic delivery (usually 1–3 days). The cost of delivery inside China is agreed with the seller.',
       },
       {
         q: 'What happens if the cargo is lost or damaged?',

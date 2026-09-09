@@ -81,7 +81,7 @@ Amaliy tavsiya:
 2. **Hisob-kitob olasiz.** Menejer sotuvchi bilan xitoy tilida yozishib, narx, MOQ, Xitoy ichidagi yetkazish va joʻnatish muddatini aniqlaydi. Siz jami summani yuanda va soʻmda koʻrasiz: tovar + Xitoy ichidagi yetkazish + 3% komissiya. Yuan Oʻzbekiston Markaziy banki kursi boʻyicha — kurs sanasi hisobda yoziladi.
 3. **Toʻlaysiz.** Soʻmda: karta oʻtkazmasi, Click/Payme yoki yuridik shaxs uchun hisob-faktura. Toʻlov tasdiqlangach buyurtma beriladi.
 4. **Biz yuanda toʻlaymiz.** Toʻlov 1688 platformasi orqali, sotuvchining shaxsiy hisobiga emas — mol kelmasa yoki mos kelmasa, platforma pulni qaytaradi.
-5. **Yetkazish manzili — Ivu ombori.** Buyurtmada yetkazish manzili sifatida GSR Logisticsʼning Ivu (义乌) ombori va sizning mijoz kodingiz yoziladi. Xitoy ichida tovar 2–5 kunda keladi.
+5. **Yetkazish manzili — Xitoydagi qabul manzili.** Buyurtmada yetkazish manzili sifatida menejer bergan qabul manzili va sizning GS kodingiz (markirovka) yoziladi. Xitoyda uchta qabul manzili bor: Ivu (义乌), Guanchjou (广州) va Qashqar (喀什) — qaysi biriga joʻnatish kerakligini menejer aytadi. Sotuvchidan joʻnatishdan oldin GS kodini har bir qutiga yozishni soʻrang (xitoycha: 发货前请写上GS编码/唛头). Xitoy ichida tovar 2–5 kunda keladi.
 6. **Qabul, tekshiruv, foto-hisobot.** Omborda har qutini tortamiz, oʻlchaymiz, ochib sanaymiz; foto-hisobot Telegramga keladi. Kerak boʻlsa — qayta qadoqlash (0,4 $/kg) va batafsil tekshiruv (1 $/kg). Turli sotuvchilardan kelgan buyurtmalar bitta yukka yigʻiladi — [Ivu ombori va sifat nazorati](/xizmatlar/ombor-sifat-nazorati/).
 7. **Toshkentga joʻnatamiz.** Avto (yigʻma yuk) 15–25 kun yoki avia 5–10 kun. Toshkentda bojxona rasmiylashtiruvi, keyin omborda olib ketasiz yoki viloyatga joʻnatamiz.
 
@@ -110,7 +110,7 @@ Bitta gʻilof taxminan 29 700 soʻmga tushadi — bojxonasiz. *Taxminiy narx · 
 
 ## Taobao va Pinduoduo: nimasi boshqacha?
 
-**Taobao** — chakana bozor, oʻsha 1688 zavodlarining tovari, lekin dona-dona va qimmatroq. Namuna olish, kam sonli (5–20 dona) buyurtma, noyob tovar uchun qulay. Sotuvchi bilan yozishish (旺旺 chat) 1688-dagidek ishlaydi; Xitoy ichida yetkazish koʻpincha bepul. Baʼzi doʻkonlar xorijiy Visa kartasini qabul qiladi, lekin yetkazish manzili baribir Xitoy ichida boʻlishi kerak — yaʼni ombor manzili.
+**Taobao** — chakana bozor, oʻsha 1688 zavodlarining tovari, lekin dona-dona va qimmatroq. Namuna olish, kam sonli (5–20 dona) buyurtma, noyob tovar uchun qulay. Sotuvchi bilan yozishish (旺旺 chat) 1688-dagidek ishlaydi; Xitoy ichida yetkazish koʻpincha bepul. Baʼzi doʻkonlar xorijiy Visa kartasini qabul qiladi, lekin yetkazish manzili baribir Xitoy ichida boʻlishi kerak — yaʼni qabul manzili.
 
 **Pinduoduo** — eng arzon chakana narx, koʻpincha 1688-dan ham past koʻrinadi. Lekin: sotuvchi mayda, sifat bir partiyadan boshqasiga farq qiladi, qaytarish murakkab, rasm bilan tovar mos kelmasligi tez-tez uchraydi. Arzon mayda tovarlar (kanselyariya, aksessuar, uy-roʻzgʻor) uchun boʻladi; brend yaratish va marketpleys uchun 1688 ishonchliroq.
 
@@ -121,7 +121,7 @@ Uchala platformada ham GSR Logistics bir xil sxemada ishlaydi: havola → hisob 
 1. **Eng past narxni MOQsiz koʻrish.** Kartadagi 7,2 yuan 1 000 dona uchun; 50 dona 8,5 yuandan chiqadi.
 2. **Rasmga ishonish.** 规格 (spetsifikatsiya) ustunini oʻqimasdan «shu rasmdagi» deb buyurtma berish — kelgan tovar boshqa oʻlchamda yoki bir dona emas, 10 donalik qadoqda boʻlishi mumkin.
 3. **Sotuvchini tekshirmaslik.** 1 yil ishlagan, 回头率 10% boʻlgan sotuvchi arzon boʻlsa ham xavfli. 实力商家 va 工厂 belgisini qidiring.
-4. **Oʻz manzilingizni yozish.** 1688 Oʻzbekistonga yetkazmaydi; manzil — Ivu ombori + mijoz kodi. Kod yozilmasa, yukni sizniki deb aniqlash qiyin.
+4. **Oʻz manzilingizni yozish.** 1688 Oʻzbekistonga yetkazmaydi; manzil — menejer bergan qabul manzili va sizning GS kodingiz. Sotuvchi joʻnatishdan oldin GS kodini har bir qutiga yozishi shart: kodsiz qutining kimniki ekanini aniqlab boʻlmaydi.
 5. **Batareyali tovarni aviaga rejalashtirish.** Power bank, simsiz quloqchin, elektr oʻyinchoq — faqat avto. Muddatni shunga qarab hisoblang.
 6. **Brend logotipli tovar.** Nike, Apple, Disney nusxalari bojxonada olib qoʻyiladi, pul qaytmaydi. Logotipsiz (无标) variantini soʻrang.
 7. **Namunasiz katta partiya.** Birinchi marta 1 000 dona emas, 20–50 dona oling — avia bilan 7 kunda keladi, sifatni oʻzingiz koʻrasiz.

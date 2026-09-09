@@ -33,13 +33,14 @@ Barcha kontakt va kompaniya faktlari **bitta faylda**: `src/lib/site.ts`. Undagi
 
 | Nima | Qayerda | Hozirgi holat |
 |---|---|---|
-| Telefonlar | `phoneDisplay`, `phoneE164`, `phone2*` | +998 95 018 33 33 (Telegram kanalidan), +998 97 333 39 33 — tasdiqlang |
-| Telegram chat (CTA tugmalari qayerga olib boradi) | `telegramDirect` | hozir telefon raqamiga havola; menejer @username'ini qoʻying |
-| WhatsApp, e-mail, Instagram | `whatsapp`, `email`, `instagram` | tasdiqlang |
+| Telefonlar | `phoneDisplay`, `phoneE164`, `phone2*` | +998 95 018 33 33 (asosiy), +998 90 175 78 00 (qoʻshimcha; WhatsApp aynan shu raqamda) — egasi tasdiqlagan |
+| Telegram chat (CTA tugmalari qayerga olib boradi) | `telegramDirect` | `https://t.me/bekzodkodirov556` — menejer akkaunti, egasi tasdiqlagan |
+| WhatsApp, e-mail | `whatsapp`, `email` | +998 90 175 78 00 (WhatsApp aynan shu raqamda), b.e.kodirov@gmail.com — egasi tasdiqlagan |
+| Instagram, Facebook | `instagram`, `facebook` | akkauntlar jonli ekani hali tasdiqlanmagan — tekshiring |
 | Manzil va xarita | `address`, `geo`, `yandexMapsUrl` | Alisher Navoiy koʻchasi 27 — tasdiqlang |
 | Ish vaqti | `hours`, `openingHoursSpec` | Du–Sha 9:00–19:00 — tasdiqlang |
-| Yuridik nom, STIR | `legalEntity` | boʻsh — maxfiylik sahifasi va schema.org uchun kerak |
-| Ivu ombori manzili (xitoycha), +86, WeChat | `chinaWarehouses` | boʻsh |
+| Yuridik nom, STIR | `legalEntity` | «Imex services LLC» — egasi tasdiqlagan. STIR hali berilmagan: oʻzingizdan qoʻshmang, egasidan soʻrang |
+| Xitoydagi qabul punktlari (Ivu, Guanchjou, Qashqar): xitoycha manzil, qabul qiluvchi, +86 | `chinaWarehouses` | egasining manzil kartochkasidan kiritilgan (2026-09-09), WeChat hali yoʻq. Egalik tasdiqlanmagan — matnda «bizning omborimiz» demang. Manzillarni sahifalardan olib tashlash uchun `publishChinaAddresses: false` qiling (shahar nomlari qoladi) |
 | Komissiya, sugʻurta % | `sourcingCommissionPct`, `insurancePct` | 3 %, 1 % — tasdiqlang |
 
 ## Narxlarni yangilash
@@ -59,7 +60,8 @@ Barcha narx va muddatlar `src/data/tariffs.json` faylida (avia $/kg, avto zinapo
 `npm run build` oxirida `scripts/check-content.mjs` barcha sahifalarni tekshiradi va quyidagilar topilsa build toʻxtaydi:
 
 - tasdiqlanmagan daʼvolar: «bojsiz», «100% kafolat», «eng tez», «xalqaro», mijozlar soni, viloyat filiallari;
-- Ivu omborini «bizning omborimiz» deb atash (egalik tasdiqlanmagan — hamma joyda «Ivu ombori»);
+- Xitoydagi qabul punktlarini (Ivu, Guanchjou, Qashqar) «bizning omborimiz» deb atash — egalik tasdiqlanmagan: hamma joyda «Ivu ombori», «Guanchjou qabul punkti», «Qashqar qabul punkti»;
+- almashtirilgan kontaktlar (+998 97 333 39 33, info@gsrlogistics.uz, t.me/+998950183333) va Guanchjou haqidagi eskirgan «hamkorlar orqali» jumlasi;
 - javob tezligini vaʼda qilish («hozir javob beramiz», «быстрее всего», «fastest reply»);
 - kalka va ruscha soʻzlar: Kitay, zayavka, tomonidan, amalga oshiramiz, uzel;
 - «powerbank» (toʻgʻrisi — «power bank»);
@@ -69,7 +71,7 @@ Xato chiqsa, u sahifa manzili bilan koʻrsatiladi — matnni tuzatib qayta build
 
 ## SEO va AI-qidiruv
 
-`docs/SEO-PLAYBOOK.md` — egasi uchun toʻliq reja: Google Search Console, Bing Webmaster (IndexNow), Yandex Webmaster, Google Business Profile / Yandex Business / 2GIS kartochkalari, sharhlar, oylik narx yangilash, oylik AI-so'rov testi. Sayt tomonidan tayyor: `robots.txt` (barcha AI-kraulerlarga ruxsat), `sitemap-index.xml` (hreflang bilan), `llms.txt` + `llms-full.txt`, JSON-LD (Organization/LocalBusiness, Service, FAQPage, Article, BreadcrumbList), OG rasmlar, IndexNow kaliti.
+`docs/SEO-PLAYBOOK.md` — egasi uchun toʻliq reja: Google Search Console, Bing Webmaster (IndexNow), Yandex Webmaster, Google Business Profile / Yandex Business / 2GIS kartochkalari, sharhlar, oylik narx yangilash, oylik AI-soʻrov testi. Sayt tomonidan tayyor: `robots.txt` (barcha AI-kraulerlarga ruxsat), `sitemap-index.xml` (hreflang bilan), `llms.txt` + `llms-full.txt`, JSON-LD (Organization/LocalBusiness, Service, FAQPage, Article, BreadcrumbList), OG rasmlar, IndexNow kaliti.
 
 Halollik qoidasi: saytda tasdiqlanmagan daʼvolar yoʻq (mijozlar soni, sertifikatlar, «bojsiz», «xalqaro»). Yangi fakt qoʻshishdan oldin uni isbotlash mumkinligiga ishonch hosil qiling — AI-qidiruv tizimlari ham, mijozlar ham buni tekshiradi.
 

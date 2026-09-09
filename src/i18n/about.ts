@@ -15,15 +15,15 @@ export interface AboutStrings {
 
 const uz: AboutStrings = {
   seoTitle: 'Biz haqimizda — GSR Logistics, Xitoydan Oʻzbekistonga yuk tashish, 2018-yildan',
-  seoDescription: 'GSR Logistics — Toshkentdagi logistika kompaniyasi: Ivu omboridan Xorgos orqali Toshkentgacha yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Menejerlar oʻzbek, rus va xitoy tillarida. 2018-yildan beri.',
+  seoDescription: 'GSR Logistics — Toshkentdagi logistika kompaniyasi: Xitoyda uchta qabul manzili — Ivu, Guanchjou, Qashqar; Ivu omboridan Xorgos orqali Toshkentgacha yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Menejerlar oʻzbek, rus va xitoy tillarida. 2018-yildan beri.',
   eyebrow: 'Biz haqimizda',
   h1: 'Xitoyda oʻz odamingiz bor.',
-  intro: 'GSR Logistics — Toshkentdagi logistika kompaniyasi. 2018-yildan beri Xitoy bilan ishlaymiz: Ivu omboridan Xorgos orqali Toshkentgacha yigʻma yuk taxminan 15–25 kunda, avia 5–10 kunda keladi. Tovarni topamiz, sotib olamiz, tekshiramiz, bojxonadan oʻtkazamiz — bitta shartnoma, bitta menejer.',
+  intro: 'GSR Logistics — Toshkentdagi logistika kompaniyasi. 2018-yildan beri Xitoy bilan ishlaymiz: Xitoyda uchta qabul manzili — Ivu, Guanchjou va Qashqar; Ivu omboridan Xorgos orqali Toshkentgacha yigʻma yuk taxminan 15–25 kunda, avia 5–10 kunda keladi. Tovarni topamiz, sotib olamiz, tekshiramiz, bojxonadan oʻtkazamiz — bitta shartnoma, bitta menejer.',
   story: {
     heading: 'Qanday boshlangan?',
     paragraphs: [
       '2018-yilda Xitoydan uskunalar va tovar keltirish bilan boshladik: ishlab chiqaruvchini topish, muzokara, namuna, yetkazib berish. Tez orada mijozlar bitta narsani soʻray boshladi — «butun konteyner emas, oʻz joyim uchun toʻlasam boʻladimi?». 2022-yildan yigʻma yuk xizmati asosiy yoʻnalishimizga aylandi.',
-      'Bugun biz Ivu (义乌) shahridagi omborda yukni qabul qilamiz, tortamiz va oʻlchaymiz, foto-hisobot yuboramiz, bir nechta yetkazib beruvchidan kelgan partiyalarni bitta joyga yigʻamiz va Xorgos orqali Toshkentga joʻnatamiz. Toshkentda bojxona rasmiylashtiruvini oʻtkazamiz va yukni topshiramiz yoki viloyatga joʻnatamiz.',
+      'Bugun yukni Xitoydagi uchta qabul manzilidan birida — Ivuda (义乌), Guanchjouda (广州) yoki Qashqarda (喀什) — qabul qilamiz, tortamiz va oʻlchaymiz, foto-hisobot yuboramiz, bir nechta yetkazib beruvchidan kelgan partiyalarni Ivu omborida bitta joyga yigʻamiz va Xorgos orqali Toshkentga joʻnatamiz. Toshkentda bojxona rasmiylashtiruvini oʻtkazamiz va yukni topshiramiz yoki viloyatga joʻnatamiz.',
       'Biz katta reklama vaʼdalari bermaymiz. Buning oʻrniga saytda narx qoidasi, muddatlar, manzil va jarayon ochiq yozilgan — tekshirishingiz mumkin.',
     ],
   },
@@ -31,7 +31,7 @@ const uz: AboutStrings = {
     heading: 'Qanday ishlaymiz?',
     items: [
       { title: 'Halollik', text: 'Narx, muddat va javobgarlik shartnomada. Yashirin toʻlovlar yoʻq: hajmiy vazn formulasi va zichlik qoidasi saytda ochiq.' },
-      { title: 'Ochiqlik', text: 'Har qabulda foto-hisobot, yoʻlda menejer xabari, Toshkentda yuk kodi boʻyicha holat. Savolingizga aniq javob beramiz — «keyin aytamiz» degan gap yoʻq.' },
+      { title: 'Ochiqlik', text: 'Har qabulda foto-hisobot, yoʻlda menejer xabari, Toshkentda GS kod (markirovka) boʻyicha holat. Savolingizga aniq javob beramiz — «keyin aytamiz» degan gap yoʻq.' },
       { title: 'Sifat', text: 'Yukni Xitoyning oʻzida tekshiramiz: soni, holati, qadoqlash. Shikastlangan yoki notoʻgʻri tovar Toshkentga yetib kelmasdan oldin hal boʻladi.' },
       { title: 'Til toʻsigʻi yoʻq', text: 'Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi. Yetkazib beruvchi bilan muzokarani biz olib boramiz.' },
     ],
@@ -46,7 +46,7 @@ const uz: AboutStrings = {
     text: 'Kichik, lekin toʻliq jamoa: har mijozga bitta menejer biriktiriladi va u yukni boshidan oxirigacha kuzatib boradi.',
     roles: [
       { title: 'Toshkent menejerlari', text: 'Soʻrov, hisob-kitob, shartnoma, yuk holati boʻyicha xabar — Telegram va telefon orqali.' },
-      { title: 'Xitoydagi xodimlar', text: 'Ivu omborida qabul, tortish, tekshiruv, foto-hisobot, qadoqlash va yuklash.' },
+      { title: 'Xitoydagi xodimlar', text: 'Ivu omborida qabul, tortish, tekshiruv, foto-hisobot, qadoqlash va yuklash. Guanchjou va Qashqar qabul manzillariga kelgan yuklarni ham shu jamoa kuzatib boradi.' },
       { title: 'Bojxona mutaxassisi', text: 'TN VED kodi, deklaratsiya, boj va QQS hisobi, hujjatlar bilan ishlash.' },
     ],
   },
@@ -62,15 +62,15 @@ const uz: AboutStrings = {
 
 const ru: AboutStrings = {
   seoTitle: 'О компании — GSR Logistics, доставка грузов из Китая в Узбекистан с 2018 года',
-  seoDescription: 'GSR Logistics — логистическая компания в Ташкенте: сборный груз со склада в Иу через Хоргос до Ташкента, авиа и ж/д карго, поиск и выкуп товаров, таможенное оформление. Менеджеры говорят по-узбекски, по-русски и по-китайски. С 2018 года.',
+  seoDescription: 'GSR Logistics — логистическая компания в Ташкенте: три адреса приёма в Китае — Иу, Гуанчжоу, Кашгар; сборный груз со склада в Иу через Хоргос до Ташкента, авиа и ж/д карго, поиск и выкуп товаров, таможенное оформление. Менеджеры говорят по-узбекски, по-русски и по-китайски. С 2018 года.',
   eyebrow: 'О компании',
   h1: 'Свой человек в Китае.',
-  intro: 'GSR Logistics — логистическая компания в Ташкенте. Работаем с Китаем с 2018 года: сборный груз со склада в Иу через Хоргос приходит в Ташкент ориентировочно за 15–25 дней, авиа — за 5–10. Находим товар, выкупаем, проверяем, растамаживаем — один договор, один менеджер.',
+  intro: 'GSR Logistics — логистическая компания в Ташкенте. Работаем с Китаем с 2018 года: в Китае три адреса приёма — Иу, Гуанчжоу и Кашгар; сборный груз со склада в Иу через Хоргос приходит в Ташкент ориентировочно за 15–25 дней, авиа — за 5–10. Находим товар, выкупаем, проверяем, растамаживаем — один договор, один менеджер.',
   story: {
     heading: 'С чего всё началось?',
     paragraphs: [
       'В 2018 году мы начинали с поставок оборудования и товаров из Китая: поиск производителя, переговоры, образцы, доставка. Довольно скоро клиенты стали спрашивать одно и то же: «А можно платить не за целый контейнер, а только за своё место?». С 2022 года сборный груз стал нашим основным направлением.',
-      'Сегодня мы принимаем груз на складе в Иу (义乌), взвешиваем и обмеряем его, отправляем фотоотчёт, собираем партии от нескольких поставщиков в одном месте и отправляем через Хоргос в Ташкент. В Ташкенте оформляем таможню и выдаём груз или отправляем его в регион.',
+      'Сегодня мы принимаем груз по одному из трёх адресов приёма в Китае — в Иу (义乌), Гуанчжоу (广州) или Кашгаре (喀什), — взвешиваем и обмеряем его, отправляем фотоотчёт, собираем партии от нескольких поставщиков на складе в Иу и отправляем через Хоргос в Ташкент. В Ташкенте оформляем таможню и выдаём груз или отправляем его в регион.',
       'Мы не даём громких рекламных обещаний. Вместо этого на сайте открыто написаны правило расчёта цены, сроки, адрес и процесс — всё можно проверить.',
     ],
   },
@@ -78,7 +78,7 @@ const ru: AboutStrings = {
     heading: 'Как мы работаем?',
     items: [
       { title: 'Честность', text: 'Цена, сроки и ответственность — в договоре. Без скрытых платежей: формула объёмного веса и правило плотности опубликованы на сайте.' },
-      { title: 'Открытость', text: 'Фотоотчёт при каждой приёмке, сообщения менеджера в пути, статус по коду груза в Ташкенте. На вопросы отвечаем цифрами, а не догадками.' },
+      { title: 'Открытость', text: 'Фотоотчёт при каждой приёмке, сообщения менеджера в пути, статус по GS-коду (маркировке) в Ташкенте. На вопросы отвечаем цифрами, а не догадками.' },
       { title: 'Качество', text: 'Проверяем груз ещё в Китае: количество, состояние, упаковку. Вопрос с повреждённым или не тем товаром решаем до отправки в Ташкент.' },
       { title: 'Без языкового барьера', text: 'Наши менеджеры говорят по-узбекски, по-русски и по-китайски. Переговоры с поставщиком ведём мы.' },
     ],
@@ -93,7 +93,7 @@ const ru: AboutStrings = {
     text: 'Небольшая, но полная команда: за каждым клиентом закреплён один менеджер, который ведёт груз от начала до конца.',
     roles: [
       { title: 'Менеджеры в Ташкенте', text: 'Запрос, расчёт, договор, сообщения о статусе груза — в Telegram и по телефону.' },
-      { title: 'Сотрудники в Китае', text: 'Приёмка на складе в Иу, взвешивание, проверка, фотоотчёт, упаковка и погрузка.' },
+      { title: 'Сотрудники в Китае', text: 'Приёмка на складе в Иу, взвешивание, проверка, фотоотчёт, упаковка и погрузка. Грузы, пришедшие на адреса приёма в Гуанчжоу и Кашгаре, ведёт эта же команда.' },
       { title: 'Специалист по таможне', text: 'Код ТН ВЭД, декларация, расчёт пошлины и НДС, работа с документами.' },
     ],
   },
@@ -109,15 +109,15 @@ const ru: AboutStrings = {
 
 const en: AboutStrings = {
   seoTitle: 'About — GSR Logistics, freight from China to Uzbekistan since 2018',
-  seoDescription: 'GSR Logistics is a Tashkent logistics company: consolidated truck cargo from its Yiwu warehouse via Khorgos to Tashkent, air and rail cargo, product sourcing and buying, customs clearance. Managers speak Uzbek, Russian and Chinese. Since 2018.',
+  seoDescription: 'GSR Logistics is a Tashkent logistics company: three receiving addresses in China — Yiwu, Guangzhou and Kashgar; consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent, air and rail cargo, product sourcing and buying, customs clearance. Managers speak Uzbek, Russian and Chinese. Since 2018.',
   eyebrow: 'About',
   h1: 'Your people on the ground in China.',
-  intro: 'GSR Logistics is a logistics company in Tashkent. We have worked with China since 2018: consolidated cargo from the Yiwu warehouse reaches Tashkent via Khorgos in roughly 15–25 days, air freight in 5–10. We find the product, buy it, inspect it and clear customs — one contract, one manager.',
+  intro: 'GSR Logistics is a logistics company in Tashkent. We have worked with China since 2018: three receiving addresses in China — Yiwu, Guangzhou and Kashgar; consolidated cargo from the Yiwu warehouse reaches Tashkent via Khorgos in roughly 15–25 days, air freight in 5–10. We find the product, buy it, inspect it and clear customs — one contract, one manager.',
   story: {
     heading: 'How it started',
     paragraphs: [
       'In 2018 we began with equipment and goods supply from China: finding the manufacturer, negotiating, sampling, delivering. Soon clients kept asking the same thing: “Can I pay for my space only, not for a whole container?” Since 2022 consolidated cargo has been our main line of work.',
-      'Today we receive cargo at the warehouse in Yiwu (义乌), weigh and measure it, send a photo report, consolidate lots from several suppliers in one place and ship via Khorgos to Tashkent. In Tashkent we clear customs and hand the cargo over or forward it to the regions.',
+      'Today we receive cargo at one of three addresses in China — Yiwu (义乌), Guangzhou (广州) or Kashgar (喀什) — weigh and measure it, send a photo report, consolidate lots from several suppliers at the Yiwu warehouse and ship via Khorgos to Tashkent. In Tashkent we clear customs and hand the cargo over or forward it to the regions.',
       'We do not make loud promises. Instead the pricing rule, transit times, address and process are published on this site — you can check them.',
     ],
   },
@@ -125,7 +125,7 @@ const en: AboutStrings = {
     heading: 'How we work',
     items: [
       { title: 'Honesty', text: 'Price, timing and liability are in the contract. No hidden fees: the volumetric-weight formula and density rule are published on the site.' },
-      { title: 'Transparency', text: 'A photo report at every intake, manager updates in transit, status by cargo code in Tashkent. We answer with numbers, not guesses.' },
+      { title: 'Transparency', text: 'A photo report at every intake, manager updates in transit, status by GS code (shipping mark) in Tashkent. We answer with numbers, not guesses.' },
       { title: 'Quality', text: 'We inspect cargo while it is still in China: quantity, condition, packaging. Damaged or wrong goods are resolved before they leave for Tashkent.' },
       { title: 'No language barrier', text: 'Our managers speak Uzbek, Russian and Chinese. We handle negotiations with the supplier.' },
     ],
@@ -140,7 +140,7 @@ const en: AboutStrings = {
     text: 'A small but complete team: every client gets one manager who follows the cargo from start to finish.',
     roles: [
       { title: 'Tashkent managers', text: 'Requests, quotes, contracts and status updates — on Telegram and by phone.' },
-      { title: 'Staff in China', text: 'Intake at the Yiwu warehouse, weighing, inspection, photo reports, packing and loading.' },
+      { title: 'Staff in China', text: 'Intake at the Yiwu warehouse, weighing, inspection, photo reports, packing and loading. The same team follows cargo delivered to the Guangzhou and Kashgar receiving addresses.' },
       { title: 'Customs specialist', text: 'HS codes, declarations, duty and VAT calculation, documents.' },
     ],
   },

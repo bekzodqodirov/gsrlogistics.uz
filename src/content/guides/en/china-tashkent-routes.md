@@ -122,7 +122,7 @@ We pick the route together with you: tell us what the goods are, their weight, v
 
 ## How do you know where your cargo is?
 
-Every consignment has a cargo code. Your manager reports its status on Telegram; if you enter the code on the [Tracking](/en/tracking/) page, the request goes straight to the manager. On the main route the statuses change in this order:
+Every consignment of yours travels under your GS code: the GS code (shipping mark) is what your supplier writes on every carton before dispatch. Your manager reports the cargo’s status on Telegram; if you enter the GS code on the [Tracking](/en/tracking/) page, the request goes straight to the manager. On the main route the statuses change in this order:
 
 1. **At the Yiwu warehouse** — cargo received, weighed, photo report sent.
 2. **Loaded** — the slot number and truck date are known.

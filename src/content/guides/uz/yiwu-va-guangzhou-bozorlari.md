@@ -75,9 +75,9 @@ Kanton yarmarkasi (广交会) Pazhou majmuasida yiliga ikki marta oʻtadi — ap
 |---|---|---|
 | Ivu, Futian | Mayda ulgurji tovarlar — kg yoki m³, zichlikka qarab | Shu shaharda, 0–1 kun |
 | Guanchjou, Baiyun va Shahe | Sumka, kiyim, poyabzal — kg (zich yuk) | Shu shaharda, 0–1 kun |
-| Shenchjen, Huaqiangbei | Elektronika — kg; batareyali tovar faqat avto | Guanchjougacha 1–2 kun |
+| Shenchjen, Huaqiangbei | Elektronika — kg; batareyali tovar faqat avto | Guanchjou, ichki ekspress bilan |
 | Keqiao | Mato — kg | 1–2 kun, taxminan 90 km |
-| Foshan, Lecong | Mebel, keramika — m³ yoki konteyner | Guanchjougacha 1–2 kun, taxminan 30 km |
+| Foshan, Lecong | Mebel, keramika — m³ yoki konteyner | Guanchjou, taxminan 30 km |
 
 Xitoyda uchta qabul manzili bor: Ivu (义乌), Guanchjou (广州) va Qashqar (喀什). Qaysi biriga joʻnatish kerakligini menejer aytadi. Turli sotuvchilardan kelgan partiyalar Ivu omborida bitta yukka birlashtiriladi.
 
@@ -95,7 +95,7 @@ Safar rejalashtirsangiz, jarayon shunday:
 1. **Reja.** Bozorlar, korpus va qavatlar roʻyxatini tuzing. Toshkentdan Urumchi va Pekinga toʻgʻridan-toʻgʻri reyslar bor; Ivuga Shanxay yoki Xanchjou orqali tezyurar poyezdda boriladi (Xanchjou–Ivu taxminan 1 soat). Viza shartlarini safar oldidan tekshiring.
 2. **Bozorda.** Har doʻkonning raqamini, vizitkasini va tovar fotosini bir joyga yozib boring: korpus, qavat, doʻkon raqami, narx, minimal partiya, tayyorlash muddati. Bir kunda 100 dan ortiq doʻkon koʻrasiz — yozuvsiz esda qolmaydi.
 3. **Toʻlov.** Sotuvchilar yuanda, WeChat Pay yoki Alipay orqali oladi; xorijiy karta ularga ulanadi, lekin ulgurji summalar odatda agent hisobidan toʻlanadi. GSR Logistics toʻlovni Markaziy bank kursi boʻyicha yuanda oʻtkazadi — [1688 va Taobaodan sotib olish](/xizmatlar/sotib-olish/).
-4. **Manzil.** Sotuvchiga yetkazish manzili sifatida menejer koʻrsatgan qabul manzili (Ivu ombori, Guanchjou yoki Qashqar) va GS kodingiz (markirovka) beriladi — sotuvchi bu kodni yukni joʻnatishdan oldin har qutiga yozadi. Ivu ichida sotuvchi tovarni 1–2 kunda odatda bepul yetkazadi; boshqa shaharlardan — ichki ekspress orqali.
+4. **Manzil.** Sotuvchiga menejer koʻrsatgan qabul manzili (Ivu ombori, Guanchjou yoki Qashqar) va GS kodingiz (markirovka) beriladi — sotuvchi bu kodni yukni joʻnatishdan oldin har bir qutiga yozadi. Ivu ichida sotuvchi tovarni 1–2 kunda odatda bepul yetkazadi; boshqa shaharlardan — ichki ekspress orqali.
 5. **Ombor va reys.** Har quti tortiladi, oʻlchanadi, raqamlanadi; foto-hisobot Telegramga keladi; yuk avto bilan taxminan 15–25 kunda, avia bilan 5–10 kunda Toshkentga yetadi.
 
 Masofaviy xaridda 2-qadam oʻrniga havola, namuna yoki texnik talab yuborasiz; qolgani bir xil. Tovar hali topilmagan boʻlsa — [Tovar va ishlab chiqaruvchi topish](/xizmatlar/tovar-topish/) xizmati va [ishlab chiqaruvchi topish qoʻllanmasi](/qollanma/xitoydan-ishlab-chiqaruvchi-topish/).

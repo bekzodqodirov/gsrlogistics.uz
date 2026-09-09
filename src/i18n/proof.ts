@@ -46,9 +46,9 @@ const uz: ProofStrings = {
   listLabel: 'Mijoz oladigan narsalar',
   items: [
     { when: 'Boshida', title: 'Shartnoma va hisob-faktura', text: 'Narx, muddat va javobgarlik — qogʻozda. Toʻlov hisob-faktura boʻyicha, yakunda — bajarilgan ish dalolatnomasi.' },
-    { when: 'Shartnomadan keyin', title: 'Ivu ombor manzili va mijoz kodi', text: 'Yetkazib beruvchingiz yukni shu manzilga joʻnatadi. Kod har bir qutiga yoziladi — yukingiz boshqaniki bilan aralashmaydi.' },
-    { when: 'Ivu omborida', title: 'Foto-hisobot', text: 'Qabulda, oʻlchovda va yuklashda. Vazn, hajm va joy raqami surat bilan birga Telegramga keladi.' },
-    { when: 'Yoʻlda', title: 'Yuk kodi bilan kuzatuv', text: 'Kod boʻyicha menejerdan joriy holat va suratni soʻraysiz: Ivu omborida, yoʻlda, Xorgosda, Toshkent omborida, yetkazildi.', link: 'tracking', linkLabel: 'Kuzatuv sahifasi' },
+    { when: 'Shartnomadan keyin', title: 'Xitoydagi qabul manzili va GS kodi', text: 'Menejer Xitoydagi uchta qabul manzilidan qaysi biriga joʻnatishni aytadi. Yetkazib beruvchingiz GS kodini (markirovka) joʻnatishdan oldin har bir qutiga yozadi — yukingiz boshqaniki bilan aralashmaydi.' },
+    { when: 'Qabul punktida', title: 'Foto-hisobot', text: 'Qabulda, oʻlchovda va yuklashda. Vazn, hajm va joy raqami surat bilan birga Telegramga keladi.' },
+    { when: 'Yoʻlda', title: 'GS kodi bilan kuzatuv', text: 'Shu GS kod boʻyicha menejerdan joriy holat va suratni soʻraysiz: qabul punktida, yoʻlda, Xorgosda, Toshkent omborida, yetkazildi.', link: 'tracking', linkLabel: 'Kuzatuv sahifasi' },
     { when: 'Toshkentda', title: 'Toshkent omborida qabul yoki uygacha yetkazish', text: 'Yuk kelgach menejer xabar beradi. Oʻzingiz olib ketasiz yoki manzilingizga, viloyatga joʻnatamiz.', link: 'pricing', linkLabel: 'Yetkazish shartlari' },
   ],
   facts: {
@@ -71,9 +71,9 @@ const ru: ProofStrings = {
   listLabel: 'Что получает клиент',
   items: [
     { when: 'В начале', title: 'Договор и счёт-фактура', text: 'Цена, сроки и ответственность — на бумаге. Оплата по счёту, по завершении — акт выполненных работ.' },
-    { when: 'После договора', title: 'Адрес склада в Иу и код клиента', text: 'Поставщик отправляет груз на этот адрес. Код пишется на каждой коробке — ваш груз не смешается с чужим.' },
-    { when: 'На складе в Иу', title: 'Фотоотчёт', text: 'При приёмке, обмере и погрузке. Вес, объём и номер места приходят в Telegram вместе с фото.' },
-    { when: 'В пути', title: 'Отслеживание по коду груза', text: 'По коду запрашиваете у менеджера текущий статус и фото: на складе в Иу, в пути, на Хоргосе, на складе в Ташкенте, доставлено.', link: 'tracking', linkLabel: 'Страница отслеживания' },
+    { when: 'После договора', title: 'Адрес приёма в Китае и GS-код', text: 'В Китае три адреса приёма — на какой отправлять, скажет менеджер. GS-код (маркировку) поставщик пишет на каждой коробке до отправки — ваш груз не смешается с чужим.' },
+    { when: 'В пункте приёма', title: 'Фотоотчёт', text: 'При приёмке, обмере и погрузке. Вес, объём и номер места приходят в Telegram вместе с фото.' },
+    { when: 'В пути', title: 'Отслеживание по GS-коду', text: 'По тому же GS-коду запрашиваете у менеджера текущий статус и фото: в пункте приёма, в пути, на Хоргосе, на складе в Ташкенте, доставлено.', link: 'tracking', linkLabel: 'Страница отслеживания' },
     { when: 'В Ташкенте', title: 'Получение на складе в Ташкенте или доставка до двери', text: 'Когда груз прибыл, менеджер сообщает. Забираете сами или отправляем по вашему адресу, в регион.', link: 'pricing', linkLabel: 'Условия доставки' },
   ],
   facts: {
@@ -96,9 +96,9 @@ const en: ProofStrings = {
   listLabel: 'What the client receives',
   items: [
     { when: 'At the start', title: 'Contract and invoice', text: 'Price, transit time and liability — on paper. Payment against the invoice; a completion act at the end.' },
-    { when: 'After signing', title: 'Yiwu warehouse address and client code', text: 'Your supplier ships to that address. The code goes on every box — your cargo never mixes with anyone else’s.' },
-    { when: 'At the Yiwu warehouse', title: 'Photo report', text: 'At intake, measuring and loading. Weight, volume and lot number arrive on Telegram together with the photos.' },
-    { when: 'In transit', title: 'Tracking by cargo code', text: 'Quote the code and your manager sends the current status and a photo: at the Yiwu warehouse, in transit, at Khorgos, at the Tashkent warehouse, delivered.', link: 'tracking', linkLabel: 'Tracking page' },
+    { when: 'After signing', title: 'China receiving address and GS code', text: 'There are three receiving addresses in China — your manager tells you which one applies. Your supplier writes the GS code (shipping mark) on every carton before dispatch, so your cargo never mixes with anyone else’s.' },
+    { when: 'At the receiving point', title: 'Photo report', text: 'At intake, measuring and loading. Weight, volume and lot number arrive on Telegram together with the photos.' },
+    { when: 'In transit', title: 'Tracking by GS code', text: 'Quote the same GS code and your manager sends the current status and a photo: at the receiving point, in transit, at Khorgos, at the Tashkent warehouse, delivered.', link: 'tracking', linkLabel: 'Tracking page' },
     { when: 'In Tashkent', title: 'Pick-up at the Tashkent warehouse or door delivery', text: 'Your manager lets you know when the cargo arrives. Collect it yourself or we deliver to your address or region.', link: 'pricing', linkLabel: 'Delivery terms' },
   ],
   facts: {

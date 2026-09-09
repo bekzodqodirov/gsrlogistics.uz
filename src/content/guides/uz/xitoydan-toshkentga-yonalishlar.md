@@ -122,7 +122,7 @@ Yoʻlni siz bilan birga tanlaymiz: yukning nomi, vazni, hajmi va qayerga kerakli
 
 ## Yuk yoʻlda qayerdaligini qanday bilasiz?
 
-Har bir partiyaning yuk kodi bor. Menejer yuk holatini Telegramda xabar qilib boradi; [Kuzatuv](/kuzatuv/) sahifasida kodni kiritsangiz, soʻrov toʻgʻridan-toʻgʻri menejerga ketadi. Asosiy yoʻlda statuslar shu tartibda oʻzgaradi:
+Har bir yukingiz sizning GS kodingiz ostida ketadi: GS kod (markirovka) — yetkazib beruvchi yukni joʻnatishdan oldin har bir qutiga yozadigan belgi. Menejer yuk holatini Telegramda xabar qilib boradi; [Kuzatuv](/kuzatuv/) sahifasida GS kodini kiritsangiz, soʻrov toʻgʻridan-toʻgʻri menejerga ketadi. Asosiy yoʻlda statuslar shu tartibda oʻzgaradi:
 
 1. **Ivu omborida** — yuk qabul qilindi, tortildi, foto-hisobot yuborildi.
 2. **Yuklandi** — joy raqami va fura sanasi maʼlum.

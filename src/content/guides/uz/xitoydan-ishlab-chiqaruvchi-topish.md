@@ -102,9 +102,9 @@ Narx taklifida yetkazib berish sharti yozilgan boʻlishi shart — u kim qayerga
 |---|---|---|---|
 | EXW (zavoddan) | Tovarni zavod omborida tayyorlash | Zavoddan olib ketish, Xitoy ichidagi tashish, eksport rasmiylashtiruvi, butun yoʻl | Eng shaffof narx; Ivu omborigacha tashishni biz tashkil qilamiz |
 | FOB (portda kemaga yuklab) | Xitoy ichidagi tashish, eksport rasmiylashtiruvi, portga yetkazish | Port yoki chegaradan keyingi yoʻl | Dengiz konteyneri uchun; quruqlik yoʻlida «FOB» aslida chegaragacha degani — aniqlashtiring |
-| Ivu omboriga yetkazib berish (送货到义乌仓) | Zavoddan bizning omborgacha | Ombordan Toshkentgacha | Yigʻma yukda eng qulay — sotuvchi Xitoy ichidagi tashishni oʻzi toʻlaydi |
+| Qabul punktiga yetkazib berish (送货到仓库) | Zavoddan qabul punktigacha (Ivu, Guanchjou yoki Qashqar) | Qabul punktidan Toshkentgacha | Yigʻma yukda eng qulay — sotuvchi Xitoy ichidagi tashishni oʻzi toʻlaydi |
 
-Yigʻma yuk va avia kargo uchun amaliy tanlov — EXW yoki «Ivu omboriga yetkazib berish»: sotuvchi tovarni GSR omboriga joʻnatadi, biz uni qabul qilib, tekshirib, Toshkentga olib kelamiz. Konteynerli partiyada FOB odatiy; invoysda shart va port nomi aniq yozilishi bojxona qiymatini toʻgʻri hisoblash uchun ham kerak.
+Yigʻma yuk va avia kargo uchun amaliy tanlov — EXW yoki «qabul punktiga yetkazib berish»: sotuvchi tovarni biz koʻrsatgan qabul manziliga joʻnatadi, biz uni qabul qilib, tekshirib, Toshkentga olib kelamiz. Xitoyda uchta qabul manzili bor: Ivu, Guanchjou va Qashqar — qaysi biriga joʻnatish kerakligini menejer aytadi. Konteynerli partiyada FOB odatiy; invoysda shart va port nomi aniq yozilishi bojxona qiymatini toʻgʻri hisoblash uchun ham kerak.
 
 ## Shartnoma va oldindan toʻlov
 

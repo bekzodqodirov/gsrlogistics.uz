@@ -2,7 +2,7 @@
 import { langMeta, locales, type Lang } from '@/i18n/config';
 import { pagePath } from '@/i18n/routes';
 import { common } from '@/i18n/common';
-import { site, phoneUrl, phone2Url, telegramUrl, telegramGroupUrl, instagramUrl, facebookUrl, telegramChat } from '@/lib/site';
+import { site, phoneUrl, phone2Url, whatsappUrl, telegramUrl, telegramGroupUrl, instagramUrl, facebookUrl, telegramChat } from '@/lib/site';
 import { services } from '@/data/services';
 import tariffs from '@/data/tariffs.json';
 import Logo from './ui/Logo.astro';
@@ -52,6 +52,7 @@ const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
         <ul role="list" class="contact-list">
           <li><a href={phoneUrl} class="tnum"><Icon name="phone" size={16} />{site.phoneDisplay}</a></li>
           <li><a href={phone2Url} class="tnum"><Icon name="phone" size={16} />{site.phone2Display}</a></li>
+          <li><a href={whatsappUrl} target="_blank" rel="noopener" class="tnum"><Icon name="whatsapp" size={16} />WhatsApp · {site.phone2Display}</a></li>
           <li><a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener"><Icon name="telegram" size={16} />{t.cta.telegram}</a></li>
           <li><a href={telegramGroupUrl} target="_blank" rel="noopener"><Icon name="users" size={16} />{t.footer.group}</a></li>
           <li><a href={`mailto:${site.email}`}><Icon name="mail" size={16} />{site.email}</a></li>

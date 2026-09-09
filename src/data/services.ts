@@ -38,7 +38,7 @@ export const services: ServiceMeta[] = [
     name: { uz: 'Bojxona rasmiylashtiruvi', ru: 'Таможенное оформление', en: 'Customs clearance' },
     short: { uz: 'Hujjatlar, deklaratsiya, boj va QQS hisob-kitobi — hammasi bizning zimmamizda.', ru: 'Документы, декларация, расчёт пошлин и НДС — всё берём на себя.', en: 'Documents, declaration, duty and VAT calculation handled for you.' } },
   { key: 'warehouse', icon: 'warehouse', slug: { uz: 'ombor-sifat-nazorati', ru: 'sklad-proverka', en: 'warehouse-quality-control' },
-    name: { uz: 'Ivu ombori va sifat nazorati', ru: 'Склад в Иу и проверка качества', en: 'Yiwu warehouse & quality control' },
+    name: { uz: 'Xitoyda ombor va sifat nazorati', ru: 'Склад в Китае и проверка качества', en: 'China warehouse & quality control' },
     short: { uz: 'Qabul, tekshiruv, foto-hisobot, qadoqlash va sugʻurta — Xitoyning oʻzida.', ru: 'Приёмка, проверка, фотоотчёт, упаковка и страховка — ещё в Китае.', en: 'Receiving, inspection, photo report, packing and insurance in China.' } },
   { key: 'cars', icon: 'car', slug: { uz: 'avtomobil-importi', ru: 'avto-iz-kitaya', en: 'car-import' },
     name: { uz: 'Avtomobil va elektromobil', ru: 'Авто и электромобили', en: 'Cars & EVs from China' },

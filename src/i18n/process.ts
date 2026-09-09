@@ -35,7 +35,7 @@ const uz: ProcessStrings = {
   steps: [
     { glyph: 'chat', title: 'Soʻrov qoldirasiz', text: 'Telegramda yoki telefon orqali. Yuk turi, taxminiy vazn va shahar — boshlash uchun shu kifoya.' },
     { glyph: 'exchange', title: 'Buyurtmani muhokama qilamiz', text: 'Transport turi, hujjatlar, qadoqlash va narx qoidasi — kg yoki m³. Savollaringizga menejer javob beradi.' },
-    { glyph: 'contract', title: 'Hujjatlar — va ish boshlanadi', text: 'Shartnoma, Ivu ombor manzili va mijoz kodi. Yetkazib beruvchingiz yukni shu manzilga joʻnatadi.' },
+    { glyph: 'contract', title: 'Hujjatlar — va ish boshlanadi', text: 'Shartnoma, GS kod (markirovka) va menejer aytgan qabul manzili: Ivu, Guanchjou yoki Qashqar. Yetkazib beruvchingiz joʻnatishdan oldin kodni har bir qutiga yozadi.' },
     { glyph: 'pin', title: 'Menejer yoʻlda hamroh', text: 'Yuk qayerdaligi va foto-hisobot Telegramga keladi: qabul, yuklash, chegara, Toshkent.' },
     { glyph: 'parcel', title: 'Yukni qabul qilasiz', text: 'Toshkentda oʻzingiz olib ketasiz yoki viloyatingizga joʻnatamiz. Hisob-faktura — qoʻlingizda.' },
   ],
@@ -51,7 +51,7 @@ const ru: ProcessStrings = {
   steps: [
     { glyph: 'chat', title: 'Оставляете заявку', text: 'В Telegram или по телефону. Тип груза, примерный вес и город — для начала этого достаточно.' },
     { glyph: 'exchange', title: 'Обсуждаем заказ', text: 'Вид транспорта, документы, упаковка и правило расчёта — по кг или м³. Менеджер отвечает на вопросы.' },
-    { glyph: 'contract', title: 'Документы — и работа началась', text: 'Договор, адрес склада в Иу и ваш код клиента. Поставщик отправляет груз на этот адрес.' },
+    { glyph: 'contract', title: 'Документы — и работа началась', text: 'Договор, GS-код (маркировка) и адрес приёма: Иу, Гуанчжоу или Кашгар — какой именно, скажет менеджер. Поставщик пишет код на каждой коробке до отправки.' },
     { glyph: 'pin', title: 'Менеджер сопровождает груз', text: 'Где груз и фотоотчёт — в Telegram: приёмка, погрузка, граница, Ташкент.' },
     { glyph: 'parcel', title: 'Принимаете груз', text: 'В Ташкенте забираете сами или отправляем в ваш регион. Счёт-фактура — у вас на руках.' },
   ],
@@ -67,7 +67,7 @@ const en: ProcessStrings = {
   steps: [
     { glyph: 'chat', title: 'You send a request', text: 'On Telegram or by phone. Cargo type, rough weight and city are enough to start.' },
     { glyph: 'exchange', title: 'We discuss the order', text: 'Transport mode, documents, packing and the pricing rule — per kg or per m³. Your manager answers every question.' },
-    { glyph: 'contract', title: 'Documents — and work begins', text: 'Contract, the Yiwu warehouse address and your client code. Your supplier ships to that address.' },
+    { glyph: 'contract', title: 'Documents — and work begins', text: 'Contract, the GS code (shipping mark) and one of three receiving addresses: Yiwu, Guangzhou or Kashgar. Your supplier marks every carton before dispatch.' },
     { glyph: 'pin', title: 'Your manager rides along', text: 'Location updates and photo reports arrive on Telegram: intake, loading, border, Tashkent.' },
     { glyph: 'parcel', title: 'You receive the cargo', text: 'Collect it in Tashkent or we forward it to your region. The invoice is in your hands.' },
   ],

@@ -1,6 +1,6 @@
 ---
 title: "Cargo glossary: consolidated cargo, volumetric weight, GTD, FCL — 40 terms in plain words"
-description: "40 terms you meet when shipping from China to Uzbekistan — cargo, consolidated freight, volumetric weight, density, tracking code, consolidation, GTD, HS code, FCL/LCL, CMR, Incoterms — short, precise definitions with numbers. As of September 2026."
+description: "40 terms you meet when shipping from China to Uzbekistan — cargo, consolidated freight, volumetric weight, density, GS code, consolidation, GTD, HS code, FCL/LCL, CMR, Incoterms — short, precise definitions with numbers. As of September 2026."
 lang: en
 translationKey: glossary
 slug: cargo-glossary
@@ -57,8 +57,8 @@ An accelerated truck lane: fewer stops, faster border. GSR’s fastest recorded 
 ### Consolidation
 Combining one client’s lots from different suppliers into a single shipment at the China warehouse. Cheaper than shipping each lot separately.
 
-### Warehouse address (client code)
-The China warehouse address plus your personal code. When ordering on 1688 or Taobao you enter it as the delivery address; the code tells warehouse staff the parcel is yours.
+### Warehouse address (with your GS code)
+The China receiving address your manager gives you, plus your GS code (shipping mark). When ordering on 1688 or Taobao you enter it as the delivery address, and your supplier writes the GS code on every carton before dispatch — only then can the receiving point identify the parcel as yours.
 
 ### Photo report
 Photos taken when goods arrive at the warehouse: packaging, quantity, condition, weight. Sent to your Telegram.
@@ -153,8 +153,8 @@ Crossings on the China–Kyrgyzstan border; the Kashgar → Osh → Andijan rout
 ### Yallama (Gishtkuprik)
 The road crossing on the Kazakhstan–Uzbekistan border near Tashkent.
 
-### Tracking code (cargo code)
-The number assigned to each shipment; use it to get the status from your manager or on the tracking page.
+### GS code (shipping mark, 唛头)
+Your personal code, issued after the contract. The supplier writes it on every carton before dispatch; you quote it to your manager or on the [Tracking](/en/tracking/) page. The Chinese courier’s tracking number (1688, Taobao) is a separate thing.
 
 ### Trip / batch
 The departure of one truck or container. Cargo companies number them like “AK-123”; payment is often per trip.
@@ -163,4 +163,4 @@ The departure of one truck or container. Cargo companies number them like “AK-
 Where you collect cargo in Tashkent or a region.
 
 ### Door delivery
-From the Tashkent warehouse to the client’s address; to the regions by courier or via a branch.
+From the Tashkent warehouse to the client’s address; to the regions by courier or a transport company, on agreed terms.

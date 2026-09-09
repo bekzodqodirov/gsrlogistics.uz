@@ -80,7 +80,7 @@ Practical tips:
 2. **You get a quote.** Your manager messages the seller in Chinese and confirms the price, MOQ, delivery inside China and the dispatch date. You see the total in yuan and in UZS: goods + delivery inside China + 3% commission. Yuan is converted at the Central Bank of Uzbekistan rate, and the rate date is printed on the quote.
 3. **You pay.** In UZS: card transfer, Click/Payme, or an invoice for legal entities. The order is placed once payment is confirmed.
 4. **We pay in yuan.** Through the 1688 platform, not to the seller’s private account — if the goods do not arrive or do not match, the platform refunds the money.
-5. **The delivery address is the Yiwu warehouse.** The order names GSR Logistics’ warehouse in Yiwu (义乌) and your client code as the delivery address. Inside China the goods take 2–5 days.
+5. **The delivery address is a receiving point in China.** The order names the receiving address your manager gives you, plus your GS code (shipping mark). There are three receiving addresses in China — Yiwu (义乌), Guangzhou (广州) and Kashgar (喀什); your manager tells you which one applies. Ask the seller to write the GS code on every carton before dispatch (in Chinese: 发货前请写上GS编码/唛头). Inside China the goods take 2–5 days.
 6. **Receiving, inspection, photo report.** At the warehouse we weigh, measure, open and count every box; the photo report lands in your Telegram. On request — repacking ($0.40/kg) and detailed inspection ($1/kg). Orders from different sellers are grouped into one shipment — see [Yiwu warehouse and quality control](/en/services/warehouse-quality-control/).
 7. **We ship to Tashkent.** Truck (consolidated freight) in 15–25 days or air in 5–10 days. Customs clearance in Tashkent, then you collect at the warehouse or we forward the cargo to your region.
 
@@ -109,7 +109,7 @@ One case costs about UZS 29,700 — before customs. *Estimate · Updated Septemb
 
 ## Taobao and Pinduoduo: what is different?
 
-**Taobao** is the retail market: goods from the same factories as 1688, but by the piece and at a higher price. It suits samples, small orders (5–20 pcs) and rare items. Seller chat (旺旺) works the same way as on 1688; delivery inside China is mostly free. Some shops accept a foreign Visa card, but the delivery address still has to be in China — that is, the warehouse address.
+**Taobao** is the retail market: goods from the same factories as 1688, but by the piece and at a higher price. It suits samples, small orders (5–20 pcs) and rare items. Seller chat (旺旺) works the same way as on 1688; delivery inside China is mostly free. Some shops accept a foreign Visa card, but the delivery address still has to be in China — that is, the receiving address.
 
 **Pinduoduo** has the lowest retail prices, often apparently below 1688. But the sellers are small, quality varies from lot to lot, returns are difficult, and goods that do not match the picture are common. It works for cheap small items (stationery, accessories, household goods); for a private label or a marketplace, 1688 is more reliable.
 
@@ -120,7 +120,7 @@ On all three platforms GSR Logistics works the same way: link → quote → paym
 1. **Looking at the lowest price without the MOQ.** The 7.2 yuan in the listing is for 1,000 pieces; 50 pieces will cost 8.5 each.
 2. **Trusting the picture.** Ordering "like the photo" without reading the 规格 (specification) column — and receiving a different size, or packs of 10 instead of single units.
 3. **Not vetting the seller.** A seller with 1 year on the platform and a 10% repeat rate is risky even when cheap. Look for the 实力商家 and 工厂 badges.
-4. **Entering your own address.** 1688 does not deliver to Uzbekistan; the address is the Yiwu warehouse plus your client code. Without the code the shipment is hard to identify as yours.
+4. **Entering your own address.** 1688 does not deliver to Uzbekistan; the address is the receiving point your manager gives you, plus your GS code. The seller must write the GS code on every carton before dispatch: without it there is no way to tell whose cartons they are.
 5. **Planning battery goods by air.** Power banks, wireless earbuds, electronic toys — truck only. Plan the timeline accordingly.
 6. **Goods with brand logos.** Copies of Nike, Apple or Disney are seized at customs with no compensation. Ask for the unbranded (无标) version.
 7. **A big lot without a sample.** The first time, take 20–50 pieces rather than 1,000 — air brings them in 7 days and you see the quality yourself.

@@ -75,9 +75,9 @@ The Canton Fair (广交会) runs twice a year at the Pazhou complex — April–
 |---|---|---|
 | Yiwu, Futian | Small commodities — kg or m³ by density | Same city, 0–1 day |
 | Guangzhou, Baiyun and Shahe | Bags, garments, shoes — kg (dense cargo) | Same city, 0–1 day |
-| Shenzhen, Huaqiangbei | Electronics — kg; battery goods by truck only | 1–2 days to Guangzhou |
+| Shenzhen, Huaqiangbei | Electronics — kg; battery goods by truck only | Guangzhou, by domestic express |
 | Keqiao | Fabrics — kg | 1–2 days, about 90 km |
-| Foshan, Lecong | Furniture, ceramics — m³ or container | 1–2 days to Guangzhou, about 30 km |
+| Foshan, Lecong | Furniture, ceramics — m³ or container | Guangzhou, about 30 km |
 
 There are three receiving addresses in China: Yiwu (义乌), Guangzhou (广州) and Kashgar (喀什). Your manager tells you which one applies. Lots from different sellers are consolidated into one shipment at the Yiwu warehouse.
 
@@ -95,7 +95,7 @@ If you plan a trip, the process looks like this:
 1. **Plan.** List the markets, districts and floors. Tashkent has direct flights to Urumqi and Beijing; Yiwu is reached via Shanghai or Hangzhou by high-speed rail (Hangzhou–Yiwu about 1 hour). Check visa requirements before you travel.
 2. **On the market floor.** Log every booth in one place: booth number, business card, product photo, price, minimum order, lead time. You will see more than 100 booths in a day — nothing survives without notes.
 3. **Payment.** Sellers take yuan via WeChat Pay or Alipay; a foreign card can be linked, but wholesale amounts are normally paid from an agent’s account. GSR Logistics pays in yuan at the Central Bank rate — [Buying from 1688 & Taobao](/en/services/buying-agent/).
-4. **Address.** The seller gets the receiving address your manager names (the Yiwu warehouse, Guangzhou or Kashgar) and your GS code (shipping mark) as the delivery address — the seller writes that code on every carton before dispatch. Within Yiwu, sellers usually deliver in 1–2 days free of charge; from other cities, by domestic express.
+4. **Address.** The seller gets the receiving address your manager names — the Yiwu warehouse, Guangzhou or Kashgar — and your GS code (shipping mark) to write on every carton before dispatch. Within Yiwu, sellers usually deliver in 1–2 days free of charge; from other cities, by domestic express.
 5. **Warehouse and departure.** Every carton is weighed, measured and numbered; the photo report lands in your Telegram; the cargo reaches Tashkent by truck in roughly 15–25 days or by air in 5–10.
 
 For remote buying, step 2 is replaced by sending a link, a sample or a spec; everything else is the same. If the product is not found yet — the [Product & supplier sourcing](/en/services/sourcing/) service and the guide on [finding a supplier in China](/en/guides/finding-a-supplier-in-china/).

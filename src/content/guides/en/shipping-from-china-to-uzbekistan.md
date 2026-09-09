@@ -59,7 +59,7 @@ Consolidated cargo is a method where shipments from several clients are combined
 
 It suits lots from 10 kg to 15 m³ best: Uzum and Yandex Market sellers, shop and market-stall owners, entrepreneurs testing a first batch. Above 15–20 m³ a dedicated container (FCL) or rail usually works out cheaper.
 
-GSR Logistics has been shipping consolidated cargo since June 2022; the third consolidation truck left the Yiwu warehouse on August 2, 2022. Yiwu (义乌) is home to the world’s largest small-commodity wholesale market, which is why the consolidation warehouse is there. There are two more receiving addresses in China — Guangzhou (广州) and Kashgar (喀什); your manager tells you which one applies.
+GSR Logistics has been shipping consolidated cargo since June 2022; the third consolidation truck left the Yiwu warehouse on August 2, 2022. Yiwu (义乌) is home to the world’s largest small-commodity wholesale market, which is why the consolidation warehouse is there. There are two more receiving addresses in China — Guangzhou (广州) and Kashgar (喀什); your manager tells you which address to use.
 
 ## Which route does the cargo take?
 

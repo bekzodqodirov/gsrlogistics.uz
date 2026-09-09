@@ -1,6 +1,6 @@
 import type { Lang } from './config';
 
-// operatorFallback: shown while site.legalEntity (src/lib/site.ts) is empty — the owner must fill in the legal name and STIR there.
+// operatorFallback: the trade name («GSR Logistics») shown next to site.legalEntity («Imex services LLC», src/lib/site.ts); it also stands alone if that value is ever emptied. The STIR is still missing — add it in site.ts when the owner supplies it; never invent one.
 export interface PrivacySection { heading: string; paragraphs?: string[]; bullets?: string[] }
 export interface PrivacyStrings { seoTitle: string; seoDescription: string; eyebrow: string; h1: string; effective: string; intro: string; operatorLabel: string; operatorFallback: string; sections: PrivacySection[]; contactHeading: string; contactText: string }
 

@@ -102,9 +102,9 @@ Every quotation must state the delivery term — it defines who pays up to which
 |---|---|---|---|
 | EXW (ex works) | Making the goods available at the factory | Pickup, transport within China, export clearance, the whole onward route | The most transparent price; we arrange transport to the Yiwu warehouse |
 | FOB (free on board at the port) | Transport within China, export clearance, delivery to the port | Everything after the port or border | For sea containers; on overland routes "FOB" in practice means "to the border" — clarify it |
-| Delivery to the Yiwu warehouse (送货到义乌仓) | Factory to our warehouse | Warehouse to Tashkent | The most convenient option for consolidated cargo — the seller pays domestic transport |
+| Delivery to the receiving point (送货到仓库) | Factory to the receiving point (Yiwu, Guangzhou or Kashgar) | Receiving point to Tashkent | The most convenient option for consolidated cargo — the seller pays domestic transport |
 
-For consolidated truck freight and air cargo the practical choice is EXW or "delivery to the Yiwu warehouse": the seller ships to GSR’s warehouse, we receive, inspect and carry the goods to Tashkent. For container lots FOB is standard; the exact term and port name on the invoice are also needed to calculate the customs value correctly.
+For consolidated truck freight and air cargo the practical choice is EXW or "delivery to the receiving point": the seller ships to the address we give you, we receive, inspect and carry the goods to Tashkent. There are three receiving addresses in China: Yiwu, Guangzhou and Kashgar — your manager tells you which one applies. For container lots FOB is standard; the exact term and port name on the invoice are also needed to calculate the customs value correctly.
 
 ## Contracts and prepayment
 

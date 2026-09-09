@@ -4,8 +4,12 @@ import type { ServiceContentByLang } from './types';
  * 1688 / Taobao / Pinduoduo / Alibaba buying agent (vykup) — long-form page content.
  * Figures: commission "3% dan" = site.sourcingCommissionPct / tariffs.extras.sourcingCommissionPct;
  * freight, inspection (1 $/kg), photo (1 $), repack (0,4 $/kg), 14 free storage days — tariffs.json (2026-09-08).
- * Own vs partner warehouse is unverified — always "Ivu ombori" / "склад в Иу" / "the Yiwu warehouse",
- * never "omborimiz" / "нашего склада" / "our Yiwu warehouse".
+ * Ownership of each point is unverified — always "Ivu ombori" / "склад в Иу" / "the Yiwu warehouse",
+ * never "omborimiz" / "нашего склада" / "our warehouse".
+ * There are THREE receiving addresses in China — Ivu / Иу / Yiwu, Guanchjou / Гуанчжоу / Guangzhou,
+ * Qashqar / Кашгар / Kashgar — and the manager tells the customer which one applies. This page keeps
+ * Ivu because it is the consolidation warehouse the buying flow and the tariffs are built around;
+ * do not give Guangzhou or Kashgar a consolidation role here, and do not claim we own any of them.
  * FX example uses the CBU rates of 2026-09-08 (USD 11 789,33 · CNY 1 756,72 soʻm, research wf/10 §6) — illustrative only.
  * Payment channels in Uzbekistan (soʻm, card, Click/Payme, bank transfer for legal entities) are market practice — owner to confirm.
  */
