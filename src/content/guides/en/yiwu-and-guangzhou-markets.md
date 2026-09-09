@@ -67,17 +67,17 @@ The Canton Fair (广交会) runs twice a year at the Pazhou complex — April–
 
 **Huaqiangbei (华强北), Shenzhen** is the largest electronics market in the world: SEG Plaza and Huaqiang Electronics World (components, cables, chargers), Mingtong (phone accessories), Yuanwang (phones). Earbuds, smartwatches, power banks, cameras, car electronics — all within a few blocks. Two caveats: anything with a lithium battery cannot fly and goes by truck only; copies of well-known brands are counterfeit and we do not accept them (see [Prohibited goods](/en/guides/prohibited-goods/)).
 
-**Keqiao (柯桥) — China Textile City**, in Shaoxing, roughly 90 km from Yiwu. Fabric is sold by the roll, usually with a one-roll minimum; curtains, bedding fabrics, knits, denim. The primary address for garment workshops. Fabric is dense cargo, so it is priced per kilogram.
+**Keqiao (柯桥) — China Textile City**, in Shaoxing, roughly 90 km from Yiwu. Fabric is sold by the roll, usually with a one-roll minimum; curtains, bedding fabrics, knits, denim. The primary address for garment workshops. Fabric is dense cargo: a cubic metre of rolls runs 300–500 kg, so the per-m³ rate comes from the upper density bands — roughly $200–290 per m³.
 
-**Foshan**, 30 km from Guangzhou: the Lecong (乐从) furniture market in Shunde district (several kilometres of showrooms — sofas, beds, office furniture), and ceramics and tiles in the Chancheng and Nanhai districts. Neighbouring Zhongshan has Guzhen, the lighting hub. Furniture is bulky cargo: priced per m³, and a large lot is cheaper in a 20ft or 40ft container.
+**Foshan**, 30 km from Guangzhou: the Lecong (乐从) furniture market in Shunde district (several kilometres of showrooms — sofas, beds, office furniture), and ceramics and tiles in the Chancheng and Nanhai districts. Neighbouring Zhongshan has Guzhen, the lighting hub. Furniture is light, bulky cargo: density is usually under 100 kg/m³, so it lands in the cheapest band — from $110 per m³; a large lot is cheaper still in a 20ft or 40ft container.
 
 | City and market | Goods and pricing rule | To the nearest receiving point (approx.) |
 |---|---|---|
-| Yiwu, Futian | Small commodities — kg or m³ by density | Same city, 0–1 day |
-| Guangzhou, Baiyun and Shahe | Bags, garments, shoes — kg (dense cargo) | Same city, 0–1 day |
-| Shenzhen, Huaqiangbei | Electronics — kg; battery goods by truck only | Guangzhou, by domestic express |
-| Keqiao | Fabrics — kg | 1–2 days, about 90 km |
-| Foshan, Lecong | Furniture, ceramics — m³ or container | Guangzhou, about 30 km |
+| Yiwu, Futian | Small commodities — per m³, band set by density, from $110/m³ | Same city, 0–1 day |
+| Guangzhou, Baiyun and Shahe | Bags, garments, shoes — dense cargo, upper per-m³ bands | Same city, 0–1 day |
+| Shenzhen, Huaqiangbei | Electronics — dense cargo, per m³; battery goods by truck only | Guangzhou, by domestic express |
+| Keqiao | Fabrics — dense cargo, roughly $200–290 per m³ | 1–2 days, about 90 km |
+| Foshan, Lecong | Furniture light — from $110/m³, ceramics denser; or container | Guangzhou, about 30 km |
 
 There are three receiving addresses in China: Yiwu (义乌), Guangzhou (广州) and Kashgar (喀什). Your manager tells you which one applies. Lots from different sellers are consolidated into one shipment at the Yiwu warehouse.
 
@@ -104,7 +104,7 @@ For remote buying, step 2 is replaced by sending a link, a sample or a spec; eve
 
 Consolidation means combining one client’s lots from different sellers into a single shipment at the warehouse in China. Goods from 5 booths at the Yiwu market, 1 seller in Keqiao and 2 in Guangzhou are gathered under one GS code and leave on one departure — far cheaper than shipping each lot separately.
 
-At the warehouse every carton is weighed, measured, numbered and photographed; when needed it is opened, counted and checked for condition. The photo report arrives in Telegram. Estimated service prices as of September 8, 2026: photo report $1, repacking $0.40/kg, detailed inspection $1/kg; 14 days of free storage in China. Dense cargo (above 170 kg/m³) is priced per kilogram, light and bulky cargo per m³ — the rule is on the [Pricing](/en/pricing/) page and the number for your cargo comes from the [Calculator](/en/calculator/). Full warehouse services — [Yiwu warehouse & quality control](/en/services/warehouse-quality-control/).
+At the warehouse every carton is weighed, measured, numbered and photographed; when needed it is opened, counted and checked for condition. The photo report arrives in Telegram. Estimated service prices as of September 8, 2026: photo report $1, repacking $0.40/kg, detailed inspection $1/kg; 14 days of free storage in China. Truck cargo is priced per m³: the density of the lot (kg ÷ m³) picks the band the cubic-metre rate comes from — from $110 per m³ up to 100 kg/m³ and rising with density, while anything denser than 1,000 kg/m³ is charged at $0.55 per kg. For example, 300 kg in 1.2 m³ → 250 kg/m³ → 1.2 × $180 = $216, whereas 180 kg in 2 m³ → 90 kg/m³ → 2 × $110 = $220: twice the volume for almost the same money. The minimum billable volume is 0.1 m³. Prices are indicative and duty and VAT are separate; the rule is on the [Pricing](/en/pricing/) page and the number for your cargo comes from the [Calculator](/en/calculator/). Full warehouse services — [Yiwu warehouse & quality control](/en/services/warehouse-quality-control/).
 
 ## Seasonal calendar: when to buy and when to wait?
 
@@ -128,7 +128,7 @@ The practical takeaway: for January and October departures, order 3–4 weeks be
 4. Confirm whether a price is per piece or per carton — this is where most confusion starts.
 5. Note the lead time: in-stock goods 1–2 days, made to order 7–15 days.
 6. Put the GS code and carton number on the label — the seller writes them before dispatch, and the warehouse finds your goods by that code.
-7. Price dense and light goods separately: socks go by the kilogram, plush toys by the m³ — [how cargo prices are calculated](/en/guides/how-cargo-prices-are-calculated/).
+7. Price dense and light goods separately: both go by the m³, but plush toys fall in the cheapest band (from $110 per m³) while a tightly packed carton of socks lands in a dearer one — [how cargo prices are calculated](/en/guides/how-cargo-prices-are-calculated/).
 8. Stay away from branded marks: customs seizes counterfeit goods, and we do not accept them.
 9. For a commercial lot, check in advance whether a certificate and an Uzbek-language label are required — [Uzbekistan customs duties 2026](/en/guides/uzbekistan-customs-duties-2026/).
 10. Put the holiday calendar into your plan: a 2–3-week delay in February and October is normal.
