@@ -54,6 +54,19 @@ Barcha narx va muddatlar `src/data/tariffs.json` faylida (avia $/kg, avto zinapo
 - Bosh sahifa boʻlimlari matnlari: `src/i18n/*.ts`.
 - Oʻzbek matnida ʻ (U+02BB) va ʼ (U+02BC) belgilaridan foydalaning (oʻ, gʻ, maʼlumot), oddiy ' emas.
 
+### Matn tekshiruvi (avtomatik)
+
+`npm run build` oxirida `scripts/check-content.mjs` barcha sahifalarni tekshiradi va quyidagilar topilsa build toʻxtaydi:
+
+- tasdiqlanmagan daʼvolar: «bojsiz», «100% kafolat», «eng tez», «xalqaro», mijozlar soni, viloyat filiallari;
+- Ivu omborini «bizning omborimiz» deb atash (egalik tasdiqlanmagan — hamma joyda «Ivu ombori»);
+- javob tezligini vaʼda qilish («hozir javob beramiz», «быстрее всего», «fastest reply»);
+- kalka va ruscha soʻzlar: Kitay, zayavka, tomonidan, amalga oshiramiz, uzel;
+- «powerbank» (toʻgʻrisi — «power bank»);
+- har sahifada bitta `h1`, oddiy apostrof, raqam uslubi, tillar aralashuvi.
+
+Xato chiqsa, u sahifa manzili bilan koʻrsatiladi — matnni tuzatib qayta build qiling.
+
 ## SEO va AI-qidiruv
 
 `docs/SEO-PLAYBOOK.md` — egasi uchun toʻliq reja: Google Search Console, Bing Webmaster (IndexNow), Yandex Webmaster, Google Business Profile / Yandex Business / 2GIS kartochkalari, sharhlar, oylik narx yangilash, oylik AI-so'rov testi. Sayt tomonidan tayyor: `robots.txt` (barcha AI-kraulerlarga ruxsat), `sitemap-index.xml` (hreflang bilan), `llms.txt` + `llms-full.txt`, JSON-LD (Organization/LocalBusiness, Service, FAQPage, Article, BreadcrumbList), OG rasmlar, IndexNow kaliti.
