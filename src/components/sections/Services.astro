@@ -131,8 +131,22 @@ const truckDays = range(tariffs.truck.days[0], tariffs.truck.days[1]);
   .span-8 { grid-column: span 8; }
   .span-4 { grid-column: span 4; }
   .card { display: flex; flex-direction: column; gap: 12px; height: 100%; padding: 24px; color: var(--fg); }
-  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
-  :global(.glyph) { color: var(--fg); flex: none; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  /* The glyph is a deliberate object, not a hairline: a 44px tile (24px art + 10px padding) on a
+     soft ground. Bare, a 24px stroke icon is 0.54% of a 384×280 card and ~0.11% of it in ink.
+     content-box so the padding adds to the 24px art instead of eating it. */
+  .card > .top :global(.glyph) {
+    box-sizing: content-box;
+    flex: none;
+    width: 24px; height: 24px; padding: 10px;
+    color: var(--fg);
+    background: var(--bg-2);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+  }
+  .flagship > .top :global(.glyph) { color: var(--accent); background: var(--accent-soft); border-color: var(--accent-soft); }
+  /* --bg-2 is darker than --card on dark surfaces, so the tile would read as a hole; lift it instead. */
+  :global(.dark) .card > .top :global(.glyph) { background: rgb(255 255 255 / 0.06); border-color: var(--card-border); }
   h3 { font-size: clamp(1.375rem, 0.5vw + 1.1rem, 1.75rem); line-height: 1.14; font-weight: 600; letter-spacing: -0.006em; text-wrap: balance; }
   .sentence { color: var(--fg-2); text-wrap: pretty; }
   .numline { font-weight: 600; color: var(--fg); margin-top: auto; padding-top: 4px; }
@@ -155,15 +169,25 @@ const truckDays = range(tariffs.truck.days[0], tariffs.truck.days[1]);
   .compare-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; list-style: none; margin: 0; padding: 0; }
   .compare-col { display: grid; gap: 6px; padding-right: 20px; align-content: start; }
   .compare-col + .compare-col { border-left: 1px solid var(--border-soft); padding-left: 20px; }
-  .compare-col :global(.glyph) { color: var(--muted); margin-bottom: 4px; }
+  /* --muted on --bg-3 is 4.91:1 behind a 1.46px stroke — the quietest mark in the section. --fg-2 is 9.69:1. */
+  .compare-col :global(.glyph) { color: var(--fg-2); flex: none; margin-bottom: 4px; }
+  /* .num-unit's global gap is 0.12em of the *unit* (~1.8px) — a word-space beside the flagship's 64px
+     numeral, nothing beside a 22px one, so "15–25days" ran together. The global .stat rule adds the
+     numeral-scaled half; .compare-days is not .stat, so add it here. */
+  .compare-days > span:first-child { margin-right: 0.1em; }
   .compare-days { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); line-height: 1; display: flex; align-items: baseline; white-space: nowrap; }
   .compare-name { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); }
   .compare-fit { font-size: var(--text-small); color: var(--muted); text-wrap: pretty; }
 
   .grid-meta { margin-top: 20px; max-width: 70ch; }
 
+  /* The two span-8 cards carry a two-column interior (copy + stat, three compare columns). Squeezed
+     to half a 720–1050px row they collapsed: the flagship copy column measured 123px beside a 151px
+     stat and ran the sentence to six lines, and .compare-days (nowrap) overflowed a 99px column
+     across the divider in ru. Give them the whole row here and pair the plain cards two-up instead. */
   @media (max-width: 1099px) {
-    .span-8, .span-4 { grid-column: span 6; }
+    .span-8 { grid-column: span 12; }
+    .span-4 { grid-column: span 6; }
   }
   @media (max-width: 767px) {
     .bento { gap: 16px; }

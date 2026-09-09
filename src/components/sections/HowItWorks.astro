@@ -15,6 +15,7 @@ import { pagePath } from '@/i18n/routes';
 import { telegramChat } from '@/lib/site';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
+import ParcelFlow from '@/components/process/ParcelFlow.astro';
 
 interface Props { lang: Lang; index?: string }
 const { lang, index = '04' } = Astro.props;
@@ -55,6 +56,9 @@ const telegramHref = telegramChat(c.telegramDraft.general);
         </li>
       ))}
     </ol>
+
+    <!-- What happens to the customer's own boxes, after what the customer does. -->
+    <ParcelFlow lang={lang} />
 
     <div class="cta-row">
       <Button href={contactHref} variant="secondary">{c.cta.sendRequest}</Button>

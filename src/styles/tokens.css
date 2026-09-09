@@ -46,8 +46,10 @@
   --accent-fg: #ffffff;
   --accent-soft: var(--red-100);
   --accent-text: var(--red-600);
+  --map-sea: #f7f7fa;
   --map-land: #ededf0;
-  --map-stroke: #d2d2d7;
+  --map-land-2: #dedee5; /* origin + destination countries, one step darker than the rest */
+  --map-stroke: #c3c3ca;
   --route-idle: rgb(0 0 0 / 0.12);
   --shadow-ring: 0 0 0 1px rgb(0 0 0 / 0.06);
   --shadow-raised: 0 12px 32px rgb(0 0 0 / 0.08);
@@ -113,8 +115,12 @@
   --accent-fg: #ffffff;
   --accent-soft: rgb(196 18 22 / 0.16);
   --accent-text: var(--red-300);
-  --map-land: #1c1c1f;
-  --map-stroke: #2c2c30;
+  /* Map plate. Measured against each other, not by eye: sea→land ΔL* 13.2 (1.35:1),
+     land→land-2 ΔL* 8.3 (1.31:1), stroke→land ΔL* 21.7 (2.13:1) — a dark map still has to have edges. */
+  --map-sea: #0e0e13;
+  --map-land: #2a2a31;
+  --map-land-2: #3c3c45;
+  --map-stroke: #5b5b67;
   --route-idle: rgb(255 255 255 / 0.14);
   --shadow-ring: 0 0 0 1px rgb(255 255 255 / 0.08);
   --shadow-raised: 0 12px 32px rgb(0 0 0 / 0.4);

@@ -2,11 +2,15 @@
 /**
  * Journey glyphs — one <defs> block of <symbol>s, meant to be rendered INSIDE the map <svg>.
  * Style: flat monoline on a 24-unit grid, 1.5 stroke, round caps/joins, currentColor,
- * `vector-effect="non-scaling-stroke"` so the line weight stays 1.5 px at every camera zoom.
+ * `vector-effect="non-scaling-stroke"` so the line weight is constant at every camera zoom (width: .jm-actors).
  * Vehicles face LEFT because the route runs east → west (Yiwu → Tashkent).
  * The two half-marks are the hooks of the GSR "S" monogram (same paths as ui/Logo.astro).
  */
-const S = 'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
+// No stroke-width here on purpose: it is inherited from .jm-actors (Journey.astro) so the phone can run a
+// lighter line. A glyph is 39 px across on a desktop camera and 20-27 px on a phone; 1.5 px of non-scaling
+// stroke is 4 % of the first and 7 % of the second, which closed the truck's cab and the pin's doorway into
+// solid white blobs.
+const S = 'fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
 const V = 'vector-effect="non-scaling-stroke"';
 ---
 <defs>

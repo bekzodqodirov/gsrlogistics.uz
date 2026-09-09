@@ -21,6 +21,10 @@ const HAS_HAN = new RegExp(`[${HAN}]`);
 
 // Elements whose text is not prose: never rewrite inside them.
 const OPAQUE = new Set(['script', 'style', 'pre', 'code', 'textarea', 'title']);
+// Inside an <svg>, <span> is an HTML foreign-content breakout tag: the parser closes the SVG at it and
+// everything after lands in the HTML namespace, so the rest of the drawing silently stops rendering.
+// SVG text takes <tspan> instead. Elements that end foreign content when nested in one.
+const SVG_TEXT = new Set(['text', 'tspan', 'textpath']);
 
 const walk = (dir) => readdirSync(dir).flatMap((name) => {
   const p = join(dir, name);
@@ -32,6 +36,7 @@ function wrap(html) {
   let out = '';
   let i = 0;
   let skipUntil = null; // closing tag we are waiting for, e.g. '</script'
+  let svgDepth = 0;     // >0 while inside an <svg>: wrap with <tspan>, never <span>
   let wrapped = 0;
 
   while (i < html.length) {
@@ -60,6 +65,7 @@ function wrap(html) {
       if (tag.startsWith('</') && `</${name}` === skipUntil) skipUntil = null;
       continue;
     }
+    if (name === 'svg' && !tag.endsWith('/>')) svgDepth += tag.startsWith('</') ? -1 : 1;
     // Opaque elements, and anything already declared Chinese, are left as they are.
     if (!tag.startsWith('</') && !tag.endsWith('/>') &&
         (OPAQUE.has(name) || /\slang\s*=\s*["']?zh/i.test(tag))) {
@@ -69,7 +75,8 @@ function wrap(html) {
 
   function text(chunk) {
     if (!HAS_HAN.test(chunk)) return chunk;
-    return chunk.replace(RUN, (run) => { wrapped += 1; return `<span lang="zh">${run}</span>`; });
+    const el = svgDepth > 0 ? 'tspan' : 'span';
+    return chunk.replace(RUN, (run) => { wrapped += 1; return `<${el} lang="zh">${run}</${el}>`; });
   }
 
   return { html: out, wrapped };

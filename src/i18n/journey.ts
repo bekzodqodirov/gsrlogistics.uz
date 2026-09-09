@@ -31,11 +31,12 @@ export interface JourneyStrings {
   km: { unit: string; caption: string; daysCaption: { truck: string; rail: string; air: string } };
   footnote: string;
   done: string;
-  map: { aria: string; border: string; altRoute: string; warehouse: string };
+  /** countries: the three country names drawn on the map itself (geography, not a claim) */
+  map: { aria: string; border: string; altRoute: string; warehouse: string; countries: { cn: string; kz: string; uz: string } };
 }
 
 const uz: JourneyStrings = {
-  eyebrow: '01 — Yoʻl',
+  eyebrow: 'Yoʻl',
   title: 'Xitoydan eshigingizgacha.',
   sub: 'Har bosqich — koʻz oʻngingizda.',
   stageWord: 'Bosqich',
@@ -59,11 +60,12 @@ const uz: JourneyStrings = {
     border: 'bojxona',
     altRoute: 'muqobil yoʻl',
     warehouse: 'ombor',
+    countries: { cn: 'Xitoy', kz: 'Qozogʻiston', uz: 'Oʻzbekiston' },
   },
 };
 
 const ru: JourneyStrings = {
-  eyebrow: '01 — Маршрут',
+  eyebrow: 'Маршрут',
   title: 'Из Китая до вашей двери.',
   sub: 'Каждый этап — как на ладони.',
   stageWord: 'Этап',
@@ -87,11 +89,12 @@ const ru: JourneyStrings = {
     border: 'таможня',
     altRoute: 'альтернативный маршрут',
     warehouse: 'склад',
+    countries: { cn: 'Китай', kz: 'Казахстан', uz: 'Узбекистан' },
   },
 };
 
 const en: JourneyStrings = {
-  eyebrow: '01 — The route',
+  eyebrow: 'The route',
   title: 'From China to your door.',
   sub: 'Every stage in plain sight.',
   stageWord: 'Stage',
@@ -115,6 +118,7 @@ const en: JourneyStrings = {
     border: 'customs',
     altRoute: 'alternative route',
     warehouse: 'warehouse',
+    countries: { cn: 'China', kz: 'Kazakhstan', uz: 'Uzbekistan' },
   },
 };
 
