@@ -31,7 +31,7 @@ sources:
   - title: "Logistan — Qozogʻiston Doʻstiq va Oltinkoʻlga boʻsh platformalar taqiqini uzaytirdi"
     url: "https://logistan.info/7645-kazahstan-prodlil-zapret-na-poroznie-platformy-na-dostyk-i-altynkol/"
     date: "2025-05-15"
-  - title: "Ritm Eurasia — Oltinkoʻl — Xorgos temir yoʻl uzeli modernizatsiyasi 2026-yilda yakunlanadi"
+  - title: "Ritm Eurasia — Oltinkoʻl — Xorgos temir yoʻl tuguni modernizatsiyasi 2026-yilda yakunlanadi"
     url: "https://www.ritmeurasia.ru/news--2026-02-24--modernizacija-zh-d-uzla-altynkol-horgos-na-granice-s-kitaem-zavershitsja-v-2026-godu-86044"
     date: "2026-02-24"
   - title: "RZD-Partner — Xitoy — Qirgʻiziston — Oʻzbekiston transport yoʻlagi boʻylab birinchi poyezd joʻnatildi"
@@ -76,23 +76,25 @@ Temir yoʻl yuki Xitoy stansiyasidan (Sian, Chengdu, Lyanyungan, Ivu) **Alashank
 Nima sekinlashtiradi:
 
 - **Doʻstiq va Oltinkoʻlda tiqilinch.** 2025-yil birinchi yarmida Qozogʻiston temir yoʻli boʻsh platformalarni Doʻstiq va Oltinkoʻlga yuborishni taqiqlagan, 49 poyezd kutib turgan. Doʻstiq — Moyinti ikkinchi yoʻli 2025-yil sentabrida ochilib, oʻtkazuvchanlik 42% oshdi.
-- **Oltinkoʻl — Xorgos uzeli modernizatsiyasi** 2026-yilda tugaydi: kuniga 18 dan 33 juft poyezdgacha.
+- **Oltinkoʻl — Xorgos tuguni modernizatsiyasi** 2026-yilda tugaydi: kuniga 18 dan 33 juft poyezdgacha.
 - **Xitoy — Qirgʻiziston — Oʻzbekiston temir yoʻli** (Qashqar → Torugart → Makmal → Jalolobod → Andijon) hali qurilmoqda. Bu — kelajak, bugungi xizmat emas; 2026-yilda barcha temir yoʻl yuklari Qozogʻiston orqali keladi.
 
 Batafsil — [Temir yoʻl va konteyner](/xizmatlar/temir-yol-konteyner/).
 
 ## Avia yoʻl qanday ishlaydi?
 
-Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi (2–4 kun), parvoz 1 kun, Toshkent aeroportida bojxona 1–2 ish kuni. Jami taxminan 3–10 kun, odatda 5–10. Narx 9 $/kg dan, hajmiy vazn ÷ 5000. Litiy batareya, suyuqlik, magnit va atir aviaga olinmaydi — ular faqat avto yoki temir yoʻl bilan keladi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
+Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi (2–4 kun), parvoz 1 kun, Toshkent aeroportida bojxona 1–2 ish kuni. Jami taxminan 3–10 kun, odatda 5–10. Narx 9 $/kg dan, hajmiy vazn ÷ 5 000. Litiy batareya, suyuqlik, magnit va atir aviaga olinmaydi — ular faqat avto yoki temir yoʻl bilan keladi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
 
 ## Toʻrt yoʻl bir jadvalda
 
 | Yoʻl | Masofa | Muddat | Narx | Xavflar |
 |---|---|---|---|---|
-| Avto, Xorgos yoki Doʻstiq orqali (Qozogʻiston) | ≈ 5 000 km Ivudan | 15–25 kun (ekspress 13–18) | $$ — 6,5–7,5 $/kg yoki 110–190 $/m³ | Xorgos va Yallamada navbat (bayram oldi 3–7 kun), qishda qor |
+| Avto, Xorgos yoki Doʻstiq orqali (Qozogʻiston) | ≈ 5 000 km Ivudan | 15–25 kun (ekspress 13–18) | $$ — 110 $/m³ dan (zichlik boʻyicha, 320 $/m³ gacha) | Xorgos va Yallamada navbat (bayram oldi 3–7 kun), qishda qor |
 | Avto, Irkeshtam yoki Torugart orqali (Qirgʻiziston) | Andijonga 300–1 000 km qisqa | 9–15 kun (Andijon) | $$ — Xorgos bilan teng; Toshkent +350 km | Qishda dovon yopilishi, bayramda post yopiq, qoʻshimcha tranzit |
 | Temir yoʻl, Doʻstiq yoki Oltinkoʻl → Saryagash | ≈ 4 500–6 000 km stansiyaga qarab | 20–35 kun | $ — 20 fut 2 800–5 500 $ | Chegarada iz almashtirish, platforma yetishmasligi, terminal navbati |
 | Avia, Guanchjou yoki Urumchi → Toshkent | ≈ 5 000 km / ≈ 1 300 km | 3–10 kun | $$$ — 9–12 $/kg | Taqiqlangan tovarlar, reys jadvali, bayramda joy tanqisligi |
+
+Avto kargo narxi kilogramm boʻyicha emas, **zichlik boʻyicha** hisoblanadi: umumiy vaznni (kg) umumiy hajmga (m³) boʻlasiz va chiqqan zichlik m³ narxini beradi — 100 kg/m³ gacha yuk uchun 110 $/m³, 701–1 000 kg/m³ uchun 320 $/m³; 1 000 kg/m³ va undan zich yuk 0,55 $/kg boʻyicha hisoblanadi. Masalan, 1,2 m³ da 300 kg — zichlik 250 kg/m³, bu 201–250 oraligʻi, yaʼni 180 $/m³: 1,2 × 180 = **216 $**; 2 m³ da 180 kg — zichlik 90 kg/m³, yaʼni 110 $/m³: 2 × 110 = **220 $**. Shuning uchun yengilroq, lekin katta hajmli yuk qimmatroq tushishi mumkin. Eng kam hisob hajmi — 0,1 m³; narxlar taxminiy, boj va QQS alohida hisoblanadi.
 
 *Masofa, muddat va narxlar taxminiy · Yangilangan: 2026-yil 8-sentabr. Muddat yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi. Uch transport turini narx boʻyicha batafsil taqqoslash — [Avia, avto yoki temir yoʻl](/qollanma/avia-avto-temir-yol-taqqoslash/) qoʻllanmasida.*
 
@@ -122,7 +124,7 @@ Yoʻlni siz bilan birga tanlaymiz: yukning nomi, vazni, hajmi va qayerga kerakli
 
 ## Yuk yoʻlda qayerdaligini qanday bilasiz?
 
-Har bir partiyaning yuk kodi bor. Menejer yuk holatini Telegramda xabar qilib boradi; [Kuzatuv](/kuzatuv/) sahifasida kodni kiritsangiz, soʻrov toʻgʻridan-toʻgʻri menejerga ketadi. Asosiy yoʻlda statuslar shu tartibda oʻzgaradi:
+Har bir yukingiz sizning GS kodingiz ostida ketadi: GS kod (markirovka) — yetkazib beruvchi yukni joʻnatishdan oldin har bir qutiga yozadigan belgi. Menejer yuk holatini Telegramda xabar qilib boradi; [Kuzatuv](/kuzatuv/) sahifasida GS kodini kiritsangiz, soʻrov toʻgʻridan-toʻgʻri menejerga ketadi. Asosiy yoʻlda statuslar shu tartibda oʻzgaradi:
 
 1. **Ivu omborida** — yuk qabul qilindi, tortildi, foto-hisobot yuborildi.
 2. **Yuklandi** — joy raqami va fura sanasi maʼlum.
@@ -135,4 +137,4 @@ Har bir partiyaning yuk kodi bor. Menejer yuk holatini Telegramda xabar qilib bo
 
 > **Menejer maslahati.** Fura Xorgosga yetganda menejerdan bojxona hujjatlarini (invoys, qadoqlash roʻyxati, TN VED kodi) tekshirib qoʻyishni soʻrang: Yallamaga kelguncha hamma narsa tayyor boʻlsa, Toshkentda rasmiylashtiruv bir kunda tugaydi va yuk omborga navbatsiz tushadi.
 
-Yoʻlni tanlashda ikkilansangiz — yukning nomi, taxminiy vazni va shahringizni yozing: menejer Xorgos, Qirgʻiziston va temir yoʻl variantlarini muddat va narx bilan taqqoslab beradi.
+Yoʻlni tanlashda ikkilansangiz — yukning nomi, taxminiy vazni, hajmi va shahringizni yozing: menejer Xorgos, Qirgʻiziston va temir yoʻl variantlarini muddat va narx bilan taqqoslab beradi.

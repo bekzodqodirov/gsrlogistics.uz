@@ -20,7 +20,7 @@ const items = faqTop(lang);
 const priceMeta = faqTpl(t.priceMeta, { date: fmtDate(tariffs.updated, lang) });
 ---
 <section id="savol-javob" class="section faq-short below-fold" aria-labelledby="faq-short-title">
-  <div class="container container-text">
+  <div class="container">
     <div class="section-head">
       <Eyebrow>{index} — {t.home.eyebrow}</Eyebrow>
       <h2 id="faq-short-title" class="measure-head">{t.home.h2}</h2>
@@ -44,7 +44,10 @@ const priceMeta = faqTpl(t.priceMeta, { date: fmtDate(tariffs.updated, lang) });
 </section>
 
 <style>
-  .faq-short .section-head { max-width: none; margin-bottom: clamp(24px, 3vw, 40px); }
+  /* container, not container-text: a centred 980px column inside the 1200px container makes a second
+     left edge, so keep the measure but start it where every other section starts. */
+  .faq-short .section-head, .faq-short .faq-list, .faq-short .foot { max-width: var(--container-text); }
+  .faq-short .section-head { max-width: var(--container-text); margin-bottom: clamp(24px, 3vw, 40px); }
   .sub { color: var(--muted); font-size: var(--text-body); }
   .faq-item summary { font-size: 1.125rem; line-height: 1.35; padding: 20px 0; min-height: 44px; }
   .faq-item summary:hover .q { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }

@@ -38,7 +38,9 @@ export interface ContactStrings {
   h1: string;
   /** ≤70-word answer paragraph; {address} {hours} substituted from site.ts. */
   intro: string;
-  card: { title: string; addressLabel: string; phoneLabel: string; phone2Label: string; hoursLabel: string; emailLabel: string; telegramLabel: string; telegramDirect: string; telegramGroup: string; telegramChannel: string; socialLabel: string; instagram: string; facebook: string };
+  card: { title: string; addressLabel: string; phoneLabel: string; phone2Label: string; phone2Note: string; hoursLabel: string; emailLabel: string; whatsappLabel: string; telegramLabel: string; telegramDirect: string; telegramGroup: string; telegramChannel: string; socialLabel: string; instagram: string; facebook: string };
+  /** The three China receiving points from the company's own address card (src/lib/site.ts). */
+  china: { title: string; lead: string; contactLabel: string; phoneLabel: string; markTitle: string; markText: string };
   map: { title: string; metro: string; street: string; building: string; yandex: string; google: string; coords: string };
   visit: { title: string; text: string; steps: string[]; note: string };
   reasons: { title: string; items: Array<{ title: string; text: string }> };
@@ -51,14 +53,16 @@ const uz: ContactStrings = {
   seoDescription: 'GSR Logistics bilan bogʻlaning: Toshkent, Alisher Navoiy koʻchasi 27 (metro yonida), Du–Sha 9:00–19:00. Telegram, telefon, Instagram va soʻrov formasi — Xitoydan yuk boʻyicha.',
   eyebrow: 'Aloqa',
   h1: 'Aloqa',
-  intro: 'GSR Logistics ofisi — {address}, Alisher Navoiy metro bekati yonida. Ish vaqti: {hours}. Eng tez javob — Telegramda; telefon orqali ham bogʻlanishingiz yoki quyidagi formani toʻldirishingiz mumkin.',
+  intro: 'GSR Logistics ofisi — {address}, Alisher Navoiy metro bekati yonida. Ish vaqti: {hours}. Telegramda yozishingiz, telefon qilishingiz yoki quyidagi formani toʻldirishingiz mumkin.',
   card: {
     title: 'Rekvizitlar',
     addressLabel: 'Manzil',
     phoneLabel: 'Telefon',
     phone2Label: 'Qoʻshimcha telefon',
+    phone2Note: 'WhatsApp shu raqamda',
     hoursLabel: 'Ish vaqti',
     emailLabel: 'E-mail',
+    whatsappLabel: 'WhatsApp',
     telegramLabel: 'Telegram',
     telegramDirect: 'Menejerga yozish',
     telegramGroup: 'Guruh',
@@ -66,6 +70,14 @@ const uz: ContactStrings = {
     socialLabel: 'Ijtimoiy tarmoqlar',
     instagram: 'Instagram',
     facebook: 'Facebook',
+  },
+  china: {
+    title: 'Xitoydagi qabul punktlari',
+    lead: 'Yetkazib beruvchingiz tovarni shu manzillardan biriga joʻnatadi. Qaysi biri sizga toʻgʻri kelishini menejer aytadi.',
+    contactLabel: 'Qabul qiluvchi',
+    phoneLabel: 'Telefon',
+    markTitle: 'GS kod (markirovka)',
+    markText: 'Joʻnatishdan oldin har bir joyga GS kodingizni yozdiring. Kodsiz yuk kimniki ekani bilinmaydi va omborda ushlanib qoladi.',
   },
   map: {
     title: 'Xaritada',
@@ -82,7 +94,7 @@ const uz: ContactStrings = {
     steps: [
       'Metroda «Alisher Navoiy» bekatida tushing (Oʻzbekiston yoki Chilonzor liniyasi).',
       'Alisher Navoiy koʻchasi boʻylab 27-uyga yuring — piyoda bir necha daqiqa.',
-      'Taksida «GSR Group» yoki manzilni koʻrsating: Alisher Navoiy koʻchasi, 27.',
+      'Taksida manzilni koʻrsating: Alisher Navoiy koʻchasi, 27.',
     ],
     note: 'Kelishdan oldin Telegramda yozing — menejer sizni kutib oladi.',
   },
@@ -145,14 +157,16 @@ const ru: ContactStrings = {
   seoDescription: 'Свяжитесь с GSR Logistics: Ташкент, ул. Алишера Навои 27 (у метро), Пн–Сб 9:00–19:00. Telegram, телефон, Instagram и форма заявки по грузам из Китая.',
   eyebrow: 'Контакты',
   h1: 'Контакты',
-  intro: 'Офис GSR Logistics — {address}, рядом со станцией метро «Алишер Навои». Часы работы: {hours}. Быстрее всего ответим в Telegram; можно также позвонить или заполнить форму ниже.',
+  intro: 'Офис GSR Logistics — {address}, рядом со станцией метро «Алишер Навои». Часы работы: {hours}. Telegram — самый удобный канал: напишите, и менеджер ответит в рабочее время. Можно также позвонить или заполнить форму ниже.',
   card: {
     title: 'Реквизиты',
     addressLabel: 'Адрес',
     phoneLabel: 'Телефон',
     phone2Label: 'Дополнительный телефон',
+    phone2Note: 'WhatsApp на этом номере',
     hoursLabel: 'Часы работы',
     emailLabel: 'E-mail',
+    whatsappLabel: 'WhatsApp',
     telegramLabel: 'Telegram',
     telegramDirect: 'Написать менеджеру',
     telegramGroup: 'Группа',
@@ -160,6 +174,14 @@ const ru: ContactStrings = {
     socialLabel: 'Соцсети',
     instagram: 'Instagram',
     facebook: 'Facebook',
+  },
+  china: {
+    title: 'Пункты приёма в Китае',
+    lead: 'Поставщик отправляет товар на один из этих адресов. Какой именно подходит вам — скажет менеджер.',
+    contactLabel: 'Получатель',
+    phoneLabel: 'Телефон',
+    markTitle: 'GS-код (маркировка)',
+    markText: 'Перед отправкой попросите поставщика написать ваш GS-код на каждом месте. Без кода непонятно, чей это груз, и он задержится на складе.',
   },
   map: {
     title: 'На карте',
@@ -176,7 +198,7 @@ const ru: ContactStrings = {
     steps: [
       'Выйдите на станции метро «Алишер Навои» (Узбекистанская или Чиланзарская линия).',
       'Пройдите по улице Алишера Навои до дома 27 — несколько минут пешком.',
-      'В такси укажите «GSR Group» или адрес: ул. Алишера Навои, 27.',
+      'В такси укажите адрес: ул. Алишера Навои, 27.',
     ],
     note: 'Перед визитом напишите в Telegram — менеджер вас встретит.',
   },
@@ -239,14 +261,16 @@ const en: ContactStrings = {
   seoDescription: 'Contact GSR Logistics: 27 Alisher Navoiy St., Tashkent (next to the metro), Mon–Sat 9:00–19:00. Telegram, phone, Instagram and a request form for cargo from China.',
   eyebrow: 'Contact',
   h1: 'Contact',
-  intro: 'The GSR Logistics office is at {address}, next to Alisher Navoiy metro station. Hours: {hours}. Telegram gets the fastest reply; you can also call or use the form below.',
+  intro: 'The GSR Logistics office is at {address}, next to Alisher Navoiy metro station. Hours: {hours}. Telegram is the easiest channel: leave a message and a manager replies during working hours. You can also call or use the form below.',
   card: {
     title: 'Details',
     addressLabel: 'Address',
     phoneLabel: 'Phone',
     phone2Label: 'Second phone',
+    phone2Note: 'WhatsApp is on this number',
     hoursLabel: 'Hours',
     emailLabel: 'Email',
+    whatsappLabel: 'WhatsApp',
     telegramLabel: 'Telegram',
     telegramDirect: 'Message a manager',
     telegramGroup: 'Group',
@@ -254,6 +278,14 @@ const en: ContactStrings = {
     socialLabel: 'Social',
     instagram: 'Instagram',
     facebook: 'Facebook',
+  },
+  china: {
+    title: 'Receiving points in China',
+    lead: 'Your supplier ships the goods to one of these addresses. Your manager tells you which one applies to you.',
+    contactLabel: 'Receiver',
+    phoneLabel: 'Phone',
+    markTitle: 'GS code (marking)',
+    markText: 'Before dispatch, have your supplier write your GS code on every piece. Without it nobody can tell whose cargo it is and it waits at the warehouse.',
   },
   map: {
     title: 'On the map',
@@ -270,7 +302,7 @@ const en: ContactStrings = {
     steps: [
       'Get off at Alisher Navoiy metro station (Uzbekistan or Chilonzor line).',
       'Walk along Alisher Navoiy Street to building 27 — a few minutes on foot.',
-      'By taxi, ask for “GSR Group” or the address: 27 Alisher Navoiy Street.',
+      'By taxi, give the address: 27 Alisher Navoiy Street.',
     ],
     note: 'Message us on Telegram before you come — a manager will meet you.',
   },

@@ -1,5 +1,5 @@
 {
-  "_comment": "Editable tariff table. All prices in USD. 'estimate: true' shows the 'taxminiy narx' label everywhere. Update 'updated' whenever you change a number — it is printed on the site and used as validThrough in schema.org.",
+  "_comment": "Editable tariff table. All prices in USD. 'estimate: true' shows the 'taxminiy narx' label everywhere. Update 'updated' whenever you change a number — it is printed on the site and used as validThrough in schema.org. Truck cargo is priced from the owner's own sheet: density (kg/m³) picks a price per m³; at or above perKgFromDensityKgM3 the sheet bills per kilogram instead, at perKgAboveDensity.",
   "updated": "2026-09-08",
   "validThrough": "2026-12-31",
   "currency": "USD",
@@ -19,25 +19,6 @@
     "volumetricDivisor": 5000
   },
   "truck": {
-    "ladderPerKg": [
-      {
-        "maxKg": 30,
-        "rate": 7.5
-      },
-      {
-        "maxKg": 100,
-        "rate": 7.0
-      },
-      {
-        "maxKg": null,
-        "rate": 6.5
-      }
-    ],
-    "densePerKg": {
-      "minKg": 100,
-      "rate": 3.5,
-      "minDensityKgM3": 300
-    },
     "days": [
       15,
       25
@@ -47,30 +28,55 @@
       18
     ],
     "volumetricDivisor": 6000,
-    "densityThresholdKgM3": 170,
     "lclPerM3ByDensity": [
       {
         "maxKgM3": 100,
         "rate": 110
       },
       {
-        "maxKgM3": 200,
+        "maxKgM3": 150,
         "rate": 130
       },
       {
+        "maxKgM3": 200,
+        "rate": 160
+      },
+      {
+        "maxKgM3": 250,
+        "rate": 180
+      },
+      {
         "maxKgM3": 300,
-        "rate": 150
+        "rate": 200
+      },
+      {
+        "maxKgM3": 350,
+        "rate": 230
       },
       {
         "maxKgM3": 400,
-        "rate": 170
+        "rate": 260
+      },
+      {
+        "maxKgM3": 450,
+        "rate": 280
+      },
+      {
+        "maxKgM3": 500,
+        "rate": 290
+      },
+      {
+        "maxKgM3": 700,
+        "rate": 300
       },
       {
         "maxKgM3": null,
-        "rate": 190
+        "rate": 320
       }
     ],
-    "minM3": 0.1
+    "minM3": 0.1,
+    "perKgFromDensityKgM3": 1000,
+    "perKgAboveDensity": 0.55
   },
   "rail": {
     "container20ft": [

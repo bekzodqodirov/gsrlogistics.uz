@@ -29,7 +29,10 @@ export interface ServicesStrings {
   /** Building blocks of the one-line "number line" under each card name. */
   line: {
     days: string;
+    /** "{n} kg dan" — minimum billable weight, air only. */
     fromKg: string;
+    /** "110 $/m³ dan" — truck headline rate, taken from the first density band. */
+    fromM3: string;
     commissionFrom: string;
     yuanPayment: string;
     containers: string;
@@ -111,6 +114,7 @@ const uz: ServicesStrings = {
   line: {
     days: 'kun',
     fromKg: '{n} kg dan',
+    fromM3: '{n} $/m³ dan',
     commissionFrom: 'komissiya {n}% dan',
     yuanPayment: 'yuanda toʻlov',
     containers: '20ft / 40ft',
@@ -123,10 +127,10 @@ const uz: ServicesStrings = {
   },
   index: {
     seoTitle: 'Xitoydan yuk tashish va xarid xizmatlari — kargo, tovar topish, bojxona',
-    seoDescription: 'GSR Logistics xizmatlari: Xitoydan Toshkentga yigʻma yuk 15–25 kun, avia 5–10 kun, temir yoʻl konteynerlari, tovar topish, 1688 va Taobaoʼdan sotib olish, uskunalar importi, bojxona rasmiylashtiruvi, Ivu ombori va avtomobil importi.',
+    seoDescription: 'GSR Logistics xizmatlari: Xitoydan Toshkentga yigʻma yuk 15–25 kun, avia 5–10 kun, temir yoʻl konteynerlari, tovar topish, 1688 va Taobaodan sotib olish, uskunalar importi, bojxona rasmiylashtiruvi, Xitoyda uchta qabul manzili (Ivu, Guanchjou, Qashqar) va avtomobil importi.',
     eyebrow: 'Xizmatlar',
     h1: 'Xitoydan yuk tashish va xarid boʻyicha xizmatlar',
-    intro: 'GSR Logistics Xitoy bilan bogʻliq toʻqqiz ishni bajaradi: Ivu omboridan Xorgos orqali Toshkentga yigʻma yuk taxminan 15–25 kunda, avia kargo 5–10 kunda, temir yoʻl konteynerlari 20–35 kunda keladi. Tovar topamiz, 1688 va Taobaoʼdan sotib olamiz, uskunalarni «kalit topshirish» sharti bilan keltiramiz, bojxonani rasmiylashtiramiz. Bitta menejer, bitta shartnoma — 2018-yildan beri.',
+    intro: 'GSR Logistics Xitoy bilan bogʻliq toʻqqiz ishni bajaradi: Ivu omboridan Xorgos orqali Toshkentga yigʻma yuk taxminan 15–25 kunda, avia kargo 5–10 kunda, temir yoʻl konteynerlari 20–35 kunda keladi. Xitoyda uchta qabul manzili — Ivu, Guanchjou va Qashqar. Tovar topamiz, 1688 va Taobaodan sotib olamiz, uskunalarni «kalit topshirish» sharti bilan keltiramiz, bojxonani rasmiylashtiramiz. Bitta menejer, bitta shartnoma — 2018-yildan beri.',
     groups: { shipping: 'Yuk tashish', buying: 'Xitoyda topish va sotib olish', paperwork: 'Rasmiylashtiruv va nazorat', vehicles: 'Avtomobillar' },
     groupLead: {
       shipping: 'Uch yoʻnalish — avto, avia, temir yoʻl. Muddat va narx yukning ogʻirligi, hajmi va shoshilinchligiga bogʻliq.',
@@ -138,12 +142,12 @@ const uz: ServicesStrings = {
     compareIntro: 'Uch yoʻnalishni bir jadvalda taqqoslang. Muddatlar taxminiy, yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi.',
     compareHead: { mode: 'Yoʻnalish', days: 'Muddat', min: 'Minimal', rule: 'Narx qoidasi', fits: 'Kimga mos' },
     compareRows: {
-      truck: { min: '1 kg', rule: 'zichlik ≥ 170 kg/m³ — kg boʻyicha, past — m³ boʻyicha', fits: 'ulgurji partiya, ogʻir va hajmli yuk' },
+      truck: { min: '0,1 m³', rule: 'm³ boʻyicha, stavka zichlikka qarab — 110 $/m³ dan', fits: 'ulgurji partiya, ogʻir va hajmli yuk' },
       air: { min: '0,5 kg', rule: 'kg boʻyicha, hajmiy vazn ÷ 5 000', fits: 'shoshilinch, qimmat va yengil tovar' },
       rail: { min: '20ft konteyner', rule: 'konteyner uchun, FCL yoki LCL', fits: 'katta partiya, uskunalar' },
     },
     howTitle: 'Qanday boshlaymiz?',
-    how: 'Telegramda yoki telefon orqali yozasiz: yuk, shahar va muddatni aytasiz. Menejer yoʻnalish va narxni taklif qiladi, shartnoma tuzamiz, Ivu ombori manzilini beramiz — va yuk yoʻlga chiqadi.',
+    how: 'Telegramda yoki telefon orqali yozasiz: yuk, shahar va muddatni aytasiz. Menejer yoʻnalish va narxni taklif qiladi, shartnoma tuzamiz va Xitoydagi qabul manzilini beramiz — Ivu, Guanchjou yoki Qashqar. Qaysi biriga joʻnatish kerakligini menejer aytadi. Shundan soʻng yuk yoʻlga chiqadi.',
     ctaTitle: 'Qaysi xizmat kerakligini bilmaysizmi?',
     ctaText: 'Yozing — yukingizni tavsiflang, biz yoʻnalish, muddat va narxni taklif qilamiz.',
   },
@@ -163,9 +167,9 @@ const uz: ServicesStrings = {
       seoTitle: '{name} — Xitoydan Oʻzbekistonga',
       seoDescription: '{short} GSR Logistics, Toshkent — 2018-yildan beri Xitoy bilan ishlaymiz.',
       eyebrow: 'Xizmat',
-      intro: '{short} Ivu omboridan qabul qilamiz, tekshiramiz va foto-hisobot yuboramiz, Toshkentda rasmiy rasmiylashtiramiz. Bitta shartnoma, bitta menejer — 2018-yildan beri Xitoy bilan ishlaymiz.',
+      intro: '{short} Yukni Xitoydagi qabul manzilida — Ivu, Guanchjou yoki Qashqarda — qabul qilamiz, tekshiramiz va foto-hisobot yuboramiz, Toshkentda rasmiy rasmiylashtiramiz. Bitta shartnoma, bitta menejer — 2018-yildan beri Xitoy bilan ishlaymiz.',
       facts: [
-        { label: 'Xitoydagi ombor', value: 'Ivu' },
+        { label: 'Xitoydagi qabul manzillari', value: 'Ivu · Guanchjou · Qashqar' },
         { label: 'Xitoy bilan', value: '2018-yildan' },
         { label: 'Hisobot', value: 'Foto-hisobot' },
         { label: 'Menejer tillari', value: 'Oʻzbek · rus · xitoy' },
@@ -173,7 +177,7 @@ const uz: ServicesStrings = {
       sectionTitle: 'Qanday ishlaymiz?',
       sectionBody: [
         'Soʻrov qoldirasiz — Telegramda yoki telefon orqali. Menejer yuk, shahar va muddatni aniqlashtiradi, yoʻnalish va narxni taklif qiladi.',
-        'Shartnoma tuzamiz: narx, muddat va javobgarlik qogʻozda. Yuk Ivu omboriga kelgach tortiladi, oʻlchanadi va suratga olinadi — hisobot Telegramga keladi.',
+        'Shartnoma tuzamiz: narx, muddat va javobgarlik qogʻozda. Yuk Xitoydagi qabul manziliga kelgach tortiladi, oʻlchanadi va suratga olinadi — hisobot Telegramga keladi.',
         'Toshkentda bojxona rasmiylashtiruvini biz bajaramiz, boj va QQS qonun boʻyicha toʻlanadi. Yukni ombordan olib ketasiz yoki viloyatga joʻnatamiz.',
       ],
       ctaTitle: 'Bu xizmat boʻyicha savolingiz bormi?',
@@ -214,6 +218,7 @@ const ru: ServicesStrings = {
   line: {
     days: 'дней',
     fromKg: 'от {n} кг',
+    fromM3: 'от {n} $/м³',
     commissionFrom: 'комиссия от {n}%',
     yuanPayment: 'оплата в юанях',
     containers: '20ft / 40ft',
@@ -226,10 +231,10 @@ const ru: ServicesStrings = {
   },
   index: {
     seoTitle: 'Услуги доставки и выкупа из Китая — карго, поиск товаров, растаможка',
-    seoDescription: 'Услуги GSR Logistics: сборный груз из Китая в Ташкент за 15–25 дней, авиа за 5–10, ж/д контейнеры, поиск товаров, выкуп с 1688 и Taobao, импорт оборудования, таможенное оформление, склад в Иу и авто из Китая.',
+    seoDescription: 'Услуги GSR Logistics: сборный груз из Китая в Ташкент за 15–25 дней, авиа за 5–10, ж/д контейнеры, поиск товаров, выкуп с 1688 и Taobao, импорт оборудования, таможенное оформление, три адреса приёма в Китае (Иу, Гуанчжоу, Кашгар) и авто из Китая.',
     eyebrow: 'Услуги',
     h1: 'Услуги доставки и закупок в Китае',
-    intro: 'GSR Logistics закрывает девять задач, связанных с Китаем: сборный груз со склада в Иу через Хоргос в Ташкент — ориентировочно 15–25 дней, авиа карго — 5–10, ж/д контейнеры — 20–35. Находим товар, выкупаем на 1688 и Taobao, привозим оборудование под ключ, оформляем таможню. Один менеджер, один договор — с 2018 года.',
+    intro: 'GSR Logistics закрывает девять задач, связанных с Китаем: сборный груз со склада в Иу через Хоргос в Ташкент — ориентировочно 15–25 дней, авиа карго — 5–10, ж/д контейнеры — 20–35. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар. Находим товар, выкупаем на 1688 и Taobao, привозим оборудование под ключ, оформляем таможню. Один менеджер, один договор — с 2018 года.',
     groups: { shipping: 'Доставка грузов', buying: 'Поиск и выкуп в Китае', paperwork: 'Оформление и контроль', vehicles: 'Автомобили' },
     groupLead: {
       shipping: 'Три способа — авто, авиа, ж/д. Срок и цена зависят от веса, объёма и срочности груза.',
@@ -241,12 +246,12 @@ const ru: ServicesStrings = {
     compareIntro: 'Сравните три способа в одной таблице. Сроки ориентировочные, считаются после отправки со склада в Китае.',
     compareHead: { mode: 'Способ', days: 'Срок', min: 'Минимум', rule: 'Правило цены', fits: 'Кому подходит' },
     compareRows: {
-      truck: { min: '1 кг', rule: 'плотность ≥ 170 кг/м³ — по кг, ниже — по м³', fits: 'оптовые партии, тяжёлый и объёмный груз' },
+      truck: { min: '0,1 м³', rule: 'по м³, ставка по плотности — от 110 $/м³', fits: 'оптовые партии, тяжёлый и объёмный груз' },
       air: { min: '0,5 кг', rule: 'по кг, объёмный вес ÷ 5 000', fits: 'срочный, дорогой и лёгкий товар' },
       rail: { min: 'контейнер 20ft', rule: 'за контейнер, FCL или LCL', fits: 'крупные партии, оборудование' },
     },
     howTitle: 'С чего начать?',
-    how: 'Напишите в Telegram или позвоните: груз, город, сроки. Менеджер предложит способ и цену, заключаем договор, даём адрес склада в Иу — и груз отправляется.',
+    how: 'Напишите в Telegram или позвоните: груз, город, сроки. Менеджер предложит способ и цену, заключаем договор и даём адрес приёма в Китае — Иу, Гуанчжоу или Кашгар. На какой отправлять — скажет менеджер. После этого груз отправляется.',
     ctaTitle: 'Не знаете, какая услуга нужна?',
     ctaText: 'Напишите — опишите груз, а мы предложим способ, срок и цену.',
   },
@@ -266,9 +271,9 @@ const ru: ServicesStrings = {
       seoTitle: '{name} — из Китая в Узбекистан',
       seoDescription: '{short} GSR Logistics, Ташкент — работаем с Китаем с 2018 года.',
       eyebrow: 'Услуга',
-      intro: '{short} Принимаем на складе в Иу, проверяем и отправляем фотоотчёт, оформляем в Ташкенте официально. Один договор, один менеджер — работаем с Китаем с 2018 года.',
+      intro: '{short} Принимаем груз по адресу приёма в Китае — в Иу, Гуанчжоу или Кашгаре, — проверяем и отправляем фотоотчёт, оформляем в Ташкенте официально. Один договор, один менеджер — работаем с Китаем с 2018 года.',
       facts: [
-        { label: 'Склад в Китае', value: 'Иу' },
+        { label: 'Адреса приёма в Китае', value: 'Иу · Гуанчжоу · Кашгар' },
         { label: 'С Китаем', value: 'с 2018 года' },
         { label: 'Отчёт', value: 'Фотоотчёт' },
         { label: 'Языки менеджеров', value: 'Узбекский · русский · китайский' },
@@ -276,7 +281,7 @@ const ru: ServicesStrings = {
       sectionTitle: 'Как мы работаем?',
       sectionBody: [
         'Вы оставляете заявку — в Telegram или по телефону. Менеджер уточняет груз, город и сроки, предлагает способ и цену.',
-        'Заключаем договор: цена, срок и ответственность — на бумаге. Груз на складе в Иу взвешиваем, обмеряем и фотографируем — отчёт приходит в Telegram.',
+        'Заключаем договор: цена, срок и ответственность — на бумаге. Груз, поступивший на адрес приёма в Китае, взвешиваем, обмеряем и фотографируем — отчёт приходит в Telegram.',
         'Таможенное оформление в Ташкенте берём на себя, пошлина и НДС платятся по закону. Груз забираете со склада или отправляем в регион.',
       ],
       ctaTitle: 'Есть вопрос по этой услуге?',
@@ -317,6 +322,7 @@ const en: ServicesStrings = {
   line: {
     days: 'days',
     fromKg: 'from {n} kg',
+    fromM3: 'from ${n} per m³',
     commissionFrom: 'commission from {n}%',
     yuanPayment: 'payment in yuan',
     containers: '20ft / 40ft',
@@ -329,10 +335,10 @@ const en: ServicesStrings = {
   },
   index: {
     seoTitle: 'China shipping and buying services — cargo, sourcing, customs',
-    seoDescription: 'GSR Logistics services: consolidated truck cargo from China to Tashkent in 15–25 days, air in 5–10, rail containers, product sourcing, buying from 1688 and Taobao, equipment import, customs clearance, the Yiwu warehouse and car import.',
+    seoDescription: 'GSR Logistics services: consolidated truck cargo from China to Tashkent in 15–25 days, air in 5–10, rail containers, product sourcing, buying from 1688 and Taobao, equipment import, customs clearance, three receiving addresses in China (Yiwu, Guangzhou, Kashgar) and car import.',
     eyebrow: 'Services',
     h1: 'Shipping and buying services for China',
-    intro: 'GSR Logistics handles nine China-related jobs: consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent in roughly 15–25 days, air cargo in 5–10, rail containers in 20–35. We source products, buy on 1688 and Taobao, import equipment turnkey and clear customs. One manager, one contract — since 2018.',
+    intro: 'GSR Logistics handles nine China-related jobs: consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent in roughly 15–25 days, air cargo in 5–10, rail containers in 20–35. There are three receiving addresses in China — Yiwu, Guangzhou and Kashgar. We source products, buy on 1688 and Taobao, import equipment turnkey and clear customs. One manager, one contract — since 2018.',
     groups: { shipping: 'Freight', buying: 'Sourcing and buying in China', paperwork: 'Paperwork and control', vehicles: 'Vehicles' },
     groupLead: {
       shipping: 'Three modes — truck, air, rail. Time and price depend on weight, volume and urgency.',
@@ -344,12 +350,12 @@ const en: ServicesStrings = {
     compareIntro: 'Compare the three modes in one table. Transit times are indicative and count from departure from the China warehouse.',
     compareHead: { mode: 'Mode', days: 'Transit', min: 'Minimum', rule: 'Pricing rule', fits: 'Best for' },
     compareRows: {
-      truck: { min: '1 kg', rule: 'density ≥ 170 kg/m³ — per kg, lower — per m³', fits: 'wholesale lots, heavy and bulky cargo' },
+      truck: { min: '0.1 m³', rule: 'per m³, rate by density — from $110 per m³', fits: 'wholesale lots, heavy and bulky cargo' },
       air: { min: '0.5 kg', rule: 'per kg, volumetric weight ÷ 5,000', fits: 'urgent, valuable and light goods' },
       rail: { min: '20ft container', rule: 'per container, FCL or LCL', fits: 'large lots, machinery' },
     },
     howTitle: 'How do we start?',
-    how: 'Message us on Telegram or call: cargo, city, deadline. Your manager proposes a mode and a price, we sign a contract and give you the Yiwu warehouse address — and the cargo is on its way.',
+    how: 'Message us on Telegram or call: cargo, city, deadline. Your manager proposes a mode and a price, we sign a contract and give you a receiving address in China — Yiwu, Guangzhou or Kashgar, whichever one your manager names — and the cargo is on its way.',
     ctaTitle: 'Not sure which service you need?',
     ctaText: 'Write to us — describe the cargo and we propose the mode, transit time and price.',
   },
@@ -369,9 +375,9 @@ const en: ServicesStrings = {
       seoTitle: '{name} — from China to Uzbekistan',
       seoDescription: '{short} GSR Logistics, Tashkent — working with China since 2018.',
       eyebrow: 'Service',
-      intro: '{short} We receive at the Yiwu warehouse, inspect and send a photo report, and clear customs officially in Tashkent. One contract, one manager — working with China since 2018.',
+      intro: '{short} We receive your cargo at a receiving address in China (Yiwu, Guangzhou or Kashgar), inspect it and send a photo report, and clear customs officially in Tashkent. One contract, one manager — working with China since 2018.',
       facts: [
-        { label: 'China warehouse', value: 'Yiwu' },
+        { label: 'Receiving addresses in China', value: 'Yiwu · Guangzhou · Kashgar' },
         { label: 'With China', value: 'since 2018' },
         { label: 'Reporting', value: 'Photo report' },
         { label: 'Manager languages', value: 'Uzbek · Russian · Chinese' },
@@ -379,7 +385,7 @@ const en: ServicesStrings = {
       sectionTitle: 'How do we work?',
       sectionBody: [
         'You send a request — on Telegram or by phone. Your manager clarifies the cargo, city and deadline, then proposes a mode and a price.',
-        'We sign a contract: price, transit time and liability on paper. At the Yiwu warehouse the cargo is weighed, measured and photographed — the report lands in your Telegram.',
+        'We sign a contract: price, transit time and liability on paper. At the receiving address in China the cargo is weighed, measured and photographed — the report lands in your Telegram.',
         'Customs clearance in Tashkent is on us; duty and VAT are paid as the law requires. You collect the cargo from the warehouse or we forward it to your region.',
       ],
       ctaTitle: 'Have a question about this service?',
@@ -424,7 +430,7 @@ export function serviceNumberLine(lang: Lang, key: ServiceKey): string {
   const t = servicesStrings[lang].line;
   const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)} ${t.days}`;
   switch (key) {
-    case 'truck': return `${range(tariffs.truck.days[0], tariffs.truck.days[1])} · ${tpl(t.fromKg, { n: 1 })}`;
+    case 'truck': return `${range(tariffs.truck.days[0], tariffs.truck.days[1])} · ${tpl(t.fromM3, { n: fmtNumber(tariffs.truck.lclPerM3ByDensity[0].rate, lang) })}`;
     case 'air': return `${range(tariffs.air.days[0], tariffs.air.days[1])} · ${tpl(t.fromKg, { n: fmtNumber(tariffs.air.minKg, lang) })}`;
     case 'rail': return `${range(tariffs.rail.days[0], tariffs.rail.days[1])} · ${t.containers}`;
     case 'sourcing': return tpl(t.commissionFrom, { n: tariffs.extras.sourcingCommissionPct });

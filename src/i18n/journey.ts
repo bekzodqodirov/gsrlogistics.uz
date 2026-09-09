@@ -36,7 +36,7 @@ export interface JourneyStrings {
 
 const uz: JourneyStrings = {
   eyebrow: '01 — Yoʻl',
-  title: 'Ivudan eshigingizgacha.',
+  title: 'Xitoydan eshigingizgacha.',
   sub: 'Har bosqich — koʻz oʻngingizda.',
   stageWord: 'Bosqich',
   railLabel: 'Yoʻl bosqichlari',
@@ -52,7 +52,7 @@ const uz: JourneyStrings = {
   chips: { truck: 'Avto', rail: 'Temir yoʻl', air: 'Avia' },
   daysUnit: 'kun',
   km: { unit: 'km', caption: 'Ivu → Toshkent, Xorgos orqali', daysCaption: { truck: 'avto, taxminan', rail: 'temir yoʻl, taxminan', air: 'avia, taxminan' } },
-  footnote: 'Muddatlar taxminiy, yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi.',
+  footnote: 'Muddatlar taxminiy, yuk Ivu omboridan joʻnatilgandan keyin hisoblanadi. Xitoydagi qabul manzillari: Ivu, Guanchjou va Qashqar.',
   done: 'bajarildi',
   map: {
     aria: 'Ivudan Toshkentgacha yoʻl xaritasi: Ivu, Sian, Lanchjou, Urumchi, Xorgos, Olmaota, Shimkent, Toshkent',
@@ -64,7 +64,7 @@ const uz: JourneyStrings = {
 
 const ru: JourneyStrings = {
   eyebrow: '01 — Маршрут',
-  title: 'Из Иу до вашей двери.',
+  title: 'Из Китая до вашей двери.',
   sub: 'Каждый этап — как на ладони.',
   stageWord: 'Этап',
   railLabel: 'Этапы маршрута',
@@ -80,7 +80,7 @@ const ru: JourneyStrings = {
   chips: { truck: 'Авто', rail: 'Ж/д', air: 'Авиа' },
   daysUnit: 'дней',
   km: { unit: 'км', caption: 'Иу → Ташкент через Хоргос', daysCaption: { truck: 'авто, ориентировочно', rail: 'ж/д, ориентировочно', air: 'авиа, ориентировочно' } },
-  footnote: 'Сроки ориентировочные, считаются после отправки со склада в Китае.',
+  footnote: 'Сроки ориентировочные, считаются после отправки со склада в Иу. Адреса приёма в Китае: Иу, Гуанчжоу и Кашгар.',
   done: 'выполнено',
   map: {
     aria: 'Карта маршрута из Иу в Ташкент: Иу, Сиань, Ланьчжоу, Урумчи, Хоргос, Алматы, Шымкент, Ташкент',
@@ -92,7 +92,7 @@ const ru: JourneyStrings = {
 
 const en: JourneyStrings = {
   eyebrow: '01 — The route',
-  title: 'From Yiwu to your door.',
+  title: 'From China to your door.',
   sub: 'Every stage in plain sight.',
   stageWord: 'Stage',
   railLabel: 'Route stages',
@@ -108,7 +108,7 @@ const en: JourneyStrings = {
   chips: { truck: 'Truck', rail: 'Rail', air: 'Air' },
   daysUnit: 'days',
   km: { unit: 'km', caption: 'Yiwu → Tashkent via Khorgos', daysCaption: { truck: 'truck, roughly', rail: 'rail, roughly', air: 'air, roughly' } },
-  footnote: 'Transit times are indicative and count from departure from the China warehouse.',
+  footnote: 'Transit times are indicative and count from departure from the Yiwu warehouse. Receiving addresses in China: Yiwu, Guangzhou and Kashgar.',
   done: 'done',
   map: {
     aria: 'Route map from Yiwu to Tashkent: Yiwu, Xiʼan, Lanzhou, Urumqi, Khorgos, Almaty, Shymkent, Tashkent',

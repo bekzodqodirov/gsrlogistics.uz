@@ -15,7 +15,7 @@ Halol eslatma: hech bir sayt AI javoblarida 1-oʻrinni **kafolatlay olmaydi** �
 
 ## 2. Kartochkalar (NAP — nom, manzil, telefon hamma joyda BIR XIL)
 
-Nom: `GSR Logistics` · Manzil: `Toshkent, Shayxontohur tumani, Alisher Navoiy koʻchasi, 27` · Telefon: `+998 95 018 33 33` · Sayt: `https://gsrlogistics.uz`
+Nom: `GSR Logistics` (yuridik shaxs: `Imex services LLC`) · Manzil: `Toshkent, Shayxontohur tumani, Alisher Navoiy koʻchasi, 27` · Telefon: `+998 95 018 33 33`, `+998 90 175 78 00` (WhatsApp) · E-mail: `b.e.kodirov@gmail.com` · Telegram: `t.me/bekzodkodirov556` · Sayt: `https://gsrlogistics.uz`
 
 - **Google Business Profile** (business.google.com): kategoriya «Freight forwarding service» / «Logistics service»; ish vaqti; xizmatlar roʻyxati (narx bilan); ombor/yuk fotolari; haftada 1 post; savol-javob boʻlimiga javob bering. Gemini va Google AI Mode aynan shu kartochkaga tayanadi.
 - **Yandex Business** (yandex.uz/business): mavjud kartochkani (org/98882247475) tasdiqlab oling, maʼlumotlarni yangilang, fotolar qoʻshing.

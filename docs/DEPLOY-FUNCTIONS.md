@@ -55,7 +55,7 @@ Forma hozir tashqi skriptlarsiz ishlaydi (honeypot + server tekshiruvi). Spam ko
 
    - `code` — mijozga berilgan yuk kodi (harflar, raqamlar, defis; 3–32 belgi). Katta-kichik harf farqsiz.
    - `stage` — bosqich kaliti yoki raqami:
-     `received`(1) Ivu omborida qabul · `consolidation`(2) Konsolidatsiya · `transit`(3) Yoʻlda · `customs`(4) Chegara/bojxona · `tashkent`(5) Toshkent ombori · `delivered`(6) Topshirildi.
+     `received`(1) Xitoyda qabul (Ivu / Guanchjou / Qashqar) · `consolidation`(2) Konsolidatsiya · `transit`(3) Yoʻlda · `customs`(4) Chegara/bojxona · `tashkent`(5) Toshkent ombori · `delivered`(6) Topshirildi.
    - `status` — ixtiyoriy qisqa izoh (mijoz koʻradi, 200 belgigacha). Shaxsiy maʼlumot yozmang.
    - `updated_at`, `eta` — ISO sana `YYYY-MM-DD` (sayt mijoz tilida chiroyli koʻrsatadi). `eta` boʻsh boʻlsa «aniqlashtirilmoqda» chiqadi.
    - Jadvalda boshqa ustunlar (ism, telefon, summa) boʻlishi mumkin — funksiya ularni **hech qachon** yubormaydi. Lekin nashr qilingan CSV havolasini bilgan har kim jadvalning hammasini koʻrishi mumkin, shuning uchun yaxshisi alohida «tracking» varagʻini nashr qiling va unda faqat shu 5 ustun boʻlsin.

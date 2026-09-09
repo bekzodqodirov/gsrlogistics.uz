@@ -7,7 +7,7 @@ export interface CommonStrings {
   nav: Array<{ key: PageKey; label: string }>;
   cta: { telegram: string; call: string; quote: string; calculate: string; track: string; details: string; all: string; back: string; readMore: string; contact: string; sendRequest: string; copy: string; copied: string; };
   footer: { services: string; company: string; contacts: string; guides: string; address: string; hours: string; rights: string; privacy: string; madeWith: string; languages: string; channel: string; group: string; desc: string; };
-  header: { menu: string; close: string; langLabel: string; phoneLabel: string };
+  header: { menu: string; close: string; langLabel: string; phoneLabel: string; navLabel: string; breadcrumbLabel: string; quickActions: string };
   breadcrumbHome: string;
   updated: string;
   published: string;
@@ -33,7 +33,7 @@ const uz: CommonStrings = {
   ],
   cta: { telegram: 'Telegramga yozing', call: 'Qoʻngʻiroq qiling', quote: 'Narx soʻrang', calculate: 'Narxni hisoblang', track: 'Kuzatish', details: 'Batafsil', all: 'Barchasi', back: 'Orqaga', readMore: 'Oʻqish', contact: 'Bogʻlanish', sendRequest: 'Soʻrov qoldiring', copy: 'Nusxa olish', copied: 'Nusxalandi' },
   footer: { services: 'Xizmatlar', company: 'Kompaniya', contacts: 'Aloqa', guides: 'Qoʻllanma', address: 'Manzil', hours: 'Ish vaqti', rights: 'Barcha huquqlar himoyalangan.', privacy: 'Maxfiylik siyosati', madeWith: 'Toshkentda ishlab chiqilgan', languages: 'Til', channel: 'Telegram kanal', group: 'Telegram guruh', desc: 'Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish, sotib olish va bojxona rasmiylashtiruvi. 2018-yildan beri.' },
-  header: { menu: 'Menyu', close: 'Yopish', langLabel: 'Tilni tanlang', phoneLabel: 'Telefon' },
+  header: { menu: 'Menyu', close: 'Yopish', langLabel: 'Tilni tanlang', phoneLabel: 'Telefon', navLabel: 'Asosiy menyu', breadcrumbLabel: 'Navigatsiya zanjiri', quickActions: 'Tezkor amallar' },
   breadcrumbHome: 'Bosh sahifa',
   updated: 'Yangilangan',
   published: 'Chop etilgan',
@@ -63,7 +63,7 @@ const ru: CommonStrings = {
   ],
   cta: { telegram: 'Написать в Telegram', call: 'Позвонить', quote: 'Узнать цену', calculate: 'Рассчитать стоимость', track: 'Отследить', details: 'Подробнее', all: 'Все', back: 'Назад', readMore: 'Читать', contact: 'Связаться', sendRequest: 'Оставить заявку', copy: 'Скопировать', copied: 'Скопировано' },
   footer: { services: 'Услуги', company: 'Компания', contacts: 'Контакты', guides: 'Гид', address: 'Адрес', hours: 'Часы работы', rights: 'Все права защищены.', privacy: 'Политика конфиденциальности', madeWith: 'Сделано в Ташкенте', languages: 'Язык', channel: 'Telegram-канал', group: 'Telegram-группа', desc: 'Сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. С 2018 года.' },
-  header: { menu: 'Меню', close: 'Закрыть', langLabel: 'Выбор языка', phoneLabel: 'Телефон' },
+  header: { menu: 'Меню', close: 'Закрыть', langLabel: 'Выбор языка', phoneLabel: 'Телефон', navLabel: 'Основное меню', breadcrumbLabel: 'Навигационная цепочка', quickActions: 'Быстрые действия' },
   breadcrumbHome: 'Главная',
   updated: 'Обновлено',
   published: 'Опубликовано',
@@ -93,7 +93,7 @@ const en: CommonStrings = {
   ],
   cta: { telegram: 'Message us on Telegram', call: 'Call us', quote: 'Get a quote', calculate: 'Estimate the price', track: 'Track', details: 'Learn more', all: 'All', back: 'Back', readMore: 'Read', contact: 'Contact us', sendRequest: 'Leave a request', copy: 'Copy', copied: 'Copied' },
   footer: { services: 'Services', company: 'Company', contacts: 'Contacts', guides: 'Guides', address: 'Address', hours: 'Hours', rights: 'All rights reserved.', privacy: 'Privacy policy', madeWith: 'Made in Tashkent', languages: 'Language', channel: 'Telegram channel', group: 'Telegram group', desc: 'Consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Since 2018.' },
-  header: { menu: 'Menu', close: 'Close', langLabel: 'Choose language', phoneLabel: 'Phone' },
+  header: { menu: 'Menu', close: 'Close', langLabel: 'Choose language', phoneLabel: 'Phone', navLabel: 'Main', breadcrumbLabel: 'Breadcrumb', quickActions: 'Quick actions' },
   breadcrumbHome: 'Home',
   updated: 'Updated',
   published: 'Published',

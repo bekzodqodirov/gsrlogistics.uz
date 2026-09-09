@@ -23,14 +23,13 @@ const t = pick(lang, pricingStrings);
 const c = common[lang];
 const T = tariffs as unknown as Tariffs;
 const n = (v: number, f = 2) => fmtNumber(v, lang, f);
-const ladder = T.truck.ladderPerKg;
-const vars = { threshold: n(T.truck.densityThresholdKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0) };
+const vars = { threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0) };
 const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(T.updated, lang)}`;
 const range = (a: number[]) => `${n(a[0], 0)}–${n(a[1], 0)} ${t.breakdown.units.days}`;
 const tiles = [
-  { icon: 'truck', label: t.teaser.tiles.truck, value: n(ladder[ladder.length - 1].rate), unit: t.teaser.perKgFrom, days: range(T.truck.days) },
+  { icon: 'truck', label: t.teaser.tiles.truck, value: n(T.truck.lclPerM3ByDensity[0].rate, 0), unit: t.teaser.perM3From, days: range(T.truck.days) },
   { icon: 'plane', label: t.teaser.tiles.air, value: n(T.air.perKg.standard), unit: t.teaser.perKgFrom, days: range(T.air.days) },
-  { icon: 'cube', label: t.teaser.tiles.lcl, value: n(T.truck.lclPerM3ByDensity[0].rate, 0), unit: t.teaser.perM3From, days: range(T.truck.days) },
+  { icon: 'cube', label: t.teaser.tiles.lcl, value: n(T.truck.perKgAboveDensity), unit: t.teaser.perKgFrom, days: range(T.truck.days) },
 ] as const;
 ---
 <section id="narxlar" class="section teaser below-fold" aria-labelledby="pricing-title">

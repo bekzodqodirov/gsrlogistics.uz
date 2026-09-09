@@ -9,7 +9,8 @@
  *   live    — `.is-live` (set synchronously by the inline gate below). Stage is 100svh, the section
  *             reserves the full pin distance in CSS (6.5 × 100svh desktop / 5.5 mobile → CLS 0), and
  *             ./journey.ts (GSAP core + ScrollTrigger + MotionPathPlugin) is imported only when the
- *             section comes within 100 % rootMargin; its init() waits for main-thread idle (INP).
+ *             section comes within 100 % rootMargin, and the observer that watches for that is armed
+ *             after `load` so the chunk never competes with the hero; init() waits for idle (INP).
  * Props: { lang }.
  */
 import { pick, type Lang } from '@/i18n/config';
@@ -128,6 +129,8 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
 <script>
   // Lazy-load the GSAP module only when the live journey is within one viewport of the fold, and run its setup
   // only once the main thread is idle (≤ 1.5 s wait) so a tap on the hero CTAs never lands inside it (INP).
+  // The observer itself is armed after `load`: with a one-viewport rootMargin it fires immediately on a
+  // 900px-tall screen, which put the 55 KB gz GSAP chunk on the critical path against the hero's own resources.
   const root = document.querySelector<HTMLElement>('[data-journey].is-live');
   if (root) {
     const fail = () => { root.classList.remove('is-live'); };
@@ -137,10 +140,14 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
         .then((m) => { idle(() => { try { m.init(root); } catch { fail(); } }); })
         .catch(fail);
     };
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
-    }, { rootMargin: '100% 0px 100% 0px' });
-    io.observe(root);
+    const observe = () => {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
+      }, { rootMargin: '100% 0px 100% 0px' });
+      io.observe(root);
+    };
+    if (document.readyState === 'complete') observe();
+    else window.addEventListener('load', observe, { once: true });
   }
 </script>
 
@@ -157,7 +164,8 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey .jmap { width: 100%; height: 100%; display: block; overflow: visible; font-family: var(--font-sans); --lbl: 14px; }
   .journey .sheet-handle { display: none; }
   .journey .journey-rail { display: none; }
-  .journey .journey-cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: clamp(24px, 3vw, 40px); }
+  /* start, so a short card in the static fallback does not stretch to the tallest one in its row */
+  .journey .journey-cards { display: grid; align-items: start; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: clamp(24px, 3vw, 40px); }
   .journey .journey-foot { margin-top: 20px; color: var(--muted); max-width: 70ch; }
 
   /* ============ caption cards ============ */
@@ -168,13 +176,17 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey .jcard-body { color: var(--muted); font-size: var(--text-body); text-wrap: pretty; }
   .journey .jcard-facts { margin-top: 14px; font-size: var(--text-small); font-weight: 500; color: var(--fg-2); }
   .journey .jcard-transit { margin-top: 16px; }
-  .journey .jchips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .journey .jchip { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: var(--radius-pill); border: 1px solid rgb(255 255 255 / 0.22); color: var(--muted); font-size: var(--text-small); font-weight: 500; line-height: 1; transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
-  .journey .jchip-days { color: inherit; opacity: 0.8; }
+  /* three equal columns, label over range: a single flex row wraps 1+2 once the ranges are printed,
+     and the wrap point differs between desktop and mobile, so the same card reads differently on each */
+  .journey .jchips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .journey .jchip { display: grid; justify-items: center; align-content: center; gap: 3px; min-height: 44px; padding: 6px 8px; border-radius: var(--radius-lg); border: 1px solid rgb(255 255 255 / 0.22); color: var(--muted); font-size: var(--text-small); font-weight: 500; line-height: 1.1; text-align: center; transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+  .journey .jchip-days { color: inherit; opacity: 0.8; font-size: 0.75rem; white-space: nowrap; }
   .journey .jchip[aria-pressed='true'] { background: var(--gray-100); border-color: var(--gray-100); color: var(--black); }
   .journey .jchip[aria-pressed='true'] .jchip-days { opacity: 0.7; }
   .journey .jkm { display: flex; align-items: baseline; gap: 4px; margin-top: 16px; }
-  .journey .jkm-num { font-size: clamp(2rem, 1.5vw + 1.4rem, 2.5rem); line-height: 1; letter-spacing: -0.03em; font-weight: 700; }
+  /* reserved width and a fixed line box: the counter runs 0 → 5 000+ during the scrub, and without them
+     the unit beside it steps 3px vertically as digits are added */
+  .journey .jkm-num { display: inline-block; min-width: 5ch; text-align: right; font-size: clamp(2rem, 1.5vw + 1.4rem, 2.5rem); line-height: 1; letter-spacing: -0.03em; font-weight: 700; }
   .journey .jkm-cap { margin-top: 6px; color: var(--muted); }
   .journey .jcard-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 20px; }
   .journey .jcard-tg { font-size: var(--text-small); }
@@ -258,7 +270,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
     .journey.is-live .journey-rail { justify-content: center; }
     .journey.is-live .journey-cards { align-items: start; }
     .journey.is-live .jmap .jm-minor { display: none; }
-    .journey.is-live .jrail-btn { width: 40px; height: 40px; }
+    .journey.is-live .jrail-btn { width: 44px; height: 44px; }
     .journey.is-live .jcard { padding: 4px 0 0; background: none; border: 0; box-shadow: none; }
     .journey.is-live .jcard-index { margin-bottom: 6px; }
     .journey.is-live .jcard-title { font-size: 1.375rem; margin-bottom: 4px; }
@@ -266,7 +278,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
     .journey.is-live .jcard-facts { margin-top: 8px; font-size: 0.8125rem; }
     .journey.is-live .jcard-transit { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: start; margin-top: 10px; }
     .journey.is-live .jchips { grid-column: 1 / -1; gap: 4px; }
-    .journey.is-live .jchip { min-height: 30px; padding: 0 9px; font-size: 0.8125rem; gap: 4px; }
+    .journey.is-live .jchip { min-height: 44px; padding: 5px 4px; font-size: 0.8125rem; gap: 2px; }
     .journey.is-live .jkm { margin-top: 4px; }
     .journey.is-live .jkm-num { font-size: 1.75rem; }
     .journey.is-live .jkm-cap { margin-top: 4px; grid-column: 1 / -1; }

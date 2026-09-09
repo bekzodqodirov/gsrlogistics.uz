@@ -9,15 +9,15 @@ updatedDate: 2026-09-08
 tags: [customs, truck, buying, import]
 faq:
   - q: "Xitoydan oyiga qancha summagacha bojxona toʻlovisiz buyurtma qilsam boʻladi?"
-    a: "Jismoniy shaxs uchun xalqaro kuryer joʻnatmalari boʻyicha bir kalendar oyda 200 $ gacha, pochta orqali 100 $ gacha (PKM-244, 2025-yil 1-maydan). Limit barcha posilkalar boʻyicha jamlab, oluvchining PINFL raqami boʻyicha hisoblanadi. Bu faqat shaxsiy foydalanish uchun — doʻkon tovariga taalluqli emas."
+    a: "Jismoniy shaxs uchun xalqaro kuryer joʻnatmalari boʻyicha bir kalendar oyda 200 $ gacha, pochta orqali 100 $ gacha (VMQ-244, 2025-yil 1-maydan). Limit barcha posilkalar boʻyicha jamlab, oluvchining PINFL raqami boʻyicha hisoblanadi. Bu faqat shaxsiy foydalanish uchun — doʻkon tovariga taalluqli emas."
   - q: "200 $ limitidan oshsa qancha toʻlayman?"
-    a: "Oshgan qismidan yagona bojxona toʻlovi — 30%, lekin kamida 3 $/kg (PP-4508). Masalan, 250 $ lik, 3 kg posilka uchun 50 $ dan 30% = 15 $. Bundan tashqari, har bir kuryer posilkasining har kilogrammi uchun BRVning 2% miqdorida yigʻim olinadi (PKM-55). 2027-yil 1-yanvardan stavka 20% va kamida 2 $/kg boʻlishi rejalashtirilgan (PF-174)."
+    a: "Oshgan qismidan yagona bojxona toʻlovi — 30%, lekin kamida 3 $/kg (PQ-4508). Masalan, 250 $ lik, 3 kg posilka uchun 50 $ dan 30% = 15 $. Bundan tashqari, har bir kuryer posilkasining har kilogrammi uchun BRVning 2% miqdorida yigʻim olinadi (VMQ-55). 2027-yil 1-yanvardan stavka 20% va kamida 2 $/kg boʻlishi rejalashtirilgan (PF-174)."
   - q: "Qolgan limitimni qayerdan koʻraman?"
     a: "my.gov.uz portalidagi «Xalqaro kuryerlik joʻnatmalari toʻgʻrisida maʼlumot» xizmati yoki Bojxona qoʻmitasining «E-Tijorat» ilovasida: joriy oyda qolgan summa, har bir posilkaning qiymati, vazni va kuryer operatori koʻrinadi. Sizga tegishli boʻlmagan posilkani shu yerda rad etish mumkin."
   - q: "Doʻkon uchun tovarni rasmiy olib kelishda qancha toʻlanadi?"
     a: "Yuridik shaxs yoki YaTT bojxona qiymatidan TN VED kodi boʻyicha boj (kiyim 20%, telefon 5%, kompyuter 0%, mebel 15%), keyin bojxona qiymati + boj summasidan 12% QQS va rasmiylashtiruv yigʻimi (10 000 $ gacha partiya uchun 1 BRV) toʻlaydi. Kelib chiqish sertifikati boʻlmasa, boj ikki barobar oshadi."
   - q: "Xitoydan kelgan tovarga sertifikat va oʻzbekcha yorliq shartmi?"
-    a: "TN VED kodiga bogʻliq. PKM-554 (2025-yil 2-sentabr) majburiy sertifikatlash roʻyxatini qisqartirdi, lekin elektr buyumlar, bolalar tovarlari, oʻyinchoq, kosmetika va oziq-ovqat muvofiqlikni tasdiqlashni talab qiladi. Sertifikat yoki SES xulosasi kerak boʻlgan isteʼmol tovarlarida oʻzbek tilida lotin yozuvidagi yorliq boʻlishi shart (UP-140, 2024-yil 1-yanvardan)."
+    a: "TN VED kodiga bogʻliq. VMQ-554 (2025-yil 2-sentabr) majburiy sertifikatlash roʻyxatini qisqartirdi, lekin elektr buyumlar, bolalar tovarlari, oʻyinchoq, kosmetika va oziq-ovqat muvofiqlikni tasdiqlashni talab qiladi. Sertifikat yoki SES xulosasi kerak boʻlgan isteʼmol tovarlarida oʻzbek tilida lotin yozuvidagi yorliq boʻlishi shart (PF-140, 2024-yil 1-yanvardan)."
 sources:
   - title: "Vazirlar Mahkamasining 244-son qarori — jismoniy shaxslar uchun boj toʻlanmaydigan olib kirish normalari (kuryer 200 $/oy, pochta 100 $)"
     url: "https://lex.uz/docs/7484114"
@@ -31,7 +31,7 @@ sources:
   - title: "Prezidentning PQ-3818-son qarori, 1-ilova — import boj stavkalari (PQ-58, 2026-yil 11-fevral tahririda)"
     url: "https://lex.uz/docs/3802366"
     date: "2026-02-11"
-  - title: "Gazeta.uz — PKM-55: bojxona rasmiylashtiruv yigʻimi BRVda va kuryer posilkasi uchun har kg dan BRVning 2%"
+  - title: "Gazeta.uz — VMQ-55: bojxona rasmiylashtiruv yigʻimi BRVda va kuryer posilkasi uchun har kg dan BRVning 2%"
     url: "https://www.gazeta.uz/ru/2025/02/03/customs-duties/"
     date: "2025-02-03"
   - title: "Gazeta.uz — Bojxona qoʻmitasi: 30% toʻlov faqat limitdan oshgan qismidan olinadi"
@@ -43,16 +43,16 @@ sources:
   - title: "Prezidentning PF-250-son farmoni — dastlabki deklaratsiyada yigʻim −20%, 120 kungacha kechiktirish"
     url: "https://lex.uz/ru/docs/7934918"
     date: "2025-12-17"
-  - title: "Buxgalter.uz — PKM-554: majburiy sertifikatlash roʻyxati qisqardi"
+  - title: "Buxgalter.uz — VMQ-554: majburiy sertifikatlash roʻyxati qisqardi"
     url: "https://buxgalter.uz/publish/doc/text210396_po_kakoy_produkcii_ne_nujna_obyazatelnaya_sertifikaciya_v_uzbekistane"
     date: "2025-09-10"
-  - title: "Norma.uz — UP-140: davlat tilidagi markirovkasiz SES xulosasi berilmaydi"
+  - title: "Norma.uz — PF-140: davlat tilidagi markirovkasiz SES xulosasi berilmaydi"
     url: "https://www.norma.uz/novoe_v_zakonodatelstve/bez_markirovki_na_gosyazyke_ne_dadut_sanitarno-epidemiologicheskoe_zaklyuchenie"
     date: "2023-08-16"
   - title: "my.gov.uz — Tashqi savdo shartnomasini EEISVO (E-Contract) da roʻyxatdan oʻtkazish"
     url: "https://my.gov.uz/ru/service/96"
     date: "2026-09-08"
-  - title: "Gratanet — PKM-283: oldindan toʻlovda tovar 180 kun ichida kelishi shart"
+  - title: "Gratanet — VMQ-283: oldindan toʻlovda tovar 180 kun ichida kelishi shart"
     url: "https://gratanet.com/ru/news/foreign-trade-operations-is-approved-in-uzbekistan"
     date: "2020-05-20"
   - title: "PwC Tax Summaries — Oʻzbekistonda import QQS 12%"
@@ -76,7 +76,7 @@ Bojxona oldida eng muhim savol — tovar kimning nomiga va qanday maqsadda kirit
 | Kim deklaratsiya qiladi | Kuryer operatori | Import qiluvchi yoki bojxona brokeri |
 | Tovar sotish huquqi | Yoʻq | Ha, elektron hisob-faktura bilan |
 
-Doʻkon, Uzum yoki Abu Sahiy rastasi uchun keltirilgan tovar — har doim tijorat importi. Bojxona bir xil tovarning koʻpligi, bir oyda takroriy buyurtmalar, oluvchining yoshi yoki manzili nomuvofiqligi kabi belgilar boʻyicha posilkani tijorat deb topadi (PKM-244 mezonlari) va toʻliq rasmiylashtiruvni talab qiladi.
+Doʻkon, Uzum yoki Abu Sahiy rastasi uchun keltirilgan tovar — har doim tijorat importi. Bojxona bir xil tovarning koʻpligi, bir oyda takroriy buyurtmalar, oluvchining yoshi yoki manzili nomuvofiqligi kabi belgilar boʻyicha posilkani tijorat deb topadi (VMQ-244 mezonlari) va toʻliq rasmiylashtiruvni talab qiladi.
 
 ## Jismoniy shaxs: 200 $ limiti qanday ishlaydi?
 
@@ -96,7 +96,7 @@ Uchta muhim nuqta:
 2. **Qolgan limitni tekshirish mumkin.** my.gov.uz portalidagi «Xalqaro kuryerlik joʻnatmalari toʻgʻrisida maʼlumot» xizmati va «E-Tijorat» ilovasida joriy oyda qolgan summa, har bir posilkaning qiymati, vazni va kuryer operatorining STIRi koʻrinadi. Sizga tegishli boʻlmagan posilkani rad etsangiz, bojxona uni chiqarmaydi. Boshqa odamning PINFL maʼlumotidan roziligisiz foydalangan kuryerlar javobgarlikka tortiladi.
 3. **Oshgan qismiga 30%.** Yagona bojxona toʻlovi (PQ-4508) boj, QQS va aksiz oʻrnini bosadi: 30%, lekin kamida 3 $/kg. Bojxona qoʻmitasining 2025-yil 29-iyuldagi tushuntirishiga koʻra, toʻlov faqat limitdan oshgan summadan olinadi.
 
-Hisoblangan misol: posilka qiymati 250 $, vazni 3 kg, oy boshida limit toʻliq. Oshgan qism — 50 $; 30% = 15 $; kilogramm boʻyicha minimum 3 × 3 = 9 $; kattasi olinadi — 15 $. Unga kuryer yigʻimi qoʻshiladi: har kg uchun BRVning 2% (PKM-55, 2025-yil 4-maydan), yaʼni 3 kg uchun BRVning 6%. Yigʻimni kuryer operatori toʻlaydi va odatda oluvchi hisobiga qoʻshadi.
+Hisoblangan misol: posilka qiymati 250 $, vazni 3 kg, oy boshida limit toʻliq. Oshgan qism — 50 $; 30% = 15 $; kilogramm boʻyicha minimum 3 × 3 = 9 $; kattasi olinadi — 15 $. Unga kuryer yigʻimi qoʻshiladi: har kg uchun BRVning 2% (VMQ-55, 2025-yil 4-maydan), yaʼni 3 kg uchun BRVning 6%. Yigʻimni kuryer operatori toʻlaydi va odatda oluvchi hisobiga qoʻshadi.
 
 **Rejalashtirilgan oʻzgarish.** Prezidentning PF-174-son farmoni («Yangi bojxona 2030», 2026-yil 27-avgust) 2027-yil 1-yanvardan yagona toʻlovni 20% ga, minimumni 2 $/kg ga tushiradi. 2026-yilda hali 30% va 3 $/kg amal qiladi.
 
@@ -107,7 +107,7 @@ Tijorat importida toʻlovlar uch qatlamdan iborat va ketma-ket hisoblanadi:
 1. **Bojxona qiymati** = tovar narxi (invoys) + Xitoydan Oʻzbekiston chegarasigacha tashish va sugʻurta xarajatlari.
 2. **Boj** = bojxona qiymati × TN VED kodi boʻyicha stavka (PQ-3818, 1-ilova, PQ-58 tahririda, 2026-yil 11-fevral). Koʻp pozitsiyalarda «foiz, lekin kamida … $/dona (kg, juft)» shakli — ikkisidan kattasi olinadi. Xitoy bilan erkin savdo bitimi yoʻq, shuning uchun MFN stavkasi qoʻllanadi; kelib chiqish sertifikati boʻlmasa, stavka ikki barobar oshadi.
 3. **QQS 12%** = (bojxona qiymati + boj + aksiz) × 12%. Aksiz faqat alkogol, tamaki, yoqilgʻi, avtomobil, 2026-yil 1-apreldan shakarli ichimlik, chips va energetik ichimlikka — oddiy isteʼmol tovarida yoʻq. Import QQS QQS toʻlovchilar uchun hisobga olinadi.
-4. **Rasmiylashtiruv yigʻimi** — partiya qiymatiga qarab BRVda (PKM-55, 2025-yil 31-yanvar):
+4. **Rasmiylashtiruv yigʻimi** — partiya qiymatiga qarab BRVda (VMQ-55, 2025-yil 31-yanvar):
 
 | Partiya qiymati | Yigʻim |
 |---|---|
@@ -150,7 +150,7 @@ Quyidagi jadval PQ-3818-son qarorning 1-ilovasidagi (PQ-58, 2026-yil 11-fevral t
 | Gazlama | 5–10% | |
 | Plastmassa uy-roʻzgʻor buyumlari | 20% | Keramika va shisha idish 15% |
 
-*Stavkalar 2026-yil 8-sentabr holatiga tekshirilgan; yakuniy hisob GTDda bojxona tomonidan tasdiqlanadi.*
+*Stavkalar 2026-yil 8-sentabr holatiga tekshirilgan; yakuniy hisobni bojxona GTDda tasdiqlaydi.*
 
 ## Ikki hisoblangan misol
 
@@ -193,13 +193,13 @@ Oʻz shartnomangiz bilan import qilganda bojxonaga quyidagi paket topshiriladi:
 7. **Muvofiqlik sertifikati yoki deklaratsiyasi, SES xulosasi** — TN VED kodi talab qilsa, deklaratsiyadan oldin.
 8. **Elektron GTD** — bojxona brokeri yoki oʻzingiz topshirasiz; Bojxona kodeksi boʻyicha chiqarish muddati 1 ish kuni (uchinchi tashkilot kelishuvlaridan tashqari).
 
-Oldindan toʻlov majburiy emas — shartlar shartnomada kelishiladi. Lekin toʻlagan boʻlsangiz, tovar 180 kalendar kun ichida kelishi yoki pul qaytishi shart (PKM-283, 2020-yil 14-may), aks holda jarima boshlanadi.
+Oldindan toʻlov majburiy emas — shartlar shartnomada kelishiladi. Lekin toʻlagan boʻlsangiz, tovar 180 kalendar kun ichida kelishi yoki pul qaytishi shart (VMQ-283, 2020-yil 14-may), aks holda jarima boshlanadi.
 
 ## Sertifikat, SES va oʻzbekcha yorliq
 
-PKM-554 (2025-yil 2-sentabr) majburiy sertifikatlash roʻyxatini qisqartirdi va koʻp guruhlarni muvofiqlik deklaratsiyasiga oʻtkazdi. Elektr buyumlar, bolalar tovarlari va oʻyinchoq, kosmetika, oziq-ovqat hali ham muvofiqlikni tasdiqlashni talab qiladi — aniq roʻyxatni TN VED kodi boʻyicha Oʻzstandart bilan tekshiramiz. Oziq-ovqat, kosmetika, bolalar tovarlari, polimer va kimyoviy mahsulotga SES xulosasi kerak — u deklaratsiyadan oldin onlayn olinadi.
+VMQ-554 (2025-yil 2-sentabr) majburiy sertifikatlash roʻyxatini qisqartirdi va koʻp guruhlarni muvofiqlik deklaratsiyasiga oʻtkazdi. Elektr buyumlar, bolalar tovarlari va oʻyinchoq, kosmetika, oziq-ovqat hali ham muvofiqlikni tasdiqlashni talab qiladi — aniq roʻyxatni TN VED kodi boʻyicha Oʻzstandart bilan tekshiramiz. Oziq-ovqat, kosmetika, bolalar tovarlari, polimer va kimyoviy mahsulotga SES xulosasi kerak — u deklaratsiyadan oldin onlayn olinadi.
 
-Sertifikat yoki SES kerak boʻlgan isteʼmol tovarlarida yorliq oʻzbek tilida, lotin yozuvida boʻlishi shart (UP-140, 2023-yil 15-avgust, 2024-yil 1-yanvardan amalda); yorliqda import qiluvchining nomi va manzili koʻrsatiladi. Shaxsiy foydalanish uchun tovar va isteʼmol qadogʻisiz tovar bundan mustasno.
+Sertifikat yoki SES kerak boʻlgan isteʼmol tovarlarida yorliq oʻzbek tilida, lotin yozuvida boʻlishi shart (PF-140, 2023-yil 15-avgust, 2024-yil 1-yanvardan amalda); yorliqda import qiluvchining nomi va manzili koʻrsatiladi. Shaxsiy foydalanish uchun tovar va isteʼmol qadogʻisiz tovar bundan mustasno.
 
 ## GSR Logistics nima qiladi?
 
@@ -213,4 +213,4 @@ Har uchala holatda ham boj va QQS qonun boʻyicha toʻlanadi — biz uni yuk jo�
 
 > **Menejer maslahati.** Tovar roʻyxatini yuborishdan oldin har bir pozitsiyaning materiali va foto surati boʻlsin: TN VED kodi aynan shu maʼlumotga qarab tanlanadi, «trikotaj» va «toʻqima» futbolka har xil kodga tushadi. Va yetkazib beruvchidan kelib chiqish sertifikatini oldindan soʻrang — u bojni ikki barobar tejaydi.
 
-*Ushbu qoʻllanma umumiy maʼlumot uchun. Stavkalar va normalar 2026-yil 8-sentabr holatiga lex.uz hujjatlari boʻyicha tekshirilgan; bojxona qiymati va kod yakuniy tarzda deklaratsiyada bojxona organi tomonidan tasdiqlanadi. Aniq hisob uchun tovar roʻyxatini menejerga yuboring.*
+*Ushbu qoʻllanma umumiy maʼlumot uchun. Stavkalar va normalar 2026-yil 8-sentabr holatiga lex.uz hujjatlari boʻyicha tekshirilgan; bojxona qiymati va kod yakuniy tarzda deklaratsiyada bojxona organi tasdiqlaydi. Aniq hisob uchun tovar roʻyxatini menejerga yuboring.*

@@ -11,13 +11,13 @@ faq:
   - q: "How much can I order from China per month without paying customs?"
     a: "An individual can receive international courier shipments worth up to $200 per calendar month and postal items up to $100 free of the customs payment (Cabinet Resolution 244, in force since May 1, 2025). The allowance is cumulative across all parcels addressed to your PINFL. It covers personal use only — stock for a shop never qualifies."
   - q: "What do I pay if I exceed the $200 allowance?"
-    a: "A single customs payment of 30% on the excess, but no less than $3 per kilogram (Presidential Resolution PP-4508). For a $250 parcel weighing 3 kg that is 30% of $50 = $15. On top of that, every kilogram of a courier parcel carries a fee of 2% of the base calculation value (BRV) under PKM-55. From January 1, 2027 the rate is planned to drop to 20% and $2/kg (Decree PF-174)."
+    a: "A single customs payment of 30% on the excess, but no less than $3 per kilogram (Presidential Resolution PP-4508). For a $250 parcel weighing 3 kg that is 30% of $50 = $15. On top of that, every kilogram of a courier parcel carries a fee of 2% of the base calculation value (BRV) under PKM-55. From January 1, 2027 the rate is planned to drop to 20% and $2/kg (Decree UP-174)."
   - q: "Where can I check my remaining allowance?"
-    a: "In the 'Information on international courier shipments' service on my.gov.uz or in the Customs Committee's E-Tijorat app: it shows the balance for the current month, the value and weight of each parcel and the courier operator. A parcel that is not yours can be rejected there, and customs will not release it."
+    a: "In the 'Information on international courier shipments' service on my.gov.uz or in the Customs Committee’s E-Tijorat app: it shows the balance for the current month, the value and weight of each parcel and the courier operator. A parcel that is not yours can be rejected there, and customs will not release it."
   - q: "What does it cost to import goods for a shop legally?"
     a: "A company or sole trader pays duty on the customs value by HS code (clothing 20%, phones 5%, computers 0%, furniture 15%), then 12% VAT on customs value plus duty, and a clearance fee (1 BRV for a consignment up to $10,000). Without a certificate of origin the duty doubles."
   - q: "Do goods from China need a certificate and an Uzbek-language label?"
-    a: "It depends on the HS code. PKM-554 of September 2, 2025 shortened the mandatory certification list, but electrical goods, children's products, toys, cosmetics and food still require conformity assessment. Consumer goods that need a certificate or an SES conclusion must carry a label in Uzbek in Latin script (Decree UP-140, in force since January 1, 2024)."
+    a: "It depends on the HS code. PKM-554 of September 2, 2025 shortened the mandatory certification list, but electrical goods, children’s products, toys, cosmetics and food still require conformity assessment. Consumer goods that need a certificate or an SES conclusion must carry a label in Uzbek in Latin script (Decree UP-140, in force since January 1, 2024)."
 sources:
   - title: "Cabinet of Ministers Resolution No. 244 — duty-free import allowances for individuals (courier $200/month, post $100)"
     url: "https://lex.uz/docs/7484114"
@@ -25,7 +25,7 @@ sources:
   - title: "Presidential Resolution PP-4508 — single customs payment of 30%, minimum $3/kg"
     url: "https://lex.uz/docs/4585744"
     date: "2019-11-07"
-  - title: "Presidential Decree PF-174 'New Customs 2030' — 20% and minimum $2/kg from January 1, 2027"
+  - title: "Presidential Decree UP-174 'New Customs 2030' — 20% and minimum $2/kg from January 1, 2027"
     url: "https://lex.uz/docs/8444993"
     date: "2026-08-27"
   - title: "Presidential Resolution PP-3818, Annex 1 — import duty schedule (as amended by PP-58 of February 11, 2026)"
@@ -72,11 +72,11 @@ The question customs asks first is in whose name and for what purpose the goods 
 | Free allowance | Courier $200/month, post $100 | None |
 | Above the allowance | 30%, min $3/kg (on the excess) | — |
 | Main charges | Single customs payment + 2% of BRV × kg | Duty (HS code) + 12% VAT + fee in BRV |
-| Document | Courier operator's receipt | Customs declaration (GTD), contract, invoice, certificate |
+| Document | Courier operator’s receipt | Customs declaration (GTD), contract, invoice, certificate |
 | Who declares | The courier operator | The importer or a customs broker |
 | Right to sell the goods | No | Yes, with an electronic invoice |
 
-Goods for a shop, an Uzum store or a stall at Abu Sakhiy are always a commercial import. Customs treats a parcel as commercial when it sees large quantities of identical items, repeat orders within a month, or a mismatch between the recipient's age or address and the goods (the PKM-244 criteria), and then requires full clearance.
+Goods for a shop, an Uzum store or a stall at Abu Sakhiy are always a commercial import. Customs treats a parcel as commercial when it sees large quantities of identical items, repeat orders within a month, or a mismatch between the recipient’s age or address and the goods (the PKM-244 criteria), and then requires full clearance.
 
 ## Individuals: how does the $200 allowance work?
 
@@ -93,12 +93,12 @@ Cabinet of Ministers Resolution No. 244 of April 19, 2025 set new allowances fro
 Three points matter:
 
 1. **The allowance is cumulative.** $200 is not per parcel but for every parcel delivered to your PINFL during the month, whatever the number of sellers or couriers.
-2. **You can check the balance.** The "Information on international courier shipments" service on my.gov.uz and the E-Tijorat app show the remaining amount for the current month, the value and weight of each parcel and the courier operator's tax ID. If you reject a parcel that is not yours, customs will not release it. Couriers using someone's PINFL without consent face liability.
-3. **The excess is charged at 30%.** The single customs payment (PP-4508) replaces duty, VAT and excise: 30%, but no less than $3/kg. According to the Customs Committee's explanation of July 29, 2025, it applies only to the amount above the allowance.
+2. **You can check the balance.** The "Information on international courier shipments" service on my.gov.uz and the E-Tijorat app show the remaining amount for the current month, the value and weight of each parcel and the courier operator’s tax ID. If you reject a parcel that is not yours, customs will not release it. Couriers using someone’s PINFL without consent face liability.
+3. **The excess is charged at 30%.** The single customs payment (PP-4508) replaces duty, VAT and excise: 30%, but no less than $3/kg. According to the Customs Committee’s explanation of July 29, 2025, it applies only to the amount above the allowance.
 
-Worked example: a $250 parcel weighing 3 kg, allowance untouched this month. The excess is $50; 30% = $15; the weight minimum is 3 × $3 = $9; the higher figure applies — $15. Add the courier fee of 2% of BRV per kilogram (PKM-55, in force since May 4, 2025), i.e. 6% of BRV for 3 kg. The courier operator pays that fee and usually adds it to the recipient's bill.
+Worked example: a $250 parcel weighing 3 kg, allowance untouched this month. The excess is $50; 30% = $15; the weight minimum is 3 × $3 = $9; the higher figure applies — $15. Add the courier fee of 2% of BRV per kilogram (PKM-55, in force since May 4, 2025), i.e. 6% of BRV for 3 kg. The courier operator pays that fee and usually adds it to the recipient’s bill.
 
-**Planned change.** Presidential Decree PF-174 ("New Customs 2030", August 27, 2026) lowers the single payment to 20% and the minimum to $2/kg from January 1, 2027. In 2026 the rate is still 30% and $3/kg.
+**Planned change.** Presidential Decree UP-174 ("New Customs 2030", August 27, 2026) lowers the single payment to 20% and the minimum to $2/kg from January 1, 2027. In 2026 the rate is still 30% and $3/kg.
 
 ## Companies and sole traders: how are duty, VAT and the fee calculated?
 
@@ -129,7 +129,7 @@ The table gathers the most requested lines from Annex 1 to PP-3818 (as amended b
 
 | Goods (HS group) | Duty | Note |
 |---|---|---|
-| Clothing (61–62) | 20%, min $0.50–4/pc | T-shirts $0.50/pc, suits and coats $2–4/pc; children's knitwear (6111) 10% |
+| Clothing (61–62) | 20%, min $0.50–4/pc | T-shirts $0.50/pc, suits and coats $2–4/pc; children’s knitwear (6111) 10% |
 | Socks | 20%, min $0.20/pair | |
 | Bed linen (6302) | 20%, min $2/kg | |
 | Footwear (6401–6405) | 20%, min $3/pair | |
@@ -197,20 +197,20 @@ Prepayment is not mandatory — the contract sets the terms. If you do pay in ad
 
 ## Certification, SES and the Uzbek-language label
 
-PKM-554 of September 2, 2025 shortened the mandatory certification list and moved many groups to a declaration of conformity. Electrical goods, children's products and toys, cosmetics and food still require conformity assessment — we check the exact list by HS code with Uzstandard. Food, cosmetics, children's goods, polymers and chemicals need an SES conclusion, obtained online before the declaration.
+PKM-554 of September 2, 2025 shortened the mandatory certification list and moved many groups to a declaration of conformity. Electrical goods, children’s products and toys, cosmetics and food still require conformity assessment — we check the exact list by HS code with Uzstandard. Food, cosmetics, children’s goods, polymers and chemicals need an SES conclusion, obtained online before the declaration.
 
-Consumer goods that need a certificate or SES must carry a label in Uzbek in Latin script (Decree UP-140 of August 15, 2023, in force since January 1, 2024); the label states the importer's name and address. Goods for personal use and goods without consumer packaging are exempt.
+Consumer goods that need a certificate or SES must carry a label in Uzbek in Latin script (Decree UP-140 of August 15, 2023, in force since January 1, 2024); the label states the importer’s name and address. Goods for personal use and goods without consumer packaging are exempt.
 
 ## What does GSR Logistics do?
 
 We provide freight, consolidation and customs clearance services, and we settle at the start of the conversation who the importer of record will be:
 
-- **Personal parcel** — through a courier operator in your name; we tell you in advance how the $200 allowance and the 30% on the excess work out. We never use other people's PINFL data.
+- **Personal parcel** — through a courier operator in your name; we tell you in advance how the $200 allowance and the 30% on the excess work out. We never use other people’s PINFL data.
 - **GSR as importer** — we clear the goods under our own contract, duty, VAT and the fee are built into the price, and you receive a domestic sale with an electronic invoice.
 - **Your own contract** — we act as forwarder and broker: we pick the HS code, prepare the document file with the supplier in Chinese, help register the contract in EEISVO, and the GTD is issued in your name.
 
 In all three cases duty and VAT are paid as the law requires — we calculate them before the cargo leaves. More: [Customs clearance](/en/services/customs/), [How to order from 1688](/en/guides/how-to-order-from-1688/) and [Shipping from China to Uzbekistan](/en/guides/shipping-from-china-to-uzbekistan/).
 
-> **Manager's tip.** Before you send your product list, add the material and a photo of every item: the HS code is chosen from exactly that information, and a knitted T-shirt falls under a different code from a woven one. And ask the supplier for a certificate of origin up front — it halves the duty.
+> **Manager’s tip.** Before you send your product list, add the material and a photo of every item: the HS code is chosen from exactly that information, and a knitted T-shirt falls under a different code from a woven one. And ask the supplier for a certificate of origin up front — it halves the duty.
 
 *This guide is general information. Rates and allowances were verified against lex.uz documents as of September 8, 2026; the customs value and the code are confirmed by the customs authority at declaration. For an exact calculation, send your product list to a manager.*

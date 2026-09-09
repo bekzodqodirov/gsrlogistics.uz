@@ -12,12 +12,12 @@ faq:
     a: "Biznes-litsenziyadagi (营业执照) faoliyat turiga qarang: «生产» — ishlab chiqarish, «贸易» — savdo. Zavod sex videosini va uskunalar roʻyxatini beradi, shahar chekkasidagi sanoat zonasida joylashadi, bitta tovar toifasida chuqur; savdo kompaniyasi shahar markazida ofis bilan, katalogi keng va turli xil. Ikkalasi ham ishlaydi — farq narxda (10–20%) va javobgarlikda."
   - q: "Namuna qancha turadi va necha kunda keladi?"
     a: "Zavod namunani odatda 3–10 kunda tayyorlaydi; narxi bir dona tovar narxidan 1,5–3 barobar yuqori boʻlib, buyurtma berilgach koʻpincha hisobga olinadi. Namuna Ivu omboriga keladi — suratga olamiz, oʻlchaymiz, video yuboramiz; kerak boʻlsa avia bilan taxminan 5–10 kunda Toshkentga yetkazamiz."
-  - q: "MOQ ni kamaytirib boʻladimi?"
-    a: "Koʻpincha ha: bir modelni bir necha rangga boʻlish, zavodning omboridagi tayyor tovarini olish, birinchi (sinov) partiyaga 10–30% yuqori narx taklif qilish yoki bir xil material ishlatiladigan bir necha modelni birlashtirish. Zavod MOQ si 300–1 000 dona boʻlsa, birinchi partiyani 1688 dagi 2–50 donalik sotuvchidan olib, keyin zavodga oʻtish ham mumkin."
+  - q: "MOQni kamaytirib boʻladimi?"
+    a: "Koʻpincha ha: bir modelni bir necha rangga boʻlish, zavodning omboridagi tayyor tovarini olish, birinchi (sinov) partiyaga 10–30% yuqori narx taklif qilish yoki bir xil material ishlatiladigan bir necha modelni birlashtirish. Zavod MOQ si 300–1 000 dona boʻlsa, birinchi partiyani 1688-dagi 2–50 donalik sotuvchidan olib, keyin zavodga oʻtish ham mumkin."
   - q: "Oldindan toʻlov qancha va qanday himoyalanaman?"
-    a: "Odatiy sxema — 30% buyurtmada, 70% yuklashdan oldin, tekshiruvdan keyin. Yuridik shaxs uchun shartnoma EEISVOda roʻyxatdan oʻtadi va oldindan toʻlangan tovar 180 kun ichida kelishi shart (PKM-283). Toʻlovni kompaniya hisobiga (shaxsiy WeChat yoki kartaga emas) qiling; 1688 va Alibabaʼda platforma orqali toʻlov pulni tovar kelguncha ushlab turadi."
+    a: "Odatiy sxema — 30% buyurtmada, 70% yuklashdan oldin, tekshiruvdan keyin. Yuridik shaxs uchun shartnoma EEISVOda roʻyxatdan oʻtadi va oldindan toʻlangan tovar 180 kun ichida kelishi shart (VMQ-283). Toʻlovni kompaniya hisobiga (shaxsiy WeChat yoki kartaga emas) qiling; 1688 va Alibabada platforma orqali toʻlov pulni tovar kelguncha ushlab turadi."
   - q: "Xitoy tilini bilmasam, oʻzim zavod topa olamanmi?"
-    a: "1688 va zavodlarning koʻpi faqat xitoy tilida ishlaydi; Alibabaʼda inglizcha bor, lekin narx yuqoriroq. GSR Logistics xodimlari xitoy tilida gaplashadi: zavodga qoʻngʻiroq qiladi, litsenziyani tekshiradi, narx va MOQ ni kelishadi, namunani Ivu omborida koʻzdan kechiradi. Komissiya buyurtma summasining 3% dan (taxminiy, 2026-yil 8-sentabr)."
+    a: "1688 va zavodlarning koʻpi faqat xitoy tilida ishlaydi; Alibabada inglizcha bor, lekin narx yuqoriroq. GSR Logistics xodimlari xitoy tilida gaplashadi: zavodga qoʻngʻiroq qiladi, litsenziyani tekshiradi, narx va MOQni kelishadi, namunani Ivu omborida koʻzdan kechiradi. Komissiya buyurtma summasining 3% dan (taxminiy, 2026-yil 8-sentabr)."
 sources:
   - title: "Xitoy korxonalar kredit maʼlumotlari milliy tizimi (国家企业信用信息公示系统) — biznes-litsenziyani tekshirish"
     url: "https://www.gsxt.gov.cn/"
@@ -31,7 +31,7 @@ sources:
   - title: "ICC — Incoterms 2020: EXW, FOB va boshqa yetkazib berish shartlari"
     url: "https://iccwbo.org/business-solutions/incoterms-rules/incoterms-2020/"
     date: "2026-09-08"
-  - title: "Gratanet — PKM-283 (2020-yil 14-may): oldindan toʻlangan tovar 180 kun ichida kelishi shart"
+  - title: "Gratanet — VMQ-283 (2020-yil 14-may): oldindan toʻlangan tovar 180 kun ichida kelishi shart"
     url: "https://gratanet.com/ru/news/foreign-trade-operations-is-approved-in-uzbekistan"
     date: "2020-05-20"
   - title: "my.gov.uz — Tashqi savdo shartnomasini EEISVO (E-Contract) da roʻyxatdan oʻtkazish"
@@ -58,7 +58,7 @@ Xitoyda tovar topish oson, ishonchli manbani topish esa qiyin: bitta mahsulotga 
 | Sifat uchun javobgarlik | Aniq, bitta manba | Tarqoq — zavod bilan vositachi orasida | Platforma himoyasi |
 | Kimga mos | Doimiy partiya, oʻz brendi, texnik tovar | Aralash buyurtma, kichik hajm, murakkab tovar | Birinchi partiya, sinov, marketpleys |
 
-Amaliy qoida: birinchi partiyani 1688 yoki savdo kompaniyasidan oling, tovar sotilishiga ishonch hosil qilgach zavodga oʻting. 1688 da buyurtma berish tartibi — [1688 orqali buyurtma berish](/qollanma/1688-orqali-buyurtma-berish/) qoʻllanmasida.
+Amaliy qoida: birinchi partiyani 1688 yoki savdo kompaniyasidan oling, tovar sotilishiga ishonch hosil qilgach zavodga oʻting. 1688-da buyurtma berish tartibi — [1688 orqali buyurtma berish](/qollanma/1688-orqali-buyurtma-berish/) qoʻllanmasida.
 
 ## Yetkazib beruvchini qanday tekshirish kerak?
 
@@ -66,7 +66,7 @@ Tekshiruv toʻrt bosqichdan iborat; har biri oldingisidan qimmatroq, shuning uch
 
 1. **Biznes-litsenziya (营业执照).** Sotuvchidan litsenziya suratini soʻrang. Unda 18 xonali yagona ijtimoiy kredit kodi (统一社会信用代码), roʻyxatdan oʻtgan kapital, tashkil etilgan sana va faoliyat turi bor. Kodni gsxt.gov.cn davlat reyestrida tekshiring: kompaniya mavjudmi, faolmi, nomi va manzili mos keladimi. Faoliyat turida «生产» (ishlab chiqarish) boʻlsa — zavod, faqat «贸易» (savdo) boʻlsa — vositachi.
 2. **Eksport huquqi.** Har bir zavod eksport qila olmaydi. Bojxonada roʻyxatdan oʻtganini (海关登记) yoki eksport agentligi orqali ishlashini soʻrang. Eksport huquqisiz zavod invoysni oʻz nomidan bera olmaydi — bu keyin bojxona va kelib chiqish sertifikatida muammo tugʻdiradi.
-3. **Platforma statusi.** Alibabaʼda «Verified Supplier» belgisi uchinchi tomon (SGS, TÜV, Intertek) zavodni joyida tekshirganini bildiradi; profilda video, ishlab chiqarish maydoni va xodimlar soni koʻrsatiladi. Maydonchada ishlagan yillar (Gold Supplier), bitim darajasi va sharhlarga qarang. 1688 da 实力商家 (kuchli sotuvchi) va 工厂 (zavod) belgilari, 回头率 (qayta xarid ulushi) 30% dan yuqori boʻlishi yaxshi belgi.
+3. **Platforma statusi.** Alibabada «Verified Supplier» belgisi uchinchi tomon (SGS, TÜV, Intertek) zavodni joyida tekshirganini bildiradi; profilda video, ishlab chiqarish maydoni va xodimlar soni koʻrsatiladi. Maydonchada ishlagan yillar (Gold Supplier), bitim darajasi va sharhlarga qarang. 1688-da 实力商家 (kuchli sotuvchi) va 工厂 (zavod) belgilari, 回头率 (qayta xarid ulushi) 30% dan yuqori boʻlishi yaxshi belgi.
 4. **Zavod auditi.** Katta buyurtma oldidan sexni koʻring: video-qoʻngʻiroq (uskunalar, ombor, sifat nazorati posti), oʻz xodimingiz yoki uchinchi tomon inspeksiyasi tashrifi. Ishlab chiqarish quvvatini, boshqa eksport mijozlari qaysi davlatdan ekanini, sertifikatlarini (CE, ISO 9001, tovar boʻyicha test hisobotlari) soʻrang.
 
 Qoʻshimcha ikki belgi: bank hisobining nomi litsenziyadagi kompaniya nomi bilan bir xil boʻlishi shart; sotuvchi «shaxsiy hisobga tezroq» desa — bu toʻxtash belgisi. Va manzil: zavodlar shahar chekkasidagi sanoat zonasida boʻladi, savdo kompaniyalari markazdagi ofis binolarida.
@@ -82,7 +82,7 @@ Namunani Ivu omborida qabul qilamiz: suratga olamiz, oʻlchaymiz, tortamiz, vide
 MOQ (minimum order quantity) — zavod bitta buyurtmada qabul qiladigan eng kam miqdor: kiyimda bitta model uchun 300–500 dona, plastmassa buyumlarda 1 000 dona, elektronikada 100–500 dona. Uni kamaytirishning ishlaydigan yoʻllari:
 
 - bir modelni bir necha rang yoki oʻlchamga boʻlish (zavod jami sonni hisoblaydi);
-- zavodning omboridagi tayyor tovarini olish — u koʻpincha MOQ siz sotiladi;
+- zavodning omboridagi tayyor tovarini olish — u koʻpincha MOQsiz sotiladi;
 - sinov partiyasiga 10–30% yuqori narx taklif qilish va keyingi buyurtmani vaʼda qilish;
 - bir xil material va uskunada chiqadigan bir necha modelni bitta buyurtmaga jamlash.
 
@@ -102,9 +102,9 @@ Narx taklifida yetkazib berish sharti yozilgan boʻlishi shart — u kim qayerga
 |---|---|---|---|
 | EXW (zavoddan) | Tovarni zavod omborida tayyorlash | Zavoddan olib ketish, Xitoy ichidagi tashish, eksport rasmiylashtiruvi, butun yoʻl | Eng shaffof narx; Ivu omborigacha tashishni biz tashkil qilamiz |
 | FOB (portda kemaga yuklab) | Xitoy ichidagi tashish, eksport rasmiylashtiruvi, portga yetkazish | Port yoki chegaradan keyingi yoʻl | Dengiz konteyneri uchun; quruqlik yoʻlida «FOB» aslida chegaragacha degani — aniqlashtiring |
-| Ivu omboriga yetkazib berish (送货到义乌仓) | Zavoddan bizning omborgacha | Ombordan Toshkentgacha | Yigʻma yukda eng qulay — sotuvchi Xitoy ichidagi tashishni oʻzi toʻlaydi |
+| Qabul punktiga yetkazib berish (送货到仓库) | Zavoddan qabul punktigacha (Ivu, Guanchjou yoki Qashqar) | Qabul punktidan Toshkentgacha | Yigʻma yukda eng qulay — sotuvchi Xitoy ichidagi tashishni oʻzi toʻlaydi |
 
-Yigʻma yuk va avia kargo uchun amaliy tanlov — EXW yoki «Ivu omboriga yetkazib berish»: sotuvchi tovarni GSR omboriga joʻnatadi, biz uni qabul qilib, tekshirib, Toshkentga olib kelamiz. Konteynerli partiyada FOB odatiy; invoysda shart va port nomi aniq yozilishi bojxona qiymatini toʻgʻri hisoblash uchun ham kerak.
+Yigʻma yuk va avia kargo uchun amaliy tanlov — EXW yoki «qabul punktiga yetkazib berish»: sotuvchi tovarni biz koʻrsatgan qabul manziliga joʻnatadi, biz uni qabul qilib, tekshirib, Toshkentga olib kelamiz. Xitoyda uchta qabul manzili bor: Ivu, Guanchjou va Qashqar — qaysi biriga joʻnatish kerakligini menejer aytadi. Konteynerli partiyada FOB odatiy; invoysda shart va port nomi aniq yozilishi bojxona qiymatini toʻgʻri hisoblash uchun ham kerak.
 
 ## Shartnoma va oldindan toʻlov
 
@@ -113,10 +113,10 @@ Zavod odatda proforma-invoys (PI) beradi: tovar, soni, narx, shart, muddat, toʻ
 Toʻlov boʻyicha odatiy sxema — 30% buyurtmada, 70% yuklashdan oldin, tekshiruv natijasidan keyin. Yuridik shaxs va YaTT uchun uchta qoida:
 
 1. Tashqi savdo shartnomasi EEISVO (E-Contract, my.gov.uz 96-xizmat) tizimida roʻyxatdan oʻtadi — bank roʻyxatdan oʻtmagan shartnoma boʻyicha toʻlovni oʻtkazmaydi.
-2. Oldindan toʻlov majburiy emas, lekin toʻlagan boʻlsangiz, tovar 180 kalendar kun ichida kelishi yoki pul qaytishi shart (PKM-283, 2020-yil 14-may). Ishlab chiqarish muddati 60–90 kun boʻlgan buyurtmada bu muddatni hisobga oling.
-3. Toʻlov faqat litsenziyadagi kompaniya hisobiga. 1688 va Alibabaʼda platforma orqali toʻlov (Trade Assurance) pulni tovar tasdiqlanguncha ushlab turadi.
+2. Oldindan toʻlov majburiy emas, lekin toʻlagan boʻlsangiz, tovar 180 kalendar kun ichida kelishi yoki pul qaytishi shart (VMQ-283, 2020-yil 14-may). Ishlab chiqarish muddati 60–90 kun boʻlgan buyurtmada bu muddatni hisobga oling.
+3. Toʻlov faqat litsenziyadagi kompaniya hisobiga. 1688 va Alibabada platforma orqali toʻlov (Trade Assurance) pulni tovar tasdiqlanguncha ushlab turadi.
 
-Xitoyga oʻzingiz toʻlay olmasangiz, [1688 va Taobaoʼdan sotib olish](/xizmatlar/sotib-olish/) xizmati orqali biz yuanda toʻlaymiz. Bojxona uchun shartnoma, invoys va kelib chiqish sertifikati kerak boʻladi — [Bojxona toʻlovlari 2026](/qollanma/bojxona-tolovlari-2026/).
+Xitoyga oʻzingiz toʻlay olmasangiz, [1688 va Taobaodan sotib olish](/xizmatlar/sotib-olish/) xizmati orqali biz yuanda toʻlaymiz. Bojxona uchun shartnoma, invoys va kelib chiqish sertifikati kerak boʻladi — [Bojxona toʻlovlari 2026](/qollanma/bojxona-tolovlari-2026/).
 
 ## Yuklashdan oldingi sifat nazorati
 

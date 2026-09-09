@@ -2,8 +2,12 @@
  * Pricing engine — pure TypeScript, no Astro/Vite-only imports, so `scripts/test-pricing.mjs`
  * can run it directly in Node (type stripping) and the same code is bundled for the client.
  *
- * Every figure comes from `src/data/tariffs.json`, passed in as `Tariffs`; nothing is hard-coded
- * here except the fallback density above which a ≥100 kg lot counts as "dense" (see DENSE_DENSITY_FALLBACK).
+ * Every figure comes from `src/data/tariffs.json`, passed in as `Tariffs`; nothing is hard-coded here.
+ *
+ * Truck cargo follows the company's own price sheet, which is purely volumetric: the cargo's density
+ * (kg/m³) selects a price per m³, and only above `perKgFromDensityKgM3` — cargo denser than water,
+ * where a truck hits its weight limit long before its volume limit — does the sheet bill per kilogram.
+ * There is therefore no per-kilogram ladder for truck, and no estimate at all without a volume.
  * Every estimate returns the rule it applied, the rate, the unit, the total, the day range and note codes;
  * the UI translates codes into sentences (see `formatBreakdown` + `src/i18n/pricing.ts`).
  */
@@ -11,7 +15,6 @@ import type { Lang } from '../i18n/config.ts';
 import { fmtNumber, fmtSom, fmtUsd, fmtUsdNumber } from './format.ts';
 
 /* ---------------- Types for tariffs.json ---------------- */
-export interface LadderStep { maxKg: number | null; rate: number }
 export interface DensityBand { maxKgM3: number | null; rate: number }
 export interface Tariffs {
   updated: string;
@@ -21,13 +24,14 @@ export interface Tariffs {
   usdToSom: number;
   air: { perKg: { standard: number; brand: number; commercial: number }; minKg: number; days: number[]; volumetricDivisor: number };
   truck: {
-    ladderPerKg: LadderStep[];
-    densePerKg: { minKg: number; rate: number; minDensityKgM3?: number };
     days: number[];
     expressDays: number[];
     volumetricDivisor: number;
-    densityThresholdKgM3: number;
+    /** density (kg/m³) → USD per m³ */
     lclPerM3ByDensity: DensityBand[];
+    /** at or above this density the sheet bills per kg instead of per m³ */
+    perKgFromDensityKgM3: number;
+    perKgAboveDensity: number;
     minM3: number;
   };
   rail: { container20ft: number[]; container40ft: number[]; days: number[] };
@@ -39,8 +43,8 @@ export type Mode = 'air' | 'truck' | 'rail';
 /** Goods category. `battery` and `liquid` cannot fly — the calculator switches them to truck. */
 export type Category = 'standard' | 'brand' | 'commercial' | 'battery' | 'liquid';
 export type Container = '20ft' | '40ft';
-export type RuleCode = 'air-per-kg' | 'truck-ladder' | 'truck-dense' | 'truck-lcl' | 'rail-20ft' | 'rail-40ft';
-export type NoteCode = 'volumetric-applied' | 'min-kg-applied' | 'min-m3-applied' | 'no-volume' | 'switched-to-truck' | 'dense-lot' | 'range';
+export type RuleCode = 'air-per-kg' | 'truck-lcl' | 'truck-per-kg' | 'rail-20ft' | 'rail-40ft';
+export type NoteCode = 'volumetric-applied' | 'min-kg-applied' | 'min-m3-applied' | 'no-volume' | 'switched-to-truck' | 'range';
 
 export interface Dims { l: number; w: number; h: number } // centimetres
 export interface CargoInput { kg: number; dims?: Dims; m3?: number; category?: Category }
@@ -68,8 +72,10 @@ export interface Estimate {
 
 export const CATEGORIES: Category[] = ['standard', 'brand', 'commercial', 'battery', 'liquid'];
 export const AIR_FORBIDDEN: ReadonlyArray<Category> = ['battery', 'liquid'];
-/** Used when tariffs.json has no `truck.densePerKg.minDensityKgM3`. */
-export const DENSE_DENSITY_FALLBACK = 300;
+/** Thrown by estimateTruck when no volume was supplied — the truck sheet cannot price weight alone. */
+export class VolumeRequiredError extends RangeError {
+  constructor() { super('Truck cargo is priced per m³ by density; a volume is required'); this.name = 'VolumeRequiredError'; }
+}
 
 const r2 = (n: number) => Math.round(n * 100) / 100;
 const pair = (a: number[]): [number, number] => [a[0] ?? 0, a[1] ?? a[0] ?? 0];
@@ -108,11 +114,6 @@ export function resolveM3(input: { dims?: Dims; m3?: number }): number {
   return 0;
 }
 
-export function ladderRate(ladder: LadderStep[], kg: number): number {
-  for (const step of ladder) if (step.maxKg === null || kg <= step.maxKg) return step.rate;
-  return ladder[ladder.length - 1]?.rate ?? 0;
-}
-
 export function densityBandRate(bands: DensityBand[], density: number): number {
   for (const band of bands) if (band.maxKgM3 === null || density <= band.maxKgM3) return band.rate;
   return bands[bands.length - 1]?.rate ?? 0;
@@ -139,37 +140,29 @@ export function estimateAir(input: CargoInput, t: Tariffs): Estimate {
 }
 
 /**
- * Truck (consolidated): with a known volume the density decides — ≥ threshold → per kg
- * (ladder, or the dense rate for ≥ minKg lots above the dense density), below → per m³ by density band.
- * Without a volume the kg ladder applies and the result is flagged `no-volume`.
+ * Truck (consolidated), from the owner's own sheet: density (kg ÷ m³) picks a band and the total is
+ * m³ × that band's rate, with `minM3` as the floor. At or above `perKgFromDensityKgM3` the sheet bills
+ * per kilogram instead. A volume is required — weight alone cannot pick a band, so it throws.
  */
 export function estimateTruck(input: CargoInput, t: Tariffs): Estimate {
   const notes: NoteCode[] = [];
   const actual = Math.max(0, input.kg || 0);
   const m3 = resolveM3(input);
+  // The sheet prices a volume. Weight alone cannot pick a band, so refuse rather than invent a rate.
+  if (m3 <= 0) throw new VolumeRequiredError();
   const density = densityKgM3(actual, m3);
   const days = pair(t.truck.days);
-  const base = { mode: 'truck' as const, days, category: input.category, actualKg: actual, m3: m3 || undefined, densityKgM3: density || undefined };
+  const base = { mode: 'truck' as const, days, category: input.category, actualKg: actual, m3, densityKgM3: density || undefined };
 
-  if (m3 > 0 && density < t.truck.densityThresholdKgM3) {
-    let billableM3 = m3;
-    if (billableM3 < t.truck.minM3) { billableM3 = t.truck.minM3; notes.push('min-m3-applied'); }
-    const rate = densityBandRate(t.truck.lclPerM3ByDensity, density);
-    return { ...base, rule: 'truck-lcl', rate, unit: 'm3', total: r2(billableM3 * rate), notes, chargeableKg: actual };
+  // Denser than water: the truck fills up by weight, so the sheet switches to a per-kilogram rate.
+  if (density >= t.truck.perKgFromDensityKgM3) {
+    return { ...base, rule: 'truck-per-kg', rate: t.truck.perKgAboveDensity, unit: 'kg', total: r2(actual * t.truck.perKgAboveDensity), notes, chargeableKg: actual };
   }
 
-  const vol = m3 > 0 ? r2((m3 * 1_000_000) / t.truck.volumetricDivisor) : 0;
-  const chargeable = chargeableKg(actual, vol);
-  if (vol > actual && vol > 0) notes.push('volumetric-applied');
-  if (m3 <= 0) notes.push('no-volume');
-
-  const denseMin = t.truck.densePerKg.minDensityKgM3 ?? DENSE_DENSITY_FALLBACK;
-  if (m3 > 0 && chargeable >= t.truck.densePerKg.minKg && density >= denseMin) {
-    notes.push('dense-lot');
-    return { ...base, rule: 'truck-dense', rate: t.truck.densePerKg.rate, unit: 'kg', total: r2(chargeable * t.truck.densePerKg.rate), notes, volumetricKg: vol || undefined, chargeableKg: chargeable };
-  }
-  const rate = ladderRate(t.truck.ladderPerKg, chargeable);
-  return { ...base, rule: 'truck-ladder', rate, unit: 'kg', total: r2(chargeable * rate), notes, volumetricKg: vol || undefined, chargeableKg: chargeable };
+  let billableM3 = m3;
+  if (billableM3 < t.truck.minM3) { billableM3 = t.truck.minM3; notes.push('min-m3-applied'); }
+  const rate = densityBandRate(t.truck.lclPerM3ByDensity, density);
+  return { ...base, rule: 'truck-lcl', rate, unit: 'm3', total: r2(billableM3 * rate), notes, chargeableKg: actual };
 }
 
 export function estimateRail(container: Container, t: Tariffs): Estimate {
@@ -211,7 +204,7 @@ export interface Breakdown {
   totalSom: string;
   /** "5–10 kun" */
   days: string;
-  /** e.g. "Zichlik 250 kg/m³ ≥ 170 → kg boʻyicha · 6,5 $/kg" */
+  /** e.g. "Zichlik 250 kg/m³ → 1,2 m³ × 180 $/m³" */
   rule: string;
   rate: string;
   rows: Array<{ label: string; value: string }>;
@@ -227,9 +220,9 @@ export function formatBreakdown(e: Estimate, lang: Lang, s: BreakdownStrings, t:
   const somRange = (lo: number, hi: number) => { const a = fmtSom(lo, lang), b = fmtSom(hi, lang); return lang === 'en' ? `${a}–${b.replace('UZS ', '')}` : `${a.replace(/ \S+$/, '')}–${b}`; };
   const rateStr = e.unit === 'kg' ? `${usd(e.rate)}${s.units.perKg}` : e.unit === 'm3' ? `${usd(e.rate)}${s.units.perM3}` : usdRange(e.rate, e.totalMax ?? e.rate);
   const vars = {
-    rate: rateStr, density: n(e.densityKgM3 ?? 0, 0), threshold: n(t.truck.densityThresholdKgM3, 0), kg: n(e.chargeableKg ?? 0), m3: n(e.m3 ?? 0, 2),
+    rate: rateStr, density: n(e.densityKgM3 ?? 0, 0), kg: n(e.chargeableKg ?? 0), m3: n(e.m3 ?? 0, 2),
     minKg: n(t.air.minKg), minM3: n(t.truck.minM3), volumetric: n(e.volumetricKg ?? 0), divisor: n(e.mode === 'air' ? t.air.volumetricDivisor : t.truck.volumetricDivisor, 0),
-    denseKg: n(t.truck.densePerKg.minKg, 0), denseDensity: n(t.truck.densePerKg.minDensityKgM3 ?? DENSE_DENSITY_FALLBACK, 0),
+    perKgDensity: n(t.truck.perKgFromDensityKgM3, 0), perKgRate: usd(t.truck.perKgAboveDensity),
     category: s.categories[e.category ?? 'standard'], container: s.containers[e.container ?? '20ft'],
   };
   const total = e.totalMax ? usdRange(e.total, e.totalMax) : `≈ ${usd(e.total)}`;

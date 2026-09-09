@@ -3,8 +3,8 @@ import type { ServiceContentByLang } from './types';
 /**
  * Uskunalar importi «kalit topshirish» (turnkey equipment import) — long-form page content.
  * Figures: rail 20ft 2 800–5 500 $, 40ft 5 200–6 800 $, 20–35 days; truck 15–25 days; insurance 1% — tariffs.json (2026-09-08).
- * Customs: PP-3818 Annex 1 as amended by PP-58 of 11.02.2026 (lex.uz/docs/3802366) — machinery HS 8479/8467/8443 0%, motors 8501 5%;
- * VAT 12%; clearance fee ladder in BRV per PKM-55/2025; UP-250 of 17.12.2025 (preliminary declaration −20% fee, instalments). Research wf/12 §2.
+ * Customs: PQ-3818 Annex 1 as amended by PQ-58 of 11.02.2026 (lex.uz/docs/3802366) — machinery HS 8479/8467/8443 0%, motors 8501 5%;
+ * VAT 12%; clearance fee ladder in BRV per VMQ-55/2025; PF-250 of 17.12.2025 (preliminary declaration −20% fee, instalments). Research wf/12 §2.
  * "30% oldindan, qolgani kelganda" is the company's historical practice from its Telegram posts — presented as such, owner to confirm.
  */
 const content: ServiceContentByLang = {
@@ -19,7 +19,7 @@ const content: ServiceContentByLang = {
       eyebrow: 'Xizmat 06 — Uskunalar',
       h1: 'Xitoydan uskunalar importi «kalit topshirish»',
       intro:
-        'Uskunalar importi «kalit topshirish» — bu Xitoyda dastgoh yoki ishlab chiqarish liniyasini topish, zavodni tekshirish, shartnoma va toʻlov, Toshkentgacha tashish, bojxona rasmiylashtiruvi va oʻrnatish — hammasi bitta shartnoma va bitta menejer bilan. Koʻp sanoat uskunalari uchun boj stavkasi 0% (PP-3818, 2026-yil 11-fevraldagi PP-58 tahririda), QQS 12%. Yoʻl: alohida fura yoki yigʻma yuk bilan taxminan 15–25 kun, konteynerda temir yoʻl bilan 20–35 kun.',
+        'Uskunalar importi «kalit topshirish» — bu Xitoyda dastgoh yoki ishlab chiqarish liniyasini topish, zavodni tekshirish, shartnoma va toʻlov, Toshkentgacha tashish, bojxona rasmiylashtiruvi va oʻrnatish — hammasi bitta shartnoma va bitta menejer bilan. Koʻp sanoat uskunalari uchun boj stavkasi 0% (PQ-3818, 2026-yil 11-fevraldagi PQ-58 tahririda), QQS 12%. Yoʻl: alohida fura yoki yigʻma yuk bilan taxminan 15–25 kun, konteynerda temir yoʻl bilan 20–35 kun.',
       facts: [
         { label: 'Boj, koʻp sanoat uskunalari', value: '0%' },
         { label: 'QQS, bojxona qiymatidan', value: '12%' },
@@ -31,7 +31,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Qaysi uskunalarni olib kelamiz?',
         body: [
-          'Xitoy — dunyodagi eng katta sanoat uskunalari ishlab chiqaruvchisi va Oʻzbekistondagi yangi sexlarning aksariyati aynan shu yerdan jihozlanadi. Biz 2018-yildan beri Xitoy bilan ishlaymiz; uskunalar importi — GSR Group uchun ustuvor yoʻnalishlardan biri. Odatiy buyurtmalar:',
+          'Xitoy — dunyodagi eng katta sanoat uskunalari ishlab chiqaruvchisi va Oʻzbekistondagi yangi sexlarning aksariyati aynan shu yerdan jihozlanadi. Biz 2018-yildan beri Xitoy bilan ishlaymiz; uskunalar importi — GSR Logistics uchun ustuvor yoʻnalishlardan biri. Odatiy buyurtmalar:',
         ],
         bullets: [
           'Metallga ishlov berish: CNC dastgohlar, lazer va plazma kesish, press va bukish uskunalari',
@@ -51,14 +51,14 @@ const content: ServiceContentByLang = {
       {
         heading: 'Jarayon qanday boʻladi?',
         body: [
-          'Uskuna — bu tovar emas, loyiha: unda spetsifikatsiya, sinov, gabarit tashish, bojxona kodi va oʻrnatish bor. Shuning uchun jarayon yetti bosqichdan iborat va har birida Siz natijani hujjat yoki video bilan koʻrasiz.',
+          'Uskuna — bu tovar emas, loyiha: unda spetsifikatsiya, sinov, gabarit tashish, bojxona kodi va oʻrnatish bor. Shuning uchun jarayon yetti bosqichdan iborat va har birida siz natijani hujjat yoki video bilan koʻrasiz.',
         ],
         steps: [
           { title: 'Texnik topshiriq', text: 'Nima ishlab chiqarmoqchisiz, qanday quvvat (soatiga/kuniga), xomashyo, elektr tarmogʻi (380 V, 50 Hz), sex maydoni va byudjet. Kerak boʻlsa, oʻxshash sexni koʻrib, topshiriqni birga tuzamiz.' },
           { title: 'Zavod qidiruvi va takliflar', text: 'Xitoy boʻylab 3–5 ta zavoddan spetsifikatsiya, narx (EXW yoki FOB), ishlab chiqarish muddati, kafolat va ehtiyot qismlar sharti bilan taklif yigʻamiz. Takliflarni bitta jadvalda taqqoslab beramiz.' },
-          { title: 'Zavodni tekshirish', text: 'Biznes-litsenziya, eksport tajribasi, sex va sinov maydonchasi. Video-qoʻngʻiroq bepul; tashrifni oʻzimiz uyushtiramiz — Siz ham bora olasiz, xodimimiz tarjima qiladi.' },
-          { title: 'Shartnoma va toʻlov', text: 'Xitoy va rus tilida shartnoma: spetsifikatsiya, sinov mezonlari, kechikish jarimasi, kafolat (odatda 12 oy), oʻrnatish sharti. Toʻlovni zavodga yuanda yoki dollarda biz oʻtkazamiz; Siz E-Contract orqali oʻz firmangiz nomidan rasmiylashtirasiz.' },
-          { title: 'Ishlab chiqarish va zavodda sinov', text: 'Ishlab chiqarish odatda 30–60 kun. Yuklashdan oldin uskuna zavodda Sizning xomashyongiz bilan sinovdan oʻtkaziladi (FAT), video va hisobot yuboriladi. Faqat shundan keyin qolgan toʻlov va yuklash.' },
+          { title: 'Zavodni tekshirish', text: 'Biznes-litsenziya, eksport tajribasi, sex va sinov maydonchasi. Video-qoʻngʻiroq bepul; tashrifni oʻzimiz uyushtiramiz — siz ham bora olasiz, xodimimiz tarjima qiladi.' },
+          { title: 'Shartnoma va toʻlov', text: 'Xitoy va rus tilida shartnoma: spetsifikatsiya, sinov mezonlari, kechikish jarimasi, kafolat (odatda 12 oy), oʻrnatish sharti. Toʻlovni zavodga yuanda yoki dollarda biz oʻtkazamiz; siz E-Contract orqali oʻz firmangiz nomidan rasmiylashtirasiz.' },
+          { title: 'Ishlab chiqarish va zavodda sinov', text: 'Ishlab chiqarish odatda 30–60 kun. Yuklashdan oldin uskuna zavodda sizning xomashyongiz bilan sinovdan oʻtkaziladi (FAT), video va hisobot yuboriladi. Faqat shundan keyin qolgan toʻlov va yuklash.' },
           { title: 'Tashish va bojxona', text: 'Yogʻoch yashik, namlikdan himoya, gabarit oʻlchov. Konteyner (temir yoʻl, 20–35 kun) yoki alohida fura (15–25 kun). TN VED kodi, GTD, sertifikat — bojxona rasmiylashtiruvi bizning zimmamizda; boj va QQS oldindan hisoblab beriladi.' },
           { title: 'Oʻrnatish va ishga tushirish', text: 'Zavod muhandisi kelib oʻrnatadi va xodimlaringizni oʻrgatadi, yoki bizning hamkor montaj guruhi zavod bilan video aloqada ishga tushiradi. Ishga tushirish dalolatnomasi — loyihaning yakuni.' },
         ],
@@ -66,11 +66,11 @@ const content: ServiceContentByLang = {
       {
         heading: 'Bojxona: boj va QQS qancha?',
         body: [
-          'Oʻzbekistonda import boji Vazirlar Mahkamasining PP-3818 qaroriga (2018-yil 29-iyun) 1-ilova boʻyicha, 2026-yil 11-fevraldagi PP-58 tahririda hisoblanadi. Koʻp sanoat mashinalari va mexanik uskunalar uchun stavka 0% — bu ishlab chiqarishni ragʻbatlantirish siyosati. Lekin stavka aniq 10 xonali TN VED kodiga bogʻliq: liniya tarkibidagi elektr dvigatel, kompressor yoki nazorat bloki boshqa kod bilan oʻtishi mumkin.',
-          'Boj ustiga bojxona qiymatidan (uskuna narxi + tashish + sugʻurta) 12% QQS toʻlanadi; QQS toʻlovchi korxona uchun u hisobga olinadi. Bojxona rasmiylashtiruv yigʻimi BRV da: 10 000 $ gacha — 1 BRV, 10–20 ming $ — 1,5 BRV, 20–40 ming $ — 2,5 BRV, 40–60 ming $ — 4 BRV, 60–100 ming $ — 7 BRV (PKM-55/2025).',
+          'Oʻzbekistonda import boji Prezidentning PQ-3818-son qaroriga (2018-yil 29-iyun) 1-ilova boʻyicha, 2026-yil 11-fevraldagi PQ-58 tahririda hisoblanadi. Koʻp sanoat mashinalari va mexanik uskunalar uchun stavka 0% — bu ishlab chiqarishni ragʻbatlantirish siyosati. Lekin stavka aniq 10 xonali TN VED kodiga bogʻliq: liniya tarkibidagi elektr dvigatel, kompressor yoki nazorat bloki boshqa kod bilan oʻtishi mumkin.',
+          'Boj ustiga bojxona qiymatidan (uskuna narxi + tashish + sugʻurta) 12% QQS toʻlanadi; QQS toʻlovchi korxona uchun u hisobga olinadi. Bojxona rasmiylashtiruv yigʻimi BRV da: 10 000 $ gacha — 1 BRV, 10–20 ming $ — 1,5 BRV, 20–40 ming $ — 2,5 BRV, 40–60 ming $ — 4 BRV, 60–100 ming $ — 7 BRV (VMQ-55/2025).',
         ],
         table: {
-          caption: 'Uskunalar uchun boj stavkalari (PP-3818, PP-58 tahririda, 2026-yil 11-fevral)',
+          caption: 'Uskunalar uchun boj stavkalari (PQ-3818, PQ-58 tahririda, 2026-yil 11-fevral)',
           head: ['TN VED guruhi', 'Nima kiradi', 'Boj', 'QQS'],
           rows: [
             ['8479', 'alohida vazifali mashina va mexanik qurilmalar (koʻp ishlab chiqarish liniyalari)', '0%', '12%'],
@@ -83,7 +83,7 @@ const content: ServiceContentByLang = {
         },
         callout: {
           title: 'Yangi imkoniyat: boʻlib toʻlash',
-          text: 'Prezidentning 2025-yil 17-dekabrdagi UP-250 farmoni boʻyicha 2026-yil 1-martdan dastlabki deklaratsiya bilan rasmiylashtirilsa yigʻim 20% ga kam, 2026-yil 1-iyundan esa bojxona toʻlovlarini 120 kungacha kechiktirish yoki boʻlib toʻlash mumkin. Katta liniya uchun bu QQSni ishga tushirgandan keyin toʻlash degani.',
+          text: 'Prezidentning 2025-yil 17-dekabrdagi PF-250 farmoni boʻyicha 2026-yil 1-martdan dastlabki deklaratsiya bilan rasmiylashtirilsa yigʻim 20% ga kam, 2026-yil 1-iyundan esa bojxona toʻlovlarini 120 kungacha kechiktirish yoki boʻlib toʻlash mumkin. Katta liniya uchun bu QQSni ishga tushirgandan keyin toʻlash degani.',
           tone: 'success',
         },
       },
@@ -96,9 +96,9 @@ const content: ServiceContentByLang = {
           caption: 'Uskuna tashish variantlari, Xitoy → Toshkent',
           head: ['Variant', 'Qachon mos', 'Chegara', 'Taxminiy narx', 'Muddat'],
           rows: [
-            ['Yigʻma yuk (fura ichida joy)', 'kichik dastgoh, ehtiyot qismlar', '2 t va 2,3 m balandlikkacha bir joy', 'kg yoki m³ hisobida', '15–25 kun'],
+            ['Yigʻma yuk (fura ichida joy)', 'kichik dastgoh, ehtiyot qismlar', '2 t va 2,3 m balandlikkacha bir joy', 'm³ hisobida, zichlikka qarab', '15–25 kun'],
             ['Alohida fura', 'liniya 10–20 t, tez kerak', '20–22 t, 13,6 m uzunlik', 'yoʻnalishga qarab kelishiladi', '15–25 kun'],
-            ['20 ft konteyner, temir yoʻl', 'zich va ogʻir uskuna', '28 t gacha, 33 m³', '2 800–5 500 $', '20–35 kun'],
+            ['20 ft konteyner, temir yoʻl', 'zich va ogʻir uskuna', '20 t gacha, 33 m³', '2 800–5 500 $', '20–35 kun'],
             ['40 ft konteyner, temir yoʻl', 'butun liniya, hajmli', '26 t gacha, 67 m³', '5 200–6 800 $', '20–35 kun'],
             ['Ochiq platforma / flat rack', 'gabaritdan katta agregat', 'alohida ruxsatnoma bilan', 'loyiha boʻyicha', '25–40 kun'],
           ],
@@ -121,14 +121,14 @@ const content: ServiceContentByLang = {
         heading: 'Toʻlov qanday tartibda boʻladi?',
         body: [
           'Avvalgi loyihalarimizda toʻlov odatda ikki bosqichda boʻlgan: 30% oldindan — ishlab chiqarishni boshlash uchun, qolgani uskuna kelganda. Bu bizning tarixiy amaliyotimiz; har bir shartnomada jadval summaga, muddatga va zavodning shartiga qarab alohida kelishiladi. Xitoy zavodlarining oʻzi odatda 30% avans va yuklashdan oldin 70% soʻraydi; farqni biz moliyalashtirsak, bu xizmat haqida hisobga olinadi.',
-          'Zavodga toʻlovni yuanda yoki dollarda biz oʻtkazamiz. Siz oʻz firmangizdan bank oʻtkazmasi bilan toʻlaysiz; shartnoma E-Contract tizimida roʻyxatdan oʻtadi va oldindan toʻlangan tovar 180 kun ichida kelishi shart (PKM-283/2020) — buni muddat rejalashtirishda hisobga olamiz.',
+          'Zavodga toʻlovni yuanda yoki dollarda biz oʻtkazamiz. Siz oʻz firmangizdan bank oʻtkazmasi bilan toʻlaysiz; shartnoma E-Contract tizimida roʻyxatdan oʻtadi va oldindan toʻlangan tovar 180 kun ichida kelishi shart (VMQ-283/2020) — buni muddat rejalashtirishda hisobga olamiz.',
         ],
       },
     ],
     faq: [
       {
         q: 'Xitoydan uskuna olib kelganda boj haqiqatan 0% mi?',
-        a: 'Koʻp sanoat mashinalari uchun — ha: PP-3818 ga 1-ilovada (PP-58 tahriri, 2026-yil 11-fevral) 8479, 8467, 8443, 8471 kodlari 0%. Lekin elektr dvigatel (8501) 5%, boshqa qismlar boshqacha boʻlishi mumkin. QQS 12% har doim toʻlanadi. Aniq kodni oldindan hisoblab beramiz.',
+        a: 'Koʻp sanoat mashinalari uchun — ha: PQ-3818 ga 1-ilovada (PQ-58 tahriri, 2026-yil 11-fevral) 8479, 8467, 8443, 8471 kodlari 0%. Lekin elektr dvigatel (8501) 5%, boshqa qismlar boshqacha boʻlishi mumkin. QQS 12% har doim toʻlanadi. Aniq kodni oldindan hisoblab beramiz.',
       },
       {
         q: 'Uskuna necha kunda keladi?',
@@ -156,7 +156,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Sertifikat kerakmi?',
-        a: 'TN VED kodiga bogʻliq: koʻp uskunalar uchun muvofiqlik sertifikati talab qilinadi va u yuk chiqarilgunga qadar olinishi kerak (PKM-554, 2025-yil 2-sentabr). Zavoddan CE/ISO hujjatlarini oldindan olamiz — bu sertifikatlashni tezlashtiradi.',
+        a: 'TN VED kodiga bogʻliq: koʻp uskunalar uchun muvofiqlik sertifikati talab qilinadi va u yuk chiqarilgunga qadar olinishi kerak (VMQ-554, 2025-yil 2-sentabr). Zavoddan CE/ISO hujjatlarini oldindan olamiz — bu sertifikatlashni tezlashtiradi.',
       },
     ],
     related: ['rail', 'customs', 'sourcing'],
@@ -192,7 +192,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Какое оборудование мы привозим?',
         body: [
-          'Китай — крупнейший в мире производитель промышленного оборудования, и большинство новых цехов в Узбекистане оснащаются именно оттуда. Мы работаем с Китаем с 2018 года; импорт оборудования — одно из приоритетных направлений GSR Group. Типичные заказы:',
+          'Китай — крупнейший в мире производитель промышленного оборудования, и большинство новых цехов в Узбекистане оснащаются именно оттуда. Мы работаем с Китаем с 2018 года; импорт оборудования — одно из приоритетных направлений GSR Logistics. Типичные заказы:',
         ],
         bullets: [
           'Металлообработка: станки с ЧПУ, лазерная и плазменная резка, прессы и гибочное оборудование',
@@ -257,9 +257,9 @@ const content: ServiceContentByLang = {
           caption: 'Варианты перевозки оборудования, Китай → Ташкент',
           head: ['Вариант', 'Когда подходит', 'Ограничения', 'Ориентировочная цена', 'Срок'],
           rows: [
-            ['Сборный груз (место в фуре)', 'небольшой станок, запчасти', 'до 2 т и 2,3 м высоты на место', 'по кг или м³', '15–25 дней'],
+            ['Сборный груз (место в фуре)', 'небольшой станок, запчасти', 'до 2 т и 2,3 м высоты на место', 'по м³, по плотности', '15–25 дней'],
             ['Отдельная фура', 'линия 10–20 т, нужно быстро', '20–22 т, длина 13,6 м', 'договорная по маршруту', '15–25 дней'],
-            ['Контейнер 20 футов, ж/д', 'плотное и тяжёлое оборудование', 'до 28 т, 33 м³', '2 800–5 500 $', '20–35 дней'],
+            ['Контейнер 20 футов, ж/д', 'плотное и тяжёлое оборудование', 'до 20 т, 33 м³', '2 800–5 500 $', '20–35 дней'],
             ['Контейнер 40 футов, ж/д', 'целая линия, объёмная', 'до 26 т, 67 м³', '5 200–6 800 $', '20–35 дней'],
             ['Открытая платформа / flat rack', 'негабаритный агрегат', 'по отдельному разрешению', 'по проекту', '25–40 дней'],
           ],
@@ -353,7 +353,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'What equipment do we import?',
         body: [
-          'China is the world’s largest producer of industrial equipment, and most new workshops in Uzbekistan are fitted out from there. We have worked with China since 2018, and equipment import is one of GSR Group’s priority lines. Typical orders:',
+          'China is the world’s largest producer of industrial equipment, and most new workshops in Uzbekistan are fitted out from there. We have worked with China since 2018, and equipment import is one of GSR Logistics’ priority lines. Typical orders:',
         ],
         bullets: [
           'Metalworking: CNC machines, laser and plasma cutting, presses and bending machines',
@@ -418,9 +418,9 @@ const content: ServiceContentByLang = {
           caption: 'Equipment shipping options, China → Tashkent',
           head: ['Option', 'When it fits', 'Limits', 'Indicative price', 'Transit'],
           rows: [
-            ['Consolidated cargo (space in a truck)', 'small machine, spare parts', 'up to 2 t and 2.3 m height per piece', 'per kg or m³', '15–25 days'],
+            ['Consolidated cargo (space in a truck)', 'small machine, spare parts', 'up to 2 t and 2.3 m height per piece', 'per m³, by density', '15–25 days'],
             ['Dedicated truck', 'a 10–20 t line, needed fast', '20–22 t, 13.6 m length', 'quoted per route', '15–25 days'],
-            ['20 ft container, rail', 'dense, heavy equipment', 'up to 28 t, 33 m³', '$2,800–5,500', '20–35 days'],
+            ['20 ft container, rail', 'dense, heavy equipment', 'up to 20 t, 33 m³', '$2,800–5,500', '20–35 days'],
             ['40 ft container, rail', 'a complete, bulky line', 'up to 26 t, 67 m³', '$5,200–6,800', '20–35 days'],
             ['Flat rack / open platform', 'oversized unit', 'with a special permit', 'project-based', '25–40 days'],
           ],

@@ -12,13 +12,13 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Xitoydan tovar va ishlab chiqaruvchi topish — komissiya 3% dan',
       description:
-        'Xitoyda zavod yoki yetkazib beruvchi topamiz, narx va MOQ ni kelishamiz, namunani tekshiramiz va partiyani Toshkentga olib kelamiz. Xodimlar xitoy tilida gaplashadi. Komissiya buyurtma summasining 3% dan.',
+        'Xitoyda zavod yoki yetkazib beruvchi topamiz, narx va MOQni kelishamiz, namunani tekshiramiz va partiyani Toshkentga olib kelamiz. Xodimlar xitoy tilida gaplashadi. Komissiya buyurtma summasining 3% dan.',
     },
     hero: {
       eyebrow: 'Xizmat 04 — Tovar topish',
       h1: 'Xitoydan tovar va ishlab chiqaruvchi topish',
       intro:
-        'Tovar topish — bu Sizning talabingiz boʻyicha Xitoyda ishlab chiqaruvchi yoki yetkazib beruvchini izlash, narx va minimal partiyani kelishish, namunani tekshirish va tayyor partiyani Toshkentga olib kelish. Xodimlarimiz xitoy tilida gaplashadi, shuning uchun zavod bilan oʻzingiz yozishishingiz shart emas. Xizmat haqi — buyurtma summasining 3% dan. Tovar Ivu (义乌) omboriga keladi va yigʻma yuk bilan taxminan 15–25 kunda Toshkentga yetadi.',
+        'Tovar topish — bu sizning talabingiz boʻyicha Xitoyda ishlab chiqaruvchi yoki yetkazib beruvchini izlash, narx va minimal partiyani kelishish, namunani tekshirish va tayyor partiyani Toshkentga olib kelish. Xodimlarimiz xitoy tilida gaplashadi, shuning uchun zavod bilan oʻzingiz yozishishingiz shart emas. Xizmat haqi — buyurtma summasining 3% dan. Tovar Ivu (义乌) omboriga keladi va yigʻma yuk bilan taxminan 15–25 kunda Toshkentga yetadi.',
       facts: [
         { label: 'Komissiya, buyurtma summasidan', value: '3% dan' },
         { label: 'Jarayon', value: '5 bosqich' },
@@ -30,12 +30,12 @@ const content: ServiceContentByLang = {
       {
         heading: 'Tovar topish kimga kerak?',
         body: [
-          'Xitoyda kerakli tovarni topish oson, ishonchli zavodni topish esa qiyin: 1688 da bitta mahsulotga yuzlab sotuvchi chiqadi, ularning yarmi vositachi, narxlar ikki barobar farq qiladi, sifat esa faqat tovar kelganda maʼlum boʻladi. Biz bu yoʻlni Siz uchun bosib oʻtamiz — Ivudagi xodimlarimiz zavodga qoʻngʻiroq qiladi, namunani qoʻlda tekshiradi va narxni kelishadi.',
+          'Xitoyda kerakli tovarni topish oson, ishonchli zavodni topish esa qiyin: 1688-da bitta mahsulotga yuzlab sotuvchi chiqadi, ularning yarmi vositachi, narxlar ikki barobar farq qiladi, sifat esa faqat tovar kelganda maʼlum boʻladi. Biz bu yoʻlni siz uchun bosib oʻtamiz — Ivudagi xodimlarimiz zavodga qoʻngʻiroq qiladi, namunani qoʻlda tekshiradi va narxni kelishadi.',
           'Xizmat quyidagi holatlarda oʻzini oqlaydi:',
         ],
         bullets: [
           'Ulgurji savdo (Abu Sahiy, Chorsu, Bek Baraka): oʻz brendingiz ostida kiyim, poyabzal, uy-roʻzgʻor mollari ishlab chiqartirmoqchisiz — zavod, narx va MOQ kerak.',
-          'Uzum, Yandex Market va Instagram sotuvchilari: 1688 da topgan tovaringizning arzonroq va sifatliroq manbasini izlaysiz.',
+          'Uzum, Yandex Market va Instagram sotuvchilari: 1688-da topgan tovaringizning arzonroq va sifatliroq manbasini izlaysiz.',
           'Ishlab chiqaruvchilar: xomashyo, komponentlar, qadoqlash materiali yoki ehtiyot qismlar — texnik spetsifikatsiya boʻyicha aniq zavod kerak.',
           'Qurilish va sanoat (Urikzor, Qoʻyliq): plitka, santexnika, elektr mollari — sertifikatli ishlab chiqaruvchidan toʻgʻridan-toʻgʻri.',
         ],
@@ -43,7 +43,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Tovar topish xizmati qanday ishlaydi?',
         body: [
-          'Jarayon besh bosqichdan iborat: qidiruv, muzokara, namuna, tekshiruv, yetkazib berish. Har bir bosqichda Siz qaror qabul qilasiz, biz esa maʼlumot va variantlarni tayyorlaymiz.',
+          'Jarayon besh bosqichdan iborat: qidiruv, muzokara, namuna, tekshiruv, yetkazib berish. Har bir bosqichda siz qaror qabul qilasiz, biz esa maʼlumot va variantlarni tayyorlaymiz.',
         ],
         steps: [
           { title: 'Soʻrov va texnik topshiriq', text: 'Tovarning nomi, rasmi yoki havolasi, kerakli miqdor, sifat talabi (material, oʻlcham, brend, sertifikat) va taxminiy byudjetni yozasiz. Shu asosda qidiruv mezonlarini kelishamiz.' },
@@ -74,20 +74,20 @@ const content: ServiceContentByLang = {
       {
         heading: 'MOQ nima va uni kamaytirib boʻladimi?',
         body: [
-          'MOQ (minimum order quantity) — zavod bitta buyurtmada qabul qiladigan eng kam miqdor. Kiyimda odatda bitta model uchun 300–500 dona, plastmassa buyumlarda 1 000 dona, elektronikada 100–500 dona. MOQ dan kam buyurtmani zavod yo rad etadi, yo narxni 10–30% oshiradi.',
-          'MOQ ni kamaytirishning ishlaydigan yoʻllari:',
+          'MOQ (minimum order quantity) — zavod bitta buyurtmada qabul qiladigan eng kam miqdor. Kiyimda odatda bitta model uchun 300–500 dona, plastmassa buyumlarda 1 000 dona, elektronikada 100–500 dona. MOQdan kam buyurtmani zavod yo rad etadi, yo narxni 10–30% oshiradi.',
+          'MOQni kamaytirishning ishlaydigan yoʻllari:',
         ],
         bullets: [
           'Bir modelning bir necha rangi yoki oʻlchamini bitta buyurtmaga jamlash — koʻp zavodlar umumiy miqdorni hisoblaydi.',
-          'Zavodning tayyor (omborda turgan) tovarini olish — u koʻpincha MOQ siz sotiladi.',
-          'Birinchi partiyani 1688 dagi ulgurji sotuvchidan olib, hajm oshgach zavodga oʻtish.',
+          'Zavodning tayyor (omborda turgan) tovarini olish — u koʻpincha MOQsiz sotiladi.',
+          'Birinchi partiyani 1688-dagi ulgurji sotuvchidan olib, hajm oshgach zavodga oʻtish.',
           'Ikki-uch mijozning buyurtmasini birlashtirish — Ivu omborida tovar keyin ajratiladi.',
         ],
       },
       {
         heading: 'Namuna va zavod tekshiruvi nima uchun kerak?',
         body: [
-          'Namuna — eng arzon sugʻurta. Zavod odatda namunani 3–10 kunda tayyorlaydi; narxi bir dona tovar narxidan 1,5–3 barobar qimmat boʻladi va buyurtma bergach koʻpincha hisobga olinadi. Namunani Ivu omborida xodimimiz tekshiradi va Sizga suratga olib yuboradi; kerak boʻlsa, avia kargo bilan Toshkentga qoʻlingizga yetkazamiz.',
+          'Namuna — eng arzon sugʻurta. Zavod odatda namunani 3–10 kunda tayyorlaydi; narxi bir dona tovar narxidan 1,5–3 barobar qimmat boʻladi va buyurtma bergach koʻpincha hisobga olinadi. Namunani Ivu omborida xodimimiz tekshiradi va sizga suratga olib yuboradi; kerak boʻlsa, avia kargo bilan Toshkentga qoʻlingizga yetkazamiz.',
           'Zavod tekshiruvi ikki darajada boʻladi: hujjat boʻyicha (biznes-litsenziya, roʻyxatdan oʻtgan kapital, eksport litsenziyasi, sudlar tarixi) va joyida (ishlab chiqarish sexi, ombor, sifat nazorati, video-qoʻngʻiroq yoki tashrif). Katta buyurtmalar uchun yuklashdan oldingi tekshiruvni (PSI) tavsiya qilamiz — partiyaning 10–20% tasodifiy tanlab tekshiriladi.',
         ],
         callout: {
@@ -99,14 +99,14 @@ const content: ServiceContentByLang = {
       {
         heading: 'Shartnoma, toʻlov va komissiya qanday tuziladi?',
         body: [
-          'Zavod bilan shartnoma xitoy va rus (yoki ingliz) tilida tuziladi va unda spetsifikatsiya, sifat mezonlari, qadoqlash, ishlab chiqarish muddati, kechikish uchun jarima va qaytarish sharti yoziladi. Xitoyda odatiy toʻlov tartibi: 30% oldindan, qolgani yuklashdan oldin; toʻlovni yuanda biz oʻtkazamiz, Siz soʻmda yoki dollarda hisob-kitob qilasiz. Oʻz firmangiz nomiga import qilsangiz, shartnoma E-Contract (EEISVO) tizimida roʻyxatdan oʻtkaziladi.',
+          'Zavod bilan shartnoma xitoy va rus (yoki ingliz) tilida tuziladi va unda spetsifikatsiya, sifat mezonlari, qadoqlash, ishlab chiqarish muddati, kechikish uchun jarima va qaytarish sharti yoziladi. Xitoyda odatiy toʻlov tartibi: 30% oldindan, qolgani yuklashdan oldin; toʻlovni yuanda biz oʻtkazamiz, siz soʻmda yoki dollarda hisob-kitob qilasiz. Oʻz firmangiz nomiga import qilsangiz, shartnoma E-Contract (EEISVO) tizimida roʻyxatdan oʻtkaziladi.',
           'Bizning xizmat haqimiz — buyurtma summasidan komissiya. U qidiruvning murakkabligi va xaridni kim moliyalashtirishiga bogʻliq:',
         ],
         table: {
           caption: 'Tovar topish komissiyasi',
           head: ['Holat', 'Komissiya'],
           rows: [
-            ['Standart qidiruv, Siz toʻlovni oldindan qilasiz', '3% dan'],
+            ['Standart qidiruv, siz toʻlovni oldindan qilasiz', '3% dan'],
             ['Murakkab qidiruv, muzokara va zavod tekshiruvi bilan', '5% gacha'],
             ['Xaridni biz moliyalashtiramiz (tovar kelganda toʻlaysiz)', '10% gacha'],
           ],
@@ -138,7 +138,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Kichik partiya uchun ham izlaysizmi?',
-        a: 'Ha. 1688 dagi ulgurji sotuvchilar 2–50 donadan sotadi, Ivu Futian bozorida bir qutidan olish mumkin. Zavod MOQ si (300–1 000 dona) kerak boʻlmasa, birinchi partiyani shu manbalardan olib, keyin zavodga oʻtishni tavsiya qilamiz.',
+        a: 'Ha. 1688-dagi ulgurji sotuvchilar 2–50 donadan sotadi, Ivu Futian bozorida bir qutidan olish mumkin. Zavod MOQ si (300–1 000 dona) kerak boʻlmasa, birinchi partiyani shu manbalardan olib, keyin zavodga oʻtishni tavsiya qilamiz.',
       },
       {
         q: 'Brend tovarlarni topib berasizmi?',
@@ -146,7 +146,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Toshkentga yetkazib berish komissiyaga kiradimi?',
-        a: 'Yoʻq, tashish alohida: yigʻma yuk 6,5 $/kg dan yoki 110 $/m³ dan, taxminan 15–25 kun; avia 9 $/kg dan, 5–10 kun. Narxlar taxminiy, 2026-yil 8-sentabrda yangilangan. Ivu omborida qabul, tekshiruv va foto-hisobot tashish narxiga kiradi.',
+        a: 'Yoʻq, tashish alohida: yigʻma yuk hajm boʻyicha hisoblanadi — 110 $/m³ dan, stavka yuk zichligiga qarab; taxminan 15–25 kun. Avia 9 $/kg dan, 5–10 kun. Narxlar taxminiy, 2026-yil 8-sentabrda yangilangan. Ivu omborida qabul, tekshiruv va foto-hisobot tashish narxiga kiradi.',
       },
       {
         q: 'Guanchjou yoki Shenchjendagi zavodlar bilan ham ishlaysizmi?',
@@ -302,7 +302,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Входит ли доставка в Ташкент в комиссию?',
-        a: 'Нет, перевозка считается отдельно: сборный груз от 6,5 $/кг или от 110 $/м³, ориентировочно 15–25 дней; авиа от 9 $/кг, 5–10 дней. Цены ориентировочные, обновлены 8 сентября 2026 г. Приёмка на складе в Иу, проверка и фотоотчёт входят в стоимость перевозки.',
+        a: 'Нет, перевозка оплачивается отдельно: сборный груз считается по объёму — от 110 $/м³, ставка зависит от плотности груза; ориентировочно 15–25 дней. Авиа от 9 $/кг, 5–10 дней. Цены ориентировочные, обновлены 8 сентября 2026 г. Приёмка на складе в Иу, проверка и фотоотчёт входят в стоимость перевозки.',
       },
       {
         q: 'Работаете ли с фабриками в Гуанчжоу или Шэньчжэне?',
@@ -330,7 +330,7 @@ const content: ServiceContentByLang = {
       eyebrow: 'Service 04 — Sourcing',
       h1: 'Product and supplier sourcing in China',
       intro:
-        'Sourcing means finding a manufacturer or supplier in China against your specification, negotiating the price and minimum order, checking a sample and bringing the finished batch to Tashkent. Our staff speak Chinese, so you never have to deal with the factory yourself. The fee starts at 3% of the order value. Goods arrive at our Yiwu (义乌) warehouse and reach Tashkent by consolidated truck in roughly 15–25 days.',
+        'Sourcing means finding a manufacturer or supplier in China against your specification, negotiating the price and minimum order, checking a sample and bringing the finished batch to Tashkent. Our staff speak Chinese, so you never have to deal with the factory yourself. The fee starts at 3% of the order value. Goods arrive at the Yiwu (义乌) warehouse and reach Tashkent by consolidated truck in roughly 15–25 days.',
       facts: [
         { label: 'Commission on order value', value: 'from 3%' },
         { label: 'Process', value: '5 stages' },
@@ -411,7 +411,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'How are the contract, payment and commission arranged?',
         body: [
-          'The contract with the factory is drawn up in Chinese and Russian (or English) and covers the specification, quality criteria, packaging, production time, penalties for delay and return terms. The usual payment pattern in China is 30% upfront and the balance before shipment; we make the payment in yuan while you settle in soʻm or US dollars. If you import in your own company’s name, the contract is registered in the E-Contract (EEISVO) system.',
+          'The contract with the factory is drawn up in Chinese and Russian (or English) and covers the specification, quality criteria, packaging, production time, penalties for delay and return terms. The usual payment pattern in China is 30% upfront and the balance before shipment; we make the payment in yuan while you settle in UZS or US dollars. If you import in your own company’s name, the contract is registered in the E-Contract (EEISVO) system.',
           'Our fee is a commission on the order value. It depends on how complex the search is and on who finances the purchase:',
         ],
         table: {
@@ -458,7 +458,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Is delivery to Tashkent included in the commission?',
-        a: 'No, freight is separate: consolidated truck from $6.50/kg or from $110/m³ in roughly 15–25 days; air from $9/kg in 5–10 days. Prices are estimates updated September 8, 2026. Receiving, inspection and the photo report at the Yiwu warehouse are included in the freight price.',
+        a: 'No, freight is separate: consolidated truck is priced by volume — from $110 per m³, with the rate set by cargo density; roughly 15–25 days. Air from $9/kg, 5–10 days. Prices are estimates updated September 8, 2026. Receiving, inspection and the photo report at the Yiwu warehouse are included in the freight price.',
       },
       {
         q: 'Do you work with factories in Guangzhou or Shenzhen?',

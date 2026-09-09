@@ -9,7 +9,7 @@ import type { Lang } from '@/i18n/config';
 import { pick } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { contact, fill } from '@/i18n/contact';
-import { site, phoneUrl, phone2Url, telegramUrl, telegramGroupUrl, telegramChat, instagramUrl, facebookUrl } from '@/lib/site';
+import { site, phoneUrl, phone2Url, telegramUrl, telegramGroupUrl, telegramChat, instagramUrl, facebookUrl, whatsappUrl } from '@/lib/site';
 import { ORG_ID } from '@/lib/schema';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
@@ -70,7 +70,7 @@ const socials = [
             </div>
             <div class="row">
               <dt><Icon name="phone" size={18} /><span>{t.card.phone2Label}</span></dt>
-              <dd><a href={phone2Url} class="val tnum">{site.phone2Display}</a></dd>
+              <dd><a href={phone2Url} class="val tnum">{site.phone2Display}</a><br /><a href={whatsappUrl} target="_blank" rel="noopener" class="meta-s wa">{t.card.whatsappLabel}</a></dd>
             </div>
             <div class="row">
               <dt><Icon name="clock" size={18} /><span>{t.card.hoursLabel}</span></dt>
@@ -97,6 +97,31 @@ const socials = [
               </dd>
             </div>
           </dl>
+        </section>
+
+        <section class="card china" id="xitoy" aria-labelledby="china-h">
+          <h2 id="china-h" class="card-h">{t.china.title}</h2>
+          <p class="china-lead">{t.china.lead}</p>
+          <ol class="wh-list" role="list">
+            {site.chinaWarehouses.map((w) => (
+              <li class="wh">
+                <p class="wh-city">{w.city[lang]}<span class="wh-zh" lang="zh">{w.cityZh}</span></p>
+                {site.publishChinaAddresses && (
+                  <p class="wh-addr" lang="zh">{w.address}{w.note ? `（${w.note}）` : ''}</p>
+                )}
+                <dl class="wh-meta">
+                  {w.contact && (
+                    <div class="wh-row"><dt>{t.china.contactLabel}</dt><dd lang="zh">{w.contact}</dd></div>
+                  )}
+                  <div class="wh-row">
+                    <dt>{t.china.phoneLabel}</dt>
+                    <dd>{w.phones.map((ph, i) => <><a href={`tel:${ph.e164}`} class="tnum">{ph.display}</a>{i < w.phones.length - 1 ? <span class="sep">·</span> : null}</>)}</dd>
+                  </div>
+                </dl>
+              </li>
+            ))}
+          </ol>
+          <p class="note"><span class="note-glyph"><Icon name="info" size={18} /></span><span><span class="note-label">{t.china.markTitle}</span>{t.china.markText}</span></p>
         </section>
 
         <section class="card map" aria-labelledby="map-h">
@@ -187,11 +212,29 @@ const socials = [
   .row dd { margin: 0; color: var(--fg); }
   .addr { font-style: normal; }
   .val { font-weight: 600; }
+  a.val { display: inline-flex; align-items: center; min-height: 44px; }
   a.val:hover { text-decoration: underline; text-underline-offset: 3px; }
   .links { display: grid; gap: 6px; }
   .links a { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; flex-wrap: wrap; }
   .links a:hover .val { text-decoration: underline; text-underline-offset: 3px; }
   .meta-s { font-size: var(--text-caption); color: var(--meta); }
+  .wa { display: inline-block; margin-top: 2px; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* The three China receiving points, straight from site.chinaWarehouses. Chinese runs are marked
+     lang="zh" so a screen reader switches voice and the CJK fallback font is picked correctly. */
+  .china-lead { color: var(--muted); text-wrap: pretty; margin-top: -8px; }
+  .wh-list { display: grid; list-style: none; margin: 18px 0 0; padding: 0; }
+  .wh { padding: 16px 0; border-top: 1px solid var(--border-soft); }
+  .wh:first-child { border-top: 0; padding-top: 0; }
+  .wh-city { display: flex; align-items: baseline; gap: 8px; font-weight: 600; color: var(--fg); }
+  .wh-zh { font-size: var(--text-small); font-weight: 500; color: var(--meta); }
+  .wh-addr { margin-top: 4px; color: var(--fg-2); line-height: 1.5; overflow-wrap: anywhere; }
+  .wh-meta { display: grid; gap: 2px; margin: 10px 0 0; }
+  .wh-row { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: var(--text-small); }
+  .wh-row dt { min-width: 96px; color: var(--muted); }
+  .wh-row dd { margin: 0; color: var(--fg); }
+  .wh-row .sep { margin: 0 8px; color: var(--meta); }
+  .china .note { margin-top: 20px; }
   .map-svg { width: 100%; height: auto; color: var(--fg); background: var(--bg-3); border: 1px solid var(--border-soft); border-radius: var(--radius); }
   .map-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
   .form-card { padding: clamp(20px, 3vw, 40px); }

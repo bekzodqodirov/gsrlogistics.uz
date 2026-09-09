@@ -8,7 +8,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = common[lang];
 ---
-<div class="mobile-bar" role="region" aria-label="Quick actions">
+<div class="mobile-bar" role="region" aria-label={t.header.quickActions}>
   <a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener" class="mb-item mb-primary"><span class="mb-pill"><Icon name="telegram" size={18} /></span><span>{t.bar.telegram}</span></a>
   <a href={phoneUrl} class="mb-item"><Icon name="phone" size={20} /><span>{t.bar.call}</span></a>
   <a href={pagePath(lang, 'calculator')} class="mb-item"><Icon name="calculator" size={20} /><span>{t.bar.price}</span></a>
@@ -25,9 +25,20 @@ const t = common[lang];
 <script>
   const bar = document.querySelector<HTMLElement>('.mobile-bar');
   if (bar) {
-    const show = () => bar.classList.toggle('is-visible', window.scrollY > 360);
-    show();
-    window.addEventListener('scroll', show, { passive: true });
+    // one rAF-batched write per frame, and only when the state actually flips: the scrub in the journey
+    // needs every frame it can get on a low-end phone
+    let visible: boolean | null = null;
+    let queued = false;
+    const apply = () => {
+      queued = false;
+      const next = window.scrollY > 360;
+      if (next === visible) return;
+      visible = next;
+      bar.classList.toggle('is-visible', next);
+    };
+    const onScroll = () => { if (queued) return; queued = true; requestAnimationFrame(apply); };
+    apply();
+    window.addEventListener('scroll', onScroll, { passive: true });
     document.addEventListener('focusin', (e) => { if ((e.target as HTMLElement).matches('input, textarea, select')) bar.classList.add('is-hidden'); });
     document.addEventListener('focusout', () => bar.classList.remove('is-hidden'));
     const mo = new MutationObserver(() => bar.classList.toggle('is-hidden', document.body.classList.contains('menu-open')));

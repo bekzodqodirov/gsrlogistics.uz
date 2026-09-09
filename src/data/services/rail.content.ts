@@ -3,8 +3,8 @@ import type { ServiceContentByLang } from './types';
 /**
  * Temir yoʻl va konteyner (FCL / LCL) — long-form page content.
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): 20ft 2 800–5 500 $, 40ft 5 200–6 800 $,
- * 20–35 days; LCL in a container uses the truck m³ scale (110–190 $/m³ by density, min 0,1 m³);
- * extras 1 $/kg inspection, 1 % insurance. Container capacities (20ft ≈ 33 m³, 40HC ≈ 76 m³) are
+ * 20–35 days; LCL in a container uses the truck density scale (110–320 $/m³, 0,55 $/kg from 1 000 kg/m³, min 0,1 m³);
+ * extras 1 $/kg inspection, 1% insurance. Container capacities (20ft ≈ 33 m³, 40HC ≈ 76 m³) are
  * ISO standard values. Keep in sync when tariffs change.
  */
 const content: ServiceContentByLang = {
@@ -19,7 +19,7 @@ const content: ServiceContentByLang = {
       eyebrow: 'Xizmat 03 — Temir yoʻl va konteyner',
       h1: 'Xitoydan Toshkentga temir yoʻl va konteyner tashish',
       intro:
-        'Temir yoʻl — katta va ogʻir partiyalar uchun eng tejamli yoʻl. 20 futlik konteyner Xitoydan Toshkentgacha taxminan 2 800–5 500 $, 40 futlik — 5 200–6 800 $; yuk stansiyadan joʻnatilgach, taxminan 20–35 kunda keladi. Butun konteyner (FCL) yoki konteynerdagi joy (LCL, 0,1 m³ dan) — ikkalasi ham Doʻstiq (Dostyk) yoki Oltinkoʻl (Altynkol) orqali Qozogʻiston temir yoʻli bilan Toshkentga keladi.',
+        'Temir yoʻl — katta va ogʻir partiyalar uchun eng tejamli yoʻl. 20 futlik konteyner Xitoydan Toshkentgacha taxminan 2 800–5 500 $, 40 futlik — 5 200–6 800 $; yuk stansiyadan joʻnatilgach, taxminan 20–35 kunda keladi. Butun konteyner (FCL) yoki konteynerdagi joy (LCL, 0,1 m³ dan) — ikkalasi ham Doʻstiq (Dostiq) yoki Oltinkoʻl (Altinkoʻl) orqali Qozogʻiston temir yoʻli bilan Toshkentga keladi.',
       facts: [
         { label: 'Muddat, stansiyadan', value: '20–35 kun' },
         { label: '20 futlik konteyner', value: '2 800 $ dan' },
@@ -60,10 +60,10 @@ const content: ServiceContentByLang = {
             ['20 futlik konteyner (FCL)', '≈ 33 m³, 20 t gacha', '2 800–5 500 $'],
             ['40 futlik / 40 HC konteyner (FCL)', '≈ 67–76 m³, 26 t gacha', '5 200–6 800 $'],
             ['LCL, zichlik 100 kg/m³ gacha', 'konteynerdagi joy', '110 $/m³ dan'],
-            ['LCL, zichlik 100–200 kg/m³', 'konteynerdagi joy', '130 $/m³ dan'],
-            ['LCL, zichlik 200 kg/m³ dan yuqori', 'konteynerdagi joy', '150 $/m³ dan'],
+            ['LCL, zichlik 101–150 kg/m³', 'konteynerdagi joy', '130 $/m³ dan'],
+            ['LCL, zichlik 151–200 kg/m³', 'konteynerdagi joy', '160 $/m³ dan'],
           ],
-          note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. FCL narxi stansiyadan Toshkent terminaligacha; bojxona toʻlovlari, terminaldan omborgacha avto va sugʻurta alohida. LCL narxiga bojxona rasmiylashtiruvi kompaniya hujjatlari bilan kiradi.',
+          note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. FCL narxi stansiyadan Toshkent terminaligacha; bojxona toʻlovlari, terminaldan omborgacha avto va sugʻurta alohida. LCL narxiga bojxona rasmiylashtiruvi kompaniya hujjatlari bilan kiradi. Zichlik zinalari avto kargodagi bilan bir xil — toʻliq jadval «Narxlar» sahifasida.',
         },
         callout: {
           title: 'Misol: 40 HC konteyner mebel',
@@ -74,7 +74,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Necha kunda keladi va qaysi yoʻldan?',
         body: [
-          'Konteyner Xitoy stansiyasidan joʻnatilgach, Toshkentga taxminan 20–35 kunda keladi. Yoʻl: Ivu / Shanxay / Guanchjou → Urumchi → Alashankou–Doʻstiq yoki Xorgos–Oltinkoʻl chegara stansiyalari → Qozogʻiston temir yoʻli → Saryagash → Toshkent. Xitoy temir yoʻli izi 1435 mm, Qozogʻiston va Oʻzbekistonda 1520 mm — shuning uchun chegarada konteyner boshqa platformaga qayta yuklanadi; bu 2–7 kun oladi.',
+          'Konteyner Xitoy stansiyasidan joʻnatilgach, Toshkentga taxminan 20–35 kunda keladi. Yoʻl: Ivu / Shanxay / Guanchjou → Urumchi → Alashankou–Doʻstiq yoki Xorgos–Oltinkoʻl chegara stansiyalari → Qozogʻiston temir yoʻli → Saryagash → Toshkent. Xitoy temir yoʻli izi 1 435 mm, Qozogʻiston va Oʻzbekistonda 1 520 mm — shuning uchun chegarada konteyner boshqa platformaga qayta yuklanadi; bu 2–7 kun oladi.',
         ],
         table: {
           caption: 'Temir yoʻlning bosqichlari',
@@ -82,7 +82,7 @@ const content: ServiceContentByLang = {
           rows: [
             ['Xitoy stansiyasi', 'konteynerga yuklash, plombalash, eksport rasmiylashtiruvi, poyezd kutish', '3–7 kun'],
             ['Xitoy ichida → Urumchi → chegara', 'temir yoʻl, 3 500–4 000 km', '5–8 kun'],
-            ['Doʻstiq / Oltinkoʻl', '1435 → 1520 mm platformaga qayta yuklash, tranzit hujjatlari', '2–7 kun'],
+            ['Doʻstiq / Oltinkoʻl', '1435 → 1 520 mm platformaga qayta yuklash, tranzit hujjatlari', '2–7 kun'],
             ['Qozogʻiston boʻylab → Saryagash', 'tranzit', '5–8 kun'],
             ['Saryagash → Toshkent terminali', 'import bojxona rasmiylashtiruvi, tushirish', '3–5 kun'],
           ],
@@ -191,7 +191,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Qaysi chegaradan oʻtadi?',
-        a: 'Qozogʻiston orqali: Alashankou–Doʻstiq yoki Xorgos–Oltinkoʻl stansiyalari, keyin Saryagash orqali Toshkent. Chegarada Xitoyning 1435 mm izidan 1520 mm ga qayta yuklanadi.',
+        a: 'Qozogʻiston orqali: Alashankou–Doʻstiq yoki Xorgos–Oltinkoʻl stansiyalari, keyin Saryagash orqali Toshkent. Chegarada Xitoyning 1 435 mm izidan 1 520 mm ga qayta yuklanadi.',
       },
       {
         q: 'Xitoy–Qirgʻiziston–Oʻzbekiston temir yoʻli ishlayaptimi?',
@@ -268,10 +268,10 @@ const content: ServiceContentByLang = {
             ['Контейнер 20 футов (FCL)', '≈ 33 м³, до 20 т', '2 800–5 500 $'],
             ['Контейнер 40 футов / 40 HC (FCL)', '≈ 67–76 м³, до 26 т', '5 200–6 800 $'],
             ['LCL, плотность до 100 кг/м³', 'место в контейнере', 'от 110 $/м³'],
-            ['LCL, плотность 100–200 кг/м³', 'место в контейнере', 'от 130 $/м³'],
-            ['LCL, плотность выше 200 кг/м³', 'место в контейнере', 'от 150 $/м³'],
+            ['LCL, плотность 101–150 кг/м³', 'место в контейнере', 'от 130 $/м³'],
+            ['LCL, плотность 151–200 кг/м³', 'место в контейнере', 'от 160 $/м³'],
           ],
-          note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Цена FCL — от станции до терминала в Ташкенте; таможенные платежи, автодоставка с терминала и страховка отдельно. В цену LCL входит таможенное оформление под документы компании.',
+          note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Цена FCL — от станции до терминала в Ташкенте; таможенные платежи, автодоставка с терминала и страховка отдельно. В цену LCL входит таможенное оформление под документы компании. Ступени плотности те же, что в авто карго, — полная таблица на странице «Цены».',
         },
         callout: {
           title: 'Пример: 40 HC с мебелью',
@@ -282,7 +282,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Сколько дней идёт груз и каким маршрутом?',
         body: [
-          'После отправки со станции в Китае контейнер приходит в Ташкент ориентировочно за 20–35 дней. Маршрут: Иу / Шанхай / Гуанчжоу → Урумчи → пограничные станции Алашанькоу–Достык или Хоргос–Алтынколь → казахстанская железная дорога → Сарыагаш → Ташкент. В Китае колея 1435 мм, в Казахстане и Узбекистане — 1520 мм, поэтому на границе контейнер перегружают на другую платформу; это занимает 2–7 дней.',
+          'После отправки со станции в Китае контейнер приходит в Ташкент ориентировочно за 20–35 дней. Маршрут: Иу / Шанхай / Гуанчжоу → Урумчи → пограничные станции Алашанькоу–Достык или Хоргос–Алтынколь → казахстанская железная дорога → Сарыагаш → Ташкент. В Китае колея 1 435 мм, в Казахстане и Узбекистане — 1 520 мм, поэтому на границе контейнер перегружают на другую платформу; это занимает 2–7 дней.',
         ],
         table: {
           caption: 'Этапы ж/д маршрута',
@@ -290,7 +290,7 @@ const content: ServiceContentByLang = {
           rows: [
             ['Станция в Китае', 'загрузка контейнера, пломбирование, экспортное оформление, ожидание поезда', '3–7 дней'],
             ['По Китаю → Урумчи → граница', 'железная дорога, 3 500–4 000 км', '5–8 дней'],
-            ['Достык / Алтынколь', 'перегрузка с колеи 1435 на 1520 мм, транзитные документы', '2–7 дней'],
+            ['Достык / Алтынколь', 'перегрузка с колеи 1435 на 1 520 мм, транзитные документы', '2–7 дней'],
             ['По Казахстану → Сарыагаш', 'транзит', '5–8 дней'],
             ['Сарыагаш → терминал в Ташкенте', 'импортное таможенное оформление, выгрузка', '3–5 дней'],
           ],
@@ -399,7 +399,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Через какую границу идёт груз?',
-        a: 'Через Казахстан: станции Алашанькоу–Достык или Хоргос–Алтынколь, дальше через Сарыагаш в Ташкент. На границе контейнер перегружают с китайской колеи 1435 мм на 1520 мм.',
+        a: 'Через Казахстан: станции Алашанькоу–Достык или Хоргос–Алтынколь, дальше через Сарыагаш в Ташкент. На границе контейнер перегружают с китайской колеи 1 435 мм на 1 520 мм.',
       },
       {
         q: 'Работает ли железная дорога Китай – Кыргызстан – Узбекистан?',
@@ -476,10 +476,10 @@ const content: ServiceContentByLang = {
             ['20ft container (FCL)', '≈ 33 m³, up to 20 t', '$2,800–5,500'],
             ['40ft / 40 HC container (FCL)', '≈ 67–76 m³, up to 26 t', '$5,200–6,800'],
             ['LCL, density up to 100 kg/m³', 'space in a container', 'from $110/m³'],
-            ['LCL, density 100–200 kg/m³', 'space in a container', 'from $130/m³'],
-            ['LCL, density above 200 kg/m³', 'space in a container', 'from $150/m³'],
+            ['LCL, density 101–150 kg/m³', 'space in a container', 'from $130/m³'],
+            ['LCL, density 151–200 kg/m³', 'space in a container', 'from $160/m³'],
           ],
-          note: 'Estimates · Updated September 8, 2026. The FCL price covers station to Tashkent terminal; customs payments, trucking from the terminal and insurance are extra. LCL includes customs clearance under the company’s documents.',
+          note: 'Estimates · Updated September 8, 2026. The FCL price covers station to Tashkent terminal; customs payments, trucking from the terminal and insurance are extra. LCL includes customs clearance under the company’s documents. The density steps are the same as for truck cargo — the full table is on the Pricing page.',
         },
         callout: {
           title: 'Example: a 40 HC of furniture',
@@ -490,7 +490,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'How long does it take, and which route?',
         body: [
-          'Once dispatched from the station in China, a container reaches Tashkent in roughly 20–35 days. The route: Yiwu / Shanghai / Guangzhou → Urumqi → the Alashankou–Dostyk or Khorgos–Altynkol border stations → the Kazakh railway → Saryagash → Tashkent. China runs on 1435 mm track while Kazakhstan and Uzbekistan use 1520 mm, so the container is transferred to another flatcar at the border; that takes 2–7 days.',
+          'Once dispatched from the station in China, a container reaches Tashkent in roughly 20–35 days. The route: Yiwu / Shanghai / Guangzhou → Urumqi → the Alashankou–Dostyk or Khorgos–Altynkol border stations → the Kazakh railway → Saryagash → Tashkent. China runs on 1 435 mm track while Kazakhstan and Uzbekistan use 1 520 mm, so the container is transferred to another flatcar at the border; that takes 2–7 days.',
         ],
         table: {
           caption: 'Stages of the rail route',
@@ -498,7 +498,7 @@ const content: ServiceContentByLang = {
           rows: [
             ['Station in China', 'loading the container, sealing, export clearance, waiting for the train', '3–7 days'],
             ['Across China → Urumqi → border', 'rail, 3,500–4,000 km', '5–8 days'],
-            ['Dostyk / Altynkol', 'transfer from 1435 to 1520 mm gauge, transit documents', '2–7 days'],
+            ['Dostyk / Altynkol', 'transfer from 1435 to 1 520 mm gauge, transit documents', '2–7 days'],
             ['Across Kazakhstan → Saryagash', 'transit', '5–8 days'],
             ['Saryagash → Tashkent terminal', 'import customs clearance, unloading', '3–5 days'],
           ],
@@ -607,7 +607,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Which border does the cargo cross?',
-        a: 'Kazakhstan: the Alashankou–Dostyk or Khorgos–Altynkol stations, then via Saryagash to Tashkent. At the border the container is transferred from China’s 1435 mm gauge to 1520 mm.',
+        a: 'Kazakhstan: the Alashankou–Dostyk or Khorgos–Altynkol stations, then via Saryagash to Tashkent. At the border the container is transferred from China’s 1 435 mm gauge to 1 520 mm.',
       },
       {
         q: 'Is the China–Kyrgyzstan–Uzbekistan railway operating?',

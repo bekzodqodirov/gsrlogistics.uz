@@ -33,9 +33,9 @@ const uz: WhyStrings = {
   reasons: [
     {
       glyph: 'warehouse',
-      title: 'Ivu ombori va konsolidatsiya',
-      text: 'Bir necha yetkazib beruvchidan kelgan yukni bitta joyda yigʻamiz, tortamiz, oʻlchaymiz va qayta qadoqlaymiz. Guanchjou, Shenchjen va boshqa shaharlardan hamkorlar orqali qabul qilamiz.',
-      fact: 'Ivu · 义乌 · bitta joy raqami, bitta hisob',
+      title: 'Xitoyda uchta qabul punkti va konsolidatsiya',
+      text: 'Bir necha yetkazib beruvchidan kelgan yukni bitta joyda yigʻamiz, tortamiz, oʻlchaymiz va qayta qadoqlaymiz. Qabul punktlari — Ivu, Guanchjou va Qashqar. Qaysi biriga joʻnatish kerakligini menejer aytadi.',
+      fact: 'Ivu 义乌 · Guanchjou 广州 · Qashqar 喀什 · bitta joy raqami, bitta hisob',
       link: 'warehouse',
       linkLabel: 'Ombor va sifat nazorati',
     },
@@ -62,7 +62,7 @@ const uz: WhyStrings = {
     {
       glyph: 'scale',
       title: 'Shaffof narx: kg yoki m³',
-      text: 'Hajmiy vazn formulasi ochiq: uzunlik × en × balandlik (sm) ÷ {div}. Zichlik {th} kg/m³ dan yuqori — kg boʻyicha, past — m³ boʻyicha. Yashirin toʻlovlarsiz.',
+      text: 'Hajmiy vazn formulasi ochiq: uzunlik × en × balandlik (sm) ÷ {div}. Zichlik {th} kg/m³ va undan yuqori — kg boʻyicha, past — m³ boʻyicha. Yashirin toʻlovlarsiz.',
       fact: 'Yigʻma yuk {rate} dan · ÷ {div} · {th} kg/m³',
       link: 'pricing',
       linkLabel: 'Barcha tariflar',
@@ -87,9 +87,9 @@ const ru: WhyStrings = {
   reasons: [
     {
       glyph: 'warehouse',
-      title: 'Склад в Иу и консолидация',
-      text: 'Грузы от нескольких поставщиков собираем в одном месте, взвешиваем, обмеряем и переупаковываем. Из Гуанчжоу, Шэньчжэня и других городов принимаем через партнёров.',
-      fact: 'Иу · 义乌 · один номер места, один счёт',
+      title: 'Три пункта приёма в Китае и консолидация',
+      text: 'Грузы от нескольких поставщиков собираем в одном месте, взвешиваем, обмеряем и переупаковываем. Пункты приёма — Иу, Гуанчжоу и Кашгар. На какой отправлять, скажет менеджер.',
+      fact: 'Иу 义乌 · Гуанчжоу 广州 · Кашгар 喀什 · один номер места, один счёт',
       link: 'warehouse',
       linkLabel: 'Склад и проверка качества',
     },
@@ -141,9 +141,9 @@ const en: WhyStrings = {
   reasons: [
     {
       glyph: 'warehouse',
-      title: 'Yiwu warehouse and consolidation',
-      text: 'Goods from several suppliers are gathered in one place, weighed, measured and repacked. From Guangzhou, Shenzhen and other cities we receive through partners.',
-      fact: 'Yiwu · 义乌 · one lot number, one invoice',
+      title: 'Three receiving points in China and consolidation',
+      text: 'Goods from several suppliers are gathered in one place, weighed, measured and repacked. The receiving points are Yiwu, Guangzhou and Kashgar. Your manager tells you which one applies.',
+      fact: 'Yiwu 义乌 · Guangzhou 广州 · Kashgar 喀什 · one lot number, one invoice',
       link: 'warehouse',
       linkLabel: 'Warehouse and quality control',
     },

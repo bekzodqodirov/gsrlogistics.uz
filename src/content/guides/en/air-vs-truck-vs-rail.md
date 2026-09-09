@@ -1,6 +1,6 @@
 ---
 title: "Air, truck or rail from China to Uzbekistan: which one should you choose?"
-description: "Air cargo from China to Tashkent takes roughly 5–10 days from $9/kg, consolidated truck freight 15–25 days at $6.50–7.50/kg, and a rail container 20–35 days at $2,800–5,500 per 20 ft. Which mode fits which cargo: a comparison table, worked examples and restrictions. As of September 2026."
+description: "Air cargo from China to Tashkent takes roughly 5–10 days from $9/kg, consolidated truck freight 15–25 days from $110 per m³ depending on density, and a rail container 20–35 days at $2,800–5,500 per 20 ft. Which mode fits which cargo: a comparison table, worked examples and restrictions. As of September 2026."
 lang: en
 translationKey: air-vs-truck-vs-rail
 slug: air-vs-truck-vs-rail
@@ -9,7 +9,7 @@ updatedDate: 2026-09-08
 tags: [truck, air, rail, taqqoslash]
 faq:
   - q: "What is the cheapest way to ship from China to Tashkent?"
-    a: "For heavy, dense cargo — truck (consolidated freight): $6.50/kg from 100 kg, dense wholesale lots from $3.50/kg. For light, bulky cargo — also truck, but priced per cubic metre: $110–190/m³. For a uniform lot above 25 m³, a 20 ft container ($2,800–5,500) can come out cheaper than consolidated freight. Prices are estimates as of September 8, 2026."
+    a: "For heavy, bulky cargo — truck (consolidated freight): billed by volume, from $110 per m³. The rate for one cubic metre follows the density of the cargo (kg ÷ m³): up to 100 kg/m³ is $110, 151–200 kg/m³ is $160, 251–300 kg/m³ is $200, 701–1,000 kg/m³ is $320; anything denser than 1,000 kg/m³ is billed by weight at $0.55/kg. The minimum billable volume is 0.1 m³. For a uniform lot above 25 m³, a 20 ft container ($2,800–5,500) can come out cheaper than consolidated freight. Prices are estimates as of September 8, 2026."
   - q: "How much faster is air than truck?"
     a: "Air takes roughly 5–10 days, truck 15–25 days — a difference of 10–15 days on average. Transit time counts from the day the cargo leaves the China warehouse; receiving and consolidation days are not included."
   - q: "Can I ship a product with a lithium battery by air?"
@@ -34,18 +34,18 @@ sources:
     date: "2025-11-12"
 ---
 
-There are three ways to bring cargo from China to Uzbekistan: **air** (roughly 5–10 days, from $9/kg), **truck — consolidated freight** (15–25 days, $6.50–7.50/kg, or $110–190/m³ for light cargo) and **rail** (20–35 days, a 20 ft container at $2,800–5,500). The rule of thumb is simple: light, valuable and urgent goes by air; heavy, bulky and ordinary goes by truck; a uniform lot above 25 m³ goes in a container. Prices are estimates as of September 8, 2026.
+There are three ways to bring cargo from China to Uzbekistan: **air** (roughly 5–10 days, from $9/kg), **truck — consolidated freight** (15–25 days, from $110 per m³, with the rate set by the cargo’s density) and **rail** (20–35 days, a 20 ft container at $2,800–5,500). The rule of thumb is simple: light, valuable and urgent goes by air; heavy, bulky and ordinary goes by truck; a uniform lot above 25 m³ goes in a container. Prices are estimates as of September 8, 2026.
 
 ## The three modes in one table
 
 | Criterion | Air cargo | Truck cargo (consolidated) | Rail (container) |
 |---|---|---|---|
-| Price | $9/kg standard · $12/kg brand · $11.50/kg commercial | $7.50 → $7 → $6.50/kg (0–30 / 30–100 / 100+ kg) · dense wholesale lots from 100 kg $3.50/kg · light cargo $110–190/m³ | 20 ft $2,800–5,500 · 40 ft $5,200–6,800 |
+| Price | $9/kg standard · $12/kg brand · $11.50/kg commercial | from $110/m³ · $110 → $320/m³ depending on density · denser than 1,000 kg/m³ $0.55/kg | 20 ft $2,800–5,500 · 40 ft $5,200–6,800 |
 | Transit (from warehouse departure) | 5–10 days | 15–25 days (express 13–18) | 20–35 days |
-| Best for | Electronics accessories, samples, branded clothing, spare parts, urgent lots | Clothing, footwear, toys, household goods, equipment, building materials | One client's large lot: furniture, raw materials, machinery |
+| Best for | Electronics accessories, samples, branded clothing, spare parts, urgent lots | Clothing, footwear, toys, household goods, equipment, building materials | One client’s large lot: furniture, raw materials, machinery |
 | Restrictions | Lithium batteries, liquids, perfume, magnets, medicines, drones — not accepted | General list: explosives and flammables, perishables, cash and precious metals, documents | Same as truck; dangerous goods by separate agreement |
-| Minimum | 0.5 kg | 1 kg (per kg) · 0.1 m³ (per m³) | One container (20 or 40 ft) |
-| Volumetric weight | length × width × height (cm) ÷ 5000 | ÷ 6000 | Capacity: ≈ 33 m³ (20 ft) / ≈ 76 m³ (40 ft HC) |
+| Minimum | 0.5 kg | 0.1 m³ | One container (20 or 40 ft) |
+| How the price is measured | Volumetric weight: length × width × height (cm) ÷ 5 000 | Density: kg ÷ m³ → the rate for one m³ | Capacity: ≈ 33 m³ (20 ft) / ≈ 76 m³ (40 ft HC) |
 | Border | Tashkent airport | Khorgos (Kazakhstan) → Shymkent → Tashkent | Dostyk or Altynkol → Saryagash → Tashkent |
 
 *Estimate · Updated September 8, 2026. The final price is set after the cargo is weighed and measured at the Yiwu warehouse.* All rates are on the [Pricing](/en/pricing/) page; for a quick figure use the [Calculator](/en/calculator/).
@@ -56,22 +56,39 @@ Truck cargo means carrying your goods by lorry from China through Kazakhstan to 
 
 Truck suits you if:
 
-- the cargo is heavier than 30 kg or larger than 0.1 m³ — the per-kilo price is 2–3 times lower than air;
+- the cargo is larger than 0.1 m³ or heavier than 30 kg — for the same box truck works out several times cheaper than air;
 - the goods are ordinary: clothing, footwear, toys, tableware, appliances, building materials;
 - there is a battery, liquid or magnet inside — air will not take it anyway;
 - a 15–25-day wait does not hurt the business.
 
-The pricing rule: density above 170 kg/m³ is billed per kilogram, below it per cubic metre. For example, 48 kg in 0.2 m³ (240 kg/m³) is billed per kg; 100 kg of toys in 1 m³ (100 kg/m³) is billed per m³. Details on the [Truck cargo (consolidated freight)](/en/services/truck-cargo/) service page.
+The pricing rule: truck cargo is billed **by volume**, and the rate for one cubic metre comes from the density of the cargo (kg ÷ m³). The denser the load, the more a cubic metre costs — there is no separate per-kilogram rate:
+
+| Density (kg/m³) | Price per m³ |
+|---|---|
+| up to 100 | $110 |
+| 101–150 | $130 |
+| 151–200 | $160 |
+| 201–250 | $180 |
+| 251–300 | $200 |
+| 301–350 | $230 |
+| 351–400 | $260 |
+| 401–450 | $280 |
+| 451–500 | $290 |
+| 501–700 | $300 |
+| 701–1,000 | $320 |
+| 1,000 and above | $0.55 per kg |
+
+For example, 48 kg in 0.2 m³ is 240 kg/m³, so 0.2 × $180 = $36; 180 kg of toys in 2 m³ is 90 kg/m³, so 2 × $110 = $220; 1,200 kg of tiles in 1 m³ is 1,200 kg/m³ and is billed by weight: 1,200 × $0.55 = $660. The minimum billable volume is 0.1 m³. Details on the [Truck cargo (consolidated freight)](/en/services/truck-cargo/) service page.
 
 ## When does air cargo pay off?
 
-Air cargo is delivery by plane, roughly 5–10 days. The goods are received at the China warehouse, grouped into an air lot, cleared at Tashkent airport and released from the warehouse. The price starts at $9/kg (branded goods $12, commercial lots $11.50), minimum 0.5 kg. Volumetric weight is calculated with a divisor of 5000, so a light but large box "weighs" more by air than by truck.
+Air cargo is delivery by plane, roughly 5–10 days. The goods are received at the China warehouse, grouped into an air lot, cleared at Tashkent airport and released from the warehouse. The price starts at $9/kg (branded goods $12, commercial lots $11.50), minimum 0.5 kg. Volumetric weight is calculated with a divisor of 5000, so a light but large box "weighs" more by air than it actually does on the scales; by truck the weight on its own sets nothing — it only fixes the density, and you pay for the volume.
 
 Air suits you if:
 
 - the value per kilogram is high — phone accessories, small electronics, branded clothing, spare parts;
 - time is money: a seasonal collection, a marketplace listing that has sold out, a part for an idle machine;
-- the cargo is under 30 kg and the price difference stays within $30–60.
+- the cargo is small and dense — up to 20–30 kg: on a lot that size air costs roughly $150–250 more than truck — a premium worth paying for expensive goods or a fixed deadline.
 
 Air does not suit goods with lithium batteries (power banks, e-scooters, SIM smartwatches), liquids and cosmetics, perfume, magnets, medicines or drones. Such cargo goes only by truck or rail. Details on the [Air cargo](/en/services/air-cargo/) page.
 
@@ -91,8 +108,8 @@ Note: the China–Kyrgyzstan–Uzbekistan railway is still under construction; t
 
 | Cargo | Air | Truck (consolidated) | Rail | Verdict |
 |---|---|---|---|---|
-| 20 kg of phone accessories, 0.1 m³ (200 kg/m³) | 20 × 9 = $180 | 20 × 7.50 = $150 | — | $30 difference, air is 10–15 days faster → **air** |
-| 300 kg of clothing, 1.5 m³ (200 kg/m³) | 300 × 9 = $2,700 | 300 × 6.50 = $1,950 | — | Saves $750 → **truck** |
+| 20 kg of phone accessories, 0.1 m³ (200 kg/m³) | 20 × 9 = $180 | 0.1 × 160 = $16 | — | $164 apart; not urgent → **truck**, if the 10–15 days matter → air |
+| 300 kg of clothing, 1.5 m³ (200 kg/m³) | 300 × 9 = $2,700 | 1.5 × 160 = $240 | — | Saves $2,460 → **truck** |
 | 240 kg of toys, 3 m³ (80 kg/m³) | volumetric 600 kg × 9 = $5,400 | 3 × 110 = $330 | — | Light cargo goes by **truck** only, per m³ |
 | 4 t of furniture, 28 m³ (143 kg/m³) | — | 28 × 130 = $3,640 | 20 ft $2,800–5,500 | Prices are close, a sealed container → **rail** or truck |
 
@@ -122,11 +139,11 @@ By truck, most of the waiting happens at the Khorgos border: a 1–3-day queue, 
 
 ## Five steps to choose
 
-1. **Find out the weight and volume.** Ask the supplier for the number of boxes, their dimensions (cm) and weight. Density = kg ÷ m³.
+1. **Find out the weight and volume.** Ask the supplier for the number of boxes, their dimensions (cm) and weight. Density = kg ÷ m³ — that number sets the truck rate.
 2. **Check the restrictions.** Any battery, liquid or magnet? If yes, rule out air straight away.
-3. **Work out the value per kilogram.** Divide the goods' price by their weight. Above $30/kg the air premium is barely noticeable; below $5/kg only truck or rail makes sense.
+3. **Work out the value per kilogram.** Divide the goods' price by their weight. Above $100/kg the air premium is under 10% of the value of the goods; below $5/kg only truck or rail makes sense.
 4. **Turn the lead time into money.** What does a 10-day delay cost you (lost sales, an idle workshop)? If it is more than the air–truck difference, choose air.
-5. **Compare both options in the calculator** and message your manager — they will give an exact price and departure date based on the cargo's density and category.
+5. **Compare both options in the calculator** and message your manager — they will give an exact price and departure date based on the cargo’s density and category.
 
 ## Seasons: when does each mode slow down?
 
@@ -135,6 +152,6 @@ By truck, most of the waiting happens at the Khorgos border: a 1–3-day queue, 
 - **11.11 and December.** Couriers inside China and border terminals are overloaded; truck transit moves towards the upper limit of 25 days. Cargo companies usually announce discounts in this period.
 - **Winter.** Snow on the Khorgos road can add 1–3 days; rail does not depend on the weather.
 
-> **Manager's tip.** Splitting one lot in two is often the best answer: the first 20–30 kg of samples and urgent items go by air, the main volume by truck. You start selling in 7 days, and the main lot arrives at the low rate.
+> **Manager’s tip.** Splitting one lot in two is often the best answer: the first 20–30 kg of samples and urgent items go by air, the main volume by truck. You start selling in 7 days, and the main lot arrives at the low rate.
 
 Not sure which mode fits? Send the product name, approximate weight and the date you need it by — your manager will compare the three options in numbers.

@@ -11,9 +11,9 @@ faq:
   - q: "Ivu bozorida minimal partiya qancha?"
     a: "Odatda bitta quti (一箱起批) yoki bir necha oʻnlab dona — mahsulotga qarab 12, 24, 48 yoki 100 dona. Narx dona boshiga yuanda aytiladi. Ayni tovarni 1688 orqali ham xuddi shu sotuvchidan olsa boʻladi; bir nechta doʻkondan olingan mayda partiyalar GSR Logisticsning Ivu omborida bitta yukka yigʻiladi."
   - q: "Ivu va Guanchjou — qaysi biri arzon?"
-    a: "Tovarga bogʻliq. Mayda ulgurji tovar (oʻyinchoq, taqinchoq, xoʻjalik mollari, paypoq) Ivuda arzon va bir joyda; kiyim, sumka, poyabzal va elektronika Guanchjou va Shenchjenda kengroq va sifat darajasi yuqoriroq. Guanchjoudan Ivu omborigacha yuk taxminan 2–4 kunda keladi, bu tannarxga sezilarli taʼsir qilmaydi."
+    a: "Tovarga bogʻliq. Mayda ulgurji tovar (oʻyinchoq, taqinchoq, xoʻjalik mollari, paypoq) Ivuda arzon va bir joyda; kiyim, sumka, poyabzal va elektronika Guanchjou va Shenchjenda kengroq va sifat darajasi yuqoriroq. Guanchjouda yuk shu shahardagi qabul manziliga topshiriladi, shuning uchun ichki yetkazish tannarxga sezilarli taʼsir qilmaydi."
   - q: "Xitoyga oʻzim borishim shartmi?"
-    a: "Yoʻq. Takroriy buyurtma va 1688ʼda topiladigan tovarlar uchun masofaviy xarid yetarli: siz havola yoki namunani yuborasiz, GSR Logistics sotib oladi, Ivu omborida tekshiradi va foto-hisobot beradi. Safar yangi yoʻnalish, katta partiya, mebel yoki uskuna tanlashda oʻzini oqlaydi — u yerda tovarni qoʻlda koʻrish muhim."
+    a: "Yoʻq. Takroriy buyurtma va 1688-da topiladigan tovarlar uchun masofaviy xarid yetarli: siz havola yoki namunani yuborasiz, GSR Logistics sotib oladi, Ivu omborida tekshiradi va foto-hisobot beradi. Safar yangi yoʻnalish, katta partiya, mebel yoki uskuna tanlashda oʻzini oqlaydi — u yerda tovarni qoʻlda koʻrish muhim."
   - q: "Ivu bozori qachon yopiq boʻladi?"
     a: "Xitoy Yangi yilida — 2027-yilda bayram 6-fevral — bozor taxminan 2–3 hafta, zavodlar 3–4 hafta ishlamaydi. 1–7 oktabr (Oltin hafta) bozorlar 3–7 kun yopiladi. Oddiy kunlarda Futian bozori haftaning yetti kuni taxminan 9:00–17:00 ishlaydi."
 sources:
@@ -67,19 +67,19 @@ Kanton yarmarkasi (广交会) Pazhou majmuasida yiliga ikki marta oʻtadi — ap
 
 **Shenchjen Huaqiangbei (华强北)** — dunyodagi eng katta elektronika bozori: SEG Plaza va Huaqiang Electronics World (komponentlar, kabel, zaryadlovchi qurilmalar), Mingtong (telefon aksessuarlari), Yuanwang (telefonlar). Naushnik, smart-soat, power bank, kamera, avtomobil elektronikasi — hammasi bir necha kvartal ichida. Ikki eslatma: litiy batareyali tovar samolyotga olinmaydi va faqat avto orqali yuradi; mashhur brendlarning nusxalari kontrafakt hisoblanadi — bunday yukni qabul qilmaymiz (batafsil — [Taqiqlangan tovarlar](/qollanma/taqiqlangan-tovarlar/)).
 
-**Keqiao (柯桥) — Xitoy yengil toʻqimachilik shahri**, Shaoxing shahri, Ivudan taxminan 90 km. Mato rulon bilan sotiladi, minimal partiya odatda 1 rulon; parda, choyshab, trikotaj, jinsi matosi. Tikuvchilik sexlari uchun asosiy manzil. Mato zich yuk, shuning uchun kg boʻyicha narxlanadi.
+**Keqiao (柯桥) — Xitoy yengil toʻqimachilik shahri**, Shaoxing shahri, Ivudan taxminan 90 km. Mato rulon bilan sotiladi, minimal partiya odatda 1 rulon; parda, choyshab, trikotaj, jinsi matosi. Tikuvchilik sexlari uchun asosiy manzil. Mato zich yuk: bir m³ rulon odatda 300–500 kg tortadi, shuning uchun m³ narxi yuqori pogʻonadan — taxminan 200–290 $/m³ — olinadi.
 
-**Foshan** — Guanchjoudan 30 km: Lecong (乐从) mebel bozori Shunde tumanida (bir necha kilometr uzunlikdagi salonlar — divan, yotoq, ofis mebeli), Chancheng va Nanhai tumanlarida keramika va plitka. Yaqin Zhongshan shahridagi Guzhen — yoritgichlar markazi. Mebel hajmli yuk: m³ boʻyicha narxlanadi, katta partiya 20 yoki 40 futlik konteynerda arzon chiqadi.
+**Foshan** — Guanchjoudan 30 km: Lecong (乐从) mebel bozori Shunde tumanida (bir necha kilometr uzunlikdagi salonlar — divan, yotoq, ofis mebeli), Chancheng va Nanhai tumanlarida keramika va plitka. Yaqin Zhongshan shahridagi Guzhen — yoritgichlar markazi. Mebel — yengil va hajmli yuk: zichligi odatda 100 kg/m³ dan past, shuning uchun eng arzon pogʻonaga tushadi — 110 $/m³ dan; katta partiya 20 yoki 40 futlik konteynerda arzonroq chiqadi.
 
-| Shahar va bozor | Tovar va narx qoidasi | Ivu omborigacha (taxminan) |
+| Shahar va bozor | Tovar va narx qoidasi | Eng yaqin qabul punktigacha (taxminan) |
 |---|---|---|
-| Ivu, Futian | Mayda ulgurji tovarlar — kg yoki m³, zichlikka qarab | Shu shaharda, 0–1 kun |
-| Guanchjou, Baiyun va Shahe | Sumka, kiyim, poyabzal — kg (zich yuk) | 2–4 kun, taxminan 1 000 km |
-| Shenchjen, Huaqiangbei | Elektronika — kg; batareyali tovar faqat avto | 2–4 kun |
-| Keqiao | Mato — kg | 1–2 kun, taxminan 90 km |
-| Foshan, Lecong | Mebel, keramika — m³ yoki konteyner | 3–5 kun |
+| Ivu, Futian | Mayda ulgurji tovarlar — m³ boʻyicha, pogʻona zichlikka qarab, 110 $/m³ dan | Shu shaharda, 0–1 kun |
+| Guanchjou, Baiyun va Shahe | Sumka, kiyim, poyabzal — m³ boʻyicha; pogʻona qutilar qanchalik zich qadoqlanganiga bogʻliq | Shu shaharda, 0–1 kun |
+| Shenchjen, Huaqiangbei | Elektronika — zich yuk, m³ boʻyicha; batareyali tovar faqat avto | Guanchjou, ichki ekspress bilan |
+| Keqiao | Mato — zich yuk, taxminan 200–290 $/m³ | 1–2 kun, taxminan 90 km |
+| Foshan, Lecong | Yengil mebel — 110 $/m³ dan; keramika zichroq; yoki konteyner | Guanchjou, taxminan 30 km |
 
-Yukni Guanchjou, Shenchjen va boshqa shaharlardan hamkorlar orqali qabul qilamiz; konsolidatsiya nuqtasi — Ivu ombori.
+Xitoyda uchta qabul manzili bor: Ivu (义乌), Guanchjou (广州) va Qashqar (喀什). Qaysi biriga joʻnatish kerakligini menejer aytadi. Turli sotuvchilardan kelgan partiyalar Ivu omborida bitta yukka birlashtiriladi.
 
 ## Safar bilan borish yoki masofadan xarid: qaysi biri mos?
 
@@ -88,23 +88,23 @@ Yukni Guanchjou, Shenchjen va boshqa shaharlardan hamkorlar orqali qabul qilamiz
 | Vaqt va xarajat | Kamida 7–10 kun, aviabilet, mehmonxona, tarjimon | Xabar va havolalar; agent komissiyasi 3% dan |
 | Sifat nazorati | Tovarni qoʻlda koʻrasiz, sotuvchi bilan yuzma-yuz kelishasiz | Namuna avia orqali 5–10 kunda, ombordagi foto va video hisobot |
 | Assortiment | Butun bozor, yangi mahsulotlar | 1688, Yiwugo va menejer tanlovi |
-| Kimga mos | Yangi yoʻnalish, katta partiya, mebel va uskuna | Takroriy buyurtma, 1688ʼda mavjud tovarlar |
+| Kimga mos | Yangi yoʻnalish, katta partiya, mebel va uskuna | Takroriy buyurtma, 1688-da mavjud tovarlar |
 
 Safar rejalashtirsangiz, jarayon shunday:
 
 1. **Reja.** Bozorlar, korpus va qavatlar roʻyxatini tuzing. Toshkentdan Urumchi va Pekinga toʻgʻridan-toʻgʻri reyslar bor; Ivuga Shanxay yoki Xanchjou orqali tezyurar poyezdda boriladi (Xanchjou–Ivu taxminan 1 soat). Viza shartlarini safar oldidan tekshiring.
 2. **Bozorda.** Har doʻkonning raqamini, vizitkasini va tovar fotosini bir joyga yozib boring: korpus, qavat, doʻkon raqami, narx, minimal partiya, tayyorlash muddati. Bir kunda 100 dan ortiq doʻkon koʻrasiz — yozuvsiz esda qolmaydi.
-3. **Toʻlov.** Sotuvchilar yuanda, WeChat Pay yoki Alipay orqali oladi; xorijiy karta ularga ulanadi, lekin ulgurji summalar odatda agent hisobidan toʻlanadi. GSR Logistics toʻlovni Markaziy bank kursi boʻyicha yuanda oʻtkazadi — [1688 va Taobaoʼdan sotib olish](/xizmatlar/sotib-olish/).
-4. **Manzil.** Sotuvchiga yetkazish manzili sifatida GSR Logisticsning Ivu ombori va mijoz kodingiz beriladi. Ivu ichida sotuvchi tovarni 1–2 kunda odatda bepul yetkazadi; boshqa shaharlardan — ichki ekspress orqali.
+3. **Toʻlov.** Sotuvchilar yuanda, WeChat Pay yoki Alipay orqali oladi; xorijiy karta ularga ulanadi, lekin ulgurji summalar odatda agent hisobidan toʻlanadi. GSR Logistics toʻlovni Markaziy bank kursi boʻyicha yuanda oʻtkazadi — [1688 va Taobaodan sotib olish](/xizmatlar/sotib-olish/).
+4. **Manzil.** Sotuvchiga menejer koʻrsatgan qabul manzili (Ivu ombori, Guanchjou yoki Qashqar) va GS kodingiz (markirovka) beriladi — sotuvchi bu kodni yukni joʻnatishdan oldin har bir qutiga yozadi. Ivu ichida sotuvchi tovarni 1–2 kunda odatda bepul yetkazadi; boshqa shaharlardan — ichki ekspress orqali.
 5. **Ombor va reys.** Har quti tortiladi, oʻlchanadi, raqamlanadi; foto-hisobot Telegramga keladi; yuk avto bilan taxminan 15–25 kunda, avia bilan 5–10 kunda Toshkentga yetadi.
 
 Masofaviy xaridda 2-qadam oʻrniga havola, namuna yoki texnik talab yuborasiz; qolgani bir xil. Tovar hali topilmagan boʻlsa — [Tovar va ishlab chiqaruvchi topish](/xizmatlar/tovar-topish/) xizmati va [ishlab chiqaruvchi topish qoʻllanmasi](/qollanma/xitoydan-ishlab-chiqaruvchi-topish/).
 
 ## Ivu ombori: konsolidatsiya qanday ishlaydi?
 
-Konsolidatsiya — bu bir mijozning turli sotuvchilardan kelgan partiyalarini Xitoy omborida bitta yukka birlashtirish. Ivu bozoridan 5 ta doʻkonda, Keqiaoda 1 ta, Guanchjouda 2 ta sotuvchidan olingan tovar bitta mijoz kodi ostida yigʻiladi va bitta reysda ketadi — har partiyani alohida yuborishdan ancha arzon.
+Konsolidatsiya — bu bir mijozning turli sotuvchilardan kelgan partiyalarini Xitoy omborida bitta yukka birlashtirish. Ivu bozoridan 5 ta doʻkonda, Keqiaoda 1 ta, Guanchjouda 2 ta sotuvchidan olingan tovar bitta GS kod ostida yigʻiladi va bitta reysda ketadi — har partiyani alohida yuborishdan ancha arzon.
 
-Omborda har quti tortiladi, oʻlchanadi, raqamlanadi va suratga olinadi; kerak boʻlsa ochib, soni va holati tekshiriladi. Foto-hisobot Telegramga keladi. Taxminiy xizmat narxlari 2026-yil 8-sentabr holatiga: foto-hisobot 1 $, qayta qadoqlash 0,4 $/kg, batafsil tekshiruv 1 $/kg; Xitoy omborida 14 kun bepul saqlash. Zich yuk (170 kg/m³ dan yuqori) kg boʻyicha, yengil va hajmli yuk m³ boʻyicha narxlanadi — hisob qoidasi [Narxlar](/narxlar/) sahifasida, oʻz yukingiz uchun raqam [Kalkulyator](/kalkulyator/)da. Ombor xizmatlari toʻliq — [Ivu ombori va sifat nazorati](/xizmatlar/ombor-sifat-nazorati/).
+Omborda har quti tortiladi, oʻlchanadi, raqamlanadi va suratga olinadi; kerak boʻlsa ochib, soni va holati tekshiriladi. Foto-hisobot Telegramga keladi. Taxminiy xizmat narxlari 2026-yil 8-sentabr holatiga: foto-hisobot 1 $, qayta qadoqlash 0,4 $/kg, batafsil tekshiruv 1 $/kg; Xitoy omborida 14 kun bepul saqlash. Avto kargo m³ boʻyicha hisoblanadi: yukning zichligi (kg ÷ m³) qaysi pogʻonaga tushsa, m³ narxi shu pogʻonadan olinadi — 100 kg/m³ gacha 110 $/m³ dan boshlanadi va zichlik oshgani sari koʻtariladi, 1 000 kg/m³ va undan zich yuk esa 0,55 $/kg boʻyicha hisoblanadi. Masalan, 1,2 m³ da 300 kg → 250 kg/m³ → 1,2 × 180 $ = 216 $, 2 m³ da 180 kg esa → 90 kg/m³ → 2 × 110 $ = 220 $: deyarli bir xil pulga 1,2 m³ emas, 2 m³. Minimal hisob hajmi — 0,1 m³. Narxlar taxminiy, boj va QQS alohida — hisob qoidasi [Narxlar](/narxlar/) sahifasida, oʻz yukingiz uchun raqam [Kalkulyator](/kalkulyator/)da. Ombor xizmatlari toʻliq — [Ivu ombori va sifat nazorati](/xizmatlar/ombor-sifat-nazorati/).
 
 ## Mavsumiy taqvim: qachon sotib olish va qachon kutish kerak?
 
@@ -127,10 +127,10 @@ Amaliy xulosa: yanvar va oktabr reyslariga buyurtmani bayramdan 3–4 hafta oldi
 3. Namunani sotib oling va belgilab qoʻying: ulgurji partiya namunaga mos kelishi shart — omborda solishtirish uchun asos boʻladi.
 4. Narxni «dona» yoki «quti» uchun ekanini aniqlab oling — chalkashlik eng koʻp shu yerda boʻladi.
 5. Tayyorlash muddatini yozing: doʻkonda bor tovar 1–2 kun, buyurtma asosida ishlab chiqarish 7–15 kun.
-6. Yorliqda mijoz kodi va quti raqami boʻlsin — omborda yuk shu kod bilan topiladi.
-7. Zich va yengil tovarni alohida hisoblang: paypoq kg boʻyicha, yumshoq oʻyinchoq m³ boʻyicha ketadi — [narx qanday hisoblanadi](/qollanma/kargo-narxlari-qanday-hisoblanadi/).
+6. Yorliqda GS kod va quti raqami boʻlsin — sotuvchi ularni yukni joʻnatishdan oldin yozadi, omborda yuk shu kod bilan topiladi.
+7. Zich va yengil tovarni alohida hisoblang: ikkalasi ham m³ boʻyicha ketadi, lekin yumshoq oʻyinchoq eng arzon pogʻonada (110 $/m³ dan), zich paypoq qutisi esa qimmatroq pogʻonada hisoblanadi — [narx qanday hisoblanadi](/qollanma/kargo-narxlari-qanday-hisoblanadi/).
 8. Brend belgisi bor tovardan saqlaning: bojxona kontrafaktni ushlaydi, biz esa bunday yukni qabul qilmaymiz.
 9. Tijorat partiyasi uchun sertifikat va oʻzbekcha yorliq kerakligini oldindan tekshiring — [2026-yil bojxona toʻlovlari](/qollanma/bojxona-tolovlari-2026/).
 10. Bayram taqvimini rejaga qoʻshing: fevral va oktabrda 2–3 hafta kechikish odatiy hol.
 
-> **Menejer maslahati.** Birinchi safarda hamma narsani bir kunda koʻrishga urinmang: Futianning bitta korpusi 10 000 dan ortiq doʻkon. Bir kunni bitta korpusga ajrating, kechqurun yozuvlarni saralang, ertasiga faqat tanlangan 5–10 doʻkonga qaytib narx kelishing. Yukni ombor manzilimizga yuborishni sotuvchiga oʻsha zahoti aytsangiz, siz Toshkentga qaytguningizcha foto-hisobot Telegramda boʻladi.
+> **Menejer maslahati.** Birinchi safarda hamma narsani bir kunda koʻrishga urinmang: Futianning bitta korpusi 10 000 dan ortiq doʻkon. Bir kunni bitta korpusga ajrating, kechqurun yozuvlarni saralang, ertasiga faqat tanlangan 5–10 doʻkonga qaytib narx kelishing. Yukni Ivu ombori manziliga yuborishni sotuvchiga oʻsha zahoti aytsangiz, siz Toshkentga qaytguningizcha foto-hisobot Telegramda boʻladi.

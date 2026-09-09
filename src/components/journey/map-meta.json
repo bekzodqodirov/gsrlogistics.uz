@@ -30,7 +30,7 @@
   },
   "simplification": {
     "algorithm": "Douglas–Peucker per ring, output-space tolerance",
-    "tolerancePx": 2,
+    "tolerancePx": 3,
     "minRingPoints": 4,
     "minRingAreaPx2": 30,
     "coordinateDecimals": 1
@@ -282,7 +282,7 @@
       "name": "Afghanistan",
       "class": "land",
       "rings": 1,
-      "points": 81,
+      "points": 66,
       "sourcePoints": 409
     },
     {
@@ -290,7 +290,7 @@
       "name": "United Arab Emirates",
       "class": "land",
       "rings": 1,
-      "points": 18,
+      "points": 12,
       "sourcePoints": 83
     },
     {
@@ -298,7 +298,7 @@
       "name": "Bangladesh",
       "class": "land",
       "rings": 2,
-      "points": 72,
+      "points": 53,
       "sourcePoints": 377
     },
     {
@@ -306,7 +306,7 @@
       "name": "Bhutan",
       "class": "land",
       "rings": 1,
-      "points": 17,
+      "points": 16,
       "sourcePoints": 99
     },
     {
@@ -314,7 +314,7 @@
       "name": "People's Republic of China",
       "class": "land land-cn",
       "rings": 2,
-      "points": 472,
+      "points": 339,
       "sourcePoints": 2246
     },
     {
@@ -330,7 +330,7 @@
       "name": "India",
       "class": "land",
       "rings": 1,
-      "points": 248,
+      "points": 193,
       "sourcePoints": 1191
     },
     {
@@ -338,7 +338,7 @@
       "name": "Iran",
       "class": "land",
       "rings": 2,
-      "points": 58,
+      "points": 46,
       "sourcePoints": 272
     },
     {
@@ -346,7 +346,7 @@
       "name": "Siachen Glacier",
       "class": "land",
       "rings": 1,
-      "points": 4,
+      "points": 3,
       "sourcePoints": 20
     },
     {
@@ -354,7 +354,7 @@
       "name": "Kazakhstan",
       "class": "land land-kz",
       "rings": 1,
-      "points": 111,
+      "points": 93,
       "sourcePoints": 590
     },
     {
@@ -362,7 +362,7 @@
       "name": "Kyrgyzstan",
       "class": "land land-kg",
       "rings": 2,
-      "points": 69,
+      "points": 48,
       "sourcePoints": 384
     },
     {
@@ -370,7 +370,7 @@
       "name": "Laos",
       "class": "land",
       "rings": 1,
-      "points": 46,
+      "points": 37,
       "sourcePoints": 233
     },
     {
@@ -378,7 +378,7 @@
       "name": "Myanmar",
       "class": "land",
       "rings": 1,
-      "points": 86,
+      "points": 65,
       "sourcePoints": 467
     },
     {
@@ -386,7 +386,7 @@
       "name": "Mongolia",
       "class": "land",
       "rings": 1,
-      "points": 133,
+      "points": 100,
       "sourcePoints": 732
     },
     {
@@ -394,15 +394,15 @@
       "name": "Nepal",
       "class": "land",
       "rings": 1,
-      "points": 48,
+      "points": 33,
       "sourcePoints": 201
     },
     {
       "iso": "OMN",
       "name": "Oman",
       "class": "land",
-      "rings": 3,
-      "points": 40,
+      "rings": 2,
+      "points": 28,
       "sourcePoints": 179
     },
     {
@@ -410,7 +410,7 @@
       "name": "Pakistan",
       "class": "land",
       "rings": 1,
-      "points": 115,
+      "points": 87,
       "sourcePoints": 570
     },
     {
@@ -426,7 +426,7 @@
       "name": "North Korea",
       "class": "land",
       "rings": 1,
-      "points": 11,
+      "points": 10,
       "sourcePoints": 39
     },
     {
@@ -434,7 +434,7 @@
       "name": "Russia",
       "class": "land",
       "rings": 1,
-      "points": 115,
+      "points": 87,
       "sourcePoints": 571
     },
     {
@@ -450,7 +450,7 @@
       "name": "Thailand",
       "class": "land",
       "rings": 1,
-      "points": 27,
+      "points": 22,
       "sourcePoints": 133
     },
     {
@@ -458,7 +458,7 @@
       "name": "Tajikistan",
       "class": "land",
       "rings": 1,
-      "points": 67,
+      "points": 53,
       "sourcePoints": 366
     },
     {
@@ -466,7 +466,7 @@
       "name": "Turkmenistan",
       "class": "land",
       "rings": 1,
-      "points": 56,
+      "points": 44,
       "sourcePoints": 293
     },
     {
@@ -474,7 +474,7 @@
       "name": "Taiwan",
       "class": "land",
       "rings": 1,
-      "points": 9,
+      "points": 8,
       "sourcePoints": 66
     },
     {
@@ -482,7 +482,7 @@
       "name": "Uzbekistan",
       "class": "land land-uz",
       "rings": 2,
-      "points": 103,
+      "points": 73,
       "sourcePoints": 580
     },
     {
@@ -490,15 +490,15 @@
       "name": "Vietnam",
       "class": "land",
       "rings": 1,
-      "points": 50,
+      "points": 41,
       "sourcePoints": 278
     }
   ],
   "sizes": {
     "pathsFile": "src/components/journey/map-paths.svg.txt",
-    "bytes": 25928,
-    "gzipBytes": 9105,
-    "budgetBytes": 61440,
-    "budgetGzipBytes": 12288
+    "bytes": 19966,
+    "gzipBytes": 7034,
+    "budgetBytes": 20480,
+    "budgetGzipBytes": 7168
   }
 }

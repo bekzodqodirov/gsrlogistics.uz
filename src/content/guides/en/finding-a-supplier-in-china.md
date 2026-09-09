@@ -13,11 +13,11 @@ faq:
   - q: "How much does a sample cost and how fast does it arrive?"
     a: "A factory usually makes a sample in 3–10 days; it costs 1.5–3 times the unit price, and many factories credit it once you place the order. The sample arrives at the Yiwu warehouse — we photograph, measure and film it; on request we fly it to Tashkent in roughly 5–10 days."
   - q: "Can the MOQ be lowered?"
-    a: "Usually yes: split one model across several colours, take ready stock from the factory's warehouse, offer 10–30% more per unit for a trial batch, or combine several models made from the same material into one order. If the factory's MOQ is 300–1,000 pieces, take the first batch from a 1688 seller with an MOQ of 2–50 pieces and move to the factory later."
+    a: "Usually yes: split one model across several colours, take ready stock from the factory’s warehouse, offer 10–30% more per unit for a trial batch, or combine several models made from the same material into one order. If the factory’s MOQ is 300–1,000 pieces, take the first batch from a 1688 seller with an MOQ of 2–50 pieces and move to the factory later."
   - q: "How much prepayment is normal and how do I protect myself?"
     a: "The usual split is 30% on order and 70% before shipment, after inspection. For a company the contract is registered in EEISVO and prepaid goods must arrive within 180 days (PKM-283). Pay only to the company account named on the licence, never to a personal WeChat or card; on 1688 and Alibaba, paying through the platform holds the money until the goods are confirmed."
   - q: "Can I find a factory myself without Chinese?"
-    a: "1688 and most factories work in Chinese only; Alibaba has English, but prices are higher. GSR Logistics' staff speak Chinese: they call the factory, check the licence, negotiate price and MOQ and inspect the sample at the Yiwu warehouse. The commission starts at 3% of the order value (estimate, September 8, 2026)."
+    a: "1688 and most factories work in Chinese only; Alibaba has English, but prices are higher. GSR Logistics’ staff speak Chinese: they call the factory, check the licence, negotiate price and MOQ and inspect the sample at the Yiwu warehouse. The commission starts at 3% of the order value (estimate, September 8, 2026)."
 sources:
   - title: "National Enterprise Credit Information Publicity System of China (国家企业信用信息公示系统) — business licence lookup"
     url: "https://www.gsxt.gov.cn/"
@@ -25,7 +25,7 @@ sources:
   - title: "Alibaba.com — Verified Supplier programme: third-party inspection and factory video"
     url: "https://www.alibaba.com/"
     date: "2026-09-08"
-  - title: "1688.com — Alibaba's domestic wholesale marketplace (实力商家 and 工厂 badges)"
+  - title: "1688.com — Alibaba’s domestic wholesale marketplace (实力商家 and 工厂 badges)"
     url: "https://www.1688.com/"
     date: "2026-09-08"
   - title: "ICC — Incoterms 2020: EXW, FOB and the other delivery terms"
@@ -42,7 +42,7 @@ sources:
     date: "2026-02-11"
 ---
 
-Finding a reliable supplier in China means collecting 3–5 offers from three sources (a factory, a trading company, 1688), verifying each in four steps (business licence, export rights, platform status, factory audit), reviewing a sample, agreeing MOQ and price, signing a contract and inspecting the batch before it ships. The process usually takes 2–4 weeks. GSR Logistics' Chinese-speaking staff walk it for you — the commission starts at 3% of the order value.
+Finding a reliable supplier in China means collecting 3–5 offers from three sources (a factory, a trading company, 1688), verifying each in four steps (business licence, export rights, platform status, factory audit), reviewing a sample, agreeing MOQ and price, signing a contract and inspecting the batch before it ships. The process usually takes 2–4 weeks. GSR Logistics’ Chinese-speaking staff walk it for you — the commission starts at 3% of the order value.
 
 ## Factory, trading company or 1688: which one fits you?
 
@@ -82,7 +82,7 @@ We receive the sample at the Yiwu warehouse: photograph, measure, weigh and film
 MOQ (minimum order quantity) is the smallest quantity a factory accepts in one order: 300–500 pieces of one model in clothing, 1,000 pieces in plastic goods, 100–500 pieces in electronics. Ways to lower it that actually work:
 
 - split one model across several colours or sizes (the factory counts the total);
-- buy ready stock from the factory's warehouse — it often sells without an MOQ;
+- buy ready stock from the factory’s warehouse — it often sells without an MOQ;
 - offer 10–30% more per unit for a trial batch and promise a follow-up order;
 - combine several models made from the same material on the same machines into one order.
 
@@ -102,9 +102,9 @@ Every quotation must state the delivery term — it defines who pays up to which
 |---|---|---|---|
 | EXW (ex works) | Making the goods available at the factory | Pickup, transport within China, export clearance, the whole onward route | The most transparent price; we arrange transport to the Yiwu warehouse |
 | FOB (free on board at the port) | Transport within China, export clearance, delivery to the port | Everything after the port or border | For sea containers; on overland routes "FOB" in practice means "to the border" — clarify it |
-| Delivery to the Yiwu warehouse (送货到义乌仓) | Factory to our warehouse | Warehouse to Tashkent | The most convenient option for consolidated cargo — the seller pays domestic transport |
+| Delivery to the receiving point (送货到仓库) | Factory to the receiving point (Yiwu, Guangzhou or Kashgar) | Receiving point to Tashkent | The most convenient option for consolidated cargo — the seller pays domestic transport |
 
-For consolidated truck freight and air cargo the practical choice is EXW or "delivery to the Yiwu warehouse": the seller ships to GSR's warehouse, we receive, inspect and carry the goods to Tashkent. For container lots FOB is standard; the exact term and port name on the invoice are also needed to calculate the customs value correctly.
+For consolidated truck freight and air cargo the practical choice is EXW or "delivery to the receiving point": the seller ships to the address we give you, we receive, inspect and carry the goods to Tashkent. There are three receiving addresses in China: Yiwu, Guangzhou and Kashgar — your manager tells you which one applies. For container lots FOB is standard; the exact term and port name on the invoice are also needed to calculate the customs value correctly.
 
 ## Contracts and prepayment
 
@@ -130,7 +130,7 @@ Goods are checked before they leave the factory — once shipped, a claim is har
 
 If defects turn up, the remedy is agreed with the factory before shipment: replacement, discount or rework. Receiving and inspection terms at the Yiwu warehouse — [Yiwu warehouse & quality control](/en/services/warehouse-quality-control/).
 
-## How do GSR Logistics' staff help?
+## How do GSR Logistics’ staff help?
 
 Our clients do not need to speak Chinese. The sourcing service runs in five steps:
 
@@ -142,6 +142,6 @@ Our clients do not need to speak Chinese. The sourcing service runs in five step
 
 The commission starts at 3% of the order value; complex searches with a factory audit go up to 5% (estimate · Updated September 8, 2026; the exact percentage is fixed in the contract). Service terms — [Product & supplier sourcing](/en/services/sourcing/).
 
-> **Manager's tip.** In your first message to a factory state three things clearly: a photo and specification of the product, the quantity you need and the target market (Uzbekistan). A specific request gets a specific price; "how much is it?" gets the lowest price for the largest batch, which then doubles.
+> **Manager’s tip.** In your first message to a factory state three things clearly: a photo and specification of the product, the quantity you need and the target market (Uzbekistan). A specific request gets a specific price; "how much is it?" gets the lowest price for the largest batch, which then doubles.
 
 *This guide is general information; MOQ, prices and lead times depend on the product. Verified as of September 8, 2026.*

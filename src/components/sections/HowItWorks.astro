@@ -65,12 +65,15 @@ const telegramHref = telegramChat(c.telegramDraft.general);
 </section>
 
 <style>
-  .process { --hex: var(--hex-clip); --node: 12px; --rail-w: 1.5px; }
-  .steps { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: 24px; list-style: none; margin: 0; padding: 0; view-timeline-name: --steps; view-timeline-axis: block; }
+  .process { --hex: var(--hex-clip); --node: 12px; --rail-w: 1.5px; --col-gap: 24px; }
+  .steps { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--col-gap); list-style: none; margin: 0; padding: 0; view-timeline-name: --steps; view-timeline-axis: block; }
   /* the rail: undrawn track + drawn line */
   .steps::before, .steps::after { content: ''; position: absolute; pointer-events: none; }
-  .steps::before { left: 0; right: 0; top: calc(var(--node) / 2 - var(--rail-w) / 2); height: var(--rail-w); background: var(--border-soft); }
-  .steps::after { left: 0; right: 0; top: calc(var(--node) / 2 - var(--rail-w) / 2); height: var(--rail-w); background: var(--fg); transform-origin: left center; }
+  /* stop at the centre of the fifth node instead of the grid's right edge, or the rail trails off
+     past the last step: one column minus half a node is exactly that distance from the edge. */
+  .steps::before, .steps::after { left: 0; right: calc((100% - 4 * var(--col-gap)) / 5 - var(--node) / 2); top: calc(var(--node) / 2 - var(--rail-w) / 2); height: var(--rail-w); }
+  .steps::before { background: var(--border-soft); }
+  .steps::after { background: var(--fg); transform-origin: left center; }
   .step { position: relative; padding-top: calc(var(--node) + 20px); min-width: 0; }
   .node { position: absolute; top: 0; left: 0; width: var(--node); height: calc(var(--node) * 1.1); clip-path: var(--hex); background: var(--fg); z-index: 1; }
   .node::after { content: ''; position: absolute; inset: 2px; clip-path: var(--hex); background: var(--fg); }
@@ -112,6 +115,10 @@ const telegramHref = telegramChat(c.telegramDraft.general);
     .steps::before, .steps::after { top: 0; bottom: 0; left: calc(var(--node) / 2 - var(--rail-w) / 2); right: auto; width: var(--rail-w); height: auto; }
     .steps::after { transform-origin: center top; }
     .step { padding-top: 0; }
+    /* The vertical rail runs to the bottom of the list, but the last node sits at the top of the last
+       step and CSS cannot know that step's height, so paint the tail out with the section ground.
+       z-index 2 clears .steps::after, which is the last child and would otherwise draw over it. */
+    .step:last-child::after { content: ''; position: absolute; z-index: 2; left: calc(-1 * (var(--node) + 20px) + var(--node) / 2 - 1.5px); top: calc(4px + var(--node) * 1.1); bottom: 0; width: 3px; background: var(--bg); }
     .node { top: 4px; left: calc(-1 * (var(--node) + 20px)); }
     .top { margin-bottom: 10px; }
     .text { font-size: var(--text-body); }
@@ -125,7 +132,7 @@ const telegramHref = telegramChat(c.telegramDraft.general);
     }
   }
   @media (min-width: 900px) and (max-width: 1099px) {
-    .steps { column-gap: 16px; }
+    .steps { --col-gap: 16px; }
     .title { font-size: 1.125rem; }
     .text { font-size: var(--text-small); }
   }

@@ -30,16 +30,16 @@ test('example 1: 20 kg telefon aksessuarlari, avia, seriya/tijorat', () => {
   assert.ok(!e.notes.includes('volumetric-applied'));
 });
 
-// 2. 300 kg shoes by truck, 1.2 m³ → 250 kg/m³ ≥ 170 → per kg ladder (100+)
+// 2. 300 kg shoes by truck, 1.2 m³ → 250 kg/m³ → band 201–250 → $180/m³
 test('example 2: 300 kg poyabzal, avto, 1,2 m³', () => {
   const e = estimateTruck({ kg: 300, m3: 1.2 }, tariffs);
-  assert.equal(e.rule, 'truck-ladder');
+  assert.equal(e.rule, 'truck-lcl');
   assert.equal(e.densityKgM3, 250);
-  assert.equal(e.rate, 6.5);
-  near(e.total, 1950, 'total');
+  assert.equal(e.rate, 180);
+  near(e.total, 216, 'total');
 });
 
-// 3. 2 m³ toys, 180 kg → 90 kg/m³ < 170 → per m³, band ≤100
+// 3. 2 m³ toys, 180 kg → 90 kg/m³ → band ≤100 → $110/m³
 test('example 3: 2 m³ oʻyinchoq, LCL', () => {
   const e = estimateTruck({ kg: 180, m3: 2 }, tariffs);
   assert.equal(e.rule, 'truck-lcl');
@@ -66,15 +66,30 @@ test('example 5: 5 kg, 60×50×40 sm, avia → hajmiy vazn 24 kg', () => {
 
 // 6. Truck ladder steps and dense lot
 test('example 6: avto ladder 20 kg / 60 kg / 500 kg zich', () => {
-  assert.equal(estimateTruck({ kg: 20 }, tariffs).rate, 7.5);
-  assert.equal(estimateTruck({ kg: 30 }, tariffs).rate, 7.5);
-  assert.equal(estimateTruck({ kg: 60 }, tariffs).rate, 7.0);
-  assert.equal(estimateTruck({ kg: 150 }, tariffs).rate, 6.5);
-  assert.ok(estimateTruck({ kg: 20 }, tariffs).notes.includes('no-volume'));
-  const dense = estimateTruck({ kg: 500, m3: 1 }, tariffs);
-  assert.equal(dense.rule, 'truck-dense');
-  assert.equal(dense.rate, tariffs.truck.densePerKg.rate);
-  near(dense.total, 500 * tariffs.truck.densePerKg.rate, 'dense total');
+  // Every band of the owner's sheet, checked at the top of its range.
+  const band = (kg, m3) => estimateTruck({ kg, m3 }, tariffs).rate;
+  assert.equal(band(100, 1), 110);
+  assert.equal(band(150, 1), 130);
+  assert.equal(band(200, 1), 160);
+  assert.equal(band(250, 1), 180);
+  assert.equal(band(300, 1), 200);
+  assert.equal(band(350, 1), 230);
+  assert.equal(band(400, 1), 260);
+  assert.equal(band(450, 1), 280);
+  assert.equal(band(500, 1), 290);
+  assert.equal(band(700, 1), 300);
+  assert.equal(band(900, 1), 320);
+  // Just inside a boundary still belongs to the lower band.
+  assert.equal(band(101, 1), 130);
+  assert.equal(band(201, 1), 180);
+  // At and above 1000 kg/m³ the sheet bills per kilogram.
+  const heavy = estimateTruck({ kg: 1000, m3: 1 }, tariffs);
+  assert.equal(heavy.rule, 'truck-per-kg');
+  assert.equal(heavy.unit, 'kg');
+  assert.equal(heavy.rate, 0.55);
+  near(heavy.total, 550, 'per-kg total');
+  // Weight alone cannot be priced: the sheet needs a volume.
+  assert.throws(() => estimateTruck({ kg: 20 }, tariffs), /volume is required/i);
 });
 
 // 7. Rail
@@ -88,9 +103,11 @@ test('example 7: 20ft / 40ft konteyner', () => {
 
 // 8. Air-forbidden category switches to truck
 test('example 8: batareyali tovar avia → avto', () => {
-  const e = estimate({ mode: 'air', kg: 10, category: 'battery' }, tariffs);
+  // the truck sheet needs a volume, so the switched estimate has to carry one
+  const e = estimate({ mode: 'air', kg: 10, m3: 0.2, category: 'battery' }, tariffs);
   assert.equal(e.mode, 'truck');
   assert.equal(e.notes[0], 'switched-to-truck');
+  assert.equal(e.rule, 'truck-lcl');
   assert.throws(() => estimateAir({ kg: 10, category: 'liquid' }, tariffs), RangeError);
 });
 
@@ -99,15 +116,15 @@ test('formatBreakdown uz/en', () => {
   const s = {
     modes: { air: 'Avia', truck: 'Avto', rail: 'Temir yoʻl' },
     categories: { standard: 'Oddiy', brand: 'Brend', commercial: 'Seriya', battery: 'Batareyali', liquid: 'Suyuqlik' },
-    rules: { 'air-per-kg': 'Avia · {category} · {rate}', 'truck-ladder': 'Zichlik {density} kg/m³ ≥ {threshold} → kg boʻyicha · {rate}', 'truck-dense': 'Zich yuk · {rate}', 'truck-lcl': 'Zichlik {density} kg/m³ < {threshold} → m³ boʻyicha · {rate}', 'rail-20ft': '20ft · {rate}', 'rail-40ft': '40ft · {rate}' },
-    notes: { 'volumetric-applied': 'Hajmiy vazn {volumetric} kg', 'min-kg-applied': 'Minimal {minKg} kg', 'min-m3-applied': 'Minimal {minM3} m³', 'no-volume': 'Hajm kiritilmagan', 'switched-to-truck': 'Avtoga oʻtkazildi', 'dense-lot': 'Zich yuk', range: 'Oraliq' },
+    rules: { 'air-per-kg': 'Avia · {category} · {rate}', 'truck-lcl': 'Zichlik {density} kg/m³ → m³ boʻyicha · {rate}', 'truck-per-kg': 'Zichlik {density} kg/m³ ≥ {perKgDensity} → kg boʻyicha · {rate}', 'rail-20ft': '20ft · {rate}', 'rail-40ft': '40ft · {rate}' },
+    notes: { 'volumetric-applied': 'Hajmiy vazn {volumetric} kg', 'min-kg-applied': 'Minimal {minKg} kg', 'min-m3-applied': 'Minimal {minM3} m³', 'no-volume': 'Hajm kiritilmagan', 'switched-to-truck': 'Avtoga oʻtkazildi', range: 'Oraliq' },
     units: { kg: 'kg', m3: 'm³', cm: 'sm', kgm3: 'kg/m³', perKg: '/kg', perM3: '/m³', days: 'kun', container: 'konteyner' },
     labels: { chargeable: 'Hisoblangan vazn', density: 'Zichlik', rule: 'Qoida', rate: 'Tarif', days: 'Muddat', volumetric: 'Hajmiy vazn', volume: 'Hajm', total: 'Jami', totalSom: 'Soʻmda', range: 'Konteyner' },
     approx: 'taxminan', containers: { '20ft': '20 fut', '40ft': '40 fut' },
   };
   const uz = formatBreakdown(estimateTruck({ kg: 300, m3: 1.2 }, tariffs), 'uz', s, tariffs);
-  assert.equal(uz.total.replace(/\s/g, ' '), '≈ 1 950 $');
-  assert.equal(uz.rule, 'Zichlik 250 kg/m³ ≥ 170 → kg boʻyicha · 6,5 $/kg');
+  assert.equal(uz.total.replace(/\s/g, ' '), '≈ 216 $');
+  assert.equal(uz.rule, 'Zichlik 250 kg/m³ → m³ boʻyicha · 180 $/m³');
   assert.ok(uz.totalSom.endsWith('soʻm'));
   const en = formatBreakdown(estimateAir({ kg: 0.3 }, tariffs), 'en', s, tariffs);
   assert.equal(en.total, '≈ $4.50');
@@ -135,10 +152,10 @@ test('fmtUsd, withFrom, ruDays', () => {
 
 // 11. Dense-wholesale rule needs BOTH ≥ minKg and density ≥ minDensityKgM3
 test('dense rule: ≥100 kg and ≥300 kg/m³', () => {
-  assert.equal(tariffs.truck.densePerKg.minDensityKgM3, 300);
-  assert.equal(estimateTruck({ kg: 500, m3: 1 }, tariffs).rule, 'truck-dense');      // 500 kg/m³
-  assert.equal(estimateTruck({ kg: 500, m3: 2 }, tariffs).rule, 'truck-ladder');     // 250 kg/m³ — not dense
-  assert.equal(estimateTruck({ kg: 60, m3: 0.1 }, tariffs).rule, 'truck-ladder');    // 600 kg/m³ but < 100 kg
+  assert.equal(tariffs.truck.perKgFromDensityKgM3, 1000);
+  assert.equal(estimateTruck({ kg: 500, m3: 1 }, tariffs).rule, 'truck-lcl');        // 500 kg/m³ → $290/m³
+  assert.equal(estimateTruck({ kg: 500, m3: 2 }, tariffs).rule, 'truck-lcl');        // 250 kg/m³ → $180/m³
+  assert.equal(estimateTruck({ kg: 1200, m3: 1 }, tariffs).rule, 'truck-per-kg');    // 1200 kg/m³ → $0.55/kg
 });
 
 console.log(`\n${passed} test groups passed`);

@@ -56,7 +56,7 @@ Cheklovlar uchta manbadan keladi va ularni aralashtirmaslik kerak:
 
 1. **Oʻzbekiston qonunlari** — Bojxona kodeksi, Jinoyat kodeksi, Vazirlar Mahkamasi qarorlari. Bu taqiqlar transport turiga bogʻliq emas: tovar avto bilan ham, avia bilan ham chegaradan oʻtmaydi.
 2. **Tashuvchi qoidalari** — samolyot uchun IATA xavfli yuklar reglamenti (DGR), fura uchun yoʻl tashuvi qoidalari. Shu sababli bir tovar aviaga olinmaydi, avtoga olinadi.
-3. **GSR Logistics ombori qoidalari** — Ivu omborida qabul paytida tekshiriladigan roʻyxat. U qonun va tashuvchi talablarining yigʻindisi: biz qabul qilmaydigan tovar bitta quti sababli 100 mijozning furasini kechiktirishi mumkin.
+3. **GSR Logistics ombori qoidalari** — Ivu, Guanchjou va Qashqardagi qabul punktlarida tovar qabul qilinayotganda tekshiriladigan roʻyxat. U qonun va tashuvchi talablarining yigʻindisi: biz qabul qilmaydigan tovar bitta quti sababli 100 mijozning furasini kechiktirishi mumkin.
 
 Har guruh uchun alohida jadval quyida.
 
@@ -77,7 +77,7 @@ Har guruh uchun alohida jadval quyida.
 
 IM reyestri — bojxonaning intellektual mulk obyektlari reyestri: brend egasi oʻz belgisini roʻyxatga kiritgan boʻlsa, nusxalar chegarada ushlanadi.
 
-Bu roʻyxatdagi tovar Ivu omboriga kelsa, u qabul qilinmaydi va sotuvchiga qaytariladi. Chegarada topilsa — musodara va javobgarlik yuk egasiga.
+Bu roʻyxatdagi tovar Xitoydagi qabul punktiga kelsa, u qabul qilinmaydi va sotuvchiga qaytariladi. Chegarada topilsa — musodara va javobgarlik yuk egasiga.
 
 ## Faqat avto orqali: samolyot olmaydigan tovarlar
 
@@ -123,7 +123,7 @@ Raqamlar va hujjatlar — [2026-yil bojxona toʻlovlari](/qollanma/bojxona-tolov
 
 Amalda toʻrt bosqichning birida aniqlanadi, va har bosqichda oqibat ogʻirlashadi:
 
-1. **Ivu omborida.** Har quti tortiladi, oʻlchanadi, kerak boʻlsa ochiladi. Taqiqlangan tovar topilsa — qabul qilinmaydi: sotuvchiga qaytariladi (qaytarish xarajati mijoz hisobidan) yoki, agar bu «faqat avto» guruhi boʻlsa, avia oʻrniga avto reysiga oʻtkaziladi. Yoʻqotish — bir necha kun.
+1. **Xitoydagi qabul punktida.** Har quti tortiladi, oʻlchanadi, kerak boʻlsa ochiladi. Taqiqlangan tovar topilsa — qabul qilinmaydi: sotuvchiga qaytariladi (qaytarish xarajati mijoz hisobidan) yoki, agar bu «faqat avto» guruhi boʻlsa, avia oʻrniga avto reysiga oʻtkaziladi. Yoʻqotish — bir necha kun.
 2. **Aviakompaniya skanerida.** Yashirilgan batareya yoki suyuqlik rentgenda koʻrinadi. Aviakompaniya butun partiyani qaytaradi va jarima yozadi; yuk keyingi avto reysiga oʻtadi. Yoʻqotish — 2–3 hafta va jarima.
 3. **Xorgos yoki Yallama chegarasida.** Bojxona furadagi bitta qutida kontrafakt yoki taqiqlangan tovar topsa, butun fura tekshiruvga qoʻyiladi: qolgan mijozlarning yuki ham kunlab kutadi. Tovar musodara qilinadi, yuk egasiga jarima; kechikish va tekshiruv xarajatlari yuk egasiga tushadi.
 4. **Jinoiy javobgarlik.** Narkotik, qurol, dron va portlovchi moddalar uchun maʼmuriy jarima bilan tugamaydi — Jinoyat kodeksi qoʻllanadi; dron uchun 244-4-modda boʻyicha 3 yilgacha, takroran 3–5 yil.

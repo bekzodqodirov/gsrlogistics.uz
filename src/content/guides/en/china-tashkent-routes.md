@@ -46,15 +46,15 @@ Cargo reaches Tashkent from China by one of four routes: **road through Kazakhst
 
 ## How does the main route through Khorgos work?
 
-The Khorgos route is the road corridor through the Khorgos border crossing in China's Ili prefecture (Nur Zholy on the Kazakh side). Most consolidated freight from China to Uzbekistan travels this way today: the crossing is open all year, the terrain is flat, and Kazakhstan offers two independent entry points.
+The Khorgos route is the road corridor through the Khorgos border crossing in China’s Ili prefecture (Nur Zholy on the Kazakh side). Most consolidated freight from China to Uzbekistan travels this way today: the crossing is open all year, the terrain is flat, and Kazakhstan offers two independent entry points.
 
 From Yiwu to Tashkent a truck passes these points:
 
 1. **Yiwu (义乌) → Xiʼan** — about 1,300 km. The Yiwu warehouse receives the cargo, weighs and measures it, sends a photo report and loads it onto the truck. Cargo from Guangzhou and Shenzhen joins the main truck here.
-2. **Xiʼan → Lanzhou → Urumqi** — about 2,500 km on China's G30 expressway, 3–4 days. Urumqi is the last major logistics hub in Xinjiang; many cargo companies regroup consignments there.
+2. **Xiʼan → Lanzhou → Urumqi** — about 2,500 km on China’s G30 expressway, 3–4 days. Urumqi is the last major logistics hub in Xinjiang; many cargo companies regroup consignments there.
 3. **Urumqi → Khorgos** — 650 km. Export clearance on the Chinese side, a transit declaration on the Kazakh side (Nur Zholy). The backup crossing is **Alashankou → Dostyk**: it sits next to the railway, and the truck queue there is often shorter.
 4. **Khorgos → Almaty → Shymkent** — about 1,000 km across Kazakhstan, 2–3 days.
-5. **Shymkent → Yallama (Gishtkuprik) → Tashkent** — 120 km. Yallama is Uzbekistan's busiest road border post; an electronic queue for trucks has operated there since June 2025. The cargo enters a temporary storage warehouse, the customs declaration (GTD) is filed, and the goods arrive at the GSR warehouse.
+5. **Shymkent → Yallama (Gishtkuprik) → Tashkent** — 120 km. Yallama is Uzbekistan’s busiest road border post; an electronic queue for trucks has operated there since June 2025. The cargo enters a temporary storage warehouse, the customs declaration (GTD) is filed, and the goods arrive at the GSR warehouse.
 
 The total distance from Yiwu is roughly 5,000 km with 8–10 days of pure driving; the remaining days go to queues at two borders, consolidation and customs clearance. That is why we quote 15–25 days; record consignments have arrived in 12–13 days.
 
@@ -77,22 +77,24 @@ What slows it down:
 
 - **Congestion at Dostyk and Altynkol.** In the first half of 2025 Kazakhstan Railways banned empty platforms heading to Dostyk and Altynkol, with 49 trains held. The second Dostyk — Moyynty track opened in September 2025 and raised throughput by 42%.
 - **The Altynkol — Khorgos hub upgrade** finishes in 2026: from 18 to 33 train pairs a day.
-- **The China — Kyrgyzstan — Uzbekistan railway** (Kashgar → Torugart → Makmal → Jalal-Abad → Andijan) is still under construction. It is the future, not today's service: in 2026 every rail shipment comes through Kazakhstan.
+- **The China — Kyrgyzstan — Uzbekistan railway** (Kashgar → Torugart → Makmal → Jalal-Abad → Andijan) is still under construction. It is the future, not today’s service: in 2026 every rail shipment comes through Kazakhstan.
 
 Details — [Rail and container](/en/services/rail-container/).
 
 ## How does the air route work?
 
-Air cargo flies from Guangzhou (Baiyun) or Urumqi to Tashkent. The cargo is received at the China warehouse, consolidated into an air batch (2–4 days), flown in 1 day and cleared at Tashkent airport in 1–2 working days. In total roughly 3–10 days, usually 5–10. Rates start at $9/kg with volumetric weight ÷ 5000. Lithium batteries, liquids, magnets and perfume are not accepted by air — they travel only by truck or rail. Details — [Air cargo](/en/services/air-cargo/).
+Air cargo flies from Guangzhou (Baiyun) or Urumqi to Tashkent. The cargo is received at the China warehouse, consolidated into an air batch (2–4 days), flown in 1 day and cleared at Tashkent airport in 1–2 working days. In total roughly 3–10 days, usually 5–10. Rates start at $9/kg with volumetric weight ÷ 5 000. Lithium batteries, liquids, magnets and perfume are not accepted by air — they travel only by truck or rail. Details — [Air cargo](/en/services/air-cargo/).
 
 ## The four routes in one table
 
 | Route | Distance | Transit | Cost | Risks |
 |---|---|---|---|---|
-| Road via Khorgos or Dostyk (Kazakhstan) | ≈ 5,000 km from Yiwu | 15–25 days (express 13–18) | $$ — $6.50–7.50/kg or $110–190/m³ | Queues at Khorgos and Yallama (3–7 days before holidays), winter snow |
+| Road via Khorgos or Dostyk (Kazakhstan) | ≈ 5,000 km from Yiwu | 15–25 days (express 13–18) | $$ — from $110/m³ (by density, up to $320/m³) | Queues at Khorgos and Yallama (3–7 days before holidays), winter snow |
 | Road via Irkeshtam or Torugart (Kyrgyzstan) | 300–1,000 km shorter to Andijan | 9–15 days (Andijan) | $$ — same tier as Khorgos; Tashkent +350 km | Pass closures in winter, posts closed on holidays, extra transit paperwork |
 | Rail via Dostyk or Altynkol → Saryagash | ≈ 4,500–6,000 km depending on the station | 20–35 days | $ — 20 ft $2,800–5,500 | Gauge change at the border, platform shortages, terminal queues |
 | Air Guangzhou or Urumqi → Tashkent | ≈ 5,000 km / ≈ 1,300 km | 3–10 days | $$$ — $9–12/kg | Restricted goods, flight schedules, capacity shortages around holidays |
+
+Truck cargo is priced not per kilogram but **by density**: divide the total weight (kg) by the total volume (m³), and the resulting density sets the price per m³ — $110/m³ for cargo up to 100 kg/m³, rising to $320/m³ for 701–1,000 kg/m³; cargo at 1,000 kg/m³ and above is charged at $0.55/kg. For example, 300 kg in 1.2 m³ is 250 kg/m³ — the 201–250 band, $180/m³ — so 1.2 × 180 = **$216**; 180 kg in 2 m³ is 90 kg/m³, that is $110/m³, so 2 × 110 = **$220**. That is why lighter but bulkier cargo can cost more. The minimum billable volume is 0.1 m³; prices are indicative, and duty and VAT are calculated separately.
 
 *Distances, transit times and prices are estimates · Updated September 8, 2026. Transit counts from departure from the China warehouse. A detailed price comparison of the three modes is in the guide [Air, truck or rail](/en/guides/air-vs-truck-vs-rail/).*
 
@@ -103,7 +105,7 @@ For consolidated freight our default route is **Yiwu → Urumqi → Khorgos → 
 An alternative makes sense if:
 
 - the cargo is going **to Andijan, Fergana or Namangan** — Irkeshtam or Torugart saves 3–6 days;
-- the lot is **one client's shipment above 25 m³** — a rail container comes out cheaper;
+- the lot is **one client’s shipment above 25 m³** — a rail container comes out cheaper;
 - the goods are **light, valuable and urgent** — air;
 - a **holiday queue has formed at Khorgos** — your manager proposes Dostyk or the Kyrgyz route.
 
@@ -122,7 +124,7 @@ We pick the route together with you: tell us what the goods are, their weight, v
 
 ## How do you know where your cargo is?
 
-Every consignment has a cargo code. Your manager reports its status on Telegram; if you enter the code on the [Tracking](/en/tracking/) page, the request goes straight to the manager. On the main route the statuses change in this order:
+Every consignment of yours travels under your GS code: the GS code (shipping mark) is what your supplier writes on every carton before dispatch. Your manager reports the cargo’s status on Telegram; if you enter the GS code on the [Tracking](/en/tracking/) page, the request goes straight to the manager. On the main route the statuses change in this order:
 
 1. **At the Yiwu warehouse** — cargo received, weighed, photo report sent.
 2. **Loaded** — the slot number and truck date are known.
@@ -133,6 +135,6 @@ Every consignment has a cargo code. Your manager reports its status on Telegram;
 7. **At the Tashkent warehouse** — collect it yourself or we forward it to your region.
 8. **Delivered.**
 
-> **Manager's tip.** When the truck reaches Khorgos, ask your manager to double-check the customs documents (invoice, packing list, HS code): if everything is ready by the time the truck reaches Yallama, clearance in Tashkent takes one day and the cargo enters the warehouse without waiting in line.
+> **Manager’s tip.** When the truck reaches Khorgos, ask your manager to double-check the customs documents (invoice, packing list, HS code): if everything is ready by the time the truck reaches Yallama, clearance in Tashkent takes one day and the cargo enters the warehouse without waiting in line.
 
-Not sure which route fits — write to us with the goods, an approximate weight and your city: your manager compares the Khorgos, Kyrgyz and rail options by transit time and price.
+Not sure which route fits — write to us with the goods, an approximate weight and volume, and your city: your manager compares the Khorgos, Kyrgyz and rail options by transit time and price.

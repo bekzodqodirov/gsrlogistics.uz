@@ -12,12 +12,16 @@ const descriptions: Record<Lang, string> = {
   en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent.',
 };
 
+/** How a China receiving point is labelled in structured data — never as a GSR facility. */
+const receivingPoint: Record<Lang, string> = { uz: 'qabul punkti', ru: 'пункт приёма', en: 'receiving point' };
+
 /** Organization + LocalBusiness node, shared @id across locales. */
 export function organizationNode(lang: Lang) {
   return {
     '@type': ['Organization', 'LocalBusiness'],
     '@id': ORG_ID,
     name: site.name,
+    legalName: site.legalName,
     alternateName: ['GSR Group', 'The Great Silk Road Group'],
     url: SITE,
     logo: { '@type': 'ImageObject', url: `${SITE}/icons/icon-512.png`, width: 512, height: 512 },
@@ -46,7 +50,23 @@ export function organizationNode(lang: Lang) {
     availableLanguage: ['uz', 'ru', 'en', 'zh'],
     knowsAbout: ['freight forwarding', 'China to Uzbekistan cargo', 'consolidated cargo', 'customs clearance Uzbekistan', 'product sourcing in China', '1688 buying agent'],
     sameAs: [telegramUrl, instagramUrl, facebookUrl, site.yandexMapsUrl].filter(Boolean),
-    contactPoint: [{ '@type': 'ContactPoint', telephone: site.phoneE164, contactType: 'sales', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: site.telegramDirect }],
+    contactPoint: [
+      { '@type': 'ContactPoint', telephone: site.phoneE164, contactType: 'sales', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: site.telegramDirect },
+      { '@type': 'ContactPoint', telephone: site.phone2E164, contactType: 'customer support', availableLanguage: ['uz', 'ru'] },
+    ],
+    // The three China receiving points, so an assistant answering "where do I send my goods" has them.
+    // Named "receiving point", not "GSR Logistics <city>": who operates each one is not established.
+    location: site.chinaWarehouses.map((w) => ({
+      '@type': 'Place',
+      name: `${w.city[lang]} (${w.cityZh}) — ${receivingPoint[lang]}`,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: w.localityZh,
+        addressRegion: w.regionZh,
+        addressCountry: 'CN',
+        ...(site.publishChinaAddresses ? { streetAddress: w.address } : {}),
+      },
+    })),
   };
 }
 
