@@ -30,7 +30,7 @@ const uz: AboutStrings = {
     heading: 'Qanday ishlaymiz?',
     items: [
       { title: 'Halollik', text: 'Narx, muddat va javobgarlik shartnomada. Yashirin toʻlovlar yoʻq: hajmiy vazn formulasi va zichlik qoidasi saytda ochiq.' },
-      { title: 'Ochiqlik', text: 'Har qabulda foto-hisobot, yoʻlda menejer xabari, Toshkentda yuk kodi boʻyicha holat. Savolingizga «keyin» emas, hozir javob beramiz.' },
+      { title: 'Ochiqlik', text: 'Har qabulda foto-hisobot, yoʻlda menejer xabari, Toshkentda yuk kodi boʻyicha holat. Savolingizga aniq javob beramiz — «keyin aytamiz» degan gap yoʻq.' },
       { title: 'Sifat', text: 'Yukni Xitoyning oʻzida tekshiramiz: soni, holati, qadoqlash. Shikastlangan yoki notoʻgʻri tovar Toshkentga yetib kelmasdan oldin hal boʻladi.' },
       { title: 'Til toʻsigʻi yoʻq', text: 'Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi. Yetkazib beruvchi bilan muzokarani biz olib boramiz.' },
     ],

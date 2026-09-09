@@ -51,7 +51,7 @@ const uz: ContactStrings = {
   seoDescription: 'GSR Logistics bilan bogʻlaning: Toshkent, Alisher Navoiy koʻchasi 27 (metro yonida), Du–Sha 9:00–19:00. Telegram, telefon, Instagram va soʻrov formasi — Xitoydan yuk boʻyicha.',
   eyebrow: 'Aloqa',
   h1: 'Aloqa',
-  intro: 'GSR Logistics ofisi — {address}, Alisher Navoiy metro bekati yonida. Ish vaqti: {hours}. Eng tez javob — Telegramda; telefon orqali ham bogʻlanishingiz yoki quyidagi formani toʻldirishingiz mumkin.',
+  intro: 'GSR Logistics ofisi — {address}, Alisher Navoiy metro bekati yonida. Ish vaqti: {hours}. Telegramda yozishingiz, telefon qilishingiz yoki quyidagi formani toʻldirishingiz mumkin.',
   card: {
     title: 'Rekvizitlar',
     addressLabel: 'Manzil',

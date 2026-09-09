@@ -7,7 +7,7 @@ interface Props { lang: Lang; items: CrumbItem[]; class?: string }
 const { lang, items, class: className } = Astro.props;
 const all: CrumbItem[] = [{ name: common[lang].breadcrumbHome, key: 'home' }, ...items];
 ---
-<nav aria-label="Breadcrumb" class:list={['breadcrumbs-nav', className]}>
+<nav aria-label={common[lang].header.breadcrumbLabel} class:list={['breadcrumbs-nav', className]}>
   <ol class="breadcrumbs" role="list">
     {all.map((c, i) => {
       const last = i === all.length - 1;

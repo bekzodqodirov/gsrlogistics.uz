@@ -189,7 +189,7 @@ const uz: PricingStrings = {
       head: ['Tovar toifasi', '1 kg narxi'],
       rows: { standard: 'Oddiy tovarlar (kundalik mahsulotlar, kiyim, aksessuar)', brand: 'Brend (original, qutisi bilan)', commercial: 'Seriya / tijorat (bir xildan 3+ dona, elektronika)', battery: 'Batareyali tovarlar (power bank, akkumulyator)', liquid: 'Suyuqlik, kosmetika, atir' },
       truckOnly: 'faqat avto',
-      note: 'Minimal hisob vazni — {minKg} kg. Muddat: taxminan {days} kun, reysdan keyin. Batareya, magnit va suyuqlik samolyotga olinmaydi — ular avto bilan yuradi.',
+      note: 'Minimal hisob vazni — {minKg} kg. Muddat: taxminan {days} kun — yuk Xitoy omboridan joʻnatilgandan hisoblanadi. Batareya, magnit va suyuqlik samolyotga olinmaydi — ular avto bilan yuradi.',
     },
     rail: {
       title: 'Temir yoʻl va konteyner narxlari',

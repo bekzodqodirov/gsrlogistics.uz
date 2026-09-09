@@ -19,7 +19,7 @@ const content: ServiceContentByLang = {
       eyebrow: 'Xizmat 09 — Avtomobil',
       h1: 'Xitoydan avtomobil va elektromobil buyurtma asosida',
       intro:
-        'Xitoydan avtomobil olib kelish — bu tanlangan modelni Xitoydagi dilerdan yoki zavoddan sotib olib, Xorgos orqali Toshkentga yetkazish, bojxonada rasmiylashtirish va roʻyxatdan oʻtkazish. BYD, Zeekr, Li Auto (Lixiang), Leapmotor va boshqa brendlarning yangi hamda kam yurgan avtomobillarini buyurtma asosida keltiramiz. Shartnomadan kalitni topshirishgacha taxminan 25–45 kun. Boj, aksiz, QQS va utilizatsiya yigʻimi dvigatel hajmi va batareyaga bogʻliq — aniq summani buyurtmadan oldin hisoblab beramiz.',
+        'Xitoydan avtomobil olib kelish — bu tanlangan modelni Xitoydagi dilerdan yoki zavoddan sotib olib, Xorgos orqali Toshkentga yetkazish, bojxonada rasmiylashtirish va roʻyxatdan oʻtkazish. BYD, Zeekr, Li Auto (Lixiang), Leapmotor va boshqa brendlarning yangi hamda kam yurgan avtomobillarini buyurtma asosida keltiramiz. Shartnomadan kalitni topshirishgacha taxminan 25–45 kun. Boj, aksiz, QQS va utilizatsiya yigʻimi dvigatel hajmiga va batareya quvvatiga bogʻliq — aniq summani buyurtmadan oldin hisoblab beramiz.',
       facts: [
         { label: 'Muddat, shartnomadan kalitgacha', value: '25–45 kun' },
         { label: 'Brendlar, masalan', value: 'BYD · Zeekr · Li Auto' },
@@ -67,7 +67,7 @@ const content: ServiceContentByLang = {
           'Buyurtmadan oldin siz tanlagan aniq model uchun barcha toʻlovlarni joriy qonunchilik boʻyicha hisoblab, shartnomaga kiritamiz. Toʻlovlar rasmiy kvitansiya boʻyicha, sizning nomingizga toʻlanadi — avtomobil sizning mulkingiz sifatida roʻyxatdan oʻtadi.',
         ],
         table: {
-          caption: 'Avtomobil importida nimadan nima bogʻliq',
+          caption: 'Avtomobil importida nima nimaga bogʻliq',
           head: ['Toʻlov', 'Nimaga bogʻliq', 'Kim toʻlaydi'],
           rows: [
             ['Bojxona boji', 'avtomobil turi, dvigatel hajmi, yoshi', 'siz, rasmiy kvitansiya boʻyicha'],
@@ -114,7 +114,7 @@ const content: ServiceContentByLang = {
       { q: 'Xitoydan avtomobil olib kelish necha kun?', a: 'Diler omborida tayyor avtomobil uchun shartnomadan kalitgacha taxminan 25–45 kun: xarid va eksport 5–10 kun, yoʻl 10–20 kun, bojxona va roʻyxat 5–10 kun. Zavodga buyurtma qilinadigan komplektatsiya va Xitoy bayramlari muddatni uzaytiradi.' },
       { q: 'Elektromobil uchun boj va utilizatsiya yigʻimi qancha?', a: 'Summalar batareya quvvati, motor kuchi va avtomobil yoshiga bogʻliq, imtiyozlar muddatli va oʻzgarib turadi — shuning uchun sahifada stavka yozmaymiz. Siz tanlagan model uchun barcha toʻlovlarni buyurtmadan oldin hisoblab, shartnomaga kiritamiz.' },
       { q: 'Tayyor avtomobillaringiz bormi?', a: 'Yoʻq, biz ombor saqlamaymiz — har bir avtomobil buyurtma asosida, siz tanlagan model, komplektatsiya va rangda sotib olinadi. Shu tufayli siz dilerning haqiqiy narxini invoys bilan koʻrasiz.' },
-      { q: 'Kam yurgan (probegli) avtomobil buyurtsam boʻladimi?', a: 'Ha. Xitoyda dilerlar 1–3 yillik kam yurgan avtomobillarni sotadi. Sotib olishdan oldin yurgan masofa, batareya holati va kuzov tekshiruvi hisobotini foto bilan yuboramiz; avtomobil yoshi bojxona toʻlovlariga taʼsir qiladi — buni hisobda koʻrsatamiz.' },
+      { q: 'Kam yurgan avtomobilga buyurtma bersam boʻladimi?', a: 'Ha. Xitoyda dilerlar 1–3 yillik kam yurgan avtomobillarni sotadi. Sotib olishdan oldin yurgan masofa, batareya holati va kuzov tekshiruvi hisobotini foto bilan yuboramiz; avtomobil yoshi bojxona toʻlovlariga taʼsir qiladi — buni hisobda koʻrsatamiz.' },
       { q: 'Avtomobil kimning nomiga rasmiylashtiriladi?', a: 'Sizning nomingizga: GTD, toʻlov kvitansiyalari va texnik pasport sizga tegishli boʻladi. GSR sotib olish, yetkazish va rasmiylashtiruvni shartnoma boʻyicha yuritadi.' },
       { q: 'Toʻlov qanday tartibda boʻladi?', a: 'Shartnomada belgilanadi: avtomobil narxi va Xitoydagi xarajatlar xariddan oldin, bojxona toʻlovlari avtomobil Toshkentga kelganda rasmiy kvitansiya boʻyicha, xizmat haqi topshirishda. Aniq ulushlar shartnomada yoziladi.' },
       { q: 'Xitoy elektromobilini Oʻzbekistonda zaryadlash mumkinmi?', a: 'Ha. Xitoy modellarining koʻpi GB/T porti bilan chiqadi; Oʻzbekistondagi zaryadlash stansiyalarida GB/T keng tarqalgan, CCS2 uchun adapter kerak boʻlishi mumkin. Uy zaryadlovchisi (7 kVt) koʻp modellarga komplektda keladi — tanlashda tekshirib beramiz.' },

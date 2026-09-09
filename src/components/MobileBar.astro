@@ -8,7 +8,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = common[lang];
 ---
-<div class="mobile-bar" role="region" aria-label="Quick actions">
+<div class="mobile-bar" role="region" aria-label={t.header.quickActions}>
   <a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener" class="mb-item mb-primary"><span class="mb-pill"><Icon name="telegram" size={18} /></span><span>{t.bar.telegram}</span></a>
   <a href={phoneUrl} class="mb-item"><Icon name="phone" size={20} /><span>{t.bar.call}</span></a>
   <a href={pagePath(lang, 'calculator')} class="mb-item"><Icon name="calculator" size={20} /><span>{t.bar.price}</span></a>

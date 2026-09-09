@@ -31,7 +31,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Sotib olish xizmati qanday ishlaydi?',
         body: [
-          'Xitoy saytlari faqat xitoy bank kartasi yoki Alipay bilan toʻlovni qabul qiladi, sotuvchilar faqat xitoy tilida yozadi, tovar esa faqat Xitoy ichidagi manzilga joʻnatiladi. Biz shu uch toʻsiqni olib tashlaymiz: toʻlaymiz, yozishamiz va Ivu omborimizning manzilini beramiz.',
+          'Xitoy saytlari faqat xitoy bank kartasi yoki Alipay bilan toʻlovni qabul qiladi, sotuvchilar faqat xitoy tilida yozadi, tovar esa faqat Xitoy ichidagi manzilga joʻnatiladi. Biz shu uch toʻsiqni olib tashlaymiz: toʻlaymiz, yozishamiz va Ivu omborining manzilini beramiz.',
         ],
         steps: [
           { title: 'Havolani yuborasiz', text: 'Telegramda tovar havolasi, rangi, oʻlchami va sonini yozasiz. Bir xabarda 1 ta ham, 50 ta ham havola boʻlishi mumkin; sayt ilovasidagi «ulashish» tugmasi yetarli.' },
@@ -79,7 +79,7 @@ const content: ServiceContentByLang = {
             ['Pinduoduo', 'eng arzon mayda tovarlar, sinov uchun', '1 dona', 'sifat turlicha; Ivuda tekshiruv va foto tavsiya etiladi'],
             ['Alibaba.com', 'eksport buyurtmalari, dollarda, katta partiya, shartnoma', '100–500 dona', 'Trade Assurance; narx FOB/EXW deb koʻrsatiladi'],
           ],
-          note: 'Saytlar Xitoy ichidagi manzilga joʻnatadi — Ivu omborimiz manzili sizga buyurtmadan oldin beriladi.',
+          note: 'Saytlar Xitoy ichidagi manzilga joʻnatadi — Ivu ombori manzilini buyurtmadan oldin beramiz.',
         },
       },
       {
