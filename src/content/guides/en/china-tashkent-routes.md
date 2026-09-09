@@ -89,10 +89,12 @@ Air cargo flies from Guangzhou (Baiyun) or Urumqi to Tashkent. The cargo is rece
 
 | Route | Distance | Transit | Cost | Risks |
 |---|---|---|---|---|
-| Road via Khorgos or Dostyk (Kazakhstan) | ≈ 5,000 km from Yiwu | 15–25 days (express 13–18) | $$ — $6.50–7.50/kg or $110–190/m³ | Queues at Khorgos and Yallama (3–7 days before holidays), winter snow |
+| Road via Khorgos or Dostyk (Kazakhstan) | ≈ 5,000 km from Yiwu | 15–25 days (express 13–18) | $$ — from $110/m³ (by density, up to $320/m³) | Queues at Khorgos and Yallama (3–7 days before holidays), winter snow |
 | Road via Irkeshtam or Torugart (Kyrgyzstan) | 300–1,000 km shorter to Andijan | 9–15 days (Andijan) | $$ — same tier as Khorgos; Tashkent +350 km | Pass closures in winter, posts closed on holidays, extra transit paperwork |
 | Rail via Dostyk or Altynkol → Saryagash | ≈ 4,500–6,000 km depending on the station | 20–35 days | $ — 20 ft $2,800–5,500 | Gauge change at the border, platform shortages, terminal queues |
 | Air Guangzhou or Urumqi → Tashkent | ≈ 5,000 km / ≈ 1,300 km | 3–10 days | $$$ — $9–12/kg | Restricted goods, flight schedules, capacity shortages around holidays |
+
+Truck cargo is priced not per kilogram but **by density**: divide the total weight (kg) by the total volume (m³), and the resulting density sets the price per m³ — $110/m³ for cargo up to 100 kg/m³, rising to $320/m³ for 701–1,000 kg/m³; anything denser than 1,000 kg/m³ is charged at $0.55/kg. For example, 300 kg in 1.2 m³ is 250 kg/m³, so 1.2 × 180 = **$216**; 180 kg in 2 m³ is 90 kg/m³, so 2 × 110 = **$220**. That is why lighter but bulkier cargo can cost more. The minimum billable volume is 0.1 m³; prices are indicative, and duty and VAT are calculated separately.
 
 *Distances, transit times and prices are estimates · Updated September 8, 2026. Transit counts from departure from the China warehouse. A detailed price comparison of the three modes is in the guide [Air, truck or rail](/en/guides/air-vs-truck-vs-rail/).*
 
@@ -135,4 +137,4 @@ Every consignment of yours travels under your GS code: the GS code (shipping mar
 
 > **Manager’s tip.** When the truck reaches Khorgos, ask your manager to double-check the customs documents (invoice, packing list, HS code): if everything is ready by the time the truck reaches Yallama, clearance in Tashkent takes one day and the cargo enters the warehouse without waiting in line.
 
-Not sure which route fits — write to us with the goods, an approximate weight and your city: your manager compares the Khorgos, Kyrgyz and rail options by transit time and price.
+Not sure which route fits — write to us with the goods, an approximate weight and volume, and your city: your manager compares the Khorgos, Kyrgyz and rail options by transit time and price.

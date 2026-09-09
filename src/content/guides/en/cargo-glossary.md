@@ -9,9 +9,9 @@ updatedDate: 2026-09-08
 tags: [glossary, truck, customs, warehouse]
 faq:
   - q: "Are “cargo” and “logistics” the same thing?"
-    a: "No. In Uzbekistan “kargo” is the everyday name for the China-to-Uzbekistan shipping service, usually priced per kg. Logistics is the wider discipline: planning the route, warehouse, documents and customs."
+    a: "No. In Uzbekistan “kargo” is the everyday name for the China-to-Uzbekistan shipping service, priced per kg by air and per m³ by truck. Logistics is the wider discipline: planning the route, warehouse, documents and customs."
   - q: "What happens if volumetric weight is higher than actual weight?"
-    a: "You pay for the larger one. A 20 kg box of 60×50×40 cm gives 120,000 ÷ 6 000 = 20 kg — equal; at 80×60×50 cm it becomes 40 kg and volumetric weight applies."
+    a: "By air you pay for the larger one: a 20 kg box of 80×60×50 cm gives 240,000 ÷ 5,000 = 48 kg, so you pay for 48 kg. By truck volumetric weight does not set the price — the same box is 0.24 m³, its density is 20 ÷ 0.24 ≈ 83 kg/m³, which sits in the $110 per m³ band: 0.24 × 110 = $26.40 (indicative)."
   - q: "What is a GTD and do I need one?"
     a: "GTD is the cargo customs declaration. It is issued when a legal entity or sole trader imports officially and is the basis for selling goods in a shop or on a marketplace. Small personal parcels do not get a GTD."
 sources:
@@ -31,13 +31,13 @@ This cargo glossary explains, in plain words, the 40 terms that managers, custom
 ## Cargo types and services
 
 ### Cargo (“kargo”)
-The everyday Uzbek name for the China-to-Uzbekistan shipping service (also searched as “kitay kargo”, “карго из Китая”). Usually sold per kg in US dollars and includes intake at the China warehouse, consolidation, the border and delivery to Tashkent.
+The everyday Uzbek name for the China-to-Uzbekistan shipping service (also searched as “kitay kargo”, “карго из Китая”). Priced in US dollars: per kg by air, and per m³ by truck depending on the density of the cargo (from $110 per m³). The service covers intake at the China warehouse, consolidation, the border and delivery to Tashkent.
 
 ### Consolidated cargo (LCL)
-Several clients’ goods travel in one truck or container. You pay only for your space (kg or m³), not for the whole container. GSR Logistics’ core service.
+Several clients’ goods travel in one truck or container. You pay only for your space, not for the whole container: per m³ by truck, per kg by air. GSR Logistics’ core service.
 
 ### Truck cargo
-Delivery by truck from China through Kazakhstan to Tashkent, roughly 15–25 days. The most economical option for heavy and bulky goods.
+Delivery by truck from China through Kazakhstan to Tashkent, roughly 15–25 days. The most economical option for heavy and bulky goods. Priced per m³ by the density of the cargo, from $110 per m³ (indicative).
 
 ### Air cargo
 Delivery by plane, roughly 5–10 days. For urgent, light and high-value goods. Lithium batteries, liquids and magnets are not accepted by air.
@@ -69,19 +69,19 @@ Photos taken when goods arrive at the warehouse: packaging, quantity, condition,
 Weight on the scale, in kg.
 
 ### Volumetric weight
-A “weight” calculated from the box dimensions: length × width × height (cm) ÷ 6 000 (truck) or ÷ 5 000 (air). You pay for the greater of actual and volumetric weight.
+A “weight” calculated from the box dimensions: length × width × height (cm) ÷ 5,000 (air) or ÷ 6,000 (truck). By air you pay for the greater of actual and volumetric weight. By truck it no longer sets the price — density does; there volumetric weight is only a quick way to judge how bulky a shipment is.
 
 ### Density, kg/m³
-Weight divided by volume: 300 kg ÷ 2 m³ = 150 kg/m³. Above 170 kg/m³ the price is per kg; below it, per m³.
+Weight divided by volume: 300 kg ÷ 2 m³ = 150 kg/m³. This is exactly where the truck price comes from: whichever band the density falls into sets the price of one m³. 150 kg/m³ sits in the $130 per m³ band, so 2 × 130 = $260; 48 kg in 0.2 m³ gives 240 kg/m³ and 0.2 × 180 = $36 (indicative).
 
 ### Cubic metre (m³)
-One cubic metre of volume. Light, bulky goods (toys, plastics, furniture) are priced in this unit.
+One cubic metre of volume. All truck cargo is priced in this unit — from $110 per m³ depending on density; light, bulky goods (toys, plastics, furniture) land on the lowest bands.
 
 ### Minimum charge
 The smallest billable amount: for example 0.5 kg by air or 0.1 m³ for consolidated cargo.
 
 ### Rate ladder
-The per-kg price falls as weight grows: for example three rates for 0–30 kg / 30–100 kg / 100+ kg.
+The steps in the price table. For truck cargo the steps go by density, not weight: up to 100 kg/m³ costs $110 per m³, 101–150 is $130, 151–200 is $160, 201–250 is $180, and so on up to $320 per m³ for 701–1,000 kg/m³; cargo denser than 1,000 kg/m³ is charged at $0.55 per kg. Air cargo is priced per kg.
 
 ### Insurance
 Compensation at declared value if cargo is lost or damaged. Usually around 1% of the value.

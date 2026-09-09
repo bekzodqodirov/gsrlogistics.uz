@@ -89,10 +89,12 @@ Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk X
 
 | Yoʻl | Masofa | Muddat | Narx | Xavflar |
 |---|---|---|---|---|
-| Avto, Xorgos yoki Doʻstiq orqali (Qozogʻiston) | ≈ 5 000 km Ivudan | 15–25 kun (ekspress 13–18) | $$ — 6,5–7,5 $/kg yoki 110–190 $/m³ | Xorgos va Yallamada navbat (bayram oldi 3–7 kun), qishda qor |
+| Avto, Xorgos yoki Doʻstiq orqali (Qozogʻiston) | ≈ 5 000 km Ivudan | 15–25 kun (ekspress 13–18) | $$ — 110 $/m³ dan (zichlik boʻyicha, 320 $/m³ gacha) | Xorgos va Yallamada navbat (bayram oldi 3–7 kun), qishda qor |
 | Avto, Irkeshtam yoki Torugart orqali (Qirgʻiziston) | Andijonga 300–1 000 km qisqa | 9–15 kun (Andijon) | $$ — Xorgos bilan teng; Toshkent +350 km | Qishda dovon yopilishi, bayramda post yopiq, qoʻshimcha tranzit |
 | Temir yoʻl, Doʻstiq yoki Oltinkoʻl → Saryagash | ≈ 4 500–6 000 km stansiyaga qarab | 20–35 kun | $ — 20 fut 2 800–5 500 $ | Chegarada iz almashtirish, platforma yetishmasligi, terminal navbati |
 | Avia, Guanchjou yoki Urumchi → Toshkent | ≈ 5 000 km / ≈ 1 300 km | 3–10 kun | $$$ — 9–12 $/kg | Taqiqlangan tovarlar, reys jadvali, bayramda joy tanqisligi |
+
+Avto kargo narxi kilogramm boʻyicha emas, **zichlik boʻyicha** hisoblanadi: umumiy vaznni (kg) umumiy hajmga (m³) boʻlasiz va chiqqan zichlik m³ narxini beradi — 100 kg/m³ gacha yuk uchun 110 $/m³, 701–1 000 kg/m³ uchun 320 $/m³; 1 000 kg/m³ dan zich yuk 0,55 $/kg boʻyicha hisoblanadi. Masalan, 1,2 m³ da 300 kg — zichlik 250 kg/m³, narx 1,2 × 180 = **216 $**; 2 m³ da 180 kg — zichlik 90 kg/m³, narx 2 × 110 = **220 $**. Shuning uchun yengilroq, lekin katta hajmli yuk qimmatroq tushishi mumkin. Eng kam hisob hajmi — 0,1 m³; narxlar taxminiy, boj va QQS alohida hisoblanadi.
 
 *Masofa, muddat va narxlar taxminiy · Yangilangan: 2026-yil 8-sentabr. Muddat yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi. Uch transport turini narx boʻyicha batafsil taqqoslash — [Avia, avto yoki temir yoʻl](/qollanma/avia-avto-temir-yol-taqqoslash/) qoʻllanmasida.*
 
@@ -135,4 +137,4 @@ Har bir yukingiz sizning GS kodingiz ostida ketadi: GS kod (markirovka) — yetk
 
 > **Menejer maslahati.** Fura Xorgosga yetganda menejerdan bojxona hujjatlarini (invoys, qadoqlash roʻyxati, TN VED kodi) tekshirib qoʻyishni soʻrang: Yallamaga kelguncha hamma narsa tayyor boʻlsa, Toshkentda rasmiylashtiruv bir kunda tugaydi va yuk omborga navbatsiz tushadi.
 
-Yoʻlni tanlashda ikkilansangiz — yukning nomi, taxminiy vazni va shahringizni yozing: menejer Xorgos, Qirgʻiziston va temir yoʻl variantlarini muddat va narx bilan taqqoslab beradi.
+Yoʻlni tanlashda ikkilansangiz — yukning nomi, taxminiy vazni, hajmi va shahringizni yozing: menejer Xorgos, Qirgʻiziston va temir yoʻl variantlarini muddat va narx bilan taqqoslab beradi.
