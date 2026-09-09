@@ -205,7 +205,9 @@ const uid = (s: string) => `${id}-${s}`;
   .quick-row dd { margin: 0; font-weight: 600; color: var(--fg); }
   .empty { display: grid; gap: 10px; }
   .empty-text { color: var(--muted); }
-  .is-placeholder { color: var(--meta); }
+  /* same specificity as .total-usd, so it has to name both or the brand red wins and the empty
+     state paints two disconnected red marks at display size */
+  .total-usd.is-placeholder { color: var(--meta); }
   .result-body { display: grid; gap: 10px; }
   .total { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
   .total-usd { color: var(--accent-text); font-size: clamp(2.25rem, 2.6vw + 1.2rem, 3.5rem); overflow-wrap: anywhere; }

@@ -168,9 +168,11 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey .jcard-body { color: var(--muted); font-size: var(--text-body); text-wrap: pretty; }
   .journey .jcard-facts { margin-top: 14px; font-size: var(--text-small); font-weight: 500; color: var(--fg-2); }
   .journey .jcard-transit { margin-top: 16px; }
-  .journey .jchips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .journey .jchip { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: var(--radius-pill); border: 1px solid rgb(255 255 255 / 0.22); color: var(--muted); font-size: var(--text-small); font-weight: 500; line-height: 1; transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
-  .journey .jchip-days { color: inherit; opacity: 0.8; }
+  /* three equal columns, label over range: a single flex row wraps 1+2 once the ranges are printed,
+     and the wrap point differs between desktop and mobile, so the same card reads differently on each */
+  .journey .jchips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .journey .jchip { display: grid; justify-items: center; align-content: center; gap: 3px; min-height: 44px; padding: 6px 8px; border-radius: var(--radius-lg); border: 1px solid rgb(255 255 255 / 0.22); color: var(--muted); font-size: var(--text-small); font-weight: 500; line-height: 1.1; text-align: center; transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+  .journey .jchip-days { color: inherit; opacity: 0.8; font-size: 0.75rem; white-space: nowrap; }
   .journey .jchip[aria-pressed='true'] { background: var(--gray-100); border-color: var(--gray-100); color: var(--black); }
   .journey .jchip[aria-pressed='true'] .jchip-days { opacity: 0.7; }
   .journey .jkm { display: flex; align-items: baseline; gap: 4px; margin-top: 16px; }
@@ -266,7 +268,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
     .journey.is-live .jcard-facts { margin-top: 8px; font-size: 0.8125rem; }
     .journey.is-live .jcard-transit { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: start; margin-top: 10px; }
     .journey.is-live .jchips { grid-column: 1 / -1; gap: 4px; }
-    .journey.is-live .jchip { min-height: 30px; padding: 0 9px; font-size: 0.8125rem; gap: 4px; }
+    .journey.is-live .jchip { min-height: 44px; padding: 5px 4px; font-size: 0.8125rem; gap: 2px; }
     .journey.is-live .jkm { margin-top: 4px; }
     .journey.is-live .jkm-num { font-size: 1.75rem; }
     .journey.is-live .jkm-cap { margin-top: 4px; grid-column: 1 / -1; }

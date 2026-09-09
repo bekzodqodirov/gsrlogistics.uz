@@ -18,10 +18,10 @@ export interface ServiceMeta {
 export const services: ServiceMeta[] = [
   { key: 'truck', flagship: true, icon: 'truck', slug: { uz: 'avto-kargo', ru: 'avto-kargo', en: 'truck-cargo' },
     name: { uz: 'Avto kargo (yigʻma yuk)', ru: 'Авто карго (сборный груз)', en: 'Truck cargo (consolidated)' },
-    short: { uz: 'Xitoydan Toshkentga yigʻma yuk — 15–25 kun, kg yoki m³ hisobida.', ru: 'Сборный груз из Китая в Ташкент — 15–25 дней, по кг или м³.', en: 'Consolidated cargo from China to Tashkent in 15–25 days, priced per kg or m³.' } },
+    short: { uz: 'Xitoydan Toshkentga yigʻma yuk — kg yoki m³ hisobida.', ru: 'Сборный груз из Китая в Ташкент — по кг или м³.', en: 'Consolidated cargo from China to Tashkent, priced per kg or m³.' } },
   { key: 'air', icon: 'plane', slug: { uz: 'avia-kargo', ru: 'avia-kargo', en: 'air-cargo' },
     name: { uz: 'Avia kargo', ru: 'Авиа карго', en: 'Air cargo' },
-    short: { uz: 'Shoshilinch va qimmat yuklar uchun — 5–10 kun.', ru: 'Для срочных и ценных грузов — 5–10 дней.', en: 'For urgent and high-value goods — 5–10 days.' } },
+    short: { uz: 'Shoshilinch va qimmat yuklar uchun tez yetkazib berish.', ru: 'Быстрая доставка срочных и ценных грузов.', en: 'Fast delivery for urgent and high-value goods.' } },
   { key: 'rail', icon: 'train', slug: { uz: 'temir-yol-konteyner', ru: 'zhd-konteyner', en: 'rail-container' },
     name: { uz: 'Temir yoʻl va konteyner', ru: 'Ж/д и контейнеры', en: 'Rail & containers' },
     short: { uz: '20 va 40 futlik konteynerlar, FCL va LCL — katta partiyalar uchun.', ru: 'Контейнеры 20 и 40 футов, FCL и LCL — для крупных партий.', en: '20ft and 40ft containers, FCL and LCL for large shipments.' } },

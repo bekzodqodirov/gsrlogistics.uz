@@ -1,8 +1,8 @@
 /**
  * Journey client module — imported by Journey.astro once the section is within 100 % rootMargin; init() runs only
  * when the main thread is idle (requestIdleCallback, 1.5 s timeout). Setup is split over frames so no single task
- * is long: (1) element lookup, route sampling, initial states → (2) rAF: timeline build → (3) rAF: pin + header
- * triggers (a pin queues ScrollTrigger's own full refresh for the next frame) → (5) rAF: the scrub trigger, so it is
+ * is long: (1) element lookup, route sampling, initial states → (2) rAF: timeline build → (3) rAF: the pin
+ * trigger (a pin queues ScrollTrigger's own full refresh for the next frame) → (5) rAF: the scrub trigger, so it is
  * refreshed exactly once. GSAP core + ScrollTrigger + MotionPathPlugin only.
  *
  * One gsap.timeline (0–100 "percent" units) driven by two ScrollTriggers over the same range — one pins the stage
@@ -12,8 +12,9 @@
  * start "top top", end = 5.5 × stage height (4.5 on mobile). Stage labels:
  *   s0 intro 0–8 · s1 Yiwu warehouse 8–22 · s2 loading 22–34 · s3 transit 34–60 · s4 Khorgos 60–72 ·
  *   s5 Tashkent warehouse 72–88 · s6 delivered + CTA 88–100.
- * A second, header-height-keyed ScrollTrigger over the whole section toggles `data-over-dark` on the site header,
- * so the header is solid dark whenever any part of the dark section is beneath it (pin start, pin end, the tail).
+ * The pin uses pinType "transform": the default fixed pin drops the stage out of flow on pin and unpin, and the
+ * browser scores each flip as a full-viewport layout shift. The dark header state is owned by Header.astro's
+ * IntersectionObserver over every .dark section, so it holds here even when this module never loads.
  * Camera = the HTML .cam wrapper, transform only (translate + scale). The vehicle <g> lives inside the SVG and
  * is driven along #route by MotionPathPlugin in lockstep with the route's stroke-dashoffset (pathLength="1").
  * Only transform / opacity / stroke-dashoffset are animated. will-change is set on .cam while pinned only.
@@ -106,7 +107,6 @@ export function init(root: HTMLElement): void {
     return;
   }
   const vehicleInner = vehicle.querySelector<SVGGElement>('[data-j="inner"]');
-  const header = document.getElementById('site-header');
   const lang = root.dataset.lang ?? 'uz';
   const KM = Number(root.dataset.km) || 5000;
   const verified = root.dataset.kmVerified === '1';
@@ -187,7 +187,6 @@ export function init(root: HTMLElement): void {
 
     let tl: gsap.core.Timeline | null = null;
     let pinST: ScrollTrigger | null = null;
-    let headerST: ScrollTrigger | null = null;
     let raf = 0;
 
     /* ---------- state sync: progress rail, section data-stage, mode chips + km caption ---------- */
@@ -337,15 +336,6 @@ export function init(root: HTMLElement): void {
         onToggle: (self) => { cam.style.willChange = self.isActive ? 'transform' : ''; },
         onRefresh: () => setLabelSize(),
       });
-      // header state is keyed to the header's own height over the whole 6.5× section, not to the pin
-      const hh = () => header?.offsetHeight || 64;
-      headerST = ScrollTrigger.create({
-        trigger: root,
-        start: () => `top ${hh()}px`,
-        end: () => `bottom ${hh()}px`,
-        invalidateOnRefresh: true,
-        onToggle: (self) => header?.setAttribute('data-over-dark', self.isActive ? 'true' : 'false'),
-      });
     };
     const attachScrub = () => {
       if (!tl) return;
@@ -365,11 +355,8 @@ export function init(root: HTMLElement): void {
       raf = 0;
       railBtns.forEach((b) => b.removeEventListener('click', onRail));
       chips.forEach((c) => c.removeEventListener('click', onChip));
-      headerST?.kill();
-      headerST = null;
       pinST = null;
       tl = null;
-      header?.removeAttribute('data-over-dark');
       cam.style.willChange = '';
       svg.style.removeProperty('--lbl');
       root.dataset.stage = '0';

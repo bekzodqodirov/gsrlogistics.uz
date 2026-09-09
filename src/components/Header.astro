@@ -180,5 +180,27 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
     const onScroll = () => header.setAttribute('data-scrolled', String(window.scrollY > 8));
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    // White glass over a dark band composites to mud and drops the nav below 4.5:1, so the header
+    // switches to its dark treatment whenever any .dark section sits under the header strip. The
+    // negative bottom margin shrinks the observation root to exactly that strip.
+    const darkEls = document.querySelectorAll('.dark');
+    if (darkEls.length && 'IntersectionObserver' in window) {
+      const over = new Set<Element>();
+      let io: IntersectionObserver | null = null;
+      const observe = () => {
+        io?.disconnect();
+        over.clear();
+        const strip = header.offsetHeight || 64;
+        io = new IntersectionObserver((entries) => {
+          for (const e of entries) { if (e.isIntersecting) over.add(e.target); else over.delete(e.target); }
+          header.setAttribute('data-over-dark', String(over.size > 0));
+        }, { rootMargin: `0px 0px -${Math.max(0, window.innerHeight - strip)}px 0px`, threshold: 0 });
+        darkEls.forEach((el) => io!.observe(el));
+      };
+      observe();
+      let resizeTimer = 0;
+      window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = window.setTimeout(observe, 200); });
+    }
   }
 </script>

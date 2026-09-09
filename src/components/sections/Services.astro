@@ -55,10 +55,11 @@ const truckDays = range(tariffs.truck.days[0], tariffs.truck.days[1]);
               <span class="link">{t.home.details}</span>
             </div>
             <div class="flag-stat" aria-hidden="true">
-              <svg class="microline" viewBox="0 0 120 12" width="120" height="12" fill="none">
-                <path d="M2 10 C 30 10, 50 2, 118 2" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" />
-                <circle cx="118" cy="2" r="2.5" fill="var(--accent)" />
-                <circle cx="2" cy="10" r="2" fill="var(--border)" />
+              <!-- Absolutely positioned so it stretches to the stat's width without driving the grid
+                   track; preserveAspectRatio none + non-scaling-stroke keep the stroke 1.5px at any width. -->
+              <svg class="microline" viewBox="0 0 120 12" preserveAspectRatio="none" fill="none">
+                <path d="M1 11 C 34 11, 66 1, 119 1" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+                <path d="M119 1 L119 1" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" vector-effect="non-scaling-stroke" />
               </svg>
               <p class="stat-line"><span class="stat">{truckDays}</span><span class="num-unit">{t.line.days}</span></p>
             </div>
@@ -141,8 +142,10 @@ const truckDays = range(tariffs.truck.days[0], tariffs.truck.days[1]);
   .flag-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; flex: 1; }
   .flag-copy { display: flex; flex-direction: column; gap: 12px; min-height: 100%; }
   .flag-copy .numline { margin-top: auto; }
-  .flag-stat { display: grid; justify-items: end; gap: 12px; padding-bottom: 6px; }
-  .microline { width: 120px; height: 12px; overflow: visible; }
+  .flag-stat { position: relative; display: grid; justify-items: end; padding: 22px 0 6px; }
+  /* width, not right:0 — an SVG is a replaced element, so with height set the intrinsic ratio wins
+     over the inset and it would render at its viewBox width instead of stretching. */
+  .microline { position: absolute; top: 0; left: 0; width: 100%; height: 12px; overflow: visible; }
   .stat-line { display: flex; align-items: baseline; white-space: nowrap; }
   .stat-line .stat { font-size: clamp(2.5rem, 3vw + 1.25rem, 4rem); color: var(--fg); }
 
@@ -167,7 +170,8 @@ const truckDays = range(tariffs.truck.days[0], tariffs.truck.days[1]);
     .card { padding: 20px; }
     h3 { font-size: 1.375rem; }
     .flag-body { grid-template-columns: 1fr; }
-    .flag-stat { justify-items: start; padding-top: 8px; border-top: 1px solid var(--border-soft); }
+    .flag-stat { justify-items: start; padding-top: 32px; border-top: 1px solid var(--border-soft); }
+    .microline { top: 14px; }
     .stat-line .stat { font-size: 2.25rem; }
     .compare-grid { grid-template-columns: 1fr; }
     .compare-col { padding: 0; }
