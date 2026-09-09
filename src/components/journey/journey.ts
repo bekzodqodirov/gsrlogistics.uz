@@ -284,6 +284,8 @@ export function init(root: HTMLElement): void {
       tick(3, L.s5 - 2.5);
 
       // s5: Kazakhstan → Tashkent warehouse; capsule fades at the shed, container unloads
+      // The border props belong to stage 4 only — fade them out so they do not float over Tashkent.
+      t.to([bar, stamp], { autoAlpha: 0, duration: 2.5, immediateRender: false }, L.s5);
       exit(3, L.s5);
       enter(4, L.s5 + 2.5);
       camMove(stageCam(4), stageCam(5), L.s5, 5);
