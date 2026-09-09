@@ -18,11 +18,11 @@ interface Props { lang: Lang; index?: string }
 const { lang, index = '03' } = Astro.props;
 const t = pick(lang, whyStrings);
 
-const baseRate = tariffs.truck.ladderPerKg[tariffs.truck.ladderPerKg.length - 1].rate;
-const perKg = lang === 'en' ? `$${baseRate.toFixed(2)}/kg` : `${fmtNumber(baseRate, lang)} $/${lang === 'ru' ? 'кг' : 'kg'}`;
+const baseRate = tariffs.truck.lclPerM3ByDensity[0].rate;
+const perKg = lang === 'en' ? `$${baseRate}/m³` : `${fmtNumber(baseRate, lang, 0)} $/m³`;
 const vars = {
   div: fmtNumber(tariffs.truck.volumetricDivisor, lang),
-  th: fmtNumber(tariffs.truck.densityThresholdKgM3, lang),
+  th: fmtNumber(tariffs.truck.perKgFromDensityKgM3, lang, 0),
   rate: perKg,
   year: site.foundingYear,
   address: site.address.streetAddress,

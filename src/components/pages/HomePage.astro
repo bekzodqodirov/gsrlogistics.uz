@@ -25,7 +25,7 @@ import { fmtUsd } from '@/lib/format';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 
-const fromRate = tariffs.truck.ladderPerKg.at(-1)!.rate;
+const fromRate = tariffs.truck.lclPerM3ByDensity[0].rate;
 const seo: Record<Lang, { title: string; description: string }> = {
   uz: {
     title: 'Xitoydan Toshkentga kargo: yigʻma yuk 15–25 kun, avia 5–10 kun — GSR Logistics',
@@ -48,7 +48,7 @@ const serviceGraph = services.slice(0, 3).map((s) =>
     url: pageUrl(siteUrl, lang, 'services', s.slug[lang]),
     serviceType: s.key === 'air' ? 'Air freight' : s.key === 'rail' ? 'Rail freight' : 'Consolidated truck freight',
     offers: s.key === 'truck'
-      ? [{ price: tariffs.truck.ladderPerKg.at(-1)!.rate, unitCode: 'KGM', validThrough: tariffs.validThrough, description: 'Consolidated truck cargo China → Tashkent, per kg (estimate)' }]
+      ? [{ price: tariffs.truck.lclPerM3ByDensity[0].rate, unitCode: 'MTQ', validThrough: tariffs.validThrough, description: 'Consolidated truck cargo China → Tashkent, per m³ by density (estimate)' }]
       : s.key === 'air'
         ? [{ price: tariffs.air.perKg.standard, unitCode: 'KGM', validThrough: tariffs.validThrough, description: 'Air cargo China → Tashkent, per kg (estimate)' }]
         : undefined,

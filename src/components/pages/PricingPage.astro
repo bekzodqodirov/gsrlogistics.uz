@@ -13,7 +13,7 @@ import { services } from '@/data/services';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
 import { fmtDate, fmtNumber, fmtUsd, fmtSom, withFrom, daysWord } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
-import { estimateAir, estimateTruck, formatBreakdown, DENSE_DENSITY_FALLBACK, type Tariffs } from '@/lib/pricing';
+import { estimateAir, estimateTruck, formatBreakdown, type Tariffs } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
@@ -36,18 +36,17 @@ const usd = (v: number) => fmtUsd(v, lang);
 const perKg = (v: number) => `${usd(v)}${b.units.perKg}`;
 const perM3 = (v: number) => `${usd(v)}${b.units.perM3}`;
 const range = (a: number[]) => `${n(a[0], 0)}–${n(a[1], 0)}`;
-const ladder = T.truck.ladderPerKg;
 const lcl = T.truck.lclPerM3ByDensity;
-const truckFrom = ladder[ladder.length - 1].rate;
 const airFrom = T.air.perKg.standard;
 const lclFrom = lcl[0].rate;
+const truckFrom = lclFrom;
 const month = monthYear(T.updated, lang);
 const updated = fmtDate(T.updated, lang);
 const estimateMeta = `${c.strings.estimateMeta}: ${updated}`;
-const denseDensity = T.truck.densePerKg.minDensityKgM3 ?? DENSE_DENSITY_FALLBACK;
 const vars = {
   truck: usd(truckFrom), air: usd(airFrom), lcl: usd(lclFrom), month, date: updated,
-  threshold: n(T.truck.densityThresholdKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
+  threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
+  denseRate: usd(T.truck.perKgAboveDensity), denseDensity: n(T.truck.perKgFromDensityKgM3, 0),
   kgPerM3: n(Math.round(1_000_000 / T.truck.volumetricDivisor), 0), airMin: n(T.air.minKg), minM3: n(T.truck.minM3), insurance: n(T.extras.insurancePct),
   days: range(T.truck.days), rate: n(T.usdToSom, 0), free: n(T.extras.freeStorageDaysTashkent, 0),
   door: `${n(T.regions.doorDeliverySom[0], 0)}–${n(T.regions.doorDeliverySom[1], 0)}`, kg: n(T.regions.tashkentDoorFreeFromKg, 0),
@@ -57,17 +56,15 @@ const seoDescription = tpl(p.seoDescription, vars);
 const intro = tpl(p.intro, vars);
 
 /* ---------- Tables ---------- */
-const ladderRows = ladder.map((s, i) => {
-  const prev = i > 0 ? ladder[i - 1].maxKg ?? 0 : 0;
-  const label = s.maxKg === null ? tpl(p.truck.from, { a: n(prev, 0) }) : i === 0 ? tpl(p.truck.upTo, { b: n(s.maxKg, 0) }) : tpl(p.truck.between, { a: n(prev, 0), b: n(s.maxKg, 0) });
-  return { label, value: perKg(s.rate) };
-});
-ladderRows.push({ label: tpl(p.truck.dense, { kg: n(T.truck.densePerKg.minKg, 0), density: n(denseDensity, 0) }), value: perKg(T.truck.densePerKg.rate) });
+// One truck table: the owner's own sheet. Density picks a price per m³, and above the last band
+// the sheet bills per kilogram instead, so that row closes the table.
 const lclRows = lcl.map((s, i) => {
   const prev = i > 0 ? lcl[i - 1].maxKgM3 ?? 0 : 0;
-  const label = s.maxKgM3 === null ? tpl(p.lcl.from, { a: n(prev, 0) }) : i === 0 ? tpl(p.lcl.upTo, { b: n(s.maxKgM3, 0) }) : tpl(p.lcl.between, { a: n(prev, 0), b: n(s.maxKgM3, 0) });
+  const hi = s.maxKgM3 ?? T.truck.perKgFromDensityKgM3;
+  const label = i === 0 ? tpl(p.lcl.upTo, { b: n(hi, 0) }) : tpl(p.lcl.between, { a: n(prev, 0), b: n(hi, 0) });
   return { label, value: perM3(s.rate) };
 });
+lclRows.push({ label: tpl(p.lcl.from, { a: n(T.truck.perKgFromDensityKgM3, 0) }), value: perKg(T.truck.perKgAboveDensity) });
 const airRows = [
   { label: p.air.rows.standard, value: perKg(T.air.perKg.standard) },
   { label: p.air.rows.brand, value: perKg(T.air.perKg.brand) },
@@ -93,9 +90,9 @@ const extrasRows = [
 const tileValue = (v: number) => (lang === 'en' ? usd(v) : n(v));
 const tilePrefix = lang === 'uz' ? '' : c.strings.from;
 const tiles = [
-  { label: p.tiles.truck, value: tileValue(truckFrom), unit: p.tiles.fromKg, sub: `${range(T.truck.days)} ${b.units.days}` },
+  { label: p.tiles.truck, value: tileValue(truckFrom), unit: p.tiles.fromM3, sub: `${range(T.truck.days)} ${b.units.days}` },
   { label: p.tiles.air, value: tileValue(airFrom), unit: p.tiles.fromKg, sub: `${range(T.air.days)} ${b.units.days}` },
-  { label: p.tiles.lcl, value: tileValue(lclFrom), unit: p.tiles.fromM3, sub: `${range(T.truck.days)} ${b.units.days}` },
+  { label: p.tiles.lcl, value: tileValue(T.truck.perKgAboveDensity), unit: p.tiles.fromKg, sub: `${range(T.truck.days)} ${b.units.days}` },
   { label: p.tiles.rail, value: tileValue(T.rail.container20ft[0]), unit: p.tiles.fromContainer, sub: `${range(T.rail.days)} ${b.units.days}` },
 ];
 
@@ -116,8 +113,8 @@ const jsonLd: Array<Record<string, unknown>> = [
   serviceNode(lang, {
     name: truckService.name[lang], description: truckService.short[lang], url: pageUrl(site.url, lang, 'services', truckService.slug[lang]), serviceType: truckService.name.en,
     offers: [
-      ...ladder.map((s) => ({ price: s.rate, unitCode: 'KGM' as const, validThrough: T.validThrough, description: s.maxKg === null ? `over ${ladder[ladder.length - 2].maxKg} kg` : `up to ${s.maxKg} kg` })),
-      ...lcl.map((s) => ({ price: s.rate, unitCode: 'MTQ' as const, validThrough: T.validThrough, description: s.maxKgM3 === null ? `density over ${lcl[lcl.length - 2].maxKgM3} kg/m³` : `density up to ${s.maxKgM3} kg/m³` })),
+      ...lcl.map((s) => ({ price: s.rate, unitCode: 'MTQ' as const, validThrough: T.validThrough, description: `density up to ${s.maxKgM3 ?? T.truck.perKgFromDensityKgM3} kg/m³` })),
+      { price: T.truck.perKgAboveDensity, unitCode: 'KGM' as const, validThrough: T.validThrough, description: `density from ${T.truck.perKgFromDensityKgM3} kg/m³, per kg` },
     ],
   }),
   serviceNode(lang, {
@@ -169,7 +166,7 @@ const ctaDraft = p.cta.draft;
           <div class="table-wrap">
             <table class="table">
               <thead><tr><th scope="col">{p.truck.head[0]}</th><th scope="col" class="num">{p.truck.head[1]}</th></tr></thead>
-              <tbody>{ladderRows.map((r) => <tr><th scope="row">{r.label}</th><td class="num">{r.value}</td></tr>)}</tbody>
+              <tbody>{lclRows.map((r) => <tr><th scope="row">{r.label}</th><td class="num">{r.value}</td></tr>)}</tbody>
             </table>
           </div>
           <figcaption class="caption tbl-meta">{estimateMeta}</figcaption>
@@ -178,21 +175,6 @@ const ctaDraft = p.cta.draft;
         <p class="para small-note">{tpl(p.truck.days, { days: range(T.truck.days), express: range(T.truck.expressDays) })}</p>
       </section>
 
-      <!-- LCL -->
-      <section class="block" aria-labelledby="lcl-h">
-        <h2 id="lcl-h">{p.lcl.title}</h2>
-        <p class="para">{tpl(p.lcl.intro, vars)}</p>
-        <figure class="tbl">
-          <div class="table-wrap">
-            <table class="table">
-              <thead><tr><th scope="col">{p.lcl.head[0]}</th><th scope="col" class="num">{p.lcl.head[1]}</th></tr></thead>
-              <tbody>{lclRows.map((r) => <tr><th scope="row">{r.label}</th><td class="num">{r.value}</td></tr>)}</tbody>
-            </table>
-          </div>
-          <figcaption class="caption tbl-meta">{estimateMeta}</figcaption>
-        </figure>
-        <p class="para small-note">{tpl(p.lcl.note, vars)}</p>
-      </section>
 
       <!-- Air -->
       <section class="block" aria-labelledby="air-h">

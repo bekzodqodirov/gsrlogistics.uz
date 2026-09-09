@@ -99,9 +99,9 @@ const content: ServiceContentByLang = {
         ],
         steps: [
           { title: 'Soʻrov qoldirasiz', text: 'Telegram yoki telefon orqali tovar nomi, soni va taxminiy ogʻirligini aytasiz. Tovar toifasini (oddiy, seriyali, brend) va avia orqali yuborish mumkinligini shu yerda aniqlaymiz.' },
-          { title: 'Ombor manzilini olasiz', text: 'Sizga Ivu omborining manzili va shaxsiy kodingiz beriladi. Sotuvchi yoki 1688/Taobao doʻkoni yukni shu manzilga joʻnatadi.' },
-          { title: 'Yukni qabul qilamiz', text: 'Omborda har bir joyni tortamiz, oʻlchaymiz, kodingiz bilan markirovka qilamiz va foto-hisobot yuboramiz. Batareya, suyuqlik va magnit borligi tekshiriladi — bunday tovar avto kargoga oʻtkaziladi.' },
-          { title: 'Reysga jamlash', text: 'Yuk eng yaqin reysga joylanadi va Guanchjou yoki Urumchi aeroportiga yoʻl oladi. Sizga reys raqami va yuk kodi beriladi; muddat hisobi shu kundan boshlanadi.' },
+          { title: 'Ombor manzilini olasiz', text: 'Sizga Ivu omborining manzili va shaxsiy GS kodingiz (markirovka) beriladi. Sotuvchi yoki 1688/Taobao doʻkoni joʻnatishdan oldin har bir qutiga GS kodini yozadi va yukni shu manzilga joʻnatadi.' },
+          { title: 'Yukni qabul qilamiz', text: 'Omborda har bir joyni tortamiz, oʻlchaymiz, GS kodingiz bilan markirovka qilamiz va foto-hisobot yuboramiz. Batareya, suyuqlik va magnit borligi tekshiriladi — bunday tovar avto kargoga oʻtkaziladi.' },
+          { title: 'Reysga jamlash', text: 'Yuk eng yaqin reysga joylanadi va Guanchjou yoki Urumchi aeroportiga yoʻl oladi. Sizga reys raqami beriladi; muddat hisobi shu kundan boshlanadi.' },
           { title: 'Parvoz va bojxona', text: 'Menejer yukning holatini xabar qilib boradi. Toshkentda rasmiylashtiruv kompaniya hujjatlari bilan oʻtadi.' },
           { title: 'Toshkentda qabul qilasiz', text: 'Yuk Toshkent omboriga keladi. Toʻlovni yakunlaysiz va yukni olib ketasiz yoki eshikkacha yetkazib beramiz; viloyatlarga joʻnatishni alohida kelishamiz.' },
         ],
@@ -117,7 +117,7 @@ const content: ServiceContentByLang = {
           'Xitoydan chiqish va Oʻzbekistonga kirishdagi bojxona rasmiylashtiruvi kompaniya hujjatlari bilan',
           'Toshkent omborigacha yetkazib berish va 3 kungacha bepul saqlash',
           'Ivu omborida 14 kungacha bepul saqlash',
-          'Yuk kodi boʻyicha holat xabarlari va menejer bilan aloqa',
+          'GS kod boʻyicha holat xabarlari va menejer bilan aloqa',
         ],
         table: {
           caption: 'Qoʻshimcha xizmatlar',
@@ -193,7 +193,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Yukim Guanchjou yoki Shenchjenda boʻlsa-chi?',
-        a: 'Qabul qilamiz: sotuvchi yukni Xitoy ichki pochtasi bilan (odatda 1–3 kun) Ivu omboriga yoki biz beradigan Guanchjou qabul manziliga joʻnatadi — joʻnatish aeroporti ham shu shaharda. Qaysi biriga joʻnatish kerakligini menejer aytadi.',
+        a: 'Qabul qilamiz: sotuvchi yukni Xitoy ichki pochtasi bilan (odatda 1–3 kun) Ivu omboriga yoki biz beradigan Guanchjou qabul manziliga joʻnatadi — reyslarimizning bir qismi shu shahar aeroportidan uchadi. Qaysi biriga joʻnatish kerakligini menejer aytadi.',
       },
       {
         q: 'Bojxona toʻlovlari narxga kiradimi?',
@@ -301,9 +301,9 @@ const content: ServiceContentByLang = {
         ],
         steps: [
           { title: 'Оставляете заявку', text: 'В Telegram или по телефону называете товар, количество и примерный вес. Здесь же определяем категорию (обычный, серийный, бренд) и можно ли отправить его самолётом.' },
-          { title: 'Получаете адрес склада', text: 'Вы получаете адрес склада в Иу и личный код. Продавец или магазин на 1688/Taobao отправляет товар на этот адрес.' },
-          { title: 'Принимаем груз', text: 'На складе взвешиваем и обмеряем каждое место, маркируем вашим кодом и отправляем фотоотчёт. Проверяем на батареи, жидкости и магниты — такой товар переводится на авто карго.' },
-          { title: 'Комплектация рейса', text: 'Груз ставится на ближайший рейс и едет в аэропорт Гуанчжоу или Урумчи. Вы получаете номер рейса и код груза; с этого дня идёт отсчёт срока.' },
+          { title: 'Получаете адрес склада', text: 'Вы получаете адрес склада в Иу и личный GS-код (маркировка). Продавец или магазин на 1688/Taobao пишет GS-код на каждой коробке до отправки и шлёт товар на этот адрес.' },
+          { title: 'Принимаем груз', text: 'На складе взвешиваем и обмеряем каждое место, маркируем вашим GS-кодом и отправляем фотоотчёт. Проверяем на батареи, жидкости и магниты — такой товар переводится на авто карго.' },
+          { title: 'Комплектация рейса', text: 'Груз ставится на ближайший рейс и едет в аэропорт Гуанчжоу или Урумчи. Вы получаете номер рейса; с этого дня идёт отсчёт срока.' },
           { title: 'Перелёт и таможня', text: 'Менеджер сообщает статус груза. В Ташкенте оформление проходит под документы компании.' },
           { title: 'Получаете в Ташкенте', text: 'Груз приходит на склад в Ташкенте. Вы закрываете оплату и забираете его, либо мы доставляем до двери; отправку в регионы согласуем отдельно.' },
         ],
@@ -319,7 +319,7 @@ const content: ServiceContentByLang = {
           'Экспортное оформление в Китае и импортное в Узбекистане под документы компании',
           'Доставка до склада в Ташкенте и бесплатное хранение до 3 дней',
           'Бесплатное хранение на складе в Иу до 14 дней',
-          'Уведомления о статусе по коду груза и связь с менеджером',
+          'Уведомления о статусе по GS-коду и связь с менеджером',
         ],
         table: {
           caption: 'Дополнительные услуги',
@@ -395,7 +395,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'А если мой товар в Гуанчжоу или Шэньчжэне?',
-        a: 'Принимаем: продавец внутрикитайской доставкой (обычно 1–3 дня) отправляет груз на склад в Иу или на адрес приёма в Гуанчжоу, который мы даём, — аэропорт вылета в том же городе. На какой отправлять — скажет менеджер.',
+        a: 'Принимаем: продавец внутрикитайской доставкой (обычно 1–3 дня) отправляет груз на склад в Иу или на адрес приёма в Гуанчжоу, который мы даём, — часть рейсов вылетает из аэропорта этого же города. На какой отправлять — скажет менеджер.',
       },
       {
         q: 'Таможенные платежи входят в цену?',
@@ -503,9 +503,9 @@ const content: ServiceContentByLang = {
         ],
         steps: [
           { title: 'You leave a request', text: 'On Telegram or by phone you tell us the product, quantity and approximate weight. We confirm the category (standard, commercial, branded) and whether it can fly.' },
-          { title: 'You get a warehouse address', text: 'We give you the address of the Yiwu warehouse and your personal code. Your seller or 1688/Taobao shop ships to that address.' },
-          { title: 'We receive the goods', text: 'At the warehouse we weigh and measure every piece, label it with your code and send a photo report. We check for batteries, liquids and magnets — such goods are moved to truck cargo.' },
-          { title: 'Flight consolidation', text: 'Your cargo joins the next flight lot and travels to Guangzhou or Urumqi airport. You receive the flight number and your cargo code; transit time counts from that day.' },
+          { title: 'You get a warehouse address', text: 'We give you the address of the Yiwu warehouse and your personal GS code (shipping mark). Your seller or 1688/Taobao shop writes the GS code on every carton before dispatch and ships to that address.' },
+          { title: 'We receive the goods', text: 'At the warehouse we weigh and measure every piece, label it with your GS code and send a photo report. We check for batteries, liquids and magnets — such goods are moved to truck cargo.' },
+          { title: 'Flight consolidation', text: 'Your cargo joins the next flight lot and travels to Guangzhou or Urumqi airport. You receive the flight number; transit time counts from that day.' },
           { title: 'Flight and customs', text: 'Your manager keeps you updated on the status. Clearance in Tashkent runs under the company’s documents.' },
           { title: 'You collect in Tashkent', text: 'The cargo arrives at the Tashkent warehouse. You settle the invoice and pick it up, or we deliver to your door; delivery to the regions is arranged separately.' },
         ],
@@ -521,7 +521,7 @@ const content: ServiceContentByLang = {
           'Export clearance in China and import clearance in Uzbekistan under the company’s documents',
           'Delivery to the Tashkent warehouse and free storage for up to 3 days',
           'Free storage at the Yiwu warehouse for up to 14 days',
-          'Status updates by cargo code and a manager you can reach',
+          'Status updates by GS code and a manager you can reach',
         ],
         table: {
           caption: 'Optional extras',
@@ -597,7 +597,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'What if my goods are in Guangzhou or Shenzhen?',
-        a: 'We accept them: by domestic delivery (usually 1–3 days) the seller ships to the Yiwu warehouse or to the Guangzhou receiving address we give you — the departure airport is in the same city. Your manager tells you which one applies.',
+        a: 'We accept them: the seller ships by domestic delivery (usually 1–3 days) to the Yiwu warehouse or to the Guangzhou receiving address we give you — some of our flights depart from the airport in that city. Your manager tells you which one applies.',
       },
       {
         q: 'Are customs payments included in the price?',

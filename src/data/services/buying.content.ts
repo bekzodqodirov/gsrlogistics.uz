@@ -10,6 +10,8 @@ import type { ServiceContentByLang } from './types';
  * Qashqar / Кашгар / Kashgar — and the manager tells the customer which one applies. This page keeps
  * Ivu because it is the consolidation warehouse the buying flow and the tariffs are built around;
  * do not give Guangzhou or Kashgar a consolidation role here, and do not claim we own any of them.
+ * GS kod (markirovka) is named on first mention, then plain. On THIS page we place the order from our
+ * own account, so never copy the cargo pages' "the supplier writes it before dispatch" line onto it.
  * FX example uses the CBU rates of 2026-09-08 (USD 11 789,33 · CNY 1 756,72 soʻm, research wf/10 §6) — illustrative only.
  * Payment channels in Uzbekistan (soʻm, card, Click/Payme, bank transfer for legal entities) are market practice — owner to confirm.
  */
@@ -44,7 +46,7 @@ const content: ServiceContentByLang = {
           { title: 'Hisob-kitobni olasiz', text: 'Menejer tovar narxini yuandan dollarga MB kursi boʻyicha oʻtkazadi, sotuvchining Xitoy ichidagi yetkazib berish haqi va bizning komissiyamizni qoʻshadi. Hisobda har bir qator alohida koʻrsatiladi — kurs ham, foiz ham.' },
           { title: 'Toʻlaysiz', text: 'Soʻmda hisob-kitob kunidagi kurs boʻyicha: karta oʻtkazmasi, Click yoki Payme, ofisda naqd. Yuridik shaxslar uchun hisob-faktura va bank oʻtkazmasi. Toʻlovdan keyin buyurtma shu kuni beriladi.' },
           { title: 'Sotuvchiga yuanda toʻlaymiz', text: 'Buyurtmani oʻz akkauntimizdan beramiz, sotuvchi bilan xitoy tilida yozishamiz — rang, oʻlcham, joʻnatish muddatini tasdiqlatamiz. Pul tovar Ivuga kelguncha platformada saqlanadi.' },
-          { title: 'Ivu omborida qabul qilamiz', text: 'Tovar Xitoy ichida odatda 1–5 kunda omborga keladi. Har bir posilkani sizning kodingiz bilan qabul qilamiz, sonini va tashqi holatini tekshiramiz, foto-hisobot yuboramiz. Nuqsonli tovar sotuvchiga qaytariladi.' },
+          { title: 'Ivu omborida qabul qilamiz', text: 'Tovar Xitoy ichida odatda 1–5 kunda omborga keladi. Har bir posilkani sizning GS kodingiz (markirovka) bilan qabul qilamiz, sonini va tashqi holatini tekshiramiz, foto-hisobot yuboramiz. Nuqsonli tovar sotuvchiga qaytariladi.' },
           { title: 'Konsolidatsiya va Toshkent', text: 'Turli sotuvchilardan kelgan posilkalar bitta yukka jamlanadi, qayta qadoqlanadi va yigʻma yuk (taxminan 15–25 kun) yoki avia (5–10 kun) bilan Toshkentga joʻnatiladi. Toshkentda olib ketasiz yoki eshikkacha yetkazamiz.' },
         ],
       },
@@ -92,7 +94,7 @@ const content: ServiceContentByLang = {
         heading: 'Toʻlovni qanday qilaman va yuan kursi qanday?',
         body: [
           'Oʻzbekistonda siz soʻmda toʻlaysiz: Humo yoki Uzcard kartadan oʻtkazma, Click va Payme, ofisimizda naqd (Toshkent, Alisher Navoiy koʻchasi, 27). Yuridik shaxslar va YaTT uchun hisob-faktura va bank oʻtkazmasi mumkin — bu holda tovar oʻz firmangiz nomiga rasmiylashtiriladi.',
-          'Yuan kursi hisob-kitob kunidagi Oʻzbekiston Markaziy banki kursi asosida olinadi; ustama boʻlsa, u hisobda alohida qator sifatida yoziladi. Sotuvchiga toʻlovni biz Alipay, WeChat Pay yoki xitoy kompaniya hisobimizdan oʻtkazamiz — 1688 va Taobao tizimida pul tovar qabul qilinguncha platformada turadi, shuning uchun sotuvchi joʻnatmasa, summa qaytadi.',
+          'Yuan kursi hisob-kitob kunidagi Oʻzbekiston Markaziy banki kursi asosida olinadi; ustama boʻlsa, u hisobda alohida qator sifatida yoziladi. Sotuvchiga toʻlovni Alipay yoki WeChat Pay orqali oʻzimiz oʻtkazamiz — 1688 va Taobao tizimida pul tovar qabul qilinguncha platformada turadi, shuning uchun sotuvchi joʻnatmasa, summa qaytadi.',
         ],
         callout: {
           title: 'Toʻlov qachon?',
@@ -103,7 +105,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Tovar kelganda nimani tekshirasiz?',
         body: [
-          'Ivu omboridagi standart qabul tashish narxiga kiradi: posilka soni, tashqi holati, ogʻirligi va oʻlchami, kodingiz bilan markirovka, tashqi foto. Qoʻshimcha 1 $/kg evaziga qutini ochib sonini, rangini, oʻlchamini va koʻrinadigan nuqsonlarini tekshiramiz; elektronikani tokka ulab koʻramiz.',
+          'Ivu omboridagi standart qabul tashish narxiga kiradi: posilka soni, tashqi holati, ogʻirligi va oʻlchami, GS kodingiz bilan markirovka, tashqi foto. Qoʻshimcha 1 $/kg evaziga qutini ochib sonini, rangini, oʻlchamini va koʻrinadigan nuqsonlarini tekshiramiz; elektronikani tokka ulab koʻramiz.',
           'Tovar tavsifga mos kelmasa, sotuvchi bilan qaytarishni oʻzimiz rasmiylashtiramiz: 1688 va Taobaoda qabuldan keyin 7 kun ichida sababsiz qaytarish huquqi bor, Xitoy ichidagi qaytarish pochtasini sotuvchi yoki siz toʻlaysiz (odatda 5–12 yuan). Shuning uchun tekshiruvni Ivuda — tovar Toshkentga chiqib ketmasdan oldin — buyurtma qiling.',
         ],
         bullets: [
@@ -200,7 +202,7 @@ const content: ServiceContentByLang = {
           { title: 'Получаете расчёт', text: 'Менеджер переводит цену из юаней в доллары по курсу ЦБ, добавляет доставку продавца внутри Китая и нашу комиссию. В расчёте каждая строка показана отдельно — и курс, и процент.' },
           { title: 'Оплачиваете', text: 'В сумах по курсу на день расчёта: переводом на карту, через Click или Payme, наличными в офисе. Для юридических лиц — счёт-фактура и банковский перевод. После оплаты заказ размещается в тот же день.' },
           { title: 'Мы платим продавцу в юанях', text: 'Размещаем заказ со своего аккаунта, переписываемся с продавцом по-китайски — подтверждаем цвет, размер, срок отправки. Деньги удерживаются платформой, пока товар не придёт в Иу.' },
-          { title: 'Принимаем на складе в Иу', text: 'Внутри Китая товар обычно доходит до склада за 1–5 дней. Каждую посылку принимаем под вашим кодом, проверяем количество и внешнее состояние, отправляем фотоотчёт. Бракованный товар возвращаем продавцу.' },
+          { title: 'Принимаем на складе в Иу', text: 'Внутри Китая товар обычно доходит до склада за 1–5 дней. Каждую посылку принимаем под вашим GS-кодом (маркировкой), проверяем количество и внешнее состояние, отправляем фотоотчёт. Бракованный товар возвращаем продавцу.' },
           { title: 'Консолидация и Ташкент', text: 'Посылки от разных продавцов собираются в один груз, переупаковываются и едут в Ташкент сборным грузом (ориентировочно 15–25 дней) или авиа (5–10 дней). В Ташкенте забираете сами или доставляем до двери.' },
         ],
       },
@@ -248,7 +250,7 @@ const content: ServiceContentByLang = {
         heading: 'Как платить и какой курс юаня?',
         body: [
           'В Узбекистане вы платите в сумах: переводом с карты Humo или Uzcard, через Click и Payme, наличными в офисе (Ташкент, ул. Алишера Навои, 27). Для юридических лиц и ИП возможны счёт-фактура и банковский перевод — тогда товар оформляется на вашу фирму.',
-          'Курс юаня берётся по курсу Центрального банка Узбекистана на день расчёта; если есть наценка, она записывается в расчёте отдельной строкой. Продавцу платим мы — через Alipay, WeChat Pay или со счёта нашей китайской компании. На 1688 и Taobao деньги удерживаются платформой до подтверждения получения, поэтому если продавец не отправит товар, сумма возвращается.',
+          'Курс юаня берётся по курсу Центрального банка Узбекистана на день расчёта; если есть наценка, она записывается в расчёте отдельной строкой. Продавцу платим мы сами — через Alipay или WeChat Pay. На 1688 и Taobao деньги удерживаются платформой до подтверждения получения, поэтому если продавец не отправит товар, сумма возвращается.',
         ],
         callout: {
           title: 'Когда платить?',
@@ -259,7 +261,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Что вы проверяете при получении?',
         body: [
-          'Стандартная приёмка на складе в Иу входит в стоимость перевозки: количество посылок, внешнее состояние, вес и габариты, маркировка вашим кодом, фото снаружи. За дополнительный 1 $/кг вскрываем коробку и проверяем количество, цвет, размер и видимые дефекты; электронику включаем.',
+          'Стандартная приёмка на складе в Иу входит в стоимость перевозки: количество посылок, внешнее состояние, вес и габариты, маркировка вашим GS-кодом, фото снаружи. За дополнительный 1 $/кг вскрываем коробку и проверяем количество, цвет, размер и видимые дефекты; электронику включаем.',
           'Если товар не соответствует описанию, возврат продавцу оформляем сами: на 1688 и Taobao действует право возврата без объяснения причин в течение 7 дней после получения, обратную доставку внутри Китая оплачивает продавец или вы (обычно 5–12 юаней). Поэтому проверку заказывайте в Иу — до того, как товар уедет в Ташкент.',
         ],
         bullets: [
@@ -356,7 +358,7 @@ const content: ServiceContentByLang = {
           { title: 'You get a quote', text: 'Your manager converts the price from yuan to dollars at the Central Bank rate and adds the seller’s domestic shipping and our commission. Every line is shown separately — the rate and the percentage included.' },
           { title: 'You pay', text: 'In UZS at the rate on the day of the quote: card transfer, Click or Payme, cash at the office. Legal entities get an invoice and pay by bank transfer. The order is placed the same day.' },
           { title: 'We pay the seller in yuan', text: 'We place the order from our own account and message the seller in Chinese to confirm colour, size and dispatch date. The platform holds the money until the goods reach Yiwu.' },
-          { title: 'We receive in Yiwu', text: 'Inside China the goods usually reach the warehouse in 1–5 days. We receive each parcel under your code, check the count and outer condition and send a photo report. Defective goods go back to the seller.' },
+          { title: 'We receive in Yiwu', text: 'Inside China the goods usually reach the warehouse in 1–5 days. We receive each parcel under your GS code (shipping mark), check the count and outer condition and send a photo report. Defective goods go back to the seller.' },
           { title: 'Consolidation and Tashkent', text: 'Parcels from different sellers are combined into one shipment, repacked and sent to Tashkent by consolidated truck (roughly 15–25 days) or air (5–10 days). In Tashkent you collect or we deliver to your door.' },
         ],
       },
@@ -404,7 +406,7 @@ const content: ServiceContentByLang = {
         heading: 'How do I pay, and which yuan rate applies?',
         body: [
           'In Uzbekistan you pay in UZS: transfer from a Humo or Uzcard card, Click and Payme, or cash at our office (27 Alisher Navoiy Street, Tashkent). Legal entities and sole traders can pay by bank transfer against an invoice — in that case the goods are imported in your company’s name.',
-          'The yuan rate follows the Central Bank of Uzbekistan on the day of the quote; if a margin applies, it is written as a separate line. We pay the seller through Alipay, WeChat Pay or our Chinese company account. On 1688 and Taobao the platform holds the money until receipt is confirmed, so if the seller fails to ship, the amount comes back.',
+          'The yuan rate follows the Central Bank of Uzbekistan on the day of the quote; if a margin applies, it is written as a separate line. We pay the seller ourselves, through Alipay or WeChat Pay. On 1688 and Taobao the platform holds the money until receipt is confirmed, so if the seller fails to ship, the amount comes back.',
         ],
         callout: {
           title: 'When do I pay?',
@@ -415,7 +417,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'What do you check on arrival?',
         body: [
-          'Standard receiving at the Yiwu warehouse is included in the freight price: parcel count, outer condition, weight and dimensions, labelling with your code, an outside photo. For an extra $1/kg we open the box and check quantity, colour, size and visible defects; electronics are powered on.',
+          'Standard receiving at the Yiwu warehouse is included in the freight price: parcel count, outer condition, weight and dimensions, labelling with your GS code, an outside photo. For an extra $1/kg we open the box and check quantity, colour, size and visible defects; electronics are powered on.',
           'If the goods do not match the listing, we handle the return with the seller ourselves: 1688 and Taobao allow a no-questions return within 7 days of receipt, and the return postage inside China is paid by the seller or by you (usually 5–12 yuan). That is why an inspection should be ordered in Yiwu — before the goods leave for Tashkent.',
         ],
         bullets: [

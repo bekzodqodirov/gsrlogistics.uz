@@ -17,19 +17,20 @@ const T = tariffs;
 function nums(lang: Lang) {
   const n = (x: number, f = 0) => fmtNumber(x, lang, f);
   const usd = (x: number) => (lang === 'en' && !Number.isInteger(x) ? `$${x.toFixed(2)}` : fmtUsd(x, lang));
+  /** Truck is billed per m³ by density, so its figures carry the m³ unit. */
+  const usdM3 = (x: number) => `${usd(x)}${lang === 'en' ? '/m³' : ' $/m³'.slice(2)}`;
   const usdRange = (a: number, b: number) => (lang === 'en' ? `$${n(a)}–${n(b)}` : `${n(a)}–${n(b)} $`);
   const som = (a: number, b: number) => (lang === 'uz' ? `${n(a)}–${n(b)} soʻm` : lang === 'ru' ? `${n(a)}–${n(b)} сум` : `UZS ${n(a)}–${n(b)}`);
   const days = (r: number[]) => `${n(r[0])}–${n(r[1])}`;
-  const l = T.truck.ladderPerKg;
   const lcl = T.truck.lclPerM3ByDensity;
   return {
-    t1: usd(l[0].rate), t1max: n(l[0].maxKg ?? 0), t2: usd(l[1].rate), t2max: n(l[1].maxKg ?? 0), t3: usd(l[2].rate),
-    dense: usd(T.truck.densePerKg.rate), denseMin: n(T.truck.densePerKg.minKg),
+    t1: usdM3(lcl[0].rate), t1max: n(lcl[0].maxKgM3 ?? 0), t2: usdM3(lcl[1].rate), t2max: n(lcl[1].maxKgM3 ?? 0), t3: usdM3(lcl[lcl.length - 1].rate),
+    dense: usd(T.truck.perKgAboveDensity), denseMin: n(T.truck.perKgFromDensityKgM3),
     airStd: usd(T.air.perKg.standard), airBrand: usd(T.air.perKg.brand), airCom: usd(T.air.perKg.commercial), airMin: n(T.air.minKg, 1),
-    lclFrom: usd(lcl[0].rate), lclTo: usd(lcl[lcl.length - 1].rate), minM3: n(T.truck.minM3, 1),
+    lclFrom: usdM3(lcl[0].rate), lclTo: usdM3(lcl[lcl.length - 1].rate), minM3: n(T.truck.minM3, 1),
     r20: usdRange(T.rail.container20ft[0], T.rail.container20ft[1]), r40: usdRange(T.rail.container40ft[0], T.rail.container40ft[1]),
     truckDays: days(T.truck.days), airDays: days(T.air.days), railDays: days(T.rail.days), expressDays: days(T.truck.expressDays),
-    threshold: n(T.truck.densityThresholdKgM3), divTruck: n(T.truck.volumetricDivisor), divAir: n(T.air.volumetricDivisor),
+    threshold: n(T.truck.perKgFromDensityKgM3), divTruck: n(T.truck.volumetricDivisor), divAir: n(T.air.volumetricDivisor),
     photo: usd(T.extras.photoReportUsd), repack: usd(T.extras.repackPerKg), inspect: usd(T.extras.inspectionPerKg),
     ins: n(T.extras.insurancePct), comm: n(T.extras.sourcingCommissionPct),
     storeCn: n(T.extras.freeStorageDaysChina), storeTz: n(T.extras.freeStorageDaysTashkent),

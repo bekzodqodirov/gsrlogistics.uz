@@ -28,6 +28,7 @@ const i18n = JSON.stringify({
   b,
   resultEmpty: t.calc.resultEmpty,
   overLimit: t.calc.overLimit,
+  needVolume: t.calc.needVolume,
   switchNote: t.calc.switchNote,
   draft: t.calc.draft,
   draftRail: t.calc.draftRail,
@@ -35,11 +36,12 @@ const i18n = JSON.stringify({
   volumeLabel: t.calc.volumeLabel,
 });
 const rateOf = (v: number) => `${fmtUsd(v, lang)}${b.units.perKg}`;
-/* "6,5 $/kg dan" (uz) · "от 6,5 $/кг" (ru) · "from $6.50/kg" (en) */
+const rateOfM3 = (v: number) => `${fmtUsd(v, lang)}${b.units.perM3}`;
+/* Truck is billed per m³ by density, so its headline figure is the cheapest band, not a per-kg rate. */
 const quick = [
-  { label: b.modes.truck, value: withFrom(rateOf(tariffs.truck.ladderPerKg[tariffs.truck.ladderPerKg.length - 1].rate), lang, c.strings.from) },
+  { label: b.modes.truck, value: withFrom(rateOfM3(tariffs.truck.lclPerM3ByDensity[0].rate), lang, c.strings.from) },
   { label: b.modes.air, value: withFrom(rateOf(tariffs.air.perKg.standard), lang, c.strings.from) },
-  { label: t.page.tiles.lcl, value: withFrom(`${fmtUsd(tariffs.truck.lclPerM3ByDensity[0].rate, lang)}${b.units.perM3}`, lang, c.strings.from) },
+  { label: t.page.tiles.lcl, value: rateOf(tariffs.truck.perKgAboveDensity) },
 ];
 /* Decimal inputs are type="text": type="number" silently drops a comma separator ("0,8" → "08") in Chromium regardless of UI locale. */
 const decimal = { type: 'text', inputmode: 'decimal', autocomplete: 'off', pattern: '[0-9]*[.,]?[0-9]*' } as const;
@@ -251,7 +253,7 @@ const uid = (s: string) => `${id}-${s}`;
   import { fmtNumber } from '@/lib/format';
   import type { Lang } from '@/i18n/config';
 
-  interface I18n { b: BreakdownStrings; resultEmpty: string; overLimit: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string }
+  interface I18n { b: BreakdownStrings; resultEmpty: string; overLimit: string; needVolume: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string }
   const T = tariffs as unknown as Tariffs;
   const sub = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : ''));
 
@@ -291,6 +293,8 @@ const uid = (s: string) => `${id}-${s}`;
       if (mode !== 'rail' && kg <= 0) { showEmpty(i18n.resultEmpty); return; }
       const over = kg > MAX.kg || (m3 ?? 0) > MAX.m3 || (dims ? Math.max(dims.l, dims.w, dims.h) > MAX.cm : false);
       if (mode !== 'rail' && over) { showEmpty(i18n.overLimit); return; }
+      // The truck sheet prices a volume; weight alone cannot pick a density band.
+      if (mode === 'truck' && !(m3 || dims)) { showEmpty(i18n.needVolume); return; }
 
       const e = estimate({ mode, kg, dims, m3, category, container }, T);
       const r = formatBreakdown(e, lang, i18n.b, T);

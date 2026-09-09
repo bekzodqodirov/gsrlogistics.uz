@@ -30,6 +30,7 @@ export interface PricingStrings {
     resultLabel: string;
     resultEmpty: string;
     overLimit: string;
+    needVolume: string;
     ruleLabel: string;
     switchNote: string;
     kursNote: string;
@@ -102,10 +103,8 @@ const uz: PricingStrings = {
     categories: { standard: 'Oddiy tovar', brand: 'Brend (original, qutisi bilan)', commercial: 'Seriya / tijorat (bir xildan 3+ dona)', battery: 'Batareyali, elektronika', liquid: 'Suyuqlik, kosmetika, atir' },
     rules: {
       'air-per-kg': 'Avia · {category} · hisoblangan vazn {kg} kg × {rate}',
-      'truck-ladder': 'Zichlik {density} kg/m³ ≥ {threshold} → kg boʻyicha · {rate}',
-      'truck-kg-only': 'Oʻlcham kiritilmagan → kg boʻyicha · {rate}',
-      'truck-dense': 'Zich yuk: {kg} kg, {density} kg/m³ ≥ {denseDensity} → {rate}',
-      'truck-lcl': 'Zichlik {density} kg/m³ < {threshold} → m³ boʻyicha · {rate}',
+      'truck-lcl': 'Zichlik {density} kg/m³ → {m3} m³ × {rate}',
+      'truck-per-kg': 'Zichlik {density} kg/m³ ≥ {perKgDensity} → kg boʻyicha · {rate}',
       'rail-20ft': '20 futlik konteyner · {rate}, yoʻnalish va mavsumga qarab',
       'rail-40ft': '40 futlik konteyner · {rate}, yoʻnalish va mavsumga qarab',
     },
@@ -113,9 +112,8 @@ const uz: PricingStrings = {
       'volumetric-applied': 'Hajmiy vazn ({volumetric} kg, ÷ {divisor}) haqiqiy vazndan katta — hisob hajmiy vazn boʻyicha.',
       'min-kg-applied': 'Minimal hisob vazni — {minKg} kg.',
       'min-m3-applied': 'Minimal hajm — {minM3} m³.',
-      'no-volume': 'Hajm kiritilmagan — hisob faqat vazn boʻyicha. Hajmli yukda narx m³ qoidasiga oʻtishi mumkin.',
+      'no-volume': 'Hajm kiritilmagan — avia hisobi faqat vazn boʻyicha.',
       'switched-to-truck': '{category} avia bilan joʻnatilmaydi — avto tarifi qoʻllandi.',
-      'dense-lot': 'Zich ulgurji partiya — {denseKg} kg dan, {denseDensity} kg/m³ dan zich.',
       range: 'Narx oraliq — aniq summa soʻrov boʻyicha.',
     },
     units: { kg: 'kg', m3: 'm³', cm: 'sm', kgm3: 'kg/m³', perKg: '/kg', perM3: '/m³', days: 'kun', container: 'konteyner' },
@@ -144,6 +142,7 @@ const uz: PricingStrings = {
     resultLabel: 'Taxminiy narx',
     resultEmpty: 'Vaznni kiriting — narx shu yerda chiqadi.',
     overLimit: 'Bunday hajmdagi yuk uchun kalkulyator narx bermaydi — konteyner yoki charter shartlari alohida hisoblanadi. Telegramda yozing, aniq narxni beramiz.',
+    needVolume: 'Avto kargo narxi hajm boʻyicha hisoblanadi: oʻlchamlarni yoki m³ ni ham kiriting. Faqat vazn bilan aviani hisoblash mumkin.',
     ruleLabel: 'Qoʻllangan qoida',
     switchNote: 'Bu toifa avia bilan joʻnatilmaydi — kalkulyator avto tarifiga oʻtdi.',
     kursNote: 'Hisob-kitob kursi: 1 $ = {rate} soʻm (taxminiy).',
@@ -319,10 +318,8 @@ const ru: PricingStrings = {
     categories: { standard: 'Обычный товар', brand: 'Бренд (оригинал, в коробке)', commercial: 'Серия / коммерческий (3+ одинаковых)', battery: 'С батареями, электроника', liquid: 'Жидкости, косметика, парфюм' },
     rules: {
       'air-per-kg': 'Авиа · {category} · расчётный вес {kg} кг × {rate}',
-      'truck-ladder': 'Плотность {density} кг/м³ ≥ {threshold} → по кг · {rate}',
-      'truck-kg-only': 'Габариты не указаны → по кг · {rate}',
-      'truck-dense': 'Плотный груз: {kg} кг, {density} кг/м³ ≥ {denseDensity} → {rate}',
-      'truck-lcl': 'Плотность {density} кг/м³ < {threshold} → по м³ · {rate}',
+      'truck-lcl': 'Плотность {density} кг/м³ → {m3} м³ × {rate}',
+      'truck-per-kg': 'Плотность {density} кг/м³ ≥ {perKgDensity} → по кг · {rate}',
       'rail-20ft': '20-футовый контейнер · {rate}, зависит от маршрута и сезона',
       'rail-40ft': '40-футовый контейнер · {rate}, зависит от маршрута и сезона',
     },
@@ -330,9 +327,8 @@ const ru: PricingStrings = {
       'volumetric-applied': 'Объёмный вес ({volumetric} кг, ÷ {divisor}) больше фактического — считаем по объёмному.',
       'min-kg-applied': 'Минимальный расчётный вес — {minKg} кг.',
       'min-m3-applied': 'Минимальный объём — {minM3} м³.',
-      'no-volume': 'Объём не указан — расчёт только по весу. Для объёмного груза цена может перейти на правило м³.',
+      'no-volume': 'Объём не указан — авиарасчёт только по весу.',
       'switched-to-truck': '{category} авиа не отправляется — применён тариф авто.',
-      'dense-lot': 'Плотная оптовая партия — от {denseKg} кг, плотнее {denseDensity} кг/м³.',
       range: 'Цена в диапазоне — точная сумма по запросу.',
     },
     units: { kg: 'кг', m3: 'м³', cm: 'см', kgm3: 'кг/м³', perKg: '/кг', perM3: '/м³', days: 'дней', container: 'контейнер' },
@@ -361,6 +357,7 @@ const ru: PricingStrings = {
     resultLabel: 'Ориентировочная цена',
     resultEmpty: 'Введите вес — цена появится здесь.',
     overLimit: 'Для такого объёма калькулятор цену не даёт — контейнер или чартер считаются отдельно. Напишите в Telegram, посчитаем точно.',
+    needVolume: 'Авто карго считается по объёму: укажите ещё габариты или м³. Только по весу можно посчитать авиа.',
     ruleLabel: 'Применённое правило',
     switchNote: 'Эта категория не летит авиа — калькулятор перешёл на тариф авто.',
     kursNote: 'Расчётный курс: 1 $ = {rate} сум (ориентировочно).',
@@ -536,10 +533,8 @@ const en: PricingStrings = {
     categories: { standard: 'Standard goods', brand: 'Branded (original, boxed)', commercial: 'Commercial lot (3+ identical items)', battery: 'With batteries, electronics', liquid: 'Liquids, cosmetics, perfume' },
     rules: {
       'air-per-kg': 'Air · {category} · chargeable weight {kg} kg × {rate}',
-      'truck-ladder': 'Density {density} kg/m³ ≥ {threshold} → per kg · {rate}',
-      'truck-kg-only': 'No dimensions given → per kg · {rate}',
-      'truck-dense': 'Dense lot: {kg} kg at {density} kg/m³ ≥ {denseDensity} → {rate}',
-      'truck-lcl': 'Density {density} kg/m³ < {threshold} → per m³ · {rate}',
+      'truck-lcl': 'Density {density} kg/m³ → {m3} m³ × {rate}',
+      'truck-per-kg': 'Density {density} kg/m³ ≥ {perKgDensity} → per kg · {rate}',
       'rail-20ft': '20 ft container · {rate}, depending on route and season',
       'rail-40ft': '40 ft container · {rate}, depending on route and season',
     },
@@ -547,9 +542,8 @@ const en: PricingStrings = {
       'volumetric-applied': 'Volumetric weight ({volumetric} kg, ÷ {divisor}) exceeds the actual weight — priced on the volumetric figure.',
       'min-kg-applied': 'Minimum chargeable weight is {minKg} kg.',
       'min-m3-applied': 'Minimum volume is {minM3} m³.',
-      'no-volume': 'No volume entered — priced on weight only. Bulky goods may switch to the per-m³ rule.',
+      'no-volume': 'No volume entered — the air estimate uses weight only.',
       'switched-to-truck': '{category} cannot fly — the truck rate was applied.',
-      'dense-lot': 'Dense wholesale lot — from {denseKg} kg, denser than {denseDensity} kg/m³.',
       range: 'Price range — the exact figure comes with a quote.',
     },
     units: { kg: 'kg', m3: 'm³', cm: 'cm', kgm3: 'kg/m³', perKg: '/kg', perM3: '/m³', days: 'days', container: 'container' },
@@ -578,6 +572,7 @@ const en: PricingStrings = {
     resultLabel: 'Estimate',
     resultEmpty: 'Enter a weight — the price appears here.',
     overLimit: 'The calculator does not price a shipment this large — container and charter loads are quoted separately. Message us on Telegram and we will price it exactly.',
+    needVolume: 'Truck cargo is priced by volume: add the dimensions or the volume in m³. Weight alone can only price air cargo.',
     ruleLabel: 'Rule applied',
     switchNote: 'This category cannot fly — the calculator switched to the truck rate.',
     kursNote: 'Settlement rate: $1 = {rate} UZS (indicative).',

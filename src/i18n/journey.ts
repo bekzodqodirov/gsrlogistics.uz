@@ -52,7 +52,7 @@ const uz: JourneyStrings = {
   chips: { truck: 'Avto', rail: 'Temir yoʻl', air: 'Avia' },
   daysUnit: 'kun',
   km: { unit: 'km', caption: 'Ivu → Toshkent, Xorgos orqali', daysCaption: { truck: 'avto, taxminan', rail: 'temir yoʻl, taxminan', air: 'avia, taxminan' } },
-  footnote: 'Muddatlar taxminiy, yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi. Xaritada Ivu → Toshkent yoʻnalishi koʻrsatilgan. Xitoyda uchta qabul manzili bor: Ivu, Guanchjou va Qashqar; qaysi biriga joʻnatish kerakligini menejer aytadi.',
+  footnote: 'Muddatlar taxminiy, yuk Ivu omboridan joʻnatilgandan keyin hisoblanadi. Xitoydagi qabul manzillari: Ivu, Guanchjou va Qashqar.',
   done: 'bajarildi',
   map: {
     aria: 'Ivudan Toshkentgacha yoʻl xaritasi: Ivu, Sian, Lanchjou, Urumchi, Xorgos, Olmaota, Shimkent, Toshkent',
@@ -80,7 +80,7 @@ const ru: JourneyStrings = {
   chips: { truck: 'Авто', rail: 'Ж/д', air: 'Авиа' },
   daysUnit: 'дней',
   km: { unit: 'км', caption: 'Иу → Ташкент через Хоргос', daysCaption: { truck: 'авто, ориентировочно', rail: 'ж/д, ориентировочно', air: 'авиа, ориентировочно' } },
-  footnote: 'Сроки ориентировочные, считаются после отправки со склада в Китае. На карте показан маршрут Иу → Ташкент. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар; на какой отправлять — скажет менеджер.',
+  footnote: 'Сроки ориентировочные, считаются после отправки со склада в Иу. Адреса приёма в Китае: Иу, Гуанчжоу и Кашгар.',
   done: 'выполнено',
   map: {
     aria: 'Карта маршрута из Иу в Ташкент: Иу, Сиань, Ланьчжоу, Урумчи, Хоргос, Алматы, Шымкент, Ташкент',
@@ -108,7 +108,7 @@ const en: JourneyStrings = {
   chips: { truck: 'Truck', rail: 'Rail', air: 'Air' },
   daysUnit: 'days',
   km: { unit: 'km', caption: 'Yiwu → Tashkent via Khorgos', daysCaption: { truck: 'truck, roughly', rail: 'rail, roughly', air: 'air, roughly' } },
-  footnote: 'Transit times are indicative and count from departure from the China warehouse. The map shows the Yiwu → Tashkent route. Three receiving addresses in China: Yiwu, Guangzhou and Kashgar; your manager tells you which one applies.',
+  footnote: 'Transit times are indicative and count from departure from the Yiwu warehouse. Receiving addresses in China: Yiwu, Guangzhou and Kashgar.',
   done: 'done',
   map: {
     aria: 'Route map from Yiwu to Tashkent: Yiwu, Xiʼan, Lanzhou, Urumqi, Khorgos, Almaty, Shymkent, Tashkent',

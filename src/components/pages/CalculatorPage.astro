@@ -26,11 +26,11 @@ const p = t.calcPage;
 const c = common[lang];
 const T = tariffs as unknown as Tariffs;
 const n = (v: number, f = 2) => fmtNumber(v, lang, f);
-const ladder = T.truck.ladderPerKg;
 const updated = fmtDate(T.updated, lang);
 const vars = {
-  date: updated, truck: fmtUsd(ladder[ladder.length - 1].rate, lang), air: fmtUsd(T.air.perKg.standard, lang),
-  threshold: n(T.truck.densityThresholdKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
+  date: updated, truck: fmtUsd(T.truck.lclPerM3ByDensity[0].rate, lang), air: fmtUsd(T.air.perKg.standard, lang),
+  threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
+  denseRate: fmtUsd(T.truck.perKgAboveDensity, lang),
   days: `${n(T.truck.days[0], 0)}–${n(T.truck.days[1], 0)}`,
 };
 const label = c.nav.find((x) => x.key === 'calculator')?.label ?? p.eyebrow;

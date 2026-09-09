@@ -25,13 +25,12 @@ const t = pick(lang, faqStrings);
 const c = common[lang];
 const groups = faq[lang];
 const all = faqItems(lang);
-const ladder = tariffs.truck.ladderPerKg;
-const truckFrom = ladder[ladder.length - 1].rate;
+const truckFrom = tariffs.truck.lclPerM3ByDensity[0].rate;
 const vars = {
   count: all.length,
   truckDays: `${fmtNumber(tariffs.truck.days[0], lang)}–${fmtNumber(tariffs.truck.days[1], lang)}`,
   airDays: `${fmtNumber(tariffs.air.days[0], lang)}–${fmtNumber(tariffs.air.days[1], lang)}`,
-  truckFrom: lang === 'en' ? `$${truckFrom.toFixed(2)}` : fmtUsd(truckFrom, lang),
+  truckFrom: lang === 'en' ? `$${truckFrom}` : fmtUsd(truckFrom, lang),
   date: fmtDate(tariffs.updated, lang),
 };
 const intro = faqTpl(t.intro, vars);

@@ -46,7 +46,7 @@ const uz: ProofStrings = {
   listLabel: 'Mijoz oladigan narsalar',
   items: [
     { when: 'Boshida', title: 'Shartnoma va hisob-faktura', text: 'Narx, muddat va javobgarlik — qogʻozda. Toʻlov hisob-faktura boʻyicha, yakunda — bajarilgan ish dalolatnomasi.' },
-    { when: 'Shartnomadan keyin', title: 'Xitoydagi qabul manzili va GS kodi', text: 'Menejer Xitoydagi uchta qabul manzilidan qaysi biriga joʻnatishni aytadi. Yetkazib beruvchingiz GS kodini (markirovka) joʻnatishdan oldin har bir qutiga yozadi — yukingiz boshqaniki bilan aralashmaydi.' },
+    { when: 'Shartnomadan keyin', title: 'Xitoydagi qabul manzili va GS kodi', text: 'Menejer Xitoydagi uchta qabul manzilidan qaysi biriga joʻnatishni aytadi. Yetkazib beruvchingiz GS kodini (markirovkani) joʻnatishdan oldin har bir qutiga yozadi — yukingiz boshqaniki bilan aralashmaydi.' },
     { when: 'Qabul punktida', title: 'Foto-hisobot', text: 'Qabulda, oʻlchovda va yuklashda. Vazn, hajm va joy raqami surat bilan birga Telegramga keladi.' },
     { when: 'Yoʻlda', title: 'GS kodi bilan kuzatuv', text: 'Shu GS kod boʻyicha menejerdan joriy holat va suratni soʻraysiz: qabul punktida, yoʻlda, Xorgosda, Toshkent omborida, yetkazildi.', link: 'tracking', linkLabel: 'Kuzatuv sahifasi' },
     { when: 'Toshkentda', title: 'Toshkent omborida qabul yoki uygacha yetkazish', text: 'Yuk kelgach menejer xabar beradi. Oʻzingiz olib ketasiz yoki manzilingizga, viloyatga joʻnatamiz.', link: 'pricing', linkLabel: 'Yetkazish shartlari' },
