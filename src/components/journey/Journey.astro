@@ -7,7 +7,7 @@
  *   static  — default. Route fully drawn, six cards stacked in normal flow, no pin. Used for no-JS,
  *             prefers-reduced-motion, the low-end gate, or if the GSAP chunk fails to load.
  *   live    — `.is-live` (set synchronously by the inline gate below). Stage is 100svh, the section
- *             reserves the full pin distance in CSS (6.5 × 100svh desktop / 5.5 mobile → CLS 0), and
+ *             reserves the full pin distance in CSS (5 × 100svh desktop / 4.5 mobile → CLS 0), and
  *             ./journey.ts (GSAP core + ScrollTrigger + MotionPathPlugin) is imported only when the
  *             section comes within 100 % rootMargin, and the observer that watches for that is armed
  *             after `load` so the chunk never competes with the hero; init() waits for idle (INP).
@@ -46,10 +46,17 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   <div class="journey-stage" data-j="stage">
     <div class="journey-map" data-j="map">
       <div class="cam" data-j="cam"><RouteMap lang={lang} /></div>
+      <!-- The plotting-table grid lives OUTSIDE the camera: as a <pattern> fill inside .cam it was
+           re-rasterized on every frame of the scale tween, three quarters of all the raster work in
+           the scrub, for a texture worth 4/255 of brightness. Unscaled it is free and reads the same. -->
+      <svg class="jm-grid-layer" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <defs><pattern id="j-dots" width="43" height="43" patternUnits="userSpaceOnUse"><circle cx="21.5" cy="21.5" r="0.76" fill="rgb(255 255 255 / 0.055)"></circle></pattern></defs>
+        <rect width="100%" height="100%" fill="url(#j-dots)"></rect>
+      </svg>
     </div>
 
     <header class="journey-head" data-j="head">
-      <p class="eyebrow">{t.eyebrow}</p>
+      <p class="eyebrow" data-j="eyebrow">{t.eyebrow}</p>
       <h2 id="journey-title" class="display-2 measure-head" data-j="title">{t.title}</h2>
       <p class="journey-sub intro" data-j="sub">{t.sub}</p>
     </header>
@@ -110,17 +117,18 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   </div>
 </section>
 
-<!-- Synchronous gate: decides the layout before the next paint. Reduced motion, Save-Data and low-end devices keep the static layout.
-     DESIGN_BRIEF §4.6: on phones ≤ 4 cores is static even when deviceMemory is unknown (Firefox/Safari never expose it);
-     on desktop the same core count also needs ≤ 4 GB — a 4-thread laptop is not a Redmi. -->
+<!-- Synchronous gate: decides the layout before the next paint. Reduced motion, Save-Data and genuinely
+     weak devices keep the static layout. The old rule (any phone reporting ≤ 4 cores) turned the section
+     off on ordinary mid-range Androids — and on any phone whose browser under-reports cores — which is a
+     far worse outcome than a few dropped frames. Now it takes an explicit signal of a weak device:
+     Save-Data on, ≤ 2 GB of RAM, or ≤ 2 logical cores. -->
 <script is:inline>
   (function () {
     var el = document.getElementById('yol');
     if (!el || !('IntersectionObserver' in window)) return;
     var n = navigator, mem = n.deviceMemory, cores = n.hardwareConcurrency;
     var saveData = !!(n.connection && n.connection.saveData);
-    var phone = /Mobi|Android/i.test(n.userAgent || '');
-    var lowEnd = saveData || (mem && mem <= 2) || (cores && cores <= 4 && (phone || (mem && mem <= 4)));
+    var lowEnd = saveData || (mem && mem <= 2) || (cores && cores <= 2);
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduce && !lowEnd) el.classList.add('is-live');
   })();
@@ -153,7 +161,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
 
 <style is:global>
   /* ============ section shell ============ */
-  .journey { position: relative; background: var(--bg); color: var(--fg); overflow: clip; --j-card-w: 360px; --j-edge: max(var(--gutter), calc((100% - var(--container)) / 2)); }
+  .journey { position: relative; background: var(--bg); color: var(--fg); overflow: clip; --j-route-idle: rgb(255 255 255 / 0.34); --map-country: #8b8b95; --j-card-w: 360px; --j-edge: max(var(--gutter), calc((100% - var(--container)) / 2)); }
   .journey .journey-stage { position: relative; display: flex; flex-direction: column; max-width: calc(var(--container) + 2 * var(--gutter)); margin-inline: auto; padding: var(--section-y) var(--gutter); }
   .journey .journey-head { order: -1; }
   .journey .journey-head { max-width: 40ch; margin-bottom: clamp(24px, 3vw, 40px); }
@@ -200,20 +208,53 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey .jrail-btn[aria-current='step'] svg { fill: currentColor; }
 
   /* ============ map styling (global because the paths are injected) ============ */
-  .journey .jmap .land { fill: var(--map-land); stroke: var(--map-stroke); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-  .journey .jmap .land-cn, .journey .jmap .land-uz { fill: color-mix(in oklab, var(--map-land), #fff 4%); }
+  .journey .jmap .jm-sea { fill: var(--map-sea); }
+  .journey .jmap .land { fill: var(--map-land); stroke: var(--map-stroke); stroke-width: 1.15; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+  /* origin and destination one step lighter than their neighbours: ΔL* 8.3, not the 3.4 a 4 % mix gave */
+  .journey .jmap .land-cn, .journey .jmap .land-uz { fill: var(--map-land-2); }
   .journey:not(.is-live) .jmap { overflow: hidden; }
-  .journey .jmap .jm-route-idle { fill: none; stroke: var(--route-idle); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-  .journey .jmap .jm-route { fill: none; stroke: var(--accent-text); stroke-width: 2; stroke-linecap: butt; stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
-  .journey .jmap .jm-rail-idle { fill: none; stroke: rgb(255 255 255 / 0.08); stroke-width: 1; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
-  .journey .jmap .jm-rail { fill: none; stroke: rgb(255 255 255 / 0.24); stroke-width: 1; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
-  .journey .jmap .jm-rail-mask { stroke-dashoffset: 0; vector-effect: non-scaling-stroke; }
-  .journey .jmap .jm-air { fill: none; stroke: rgb(255 255 255 / 0.12); stroke-width: 1; vector-effect: non-scaling-stroke; }
-  .journey .jmap .jm-kg { fill: none; stroke: rgb(255 255 255 / 0.1); stroke-width: 1; vector-effect: non-scaling-stroke; }
-  .journey .jmap .jm-dot { fill: var(--muted); }
-  .journey .jmap .jm-city text { font-size: var(--lbl); font-weight: 500; fill: var(--muted); letter-spacing: 0; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
+  .journey .jmap .jm-route-idle { fill: none; stroke: var(--j-route-idle); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  /* NO vector-effect on the two dashed paths. Chromium measures a non-scaling dash along its own
+     screen-space flattening of the path, which for this route is ~11 % shorter than getTotalLength():
+     asking for stroke-dashoffset .5 drew to .56, .3 to .3375, .7 to .78 — at every zoom. That is why
+     the red line ran a tenth of the corridor ahead of the truck and had crossed the border while the
+     truck was still queuing. Constant on-screen weight is bought back in journey.ts, which counter-
+     scales stroke-width inside the same camera tween that already counter-scales the labels.
+     The static fallback keeps the vector-effect: nothing is dashed there (offset 0), and a 2.5-unit
+     stroke on a 390 px-wide map would otherwise be half a pixel. */
+  .journey .jmap .jm-route { fill: none; stroke: var(--accent-text); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+  /* the last mile reads as the same journey, one step lighter than the trunk haul */
+  .journey .jmap .jm-last { fill: none; stroke: var(--accent-text); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .journey .jmap .jm-rail-idle { fill: none; stroke: rgb(255 255 255 / 0.16); stroke-width: 1; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
+  /* drawn rail: a plain stroke revealed by stroke-dashoffset (pathLength 1). It used to be a dashed
+     stroke behind an SVG mask, which cost 10.6 ms of raster per frame for the same reading. */
+  .journey .jmap .jm-rail { fill: none; stroke: rgb(255 255 255 / 0.44); stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 0; stroke-linecap: round; }
+  .journey:not(.is-live) .jmap .jm-route, .journey:not(.is-live) .jmap .jm-rail, .journey:not(.is-live) .jmap .jm-last { vector-effect: non-scaling-stroke; }
+  .journey .jmap .jm-air { fill: none; stroke: rgb(255 255 255 / 0.22); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .journey .jmap .jm-kg { fill: none; stroke: rgb(255 255 255 / 0.16); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .journey .jmap .jm-dot { fill: var(--fg-2); }
+  /* halo in the sea colour, not the page colour, and non-scaling so it is 3 px at every zoom */
+  .journey .jmap .jm-city text { font-size: var(--lbl); font-weight: 500; fill: var(--fg-2); letter-spacing: 0; paint-order: stroke; stroke: var(--map-sea); stroke-width: 3px; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+  .journey .jmap .jm-country { font-size: calc(var(--lbl) * 1.02); font-weight: 500; fill: var(--map-country); letter-spacing: 0.16em; text-transform: uppercase; paint-order: stroke; stroke: var(--map-sea); stroke-width: 3px; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+  /* stages 3 and 4 frame the corridor and the crossing, where the main China anchor is behind the
+     caption card or off-screen; the Tarim anchor takes over there. Swapped on data-stage, so no per-frame work. */
+  .journey .jmap .jm-country-cn2 { opacity: 0; }
+  .journey.is-live[data-stage='3'] .jmap .jm-country-cn, .journey.is-live[data-stage='4'] .jmap .jm-country-cn { opacity: 0; }
+  .journey.is-live[data-stage='3'] .jmap .jm-country-cn2, .journey.is-live[data-stage='4'] .jmap .jm-country-cn2 { opacity: 1; }
+  /* the payoff frame is centred on Tashkent; Kazakhstan is left in the top corner, half off the phone's right
+     edge and half under the caption card on a desktop. Drop it there — the frame is about one country. */
+  .journey.is-live[data-stage='6'] .jmap .jm-country-kz { opacity: 0; }
+  .journey .jmap .jm-country-cn, .journey .jmap .jm-country-cn2, .journey .jmap .jm-country-kz { transition: opacity var(--dur-slow) var(--ease); }
+  @media (max-width: 899px) { .journey .jmap .jm-country { font-size: calc(var(--lbl) * 0.85); letter-spacing: 0.1em; } }
+  .journey .jm-grid-layer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
   .journey .jmap .jm-faint { opacity: 0.45; }
   .journey .jmap .jm-alt text { font-weight: 400; }
+  /* One inherited line weight for every glyph (Glyphs.astro deliberately sets none). The strokes are
+     non-scaling, so weight is fixed in CSS pixels while the glyph itself is 39 px across on a desktop
+     camera and 20-27 px on a phone. At 1.5 px the phone's truck cab, van window and pin doorway all
+     filled in solid; 1.05 px keeps the same ink-to-glyph ratio the desktop has. */
+  .journey .jmap .jm-actors { stroke-width: 1.5; }
+  @media (max-width: 767px) { .journey .jmap .jm-actors { stroke-width: 1.05; } }
   .journey .jmap .j-mark { color: var(--gray-100); opacity: 0.7; }
   .journey .jmap .j-shed, .journey .jmap .j-parcel, .journey .jmap .j-container, .journey .jmap .j-pin, .journey .jmap .j-stamp, .journey .jmap .j-barrier { color: var(--gray-100); }
   .journey .jmap .j-post { stroke: var(--gray-100); stroke-width: 1.5; stroke-linecap: round; }
@@ -226,8 +267,10 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
 
   /* static final state (no JS / reduced motion / low-end / chunk failed) */
   .journey:not(.is-live) .jmap .j-parcel, .journey:not(.is-live) .jmap .j-container, .journey:not(.is-live) .jmap .j-vehicle, .journey:not(.is-live) .jmap .j-plane { opacity: 0; }
-  .journey:not(.is-live) .jmap .j-bar { transform-box: fill-box; transform-origin: 100% 50%; transform: rotate(-60deg); }
-  .journey:not(.is-live) .jmap .j-van { transform: translate(160px, 343px); }
+  /* +60, not −60: the pivot is the right-hand end and SVG y grows downward, so a negative angle swung the
+     free end of the boom DOWN through the road. The barrier is meant to be up — the truck has been cleared. */
+  .journey:not(.is-live) .jmap .j-bar { transform-box: fill-box; transform-origin: 100% 50%; transform: rotate(60deg); }
+  .journey:not(.is-live) .jmap .j-van { transform: translate(208px, 326px); }
   .journey:not(.is-live) .jmap .j-shed-tash .j-door { opacity: 1; }
   .journey:not(.is-live) .jcard-tick { opacity: 1; }
   @media (max-width: 599px) {
@@ -239,8 +282,12 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   @media (max-width: 899px) { .journey .jmap .j-halo, .journey .jmap .jm-alt { display: none; } }
 
   /* ============ live layout (pinned, scrubbed) ============ */
-  .journey.is-live { height: calc(100svh * 6.5); }
-  .journey.is-live .journey-stage { height: 100svh; max-width: none; padding: 0; overflow: hidden; background: var(--bg); }
+  /* 4.0 viewports of pin + the 1 the stage itself occupies. Must move together with the `end` in
+     journey.ts or the reserve and the trigger disagree and CLS comes back. */
+  .journey.is-live { height: calc(100svh * 5); }
+  /* contain: paint promotes the pinned stage to its own compositor layer (it already clips) —
+     measured 16.6 % → 9.9 % of frames over 33 ms on a 4x-throttled phone. */
+  .journey.is-live .journey-stage { height: 100svh; max-width: none; padding: 0; overflow: hidden; background: var(--bg); contain: paint; }
   .journey.is-live .journey-map { position: absolute; inset: 0; aspect-ratio: auto; }
   .journey.is-live .journey-head { position: absolute; z-index: 2; left: var(--j-edge); top: calc(var(--header-h) + 28px); margin: 0; pointer-events: none; }
   .journey.is-live .journey-cards { margin: 0; gap: 0; grid-template-columns: 1fr; align-items: center; }
@@ -249,18 +296,19 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey.is-live .journey-rail { display: flex; gap: 2px; }
   /* initial state = stage 0 before GSAP takes over (the chunk sets everything explicitly) */
   .journey.is-live .jmap .jm-route { stroke-dashoffset: 1; }
-  .journey.is-live .jmap .jm-rail-mask { stroke-dashoffset: 1; }
+  .journey.is-live .jmap .jm-rail { stroke-dashoffset: 1; }
+  .journey.is-live .jmap .jm-last { stroke-dashoffset: 1; }
   .journey.is-live .jmap .j-parcel, .journey.is-live .jmap .j-container, .journey.is-live .jmap .j-vehicle, .journey.is-live .jmap .j-plane, .journey.is-live .jmap .j-stamp, .journey.is-live .jmap .j-barrier, .journey.is-live .jmap .j-van, .journey.is-live .jmap .j-pin { opacity: 0; }
   .journey.is-live[data-stage='1'] .j-shed-yiwu .j-door, .journey.is-live[data-stage='2'] .j-shed-yiwu .j-door, .journey.is-live[data-stage='5'] .j-shed-tash .j-door, .journey.is-live[data-stage='6'] .j-shed-tash .j-door { opacity: 1; }
 
   @media (min-width: 900px) {
     .journey.is-live .journey-sheet { display: contents; }
     .journey.is-live .journey-cards { position: absolute; right: var(--j-edge); top: 50%; transform: translateY(-50%); width: var(--j-card-w); z-index: 3; }
-    .journey.is-live .journey-rail { position: absolute; left: var(--j-edge); bottom: 56px; z-index: 3; }
+    .journey.is-live .journey-rail { position: absolute; left: var(--j-edge); bottom: 104px; z-index: 3; }
     .journey.is-live .journey-foot { position: absolute; left: var(--j-edge); bottom: 24px; margin: 0; max-width: 52ch; z-index: 3; }
   }
   @media (max-width: 899px) {
-    .journey.is-live { height: calc(100svh * 5.5); }
+    .journey.is-live { height: calc(100svh * 4.5); }
     .journey.is-live .journey-map { inset: 0; }
     .journey.is-live .journey-head { top: calc(var(--header-h) + 12px); right: var(--gutter); }
     .journey.is-live .journey-head .display-2 { font-size: clamp(1.75rem, 6vw, 2.25rem); }

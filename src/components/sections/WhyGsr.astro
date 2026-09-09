@@ -13,6 +13,7 @@ import { site } from '@/lib/site';
 import { fmtDate, fmtNumber } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Icon, { type IconName } from '@/components/ui/Icon.astro';
 
 interface Props { lang: Lang; index?: string }
 const { lang, index = '03' } = Astro.props;
@@ -33,14 +34,16 @@ const hrefFor = (link: NonNullable<(typeof t.reasons)[number]['link']>) =>
   : link === 'contact' ? pagePath(lang, 'contact')
   : pagePath(lang, 'services', serviceByKey(link).slug[lang]);
 
-/* Original monoline glyphs, 24-unit grid, 1.5 stroke, round caps. */
-const glyphs: Record<string, string> = {
-  warehouse: '<path d="M3 20V9l9-5 9 5v11"/><path d="M3 20h18"/><path d="M7 20v-5h10v5"/><path d="M9.5 15v-4h5v4"/>',
-  languages: '<path d="M3.5 5.5A1.5 1.5 0 0 1 5 4h8a1.5 1.5 0 0 1 1.5 1.5v5A1.5 1.5 0 0 1 13 12H8.5l-3 2.5V12H5a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M17 9.5h2a1.5 1.5 0 0 1 1.5 1.5v5A1.5 1.5 0 0 1 19 17.5h-.5V20l-3-2.5H12a1.5 1.5 0 0 1-1.5-1.5v-1.5"/><path d="M7 8h5"/>',
-  camera: '<path d="M3.5 8.5A1.5 1.5 0 0 1 5 7h2.5L9 4.5h6L16.5 7H19a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 19 19H5a1.5 1.5 0 0 1-1.5-1.5z"/><circle cx="12" cy="13" r="3.5"/>',
-  document: '<path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M9 11h6M9 14.5h3.5"/><circle cx="16" cy="17" r="3" fill="var(--card)"/><path d="m14.75 17 .85.85 1.65-1.7"/>',
-  scale: '<path d="M12 4.5v15M7.5 19.5h9M4 7.5h16"/><path d="m7 7.5-3 6.5a3 3 0 0 0 6 0l-3-6.5Zm10 0-3 6.5a3 3 0 0 0 6 0l-3-6.5Z"/>',
-  calendar: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14.5h2M11 14.5h2M14.5 14.5h2"/>',
+/* One glyph set for the whole page: these used to be inlined here at stroke 1.5, which put two
+   different weights in adjacent sections (#xizmatlar at 1.75, #nima-uchun at 1.5). They now come
+   from Icon.astro at 1.75 like every other glyph on the site. */
+const glyphFor: Record<string, IconName> = {
+  warehouse: 'warehouse',
+  languages: 'languages',
+  camera: 'camera',
+  document: 'file-check',
+  scale: 'scale',
+  calendar: 'calendar',
 };
 ---
 <section id="nima-uchun" class="section why below-fold" aria-labelledby="why-title">
@@ -54,7 +57,7 @@ const glyphs: Record<string, string> = {
     <ul class="reasons" role="list" aria-label={t.listLabel}>
       {t.reasons.map((r, i) => (
         <li class="reason card reveal" style={`--reveal-delay:${(i % 3) * 60}ms`}>
-          <svg class="glyph" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={glyphs[r.glyph]}></svg>
+          <Icon name={glyphFor[r.glyph]} size={24} class="glyph" />
           <h3 class="title">{tpl(r.title, vars)}</h3>
           <p class="text">{tpl(r.text, vars)}</p>
           <p class="fact tnum">{tpl(r.fact, vars)}</p>
@@ -69,7 +72,18 @@ const glyphs: Record<string, string> = {
 <style>
   .reasons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; list-style: none; margin: 0; padding: 0; }
   .reason { display: flex; flex-direction: column; align-items: flex-start; padding: 24px; min-width: 0; }
-  .glyph { color: var(--fg); margin-bottom: 20px; }
+  /* Same 44px tile as the service cards — 24px art + 10px padding on a soft ground. */
+  .reason :global(.glyph) {
+    box-sizing: content-box;
+    flex: none;
+    width: 24px; height: 24px; padding: 10px;
+    margin-bottom: 20px;
+    color: var(--fg);
+    background: var(--bg-2);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+  }
+  :global(.dark) .reason :global(.glyph) { background: rgb(255 255 255 / 0.06); border-color: var(--card-border); }
   .title { font-size: 1.375rem; line-height: 1.2; font-weight: 600; letter-spacing: -0.008em; text-wrap: balance; }
   .text { margin-top: 10px; color: var(--fg-2); font-size: var(--text-body); text-wrap: pretty; }
   .fact { margin-top: auto; padding-top: 20px; font-size: var(--text-small); font-weight: 600; color: var(--fg); }

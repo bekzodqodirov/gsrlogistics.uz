@@ -37,7 +37,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
                     </li>
                   ))}
                 </ul>
-                <a href={href} class="mega-all link">{allServices} ›</a>
+                <a href={href} class="mega-all link">{allServices}</a>
               </div>
             )}
           </li>
@@ -97,7 +97,9 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   .mega-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
   .mega-item { display: flex; gap: 12px; padding: 10px 12px; border-radius: var(--radius); color: var(--fg); min-height: 0; }
   .mega-item:hover { background: var(--bg-2); }
-  .mega-icon { flex: none; margin-top: 2px; color: var(--fg); }
+  /* :global() is required — Astro does not stamp this component's scope onto an <svg> rendered by a
+     child component, so a bare `.mega-icon` never matches and the icon was flex-shrunk to 14–18px. */
+  .mega-item :global(.mega-icon) { flex: none; margin-top: 2px; }
   .mega-body { display: grid; gap: 2px; }
   .mega-name { font-weight: 600; font-size: 0.9375rem; white-space: normal; }
   .mega-short { font-size: 0.8125rem; color: var(--muted); white-space: normal; line-height: 1.35; }

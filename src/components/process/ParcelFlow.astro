@@ -1,0 +1,340 @@
+---
+/**
+ * Home "Jarayon" — one carton, six stages.
+ *
+ * The carton is drawn ONCE and pinned to the centre of the frame; the six receptacles slide past
+ * behind it (scale → loaded trailer → truck → two border gates → Tashkent shed → your shopfront).
+ * That is literally the parcel's point of view: the box does not travel, the world does.
+ *
+ * The six stops are `STAGE_KEYS` and the words under them are `tracking[lang].stages[k].short`
+ * verbatim — the same words the manager sends on Telegram and the tracking page prints, so the
+ * diagram answers "where are my boxes" instead of decorating the section.
+ *
+ * Mechanic: six radios nested in their labels + `:has()` set `--i` (which frame the strip shows)
+ * and `--floor` (where the carton's drawn bottom edge lands). Zero JavaScript, no new dependency.
+ * Without `:has()` it degrades to one drawing above a numbered six-step explainer.
+ *
+ * Props: { lang, id? } — `id` seeds the radio `name` so two instances never collide.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { tracking, STAGE_KEYS } from '@/i18n/tracking';
+import { parcel } from '@/i18n/parcel';
+import { pagePath } from '@/i18n/routes';
+import { fmtNumber, fmtUsd } from '@/lib/format';
+import tariffs from '@/data/tariffs.json';
+
+interface Props { lang: Lang; id?: string }
+const { lang, id = 'gs' } = Astro.props;
+const tr = pick(lang, tracking);
+const t = pick(lang, parcel);
+
+/* Every number in the chips comes from the tariff sheet — edit tariffs.json and this moves with it. */
+const range = (d: number[]) => `${fmtNumber(d[0], lang)}–${fmtNumber(d[1], lang)}`;
+const vars: Record<string, string> = {
+  rate: fmtUsd(tariffs.truck.lclPerM3ByDensity[0].rate, lang),
+  truckDays: range(tariffs.truck.days),
+  airDays: range(tariffs.air.days),
+  railDays: range(tariffs.rail.days),
+};
+const fill = (s: string): string => s.replace(/\{(\w+)\}/g, (m, k: string) => vars[k] ?? m);
+
+/* Rail silhouettes, 24-unit grid. The stage names only appear from 1120px, so without these the
+   rail would be six identical dots and the phone reader would get no story at rest. */
+const GLYPHS: string[] = [
+  '<path d="M12 2.5v8M8.5 7l3.5 3.5L15.5 7"/><path d="M3.5 13.5v7h17v-7M3.5 13.5h17"/>',
+  '<rect x="2.5" y="12.5" width="8" height="8" rx="1"/><rect x="13.5" y="12.5" width="8" height="8" rx="1"/><rect x="8" y="3.5" width="8" height="8" rx="1"/>',
+  '<rect x="2" y="6.5" width="12" height="9.5" rx="1"/><path d="M14 9.5h4l3.5 3.5V16H14z"/><circle cx="7" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/>',
+  '<path d="M4.5 21V6.5M2 21h5"/><path d="M4.5 9.5H21"/><path d="M10 9.5v3.5M15.5 9.5v3.5"/>',
+  '<path d="M2.5 10 12 5l9.5 5M4.5 10v10.5h15V10"/><path d="M9 20.5v-6.5h6v6.5M9 17h6"/>',
+  '<rect x="2.5" y="7.5" width="12" height="12" rx="1"/><path d="M11 13.5l3 3 7-8"/>',
+];
+
+/* The six receptacles, drawn on one 360×200 grid and shown through a y 8→192 window, with one
+   horizon at y=176 in every scene — the carton is the only thing that is allowed to move.
+   `--floor` in the stylesheet is where the carton's drawn bottom edge lands in each of them.
+   `stroke="var(--gs-dim)"` rather than a class: these strings are injected raw, so Astro's scoped
+   class names never reach them. */
+const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: string }> }> = [
+  {
+    /* 1 · received — camera on a stand at the left, platform scale, readout head at the right.
+       kg and m³ are the two things actually measured, which is why the price can be per m³ by
+       density; the camera with three rays at the box is the photo report, drawn instead of said. */
+    g:
+      '<path d="M0 176h360" stroke="var(--gs-dim2)"/>' +
+      '<rect x="106" y="150" width="148" height="6" rx="3"/><path d="M180 156v12"/><rect x="140" y="168" width="80" height="8" rx="4"/>' +
+      '<path d="M288 176V102"/><rect x="256" y="62" width="64" height="40" rx="4"/>' +
+      '<rect x="36" y="62" width="60" height="42" rx="6"/><circle cx="66" cy="83" r="12"/><circle cx="66" cy="83" r="4.5"/>' +
+      '<path d="M50 62v-8h16v8"/><path d="M66 104v72M54 176h24"/>' +
+      '<g stroke="var(--gs-dim)"><path d="M102 72l16 6M102 83h17M102 94l16-6"/></g>',
+    labels: [{ x: '80%', y: '34.5%', s: 'kg' }, { x: '80%', y: '44.5%', s: 'm³' }],
+  },
+  {
+    /* 2 · consolidation — loaded trailer. Two ribs fence an 82-unit slot, exactly the carton's width
+       plus breathing room; the four unlabelled greys are other clients' cargo. The one red-labelled
+       box inside the fence IS the sentence "you do not need a whole truck, you pay for your space". */
+    g:
+      '<rect x="30" y="44" width="300" height="106" rx="3"/>' +
+      '<path d="M139 44v106M221 44v106" stroke="var(--gs-dim2)"/>' +
+      '<path d="M40 150h280v8H40z"/>' +
+      '<circle cx="96" cy="166" r="10"/><circle cx="96" cy="166" r="3.5"/>' +
+      '<circle cx="264" cy="166" r="10"/><circle cx="264" cy="166" r="3.5"/>' +
+      '<g stroke="var(--gs-dim)"><rect x="42" y="94" width="44" height="56" rx="2"/><rect x="92" y="78" width="42" height="72" rx="2"/><rect x="226" y="84" width="42" height="66" rx="2"/><rect x="274" y="100" width="44" height="50" rx="2"/></g>' +
+      '<path d="M0 176h360" stroke="var(--gs-dim2)"/>',
+  },
+  {
+    /* 3 · transit — one truck, side view. It reads left→right with the strip: this is a process, not
+       a map (no country shapes, no curve), so it never contradicts RouteBand's east→west line.
+       Air and rail live in the fact chips — the five-second read stays one truck. */
+    g:
+      '<rect x="30" y="48" width="196" height="96" rx="4"/>' +
+      '<path d="M226 144V88h42l34 34v22z"/><path d="M236 94h24l12 13h-36z"/>' +
+      '<path d="M40 144h262v8H40z"/>' +
+      '<circle cx="76" cy="164" r="12"/><circle cx="76" cy="164" r="4"/>' +
+      '<circle cx="180" cy="164" r="12"/><circle cx="180" cy="164" r="4"/>' +
+      '<circle cx="278" cy="164" r="12"/><circle cx="278" cy="164" r="4"/>' +
+      '<path d="M0 176h360"/><path class="gs-road" stroke="var(--gs-dim2)" d="M-8 184h376"/>',
+  },
+  {
+    /* 4 · customs — TWO gates, 24 units apart: China→Kazakhstan already passed (grey), then
+       Kazakhstan→Uzbekistan still ahead. Two borders, not one, is the surprising true thing on this
+       page and the fact that explains where the days go. */
+    g:
+      '<path d="M0 176h360" stroke="var(--gs-dim2)"/>' +
+      '<g stroke="var(--gs-dim)"><path d="M84 176V85M72 176h24"/><rect x="84" y="74" width="84" height="11" rx="5.5"/><path d="M105 74v11M126 74v11M147 74v11"/></g>' +
+      '<path d="M276 176V85M264 176h24"/>' +
+      '<rect x="192" y="74" width="84" height="11" rx="5.5"/>' +
+      '<path d="M213 74v11M234 74v11M255 74v11"/>',
+    labels: [{ x: '35%', y: '27%', s: 'CN → KZ' }, { x: '65%', y: '27%', s: 'KZ → UZ' }],
+  },
+  {
+    /* 5 · tashkent — shed: shallow pitch, wide eaves, so it reads warehouse and not house. The
+       doorway is 133→227 against a 76-unit carton: 9 units of jamb show each side, which is the
+       narrowest gap that still survives the 1.5px non-scaling stroke at a 358px frame. */
+    g:
+      '<path d="M40 96L180 56l140 40"/><path d="M28 96h304"/><path d="M52 96v80M308 96v80"/>' +
+      '<path d="M133 176V90h94v86"/><path d="M125 86h110"/>' +
+      '<g stroke="var(--gs-dim)"><rect x="72" y="130" width="44" height="46" rx="2"/><rect x="244" y="138" width="44" height="38" rx="2"/></g>' +
+      '<path d="M0 176h360" stroke="var(--gs-dim2)"/>',
+  },
+  {
+    /* 6 · delivered — the customer's own shopfront: flat roofline, sign band, two windows, a door
+       the carton's width. Deliberately NOT the stage-5 shed (pitched roof, eaves, side crates), and
+       deliberately not a human figure: `.gs-box` is painted above the scene, so no drawn hand can
+       ever be in front of the carton, and every silhouette that survives that reads as a pawn. */
+    g:
+      '<path d="M0 176h360" stroke="var(--gs-dim2)"/>' +
+      '<path d="M44 176V60M316 176V60"/><path d="M32 60h296"/>' +
+      '<rect x="88" y="66" width="184" height="20" rx="3" stroke="var(--gs-dim)"/>' +
+      '<path d="M118 176V96h124v80"/><path d="M110 92h140"/>' +
+      '<g stroke="var(--gs-dim)"><rect x="58" y="100" width="46" height="56" rx="2"/><rect x="256" y="100" width="46" height="56" rx="2"/></g>' +
+      '<g stroke="var(--accent)"><path d="M302 20l14 7.7v15.4L302 50.8l-14-7.7V27.7z"/><path d="M295.5 35l5 5 8.5-9.5"/></g>',
+  },
+];
+---
+
+<div class="gs-flow reveal" style="--reveal-delay:360ms">
+  <div class="gs-head">
+    <h3>{t.title}</h3>
+    <p>{t.hint}</p>
+  </div>
+
+  <div class="gs-rail" role="radiogroup" aria-label={t.pickerLabel}>
+    {STAGE_KEYS.map((k, i) => (
+      <label class="gs-stop">
+        <input
+          class="gs-pin"
+          type="radio"
+          name={`${id}-stop`}
+          checked={i === 0}
+          aria-label={tr.stages[k].short}
+          aria-controls={`${id}-say-${i}`}
+        />
+        <span class="gs-n tnum">0{i + 1}</span>
+        <svg class="gs-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={GLYPHS[i]} />
+        <span class="hex-node gs-dot" aria-hidden="true"></span>
+        <span class="gs-nm">{tr.stages[k].short}</span>
+      </label>
+    ))}
+  </div>
+
+  <div class="gs-frame">
+    <div class="gs-film">
+      {SCENES.map((s) => (
+        <div class="gs-scene">
+          <svg viewBox="0 8 360 184" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={s.g} />
+          {s.labels?.map((l) => <b aria-hidden="true" style={`left:${l.x};top:${l.y}`}>{l.s}</b>)}
+        </div>
+      ))}
+    </div>
+    {/* The one carton. Its viewBox is exactly the ink, so `--floor` is the drawn bottom edge. Flat
+        front view, never isometric — an isometric cube hides the label and the label is the point.
+        The `--bg` body is what makes it OCCLUDE the trailer wall and the doorway, and occlusion is
+        the only thing that says "in" rather than "on top of". GS stays SVG text so it scales. */}
+    <svg class="gs-box" viewBox="0 0 76 72" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="1" y="1" width="74" height="70" rx="3" fill="var(--bg)" vector-effect="non-scaling-stroke" />
+      <path d="M1 21h74M38 1v20" vector-effect="non-scaling-stroke" />
+      <rect x="11" y="33" width="40" height="22" rx="2" fill="var(--accent)" stroke="none" />
+      <text x="31" y="48.5" font-size="15" font-weight="700" fill="var(--accent-fg)" stroke="none" text-anchor="middle" letter-spacing="0.5">GS</text>
+      <path d="M57 38h8M57 46h8M57 54h5" stroke="var(--gs-dim)" vector-effect="non-scaling-stroke" />
+    </svg>
+  </div>
+
+  <div class="gs-says">
+    <ol class="gs-sfilm">
+      {STAGE_KEYS.map((k, i) => (
+        <li class="gs-say" id={`${id}-say-${i}`}>
+          <h4>{tr.stages[k].short}</h4>
+          <p>{t.steps[i].text}</p>
+          <ul class="gs-facts">{t.steps[i].facts.map((f) => <li>{fill(f)}</li>)}</ul>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <div class="gs-foot">
+    <p class="gs-note">{t.note}</p>
+    <a class="link" href={pagePath(lang, 'tracking')}>{t.trackLink}</a>
+  </div>
+</div>
+
+<style>
+  /* Two grey levels. --border is 1.5:1 on --bg-3 and vanishes at these line weights, so the drawings
+     use the palette's own greys: --gs-dim for secondary objects, --gs-dim2 for ground lines. */
+  .gs-flow {
+    --i: 0;
+    --floor: 150;
+    --gs-dim: var(--gray-500);
+    --gs-dim2: var(--gray-400);
+    position: relative;
+    margin-top: clamp(40px, 5vw, 64px);
+  }
+  .gs-head { display: grid; gap: 6px; margin-bottom: 20px; max-width: 46ch; }
+  .gs-head h3 { font-size: var(--text-h3); font-weight: 600; line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); text-wrap: balance; }
+  .gs-head p { font-size: var(--text-small); color: var(--muted); text-wrap: pretty; }
+
+  /* ---------- the rail ---------- */
+  /* --dot-y is DERIVED from the fixed rows below: 6 (pad) + 12 (numeral) + 6 + 24 (glyph) + 6 + 7
+     (half a node) = 61px. Re-derive it if you touch the padding, the rows or the row gap. */
+  .gs-rail { --dot-y: 61px; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin: 0 0 18px; padding-inline: 2px; }
+  .gs-rail::before, .gs-rail::after { content: ''; position: absolute; left: calc(100% / 12); right: calc(100% / 12); top: var(--dot-y); margin-top: -0.75px; height: 1.5px; }
+  .gs-rail::before { background: var(--border-soft); }
+  .gs-rail::after { background: var(--accent); transform-origin: left center; transform: scaleX(calc(var(--i) / 5)); transition: transform 480ms var(--ease-out-expo); }
+
+  .gs-stop { position: relative; display: grid; grid-template-rows: 12px 24px 14px auto; justify-items: center; row-gap: 6px; padding: 6px 2px 8px; cursor: pointer; border-radius: var(--radius-sm); -webkit-tap-highlight-color: transparent; }
+  .gs-pin { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .gs-n { display: grid; place-items: center; font-size: var(--text-caption); font-weight: 500; color: var(--meta); line-height: 1; }
+  .gs-g { width: 24px; height: 24px; color: var(--gs-dim); transition: color 240ms var(--ease); }
+  .gs-dot { position: relative; z-index: 1; width: 13px; height: 14px; --node-stroke: var(--border); --node-fill: var(--bg); }
+  .gs-dot, .gs-dot::after { transition: background 240ms var(--ease); }
+  .gs-nm { display: none; }
+  /* Sibling combinators, not :has() — the input is the first child of its own label. */
+  .gs-pin:checked ~ .gs-g { color: var(--fg); }
+  .gs-pin:checked ~ .gs-dot { --node-stroke: var(--accent); --node-fill: var(--accent); }
+  .gs-pin:checked ~ .gs-n, .gs-pin:checked ~ .gs-nm { color: var(--fg); font-weight: 600; }
+  .gs-stop:has(:focus-visible) { box-shadow: var(--focus-ring); }
+  @media (hover: hover) {
+    .gs-stop:hover .gs-g { color: var(--fg); }
+    .gs-stop:hover .gs-dot { --node-stroke: var(--fg); }
+  }
+
+  /* ---------- the stage ---------- */
+  .gs-frame { container-type: inline-size; position: relative; overflow: hidden; border: 1px solid var(--card-border); border-radius: var(--radius-lg); background: var(--bg-3); }
+  .gs-film, .gs-sfilm { display: flex; width: 600%; transform: translateX(calc(var(--i) * -16.6666667%)); transition: transform 520ms var(--ease-out-expo); }
+  .gs-scene, .gs-say { flex: 0 0 16.6666667%; }
+  .gs-scene { position: relative; aspect-ratio: 360 / 184; }
+  .gs-scene svg { display: block; width: 100%; height: 100%; color: var(--fg); }
+  /* vector-effect is NOT an inherited property, so the attribute on a <g> would be inert here. */
+  .gs-scene svg :global(*) { vector-effect: non-scaling-stroke; }
+  .gs-scene b { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font-weight: 500; font-size: clamp(11px, 3.3cqi, 17px); line-height: 1.15; color: var(--meta); }
+
+  /* The carton never moves horizontally; only its floor changes, as one composited transform.
+     1 scene unit = frame width / 360 = 0.2777778cqi, valid vertically because .gs-scene's
+     aspect-ratio is what sets the frame's height. The -80 is the carton's 72-unit height plus the
+     scene viewBox's 8-unit top crop. Never animate `top` here. */
+  .gs-box { position: absolute; left: 50%; top: 0; width: 21.1111%; height: auto; color: var(--fg); transform: translate(-50%, calc((var(--floor) - 80) * 0.2777778cqi)); transition: transform 520ms var(--ease-out-expo); }
+
+  /* ---------- the words ---------- */
+  .gs-says { overflow: hidden; margin-top: 16px; }
+  .gs-sfilm { list-style: none; margin: 0; padding: 0; }
+  .gs-say { padding-right: 8px; }
+  .gs-say h4 { font-size: 1.125rem; font-weight: 600; line-height: 1.25; }
+  /* The pane is as wide as the picture, and below 900px the picture is the whole container: cap the
+     sentence so a 900px-wide tablet does not get a 90-character line. */
+  .gs-say p { margin-top: 6px; max-width: 62ch; font-size: var(--text-small); line-height: 1.5; color: var(--fg-2); text-wrap: pretty; }
+  .gs-facts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; padding: 0; list-style: none; }
+  .gs-facts li { font-size: var(--text-caption); color: var(--meta); border: 1px solid var(--border-soft); border-radius: var(--radius-pill); padding: 3px 10px; white-space: nowrap; }
+  .gs-foot { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; margin-top: 16px; }
+  .gs-note { font-size: var(--text-caption); color: var(--meta); }
+
+  @media (min-width: 560px) {
+    .gs-say h4 { font-size: var(--text-h4); }
+    .gs-say p { font-size: var(--text-body); }
+  }
+
+  /* ---------- the only per-stage rules ---------- */
+  .gs-flow:has(.gs-stop:nth-child(1) .gs-pin:checked) { --i: 0; --floor: 150; }
+  .gs-flow:has(.gs-stop:nth-child(2) .gs-pin:checked) { --i: 1; --floor: 150; }
+  .gs-flow:has(.gs-stop:nth-child(3) .gs-pin:checked) { --i: 2; --floor: 144; }
+  .gs-flow:has(.gs-stop:nth-child(4) .gs-pin:checked) { --i: 3; --floor: 176; }
+  .gs-flow:has(.gs-stop:nth-child(5) .gs-pin:checked) { --i: 4; --floor: 176; }
+  .gs-flow:has(.gs-stop:nth-child(6) .gs-pin:checked) { --i: 5; --floor: 176; }
+
+  /* One ambient loop, only where motion is the subject. */
+  :global(.gs-road) { stroke-dasharray: 20 16; }
+  .gs-flow:has(.gs-stop:nth-child(3) .gs-pin:checked) :global(.gs-road) { animation: gs-roll 1.4s linear infinite; }
+  @keyframes gs-roll { to { stroke-dashoffset: -36; } }
+
+  @media (min-width: 900px) {
+    /* Both columns are fractions, so the block ends where the five-step <ol> above it ends instead
+       of stopping 144px short of the container and leaving a ragged right edge. 1.35 : 1 keeps the
+       picture the larger half at every width in the range and holds the caption near a 45ch measure. */
+    .gs-flow { max-width: none; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 1fr); column-gap: clamp(32px, 4vw, 56px); align-items: start; }
+    .gs-head { grid-column: 1 / -1; }
+    /* The rail indexes the frame, so it is never wider than the frame: a stop hanging over the text
+       column stops pointing at anything. */
+    .gs-rail { grid-column: 1; }
+    .gs-frame { grid-column: 1; grid-row: 3 / span 2; }
+    /* Column 2 is two auto rows that the frame spans, so the leftover height lands between them.
+       Two anchors, both on a line the picture actually draws: name + sentence + chips as one block
+       at the frame's top edge, note + link at the frame's bottom edge. */
+    .gs-says { grid-column: 2; grid-row: 3; margin-top: 0; align-self: start; }
+    .gs-foot { grid-column: 2; grid-row: 4; align-self: end; margin-top: 0; }
+    .gs-facts { margin-top: 18px; }
+    .gs-say h4 { font-size: var(--text-h4); }
+    .gs-say p { margin-top: 8px; font-size: var(--text-intro); line-height: 1.45; }
+  }
+
+  /* Names only once a rail column is wide enough for the longest of them ("Konsolidatsiya",
+     "Приёмка в Китае"). Below this the numbered glyphs carry the rail and the selected stage is
+     named in full by the <h4> beside the picture. */
+  @media (min-width: 1120px) {
+    .gs-nm { display: block; font-size: var(--text-caption); color: var(--meta); text-align: center; line-height: 1.25; min-height: 2.5em; text-wrap: balance; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gs-film, .gs-sfilm, .gs-box, .gs-rail::after, .gs-dot, .gs-g { transition: none; }
+    :global(.gs-road) { animation: none; }
+  }
+
+  /* Only mounted on a light section today, but the site can darken any section: keep the two greys
+     ordered (secondary object darker than ground line) if the ground under them flips. */
+  :global(.dark) .gs-flow, :global([data-theme='dark']) .gs-flow { --gs-dim: var(--gray-500); --gs-dim2: var(--gray-600); }
+
+  /* No :has() (pre-Dec-2023 engines): never a stuck carousel. One drawing — the carton on the scale,
+     which is the default state anyway — above a numbered six-step explainer. */
+  @supports not selector(:has(*)) {
+    /* Last block in the sheet, so this also unwinds the >=900px grid: with all six stages stacked,
+       a two-column fallback leaves a 600px empty pocket under the one drawing. One column instead. */
+    .gs-flow { display: block; max-width: 720px; }
+    .gs-foot { margin-top: 16px; }
+    .gs-rail { display: none; }
+    .gs-film { width: 100%; transform: none; }
+    .gs-scene { flex: 0 0 100%; }
+    .gs-scene:not(:first-child) { display: none; }
+    .gs-sfilm { display: block; width: 100%; transform: none; }
+    .gs-says { overflow: visible; counter-reset: gs; }
+    .gs-say { flex: none; padding: 0; margin-top: 20px; }
+    .gs-say h4::before { counter-increment: gs; content: '0' counter(gs) ' — '; }
+  }
+</style>

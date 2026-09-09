@@ -50,14 +50,14 @@ const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
       <div>
         <h2 class="footer-h">{t.footer.contacts}</h2>
         <ul role="list" class="contact-list">
-          <li><a href={phoneUrl} class="tnum"><Icon name="phone" size={16} />{site.phoneDisplay}</a></li>
-          <li><a href={phone2Url} class="tnum"><Icon name="phone" size={16} />{site.phone2Display}</a></li>
-          <li><a href={whatsappUrl} target="_blank" rel="noopener" class="tnum"><Icon name="whatsapp" size={16} />WhatsApp · {site.phone2Display}</a></li>
-          <li><a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener"><Icon name="telegram" size={16} />{t.cta.telegram}</a></li>
-          <li><a href={telegramGroupUrl} target="_blank" rel="noopener"><Icon name="users" size={16} />{t.footer.group}</a></li>
-          <li><a href={`mailto:${site.email}`}><Icon name="mail" size={16} />{site.email}</a></li>
-          <li><a href={site.yandexMapsUrl} target="_blank" rel="noopener"><Icon name="map-pin" size={16} /><span>{site.address[lang]}</span></a></li>
-          <li><span class="muted"><Icon name="clock" size={16} />{site.hours[lang]}</span></li>
+          <li><a href={phoneUrl} class="tnum"><Icon name="phone" size={18} />{site.phoneDisplay}</a></li>
+          <li><a href={phone2Url} class="tnum"><Icon name="phone" size={18} />{site.phone2Display}</a></li>
+          <li><a href={whatsappUrl} target="_blank" rel="noopener" class="tnum"><Icon name="whatsapp" size={18} />WhatsApp · {site.phone2Display}</a></li>
+          <li><a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.cta.telegram}</a></li>
+          <li><a href={telegramGroupUrl} target="_blank" rel="noopener"><Icon name="users" size={18} />{t.footer.group}</a></li>
+          <li><a href={`mailto:${site.email}`}><Icon name="mail" size={18} />{site.email}</a></li>
+          <li><a href={site.yandexMapsUrl} target="_blank" rel="noopener"><Icon name="map-pin" size={18} /><span>{site.address[lang]}</span></a></li>
+          <li><span class="muted"><Icon name="clock" size={18} />{site.hours[lang]}</span></li>
         </ul>
       </div>
     </div>
@@ -100,7 +100,9 @@ const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
   .site-footer ul a { color: var(--fg-2); font-size: 0.9375rem; transition: color var(--dur) var(--ease); }
   .site-footer ul a:hover { color: var(--fg); }
   .contact-list a, .contact-list span { display: inline-flex; gap: 10px; align-items: flex-start; }
-  .contact-list svg { margin-top: 3px; flex: none; }
+  /* :global() is required — the <svg> comes from Icon.astro and never carries this file's scope
+     attribute, so a bare `.contact-list svg` matched nothing and the icons could flex-shrink. */
+  .contact-list :global(svg) { margin-top: 2px; flex: none; }
   .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-top: clamp(32px, 5vw, 56px); padding-top: 24px; border-top: 1px solid var(--border-soft); }
   .footer-langs { display: flex; gap: 16px; }
   .footer-langs a { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--text-small); color: var(--muted); }
