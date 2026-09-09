@@ -158,7 +158,7 @@ Goods for a shop or a marketplace are commercial cargo; they cannot be brought i
 
 1. **Increase the density.** Ask the supplier for vacuum packing or a smaller box: 120 kg of soft goods in 2 m³ is 60 kg/m³ → $110/m³ → $220, while the same 120 kg compressed into 0.8 m³ is 150 kg/m³ → $130/m³ → $104. Repacking at the warehouse costs $0.40/kg ($48 here), so the net saving is $68.
 2. **Combine lots.** The 0.1 m³ minimum applies to each shipment separately, so small parcels are cheaper gathered into one: 0.06 m³ / 30 kg (500 kg/m³ → $290/m³ → 0.1 × 290 = $29) and 0.06 m³ / 6 kg (100 kg/m³ → $110/m³ → 0.1 × 110 = $11) cost $40 apart, but $24 together — 0.12 m³ / 36 kg → 300 kg/m³ → $200/m³. The 14 days of free storage in China exist for exactly this.
-3. **Pick the right mode.** Light bulky goods and dense goods both travel by truck and are both priced per m³; compare a lot above 15 m³ with a container; take air only when the deadline decides.
+3. **Pick the right mode.** Light bulky goods and dense goods both travel by truck and are both priced per m³ — only at 1,000 kg/m³ and above does the tariff flip to $0.55/kg; compare a lot above 15 m³ with a container; take air only when the deadline decides.
 4. **Mind the holidays.** Before Chinese New Year and October 1–7, prices and transit times rise; around November 11, on the contrary, there are discounts.
 5. **Prepare documents early.** When the invoice and the HS code match, the cargo does not sit at customs — no storage or demurrage costs.
 

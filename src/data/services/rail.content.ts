@@ -3,7 +3,7 @@ import type { ServiceContentByLang } from './types';
 /**
  * Temir yoʻl va konteyner (FCL / LCL) — long-form page content.
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): 20ft 2 800–5 500 $, 40ft 5 200–6 800 $,
- * 20–35 days; LCL in a container uses the truck m³ scale (110–190 $/m³ by density, min 0,1 m³);
+ * 20–35 days; LCL in a container uses the truck density scale (110–320 $/m³, 0,55 $/kg from 1 000 kg/m³, min 0,1 m³);
  * extras 1 $/kg inspection, 1% insurance. Container capacities (20ft ≈ 33 m³, 40HC ≈ 76 m³) are
  * ISO standard values. Keep in sync when tariffs change.
  */
@@ -60,10 +60,10 @@ const content: ServiceContentByLang = {
             ['20 futlik konteyner (FCL)', '≈ 33 m³, 20 t gacha', '2 800–5 500 $'],
             ['40 futlik / 40 HC konteyner (FCL)', '≈ 67–76 m³, 26 t gacha', '5 200–6 800 $'],
             ['LCL, zichlik 100 kg/m³ gacha', 'konteynerdagi joy', '110 $/m³ dan'],
-            ['LCL, zichlik 100–200 kg/m³', 'konteynerdagi joy', '130 $/m³ dan'],
-            ['LCL, zichlik 200 kg/m³ dan yuqori', 'konteynerdagi joy', '150 $/m³ dan'],
+            ['LCL, zichlik 101–150 kg/m³', 'konteynerdagi joy', '130 $/m³ dan'],
+            ['LCL, zichlik 151–200 kg/m³', 'konteynerdagi joy', '160 $/m³ dan'],
           ],
-          note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. FCL narxi stansiyadan Toshkent terminaligacha; bojxona toʻlovlari, terminaldan omborgacha avto va sugʻurta alohida. LCL narxiga bojxona rasmiylashtiruvi kompaniya hujjatlari bilan kiradi.',
+          note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. FCL narxi stansiyadan Toshkent terminaligacha; bojxona toʻlovlari, terminaldan omborgacha avto va sugʻurta alohida. LCL narxiga bojxona rasmiylashtiruvi kompaniya hujjatlari bilan kiradi. Zichlik zinalari avto kargodagi bilan bir xil — toʻliq jadval «Narxlar» sahifasida.',
         },
         callout: {
           title: 'Misol: 40 HC konteyner mebel',
@@ -268,10 +268,10 @@ const content: ServiceContentByLang = {
             ['Контейнер 20 футов (FCL)', '≈ 33 м³, до 20 т', '2 800–5 500 $'],
             ['Контейнер 40 футов / 40 HC (FCL)', '≈ 67–76 м³, до 26 т', '5 200–6 800 $'],
             ['LCL, плотность до 100 кг/м³', 'место в контейнере', 'от 110 $/м³'],
-            ['LCL, плотность 100–200 кг/м³', 'место в контейнере', 'от 130 $/м³'],
-            ['LCL, плотность выше 200 кг/м³', 'место в контейнере', 'от 150 $/м³'],
+            ['LCL, плотность 101–150 кг/м³', 'место в контейнере', 'от 130 $/м³'],
+            ['LCL, плотность 151–200 кг/м³', 'место в контейнере', 'от 160 $/м³'],
           ],
-          note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Цена FCL — от станции до терминала в Ташкенте; таможенные платежи, автодоставка с терминала и страховка отдельно. В цену LCL входит таможенное оформление под документы компании.',
+          note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Цена FCL — от станции до терминала в Ташкенте; таможенные платежи, автодоставка с терминала и страховка отдельно. В цену LCL входит таможенное оформление под документы компании. Ступени плотности те же, что в авто карго, — полная таблица на странице «Цены».',
         },
         callout: {
           title: 'Пример: 40 HC с мебелью',
@@ -476,10 +476,10 @@ const content: ServiceContentByLang = {
             ['20ft container (FCL)', '≈ 33 m³, up to 20 t', '$2,800–5,500'],
             ['40ft / 40 HC container (FCL)', '≈ 67–76 m³, up to 26 t', '$5,200–6,800'],
             ['LCL, density up to 100 kg/m³', 'space in a container', 'from $110/m³'],
-            ['LCL, density 100–200 kg/m³', 'space in a container', 'from $130/m³'],
-            ['LCL, density above 200 kg/m³', 'space in a container', 'from $150/m³'],
+            ['LCL, density 101–150 kg/m³', 'space in a container', 'from $130/m³'],
+            ['LCL, density 151–200 kg/m³', 'space in a container', 'from $160/m³'],
           ],
-          note: 'Estimates · Updated September 8, 2026. The FCL price covers station to Tashkent terminal; customs payments, trucking from the terminal and insurance are extra. LCL includes customs clearance under the company’s documents.',
+          note: 'Estimates · Updated September 8, 2026. The FCL price covers station to Tashkent terminal; customs payments, trucking from the terminal and insurance are extra. LCL includes customs clearance under the company’s documents. The density steps are the same as for truck cargo — the full table is on the Pricing page.',
         },
         callout: {
           title: 'Example: a 40 HC of furniture',

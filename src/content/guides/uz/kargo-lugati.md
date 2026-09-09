@@ -69,19 +69,19 @@ Yuk omborga kelganda olingan suratlar: qadoq, soni, holati, ogʻirligi. Telegram
 Tarozidagi ogʻirlik, kg.
 
 ### Hajmiy vazn (объёмный вес)
-Qutining hajmidan hisoblanadigan «vazn»: uzunlik × en × balandlik (sm) ÷ 5 000 (avia) yoki ÷ 6 000 (avto). Aviada toʻlov haqiqiy va hajmiy vaznning kattasi boʻyicha olinadi. Avtoda esa narxni hajmiy vazn emas, zichlik belgilaydi — u yerda hajmiy vazn faqat yuk qanchalik «puk» ekanini tezda baholash uchun kerak.
+Qutining hajmidan hisoblanadigan «vazn»: uzunlik × en × balandlik (sm) ÷ 5 000 (avia) yoki ÷ 6 000 (avto). Aviada toʻlov haqiqiy va hajmiy vaznning kattasi boʻyicha olinadi. Avtoda esa narxni hajmiy vazn emas, zichlik belgilaydi — u yerda hajmiy vazn faqat yuk ogʻirligiga nisbatan qancha joy egallashini tezda baholash uchun kerak.
 
 ### Zichlik (плотность), kg/m³
 Yukning ogʻirligini hajmiga boʻlish: 300 kg ÷ 2 m³ = 150 kg/m³. Avto kargoda narx aynan shu koʻrsatkichdan chiqadi: zichlik qaysi zinaga tushsa, 1 m³ uchun shu narx olinadi. 150 kg/m³ — 130 $/m³ zinasi, yaʼni 2 × 130 = 260 $; 48 kg 0,2 m³ da esa 240 kg/m³ boʻlib, 0,2 × 180 = 36 $ (taxminiy).
 
 ### Kub (m³)
-Bir kub metr hajm. Avto kargoda butun yuk shu birlikda narxlanadi — zichlikka qarab 110 $/m³ dan; yengil va hajmli tovarlar (oʻyinchoq, plastmassa, mebel) eng quyi zinalarga tushadi.
+Bir kub metr hajm. Avto kargoda yuk shu birlikda narxlanadi — zichlikka qarab 110 $/m³ dan; faqat suvdan zich yuk (1 000 kg/m³ va undan yuqori) kilogramm boʻyicha hisoblanadi. Yengil va hajmli tovarlar (oʻyinchoq, plastmassa, mebel) eng quyi zinalarga tushadi.
 
 ### Minimalka
 Eng kichik toʻlanadigan miqdor: masalan, avia uchun 0,5 kg, yigʻma yuk uchun 0,1 m³.
 
 ### Tarif zinapoyasi
-Narxlar jadvalining zinalari. Avto kargoda zinalar ogʻirlik emas, zichlik boʻyicha: 100 kg/m³ gacha 110 $/m³, 101–150 — 130 $, 151–200 — 160 $, 201–250 — 180 $ va shu tartibda 701–1 000 kg/m³ uchun 320 $/m³ gacha; 1 000 kg/m³ dan zich yuk esa 0,55 $/kg boʻyicha hisoblanadi. Aviada narx 1 kg uchun belgilanadi.
+Narxlar jadvalining zinalari. Avto kargoda zinalar ogʻirlik emas, zichlik boʻyicha: 100 kg/m³ gacha 110 $/m³, 101–150 — 130 $, 151–200 — 160 $, 201–250 — 180 $ va shu tartibda eng yuqori hajm zinasida (701 kg/m³ dan boshlab) 320 $/m³ gacha; zichlik 1 000 kg/m³ ga yetsa yoki undan oshsa, narx 0,55 $/kg boʻyicha hisoblanadi. Aviada narx 1 kg uchun belgilanadi.
 
 ### Sugʻurta
 Yuk yoʻqolsa yoki shikastlansa eʼlon qilingan qiymat boʻyicha toʻlanadigan kafolat. Odatda qiymatning 1% atrofida.

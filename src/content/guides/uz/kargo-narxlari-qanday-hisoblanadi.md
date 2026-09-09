@@ -158,7 +158,7 @@ Doʻkon yoki marketpleys uchun tovar — tijorat yuki; uni boj toʻlamasdan olib
 
 1. **Zichlikni oshiring.** Yetkazib beruvchidan vakuum qadoq yoki kichikroq qutini soʻrang: 120 kg yumshoq tovar 2 m³ da 60 kg/m³ → 110 $/m³ → 220 $ turadi, xuddi shu yuk 0,8 m³ ga siqilsa 150 kg/m³ → 130 $/m³ → 104 $. Omborda qayta qadoqlash 0,4 $/kg (bu yerda 48 $), demak sof foyda 68 $.
 2. **Partiyani birlashtiring.** 0,1 m³ minimal hajm har bir joʻnatmaga alohida qoʻllanadi, shuning uchun kichik posilkalarni bitta partiyaga yigʻish arzonroq: 0,06 m³ / 30 kg (500 kg/m³ → 290 $/m³ → 0,1 × 290 = 29 $) va 0,06 m³ / 6 kg (100 kg/m³ → 110 $/m³ → 0,1 × 110 = 11 $) alohida 40 $ turadi, birga esa 0,12 m³ / 36 kg → 300 kg/m³ → 200 $/m³ → 24 $. Xitoyda 14 kun bepul saqlash aynan shunday yigʻish uchun.
-3. **Toʻgʻri yoʻnalishni tanlang.** Yengil hajmli tovar ham, zich yuk ham avto bilan m³ boʻyicha ketadi; 15 m³ dan katta partiyani konteyner bilan taqqoslang; avia esa faqat muddat hal qiluvchi boʻlganda.
+3. **Toʻgʻri yoʻnalishni tanlang.** Yengil hajmli tovar ham, zich yuk ham avto bilan m³ boʻyicha ketadi — faqat 1 000 kg/m³ va undan zich yuk kg boʻyicha (0,55 $/kg) hisoblanadi; 15 m³ dan katta partiyani konteyner bilan taqqoslang; avia esa faqat muddat hal qiluvchi boʻlganda.
 4. **Bayramlarni hisobga oling.** Xitoy Yangi yili va 1–7-oktabr oldidan narx va muddat oʻsadi; 11-noyabr atrofida esa aksincha, chegirmalar boʻladi.
 5. **Hujjatlarni oldindan tayyorlang.** Invoys va TN VED kodi mos boʻlsa, yuk bojxonada turmaydi — saqlash va kechikish xarajati boʻlmaydi.
 

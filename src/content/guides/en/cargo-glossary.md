@@ -75,13 +75,13 @@ A “weight” calculated from the box dimensions: length × width × height (cm
 Weight divided by volume: 300 kg ÷ 2 m³ = 150 kg/m³. This is exactly where the truck price comes from: whichever band the density falls into sets the price of one m³. 150 kg/m³ sits in the $130 per m³ band, so 2 × 130 = $260; 48 kg in 0.2 m³ gives 240 kg/m³ and 0.2 × 180 = $36 (indicative).
 
 ### Cubic metre (m³)
-One cubic metre of volume. All truck cargo is priced in this unit — from $110 per m³ depending on density; light, bulky goods (toys, plastics, furniture) land on the lowest bands.
+One cubic metre of volume. Truck cargo is priced in this unit — from $110 per m³ depending on density; only cargo denser than water (1,000 kg/m³ and above) is billed by the kilogram. Light, bulky goods (toys, plastics, furniture) land on the lowest bands.
 
 ### Minimum charge
 The smallest billable amount: for example 0.5 kg by air or 0.1 m³ for consolidated cargo.
 
 ### Rate ladder
-The steps in the price table. For truck cargo the steps go by density, not weight: up to 100 kg/m³ costs $110 per m³, 101–150 is $130, 151–200 is $160, 201–250 is $180, and so on up to $320 per m³ for 701–1,000 kg/m³; cargo denser than 1,000 kg/m³ is charged at $0.55 per kg. Air cargo is priced per kg.
+The steps in the price table. For truck cargo the steps go by density, not weight: up to 100 kg/m³ costs $110 per m³, 101–150 is $130, 151–200 is $160, 201–250 is $180, and so on up to $320 per m³ on the top volumetric step (from 701 kg/m³); at 1,000 kg/m³ and above the price is charged at $0.55 per kg. Air cargo is priced per kg.
 
 ### Insurance
 Compensation at declared value if cargo is lost or damaged. Usually around 1% of the value.

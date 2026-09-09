@@ -47,7 +47,7 @@ Three questions decide the mode: how heavy and bulky the cargo is, how urgent it
 
 | Mode | Estimated price (September 2026) | Transit | Best for |
 |---|---|---|---|
-| Truck cargo (consolidated) | From $110 per m³; $110–320 per m³ depending on density, $0.55/kg above 1,000 kg/m³ | 15–25 days | Wholesale lots, heavy and bulky goods, items with batteries or liquids |
+| Truck cargo (consolidated) | From $110 per m³; $110–320 per m³ depending on density, $0.55/kg at 1,000 kg/m³ and above | 15–25 days | Wholesale lots, heavy and bulky goods, items with batteries or liquids |
 | Air cargo | $9–12/kg (standard $9, branded $12) | 5–10 days | Urgent, light and valuable: samples, electronics, branded goods |
 | Rail and containers | 20 ft $2,800–5,500, 40 ft $5,200–6,800 | 20–35 days | Lots above 15 m³, equipment, raw materials |
 

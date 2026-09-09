@@ -47,7 +47,7 @@ Yoʻnalishni uchta savol hal qiladi: yuk qancha ogʻir va hajmli, qanchalik shos
 
 | Yoʻnalish | Taxminiy narx (2026-yil sentabr) | Muddat | Kimga mos |
 |---|---|---|---|
-| Avto kargo (yigʻma yuk) | 110 $/m³ dan; zichlikka qarab 110–320 $/m³, 1 000 kg/m³ dan zich yuk 0,55 $/kg | 15–25 kun | Ulgurji partiya, ogʻir va hajmli tovar, batareyali va suyuq mahsulot |
+| Avto kargo (yigʻma yuk) | 110 $/m³ dan; zichlikka qarab 110–320 $/m³, 1 000 kg/m³ va undan zich yuk 0,55 $/kg | 15–25 kun | Ulgurji partiya, ogʻir va hajmli tovar, batareyali va suyuq mahsulot |
 | Avia kargo | 9–12 $/kg (oddiy 9 $, brend 12 $) | 5–10 kun | Shoshilinch, yengil va qimmat: namunalar, elektronika, brend tovar |
 | Temir yoʻl / konteyner | 20 fut 2 800–5 500 $, 40 fut 5 200–6 800 $ | 20–35 kun | 15 m³ dan katta partiya, uskunalar, xomashyo |
 

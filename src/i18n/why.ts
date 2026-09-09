@@ -62,7 +62,7 @@ const uz: WhyStrings = {
     {
       glyph: 'scale',
       title: 'Shaffof narx: kg yoki m³',
-      text: 'Hajmiy vazn formulasi ochiq: uzunlik × en × balandlik (sm) ÷ {div}. Zichlik {th} kg/m³ dan yuqori — kg boʻyicha, past — m³ boʻyicha. Yashirin toʻlovlarsiz.',
+      text: 'Hajmiy vazn formulasi ochiq: uzunlik × en × balandlik (sm) ÷ {div}. Zichlik {th} kg/m³ va undan yuqori — kg boʻyicha, past — m³ boʻyicha. Yashirin toʻlovlarsiz.',
       fact: 'Yigʻma yuk {rate} dan · ÷ {div} · {th} kg/m³',
       link: 'pricing',
       linkLabel: 'Barcha tariflar',

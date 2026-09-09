@@ -38,7 +38,7 @@ const content: ServiceContentByLang = {
         bullets: [
           'Ulgurji savdo (Abu Sahiy, Chorsu, Bek Baraka): kiyim-kechak, poyabzal, gazlama — zich yuk, odatda 200–350 kg/m³, yaʼni 160–230 $/m³ oraligʻidagi tarif.',
           'Uzum, Yandex Market va Instagram sotuvchilari: 20–300 kg li partiyalar har 1–2 haftada; har bir buyurtma alohida kod bilan markirovka qilinadi.',
-          'Ishlab chiqaruvchilar: ehtiyot qismlar, xomashyo, mayda uskunalar — zichligi 501–700 kg/m³ boʻlgan yuk 300 $/m³, 1 000 kg/m³ dan zich metall va furnitura esa 0,55 $/kg boʻyicha hisoblanadi.',
+          'Ishlab chiqaruvchilar: ehtiyot qismlar, xomashyo, mayda uskunalar — zichligi 501–700 kg/m³ boʻlgan yuk 300 $/m³, 1 000 kg/m³ va undan zich metall va furnitura esa 0,55 $/kg boʻyicha hisoblanadi.',
           'Yengil va hajmli tovarlar (oʻyinchoq, plastmassa buyumlar, mebel, uy-roʻzgʻor mollari): zichlik 100 kg/m³ gacha — eng past tarif, 110 $/m³.',
         ],
       },
