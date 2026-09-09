@@ -43,7 +43,9 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 .caption { font-size: var(--text-caption); line-height: 1.35; letter-spacing: 0.01em; color: var(--meta); }
 .muted { color: var(--muted); }
 .meta { color: var(--meta); }
-.stat { font-size: var(--text-stat); line-height: 1; letter-spacing: -0.03em; font-weight: 700; font-variant-numeric: tabular-nums; }
+/* proportional at display size — a tabular "1" carries the advance width of a "0" and opens a hole
+   next to it at 40-96px. Columns that must align opt back in with .tnum, declared after this. */
+.stat { font-size: var(--text-stat); line-height: 1; letter-spacing: -0.03em; font-weight: 700; font-variant-numeric: proportional-nums; }
 .tnum { font-variant-numeric: tabular-nums; }
 .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: var(--text-small); font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; text-transform: none; }
 .eyebrow::before { content: ''; flex: none; width: 9px; height: 10px; background: var(--accent-text); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
@@ -52,7 +54,10 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 :root { --hex-clip: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
 .hex-node { position: relative; display: inline-block; width: 12px; height: 13px; clip-path: var(--hex-clip); background: var(--node-stroke, var(--border)); }
 .hex-node::after { content: ''; position: absolute; inset: 1.5px; clip-path: var(--hex-clip); background: var(--node-fill, var(--bg)); }
-.num-unit { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-left: 4px; letter-spacing: 0; }
+/* The gap has to scale with the numeral, not the unit: an em on .num-unit resolves against the unit's
+   own small size, so it shrinks exactly where the display number grows. Put most of it on the numeral. */
+.num-unit { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-left: 0.12em; letter-spacing: 0; line-height: 1; vertical-align: baseline; }
+.stat:has(+ .num-unit), .jkm-num:has(+ .num-unit), .fact-value:has(+ .num-unit) { margin-right: 0.07em; }
 :lang(ru) .display-1, :lang(ru) .display-2, :lang(ru) h2 { letter-spacing: -0.01em; }
 .measure { max-width: 60ch; }
 .measure-head { max-width: 32ch; }

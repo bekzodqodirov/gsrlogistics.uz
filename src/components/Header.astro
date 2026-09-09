@@ -177,8 +177,19 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   }
   const header = document.getElementById('site-header');
   if (header) {
-    const onScroll = () => header.setAttribute('data-scrolled', String(window.scrollY > 8));
-    onScroll();
+    // one rAF-batched write per frame, and only on an actual state change — the naive version wrote an
+    // attribute (and invalidated style) on every scroll event, alongside the journey's scrub
+    let scrolled: boolean | null = null;
+    let queued = false;
+    const applyScrolled = () => {
+      queued = false;
+      const next = window.scrollY > 8;
+      if (next === scrolled) return;
+      scrolled = next;
+      header.setAttribute('data-scrolled', String(next));
+    };
+    const onScroll = () => { if (queued) return; queued = true; requestAnimationFrame(applyScrolled); };
+    applyScrolled();
     window.addEventListener('scroll', onScroll, { passive: true });
 
     // White glass over a dark band composites to mud and drops the nav below 4.5:1, so the header

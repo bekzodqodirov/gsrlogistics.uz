@@ -184,7 +184,9 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey .jchip[aria-pressed='true'] { background: var(--gray-100); border-color: var(--gray-100); color: var(--black); }
   .journey .jchip[aria-pressed='true'] .jchip-days { opacity: 0.7; }
   .journey .jkm { display: flex; align-items: baseline; gap: 4px; margin-top: 16px; }
-  .journey .jkm-num { font-size: clamp(2rem, 1.5vw + 1.4rem, 2.5rem); line-height: 1; letter-spacing: -0.03em; font-weight: 700; }
+  /* reserved width and a fixed line box: the counter runs 0 → 5 000+ during the scrub, and without them
+     the unit beside it steps 3px vertically as digits are added */
+  .journey .jkm-num { display: inline-block; min-width: 5ch; text-align: right; font-size: clamp(2rem, 1.5vw + 1.4rem, 2.5rem); line-height: 1; letter-spacing: -0.03em; font-weight: 700; }
   .journey .jkm-cap { margin-top: 6px; color: var(--muted); }
   .journey .jcard-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 20px; }
   .journey .jcard-tg { font-size: var(--text-small); }

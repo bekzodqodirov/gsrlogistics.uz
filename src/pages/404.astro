@@ -1,36 +1,73 @@
 ---
-/** Trilingual 404: all three blocks are in the HTML; a tiny inline script reveals the block matching the URL prefix. */
+/**
+ * Trilingual 404. One <h1> only: the Uzbek copy is in the markup and a tiny inline script swaps the
+ * strings (and the block's lang) when the URL sits under /ru/ or /en/. Rendering all three blocks and
+ * hiding two put three <h1> elements in the document, which every validator and h1-counting check flags.
+ */
 import Base from '@/layouts/Base.astro';
 import Icon from '@/components/ui/Icon.astro';
 import { locales, langMeta } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { pagePath } from '@/i18n/routes';
 import { telegramChat } from '@/lib/site';
+
+const copy = Object.fromEntries(
+  locales.map((l) => [
+    l,
+    {
+      lang: langMeta[l].htmlLang,
+      title: common[l].notFound.title,
+      text: common[l].notFound.text,
+      home: common[l].notFound.home,
+      homeHref: pagePath(l, 'home'),
+      tg: common[l].cta.telegram,
+      tgHref: telegramChat(common[l].telegramDraft.general),
+    },
+  ]),
+);
+const uz = copy.uz;
 ---
 <Base lang="uz" title="404 — Sahifa topilmadi" description="Bu sahifa topilmadi." pageKey="home" noindex hideMobileBar>
   <section class="section nf">
     <div class="container">
-      {locales.map((l) => (
-        <div class="nf-block" data-lang={l} lang={langMeta[l].htmlLang} hidden={l !== 'uz'}>
-          <p class="eyebrow">404</p>
-          <h1 class="display-2 measure-head">{common[l].notFound.title}</h1>
-          <p class="intro" style="max-width:52ch;margin-top:16px">{common[l].notFound.text}</p>
-          <div class="cluster" style="margin-top:32px">
-            <a href={pagePath(l, 'home')} class="btn btn-primary">{common[l].notFound.home}</a>
-            <a href={telegramChat(common[l].telegramDraft.general)} class="btn btn-secondary" target="_blank" rel="noopener"><Icon name="telegram" size={18} />{common[l].cta.telegram}</a>
-          </div>
+      <div class="nf-block" lang={uz.lang} data-nf={JSON.stringify(copy)}>
+        <p class="eyebrow">404</p>
+        <h1 class="display-2 measure-head" data-nf-title>{uz.title}</h1>
+        <p class="intro" style="max-width:52ch;margin-top:16px" data-nf-text>{uz.text}</p>
+        <div class="cluster" style="margin-top:32px">
+          <a href={uz.homeHref} class="btn btn-primary" data-nf-home>{uz.home}</a>
+          <a href={uz.tgHref} class="btn btn-secondary" target="_blank" rel="noopener" data-nf-tg><Icon name="telegram" size={18} /><span data-nf-tg-label>{uz.tg}</span></a>
         </div>
-      ))}
+      </div>
       <svg class="nf-van" viewBox="0 0 240 80" width="240" height="80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M2 62h236" stroke-dasharray="4 6" opacity=".5"/>
-        <path d="M60 58V30h56l16 12v16H60Z"/><path d="M116 30v12h16M70 58v-8h30v8"/>
-        <circle cx="76" cy="60" r="6"/><circle cx="118" cy="60" r="6"/>
-        <path d="M150 42h10M150 36h18M150 48h6" opacity=".6"/>
+        <path d="M2 62h236" stroke-dasharray="4 6" opacity=".5"></path>
+        <path d="M60 58V30h56l16 12v16H60Z"></path><path d="M116 30v12h16M70 58v-8h30v8"></path>
+        <circle cx="76" cy="60" r="6"></circle><circle cx="118" cy="60" r="6"></circle>
+        <path d="M150 42h10M150 36h18M150 48h6" opacity=".6"></path>
       </svg>
     </div>
   </section>
   <script is:inline>
-    (function(){var p=location.pathname,l=p.indexOf('/ru/')===0?'ru':p.indexOf('/en/')===0?'en':'uz';document.querySelectorAll('.nf-block').forEach(function(b){b.hidden=b.getAttribute('data-lang')!==l});})();
+    (function () {
+      var w = document.querySelector('[data-nf]');
+      if (!w) return;
+      var p = location.pathname;
+      var l = p.indexOf('/ru/') === 0 ? 'ru' : p.indexOf('/en/') === 0 ? 'en' : 'uz';
+      if (l === 'uz') return;
+      var d;
+      try { d = JSON.parse(w.getAttribute('data-nf'))[l]; } catch (e) { return; }
+      if (!d) return;
+      w.setAttribute('lang', d.lang);
+      document.documentElement.setAttribute('lang', d.lang);
+      w.querySelector('[data-nf-title]').textContent = d.title;
+      w.querySelector('[data-nf-text]').textContent = d.text;
+      var home = w.querySelector('[data-nf-home]');
+      home.textContent = d.home;
+      home.setAttribute('href', d.homeHref);
+      var tg = w.querySelector('[data-nf-tg]');
+      tg.setAttribute('href', d.tgHref);
+      w.querySelector('[data-nf-tg-label]').textContent = d.tg;
+    })();
   </script>
 </Base>
 <style>

@@ -67,10 +67,10 @@ const uz: TrackingStrings = {
   glossary: { title: 'Holatlar nimani anglatadi?', intro: 'Har bir yuk oltita bosqichdan oʻtadi. Quyida ularning maʼnosi — menejer xabarida ham shu soʻzlar ishlatiladi.' },
   whereCode: {
     title: 'Yuk kodi qayerda?',
-    text: 'Yuk kodi — bu Ivu omborida qabul qilinganda yukingizga beriladigan belgi. U yuk oʻrni ustidagi yorliqda va menejer Telegramga yuboradigan foto-hisobotda yoziladi.',
+    text: 'Yuk kodi — bu Ivu omborida qabul qilinganda yukingizga beriladigan belgi. U har bir joy ustidagi yorliqda va menejer Telegramga yuboradigan foto-hisobotda yoziladi.',
     items: [
       'Foto-hisobot xabarida: menejer yuk qabul qilinganda kodni suratlar bilan birga yuboradi.',
-      'Yuk yorligʻida: har bir oʻrin ustidagi yorliqda kod va oʻlchamlar koʻrsatilgan.',
+      'Yuk yorligʻida: har bir joy ustidagi yorliqda kod va oʻlchamlar koʻrsatilgan.',
       'Shartnoma yoki hisob-fakturada: buyurtma raqami yonida.',
     ],
     note: 'Kodni topa olmasangiz, menejerga ismingiz va yuk qabul qilingan taxminiy sanani yozing — biz topamiz.',
