@@ -78,7 +78,7 @@ const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
   .fact-stack li + li { margin-top: 6px !important; }
   .fact-stack strong { color: var(--fg); font-weight: 600; margin-left: 6px; }
   .socials { display: flex; gap: 8px; margin-top: 20px; }
-  .socials a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: color-mix(in oklab, var(--fg), transparent 92%); color: var(--fg); transition: background var(--dur) var(--ease); }
+  .socials a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: color-mix(in oklab, var(--fg), transparent 92%); color: var(--fg); transition: background var(--dur) var(--ease); }
   .socials a:hover { background: color-mix(in oklab, var(--fg), transparent 84%); }
   .footer-h { font-size: var(--text-small); font-weight: 600; color: var(--meta); margin-bottom: 14px; letter-spacing: 0.02em; }
   /* Link groups collapse on phones (<640px); always open and non-interactive from 640px up. */
@@ -102,7 +102,7 @@ const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
   .contact-list svg { margin-top: 3px; flex: none; }
   .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-top: clamp(32px, 5vw, 56px); padding-top: 24px; border-top: 1px solid var(--border-soft); }
   .footer-langs { display: flex; gap: 16px; }
-  .footer-langs a { font-size: var(--text-small); color: var(--muted); }
+  .footer-langs a { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--text-small); color: var(--muted); }
   .footer-langs a[aria-current='true'] { color: var(--fg); font-weight: 600; }
 </style>
 <script>

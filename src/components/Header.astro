@@ -81,7 +81,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   .nav-desktop > ul > li > a[aria-current='page']::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; background: var(--red-600); border-radius: 2px; }
   .site-header[data-over-dark='true'] .nav-desktop > ul > li > a[aria-current='page']::after { background: var(--red-300); }
   .header-inner { display: flex; align-items: center; gap: 12px; min-height: var(--header-h); min-width: 0; }
-  .brand { display: inline-flex; align-items: center; color: var(--fg); margin-right: 8px; }
+  .brand { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg); margin-right: 8px; }
   .nav-desktop { display: none; flex: 1 1 auto; }
   .nav-desktop > ul { display: flex; gap: 2px; align-items: center; }
   .nav-desktop > ul > li > a { position: relative; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; padding: 0 10px; border-radius: var(--radius-pill); font-size: 0.9375rem; font-weight: 500; color: var(--fg-2); transition: background var(--dur) var(--ease), color var(--dur) var(--ease); }
@@ -107,7 +107,8 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   .site-header[data-over-dark='true'] .mega-item:hover { background: rgb(255 255 255 / 0.06); }
   .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
   .lang { display: flex; gap: 2px; align-items: center; }
-  .lang a { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 0 6px; border-radius: var(--radius-pill); font-size: 0.875rem; font-weight: 500; color: var(--muted); transition: color var(--dur) var(--ease); }
+  /* 44px hit area — the pill itself is transparent, so this only grows the target */
+  .lang a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; height: 44px; padding: 0 6px; border-radius: var(--radius-pill); font-size: 0.875rem; font-weight: 500; color: var(--muted); transition: color var(--dur) var(--ease); }
   .lang a + a::before { content: '·'; margin-right: 6px; color: var(--border); }
   .lang a[aria-current='true'] { color: var(--fg); font-weight: 600; }
   .lang a:hover { color: var(--fg); }

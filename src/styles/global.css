@@ -123,10 +123,15 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 .btn-ghost:hover { text-decoration: underline; text-underline-offset: 4px; transform: none; }
 .btn-soft { --btn-bg: var(--accent-soft); --btn-fg: var(--accent-text); --btn-bg-hover: color-mix(in oklab, var(--accent-soft), var(--accent) 12%); box-shadow: none; }
 .btn-white { --btn-bg: #fff; --btn-fg: var(--gray-900); --btn-bg-hover: var(--gray-100); }
-.btn-sm { min-height: 40px; padding: 0 16px; font-size: var(--text-small); }
+.btn-sm { min-height: 44px; padding: 0 16px; font-size: var(--text-small); }
 .btn-lg { min-height: 56px; padding: 0 28px; font-size: 1.125rem; }
 .btn-block { width: 100%; }
-.link { color: var(--fg); font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+/* A phone or e-mail link is a tap target wherever it sits, and it is usually one line of text tall.
+   Same trick: grow the hit box, keep the footprint. Buttons already carry their own height. */
+a[href^='tel:']:not(.btn), a[href^='mailto:']:not(.btn) { padding-block: 12px; margin-block: -12px; }
+/* padding grows the hit area to 44px while the negative margin keeps the layout footprint, so a
+   standalone "Batafsil ›" is thumb-sized without opening a gap in the block it sits in */
+.link { color: var(--fg); font-weight: 500; display: inline-flex; align-items: center; gap: 4px; padding-block: 12px; margin-block: -12px; }
 .link::after { content: '›'; display: inline-block; transition: transform var(--dur) var(--ease); font-weight: 500; }
 .link:hover::after { transform: translateX(2px); }
 .link:hover { text-decoration: underline; text-underline-offset: 4px; }
