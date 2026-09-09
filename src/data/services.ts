@@ -18,7 +18,7 @@ export interface ServiceMeta {
 export const services: ServiceMeta[] = [
   { key: 'truck', flagship: true, icon: 'truck', slug: { uz: 'avto-kargo', ru: 'avto-kargo', en: 'truck-cargo' },
     name: { uz: 'Avto kargo (yigʻma yuk)', ru: 'Авто карго (сборный груз)', en: 'Truck cargo (consolidated)' },
-    short: { uz: 'Xitoydan Toshkentga yigʻma yuk — kg yoki m³ hisobida.', ru: 'Сборный груз из Китая в Ташкент — по кг или м³.', en: 'Consolidated cargo from China to Tashkent, priced per kg or m³.' } },
+    short: { uz: 'Xitoydan Toshkentga yigʻma yuk — m³ hisobida, stavka zichlikka qarab.', ru: 'Сборный груз из Китая в Ташкент — по м³, ставка по плотности.', en: 'Consolidated cargo from China to Tashkent, priced per m³ by density.' } },
   { key: 'air', icon: 'plane', slug: { uz: 'avia-kargo', ru: 'avia-kargo', en: 'air-cargo' },
     name: { uz: 'Avia kargo', ru: 'Авиа карго', en: 'Air cargo' },
     short: { uz: 'Shoshilinch va qimmat yuklar uchun tez yetkazib berish.', ru: 'Быстрая доставка срочных и ценных грузов.', en: 'Fast delivery for urgent and high-value goods.' } },

@@ -24,7 +24,7 @@ export function fmtUsd(value: number, lang: Lang, maxFraction = 2): string {
   return lang === 'en' ? `$${n}` : `${n} $`;
 }
 
-/** "6,5 $/kg dan" (uz — postposition) vs "от 6,5 $/кг" / "from $6.50/kg" (ru/en — preposition). */
+/** "110 $/m³ dan" (uz — postposition) vs "от 110 $/м³" / "from $110/m³" (ru/en — preposition). */
 export function withFrom(value: string, lang: Lang, from: string): string {
   return lang === 'uz' ? `${value} ${from}` : `${from} ${value}`;
 }

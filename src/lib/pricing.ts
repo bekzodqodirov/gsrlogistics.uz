@@ -140,9 +140,9 @@ export function estimateAir(input: CargoInput, t: Tariffs): Estimate {
 }
 
 /**
- * Truck (consolidated): with a known volume the density decides — ≥ threshold → per kg
- * (ladder, or the dense rate for ≥ minKg lots above the dense density), below → per m³ by density band.
- * Without a volume the kg ladder applies and the result is flagged `no-volume`.
+ * Truck (consolidated), from the owner's own sheet: density (kg ÷ m³) picks a band and the total is
+ * m³ × that band's rate, with `minM3` as the floor. At or above `perKgFromDensityKgM3` the sheet bills
+ * per kilogram instead. A volume is required — weight alone cannot pick a band, so it throws.
  */
 export function estimateTruck(input: CargoInput, t: Tariffs): Estimate {
   const notes: NoteCode[] = [];

@@ -716,7 +716,7 @@ const en: PricingStrings = {
     eyebrow: '05 — Pricing',
     h2: 'Know the price before you ship.',
     rules: [
-      'Truck cargo is priced per m³: density (weight ÷ volume) picks the rate for a cubic metre; above {threshold} kg/m³ it is billed per kg.',
+      'Truck cargo is priced per m³: density (weight ÷ volume) picks the rate for a cubic metre; at {threshold} kg/m³ and above it is billed per kg.',
       'Air is priced per kg: volumetric weight = length × width × height (cm) ÷ {airDivisor}, compared with the actual weight.',
       'The price includes warehouse receiving, measuring and the photo report; insurance and customs payments are separate.',
     ],
