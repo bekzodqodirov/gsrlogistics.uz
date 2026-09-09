@@ -43,7 +43,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Misol: 48 kg telefon aksessuari, 0,2 m³',
-          text: 'Avia: 48 kg × 9 $ = 432 $, taxminan 7 kun. Avto: zichlik 48 ÷ 0,2 = 240 kg/m³ — bu 180 $/m³ toifasi, yaʼni 0,2 × 180 = 36 $, taxminan 20 kun. Namunani yoki birinchi mayda partiyani 2 hafta oldin sotuvga chiqarish uchun bu farqni toʻlashga arziydi. Hajm oshgani sayin farq tez oʻsadi: 300 kg, 1,2 m³ yukda avto 1,2 × 180 = 216 $, avia esa 300 × 9 = 2 700 $ — bunday yuk albatta avto bilan boradi.',
+          text: 'Avia: 48 kg × 9 $ = 432 $, taxminan 7 kun. Avto: zichlik 48 ÷ 0,2 = 240 kg/m³ — bu 180 $/m³ toifasi, yaʼni 0,2 × 180 = 36 $, taxminan 20 kun. Farq — 396 $: avia avtodan oʻn barobardan qimmat, shuning uchun bunga faqat namuna yoki mavsum boshiga ulgurishi kerak boʻlgan birinchi partiya uchun arziydi. Hajm oshgani sayin farq tez oʻsadi: 300 kg, 1,2 m³ yukda avto 1,2 × 180 = 216 $, avia esa 300 × 9 = 2 700 $ — bunday yuk albatta avto bilan boradi.',
           tone: 'info',
         },
       },
@@ -51,7 +51,7 @@ const content: ServiceContentByLang = {
         heading: 'Avia kargo narxi qanday hisoblanadi?',
         body: [
           'Avia kargoda narx har doim kilogramm hisobida va tovar toifasiga bogʻliq: oddiy tovar, brend tovar (original, qutisi va yorligʻi bilan) yoki seriyali tovar — bir xil mahsulotdan 3 donadan koʻp, tijorat partiyasi. Elektronika va kosmetika ham seriyali tarif boʻyicha hisoblanadi.',
-          'Hajmiy vazn qoidasi: uzunlik × en × balandlik (sm) ÷ 5 000. Samolyotda joy qimmat, shuning uchun boʻluvchi 5 000 — yaʼni avia hisobida 1 m³ taxminan 200 kg ga teng. Haqiqiy va hajmiy vazndan kattasi hisobga olinadi. Avto kargoda esa kilogramm umuman hisoblanmaydi: u yerda narx yuk zichligidan (kg/m³) kelib chiqib m³ boʻyicha belgilanadi. Qadoqni ixchamlash uchun Ivu omborida qayta qadoqlash xizmati bor — koʻpincha u oʻz narxini qoplaydi.',
+          'Hajmiy vazn qoidasi: uzunlik × en × balandlik (sm) ÷ 5 000. Samolyotda joy qimmat, shuning uchun boʻluvchi 5 000 — yaʼni avia hisobida 1 m³ taxminan 200 kg ga teng. Haqiqiy va hajmiy vazndan kattasi hisobga olinadi. Avto kargoda esa bu qoida ishlamaydi: u yerda narx yuk zichligidan (kg ÷ m³) kelib chiqadi va m³ boʻyicha olinadi; faqat zichligi 1 000 kg/m³ va undan yuqori yukda narx kilogramm boʻyicha hisoblanadi. Qadoqni ixchamlash uchun Ivu omborida qayta qadoqlash xizmati bor — koʻpincha u oʻz narxini qoplaydi.',
         ],
         table: {
           caption: 'Avia kargo tariflari, Xitoy → Toshkent',
@@ -245,7 +245,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Пример: 48 кг аксессуаров для телефонов, 0,2 м³',
-          text: 'Авиа: 48 кг × 9 $ = 432 $, ориентировочно 7 дней. Авто: плотность 48 ÷ 0,2 = 240 кг/м³ — это ставка 180 $/м³, то есть 0,2 × 180 = 36 $, ориентировочно 20 дней. Ради образца или первой небольшой партии эту разницу имеет смысл заплатить: товар выходит в продажу на две недели раньше. С ростом объёма разрыв быстро растёт: на грузе 300 кг в 1,2 м³ авто стоит 1,2 × 180 = 216 $, а авиа — 300 × 9 = 2 700 $, такой груз однозначно едет авто.',
+          text: 'Авиа: 48 кг × 9 $ = 432 $, ориентировочно 7 дней. Авто: плотность 48 ÷ 0,2 = 240 кг/м³ — это ставка 180 $/м³, то есть 0,2 × 180 = 36 $, ориентировочно 20 дней. Разница — 396 $: авиа дороже авто больше чем в десять раз, и платить её стоит только за образец или первую партию, которой нужно выйти в продажу на две недели раньше. С ростом объёма разрыв быстро растёт: на грузе 300 кг в 1,2 м³ авто стоит 1,2 × 180 = 216 $, а авиа — 300 × 9 = 2 700 $, такой груз однозначно едет авто.',
           tone: 'info',
         },
       },
@@ -253,7 +253,7 @@ const content: ServiceContentByLang = {
         heading: 'Как считается цена авиа карго?',
         body: [
           'В авиа карго цена всегда считается по килограммам и зависит от категории товара: обычный товар, брендовый (оригинал, с коробкой и биркой) или серийный — больше трёх одинаковых единиц, коммерческая партия. Электроника и косметика тоже идут по серийному тарифу.',
-          'Правило объёмного веса: длина × ширина × высота (см) ÷ 5 000. Место в самолёте дорогое, поэтому делитель — 5 000: это 200 кг на кубометр. К оплате берётся большее из фактического и объёмного веса. В авто карго килограммы вообще не считают: там цена берётся за м³ и зависит от плотности груза. На складе в Иу есть переупаковка для уплотнения — чаще всего она окупает себя.',
+          'Правило объёмного веса: длина × ширина × высота (см) ÷ 5 000. Место в самолёте дорогое, поэтому делитель — 5 000: это 200 кг на кубометр. К оплате берётся большее из фактического и объёмного веса. В авто карго это правило не действует: там цена считается за м³ и зависит от плотности груза (кг ÷ м³); только для груза плотностью от 1 000 кг/м³ цена берётся по килограммам. На складе в Иу есть переупаковка для уплотнения — чаще всего она окупает себя.',
         ],
         table: {
           caption: 'Тарифы авиа карго, Китай → Ташкент',
@@ -447,7 +447,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Example: 48 kg of phone accessories in 0.2 m³',
-          text: 'Air: 48 kg × $9 = $432, roughly 7 days. Truck: density is 48 ÷ 0.2 = 240 kg/m³, which falls in the $180 per m³ band, so 0.2 × $180 = $36, roughly 20 days. For a sample or a first small lot that difference buys two extra weeks of selling time. The gap widens fast with size: a 300 kg load in 1.2 m³ costs 1.2 × $180 = $216 by truck against 300 × $9 = $2,700 by air — that one clearly belongs on a truck.',
+          text: 'Air: 48 kg × $9 = $432, roughly 7 days. Truck: density is 48 ÷ 0.2 = 240 kg/m³, which falls in the $180 per m³ band, so 0.2 × $180 = $36, roughly 20 days. That is $396 more, over ten times the truck price, and it is worth paying only for a sample or a first lot that has to reach the shelf two weeks sooner. The gap widens fast with size: a 300 kg load in 1.2 m³ costs 1.2 × $180 = $216 by truck against 300 × $9 = $2,700 by air — that one clearly belongs on a truck.',
           tone: 'info',
         },
       },
@@ -455,7 +455,7 @@ const content: ServiceContentByLang = {
         heading: 'How is the air cargo price calculated?',
         body: [
           'Air cargo is always priced per kilogram, and the rate depends on the goods category: standard goods, branded goods (originals with box and label) or commercial lots — more than three identical units. Electronics and cosmetics are also billed at the commercial rate.',
-          'Volumetric weight: length × width × height (cm) ÷ 5 000. Space on a plane is expensive, so the divisor is 5,000 — that is 200 kg to the cubic metre. We charge the greater of actual and volumetric weight. Truck cargo does not work in kilograms at all: there the price is per m³ and follows the density of the load. The Yiwu warehouse offers repacking to compress boxes — it usually pays for itself.',
+          'Volumetric weight: length × width × height (cm) ÷ 5 000. Space on a plane is expensive, so the divisor is 5,000 — that is 200 kg to the cubic metre. We charge the greater of actual and volumetric weight. Truck cargo works the other way round: there the price is per m³ and follows the density of the load (kg ÷ m³); only cargo of 1,000 kg/m³ and denser is charged by the kilogram. The Yiwu warehouse offers repacking to compress boxes — it usually pays for itself.',
         ],
         table: {
           caption: 'Air cargo rates, China → Tashkent',
