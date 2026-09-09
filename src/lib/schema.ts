@@ -18,6 +18,7 @@ export function organizationNode(lang: Lang) {
     '@type': ['Organization', 'LocalBusiness'],
     '@id': ORG_ID,
     name: site.name,
+    legalName: site.legalName,
     alternateName: ['GSR Group', 'The Great Silk Road Group'],
     url: SITE,
     logo: { '@type': 'ImageObject', url: `${SITE}/icons/icon-512.png`, width: 512, height: 512 },
@@ -46,7 +47,16 @@ export function organizationNode(lang: Lang) {
     availableLanguage: ['uz', 'ru', 'en', 'zh'],
     knowsAbout: ['freight forwarding', 'China to Uzbekistan cargo', 'consolidated cargo', 'customs clearance Uzbekistan', 'product sourcing in China', '1688 buying agent'],
     sameAs: [telegramUrl, instagramUrl, facebookUrl, site.yandexMapsUrl].filter(Boolean),
-    contactPoint: [{ '@type': 'ContactPoint', telephone: site.phoneE164, contactType: 'sales', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: site.telegramDirect }],
+    contactPoint: [
+      { '@type': 'ContactPoint', telephone: site.phoneE164, contactType: 'sales', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: site.telegramDirect },
+      { '@type': 'ContactPoint', telephone: site.phone2E164, contactType: 'customer support', availableLanguage: ['uz', 'ru'] },
+    ],
+    // The three China receiving points, so an assistant answering "where do I send my goods" has them.
+    location: site.chinaWarehouses.map((w) => ({
+      '@type': 'Place',
+      name: `${site.name} — ${w.city[lang]} (${w.cityZh})`,
+      address: { '@type': 'PostalAddress', addressLocality: w.cityZh, addressCountry: 'CN', ...(site.publishChinaAddresses ? { streetAddress: w.address } : {}) },
+    })),
   };
 }
 
