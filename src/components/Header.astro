@@ -73,8 +73,8 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
 
 <style>
   .site-header { position: sticky; top: 0; z-index: 100; background: transparent; border-bottom: 1px solid transparent; color: var(--fg); transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease); }
-  .site-header[data-scrolled='true'] { background: rgb(255 255 255 / 0.9); border-bottom-color: var(--border-soft); }
-  @media (min-width: 900px) { .site-header[data-scrolled='true'] { -webkit-backdrop-filter: saturate(180%) blur(12px); backdrop-filter: saturate(180%) blur(12px); background: rgb(255 255 255 / 0.72); } }
+  .site-header[data-scrolled='true'] { background: rgb(255 255 255 / 0.94); border-bottom-color: var(--border-soft); }
+  @media (min-width: 900px) { .site-header[data-scrolled='true'] { -webkit-backdrop-filter: saturate(180%) blur(12px); backdrop-filter: saturate(180%) blur(12px); background: rgb(255 255 255 / 0.92); } }
   /* Mobile sheet open: header must be fully opaque so the page cannot bleed through the 64px strip above the sheet. */
   :global(body.menu-open) .site-header { background: var(--bg) !important; border-bottom-color: var(--border-soft); -webkit-backdrop-filter: none !important; backdrop-filter: none !important; transition: none; }
   .site-header[data-over-dark='true'] { background: rgb(11 11 13 / 0.92) !important; border-bottom-color: rgb(255 255 255 / 0.08); color: var(--gray-100); -webkit-backdrop-filter: none !important; backdrop-filter: none !important; --fg: var(--gray-100); --fg-2: var(--gray-300); --muted: #a1a1a6; --card: var(--gray-900); --bg: var(--black); }

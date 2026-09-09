@@ -178,7 +178,18 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 .scroll-x[data-overflow='mid'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); }
 .scroll-x[data-overflow='end'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 28px); mask-image: linear-gradient(90deg, transparent, #000 28px); }
 .table-wrap[data-overflow='end'] { -webkit-mask-image: none; mask-image: none; }
-@media (max-width: 640px) { .table-wrap .table { min-width: 520px; } .table-wrap thead th:first-child, .table-wrap tbody th:first-child, .table-wrap tbody td:first-child { min-width: 128px; max-width: 168px; } .table-wrap tbody th:first-child { position: sticky; left: 0; background: var(--bg); } }
+@media (max-width: 640px) {
+  /* Only genuinely wide tables scroll. A 2-column table (label + value) must fit the phone, otherwise
+     the value — the thing the page exists to show — is pushed off-screen. */
+  .table-wrap .table { min-width: 440px; }
+  .table-wrap .table[data-cols='2'], .table-wrap .table[data-cols='1'] { min-width: 0; }
+  .table-wrap .table[data-cols='2'] th:first-child, .table-wrap .table[data-cols='2'] td:first-child { max-width: none; }
+  .table-wrap .table[data-cols='2'] td.num, .table-wrap .table[data-cols='2'] td:last-child { text-align: right; }
+  .table-wrap .table:not([data-cols='2']):not([data-cols='1']) thead th:first-child,
+  .table-wrap .table:not([data-cols='2']):not([data-cols='1']) tbody th:first-child,
+  .table-wrap .table:not([data-cols='2']):not([data-cols='1']) tbody td:first-child { min-width: 112px; max-width: 150px; }
+  .table-wrap .table:not([data-cols='2']):not([data-cols='1']) tbody th:first-child { position: sticky; left: 0; background: var(--bg); }
+}
 .field { display: grid; gap: 6px; }
 .field label, .label { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); }
 .input, .select, .textarea { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); color: var(--fg); transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
