@@ -39,7 +39,7 @@ export type Mode = 'air' | 'truck' | 'rail';
 /** Goods category. `battery` and `liquid` cannot fly — the calculator switches them to truck. */
 export type Category = 'standard' | 'brand' | 'commercial' | 'battery' | 'liquid';
 export type Container = '20ft' | '40ft';
-export type RuleCode = 'air-per-kg' | 'truck-ladder' | 'truck-dense' | 'truck-lcl' | 'rail-20ft' | 'rail-40ft';
+export type RuleCode = 'air-per-kg' | 'truck-ladder' | 'truck-kg-only' | 'truck-dense' | 'truck-lcl' | 'rail-20ft' | 'rail-40ft';
 export type NoteCode = 'volumetric-applied' | 'min-kg-applied' | 'min-m3-applied' | 'no-volume' | 'switched-to-truck' | 'dense-lot' | 'range';
 
 export interface Dims { l: number; w: number; h: number } // centimetres
@@ -169,7 +169,8 @@ export function estimateTruck(input: CargoInput, t: Tariffs): Estimate {
     return { ...base, rule: 'truck-dense', rate: t.truck.densePerKg.rate, unit: 'kg', total: r2(chargeable * t.truck.densePerKg.rate), notes, volumetricKg: vol || undefined, chargeableKg: chargeable };
   }
   const rate = ladderRate(t.truck.ladderPerKg, chargeable);
-  return { ...base, rule: 'truck-ladder', rate, unit: 'kg', total: r2(chargeable * rate), notes, volumetricKg: vol || undefined, chargeableKg: chargeable };
+  // Without dimensions there is no density to compare, so the rule line must not claim one.
+  return { ...base, rule: m3 > 0 ? 'truck-ladder' : 'truck-kg-only', rate, unit: 'kg', total: r2(chargeable * rate), notes, volumetricKg: vol || undefined, chargeableKg: chargeable };
 }
 
 export function estimateRail(container: Container, t: Tariffs): Estimate {

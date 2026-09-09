@@ -102,6 +102,7 @@ const uz: PricingStrings = {
     rules: {
       'air-per-kg': 'Avia · {category} · hisoblangan vazn {kg} kg × {rate}',
       'truck-ladder': 'Zichlik {density} kg/m³ ≥ {threshold} → kg boʻyicha · {rate}',
+      'truck-kg-only': 'Oʻlcham kiritilmagan → kg boʻyicha · {rate}',
       'truck-dense': 'Zich yuk: {kg} kg, {density} kg/m³ ≥ {denseDensity} → {rate}',
       'truck-lcl': 'Zichlik {density} kg/m³ < {threshold} → m³ boʻyicha · {rate}',
       'rail-20ft': '20 futlik konteyner · {rate}, yoʻnalish va mavsumga qarab',
@@ -317,6 +318,7 @@ const ru: PricingStrings = {
     rules: {
       'air-per-kg': 'Авиа · {category} · расчётный вес {kg} кг × {rate}',
       'truck-ladder': 'Плотность {density} кг/м³ ≥ {threshold} → по кг · {rate}',
+      'truck-kg-only': 'Габариты не указаны → по кг · {rate}',
       'truck-dense': 'Плотный груз: {kg} кг, {density} кг/м³ ≥ {denseDensity} → {rate}',
       'truck-lcl': 'Плотность {density} кг/м³ < {threshold} → по м³ · {rate}',
       'rail-20ft': '20-футовый контейнер · {rate}, зависит от маршрута и сезона',
@@ -532,6 +534,7 @@ const en: PricingStrings = {
     rules: {
       'air-per-kg': 'Air · {category} · chargeable weight {kg} kg × {rate}',
       'truck-ladder': 'Density {density} kg/m³ ≥ {threshold} → per kg · {rate}',
+      'truck-kg-only': 'No dimensions given → per kg · {rate}',
       'truck-dense': 'Dense lot: {kg} kg at {density} kg/m³ ≥ {denseDensity} → {rate}',
       'truck-lcl': 'Density {density} kg/m³ < {threshold} → per m³ · {rate}',
       'rail-20ft': '20 ft container · {rate}, depending on route and season',
