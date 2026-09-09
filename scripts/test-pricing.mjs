@@ -3,6 +3,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { estimate, estimateAir, estimateTruck, estimateRail, volumetricKg, chargeableKg, densityKgM3, formatBreakdown } from '../src/lib/pricing.ts';
+import { fmtUsd, fmtNumber, withFrom, ruDays } from '../src/lib/format.ts';
 
 const tariffs = JSON.parse(readFileSync(new URL('../src/data/tariffs.json', import.meta.url), 'utf8'));
 const near = (a, b, msg) => assert.ok(Math.abs(a - b) < 0.011, `${msg}: expected ${b}, got ${a}`);
@@ -109,12 +110,35 @@ test('formatBreakdown uz/en', () => {
   assert.equal(uz.rule, 'Zichlik 250 kg/m³ ≥ 170 → kg boʻyicha · 6,5 $/kg');
   assert.ok(uz.totalSom.endsWith('soʻm'));
   const en = formatBreakdown(estimateAir({ kg: 0.3 }, tariffs), 'en', s, tariffs);
-  assert.equal(en.total, '≈ $4.5');
+  assert.equal(en.total, '≈ $4.50');
   assert.equal(en.rate, '$9/kg');
   const rail = formatBreakdown(estimateRail('20ft', tariffs), 'uz', s, tariffs);
   assert.equal(rail.total.replace(/\s/g, ' '), '2 800–5 500 $');
   assert.ok(/soʻm$/.test(rail.totalSom) && rail.totalSom.split('soʻm').length === 2, 'som range prints the unit once');
   assert.equal(formatBreakdown(estimateRail('20ft', tariffs), 'en', s, tariffs).total, '$2,800–5,500');
+});
+
+// 10. Currency / plural / "from" formatting
+test('fmtUsd, withFrom, ruDays', () => {
+  assert.equal(fmtUsd(6.5, 'en'), '$6.50');
+  assert.equal(fmtUsd(9, 'en'), '$9');
+  assert.equal(fmtUsd(2800, 'en'), '$2,800');
+  assert.equal(fmtUsd(1234.5, 'en'), '$1,234.50');
+  assert.equal(fmtUsd(6.5, 'uz'), '6,5 $');
+  assert.equal(fmtUsd(2800, 'ru').replace(/\s/g, ' '), '2 800 $');
+  assert.equal(fmtNumber(0.4, 'ru'), '0,4');
+  assert.equal(withFrom('6,5 $/kg', 'uz', 'dan'), '6,5 $/kg dan');
+  assert.equal(withFrom('6,5 $/кг', 'ru', 'от'), 'от 6,5 $/кг');
+  assert.equal(withFrom('$6.50/kg', 'en', 'from'), 'from $6.50/kg');
+  assert.deepEqual([1, 3, 5, 11, 14, 21, 22, 25].map(ruDays), ['день', 'дня', 'дней', 'дней', 'дней', 'день', 'дня', 'дней']);
+});
+
+// 11. Dense-wholesale rule needs BOTH ≥ minKg and density ≥ minDensityKgM3
+test('dense rule: ≥100 kg and ≥300 kg/m³', () => {
+  assert.equal(tariffs.truck.densePerKg.minDensityKgM3, 300);
+  assert.equal(estimateTruck({ kg: 500, m3: 1 }, tariffs).rule, 'truck-dense');      // 500 kg/m³
+  assert.equal(estimateTruck({ kg: 500, m3: 2 }, tariffs).rule, 'truck-ladder');     // 250 kg/m³ — not dense
+  assert.equal(estimateTruck({ kg: 60, m3: 0.1 }, tariffs).rule, 'truck-ladder');    // 600 kg/m³ but < 100 kg
 });
 
 console.log(`\n${passed} test groups passed`);

@@ -11,6 +11,7 @@ interface Props { lang: Lang; alternates: Array<{ lang: Lang; href: string }>; c
 const { lang, alternates, currentPath } = Astro.props;
 const t = common[lang];
 const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '/en/' && currentPath.startsWith(href);
+const allServices = { uz: 'Barcha xizmatlar', ru: 'Все услуги', en: 'All services' }[lang];
 const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–${tariffs.truck.days[1]} ${t.strings.days}` : key === 'air' ? `${tariffs.air.days[0]}–${tariffs.air.days[1]} ${t.strings.days}` : key === 'rail' ? `${tariffs.rail.days[0]}–${tariffs.rail.days[1]} ${t.strings.days}` : '';
 ---
 <header class="site-header" id="site-header" data-scrolled="false">
@@ -23,7 +24,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
         {t.nav.map((n) => { const href = pagePath(lang, n.key); const mega = n.key === 'services'; return (
           <li class:list={[mega && 'has-mega']}>
             <a href={href} aria-current={isActive(href) ? 'page' : undefined}>{n.label}</a>
-            {mega && <button type="button" class="mega-toggle" aria-expanded="false" aria-controls="mega-services" aria-label={`${n.label}: ${t.cta.all}`}><Icon name="chevron-down" size={14} /></button>}
+            {mega && <button type="button" class="mega-toggle" aria-expanded="false" aria-controls="mega-services" aria-label={allServices}><Icon name="chevron-down" size={14} /></button>}
             {mega && (
               <div class="mega" id="mega-services">
                 <ul role="list" class="mega-grid">
@@ -36,7 +37,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
                     </li>
                   ))}
                 </ul>
-                <a href={href} class="mega-all link">{t.cta.all}</a>
+                <a href={href} class="mega-all link">{allServices} ›</a>
               </div>
             )}
           </li>
@@ -74,6 +75,8 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   .site-header { position: sticky; top: 0; z-index: 100; background: transparent; border-bottom: 1px solid transparent; color: var(--fg); transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease); }
   .site-header[data-scrolled='true'] { background: rgb(255 255 255 / 0.9); border-bottom-color: var(--border-soft); }
   @media (min-width: 900px) { .site-header[data-scrolled='true'] { -webkit-backdrop-filter: saturate(180%) blur(12px); backdrop-filter: saturate(180%) blur(12px); background: rgb(255 255 255 / 0.72); } }
+  /* Mobile sheet open: header must be fully opaque so the page cannot bleed through the 64px strip above the sheet. */
+  :global(body.menu-open) .site-header { background: var(--bg) !important; border-bottom-color: var(--border-soft); -webkit-backdrop-filter: none !important; backdrop-filter: none !important; transition: none; }
   .site-header[data-over-dark='true'] { background: rgb(11 11 13 / 0.92) !important; border-bottom-color: rgb(255 255 255 / 0.08); color: var(--gray-100); -webkit-backdrop-filter: none !important; backdrop-filter: none !important; --fg: var(--gray-100); --fg-2: var(--gray-300); --muted: #a1a1a6; --card: var(--gray-900); --bg: var(--black); }
   .nav-desktop > ul > li > a[aria-current='page']::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; background: var(--red-600); border-radius: 2px; }
   .site-header[data-over-dark='true'] .nav-desktop > ul > li > a[aria-current='page']::after { background: var(--red-300); }
@@ -124,6 +127,8 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   @media (min-width: 900px) { .nav-desktop { display: block; } .menu-btn { display: none; } .mobile-menu { display: none !important; } }
   @media (min-width: 1280px) { .header-cta { display: inline-flex; } }
   :global(html:lang(ru)) .nav-desktop > ul > li > a { font-size: 0.875rem; padding: 0 8px; }
+  /* uz/en pages: keep the Cyrillic switcher label off the web font so the cyrillic subset is not downloaded. */
+  :global(html:not(:lang(ru))) .lang a[lang='ru'] { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
   @media (min-width: 1520px) { .phone { display: inline-flex; } }
   :global(body.menu-open) { overflow: hidden; }
 </style>

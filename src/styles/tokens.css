@@ -35,7 +35,7 @@
   --fg: var(--gray-900);
   --fg-2: var(--gray-800);
   --muted: var(--gray-600);
-  --meta: var(--gray-500);
+  --meta: var(--gray-600); /* 5.07:1 on white, 4.6:1 on --gray-100 — 12px captions pass AA */
   --border: var(--gray-300);
   --border-soft: var(--gray-200);
   --card: var(--white);
@@ -52,7 +52,8 @@
   --shadow-ring: 0 0 0 1px rgb(0 0 0 / 0.06);
   --shadow-raised: 0 12px 32px rgb(0 0 0 / 0.08);
   --shadow-float: 0 24px 64px -12px rgb(0 0 0 / 0.18);
-  --focus-ring: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 65%);
+  /* Focus: opaque 2px ring with a 2px gap (box-shadow so it follows border-radius). Light: brand red (7.7:1 on white). */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
 
   /* Type scale (Apple-like, fluid) */
   --text-display-1: clamp(2.5rem, 2.4vw + 1.625rem, 5rem);      /* 40–80 */
@@ -101,7 +102,7 @@
   --fg: var(--gray-100);
   --fg-2: var(--gray-300);
   --muted: #a1a1a6;
-  --meta: #86868b;
+  --meta: #98989d; /* 5.6:1 on --gray-900 cards */
   --border: #2c2c30;
   --border-soft: #232327;
   --card: var(--gray-900);
@@ -118,4 +119,6 @@
   --shadow-ring: 0 0 0 1px rgb(255 255 255 / 0.08);
   --shadow-raised: 0 12px 32px rgb(0 0 0 / 0.4);
   --shadow-float: 0 24px 64px -12px rgb(0 0 0 / 0.6);
+  /* Dark surfaces: near-white ring so keyboard focus is unmistakable (≈17:1 on --black). */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--gray-100);
 }

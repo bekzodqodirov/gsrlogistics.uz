@@ -255,6 +255,14 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   </article>
 </Base>
 
+<script>
+  // Scroll hint: mark scrollers that overflow so global.css can fade the trailing edge (cleared at the end).
+  const scrollers = Array.from(document.querySelectorAll<HTMLElement>('.table-wrap, .scroll-x'));
+  const mark = (el: HTMLElement) => { const over = el.scrollWidth - el.clientWidth > 2; if (!over) { el.removeAttribute('data-overflow'); return; } el.dataset.overflow = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? 'end' : el.scrollLeft > 2 ? 'mid' : 'start'; };
+  scrollers.forEach((el) => { mark(el); el.addEventListener('scroll', () => mark(el), { passive: true }); });
+  window.addEventListener('resize', () => scrollers.forEach(mark));
+</script>
+
 <style>
   /* ----- Hero ----- */
   .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(40px, 5vw, 64px); }
@@ -295,6 +303,8 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   .tbl { margin: 24px 0 0; }
   .tbl-caption { font-size: var(--text-h4); font-weight: 600; color: var(--fg); margin-bottom: 12px; }
   .tbl .table { border: 1px solid var(--border-soft); border-radius: var(--radius); overflow: hidden; }
+  /* Phones: the tariff table scrolls inside .table-wrap (sticky first column + edge fade from global.css) instead of crushing its columns. */
+  @media (max-width: 640px) { .tbl .table { min-width: 560px; overflow: visible; /* overflow:hidden would make the table the sticky root */ } .tbl .table tbody th { position: sticky; left: 0; z-index: 1; background: var(--bg); padding: 12px; font-size: var(--text-small); } .tbl .table th, .tbl .table td { white-space: normal; } .tbl .table td.num { white-space: nowrap; } }
   .tbl .table tbody th { font-weight: 600; color: var(--fg); text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
   .tbl .table tbody tr:last-child th { border-bottom: 0; }
   .tbl-meta { margin-top: 10px; }

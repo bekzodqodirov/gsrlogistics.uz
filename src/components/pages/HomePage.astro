@@ -20,22 +20,24 @@ import { pageUrl } from '@/i18n/routes';
 import { site } from '@/lib/site';
 import { services } from '@/data/services';
 import tariffs from '@/data/tariffs.json';
+import { fmtUsd } from '@/lib/format';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 
+const fromRate = tariffs.truck.ladderPerKg.at(-1)!.rate;
 const seo: Record<Lang, { title: string; description: string }> = {
   uz: {
     title: 'Xitoydan Toshkentga kargo: yigʻma yuk 15–25 kun, avia 5–10 kun — GSR Logistics',
-    description: `Xitoydan Oʻzbekistonga yuk tashish, tovar topish va sotib olish. Ivu omboridan Xorgos orqali Toshkentgacha: yigʻma yuk taxminan 15–25 kun, avia 5–10 kun, ${tariffs.truck.ladderPerKg.at(-1)?.rate} $/kg dan. Bojxona rasmiylashtiruvi, foto-hisobot, 1688/Taobao’dan xarid. Toshkent, 2018-yildan.`.replace('’', 'ʼ'),
+    description: `Xitoydan Oʻzbekistonga yuk tashish, tovar topish va sotib olish. Ivu omboridan Xorgos orqali Toshkentgacha: yigʻma yuk taxminan 15–25 kun, avia 5–10 kun, ${fmtUsd(fromRate, 'uz')}/kg dan. Bojxona rasmiylashtiruvi, foto-hisobot, 1688/Taobao’dan xarid. Toshkent, 2018-yildan.`.replace('’', 'ʼ'),
   },
   ru: {
     title: 'Карго из Китая в Ташкент: сборный груз 15–25 дней, авиа 5–10 — GSR Logistics',
-    description: `Доставка грузов из Китая в Узбекистан, поиск и выкуп товаров. Со склада в Иу через Хоргос до Ташкента: сборный груз ориентировочно 15–25 дней, авиа 5–10 дней, от ${tariffs.truck.ladderPerKg.at(-1)?.rate} $/кг. Растаможка, фотоотчёт, выкуп с 1688/Taobao. Ташкент, с 2018 года.`,
+    description: `Доставка грузов из Китая в Узбекистан, поиск и выкуп товаров. Со склада в Иу через Хоргос до Ташкента: сборный груз ориентировочно 15–25 дней, авиа 5–10 дней, от ${fmtUsd(fromRate, 'ru')}/кг. Растаможка, фотоотчёт, выкуп с 1688/Taobao. Ташкент, с 2018 года.`,
   },
   en: {
     title: 'Cargo from China to Tashkent: consolidated 15–25 days, air 5–10 — GSR Logistics',
-    description: `Freight from China to Uzbekistan, product sourcing and buying. From the Yiwu warehouse via Khorgos to Tashkent: consolidated truck cargo in roughly 15–25 days, air in 5–10, from $${tariffs.truck.ladderPerKg.at(-1)?.rate}/kg. Customs clearance, photo reports, 1688/Taobao buying. Tashkent, since 2018.`,
+    description: `Freight from China to Uzbekistan, product sourcing and buying. From the Yiwu warehouse via Khorgos to Tashkent: consolidated truck cargo in roughly 15–25 days, air in 5–10, from ${fmtUsd(fromRate, 'en')}/kg. Customs clearance, photo reports, 1688/Taobao buying. Tashkent, since 2018.`,
   },
 };
 const siteUrl = Astro.site ?? new URL(site.url);

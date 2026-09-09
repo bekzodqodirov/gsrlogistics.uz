@@ -11,6 +11,7 @@ interface Props { lang: Lang; alternates: Array<{ lang: Lang; href: string }> }
 const { lang, alternates } = Astro.props;
 const t = common[lang];
 const year = new Date().getFullYear();
+const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
 ---
 <footer class="site-footer dark" id="site-footer">
   <div class="container">
@@ -30,17 +31,21 @@ const year = new Date().getFullYear();
         </div>
       </div>
       <nav aria-label={t.footer.services}>
-        <h2 class="footer-h">{t.footer.services}</h2>
-        <ul role="list">
-          {services.map((s) => <li><a href={pagePath(lang, 'services', s.slug[lang])}>{s.name[lang]}</a></li>)}
-        </ul>
+        <details class="footer-group" open>
+          <summary><h2 class="footer-h">{t.footer.services}</h2><Icon name="chevron-down" size={16} /></summary>
+          <ul role="list">
+            {services.map((s) => <li><a href={pagePath(lang, 'services', s.slug[lang])}>{s.name[lang]}</a></li>)}
+          </ul>
+        </details>
       </nav>
       <nav aria-label={t.footer.company}>
-        <h2 class="footer-h">{t.footer.company}</h2>
-        <ul role="list">
-          {t.nav.map((n) => <li><a href={pagePath(lang, n.key)}>{n.label}</a></li>)}
-          <li><a href={pagePath(lang, 'privacy')}>{t.footer.privacy}</a></li>
-        </ul>
+        <details class="footer-group" open>
+          <summary><h2 class="footer-h">{t.footer.company}</h2><Icon name="chevron-down" size={16} /></summary>
+          <ul role="list">
+            {t.nav.map((n) => <li><a href={pagePath(lang, n.key)}>{n.label}</a></li>)}
+            <li><a href={pagePath(lang, 'privacy')}>{t.footer.privacy}</a></li>
+          </ul>
+        </details>
       </nav>
       <div>
         <h2 class="footer-h">{t.footer.contacts}</h2>
@@ -56,7 +61,7 @@ const year = new Date().getFullYear();
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="caption">© {year} {site.name} · Toshkent{site.legalEntity ? ` · ${site.legalEntity}` : ''}. {t.footer.rights}</p>
+      <p class="caption">© {year} {site.name} · {city}{site.legalEntity ? ` · ${site.legalEntity}` : ''}. {t.footer.rights}</p>
       <div class="footer-langs" role="group" aria-label={t.footer.languages}>
         {locales.map((l) => { const alt = alternates.find((a) => a.lang === l); const href = alt ? new URL(alt.href).pathname : pagePath(l, 'home'); return <a href={href} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined}>{langMeta[l].label}</a>; })}
       </div>
@@ -65,8 +70,8 @@ const year = new Date().getFullYear();
 </footer>
 <style>
   .site-footer { background: var(--bg); color: var(--fg); padding-block: clamp(48px, 6vw, 80px) clamp(24px, 3vw, 40px); border-top: 1px solid var(--border-soft); }
-  .footer-grid { display: grid; gap: 40px 32px; grid-template-columns: 1fr; }
-  @media (min-width: 640px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  .footer-grid { display: grid; gap: 24px 32px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .footer-grid { gap: 40px 32px; grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1000px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1.3fr; } }
   .footer-desc { margin-top: 16px; max-width: 34ch; font-size: var(--text-small); }
   .fact-stack { margin-top: 20px; font-size: var(--text-small); color: var(--muted); }
@@ -76,6 +81,20 @@ const year = new Date().getFullYear();
   .socials a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: color-mix(in oklab, var(--fg), transparent 92%); color: var(--fg); transition: background var(--dur) var(--ease); }
   .socials a:hover { background: color-mix(in oklab, var(--fg), transparent 84%); }
   .footer-h { font-size: var(--text-small); font-weight: 600; color: var(--meta); margin-bottom: 14px; letter-spacing: 0.02em; }
+  /* Link groups collapse on phones (<640px); always open and non-interactive from 640px up. */
+  .footer-group summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; cursor: pointer; color: var(--meta); border-radius: var(--radius-sm); }
+  .footer-group summary::-webkit-details-marker { display: none; }
+  .footer-group summary .footer-h { margin-bottom: 0; }
+  .footer-group summary :global(svg) { flex: none; transition: transform var(--dur) var(--ease); }
+  .footer-group[open] summary :global(svg) { transform: rotate(180deg); }
+  .footer-group > ul { padding-top: 4px; }
+  @media (min-width: 640px) {
+    .footer-group summary { pointer-events: none; min-height: 0; margin-bottom: 14px; }
+    .footer-group summary :global(svg) { display: none; }
+    .footer-group > ul { display: block; padding-top: 0; }
+  }
+  /* uz/en pages: keep the Cyrillic label off the web font so the cyrillic subset is not downloaded. */
+  :global(html:not(:lang(ru))) .footer-langs a[lang='ru'] { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
   .site-footer ul li + li { margin-top: 10px; }
   .site-footer ul a { color: var(--fg-2); font-size: 0.9375rem; transition: color var(--dur) var(--ease); }
   .site-footer ul a:hover { color: var(--fg); }
@@ -86,3 +105,7 @@ const year = new Date().getFullYear();
   .footer-langs a { font-size: var(--text-small); color: var(--muted); }
   .footer-langs a[aria-current='true'] { color: var(--fg); font-weight: 600; }
 </style>
+<script>
+  // Collapse the footer link groups on phones; they render open for no-JS and for ≥640px (CSS keeps them open there).
+  if (window.matchMedia('(max-width: 639px)').matches) document.querySelectorAll<HTMLDetailsElement>('.footer-group').forEach((d) => { d.open = false; });
+</script>

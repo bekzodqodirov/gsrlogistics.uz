@@ -38,8 +38,8 @@ export interface HeroStrings {
 const uz: HeroStrings = {
   eyebrow: 'Xitoy → Oʻzbekiston · yigʻma yuk, avia, temir yoʻl',
   h1a: 'Xitoydan Toshkentga kargo.',
-  h1b: 'Har kilo, har kun — hisobda.',
-  h1b_alt: 'Yoʻlning har kilometri — koʻz oʻngingizda.',
+  h1b: 'Har kilo, har kun — hisobda.',
+  h1b_alt: 'Yoʻlning har kilometri — koʻz oʻngingizda.',
   sub: 'Ivu omboridan Xorgos orqali Toshkentgacha: yigʻma yuk taxminan 15–25 kun, avia 5–10 kun. Xitoyda qabul va tekshiruv, foto-hisobot, Toshkentda bojxona rasmiylashtiruvi — bitta shartnoma, bitta menejer. 2018-yildan beri Xitoy bilan ishlaymiz.',
   ctaPrimary: 'Narxni hisoblang',
   ctaSecondary: 'Telegramga yozing',
@@ -62,8 +62,8 @@ const uz: HeroStrings = {
 const ru: HeroStrings = {
   eyebrow: 'Китай → Узбекистан · сборный груз, авиа, ж/д',
   h1a: 'Карго из Китая в Ташкент.',
-  h1b: 'Каждый килограмм и каждый день — на счету.',
-  h1b_alt: 'Каждый километр пути — как на ладони.',
+  h1b: 'Каждый килограмм и каждый день — на счету.',
+  h1b_alt: 'Каждый километр пути — как на ладони.',
   sub: 'Со склада в Иу через Хоргос до Ташкента: сборный груз — ориентировочно 15–25 дней, авиа — 5–10. Приёмка и проверка в Китае, фотоотчёт, растаможка в Ташкенте — один договор, один менеджер. Работаем с Китаем с 2018 года.',
   ctaPrimary: 'Рассчитать стоимость',
   ctaSecondary: 'Написать в Telegram',
@@ -78,7 +78,7 @@ const ru: HeroStrings = {
     yiwuValue: 'Иу',
     yiwu: 'Склад консолидации, фотоотчёт при каждой приёмке',
     sinceValue: 'с 2018 года',
-    since: 'Работаем с Китаем с этого года · менеджеры говорят по-узбекски, по-русски и по-китайски',
+    since: 'С тех пор работаем с Китаем · менеджеры говорят по-узбекски, по-русски и по-китайски',
   },
   proofLabel: 'Ключевые факты',
 };
@@ -86,7 +86,7 @@ const ru: HeroStrings = {
 const en: HeroStrings = {
   eyebrow: 'China → Uzbekistan · consolidated, air, rail',
   h1a: 'Cargo from China to Tashkent.',
-  h1b: 'Every kilo, every day — accounted for.',
+  h1b: 'Every kilo, every day — accounted for.',
   h1b_alt: 'Every kilometre in plain sight.',
   sub: 'From the Yiwu warehouse via Khorgos to Tashkent: consolidated truck freight in roughly 15–25 days, air in 5–10. Receiving and inspection in China, photo reports, customs clearance in Tashkent — one contract, one manager. Working with China since 2018.',
   ctaPrimary: 'Estimate the price',

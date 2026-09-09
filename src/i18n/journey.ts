@@ -27,7 +27,8 @@ export interface JourneyStrings {
   chipsLabel: string;
   chips: { truck: string; rail: string; air: string };
   daysUnit: string;
-  km: { unit: string; caption: string; daysCaption: string };
+  /** daysCaption: the caption tail per active mode chip — "avto, taxminan" + the day range from tariffs */
+  km: { unit: string; caption: string; daysCaption: { truck: string; rail: string; air: string } };
   footnote: string;
   done: string;
   map: { aria: string; border: string; altRoute: string; warehouse: string };
@@ -45,12 +46,12 @@ const uz: JourneyStrings = {
     { title: 'Yoʻlda', short: 'Yoʻlda', body: 'Urumchi orqali Xorgosgacha, soʻng Qozogʻiston boʻylab. Yoʻnalishni siz tanlaysiz.', facts: [] },
     { title: 'Xorgos. Chegara va bojxona', short: 'Xorgos', body: 'Invoys, qadoqlash roʻyxati va TN VED kodi oldindan tayyor. Bojxona rasmiylashtiruvi — bizning zimmamizda.', facts: ['Deklaratsiya', 'boj va QQS hisobi', 'GTD'] },
     { title: 'Toshkent ombori', short: 'Toshkent ombori', body: 'Yuk omborga tushdi — menejer xabar beradi. Oʻzingiz olib ketasiz yoki viloyatga joʻnatamiz.', facts: ['Toshkent', 'olib ketish yoki viloyatga joʻnatish'] },
-    { title: 'Yetkazildi', short: 'Yetkazildi', body: 'Yukni qabul qilasiz. Keyingisini hisoblaymizmi?', facts: [] },
+    { title: 'Topshirildi', short: 'Topshirildi', body: 'Yukni qabul qilasiz. Keyingisini hisoblaymizmi?', facts: [] },
   ],
   chipsLabel: 'Yetkazish turi',
   chips: { truck: 'Avto', rail: 'Temir yoʻl', air: 'Avia' },
   daysUnit: 'kun',
-  km: { unit: 'km', caption: 'Ivu → Toshkent, Xorgos orqali', daysCaption: 'avto, taxminan' },
+  km: { unit: 'km', caption: 'Ivu → Toshkent, Xorgos orqali', daysCaption: { truck: 'avto, taxminan', rail: 'temir yoʻl, taxminan', air: 'avia, taxminan' } },
   footnote: 'Muddatlar taxminiy, yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi.',
   done: 'bajarildi',
   map: {
@@ -73,12 +74,12 @@ const ru: JourneyStrings = {
     { title: 'В пути', short: 'В пути', body: 'Через Урумчи до Хоргоса, дальше по Казахстану. Способ доставки выбираете вы.', facts: [] },
     { title: 'Хоргос. Граница и таможня', short: 'Хоргос', body: 'Инвойс, упаковочный лист и код ТН ВЭД готовы заранее. Таможенное оформление берём на себя.', facts: ['Декларация', 'расчёт пошлины и НДС', 'ГТД'] },
     { title: 'Склад в Ташкенте', short: 'Склад в Ташкенте', body: 'Груз на складе — менеджер сообщит. Забираете сами или отправляем в регион.', facts: ['Ташкент', 'самовывоз или отправка в регион'] },
-    { title: 'Доставлено', short: 'Доставлено', body: 'Вы принимаете груз. Посчитаем следующий?', facts: [] },
+    { title: 'Выдан', short: 'Выдан', body: 'Вы принимаете груз. Посчитаем следующий?', facts: [] },
   ],
   chipsLabel: 'Способ доставки',
   chips: { truck: 'Авто', rail: 'Ж/д', air: 'Авиа' },
   daysUnit: 'дней',
-  km: { unit: 'км', caption: 'Иу → Ташкент через Хоргос', daysCaption: 'авто, ориентировочно' },
+  km: { unit: 'км', caption: 'Иу → Ташкент через Хоргос', daysCaption: { truck: 'авто, ориентировочно', rail: 'ж/д, ориентировочно', air: 'авиа, ориентировочно' } },
   footnote: 'Сроки ориентировочные, считаются после отправки со склада в Китае.',
   done: 'выполнено',
   map: {
@@ -106,7 +107,7 @@ const en: JourneyStrings = {
   chipsLabel: 'Shipping mode',
   chips: { truck: 'Truck', rail: 'Rail', air: 'Air' },
   daysUnit: 'days',
-  km: { unit: 'km', caption: 'Yiwu → Tashkent via Khorgos', daysCaption: 'truck, roughly' },
+  km: { unit: 'km', caption: 'Yiwu → Tashkent via Khorgos', daysCaption: { truck: 'truck, roughly', rail: 'rail, roughly', air: 'air, roughly' } },
   footnote: 'Transit times are indicative and count from departure from the China warehouse.',
   done: 'done',
   map: {

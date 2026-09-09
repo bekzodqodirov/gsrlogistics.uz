@@ -8,7 +8,7 @@
  * the UI translates codes into sentences (see `formatBreakdown` + `src/i18n/pricing.ts`).
  */
 import type { Lang } from '../i18n/config.ts';
-import { fmtNumber, fmtSom, fmtUsd } from './format.ts';
+import { fmtNumber, fmtSom, fmtUsd, fmtUsdNumber } from './format.ts';
 
 /* ---------------- Types for tariffs.json ---------------- */
 export interface LadderStep { maxKg: number | null; rate: number }
@@ -223,7 +223,7 @@ const sub = (s: string, vars: Record<string, string | number>) => s.replace(/\{(
 export function formatBreakdown(e: Estimate, lang: Lang, s: BreakdownStrings, t: Tariffs): Breakdown {
   const n = (v: number, f = 2) => fmtNumber(v, lang, f);
   const usd = (v: number) => fmtUsd(v, lang);
-  const usdRange = (lo: number, hi: number) => (lang === 'en' ? `$${n(lo)}–${n(hi)}` : `${n(lo)}–${n(hi)} $`);
+  const usdRange = (lo: number, hi: number) => (lang === 'en' ? `$${fmtUsdNumber(lo, lang)}–${fmtUsdNumber(hi, lang)}` : `${n(lo)}–${n(hi)} $`);
   const somRange = (lo: number, hi: number) => { const a = fmtSom(lo, lang), b = fmtSom(hi, lang); return lang === 'en' ? `${a}–${b.replace('UZS ', '')}` : `${a.replace(/ \S+$/, '')}–${b}`; };
   const rateStr = e.unit === 'kg' ? `${usd(e.rate)}${s.units.perKg}` : e.unit === 'm3' ? `${usd(e.rate)}${s.units.perM3}` : usdRange(e.rate, e.totalMax ?? e.rate);
   const vars = {

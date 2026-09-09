@@ -18,15 +18,15 @@ interface Props { lang: Lang; entry: CollectionEntry<'guides'> }
 const { lang, entry } = Astro.props;
 const t = guidesStrings[lang];
 const c = common[lang];
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const d = entry.data;
 const label = c.nav.find((n) => n.key === 'guides')?.label ?? t.eyebrow;
 const subs = guideSlugs[d.translationKey] ?? { [lang]: d.slug };
 const url = pageUrl(site.url, lang, 'guides', d.slug);
 const pub = d.publishDate.toISOString().slice(0, 10), upd = d.updatedDate.toISOString().slice(0, 10);
 const minutes = readingMinutes(entry.body ?? '');
-const slug = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
-const toc = [...(entry.body ?? '').matchAll(/^##\s+(.+)$/gm)].map((m) => ({ text: m[1].replace(/[*_`]/g, '').trim() })).map((h) => ({ ...h, id: slug(h.text) }));
+// TOC ids come from the rendered headings (github-slugger via Astro), so links always match the article's h2 ids.
+const toc = headings.filter((h) => h.depth === 2).map((h) => ({ text: h.text, id: h.slug }));
 const related = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft && e.id !== entry.id)).filter((e) => e.data.tags.some((tag) => d.tags.includes(tag))).slice(0, 3);
 const relatedServices = services.filter((s) => d.tags.includes(s.key)).slice(0, 3);
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'guides' as const }, { name: d.title, url }];
@@ -47,7 +47,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
       {toc.length > 1 && (
         <aside class="toc">
           <details class="toc-mobile"><summary>{t.toc}</summary><ol role="list">{toc.map((h) => <li><a href={`#${h.id}`}>{h.text}</a></li>)}</ol></details>
-          <nav class="toc-desktop" aria-label={t.toc}><p class="caption toc-label">{t.toc}</p><ol role="list">{toc.map((h) => <li><a href={`#${h.id}`}>{h.text}</a></li>)}</ol></nav>
+          <nav class="toc-desktop" aria-label={t.toc}><p class="caption toc-label">{t.toc}</p><ol role="list">{toc.map((h) => <li><a href={`#${h.id}`} data-toc={h.id}><span class="hex-node toc-hex" aria-hidden="true"></span>{h.text}</a></li>)}</ol></nav>
         </aside>
       )}
       <div class="body">
@@ -80,11 +80,32 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
   </article>
 </Base>
 <script>
-  // Give every h2/h3 in the article an id matching the TOC slugs (same algorithm as the frontmatter build).
-  const slug = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
-  document.querySelectorAll<HTMLElement>('.article-body h2, .article-body h3').forEach((h) => { if (!h.id) h.id = slug(h.textContent || ''); });
   // Wrap wide tables in a scroll container (markdown cannot emit the wrapper itself).
   document.querySelectorAll<HTMLTableElement>('.article-body table').forEach((t) => { if (t.parentElement?.classList.contains('table-wrap')) return; const w = document.createElement('div'); w.className = 'table-wrap'; t.replaceWith(w); w.appendChild(t); });
+  // Scroll hint: mark scrollers that overflow so global.css can fade the trailing edge (cleared at the end).
+  const scrollers = Array.from(document.querySelectorAll<HTMLElement>('.table-wrap, .scroll-x'));
+  const mark = (el: HTMLElement) => { const over = el.scrollWidth - el.clientWidth > 2; if (!over) { el.removeAttribute('data-overflow'); return; } el.dataset.overflow = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? 'end' : el.scrollLeft > 2 ? 'mid' : 'start'; };
+  scrollers.forEach((el) => { mark(el); el.addEventListener('scroll', () => mark(el), { passive: true }); });
+  window.addEventListener('resize', () => scrollers.forEach(mark));
+
+  // Sticky TOC (DESIGN_BRIEF §7.2): the hex tick of each section fills once the section has scrolled past;
+  // the section currently in view is marked current.
+  const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.toc-desktop a[data-toc]'));
+  const tocTargets = tocLinks.map((a) => document.getElementById(a.dataset.toc!)).filter((h): h is HTMLElement => Boolean(h));
+  if (tocLinks.length && tocTargets.length === tocLinks.length) {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const line = window.scrollY + Math.min(window.innerHeight * 0.3, 240);
+      let current = -1;
+      tocTargets.forEach((h, i) => { if (h.getBoundingClientRect().top + window.scrollY <= line) current = i; });
+      tocLinks.forEach((a, i) => { a.classList.toggle('is-passed', i < current); a.classList.toggle('is-current', i === current); if (i === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
 </script>
 <style>
   .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(24px, 4vw, 40px); }
@@ -93,12 +114,19 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
   .meta-row { margin-top: 14px; }
   .answer { margin-top: 20px; max-width: 62ch; }
   .layout { display: grid; gap: 32px; padding-bottom: clamp(48px, 8vw, 96px); }
-  @media (min-width: 1100px) { .layout { grid-template-columns: 220px 1fr; gap: 56px; } .toc-desktop { position: sticky; top: 96px; display: block; } .toc-mobile { display: none; } }
   .toc-desktop { display: none; }
+  @media (min-width: 1100px) { .layout { grid-template-columns: 220px minmax(0, 1fr); gap: 56px; align-items: start; } .toc { position: sticky; top: 96px; } .toc-desktop { display: block; } .toc-mobile { display: none; } }
   .toc-label { margin-bottom: 10px; }
   .toc ol { display: grid; gap: 8px; font-size: var(--text-small); }
   .toc a { color: var(--muted); display: block; padding-left: 12px; border-left: 1px solid var(--border-soft); }
   .toc a:hover { color: var(--fg); border-left-color: var(--fg); }
+  /* Desktop rail: hairline + hex tick per section; the tick fills as the section passes, the current one is red. */
+  .toc-desktop a { position: relative; padding-left: 20px; transition: color var(--dur) var(--ease); }
+  .toc-hex { position: absolute; left: -6.5px; top: 0.3em; --node-stroke: var(--border); --node-fill: var(--bg); }
+  .toc-desktop a.is-passed { color: var(--fg-2); }
+  .toc-desktop a.is-passed .toc-hex { --node-stroke: var(--fg); --node-fill: var(--fg); }
+  .toc-desktop a.is-current { color: var(--fg); border-left-color: var(--fg); }
+  .toc-desktop a.is-current .toc-hex { --node-stroke: var(--accent-text); --node-fill: var(--accent-text); }
   .toc-mobile { border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 12px 16px; }
   .toc-mobile summary { cursor: pointer; font-weight: 600; font-size: var(--text-small); }
   .toc-mobile ol { margin-top: 12px; }

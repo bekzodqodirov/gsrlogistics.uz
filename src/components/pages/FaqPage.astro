@@ -157,12 +157,13 @@ let n = 0;
   .answer { margin-top: 20px; max-width: 62ch; }
   .meta-line { margin-top: 16px; }
 
-  .layout { display: grid; gap: 32px; padding-bottom: clamp(48px, 6vw, 96px); }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; padding-bottom: clamp(48px, 6vw, 96px); }
   @media (min-width: 1000px) { .layout { grid-template-columns: 260px minmax(0, 1fr); gap: 64px; align-items: start; } }
 
-  /* Group nav: sticky rail on desktop, horizontally scrolling chip row on mobile. */
-  .groupnav ol { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
-  .groupnav ol::-webkit-scrollbar { display: none; }
+  /* Group nav: sticky rail on desktop, wrapping chip row on mobile. `min-width: 0` keeps the grid item
+     from growing to the chips' intrinsic width (that pushed the whole document past the viewport). */
+  .groupnav { min-width: 0; max-width: 100%; }
+  .groupnav ol { display: flex; flex-wrap: wrap; gap: 8px; }
   .navtitle { display: none; }
   .groupnav a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius-pill); font-size: var(--text-small); font-weight: 500; color: var(--fg-2); white-space: nowrap; transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease); }
   .groupnav a:hover { border-color: var(--meta); }
@@ -173,7 +174,7 @@ let n = 0;
   @media (min-width: 1000px) {
     .groupnav { position: sticky; top: calc(var(--header-h) + 24px); }
     .navtitle { display: block; margin-bottom: 12px; }
-    .groupnav ol { flex-direction: column; gap: 2px; overflow: visible; margin-inline: 0; padding-inline: 0; }
+    .groupnav ol { flex-direction: column; flex-wrap: nowrap; gap: 2px; }
     .groupnav a { display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; min-height: 44px; padding: 0 12px 0 10px; border: 0; border-radius: var(--radius); white-space: normal; color: var(--fg-2); }
     .groupnav .glyph { display: block; color: var(--muted); }
     .groupnav a:hover { background: var(--bg-2); }

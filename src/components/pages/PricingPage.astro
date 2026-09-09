@@ -11,7 +11,7 @@ import { pricingStrings, tpl, monthYear } from '@/i18n/pricing';
 import { pagePath, pageUrl } from '@/i18n/routes';
 import { services } from '@/data/services';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtDate, fmtNumber, fmtUsd, fmtSom } from '@/lib/format';
+import { fmtDate, fmtNumber, fmtUsd, fmtSom, withFrom, daysWord } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
 import { estimateAir, estimateTruck, formatBreakdown, DENSE_DENSITY_FALLBACK, type Tariffs } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
@@ -83,16 +83,19 @@ const extrasRows = [
   { label: p.inclusions.extras.photo, value: `${usd(T.extras.photoReportUsd)} · ${p.inclusions.perReceipt}` },
   { label: p.inclusions.extras.repack, value: perKg(T.extras.repackPerKg) },
   { label: p.inclusions.extras.inspection, value: perKg(T.extras.inspectionPerKg) },
-  { label: p.inclusions.extras.insurance, value: `${n(T.extras.insurancePct)} % · ${p.inclusions.ofValue}` },
-  { label: p.inclusions.extras.commission, value: `${n(T.extras.sourcingCommissionPct)} % ${c.strings.from}` },
-  { label: p.inclusions.extras.storageChina, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysChina, 0) }) },
-  { label: p.inclusions.extras.storageTashkent, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysTashkent, 0) }) },
+  { label: p.inclusions.extras.insurance, value: `${n(T.extras.insurancePct)}% · ${p.inclusions.ofValue}` },
+  { label: p.inclusions.extras.commission, value: withFrom(`${n(T.extras.sourcingCommissionPct)}%`, lang, c.strings.from) },
+  { label: p.inclusions.extras.storageChina, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysChina, 0), days: daysWord(T.extras.freeStorageDaysChina, lang, b.units.days) }) },
+  { label: p.inclusions.extras.storageTashkent, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysTashkent, 0), days: daysWord(T.extras.freeStorageDaysTashkent, lang, b.units.days) }) },
 ];
+/* Hero tiles: uz keeps the postposition in the unit ("6,5 $/kg dan"); ru/en put "от" / "from" before the figure ("от 6,5 $/кг", "from $6.50/kg"). */
+const tileValue = (v: number) => (lang === 'en' ? usd(v) : n(v));
+const tilePrefix = lang === 'uz' ? '' : c.strings.from;
 const tiles = [
-  { label: p.tiles.truck, value: n(truckFrom), unit: p.tiles.fromKg, sub: `${range(T.truck.days)} ${b.units.days}` },
-  { label: p.tiles.air, value: n(airFrom), unit: p.tiles.fromKg, sub: `${range(T.air.days)} ${b.units.days}` },
-  { label: p.tiles.lcl, value: n(lclFrom, 0), unit: p.tiles.fromM3, sub: `${range(T.truck.days)} ${b.units.days}` },
-  { label: p.tiles.rail, value: n(T.rail.container20ft[0], 0), unit: p.tiles.fromContainer, sub: `${range(T.rail.days)} ${b.units.days}` },
+  { label: p.tiles.truck, value: tileValue(truckFrom), unit: p.tiles.fromKg, sub: `${range(T.truck.days)} ${b.units.days}` },
+  { label: p.tiles.air, value: tileValue(airFrom), unit: p.tiles.fromKg, sub: `${range(T.air.days)} ${b.units.days}` },
+  { label: p.tiles.lcl, value: tileValue(lclFrom), unit: p.tiles.fromM3, sub: `${range(T.truck.days)} ${b.units.days}` },
+  { label: p.tiles.rail, value: tileValue(T.rail.container20ft[0]), unit: p.tiles.fromContainer, sub: `${range(T.rail.days)} ${b.units.days}` },
 ];
 
 /* ---------- Worked examples (computed) ---------- */
@@ -147,7 +150,7 @@ const ctaDraft = p.cta.draft;
         <ul class="tiles" role="list">
           {tiles.map((x) => (
             <li class="tile">
-              <p class="tile-value"><span class="tnum">{x.value}</span><span class="num-unit">{x.unit}</span></p>
+              <p class="tile-value">{tilePrefix && <span class="num-prefix">{tilePrefix}</span>}<span class="tnum">{x.value}</span>{x.unit && <span class="num-unit">{x.unit}</span>}</p>
               <p class="tile-label">{x.label}</p>
               <p class="caption tile-sub tnum">{c.strings.approx} {x.sub}</p>
             </li>
@@ -303,7 +306,7 @@ const ctaDraft = p.cta.draft;
     <!-- Calculator -->
     <section class="section calc-band below-fold" aria-labelledby="calc-h">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head center">
           <Eyebrow>{c.nav.find((x) => x.key === 'calculator')?.label}</Eyebrow>
           <h2 id="calc-h">{p.calcTitle}</h2>
           <p class="intro">{p.calcIntro}</p>
@@ -359,10 +362,13 @@ const ctaDraft = p.cta.draft;
   .tile { padding: 24px 24px 20px 0; display: grid; gap: 6px; min-width: 0; }
   .tile + .tile { border-left: 1px solid var(--border-soft); padding-left: 24px; }
   .tile-value { display: flex; align-items: baseline; flex-wrap: wrap; font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; color: var(--fg); }
+  .num-prefix { font-size: var(--text-small); font-weight: 500; letter-spacing: 0; color: var(--muted); margin-right: 6px; }
   .tile-label { font-size: var(--text-small); font-weight: 500; color: var(--fg-2); }
   .tile-sub { margin-top: -2px; }
 
-  .body { padding-top: clamp(40px, 5vw, 72px); padding-bottom: clamp(40px, 5vw, 72px); max-width: calc(var(--container-text) + 2 * var(--gutter)); }
+  /* The text column is anchored to the container's left edge (same x as the H1 and the fact rail), not centred. */
+  .body { padding-top: clamp(40px, 5vw, 72px); padding-bottom: clamp(40px, 5vw, 72px); }
+  .body > .block { max-width: var(--container-text); }
   .block + .block { margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid var(--border-soft); }
   .block h2 { font-size: var(--text-h2); max-width: 32ch; margin-bottom: 16px; scroll-margin-top: calc(var(--header-h) + 16px); }
   .para { color: var(--fg-2); max-width: 70ch; text-wrap: pretty; }

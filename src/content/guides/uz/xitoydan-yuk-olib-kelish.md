@@ -31,7 +31,7 @@ sources:
   - title: "Gazeta.uz — Toshkent–Andijon–Oʻsh–Irkeshtam–Qashqar yoʻlagi ochildi"
     url: "https://www.gazeta.uz/ru/2018/02/19/road/"
     date: "2018-02-19"
-  - title: "Ritm Eurasia — Altinkoʻl–Xorgos temir yoʻl uzelini modernizatsiya qilish 2026-yilda yakunlanadi"
+  - title: "Ritm Eurasia — Oltinkoʻl–Xorgos temir yoʻl uzelini modernizatsiya qilish 2026-yilda yakunlanadi"
     url: "https://www.ritmeurasia.ru/news--2026-02-24--modernizacija-zh-d-uzla-altynkol-horgos-na-granice-s-kitaem-zavershitsja-v-2026-godu-86044"
     date: "2026-02-24"
   - title: "Transasia — Xitoydan Oʻzbekistonga yetkazib berish qancha turadi (bozor narxlari sharhi)"
@@ -71,7 +71,7 @@ Avto va temir yoʻl uchun asosiy koridor Qozogʻiston orqali oʻtadi:
 
 Muqobil yoʻl — **Qashqar → Irkeshtam → Oʻsh → Andijon**: Fargʻona vodiysi uchun qisqaroq. Toshkent–Andijon–Oʻsh–Irkeshtam–Qashqar yoʻlagi 2018-yil 25-fevralda ochilgan (Gazeta.uz, 2018-yil 19-fevral). Qishda togʻ dovonlari sabab u har doim ham ishlamaydi.
 
-Temir yoʻl konteynerlari **Dostiq yoki Altinkoʻl** chegara stansiyalari orqali Saryagʻashga, soʻng Toshkentga keladi. Altinkoʻl–Xorgos uzelini modernizatsiya qilish 2026-yilda yakunlanadi va oʻtkazish qobiliyati kuniga 18 dan 33 juft poyezdga oshadi (Ritm Eurasia, 2026-yil 24-fevral). Xitoy–Qirgʻiziston–Oʻzbekiston temir yoʻli hali qurilmoqda — 2026-yil holatiga u ishlamaydi, rejani unga bogʻlamang.
+Temir yoʻl konteynerlari **Doʻstiq yoki Oltinkoʻl** chegara stansiyalari orqali Saryagʻashga, soʻng Toshkentga keladi. Oltinkoʻl–Xorgos uzelini modernizatsiya qilish 2026-yilda yakunlanadi va oʻtkazish qobiliyati kuniga 18 dan 33 juft poyezdga oshadi (Ritm Eurasia, 2026-yil 24-fevral). Xitoy–Qirgʻiziston–Oʻzbekiston temir yoʻli hali qurilmoqda — 2026-yil holatiga u ishlamaydi, rejani unga bogʻlamang.
 
 Avia yuk Guangzhou yoki Urumchidan Toshkent aeroportiga uchadi, soʻng bojxona omborida rasmiylashtiriladi.
 

@@ -43,7 +43,7 @@ Yukni fura (yuk mashinasi) bilan Xitoydan Qozogʻiston orqali Toshkentga olib ke
 Yukni samolyotda olib kelish, taxminan 5–10 kun. Shoshilinch, yengil va qimmat yuklar uchun. Litiy batareya, suyuqlik va magnitli tovarlar aviaga olinmaydi.
 
 ### Temir yoʻl kargo
-Konteynerni poyezdda Dostiq/Altinkoʻl chegarasi orqali olib kelish, taxminan 20–35 kun. Katta partiyalar uchun.
+Konteynerni poyezdda Doʻstiq/Oltinkoʻl chegarasi orqali olib kelish, taxminan 20–35 kun. Katta partiyalar uchun.
 
 ### FCL (Full Container Load)
 Butun konteyner bitta mijoz uchun. 20 futlik konteyner ≈ 33 m³, 40 futlik (HC) ≈ 76 m³.
@@ -144,7 +144,7 @@ Xalqaro savdo shartlari: EXW — tovar zavod eshigida sizniki, keyingi barcha xa
 ### Xorgos (Khorgos)
 Xitoy–Qozogʻiston chegarasidagi asosiy avto oʻtish punkti. Ivu → Urumchi → Xorgos → Olmaota → Shimkent → Toshkent yoʻnalishining «darvozasi».
 
-### Dostiq / Altinkoʻl
+### Doʻstiq (Dostyk) / Oltinkoʻl (Altynkol)
 Temir yoʻl chegara punktlari (Xitoy tomonida Alashankou / Xorgos).
 
 ### Irkeshtam va Torugart

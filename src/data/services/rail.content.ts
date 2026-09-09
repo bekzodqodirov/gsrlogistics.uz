@@ -13,13 +13,13 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Xitoydan Toshkentga temir yoʻl va konteyner tashish — 20 va 40 fut narxi',
       description:
-        'Xitoydan Toshkentga temir yoʻl orqali konteyner: 20 fut 2 800 $ dan, 40 fut 5 200 $ dan, taxminan 20–35 kun. FCL — butun konteyner, LCL — konteynerdagi joy 0,1 m³ dan. Dostyk va Altynkol orqali, hujjatlar va bojxona bilan.',
+        'Xitoydan Toshkentga temir yoʻl orqali konteyner: 20 fut 2 800 $ dan, 40 fut 5 200 $ dan, taxminan 20–35 kun. FCL — butun konteyner, LCL — konteynerdagi joy 0,1 m³ dan. Doʻstiq va Oltinkoʻl orqali, hujjatlar va bojxona bilan.',
     },
     hero: {
       eyebrow: 'Xizmat 03 — Temir yoʻl va konteyner',
       h1: 'Xitoydan Toshkentga temir yoʻl va konteyner tashish',
       intro:
-        'Temir yoʻl — katta va ogʻir partiyalar uchun eng tejamli yoʻl. 20 futlik konteyner Xitoydan Toshkentgacha taxminan 2 800–5 500 $, 40 futlik — 5 200–6 800 $; yuk stansiyadan joʻnatilgach, taxminan 20–35 kunda keladi. Butun konteyner (FCL) yoki konteynerdagi joy (LCL, 0,1 m³ dan) — ikkalasi ham Dostyk yoki Altynkol orqali Qozogʻiston temir yoʻli bilan Toshkentga keladi.',
+        'Temir yoʻl — katta va ogʻir partiyalar uchun eng tejamli yoʻl. 20 futlik konteyner Xitoydan Toshkentgacha taxminan 2 800–5 500 $, 40 futlik — 5 200–6 800 $; yuk stansiyadan joʻnatilgach, taxminan 20–35 kunda keladi. Butun konteyner (FCL) yoki konteynerdagi joy (LCL, 0,1 m³ dan) — ikkalasi ham Doʻstiq (Dostyk) yoki Oltinkoʻl (Altynkol) orqali Qozogʻiston temir yoʻli bilan Toshkentga keladi.',
       facts: [
         { label: 'Muddat, stansiyadan', value: '20–35 kun' },
         { label: '20 futlik konteyner', value: '2 800 $ dan' },
@@ -74,7 +74,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Necha kunda keladi va qaysi yoʻldan?',
         body: [
-          'Konteyner Xitoy stansiyasidan joʻnatilgach, Toshkentga taxminan 20–35 kunda keladi. Yoʻl: Ivu / Shanxay / Guanchjou → Urumchi → Alashankou–Dostyk yoki Xorgos–Altynkol chegara stansiyalari → Qozogʻiston temir yoʻli → Saryagash → Toshkent. Xitoy temir yoʻli izi 1435 mm, Qozogʻiston va Oʻzbekistonda 1520 mm — shuning uchun chegarada konteyner boshqa platformaga qayta yuklanadi; bu 2–7 kun oladi.',
+          'Konteyner Xitoy stansiyasidan joʻnatilgach, Toshkentga taxminan 20–35 kunda keladi. Yoʻl: Ivu / Shanxay / Guanchjou → Urumchi → Alashankou–Doʻstiq yoki Xorgos–Oltinkoʻl chegara stansiyalari → Qozogʻiston temir yoʻli → Saryagash → Toshkent. Xitoy temir yoʻli izi 1435 mm, Qozogʻiston va Oʻzbekistonda 1520 mm — shuning uchun chegarada konteyner boshqa platformaga qayta yuklanadi; bu 2–7 kun oladi.',
         ],
         table: {
           caption: 'Temir yoʻlning bosqichlari',
@@ -82,15 +82,15 @@ const content: ServiceContentByLang = {
           rows: [
             ['Xitoy stansiyasi', 'konteynerga yuklash, plombalash, eksport rasmiylashtiruvi, poyezd kutish', '3–7 kun'],
             ['Xitoy ichida → Urumchi → chegara', 'temir yoʻl, 3 500–4 000 km', '5–8 kun'],
-            ['Dostyk / Altynkol', '1435 → 1520 mm platformaga qayta yuklash, tranzit hujjatlari', '2–7 kun'],
+            ['Doʻstiq / Oltinkoʻl', '1435 → 1520 mm platformaga qayta yuklash, tranzit hujjatlari', '2–7 kun'],
             ['Qozogʻiston boʻylab → Saryagash', 'tranzit', '5–8 kun'],
             ['Saryagash → Toshkent terminali', 'import bojxona rasmiylashtiruvi, tushirish', '3–5 kun'],
           ],
-          note: 'Muddat konteyner stansiyadan joʻnatilgan kundan hisoblanadi. Dostykdagi navbat mavsumga qarab bir haftagacha choʻzilishi mumkin.',
+          note: 'Muddat konteyner stansiyadan joʻnatilgan kundan hisoblanadi. Doʻstiqdagi navbat mavsumga qarab bir haftagacha choʻzilishi mumkin.',
         },
         callout: {
-          title: 'Qaysi chegara — Dostyk yoki Altynkol?',
-          text: 'Ikkalasi ham Qozogʻiston bilan chegara: Alashankou–Dostyk eski va yirik oʻtish, Xorgos–Altynkol yangiroq va kengaytirilmoqda. Qaysi biri boʻsh boʻlsa, poyezd shu yerdan oʻtadi — buni temir yoʻl operatori belgilaydi. Xitoy–Qirgʻiziston–Oʻzbekiston temir yoʻli hali qurilmoqda va ishlamaydi.',
+          title: 'Qaysi chegara — Doʻstiq yoki Oltinkoʻl?',
+          text: 'Ikkalasi ham Qozogʻiston bilan chegara: Alashankou–Doʻstiq eski va yirik oʻtish, Xorgos–Oltinkoʻl yangiroq va kengaytirilmoqda. Qaysi biri boʻsh boʻlsa, poyezd shu yerdan oʻtadi — buni temir yoʻl operatori belgilaydi. Xitoy–Qirgʻiziston–Oʻzbekiston temir yoʻli hali qurilmoqda va ishlamaydi.',
           tone: 'warn',
         },
       },
@@ -179,7 +179,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Temir yoʻl orqali yuk necha kunda keladi?',
-        a: 'Taxminan 20–35 kun — konteyner Xitoy stansiyasidan joʻnatilgan kundan Toshkentgacha. Chegarada qayta yuklash va Dostykdagi navbat 2–7 kun oladi; Xitoy Yangi yili va oktabr bayramlarida muddat choʻziladi.',
+        a: 'Taxminan 20–35 kun — konteyner Xitoy stansiyasidan joʻnatilgan kundan Toshkentgacha. Chegarada qayta yuklash va Doʻstiqdagi navbat 2–7 kun oladi; Xitoy Yangi yili va oktabr bayramlarida muddat choʻziladi.',
       },
       {
         q: 'FCL va LCL nima?',
@@ -191,7 +191,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Qaysi chegaradan oʻtadi?',
-        a: 'Qozogʻiston orqali: Alashankou–Dostyk yoki Xorgos–Altynkol stansiyalari, keyin Saryagash orqali Toshkent. Chegarada Xitoyning 1435 mm izidan 1520 mm ga qayta yuklanadi.',
+        a: 'Qozogʻiston orqali: Alashankou–Doʻstiq yoki Xorgos–Oltinkoʻl stansiyalari, keyin Saryagash orqali Toshkent. Chegarada Xitoyning 1435 mm izidan 1520 mm ga qayta yuklanadi.',
       },
       {
         q: 'Xitoy–Qirgʻiziston–Oʻzbekiston temir yoʻli ishlayaptimi?',

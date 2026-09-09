@@ -107,9 +107,11 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: l
   .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
   .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
   .answer { max-width: 66ch; margin-top: 20px; color: var(--muted); }
-  .calc-wrap { padding-bottom: clamp(24px, 4vw, 48px); }
-  .calc-holder { border-radius: var(--radius-xl); padding: clamp(8px, 2vw, 24px); background: var(--bg-2); }
-  .body { padding-top: clamp(32px, 4vw, 56px); padding-bottom: clamp(48px, 6vw, 96px); max-width: calc(var(--container-text) + 2 * var(--gutter)); }
+  /* Same treatment as the pricing page's calculator band: a full-bleed grey band with the dot grid, one rounded card inside it. */
+  .calc-wrap { background: var(--bg-2); padding-block: clamp(24px, 4vw, 48px); }
+  .calc-holder { border-radius: var(--radius-xl); padding: clamp(8px, 2vw, 24px); }
+  .body { padding-top: clamp(32px, 4vw, 56px); padding-bottom: clamp(48px, 6vw, 96px); }
+  .body > .block { max-width: var(--container-text); }
   .block + .block { margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid var(--border-soft); }
   .block h2 { font-size: var(--text-h2); max-width: 32ch; margin-bottom: 16px; }
   .para { color: var(--fg-2); max-width: 70ch; text-wrap: pretty; }

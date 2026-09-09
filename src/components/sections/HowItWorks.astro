@@ -43,7 +43,7 @@ const telegramHref = telegramChat(c.telegramDraft.general);
     <ol class="steps" role="list" aria-label={t.listLabel}>
       {t.steps.map((s, i) => (
         <li class="step reveal" style={`--reveal-delay:${i * 60}ms`}>
-          <span class="node" aria-hidden="true"></span>
+          <span class="node hex-node" aria-hidden="true"></span>
           <div class="body">
             <div class="top">
               <svg class="glyph" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={glyphs[s.glyph]}></svg>
@@ -65,7 +65,7 @@ const telegramHref = telegramChat(c.telegramDraft.general);
 </section>
 
 <style>
-  .process { --hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); --node: 12px; --rail-w: 1.5px; }
+  .process { --hex: var(--hex-clip); --node: 12px; --rail-w: 1.5px; }
   .steps { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: 24px; list-style: none; margin: 0; padding: 0; view-timeline-name: --steps; view-timeline-axis: block; }
   /* the rail: undrawn track + drawn line */
   .steps::before, .steps::after { content: ''; position: absolute; pointer-events: none; }

@@ -1,14 +1,15 @@
 import type { Lang } from './config';
 
+// operatorFallback: shown while site.legalEntity (src/lib/site.ts) is empty — the owner must fill in the legal name and STIR there.
 export interface PrivacySection { heading: string; paragraphs?: string[]; bullets?: string[] }
-export interface PrivacyStrings { seoTitle: string; seoDescription: string; eyebrow: string; h1: string; effective: string; intro: string; operatorLabel: string; operatorPlaceholder: string; sections: PrivacySection[]; contactHeading: string; contactText: string }
+export interface PrivacyStrings { seoTitle: string; seoDescription: string; eyebrow: string; h1: string; effective: string; intro: string; operatorLabel: string; operatorFallback: string; sections: PrivacySection[]; contactHeading: string; contactText: string }
 
 const uz: PrivacyStrings = {
   seoTitle: 'Maxfiylik siyosati — GSR Logistics',
-  seoDescription: 'GSR Logistics saytida shaxsga doir maʼlumotlar qanday yigʻiladi, nima maqsadda ishlatiladi, kimga uzatiladi va qancha saqlanadi. Oʻzbekiston Respublikasining «Shaxsga doir maʼlumotlar toʻgʻrisida»gi qonuniga (ОʻRQ-547) muvofiq.',
+  seoDescription: 'GSR Logistics saytida shaxsga doir maʼlumotlar qanday yigʻiladi, nima maqsadda ishlatiladi, kimga uzatiladi va qancha saqlanadi. Oʻzbekiston Respublikasining «Shaxsga doir maʼlumotlar toʻgʻrisida»gi qonuniga (OʻRQ-547) muvofiq.',
   eyebrow: 'Maxfiylik', h1: 'Maxfiylik siyosati', effective: 'Amal qilish sanasi: 2026-yil 8-sentabr',
   intro: 'Bu sahifa gsrlogistics.uz sayti orqali biz bilan bogʻlanganingizda qanday maʼlumotlar yigʻilishi, ular nima uchun kerakligi va kimga uzatilishini tushuntiradi. Sayt cookie-banner ishlatmaydi va reklama trekerlarini yuklamaydi.',
-  operatorLabel: 'Operator', operatorPlaceholder: '[Yuridik shaxs nomi, STIR, manzil — egasi toʻldiradi]',
+  operatorLabel: 'Operator', operatorFallback: 'GSR Logistics',
   sections: [
     { heading: 'Qanday maʼlumotlar yigʻiladi?', bullets: ['Siz yuborgan maʼlumotlar: ism, telefon raqami, Telegram foydalanuvchi nomi, xabar matni, yuk haqidagi tavsif, yuk kodi.', 'Texnik maʼlumotlar: IP-manzil, brauzer va qurilma turi, sahifaga kirish vaqti — faqat server jurnallarida va (yoqilgan boʻlsa) analitika hisoblagichida.', 'Saytdagi kalkulyator va kuzatuv formalari hisob-kitobni brauzeringizda bajaradi; kiritilgan raqamlar bizga yuborilmaydi, agar siz «Telegramda tasdiqlang» tugmasini bosmasangiz.'] },
     { heading: 'Maʼlumotlar nima uchun kerak?', bullets: ['Soʻrovingizga javob berish, narx va yoʻnalishni taklif qilish.', 'Shartnoma tuzish va yukni yetkazib berish boʻyicha majburiyatlarni bajarish.', 'Yuk holati haqida xabar berish.', 'Saytning ishlashini taʼminlash va xatolarni aniqlash.'] },
@@ -27,7 +28,7 @@ const ru: PrivacyStrings = {
   seoDescription: 'Какие персональные данные собирает сайт GSR Logistics, зачем, кому передаются и сколько хранятся. В соответствии с Законом Республики Узбекистан «О персональных данных» (ЗРУ-547).',
   eyebrow: 'Конфиденциальность', h1: 'Политика конфиденциальности', effective: 'Дата вступления в силу: 8 сентября 2026 г.',
   intro: 'На этой странице объясняется, какие данные собираются, когда вы связываетесь с нами через сайт gsrlogistics.uz, зачем они нужны и кому передаются. Сайт не использует cookie-баннер и не загружает рекламные трекеры.',
-  operatorLabel: 'Оператор', operatorPlaceholder: '[Наименование юридического лица, ИНН, адрес — заполняет владелец]',
+  operatorLabel: 'Оператор', operatorFallback: 'GSR Logistics',
   sections: [
     { heading: 'Какие данные собираются?', bullets: ['Данные, которые вы отправляете сами: имя, номер телефона, имя пользователя Telegram, текст сообщения, описание груза, код груза.', 'Технические данные: IP-адрес, тип браузера и устройства, время посещения — только в журналах сервера и (если включён) в счётчике аналитики.', 'Калькулятор и форма отслеживания считают в вашем браузере; введённые числа нам не передаются, пока вы не нажмёте «Подтвердить в Telegram».'] },
     { heading: 'Зачем нужны данные?', bullets: ['Ответить на запрос, предложить цену и маршрут.', 'Заключить договор и выполнить обязательства по доставке.', 'Сообщать о статусе груза.', 'Обеспечивать работу сайта и находить ошибки.'] },
@@ -46,7 +47,7 @@ const en: PrivacyStrings = {
   seoDescription: 'What personal data the GSR Logistics website collects, why, who receives it and how long it is kept. In line with the Law of the Republic of Uzbekistan “On Personal Data” (ZRU-547).',
   eyebrow: 'Privacy', h1: 'Privacy policy', effective: 'Effective date: September 8, 2026',
   intro: 'This page explains what data is collected when you contact us through gsrlogistics.uz, why it is needed and who receives it. The site uses no cookie banner and loads no advertising trackers.',
-  operatorLabel: 'Data controller', operatorPlaceholder: '[Legal entity name, tax ID, address — to be filled in by the owner]',
+  operatorLabel: 'Data controller', operatorFallback: 'GSR Logistics',
   sections: [
     { heading: 'What data is collected?', bullets: ['Data you send: name, phone number, Telegram username, message text, cargo description, cargo code.', 'Technical data: IP address, browser and device type, time of visit — only in server logs and (if enabled) in the analytics counter.', 'The calculator and tracking forms compute in your browser; the numbers you enter are not sent to us unless you press “Confirm on Telegram”.'] },
     { heading: 'Why is the data needed?', bullets: ['To answer your request and propose a price and route.', 'To sign a contract and fulfil delivery obligations.', 'To inform you about cargo status.', 'To keep the site running and find errors.'] },

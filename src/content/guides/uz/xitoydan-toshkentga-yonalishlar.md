@@ -1,6 +1,6 @@
 ---
 title: "Xitoydan Toshkentga yuk qaysi yoʻl bilan keladi: Xorgos, Irkeshtam, temir yoʻl yoki avia?"
-description: "Asosiy yoʻl — Ivu → Urumchi → Xorgos → Olmaota → Shimkent → Yallama → Toshkent: taxminan 5 000 km, 15–25 kun. Muqobillar: Qashqar → Irkeshtam yoki Torugart → Oʻsh → Andijon (Fargʻona vodiysiga qisqaroq), temir yoʻl Dostiq/Altinkoʻl orqali 20–35 kun, avia 3–10 kun. Jadval, mavsumiy taqvim, kuzatuv bosqichlari."
+description: "Asosiy yoʻl — Ivu → Urumchi → Xorgos → Olmaota → Shimkent → Yallama → Toshkent: taxminan 5 000 km, 15–25 kun. Muqobillar: Qashqar → Irkeshtam yoki Torugart → Oʻsh → Andijon (Fargʻona vodiysiga qisqaroq), temir yoʻl Doʻstiq/Oltinkoʻl orqali 20–35 kun, avia 3–10 kun. Jadval, mavsumiy taqvim, kuzatuv bosqichlari."
 lang: uz
 translationKey: routes
 slug: xitoydan-toshkentga-yonalishlar
@@ -9,13 +9,13 @@ updatedDate: 2026-09-08
 tags: [truck, rail, air, customs, yonalishlar]
 faq:
   - q: "Xitoydan Toshkentga fura qaysi chegaradan oʻtadi?"
-    a: "Asosiy yoʻlda ikkita chegara bor: Xitoy — Qozogʻiston oʻrtasida Xorgos (Qozogʻiston tomonida Nur Joʻli) yoki Alashankou — Dostiq, keyin Qozogʻiston — Oʻzbekiston oʻrtasida Yallama (Gʻishtkoʻprik) posti Toshkent yaqinida. Qirgʻiziston yoʻlida chegaralar Irkeshtam yoki Torugart va Oʻsh — Andijon oʻtish joyi."
+    a: "Asosiy yoʻlda ikkita chegara bor: Xitoy — Qozogʻiston oʻrtasida Xorgos (Qozogʻiston tomonida Nur Joʻli) yoki Alashankou — Doʻstiq, keyin Qozogʻiston — Oʻzbekiston oʻrtasida Yallama (Gʻishtkoʻprik) posti Toshkent yaqinida. Qirgʻiziston yoʻlida chegaralar Irkeshtam yoki Torugart va Oʻsh — Andijon oʻtish joyi."
   - q: "Ivudan Toshkentgacha necha kilometr?"
     a: "Avtomobil yoʻli bilan Xorgos orqali taxminan 5 000 km: Ivudan Urumchigacha 3 800 km atrofida, Urumchidan Xorgosgacha 650 km, Qozogʻiston boʻylab 1 000 km va Shimkentdan Toshkentgacha 120 km. Sof yoʻl vaqti 8–10 kun, qolgani chegara navbati va rasmiylashtiruvga ketadi."
   - q: "Qirgʻiziston orqali yoʻl Toshkentga tezroqmi?"
     a: "Andijon, Fargʻona va Namangan uchun — ha, Qashqar → Irkeshtam/Torugart → Oʻsh → Andijon yoʻli 3–6 kun tejaydi. Toshkent uchun odatda yoʻq: Andijondan yana 350 km Qamchiq dovoni orqali yurish va qoʻshimcha tranzit rasmiylashtiruvi kerak, qishda dovonlar yopilib turadi."
   - q: "Xitoy — Qirgʻiziston — Oʻzbekiston temir yoʻli ishlayaptimi?"
-    a: "Yoʻq, u hali qurilmoqda. 2026-yilda barcha temir yoʻl yuklari Qozogʻiston orqali — Dostiq yoki Altinkoʻl chegara stansiyasi va Saryagash orqali — Toshkentga keladi. Yangi yoʻl ochilgach, muddatlar qisqaradi, lekin bugun unga reja qurmang."
+    a: "Yoʻq, u hali qurilmoqda. 2026-yilda barcha temir yoʻl yuklari Qozogʻiston orqali — Doʻstiq yoki Oltinkoʻl chegara stansiyasi va Saryagash orqali — Toshkentga keladi. Yangi yoʻl ochilgach, muddatlar qisqaradi, lekin bugun unga reja qurmang."
   - q: "Yilning qaysi paytida yuk eng sekin keladi?"
     a: "Xitoy Yangi yili oldidan va undan keyin (yanvar oxiri — fevral) hamda Oltin haftadan keyin (oktabr) muddat 1–2 haftaga choʻziladi. 11.11 dan dekabr oxirigacha chegara terminallari eng band boʻlib, avto muddati 25 kunga yaqinlashadi. Navroʻz atrofida Yallamada 2–4 kun navbat boʻladi."
 sources:
@@ -28,21 +28,21 @@ sources:
   - title: "Logistan — Shansi provinsiyasidan Oʻzbekistonga multimodal konteyner tashuvi yoʻlga qoʻyildi (Qashqar — Irkeshtam — Andijon)"
     url: "https://logistan.info/10080-multimodalnye-kontejnernye-perevozki-zapustili-iz-provinczii-shansi-knr-v-uzbekistan/"
     date: "2025-09-30"
-  - title: "Logistan — Qozogʻiston Dostiq va Altinkoʻlga boʻsh platformalar taqiqini uzaytirdi"
+  - title: "Logistan — Qozogʻiston Doʻstiq va Oltinkoʻlga boʻsh platformalar taqiqini uzaytirdi"
     url: "https://logistan.info/7645-kazahstan-prodlil-zapret-na-poroznie-platformy-na-dostyk-i-altynkol/"
     date: "2025-05-15"
-  - title: "Ritm Eurasia — Altinkoʻl — Xorgos temir yoʻl uzeli modernizatsiyasi 2026-yilda yakunlanadi"
+  - title: "Ritm Eurasia — Oltinkoʻl — Xorgos temir yoʻl uzeli modernizatsiyasi 2026-yilda yakunlanadi"
     url: "https://www.ritmeurasia.ru/news--2026-02-24--modernizacija-zh-d-uzla-altynkol-horgos-na-granice-s-kitaem-zavershitsja-v-2026-godu-86044"
     date: "2026-02-24"
   - title: "RZD-Partner — Xitoy — Qirgʻiziston — Oʻzbekiston transport yoʻlagi boʻylab birinchi poyezd joʻnatildi"
     url: "https://www.rzd-partner.ru/zhd-transport/news/zapushchen-pervyy-poezd-po-transportnomu-koridoru-kitay-kyrgyzstan-uzbekistan/"
     date: "2025-04-16"
-  - title: "Cargorating — Xorgos, Dostiq, Altinkoʻl orqali yoʻnalishlar: qaysi birini tanlash"
+  - title: "Cargorating — Xorgos, Doʻstiq, Oltinkoʻl orqali yoʻnalishlar: qaysi birini tanlash"
     url: "https://cargorating.asia/57-marshruty-cherez-horgos-dostyk-altynkol-chto-vybrat.html"
     date: "2025-11-12"
 ---
 
-Xitoydan Toshkentga yuk toʻrt yoʻl bilan keladi: **avto Qozogʻiston orqali** (Ivu → Urumchi → Xorgos → Olmaota → Shimkent → Yallama → Toshkent, taxminan 5 000 km, 15–25 kun), **avto Qirgʻiziston orqali** (Qashqar → Irkeshtam yoki Torugart → Oʻsh → Andijon → Toshkent, Fargʻona vodiysiga qisqaroq), **temir yoʻl** (Dostiq yoki Altinkoʻl → Saryagash → Toshkent, 20–35 kun) va **avia** (Guanchjou yoki Urumchi → Toshkent, 3–10 kun). GSR Logistics yigʻma yukni odatda Xorgos orqali olib keladi. Muddatlar taxminiy, yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi.
+Xitoydan Toshkentga yuk toʻrt yoʻl bilan keladi: **avto Qozogʻiston orqali** (Ivu → Urumchi → Xorgos → Olmaota → Shimkent → Yallama → Toshkent, taxminan 5 000 km, 15–25 kun), **avto Qirgʻiziston orqali** (Qashqar → Irkeshtam yoki Torugart → Oʻsh → Andijon → Toshkent, Fargʻona vodiysiga qisqaroq), **temir yoʻl** (Doʻstiq yoki Oltinkoʻl → Saryagash → Toshkent, 20–35 kun) va **avia** (Guanchjou yoki Urumchi → Toshkent, 3–10 kun). GSR Logistics yigʻma yukni odatda Xorgos orqali olib keladi. Muddatlar taxminiy, yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi.
 
 ## Asosiy yoʻl Xorgos orqali qanday oʻtadi?
 
@@ -52,7 +52,7 @@ Ivudan Toshkentgacha fura quyidagi nuqtalardan oʻtadi:
 
 1. **Ivu (义乌) → Sian** — taxminan 1 300 km. Ivu ombori yukni qabul qiladi, tortadi, oʻlchaydi, foto-hisobot yuboradi va furaga joylaydi. Guanchjou va Shenchjendan kelgan yuk shu yerda asosiy furaga qoʻshiladi.
 2. **Sian → Lanchjou → Urumchi** — taxminan 2 500 km, Xitoyning G30 avtomagistrali boʻylab 3–4 kun. Urumchi — Shinjondagi soʻnggi yirik logistika markazi; koʻp kargo kompaniyalari partiyalarni shu yerda qayta yigʻadi.
-3. **Urumchi → Xorgos** — 650 km. Xitoy tomonida eksport rasmiylashtiruvi, Qozogʻiston tomonida (Nur Joʻli) tranzit deklaratsiyasi. Muqobil post — **Alashankou → Dostiq**: temir yoʻlga yaqin, fura navbati koʻpincha qisqaroq.
+3. **Urumchi → Xorgos** — 650 km. Xitoy tomonida eksport rasmiylashtiruvi, Qozogʻiston tomonida (Nur Joʻli) tranzit deklaratsiyasi. Muqobil post — **Alashankou → Doʻstiq**: temir yoʻlga yaqin, fura navbati koʻpincha qisqaroq.
 4. **Xorgos → Olmaota → Shimkent** — taxminan 1 000 km Qozogʻiston boʻylab, 2–3 kun.
 5. **Shimkent → Yallama (Gʻishtkoʻprik) → Toshkent** — 120 km. Yallama — Oʻzbekistonning eng band avtomobil chegara posti; 2025-yil iyunidan yuk mashinalari uchun elektron navbat ishlaydi. Yuk vaqtincha saqlash omboriga tushadi, GTD rasmiylashtiriladi va GSR omboriga keladi.
 
@@ -71,12 +71,12 @@ Toshkent uchun bu yoʻl odatda foyda bermaydi: Andijondan Toshkentgacha yana 350
 
 ## Temir yoʻl qaysi stansiyalar orqali keladi?
 
-Temir yoʻl yuki Xitoy stansiyasidan (Sian, Chengdu, Lyanyungan, Ivu) **Alashankou → Dostiq** yoki **Xorgos → Altinkoʻl** chegara stansiyasiga keladi. Xitoy izi 1 435 mm, MDH izi 1 520 mm — konteyner boshqa platformaga qayta yuklanadi. Keyin Qozogʻiston temir yoʻli boʻylab **Saryagash** orqali Toshkentga, konteyner terminaliga yoki Chirchiq va Sergeli stansiyalariga yetadi. Muddat taxminan 20–35 kun; narx konteyner uchun: 20 fut 2 800–5 500 $, 40 fut 5 200–6 800 $ (taxminiy, 2026-yil 8-sentabr holatiga).
+Temir yoʻl yuki Xitoy stansiyasidan (Sian, Chengdu, Lyanyungan, Ivu) **Alashankou → Doʻstiq** yoki **Xorgos → Oltinkoʻl** chegara stansiyasiga keladi. Xitoy izi 1 435 mm, MDH izi 1 520 mm — konteyner boshqa platformaga qayta yuklanadi. Keyin Qozogʻiston temir yoʻli boʻylab **Saryagash** orqali Toshkentga, konteyner terminaliga yoki Chirchiq va Sergeli stansiyalariga yetadi. Muddat taxminan 20–35 kun; narx konteyner uchun: 20 fut 2 800–5 500 $, 40 fut 5 200–6 800 $ (taxminiy, 2026-yil 8-sentabr holatiga).
 
 Nima sekinlashtiradi:
 
-- **Dostiq va Altinkoʻlda tiqilinch.** 2025-yil birinchi yarmida Qozogʻiston temir yoʻli boʻsh platformalarni Dostiq va Altinkoʻlga yuborishni taqiqlagan, 49 poyezd kutib turgan. Dostiq — Moyinti ikkinchi yoʻli 2025-yil sentabrida ochilib, oʻtkazuvchanlik 42% oshdi.
-- **Altinkoʻl — Xorgos uzeli modernizatsiyasi** 2026-yilda tugaydi: kuniga 18 dan 33 juft poyezdgacha.
+- **Doʻstiq va Oltinkoʻlda tiqilinch.** 2025-yil birinchi yarmida Qozogʻiston temir yoʻli boʻsh platformalarni Doʻstiq va Oltinkoʻlga yuborishni taqiqlagan, 49 poyezd kutib turgan. Doʻstiq — Moyinti ikkinchi yoʻli 2025-yil sentabrida ochilib, oʻtkazuvchanlik 42% oshdi.
+- **Oltinkoʻl — Xorgos uzeli modernizatsiyasi** 2026-yilda tugaydi: kuniga 18 dan 33 juft poyezdgacha.
 - **Xitoy — Qirgʻiziston — Oʻzbekiston temir yoʻli** (Qashqar → Torugart → Makmal → Jalolobod → Andijon) hali qurilmoqda. Bu — kelajak, bugungi xizmat emas; 2026-yilda barcha temir yoʻl yuklari Qozogʻiston orqali keladi.
 
 Batafsil — [Temir yoʻl va konteyner](/xizmatlar/temir-yol-konteyner/).
@@ -89,23 +89,23 @@ Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk X
 
 | Yoʻl | Masofa | Muddat | Narx | Xavflar |
 |---|---|---|---|---|
-| Avto, Xorgos yoki Dostiq orqali (Qozogʻiston) | ≈ 5 000 km Ivudan | 15–25 kun (ekspress 13–18) | $$ — 6,5–7,5 $/kg yoki 110–190 $/m³ | Xorgos va Yallamada navbat (bayram oldi 3–7 kun), qishda qor |
+| Avto, Xorgos yoki Doʻstiq orqali (Qozogʻiston) | ≈ 5 000 km Ivudan | 15–25 kun (ekspress 13–18) | $$ — 6,5–7,5 $/kg yoki 110–190 $/m³ | Xorgos va Yallamada navbat (bayram oldi 3–7 kun), qishda qor |
 | Avto, Irkeshtam yoki Torugart orqali (Qirgʻiziston) | Andijonga 300–1 000 km qisqa | 9–15 kun (Andijon) | $$ — Xorgos bilan teng; Toshkent +350 km | Qishda dovon yopilishi, bayramda post yopiq, qoʻshimcha tranzit |
-| Temir yoʻl, Dostiq yoki Altinkoʻl → Saryagash | ≈ 4 500–6 000 km stansiyaga qarab | 20–35 kun | $ — 20 fut 2 800–5 500 $ | Chegarada iz almashtirish, platforma yetishmasligi, terminal navbati |
+| Temir yoʻl, Doʻstiq yoki Oltinkoʻl → Saryagash | ≈ 4 500–6 000 km stansiyaga qarab | 20–35 kun | $ — 20 fut 2 800–5 500 $ | Chegarada iz almashtirish, platforma yetishmasligi, terminal navbati |
 | Avia, Guanchjou yoki Urumchi → Toshkent | ≈ 5 000 km / ≈ 1 300 km | 3–10 kun | $$$ — 9–12 $/kg | Taqiqlangan tovarlar, reys jadvali, bayramda joy tanqisligi |
 
 *Masofa, muddat va narxlar taxminiy · Yangilangan: 2026-yil 8-sentabr. Muddat yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi. Uch transport turini narx boʻyicha batafsil taqqoslash — [Avia, avto yoki temir yoʻl](/qollanma/avia-avto-temir-yol-taqqoslash/) qoʻllanmasida.*
 
 ## GSR Logistics qaysi yoʻlni tanlaydi?
 
-Yigʻma yuk uchun asosiy yoʻlimiz — **Ivu → Urumchi → Xorgos → Olmaota → Shimkent → Yallama → Toshkent**. Sabab uchta: post yil boʻyi ochiq, Qozogʻistonda ikkita muqobil oʻtish joyi (Xorgos va Dostiq) bor, Toshkent omborigacha bitta fura boradi va yuk yoʻlda qayta yuklanmaydi.
+Yigʻma yuk uchun asosiy yoʻlimiz — **Ivu → Urumchi → Xorgos → Olmaota → Shimkent → Yallama → Toshkent**. Sabab uchta: post yil boʻyi ochiq, Qozogʻistonda ikkita muqobil oʻtish joyi (Xorgos va Doʻstiq) bor, Toshkent omborigacha bitta fura boradi va yuk yoʻlda qayta yuklanmaydi.
 
 Muqobil yoʻl mantiqli boʻladi, agar:
 
 - yuk **Andijon, Fargʻona yoki Namanganga** ketsa — Irkeshtam yoki Torugart orqali 3–6 kun tejaladi;
 - partiya **bitta mijozning 25 m³ dan katta** yuki boʻlsa — konteyner temir yoʻl bilan arzonroq;
 - tovar **yengil, qimmat va shoshilinch** boʻlsa — avia;
-- Xorgosda **bayram navbati** boshlansa — menejer Dostiq orqali yoki Qirgʻiziston yoʻlini taklif qiladi.
+- Xorgosda **bayram navbati** boshlansa — menejer Doʻstiq orqali yoki Qirgʻiziston yoʻlini taklif qiladi.
 
 Yoʻlni siz bilan birga tanlaymiz: yukning nomi, vazni, hajmi va qayerga kerakligini yozasiz — menejer ikki variantni raqamlar bilan taqqoslab beradi. Batafsil — [Avto kargo (yigʻma yuk)](/xizmatlar/avto-kargo/).
 

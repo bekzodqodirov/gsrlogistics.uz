@@ -48,6 +48,10 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: var(--text-small); font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; text-transform: none; }
 .eyebrow::before { content: ''; flex: none; width: 9px; height: 10px; background: var(--accent-text); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
 .hex { display: inline-block; width: 10px; height: 11px; background: currentColor; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+/* Hexagon node for rails (process stepper, guide TOC, tracking strip): outer layer = stroke, inner = fill. */
+:root { --hex-clip: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+.hex-node { position: relative; display: inline-block; width: 12px; height: 13px; clip-path: var(--hex-clip); background: var(--node-stroke, var(--border)); }
+.hex-node::after { content: ''; position: absolute; inset: 1.5px; clip-path: var(--hex-clip); background: var(--node-fill, var(--bg)); }
 .num-unit { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-left: 4px; letter-spacing: 0; }
 :lang(ru) .display-1, :lang(ru) .display-2, :lang(ru) h2 { letter-spacing: -0.01em; }
 .measure { max-width: 60ch; }
@@ -168,6 +172,13 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 .table tbody tr:last-child td { border-bottom: 0; }
 .table td.num, .table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* Scroll hint: a page script sets data-overflow="start|mid|end" on .table-wrap/.scroll-x when they overflow;
+   the trailing edge fades until the scroller reaches its end (a sticky first column stays opaque on the left). */
+.table-wrap[data-overflow], .scroll-x[data-overflow] { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); }
+.scroll-x[data-overflow='mid'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); }
+.scroll-x[data-overflow='end'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 28px); mask-image: linear-gradient(90deg, transparent, #000 28px); }
+.table-wrap[data-overflow='end'] { -webkit-mask-image: none; mask-image: none; }
+@media (max-width: 640px) { .table-wrap .table { min-width: 520px; } .table-wrap thead th:first-child, .table-wrap tbody th:first-child, .table-wrap tbody td:first-child { min-width: 128px; max-width: 168px; } .table-wrap tbody th:first-child { position: sticky; left: 0; background: var(--bg); } }
 .field { display: grid; gap: 6px; }
 .field label, .label { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); }
 .input, .select, .textarea { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); color: var(--fg); transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }

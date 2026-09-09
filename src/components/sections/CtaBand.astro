@@ -24,7 +24,7 @@ const eyebrow = number ? `${number} — ${t.eyebrow}` : t.eyebrow;
     <Eyebrow>{eyebrow}</Eyebrow>
     <div class="cta-grid">
       <div class="copy">
-        <div class="lock" aria-hidden="true"><span class="lock-line"></span><Logo variant="mark" size={28} /></div>
+        <div class="lock" aria-hidden="true"><Logo variant="mark" size={28} /><span class="lock-line"></span></div>
         <h2 id={`${id}-h`} class="display-2 measure-head">{t.h2}</h2>
         <p class="intro cta-text">{t.text}</p>
         <div class="cta-row">
@@ -53,8 +53,18 @@ const eyebrow = number ? `${number} — ${t.eyebrow}` : t.eyebrow;
 <style>
   .cta { padding-block: clamp(96px, 10vw, 128px); }
   .cta-grid { display: grid; gap: 40px; margin-top: 16px; }
-  .lock { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .lock { position: relative; display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   .lock-line { width: 48px; height: 1px; background: var(--accent-text); }
+  /* ≥1280px (where the gutter hairline exists, DESIGN_BRIEF §3.9/§11.20): the band paints above the global line
+     and draws its own segment that arrives from the top into the mark, which sits on the line; a red stub then
+     leads from the mark to the content edge. Nothing continues below the mark. */
+  @media (min-width: 1280px) {
+    .cta { z-index: 2; overflow-x: visible; overflow-y: clip; }
+    .lock { margin-left: -46px; gap: 0; }
+    .lock::before { content: ''; position: absolute; left: 13.5px; bottom: 50%; width: 1px; height: 100vh; background: var(--border-soft); }
+    .lock :global(.logo) { position: relative; }
+    .lock-line { width: 18px; }
+  }
   .cta-text { max-width: 56ch; margin-top: 16px; color: var(--muted); }
   .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
   .addr-card { display: grid; gap: 0; align-self: end; border: 1px solid rgb(255 255 255 / 0.1); border-radius: var(--radius-lg); background: var(--card); padding: 8px 24px; margin: 0; }

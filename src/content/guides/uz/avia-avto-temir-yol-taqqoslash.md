@@ -15,7 +15,7 @@ faq:
   - q: "Litiy batareyali tovarni avia bilan olib kelsa boʻladimi?"
     a: "Yoʻq. Litiy batareya, power bank, suyuqlik, atir, magnit va dori aviaga olinmaydi — bu aviakompaniyalarning xavfsizlik talabi. Bunday tovarlar avto (yigʻma yuk) yoki temir yoʻl bilan keladi."
   - q: "Temir yoʻl avtodan nega sekin?"
-    a: "Konteyner Dostiq yoki Altinkoʻl chegarasida vagon oʻzgartirishni (Xitoy va MDH temir yoʻl izlari kengligi har xil) va terminal navbatini kutadi. Shuning uchun temir yoʻl taxminan 20–35 kun; evaziga narx konteyner uchun belgilanadi va katta partiyaga arzon tushadi."
+    a: "Konteyner Doʻstiq yoki Oltinkoʻl chegarasida vagon oʻzgartirishni (Xitoy va MDH temir yoʻl izlari kengligi har xil) va terminal navbatini kutadi. Shuning uchun temir yoʻl taxminan 20–35 kun; evaziga narx konteyner uchun belgilanadi va katta partiyaga arzon tushadi."
 sources:
   - title: "AGL — Xitoydan Oʻzbekistonga yuk tashish 2026-yilda: xarajat va muddatlar"
     url: "https://agl.uz/uz/news/xitoydan-ozbekistonga-yuk-tashish-2026-yilda-xarajatlarni-qanday-kamaytirish-va-muddatni-tezlashtirish-mumkin/"
@@ -23,13 +23,13 @@ sources:
   - title: "Transasia — Сколько стоит доставка из Китая в Узбекистан (avia, avto, temir yoʻl narxlari)"
     url: "https://transasia.uz/blog/tpost/eyyh7ibc71-skolko-stoit-dostavka-iz-kitaya-v-uzbeki"
     date: "2026-06-23"
-  - title: "Ritm Eurasia — Altinkoʻl–Xorgos temir yoʻl uzelini modernizatsiya qilish 2026-yilda yakunlanadi"
+  - title: "Ritm Eurasia — Oltinkoʻl–Xorgos temir yoʻl uzelini modernizatsiya qilish 2026-yilda yakunlanadi"
     url: "https://www.ritmeurasia.ru/news--2026-02-24--modernizacija-zh-d-uzla-altynkol-horgos-na-granice-s-kitaem-zavershitsja-v-2026-godu-86044"
     date: "2026-02-24"
   - title: "IATA — Lithium Batteries: havo transportida litiy batareyalar boʻyicha talablar"
     url: "https://www.iata.org/en/programs/cargo/dangerous-goods/lithium-batteries/"
     date: "2026-01-01"
-  - title: "Cargorating — Xorgos, Dostiq, Altinkoʻl: qaysi chegara oʻtish joyini tanlash"
+  - title: "Cargorating — Xorgos, Doʻstiq, Oltinkoʻl: qaysi chegara oʻtish joyini tanlash"
     url: "https://cargorating.asia/57-marshruty-cherez-horgos-dostyk-altynkol-chto-vybrat.html"
     date: "2025-11-12"
 ---
@@ -46,7 +46,7 @@ Xitoydan Oʻzbekistonga yukni uch yoʻl bilan olib kelish mumkin: **avia** (taxm
 | Taqiqlar | Litiy batareya, suyuqlik, atir, magnit, dori, dron — olinmaydi | Umumiy roʻyxat: portlovchi va yonuvchi moddalar, tez buziladigan mahsulot, pul va qimmatbaho metall, hujjatlar | Avto bilan bir xil; xavfli yuk alohida kelishuv bilan |
 | Minimal | 0,5 kg | 1 kg (kg boʻyicha) · 0,1 m³ (m³ boʻyicha) | Bitta konteyner (20 yoki 40 fut) |
 | Hajmiy vazn | uzunlik × en × balandlik (sm) ÷ 5000 | ÷ 6000 | Konteyner sigʻimi: ≈ 33 m³ (20 fut) / ≈ 76 m³ (40 fut HC) |
-| Chegara | Toshkent aeroporti | Xorgos (Qozogʻiston) → Shimkent → Toshkent | Dostiq yoki Altinkoʻl → Saryagash → Toshkent |
+| Chegara | Toshkent aeroporti | Xorgos (Qozogʻiston) → Shimkent → Toshkent | Doʻstiq yoki Oltinkoʻl → Saryagash → Toshkent |
 
 *Taxminiy narx · Yangilangan: 2026-yil 8-sentabr. Yakuniy narx yuk Ivu omborida tortilib, oʻlchangandan keyin aniqlanadi.* Barcha tariflar — [Narxlar](/narxlar/) sahifasida, tezkor hisob — [Kalkulyator](/kalkulyator/)da.
 
@@ -77,7 +77,7 @@ Avia mos kelmaydi: litiy batareyali tovar (power bank, elektr skuter, SIM-li soa
 
 ## Temir yoʻl va konteyner kimga kerak?
 
-Temir yoʻl — bu butun konteynerni (FCL) yoki uning bir qismini (LCL) poyezdda olib kelish. Konteyner Xitoy temir yoʻlida Dostiq yoki Altinkoʻl chegarasiga keladi, u yerda vagon oʻzgartiriladi (Xitoy va MDH izlari kengligi har xil), soʻng Qozogʻiston orqali Saryagash — Toshkentga yetadi. Muddat taxminan 20–35 kun, narx konteyner uchun: 20 fut 2 800–5 500 $, 40 fut 5 200–6 800 $.
+Temir yoʻl — bu butun konteynerni (FCL) yoki uning bir qismini (LCL) poyezdda olib kelish. Konteyner Xitoy temir yoʻlida Doʻstiq yoki Oltinkoʻl chegarasiga keladi, u yerda vagon oʻzgartiriladi (Xitoy va MDH izlari kengligi har xil), soʻng Qozogʻiston orqali Saryagash — Toshkentga yetadi. Muddat taxminan 20–35 kun, narx konteyner uchun: 20 fut 2 800–5 500 $, 40 fut 5 200–6 800 $.
 
 Temir yoʻl mos keladi, agar:
 
@@ -110,7 +110,7 @@ Barcha raqamlar tariflar jadvalidan olingan va taxminiy; sugʻurta (eʼlon qilin
 | Toshkentda bojxona rasmiylashtiruvi | 1–2 ish kuni | 1–2 ish kuni | 1–3 ish kuni |
 | Jami (taxminan) | 9–20 kun | 19–35 kun | 25–50 kun |
 
-Avtoda eng koʻp vaqt Xorgos chegarasida ketadi: navbat 1–3 kun, bayram oldi 5 kungacha. Temir yoʻlda — Dostiq/Altinkoʻl terminalida vagon oʻzgartirish; 2026-yilda Altinkoʻl–Xorgos uzeli modernizatsiya qilinmoqda, oʻtkazuvchanlik oshadi. Aviada muddat asosan reys jadvaliga bogʻliq: partiya haftada 1–2 marta joʻnaydi.
+Avtoda eng koʻp vaqt Xorgos chegarasida ketadi: navbat 1–3 kun, bayram oldi 5 kungacha. Temir yoʻlda — Doʻstiq/Oltinkoʻl terminalida vagon oʻzgartirish; 2026-yilda Oltinkoʻl–Xorgos uzeli modernizatsiya qilinmoqda, oʻtkazuvchanlik oshadi. Aviada muddat asosan reys jadvaliga bogʻliq: partiya haftada 1–2 marta joʻnaydi.
 
 ## Qaysi tovar qaysi yoʻlga olinmaydi?
 

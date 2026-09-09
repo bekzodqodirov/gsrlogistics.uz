@@ -139,7 +139,7 @@ const uz: ServicesStrings = {
     compareHead: { mode: 'Yoʻnalish', days: 'Muddat', min: 'Minimal', rule: 'Narx qoidasi', fits: 'Kimga mos' },
     compareRows: {
       truck: { min: '1 kg', rule: 'zichlik ≥ 170 kg/m³ — kg boʻyicha, past — m³ boʻyicha', fits: 'ulgurji partiya, ogʻir va hajmli yuk' },
-      air: { min: '0,5 kg', rule: 'kg boʻyicha, hajmiy vazn ÷ 5000', fits: 'shoshilinch, qimmat va yengil tovar' },
+      air: { min: '0,5 kg', rule: 'kg boʻyicha, hajmiy vazn ÷ 5 000', fits: 'shoshilinch, qimmat va yengil tovar' },
       rail: { min: '20ft konteyner', rule: 'konteyner uchun, FCL yoki LCL', fits: 'katta partiya, uskunalar' },
     },
     howTitle: 'Qanday boshlaymiz?',
@@ -229,7 +229,7 @@ const ru: ServicesStrings = {
     seoDescription: 'Услуги GSR Logistics: сборный груз из Китая в Ташкент за 15–25 дней, авиа за 5–10, ж/д контейнеры, поиск товаров, выкуп с 1688 и Taobao, импорт оборудования, таможенное оформление, склад в Иу и авто из Китая.',
     eyebrow: 'Услуги',
     h1: 'Услуги доставки и закупок в Китае',
-    intro: 'GSR Logistics закрывает девять задач, связанных с Китаем: сборный груз со склада в Иу через Хоргос в Ташкент — ориентировочно 15–25 дней, авиакарго — 5–10, ж/д контейнеры — 20–35. Находим товар, выкупаем на 1688 и Taobao, привозим оборудование под ключ, оформляем таможню. Один менеджер, один договор — с 2018 года.',
+    intro: 'GSR Logistics закрывает девять задач, связанных с Китаем: сборный груз со склада в Иу через Хоргос в Ташкент — ориентировочно 15–25 дней, авиа карго — 5–10, ж/д контейнеры — 20–35. Находим товар, выкупаем на 1688 и Taobao, привозим оборудование под ключ, оформляем таможню. Один менеджер, один договор — с 2018 года.',
     groups: { shipping: 'Доставка грузов', buying: 'Поиск и выкуп в Китае', paperwork: 'Оформление и контроль', vehicles: 'Автомобили' },
     groupLead: {
       shipping: 'Три способа — авто, авиа, ж/д. Срок и цена зависят от веса, объёма и срочности груза.',
@@ -242,7 +242,7 @@ const ru: ServicesStrings = {
     compareHead: { mode: 'Способ', days: 'Срок', min: 'Минимум', rule: 'Правило цены', fits: 'Кому подходит' },
     compareRows: {
       truck: { min: '1 кг', rule: 'плотность ≥ 170 кг/м³ — по кг, ниже — по м³', fits: 'оптовые партии, тяжёлый и объёмный груз' },
-      air: { min: '0,5 кг', rule: 'по кг, объёмный вес ÷ 5000', fits: 'срочный, дорогой и лёгкий товар' },
+      air: { min: '0,5 кг', rule: 'по кг, объёмный вес ÷ 5 000', fits: 'срочный, дорогой и лёгкий товар' },
       rail: { min: 'контейнер 20ft', rule: 'за контейнер, FCL или LCL', fits: 'крупные партии, оборудование' },
     },
     howTitle: 'С чего начать?',
@@ -345,7 +345,7 @@ const en: ServicesStrings = {
     compareHead: { mode: 'Mode', days: 'Transit', min: 'Minimum', rule: 'Pricing rule', fits: 'Best for' },
     compareRows: {
       truck: { min: '1 kg', rule: 'density ≥ 170 kg/m³ — per kg, lower — per m³', fits: 'wholesale lots, heavy and bulky cargo' },
-      air: { min: '0.5 kg', rule: 'per kg, volumetric weight ÷ 5000', fits: 'urgent, valuable and light goods' },
+      air: { min: '0.5 kg', rule: 'per kg, volumetric weight ÷ 5,000', fits: 'urgent, valuable and light goods' },
       rail: { min: '20ft container', rule: 'per container, FCL or LCL', fits: 'large lots, machinery' },
     },
     howTitle: 'How do we start?',

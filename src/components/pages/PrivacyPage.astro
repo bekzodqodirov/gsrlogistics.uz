@@ -26,7 +26,8 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: c
     </header>
     <div class="container container-text">
       <div class="prose policy">
-        <p><strong>{t.operatorLabel}:</strong> {site.legalEntity || t.operatorPlaceholder}. {site.address[lang]}. {site.email}.</p>
+        {/* Operator line: site.legalEntity (legal name, STIR) when filled in; otherwise the trade name + address from src/lib/site.ts */}
+        <p><strong>{t.operatorLabel}:</strong> {site.legalEntity || t.operatorFallback}. {site.address[lang]}. {site.email}.</p>
         {t.sections.map((s) => (
           <section>
             <h2>{s.heading}</h2>

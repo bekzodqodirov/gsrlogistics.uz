@@ -9,10 +9,37 @@ export function fmtNumber(value: number, lang: Lang, maxFraction = 2): string {
   return lang === 'en' ? `${grouped}.${frac}` : `${grouped},${frac}`;
 }
 
+/** Bare dollar figure without the sign: "5,5" (uz/ru) or "5.50" (en — non-integers always carry two decimals). */
+export function fmtUsdNumber(value: number, lang: Lang, maxFraction = 2): string {
+  if (lang === 'en' && !Number.isInteger(value)) {
+    const [int, frac] = value.toFixed(2).split('.');
+    return `${int.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${frac}`;
+  }
+  return fmtNumber(value, lang, maxFraction);
+}
+
 /** "5,5 $" (uz/ru) or "$5.50" (en). */
 export function fmtUsd(value: number, lang: Lang, maxFraction = 2): string {
-  const n = fmtNumber(value, lang, maxFraction);
+  const n = fmtUsdNumber(value, lang, maxFraction);
   return lang === 'en' ? `$${n}` : `${n} $`;
+}
+
+/** "6,5 $/kg dan" (uz — postposition) vs "от 6,5 $/кг" / "from $6.50/kg" (ru/en — preposition). */
+export function withFrom(value: string, lang: Lang, from: string): string {
+  return lang === 'uz' ? `${value} ${from}` : `${from} ${value}`;
+}
+
+/** Russian plural of "день" for a count: 1 день, 3 дня, 5 дней, 21 день, 22 дня. */
+export function ruDays(n: number): string {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return 'день';
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return 'дня';
+  return 'дней';
+}
+
+/** Localised day word for a count: uz "kun", en "days", ru declined via ruDays. */
+export function daysWord(n: number, lang: Lang, fallback: string): string {
+  return lang === 'ru' ? ruDays(n) : fallback;
 }
 
 /** "1 200 000 soʻm" / "1 200 000 сум" / "UZS 1,200,000". */

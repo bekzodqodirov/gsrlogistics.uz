@@ -9,7 +9,7 @@
  *   live    — `.is-live` (set synchronously by the inline gate below). Stage is 100svh, the section
  *             reserves the full pin distance in CSS (6.5 × 100svh desktop / 5.5 mobile → CLS 0), and
  *             ./journey.ts (GSAP core + ScrollTrigger + MotionPathPlugin) is imported only when the
- *             section comes within 100 % rootMargin.
+ *             section comes within 100 % rootMargin; its init() waits for main-thread idle (INP).
  * Props: { lang }.
  */
 import { pick, type Lang } from '@/i18n/config';
@@ -35,11 +35,8 @@ const days = {
 };
 const updated = `${c.updated}: ${fmtDate(tariffs.updated, lang)}`;
 const kmFinal = `${fmtNumber(ROUTE_KM, lang)}${ROUTE_KM_VERIFIED ? '' : '+'}`;
-const chips = [
-  { key: 'truck', label: t.chips.truck, days: days.truck },
-  { key: 'rail', label: t.chips.rail, days: days.rail },
-  { key: 'air', label: t.chips.air, days: days.air },
-];
+/** Mode chips; `cap` is the km caption tail shown while that chip is active ("avto, taxminan 15–25 kun"). */
+const chips = (['truck', 'rail', 'air'] as const).map((key) => ({ key, label: t.chips[key], days: days[key], cap: `${t.km.daysCaption[key]} ${days[key]}` }));
 const idx = (i: number) => String(i + 1).padStart(2, '0');
 const markL = 'M0 -50 L-43.3 -25 L-43.3 25 L-22.3 37.1 L20 12.7 L20 -5.77 L-28.3 22.1 L-33.3 19.23 L-33.3 -19.23 L10 -44.2 Z';
 const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -22.1 L33.3 -19.23 L33.3 19.23 L-10 44.2 Z';
@@ -87,13 +84,13 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
                 <div class="jcard-transit">
                   <div class="jchips" role="group" aria-label={t.chipsLabel}>
                     {chips.map((ch, k) => (
-                      <button type="button" class="jchip" data-j="chip" data-chip={k} aria-pressed={k === 0 ? 'true' : 'false'}>
+                      <button type="button" class="jchip" data-j="chip" data-chip={k} data-cap={ch.cap} aria-pressed={k === 0 ? 'true' : 'false'}>
                         <span class="jchip-label">{ch.label}</span><span class="jchip-days tnum">{ch.days}</span>
                       </button>
                     ))}
                   </div>
                   <p class="jkm"><span class="jkm-num tnum" data-j="km">{kmFinal}</span><span class="num-unit">{t.km.unit}</span></p>
-                  <p class="jkm-cap caption">{t.km.caption} · {t.km.daysCaption} {days.truck}</p>
+                  <p class="jkm-cap caption">{t.km.caption} · <span data-j="kmcap">{chips[0].cap}</span></p>
                 </div>
               )}
               {i === 5 && (
@@ -107,32 +104,38 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
         ))}
       </ol>
 
-      <p class="journey-foot caption" data-j="foot">{t.footnote} {updated}.</p>
+      <p class="journey-foot caption" data-j="foot">{t.footnote} {updated}{lang === 'ru' ? '' : '.'}</p>
     </div>
   </div>
 </section>
 
-<!-- Synchronous gate: decides the layout before the next paint. Reduced motion, Save-Data and low-end devices keep the static layout. -->
+<!-- Synchronous gate: decides the layout before the next paint. Reduced motion, Save-Data and low-end devices keep the static layout.
+     DESIGN_BRIEF §4.6: on phones ≤ 4 cores is static even when deviceMemory is unknown (Firefox/Safari never expose it);
+     on desktop the same core count also needs ≤ 4 GB — a 4-thread laptop is not a Redmi. -->
 <script is:inline>
   (function () {
     var el = document.getElementById('yol');
     if (!el || !('IntersectionObserver' in window)) return;
     var n = navigator, mem = n.deviceMemory, cores = n.hardwareConcurrency;
     var saveData = !!(n.connection && n.connection.saveData);
-    var lowEnd = saveData || (mem && mem <= 2) || (mem && mem <= 4 && cores && cores <= 4);
+    var phone = /Mobi|Android/i.test(n.userAgent || '');
+    var lowEnd = saveData || (mem && mem <= 2) || (cores && cores <= 4 && (phone || (mem && mem <= 4)));
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduce && !lowEnd) el.classList.add('is-live');
   })();
 </script>
 
 <script>
-  // Lazy-load the GSAP module only when the live journey is within one viewport of the fold.
+  // Lazy-load the GSAP module only when the live journey is within one viewport of the fold, and run its setup
+  // only once the main thread is idle (≤ 1.5 s wait) so a tap on the hero CTAs never lands inside it (INP).
   const root = document.querySelector<HTMLElement>('[data-journey].is-live');
   if (root) {
+    const fail = () => { root.classList.remove('is-live'); };
+    const idle = (fn: () => void) => ('requestIdleCallback' in window ? window.requestIdleCallback(fn, { timeout: 1500 }) : window.setTimeout(fn, 300));
     const load = () => {
       import('./journey')
-        .then((m) => m.init(root))
-        .catch(() => { root.classList.remove('is-live'); });
+        .then((m) => { idle(() => { try { m.init(root); } catch { fail(); } }); })
+        .catch(fail);
     };
     const io = new IntersectionObserver((entries) => {
       if (entries.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
@@ -176,7 +179,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey .jcard-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 20px; }
   .journey .jcard-tg { font-size: var(--text-small); }
   .journey .jmark { display: inline-flex; color: var(--red-600); margin-right: 4px; }
-  .journey .jmark path { transform-box: fill-box; transform-origin: center; }
+  .journey .jmark path { fill: currentColor; transform-box: fill-box; transform-origin: center; }
   .journey .jrail-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 44px; color: rgb(255 255 255 / 0.35); border-radius: var(--radius-sm); }
   .journey .jrail-btn svg { display: block; fill: none; stroke: currentColor; stroke-width: 1; transition: fill var(--dur) var(--ease), color var(--dur) var(--ease); }
   .journey .jrail-btn[data-done='1'] { color: var(--muted); }

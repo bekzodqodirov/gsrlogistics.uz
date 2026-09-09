@@ -140,6 +140,14 @@ const itemList = {
   </article>
 </Base>
 
+<script>
+  // Scroll hint: mark scrollers that overflow so global.css can fade the trailing edge (cleared at the end).
+  const scrollers = Array.from(document.querySelectorAll<HTMLElement>('.table-wrap, .scroll-x'));
+  const mark = (el: HTMLElement) => { const over = el.scrollWidth - el.clientWidth > 2; if (!over) { el.removeAttribute('data-overflow'); return; } el.dataset.overflow = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? 'end' : el.scrollLeft > 2 ? 'mid' : 'start'; };
+  scrollers.forEach((el) => { mark(el); el.addEventListener('scroll', () => mark(el), { passive: true }); });
+  window.addEventListener('resize', () => scrollers.forEach(mark));
+</script>
+
 <style>
   .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(40px, 5vw, 64px); }
   .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
@@ -161,7 +169,7 @@ const itemList = {
   .row-main { display: grid; gap: 4px; min-width: 0; }
   .row-name { font-size: 1.25rem; font-weight: 600; line-height: 1.25; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .row-short { color: var(--fg-2); text-wrap: pretty; }
-  .row-num { font-weight: 600; color: var(--fg); font-size: var(--text-small); text-align: right; max-width: 22ch; }
+  .row-num { font-weight: 600; color: var(--fg); font-size: var(--text-small); text-align: right; white-space: nowrap; }
 
   .compare { padding-block: clamp(48px, 6vw, 96px); background: var(--bg-2); }
   .compare-head { display: grid; gap: 8px; max-width: 60ch; margin-bottom: 28px; }
@@ -186,7 +194,7 @@ const itemList = {
     .row-index { display: none; }
     .row-glyph { grid-area: glyph; align-self: start; }
     .row-main { grid-area: main; }
-    .row-num { grid-area: num; text-align: left; max-width: none; }
+    .row-num { grid-area: num; text-align: left; white-space: normal; }
     .row-chev { grid-area: chev; }
     .row-name { font-size: 1.125rem; }
     .cta-row { flex-direction: column; }
@@ -194,4 +202,5 @@ const itemList = {
     .how { grid-template-columns: 1fr; gap: 12px; }
     .table { min-width: 640px; }
   }
+  @media (max-width: 640px) { .table { overflow: visible; } .table tbody th { position: sticky; left: 0; z-index: 1; background: var(--card); } }
 </style>

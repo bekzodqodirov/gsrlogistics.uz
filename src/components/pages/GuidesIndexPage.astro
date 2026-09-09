@@ -17,6 +17,8 @@ const label = c.nav.find((n) => n.key === 'guides')?.label ?? t.eyebrow;
 const entries = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => b.data.updatedDate.getTime() - a.data.updatedDate.getTime());
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'guides' as const }];
 const latest = entries[0]?.data.updatedDate.toISOString().slice(0, 10);
+// Tag keys → localized labels; unknown keys are hidden so no raw slug ever reaches the reader.
+const tagLine = (tags: string[]) => { const labels = tags.map((k) => t.tagLabels[k]).filter(Boolean).slice(0, 3); return labels.length ? ` · ${labels.join(' · ')}` : ''; };
 ---
 <Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="guides" breadcrumbs={breadcrumbs} dateModified={latest}>
   <article class="page">
@@ -37,7 +39,7 @@ const latest = entries[0]?.data.updatedDate.toISOString().slice(0, 10);
               <span class="g-body">
                 <span class="h4 g-title">{e.data.title}</span>
                 <span class="g-desc">{e.data.description}</span>
-                <span class="caption g-meta tnum">{t.updated}: {fmtDate(e.data.updatedDate, lang)} · {readingMinutes(e.body ?? '')} {t.minutes}{e.data.tags.length ? ` · ${e.data.tags.slice(0, 3).join(' · ')}` : ''}</span>
+                <span class="caption g-meta tnum">{t.updated}: {fmtDate(e.data.updatedDate, lang)} · {readingMinutes(e.body ?? '')} {t.minutes}{tagLine(e.data.tags)}</span>
               </span>
               <span class="chev" aria-hidden="true">›</span>
             </a>
@@ -55,7 +57,8 @@ const latest = entries[0]?.data.updatedDate.toISOString().slice(0, 10);
   .guides { display: grid; gap: 12px; padding-bottom: clamp(48px, 8vw, 96px); max-width: 980px; }
   .guides .card { padding: 0; }
   .g { display: grid; grid-template-columns: 40px 1fr 24px; gap: 16px; align-items: start; padding: clamp(18px, 2.4vw, 28px); color: var(--fg); }
-  .g-idx { font-size: var(--text-small); color: var(--accent-text); font-weight: 600; padding-top: 4px; }
+  .g-idx { font-size: var(--text-small); color: var(--fg); font-weight: 600; padding-top: 4px; }
+  .guides li:first-child .g-idx { color: var(--accent-text); } /* one red index per section */
   .g-body { display: grid; gap: 6px; }
   .g-title { text-wrap: balance; }
   .g-desc { color: var(--fg-2); font-size: var(--text-small); max-width: 72ch; }

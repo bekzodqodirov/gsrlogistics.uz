@@ -11,7 +11,7 @@ import { common } from '@/i18n/common';
 import { pricingStrings, tpl } from '@/i18n/pricing';
 import { pagePath } from '@/i18n/routes';
 import { site } from '@/lib/site';
-import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
+import { fmtDate, fmtNumber, fmtUsd, withFrom } from '@/lib/format';
 import { CATEGORIES } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
 import Icon from '@/components/ui/Icon.astro';
@@ -34,11 +34,14 @@ const i18n = JSON.stringify({
   volumeLabel: t.calc.volumeLabel,
 });
 const rateOf = (v: number) => `${fmtUsd(v, lang)}${b.units.perKg}`;
+/* "6,5 $/kg dan" (uz) · "от 6,5 $/кг" (ru) · "from $6.50/kg" (en) */
 const quick = [
-  { label: b.modes.truck, value: `${rateOf(tariffs.truck.ladderPerKg[tariffs.truck.ladderPerKg.length - 1].rate)} ${c.strings.from}` },
-  { label: b.modes.air, value: `${rateOf(tariffs.air.perKg.standard)} ${c.strings.from}` },
-  { label: t.page.tiles.lcl, value: `${fmtUsd(tariffs.truck.lclPerM3ByDensity[0].rate, lang)}${b.units.perM3} ${c.strings.from}` },
+  { label: b.modes.truck, value: withFrom(rateOf(tariffs.truck.ladderPerKg[tariffs.truck.ladderPerKg.length - 1].rate), lang, c.strings.from) },
+  { label: b.modes.air, value: withFrom(rateOf(tariffs.air.perKg.standard), lang, c.strings.from) },
+  { label: t.page.tiles.lcl, value: withFrom(`${fmtUsd(tariffs.truck.lclPerM3ByDensity[0].rate, lang)}${b.units.perM3}`, lang, c.strings.from) },
 ];
+/* Decimal inputs are type="text": type="number" silently drops a comma separator ("0,8" → "08") in Chromium regardless of UI locale. */
+const decimal = { type: 'text', inputmode: 'decimal', autocomplete: 'off', pattern: '[0-9]*[.,]?[0-9]*' } as const;
 const modes = [
   { key: 'truck', icon: 'truck', label: t.calc.modes.truck, checked: true },
   { key: 'air', icon: 'plane', label: t.calc.modes.air, checked: false },
@@ -46,6 +49,7 @@ const modes = [
 ] as const;
 const uid = (s: string) => `${id}-${s}`;
 ---
+<div class="calc-wrap-cq">
 <form class:list={['calc', compact && 'is-compact']} data-calc data-lang={lang} data-i18n={i18n} data-tg={site.telegramDirect} data-mode="truck" action={`${pricingUrl}#tariflar`} method="get" aria-labelledby={uid('title')} id={id}>
   <div class="calc-form">
     <h3 id={uid('title')} class="calc-title">{t.calc.title}</h3>
@@ -68,7 +72,7 @@ const uid = (s: string) => `${id}-${s}`;
       <div class="field">
         <label for={uid('kg')}>{t.calc.weight}</label>
         <div class="unit-field">
-          <input class="input tnum" id={uid('kg')} name="kg" type="number" inputmode="decimal" min="0" step="0.1" placeholder="20" data-el="kg" aria-describedby={uid('kg-hint')} />
+          <input class="input tnum" id={uid('kg')} name="kg" {...decimal} placeholder="20" data-el="kg" aria-describedby={uid('kg-hint')} />
           <span class="unit" aria-hidden="true">{b.units.kg}</span>
         </div>
         <p class="hint" id={uid('kg-hint')}>{t.calc.weightHint}</p>
@@ -85,7 +89,7 @@ const uid = (s: string) => `${id}-${s}`;
             <div class="field">
               <label for={uid(d)}>{t.calc.dims[d]}</label>
               <div class="unit-field">
-                <input class="input tnum" id={uid(d)} name={d} type="number" inputmode="decimal" min="0" step="1" placeholder={['50', '40', '30'][i]} data-el={d} />
+                <input class="input tnum" id={uid(d)} name={d} {...decimal} placeholder={['50', '40', '30'][i]} data-el={d} />
                 <span class="unit" aria-hidden="true">{b.units.cm}</span>
               </div>
             </div>
@@ -94,7 +98,7 @@ const uid = (s: string) => `${id}-${s}`;
         <div class="field m3" data-vol="m3">
           <label for={uid('m3')}>{t.calc.m3}</label>
           <div class="unit-field">
-            <input class="input tnum" id={uid('m3')} name="m3" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,8" data-el="m3" />
+            <input class="input tnum" id={uid('m3')} name="m3" {...decimal} placeholder={lang === 'en' ? '0.8' : '0,8'} data-el="m3" />
             <span class="unit" aria-hidden="true">{b.units.m3}</span>
           </div>
         </div>
@@ -134,7 +138,13 @@ const uid = (s: string) => `${id}-${s}`;
     </div>
 
     <div class="calc-live">
-      <p class="empty" data-el="empty">{t.calc.resultEmpty}</p>
+      <div class="empty" data-el="empty">
+        <p class="total"><span class="stat total-usd is-placeholder" aria-hidden="true">≈ —</span></p>
+        <p class="empty-text">{t.calc.resultEmpty}</p>
+        <dl class="quick">
+          {quick.map((q) => <div class="quick-row"><dt>{q.label}</dt><dd class="tnum">{q.value}</dd></div>)}
+        </dl>
+      </div>
       <div class="result-body" data-el="body" hidden>
         <p class="total"><span class="stat total-usd" data-el="total">—</span></p>
         <p class="total-som tnum" data-el="som"></p>
@@ -151,6 +161,7 @@ const uid = (s: string) => `${id}-${s}`;
     <a href={pricingUrl} class="link all-rates">{t.calc.allRates}</a>
   </div>
 </form>
+</div>
 
 <style>
   .calc { display: grid; gap: 24px; background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-xl); padding: clamp(20px, 2.4vw, 32px); box-shadow: var(--shadow-ring); }
@@ -172,6 +183,8 @@ const uid = (s: string) => `${id}-${s}`;
   .unit-field .input { padding-right: 48px; }
   .unit-field .unit { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: var(--text-small); font-weight: 500; color: var(--muted); pointer-events: none; }
   .dims { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+  .dims .unit-field .input { padding-right: 32px; padding-inline-start: 10px; }
+  .dims .unit-field .unit { right: 10px; }
   .m3 { display: none; margin-top: 12px; }
   .calc[data-vol='m3'] .dims { display: none; }
   .calc[data-vol='m3'] .m3 { display: grid; }
@@ -190,7 +203,9 @@ const uid = (s: string) => `${id}-${s}`;
   .quick-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border-soft); font-size: var(--text-small); }
   .quick-row dt { color: var(--muted); }
   .quick-row dd { margin: 0; font-weight: 600; color: var(--fg); }
-  .empty { color: var(--muted); }
+  .empty { display: grid; gap: 10px; }
+  .empty-text { color: var(--muted); }
+  .is-placeholder { color: var(--meta); }
   .result-body { display: grid; gap: 10px; }
   .total { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
   .total-usd { color: var(--accent-text); font-size: clamp(2.25rem, 2.6vw + 1.2rem, 3.5rem); overflow-wrap: anywhere; }
@@ -210,14 +225,17 @@ const uid = (s: string) => `${id}-${s}`;
   .meta, .final { text-wrap: pretty; }
   .all-rates { justify-self: start; font-size: var(--text-small); }
 
-  @media (min-width: 900px) {
-    .calc { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; }
-    .calc.is-compact { grid-template-columns: 1fr; gap: 24px; }
+  /* Two columns only when the CARD itself is wide enough (pricing / calculator pages). In a narrow column
+     (home teaser, 5/12 layouts) the result block sits below the form, as the brief's §3.6 card describes —
+     a viewport query used to split a 620px card into a 170px result column that clipped the stat and the button. */
+  .calc-wrap-cq { container-type: inline-size; }
+  @container (min-width: 760px) {
+    .calc:not(.is-compact) { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; }
+    /* The result panel hugs its content and follows the form instead of stretching into a blank slab. */
+    .calc:not(.is-compact) .calc-result { align-self: start; position: sticky; top: calc(var(--header-h, 64px) + 24px); }
   }
   @media (max-width: 480px) {
     .dims { gap: 8px; }
-    .dims .unit-field .input { padding-right: 36px; padding-inline-start: 10px; }
-    .dims .unit-field .unit { right: 10px; }
     .seg-item { padding: 0 8px; }
     .seg-item span { font-size: 0.8125rem; }
     .seg-item svg { display: none; }
@@ -240,7 +258,7 @@ const uid = (s: string) => `${id}-${s}`;
     const tgBase = form.dataset.tg || '';
     const el = <E extends HTMLElement = HTMLElement>(name: string) => form.querySelector<E>(`[data-el="${name}"]`);
     const els = (name: string) => Array.from(form.querySelectorAll<HTMLInputElement>(`[data-el="${name}"]`));
-    const num = (name: string) => { const v = parseFloat((el<HTMLInputElement>(name)?.value || '').replace(',', '.')); return Number.isFinite(v) && v > 0 ? v : 0; };
+    const num = (name: string) => { const v = parseFloat((el<HTMLInputElement>(name)?.value || '').trim().replace(/\s/g, '').replace(',', '.').replace(/[^0-9.]/g, '')); return Number.isFinite(v) && v > 0 ? v : 0; };
     const checked = (name: string) => els(name).find((r) => r.checked)?.value || '';
     const setMode = (m: Mode) => { els('mode').forEach((r) => { r.checked = r.value === m; }); form.dataset.mode = m; };
     const body = el('body')!, empty = el('empty')!, switchNote = el('switch')!;

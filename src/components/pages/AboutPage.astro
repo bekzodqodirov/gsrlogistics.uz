@@ -126,7 +126,8 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
   .mb { margin-bottom: 28px; }
   .values { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
   .values li { display: grid; gap: 10px; align-content: start; }
-  .idx { font-size: var(--text-small); color: var(--accent-text); font-weight: 600; }
+  .idx { font-size: var(--text-small); color: var(--fg); font-weight: 600; }
+  .values li:first-child .idx { color: var(--accent-text); } /* one red index per section */
   .fg2 { color: var(--fg-2); }
   .place { display: grid; gap: 12px; align-content: start; }
   .roles { display: grid; gap: 0; }
