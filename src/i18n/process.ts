@@ -67,7 +67,7 @@ const en: ProcessStrings = {
   steps: [
     { glyph: 'chat', title: 'You send a request', text: 'On Telegram or by phone. Cargo type, rough weight and city are enough to start.' },
     { glyph: 'exchange', title: 'We discuss the order', text: 'Transport mode, documents, packing and the pricing rule — per kg or per m³. Your manager answers every question.' },
-    { glyph: 'contract', title: 'Documents — and work begins', text: 'Contract, the GS code (shipping mark) and one of three receiving addresses: Yiwu, Guangzhou or Kashgar. Your supplier marks every carton before dispatch.' },
+    { glyph: 'contract', title: 'Documents — and work begins', text: 'Contract, your GS code and the receiving address your manager names: Yiwu, Guangzhou or Kashgar. Your supplier marks every carton before dispatch.' },
     { glyph: 'pin', title: 'Your manager rides along', text: 'Location updates and photo reports arrive on Telegram: intake, loading, border, Tashkent.' },
     { glyph: 'parcel', title: 'You receive the cargo', text: 'Collect it in Tashkent or we forward it to your region. The invoice is in your hands.' },
   ],

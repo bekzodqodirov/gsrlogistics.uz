@@ -98,7 +98,7 @@ const content: ServiceContentByLang = {
         ],
         steps: [
           { title: 'Soʻrov qoldirasiz', text: 'Telegram yoki telefon orqali tovar nomini, taxminiy ogʻirlik va hajmni aytasiz. Biz zichlikka qarab taxminiy narxni hisoblab beramiz.' },
-          { title: 'Qabul manzilini olasiz', text: 'Menejer qaysi qabul manziliga joʻnatish kerakligini aytadi — Ivu, Guanchjou yoki Qashqar — va sizga shaxsiy GS kodingizni (markirovka) beradi. Yetkazib beruvchi yoki 1688/Taobao sotuvchisi GS kodini joʻnatishdan oldin har bir qutiga yozib, yukni shu manzilga joʻnatadi.' },
+          { title: 'Qabul manzilini olasiz', text: 'Menejer qaysi qabul manziliga — Ivu, Guanchjou yoki Qashqarga — joʻnatish kerakligini aytadi va sizga shaxsiy GS kodingizni (markirovka) beradi. Yetkazib beruvchi yoki 1688/Taobao sotuvchisi joʻnatishdan oldin har bir qutiga GS kodini yozadi va yukni shu manzilga joʻnatadi.' },
           { title: 'Yukni qabul qilamiz', text: 'Omborda har bir joyni tortamiz, oʻlchaymiz, kodingiz bilan markirovka qilamiz va foto-hisobot yuboramiz. Xohlasangiz — ichini ochib tekshiramiz va qayta qadoqlaymiz.' },
           { title: 'Konsolidatsiya va joʻnatish', text: 'Yuk eng yaqin partiyaga joylanadi. Sizga partiya raqami beriladi; joʻnatilgan kundan muddat hisobi boshlanadi.' },
           { title: 'Yoʻl va bojxona', text: 'Menejer yukning qayerdaligini bosqichma-bosqich xabar qilib boradi. Xorgos va Yallamada rasmiylashtiruv kompaniya hujjatlari bilan oʻtadi.' },
@@ -165,7 +165,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Menejer maslahati',
-          text: 'Yetkazib beruvchi har bir qutiga GS kodingizni va tovar nomini yukni joʻnatishdan oldin yozishi shart — omborda yuk tez topiladi va aralashib ketmaydi. Ogʻir va yengil tovarlarni bitta partiyada yuborsangiz, umumiy zichlik oshadi va koʻpincha kilogramm hisobi arzonroq chiqadi.',
+          text: 'Yetkazib beruvchi yukni joʻnatishdan oldin har bir qutiga GS kodingizni va tovar nomini yozishi shart — omborda yuk tez topiladi va aralashib ketmaydi. Ogʻir va yengil tovarlarni bitta partiyada yuborsangiz, umumiy zichlik oshadi va koʻpincha kilogramm hisobi arzonroq chiqadi.',
           tone: 'success',
         },
       },

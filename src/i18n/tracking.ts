@@ -38,7 +38,7 @@ export interface TrackingStrings {
 
 const uz: TrackingStrings = {
   seoTitle: 'Yuk kuzatuvi — Xitoydan kelayotgan yukingiz hozir qayerda?',
-  seoDescription: 'GSR Logistics GS kodini kiriting — yukingizning joriy holatini bilib oling: Xitoyda qabul punktida, yoʻlda, bojxonada yoki Toshkent omborida. Holatlar lugʻati va kod qayerdaligi haqida.',
+  seoDescription: 'GSR Logistics GS kodini kiriting — yukingizning joriy holatini bilib oling: Xitoydagi qabul punktida, yoʻlda, bojxonada yoki Toshkent omborida. Holatlar lugʻati va kod qayerdaligi haqida.',
   eyebrow: 'Kuzatuv',
   h1: 'Yukingiz hozir qayerda?',
   intro: 'GS kodini kiriting — xabar tayyor boʻladi, menejer Telegramda joriy bosqich va foto bilan javob beradi. Yuk oltita bosqichdan oʻtadi: Xitoyda qabul, konsolidatsiya, yoʻlda, Xorgos chegarasi va bojxona, Toshkent ombori, yetkazildi — ular quyida tushuntirilgan. GS kodi (markirovka) shartnomadan keyin beriladi: yetkazib beruvchi uni joʻnatishdan oldin qutilarga yozadi, u qabuldagi foto-hisobotda ham koʻrsatiladi. Avtomatik qidiruv ulangach, holat shu sahifada koʻrinadi.',
@@ -153,7 +153,7 @@ const en: TrackingStrings = {
   seoDescription: 'Enter your GSR Logistics GS code to see the current status: at the receiving point in China, in transit, at customs or at the Tashkent warehouse. Status glossary and where to find your code.',
   eyebrow: 'Tracking',
   h1: 'Where is your cargo right now?',
-  intro: 'Enter your GS code — the message is prepared for you, and your manager replies on Telegram with the current stage and a photo. Every shipment passes through six stages: received in China, consolidation, in transit, Khorgos border and customs, Tashkent warehouse, delivered — each is explained below. Your GS code (shipping mark) is issued after the contract: your supplier marks every carton with it before dispatch, and it repeats in the photo report sent at receiving. Once automatic lookup is connected, the status will appear right on this page.',
+  intro: 'Enter your GS code — the message is prepared for you, and your manager replies on Telegram with the current stage and a photo. Every shipment passes through six stages: received in China, consolidation, in transit, Khorgos border and customs, Tashkent warehouse, delivered — each is explained below. Your GS code (shipping mark) is issued after the contract: your supplier marks every carton with it before dispatch, and it appears again in the photo report sent at receiving. Once automatic lookup is connected, the status will appear right on this page.',
   form: {
     label: 'Enter your GS code',
     placeholder: 'GS code',
