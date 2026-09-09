@@ -3,8 +3,8 @@ import type { ServiceContentByLang } from './types';
 /**
  * Avto kargo (yigʻma yuk) — long-form page content.
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): truck cargo is priced by volume from the
- * cargo's density — 110 $/m³ up to 100 kg/m³, rising to 320 $/m³ at 701–1000 kg/m³, and 0,55 $/kg
- * from 1000 kg/m³; minimum billable volume 0,1 m³. There is no per-kilogram ladder for truck cargo.
+ * cargo's density — 110 $/m³ up to 100 kg/m³, rising to 320 $/m³ at 701–1 000 kg/m³, and 0,55 $/kg
+ * from 1 000 kg/m³; minimum billable volume 0,1 m³. There is no per-kilogram ladder for truck cargo.
  * Extras 1 $ photo, 0,4 $/kg repack, 1 $/kg inspection, 1% insurance, 14/3 free storage days,
  * door delivery 20 000–30 000 soʻm (free from 5 kg in Tashkent). Keep them in sync when tariffs change.
  */
@@ -46,7 +46,7 @@ const content: ServiceContentByLang = {
         heading: 'Narx qanday hisoblanadi?',
         body: [
           'Avto kargoda toʻlov kub metr boʻyicha ketadi, kilogramm boʻyicha emas. Avval zichlikni topamiz: umumiy ogʻirlikni (kg) umumiy hajmga (m³) boʻlamiz. Zichlik jadvaldan tarifni tanlaydi, tarifni hajmga koʻpaytiramiz — chiqqan summa Ivu omboridan Toshkent omborigacha boʻlgan toʻliq yoʻlni qamraydi.',
-          'Hajmni oʻzingiz ham hisoblashingiz mumkin: uzunlik × en × balandlik (sm) ÷ 1 000 000 = m³. Zichlik qancha yuqori boʻlsa, kub metr narxi ham shuncha yuqori — bir xil hajmdagi ogʻir yuk furada koʻproq tonnaj oladi. Faqat juda zich yuk — 1 000 kg/m³ dan yuqori — kilogramm boʻyicha, 0,55 $/kg hisoblanadi. Minimal hisob hajmi — 0,1 m³.',
+          'Hajmni oʻzingiz ham hisoblashingiz mumkin: uzunlik × en × balandlik (sm) ÷ 1 000 000 = m³. Zichlik qancha yuqori boʻlsa, kub metr narxi ham shuncha yuqori — bir xil hajmdagi ogʻir yuk furada koʻproq tonnaj oladi. Faqat juda zich yuk — 1 000 kg/m³ dan boshlab — kilogramm boʻyicha, 0,55 $/kg hisoblanadi. Minimal hisob hajmi — 0,1 m³.',
         ],
         table: {
           caption: 'Avto kargo tariflari, Ivu → Toshkent',
@@ -177,7 +177,7 @@ const content: ServiceContentByLang = {
     faq: [
       {
         q: 'Xitoydan avto kargo 1 kg necha pul?',
-        a: 'Avto kargoda narx kilogramm boʻyicha emas — yukning zichligiga qarab kub metr hisobida chiqadi, 110 $/m³ dan. Zichlik = ogʻirlik ÷ hajm: masalan, 48 kg yuk 0,2 m³ da — 240 kg/m³, tarif 180 $/m³, hisob 0,2 × 180 = 36 $. Faqat 1 000 kg/m³ dan zich yuk kilogramm boʻyicha — 0,55 $/kg — hisoblanadi. Narxlar 2026-yil 8-sentabrda yangilangan va taxminiy: yakuniy summa yuk Ivu omborida tortilib oʻlchangandan keyin aniqlanadi.',
+        a: 'Avto kargoda narx kilogramm boʻyicha emas — yukning zichligiga qarab kub metr hisobida chiqadi, 110 $/m³ dan. Zichlik = ogʻirlik ÷ hajm: masalan, 48 kg yuk 0,2 m³ da — 240 kg/m³, tarif 180 $/m³, hisob 0,2 × 180 = 36 $. Faqat 1 000 kg/m³ va undan zich yuk kilogramm boʻyicha — 0,55 $/kg — hisoblanadi. Narxlar 2026-yil 8-sentabrda yangilangan va taxminiy: yakuniy summa yuk Ivu omborida tortilib oʻlchangandan keyin aniqlanadi.',
       },
       {
         q: 'Yigʻma yuk necha kunda keladi?',
@@ -247,7 +247,7 @@ const content: ServiceContentByLang = {
         bullets: [
           'Оптовая торговля (Абу Сахий, Чорсу, Бек Барака): одежда, обувь, ткани — плотный груз, обычно 200–350 кг/м³, то есть ставка 160–230 $/м³.',
           'Продавцы Uzum, Яндекс Маркета и Instagram: партии по 20–300 кг раз в одну–две недели; каждый заказ маркируется отдельным кодом.',
-          'Производители: запчасти, сырьё, мелкое оборудование — груз плотностью 501–700 кг/м³ считается по 300 $/м³, а металл и фурнитура плотнее 1 000 кг/м³ — по 0,55 $/кг.',
+          'Производители: запчасти, сырьё, мелкое оборудование — груз плотностью 501–700 кг/м³ считается по 300 $/м³, а металл и фурнитура плотностью от 1 000 кг/м³ — по 0,55 $/кг.',
           'Лёгкие и объёмные товары (игрушки, пластик, мебель, хозтовары): плотность до 100 кг/м³ — самая низкая ставка, 110 $/м³.',
         ],
       },
@@ -456,7 +456,7 @@ const content: ServiceContentByLang = {
         bullets: [
           'Wholesalers (Abu Sahiy, Chorsu, Bek Baraka markets): clothing, footwear, fabrics — dense cargo, usually 200–350 kg/m³, which puts it in the $160–230 per m³ range.',
           'Uzum, Yandex Market and Instagram sellers: lots of 20–300 kg every one or two weeks; each order is labelled with its own code.',
-          'Manufacturers: spare parts, raw materials, small machinery — cargo at 501–700 kg/m³ is billed at $300 per m³, while metal and fittings denser than 1,000 kg/m³ go at $0.55/kg.',
+          'Manufacturers: spare parts, raw materials, small machinery — cargo at 501–700 kg/m³ is billed at $300 per m³, while metal and fittings at 1,000 kg/m³ and above go at $0.55/kg.',
           'Light, bulky goods (toys, plastics, furniture, household items): density up to 100 kg/m³ — the lowest rate, $110 per m³.',
         ],
       },

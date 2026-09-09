@@ -1,6 +1,6 @@
 ---
-title: "Kargo lugʻati: yigʻma yuk, hajmiy vazn, GTD, FCL — 40 ta atama oddiy tilda"
-description: "Xitoydan yuk olib kelishda uchraydigan 40 ta atama — kargo, yigʻma yuk, hajmiy vazn, zichlik, GS kod, konsolidatsiya, GTD, TN VED, FCL/LCL, CMR, Incoterms — qisqa va aniq taʼriflar bilan. 2026-yil sentabr holatiga."
+title: "Kargo lugʻati: yigʻma yuk, hajmiy vazn, GTD, FCL — 43 ta atama oddiy tilda"
+description: "Xitoydan yuk olib kelishda uchraydigan 43 ta atama — kargo, yigʻma yuk, hajmiy vazn, zichlik, GS kod, konsolidatsiya, GTD, TN VED, FCL/LCL, CMR, Incoterms — qisqa va aniq taʼriflar bilan. 2026-yil sentabr holatiga."
 lang: uz
 translationKey: glossary
 slug: kargo-lugati
@@ -26,7 +26,7 @@ sources:
     date: "2025-04-19"
 ---
 
-Kargo lugʻati — bu Xitoydan Oʻzbekistonga yuk olib kelishda menejer, bojxonachi va yetkazib beruvchi ishlatadigan 40 ta atamaning oddiy tildagi taʼrifi. Har bir atama bir-ikki jumlada tushuntirilgan va kerak joyda raqamli misol keltirilgan. Lugʻat 2026-yil sentabr holatiga yangilangan.
+Kargo lugʻati — bu Xitoydan Oʻzbekistonga yuk olib kelishda menejer, bojxonachi va yetkazib beruvchi ishlatadigan 43 ta atamaning oddiy tildagi taʼrifi. Har bir atama bir-ikki jumlada tushuntirilgan va kerak joyda raqamli misol keltirilgan. Lugʻat 2026-yil sentabr holatiga yangilangan.
 
 ## Yuk turlari va xizmatlar
 

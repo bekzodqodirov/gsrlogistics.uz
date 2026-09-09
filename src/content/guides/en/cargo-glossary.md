@@ -1,6 +1,6 @@
 ---
-title: "Cargo glossary: consolidated cargo, volumetric weight, GTD, FCL — 40 terms in plain words"
-description: "40 terms you meet when shipping from China to Uzbekistan — cargo, consolidated freight, volumetric weight, density, GS code, consolidation, GTD, HS code, FCL/LCL, CMR, Incoterms — short, precise definitions with numbers. As of September 2026."
+title: "Cargo glossary: consolidated cargo, volumetric weight, GTD, FCL — 43 terms in plain words"
+description: "43 terms you meet when shipping from China to Uzbekistan — cargo, consolidated freight, volumetric weight, density, GS code, consolidation, GTD, HS code, FCL/LCL, CMR, Incoterms — short, precise definitions with numbers. As of September 2026."
 lang: en
 translationKey: glossary
 slug: cargo-glossary
@@ -26,7 +26,7 @@ sources:
     date: "2025-04-19"
 ---
 
-This cargo glossary explains, in plain words, the 40 terms that managers, customs officers and suppliers use when shipping goods from China to Uzbekistan. Each term takes one or two sentences and, where useful, a worked number. Updated as of September 2026.
+This cargo glossary explains, in plain words, the 43 terms that managers, customs officers and suppliers use when shipping goods from China to Uzbekistan. Each term takes one or two sentences and, where useful, a worked number. Updated as of September 2026.
 
 ## Cargo types and services
 
