@@ -5,7 +5,8 @@ export interface AboutStrings {
   eyebrow: string; h1: string; intro: string;
   story: { heading: string; paragraphs: string[] };
   how: { heading: string; items: Array<{ title: string; text: string }> };
-  places: { heading: string; yiwu: { title: string; text: string }; tashkent: { title: string; text: string; directions: string } };
+  /** `china.cities` is rendered from site.chinaWarehouses, so the list never drifts from the addresses. */
+  places: { heading: string; china: { title: string; text: string; citiesLabel: string; addressesLink: string }; tashkent: { title: string; text: string; directions: string } };
   team: { heading: string; text: string; roles: Array<{ title: string; text: string }> };
   facts: Array<{ value: string; label: string }>;
   honesty: { heading: string; text: string };
@@ -37,7 +38,7 @@ const uz: AboutStrings = {
   },
   places: {
     heading: 'Qayerdamiz?',
-    yiwu: { title: 'Ivu (义乌), Xitoy — ombor', text: 'Dunyodagi eng katta mayda ulgurji bozor shahri. Bu yerda yukni qabul qilamiz, konsolidatsiya qilamiz va joʻnatamiz. Guanchjou, Shenchjen va boshqa shaharlardan hamkorlar orqali qabul qilamiz. Ombor manzili va mijoz kodini menejer beradi.' },
+    china: { title: 'Xitoy — uchta qabul manzili', text: 'Asosiy ombor — Ivu (义乌), dunyodagi eng katta mayda ulgurji bozor shahri: yukni shu yerda qabul qilamiz, konsolidatsiya qilamiz va joʻnatamiz. Guanchjou va Kashgar boʻyicha ham qabul manzili bor. Qaysi biriga joʻnatish kerakligini menejer aytadi.', citiesLabel: 'Qabul manzillari', addressesLink: 'Toʻliq manzillar' },
     tashkent: { title: 'Toshkent — ofis', text: 'Shayxontohur tumani, Alisher Navoiy koʻchasi, 27. Shartnoma, hujjatlar, toʻlov va maslahat shu yerda.', directions: 'Alisher Navoiy metro bekati yonida. Kelib koʻrishingiz mumkin — oldindan Telegramda yozing.' },
   },
   team: {
@@ -53,7 +54,7 @@ const uz: AboutStrings = {
     { value: '2018-yildan', label: 'Xitoy bilan ishlaymiz' },
     { value: '3', label: 'til: oʻzbek, rus, xitoy' },
     { value: '15–25', label: 'kun — yigʻma yuk, taxminan' },
-    { value: '1', label: 'ombor Ivuda, 1 ofis Toshkentda' },
+    { value: '3', label: 'qabul manzili Xitoyda, 1 ofis Toshkentda' },
   ],
   honesty: { heading: 'Nimani vaʼda qilmaymiz?', text: '«Bojsiz», «100% kafolat», «eng tez» degan gaplarni aytmaymiz. Boj va QQS qonun boʻyicha toʻlanadi — biz uni oldindan hisoblab beramiz. Muddatlar taxminiy: chegara navbatlari, Xitoy bayramlari va ob-havo taʼsir qiladi. Shuning uchun har raqam yonida «taxminan» yozamiz.' },
   cta: { title: 'Tanishib olaylik.', text: 'Yukingiz, shahringiz va muddatni yozing — yoʻnalish va narxni taklif qilamiz.' },
@@ -84,7 +85,7 @@ const ru: AboutStrings = {
   },
   places: {
     heading: 'Где мы?',
-    yiwu: { title: 'Иу (义乌), Китай — склад', text: 'Крупнейший в мире город мелкооптовой торговли. Здесь мы принимаем, консолидируем и отправляем груз. Из Гуанчжоу, Шэньчжэня и других городов принимаем через партнёров. Адрес склада и код клиента выдаёт менеджер.' },
+    china: { title: 'Китай — три адреса приёма', text: 'Основной склад — Иу (义乌), крупнейший в мире город мелкооптовой торговли: здесь мы принимаем, консолидируем и отправляем груз. Есть адреса приёма в Гуанчжоу и Кашгаре. На какой отправлять — скажет менеджер.', citiesLabel: 'Адреса приёма', addressesLink: 'Полные адреса' },
     tashkent: { title: 'Ташкент — офис', text: 'Шайхантахурский район, ул. Алишера Навои, 27. Договор, документы, оплата и консультации — здесь.', directions: 'Рядом со станцией метро «Алишер Навои». Можно приехать — напишите заранее в Telegram.' },
   },
   team: {
@@ -100,7 +101,7 @@ const ru: AboutStrings = {
     { value: '2018', label: 'год начала работы с Китаем' },
     { value: '3', label: 'языка: узбекский, русский, китайский' },
     { value: '15–25', label: 'дней — сборный груз, ориентировочно' },
-    { value: '1', label: 'склад в Иу, 1 офис в Ташкенте' },
+    { value: '3', label: 'адреса приёма в Китае, 1 офис в Ташкенте' },
   ],
   honesty: { heading: 'Чего мы не обещаем?', text: 'Мы не говорим «без пошлин», «100% гарантия» и «самые быстрые». Пошлина и НДС платятся по закону — мы заранее их рассчитываем. Сроки ориентировочные: на них влияют очереди на границе, китайские праздники и погода. Поэтому рядом с каждой цифрой стоит слово «ориентировочно».' },
   cta: { title: 'Давайте познакомимся.', text: 'Напишите, что за груз, из какого города и к какому сроку — предложим маршрут и цену.' },
@@ -131,7 +132,7 @@ const en: AboutStrings = {
   },
   places: {
     heading: 'Where we are',
-    yiwu: { title: 'Yiwu (义乌), China — warehouse', text: 'The world’s largest small-commodity wholesale city. This is where we receive, consolidate and dispatch cargo. Goods from Guangzhou, Shenzhen and other cities arrive via partners. Your manager provides the warehouse address and client code.' },
+    china: { title: 'China — three receiving addresses', text: 'The main warehouse is in Yiwu (义乌), the world’s largest small-commodity wholesale city: cargo is received, consolidated and dispatched there. There are receiving addresses in Guangzhou and Kashgar as well. Your manager tells you which one applies to your order.', citiesLabel: 'Receiving addresses', addressesLink: 'Full addresses' },
     tashkent: { title: 'Tashkent — office', text: '27 Alisher Navoiy Street, Shaykhantakhur district. Contracts, documents, payments and advice happen here.', directions: 'Next to Alisher Navoiy metro station. Visits are welcome — message us on Telegram first.' },
   },
   team: {
@@ -147,7 +148,7 @@ const en: AboutStrings = {
     { value: '2018', label: 'working with China since' },
     { value: '3', label: 'languages: Uzbek, Russian, Chinese' },
     { value: '15–25', label: 'days — consolidated cargo, roughly' },
-    { value: '1', label: 'warehouse in Yiwu, 1 office in Tashkent' },
+    { value: '3', label: 'receiving addresses in China, 1 office in Tashkent' },
   ],
   honesty: { heading: 'What we do not promise', text: 'We never say “duty-free”, “100% guaranteed” or “the fastest”. Duty and VAT are paid by law — we calculate them in advance. Transit times are indicative: border queues, Chinese holidays and weather affect them. That is why every figure comes with “roughly”.' },
   cta: { title: 'Let’s get acquainted.', text: 'Tell us the cargo, the city and the deadline — we propose a route and a price.' },

@@ -66,8 +66,15 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
         <div class="grid grid-2">
           <div class="card place">
             <Icon name="warehouse" size={28} />
-            <h3 class="h4">{t.places.yiwu.title}</h3>
-            <p class="fg2">{t.places.yiwu.text}</p>
+            <h3 class="h4">{t.places.china.title}</h3>
+            <p class="fg2">{t.places.china.text}</p>
+            <dl class="cities">
+              <dt>{t.places.china.citiesLabel}</dt>
+              <dd>{site.chinaWarehouses.map((w, i) => <><span>{w.city[lang]}<span class="zh" lang="zh">{w.cityZh}</span></span>{i < site.chinaWarehouses.length - 1 ? <span class="sep" aria-hidden="true">·</span> : null}</>)}</dd>
+            </dl>
+            <div class="cluster">
+              <a class="link" href={`${pagePath(lang, 'contact')}#xitoy`}>{t.places.china.addressesLink}</a>
+            </div>
           </div>
           <div class="card place">
             <Icon name="map-pin" size={28} />
@@ -149,6 +156,11 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
   .values li:first-child .idx { color: var(--accent-text); } /* one red index per section */
   .fg2 { color: var(--fg-2); }
   .place { display: grid; gap: 12px; align-content: start; }
+  .cities { display: grid; gap: 4px; margin: 0; }
+  .cities dt { font-size: var(--text-small); color: var(--muted); }
+  .cities dd { display: flex; flex-wrap: wrap; align-items: baseline; margin: 0; font-weight: 600; color: var(--fg); }
+  .cities .zh { margin-left: 6px; font-size: var(--text-small); font-weight: 500; color: var(--meta); }
+  .cities .sep { margin: 0 8px; color: var(--meta); font-weight: 400; }
   .roles { display: grid; gap: 0; }
   .roles li { padding: 20px 0; border-top: 1px solid var(--border-soft); display: grid; gap: 6px; }
   .roles li:last-child { border-bottom: 1px solid var(--border-soft); }
