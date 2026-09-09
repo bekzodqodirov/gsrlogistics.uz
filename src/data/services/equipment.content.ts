@@ -96,7 +96,7 @@ const content: ServiceContentByLang = {
           caption: 'Uskuna tashish variantlari, Xitoy → Toshkent',
           head: ['Variant', 'Qachon mos', 'Chegara', 'Taxminiy narx', 'Muddat'],
           rows: [
-            ['Yigʻma yuk (fura ichida joy)', 'kichik dastgoh, ehtiyot qismlar', '2 t va 2,3 m balandlikkacha bir joy', 'kg yoki m³ hisobida', '15–25 kun'],
+            ['Yigʻma yuk (fura ichida joy)', 'kichik dastgoh, ehtiyot qismlar', '2 t va 2,3 m balandlikkacha bir joy', 'm³ hisobida, zichlikka qarab', '15–25 kun'],
             ['Alohida fura', 'liniya 10–20 t, tez kerak', '20–22 t, 13,6 m uzunlik', 'yoʻnalishga qarab kelishiladi', '15–25 kun'],
             ['20 ft konteyner, temir yoʻl', 'zich va ogʻir uskuna', '20 t gacha, 33 m³', '2 800–5 500 $', '20–35 kun'],
             ['40 ft konteyner, temir yoʻl', 'butun liniya, hajmli', '26 t gacha, 67 m³', '5 200–6 800 $', '20–35 kun'],
@@ -257,7 +257,7 @@ const content: ServiceContentByLang = {
           caption: 'Варианты перевозки оборудования, Китай → Ташкент',
           head: ['Вариант', 'Когда подходит', 'Ограничения', 'Ориентировочная цена', 'Срок'],
           rows: [
-            ['Сборный груз (место в фуре)', 'небольшой станок, запчасти', 'до 2 т и 2,3 м высоты на место', 'по кг или м³', '15–25 дней'],
+            ['Сборный груз (место в фуре)', 'небольшой станок, запчасти', 'до 2 т и 2,3 м высоты на место', 'по м³, по плотности', '15–25 дней'],
             ['Отдельная фура', 'линия 10–20 т, нужно быстро', '20–22 т, длина 13,6 м', 'договорная по маршруту', '15–25 дней'],
             ['Контейнер 20 футов, ж/д', 'плотное и тяжёлое оборудование', 'до 20 т, 33 м³', '2 800–5 500 $', '20–35 дней'],
             ['Контейнер 40 футов, ж/д', 'целая линия, объёмная', 'до 26 т, 67 м³', '5 200–6 800 $', '20–35 дней'],
@@ -418,7 +418,7 @@ const content: ServiceContentByLang = {
           caption: 'Equipment shipping options, China → Tashkent',
           head: ['Option', 'When it fits', 'Limits', 'Indicative price', 'Transit'],
           rows: [
-            ['Consolidated cargo (space in a truck)', 'small machine, spare parts', 'up to 2 t and 2.3 m height per piece', 'per kg or m³', '15–25 days'],
+            ['Consolidated cargo (space in a truck)', 'small machine, spare parts', 'up to 2 t and 2.3 m height per piece', 'per m³, by density', '15–25 days'],
             ['Dedicated truck', 'a 10–20 t line, needed fast', '20–22 t, 13.6 m length', 'quoted per route', '15–25 days'],
             ['20 ft container, rail', 'dense, heavy equipment', 'up to 20 t, 33 m³', '$2,800–5,500', '20–35 days'],
             ['40 ft container, rail', 'a complete, bulky line', 'up to 26 t, 67 m³', '$5,200–6,800', '20–35 days'],
