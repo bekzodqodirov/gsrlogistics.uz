@@ -74,10 +74,10 @@ Kanton yarmarkasi (广交会) Pazhou majmuasida yiliga ikki marta oʻtadi — ap
 | Shahar va bozor | Tovar va narx qoidasi | Eng yaqin qabul punktigacha (taxminan) |
 |---|---|---|
 | Ivu, Futian | Mayda ulgurji tovarlar — m³ boʻyicha, pogʻona zichlikka qarab, 110 $/m³ dan | Shu shaharda, 0–1 kun |
-| Guanchjou, Baiyun va Shahe | Sumka, kiyim, poyabzal — zich yuk, m³ narxi yuqori pogʻonadan | Shu shaharda, 0–1 kun |
+| Guanchjou, Baiyun va Shahe | Sumka, kiyim, poyabzal — m³ boʻyicha; pogʻona qutilar qanchalik zich qadoqlanganiga bogʻliq | Shu shaharda, 0–1 kun |
 | Shenchjen, Huaqiangbei | Elektronika — zich yuk, m³ boʻyicha; batareyali tovar faqat avto | Guanchjou, ichki ekspress bilan |
 | Keqiao | Mato — zich yuk, taxminan 200–290 $/m³ | 1–2 kun, taxminan 90 km |
-| Foshan, Lecong | Mebel yengil — 110 $/m³ dan, keramika zichroq; yoki konteyner | Guanchjou, taxminan 30 km |
+| Foshan, Lecong | Yengil mebel — 110 $/m³ dan; keramika zichroq; yoki konteyner | Guanchjou, taxminan 30 km |
 
 Xitoyda uchta qabul manzili bor: Ivu (义乌), Guanchjou (广州) va Qashqar (喀什). Qaysi biriga joʻnatish kerakligini menejer aytadi. Turli sotuvchilardan kelgan partiyalar Ivu omborida bitta yukka birlashtiriladi.
 
@@ -104,7 +104,7 @@ Masofaviy xaridda 2-qadam oʻrniga havola, namuna yoki texnik talab yuborasiz; q
 
 Konsolidatsiya — bu bir mijozning turli sotuvchilardan kelgan partiyalarini Xitoy omborida bitta yukka birlashtirish. Ivu bozoridan 5 ta doʻkonda, Keqiaoda 1 ta, Guanchjouda 2 ta sotuvchidan olingan tovar bitta GS kod ostida yigʻiladi va bitta reysda ketadi — har partiyani alohida yuborishdan ancha arzon.
 
-Omborda har quti tortiladi, oʻlchanadi, raqamlanadi va suratga olinadi; kerak boʻlsa ochib, soni va holati tekshiriladi. Foto-hisobot Telegramga keladi. Taxminiy xizmat narxlari 2026-yil 8-sentabr holatiga: foto-hisobot 1 $, qayta qadoqlash 0,4 $/kg, batafsil tekshiruv 1 $/kg; Xitoy omborida 14 kun bepul saqlash. Avto kargo m³ boʻyicha hisoblanadi: yukning zichligi (kg ÷ m³) qaysi pogʻonaga tushsa, m³ narxi shu pogʻonadan olinadi — 100 kg/m³ gacha 110 $/m³ dan boshlanadi va zichlik oshgani sari koʻtariladi, 1 000 kg/m³ dan zich yuk esa 0,55 $/kg boʻyicha hisoblanadi. Masalan, 1,2 m³ da 300 kg → 250 kg/m³ → 1,2 × 180 $ = 216 $, 2 m³ da 180 kg esa → 90 kg/m³ → 2 × 110 $ = 220 $: deyarli bir xil pulga ikki barobar hajm. Minimal hisob hajmi — 0,1 m³. Narxlar taxminiy, boj va QQS alohida — hisob qoidasi [Narxlar](/narxlar/) sahifasida, oʻz yukingiz uchun raqam [Kalkulyator](/kalkulyator/)da. Ombor xizmatlari toʻliq — [Ivu ombori va sifat nazorati](/xizmatlar/ombor-sifat-nazorati/).
+Omborda har quti tortiladi, oʻlchanadi, raqamlanadi va suratga olinadi; kerak boʻlsa ochib, soni va holati tekshiriladi. Foto-hisobot Telegramga keladi. Taxminiy xizmat narxlari 2026-yil 8-sentabr holatiga: foto-hisobot 1 $, qayta qadoqlash 0,4 $/kg, batafsil tekshiruv 1 $/kg; Xitoy omborida 14 kun bepul saqlash. Avto kargo m³ boʻyicha hisoblanadi: yukning zichligi (kg ÷ m³) qaysi pogʻonaga tushsa, m³ narxi shu pogʻonadan olinadi — 100 kg/m³ gacha 110 $/m³ dan boshlanadi va zichlik oshgani sari koʻtariladi, 1 000 kg/m³ va undan zich yuk esa 0,55 $/kg boʻyicha hisoblanadi. Masalan, 1,2 m³ da 300 kg → 250 kg/m³ → 1,2 × 180 $ = 216 $, 2 m³ da 180 kg esa → 90 kg/m³ → 2 × 110 $ = 220 $: deyarli bir xil pulga 1,2 m³ emas, 2 m³. Minimal hisob hajmi — 0,1 m³. Narxlar taxminiy, boj va QQS alohida — hisob qoidasi [Narxlar](/narxlar/) sahifasida, oʻz yukingiz uchun raqam [Kalkulyator](/kalkulyator/)da. Ombor xizmatlari toʻliq — [Ivu ombori va sifat nazorati](/xizmatlar/ombor-sifat-nazorati/).
 
 ## Mavsumiy taqvim: qachon sotib olish va qachon kutish kerak?
 
