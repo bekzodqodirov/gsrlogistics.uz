@@ -11,7 +11,7 @@ faq:
   - q: "What is the minimum order at the Yiwu market?"
     a: "Usually one carton (一箱起批) or a few dozen pieces — 12, 24, 48 or 100 units depending on the product. Prices are quoted in yuan per piece. The same seller often lists the same item on 1688; small lots from several booths are consolidated into one shipment at GSR Logistics’ Yiwu warehouse."
   - q: "Which is cheaper, Yiwu or Guangzhou?"
-    a: "It depends on the product. Small commodities (toys, jewellery, housewares, socks) are cheaper in Yiwu and sit in one place; garments, bags, shoes and electronics are wider in range and higher in quality in Guangzhou and Shenzhen. Goods take roughly 2–4 days from Guangzhou to the Yiwu warehouse, which barely affects the landed cost."
+    a: "It depends on the product. Small commodities (toys, jewellery, housewares, socks) are cheaper in Yiwu and sit in one place; garments, bags, shoes and electronics are wider in range and higher in quality in Guangzhou and Shenzhen. In Guangzhou goods go to a receiving address in the same city, so domestic delivery barely affects the landed cost."
   - q: "Do I have to travel to China myself?"
     a: "No. For repeat orders and items available on 1688, remote buying is enough: you send a link or a sample, GSR Logistics buys, inspects at the Yiwu warehouse and sends a photo report. A trip pays off for a new product line, a large lot, or furniture and equipment — there, handling the goods yourself matters."
   - q: "When is the Yiwu market closed?"
@@ -71,15 +71,15 @@ The Canton Fair (广交会) runs twice a year at the Pazhou complex — April–
 
 **Foshan**, 30 km from Guangzhou: the Lecong (乐从) furniture market in Shunde district (several kilometres of showrooms — sofas, beds, office furniture), and ceramics and tiles in the Chancheng and Nanhai districts. Neighbouring Zhongshan has Guzhen, the lighting hub. Furniture is bulky cargo: priced per m³, and a large lot is cheaper in a 20ft or 40ft container.
 
-| City and market | Goods and pricing rule | To the Yiwu warehouse (approx.) |
+| City and market | Goods and pricing rule | To the nearest receiving point (approx.) |
 |---|---|---|
 | Yiwu, Futian | Small commodities — kg or m³ by density | Same city, 0–1 day |
-| Guangzhou, Baiyun and Shahe | Bags, garments, shoes — kg (dense cargo) | 2–4 days, about 1,000 km |
-| Shenzhen, Huaqiangbei | Electronics — kg; battery goods by truck only | 2–4 days |
+| Guangzhou, Baiyun and Shahe | Bags, garments, shoes — kg (dense cargo) | Same city, 0–1 day |
+| Shenzhen, Huaqiangbei | Electronics — kg; battery goods by truck only | 1–2 days to Guangzhou |
 | Keqiao | Fabrics — kg | 1–2 days, about 90 km |
-| Foshan, Lecong | Furniture, ceramics — m³ or container | 3–5 days |
+| Foshan, Lecong | Furniture, ceramics — m³ or container | 1–2 days to Guangzhou, about 30 km |
 
-We receive goods from Guangzhou, Shenzhen and other cities through partners; the consolidation point is the Yiwu warehouse.
+There are three receiving addresses in China: Yiwu (义乌), Guangzhou (广州) and Kashgar (喀什). Your manager tells you which one applies. Lots from different sellers are consolidated into one shipment at the Yiwu warehouse.
 
 ## Buying trip or remote buying: which fits you?
 
@@ -95,14 +95,14 @@ If you plan a trip, the process looks like this:
 1. **Plan.** List the markets, districts and floors. Tashkent has direct flights to Urumqi and Beijing; Yiwu is reached via Shanghai or Hangzhou by high-speed rail (Hangzhou–Yiwu about 1 hour). Check visa requirements before you travel.
 2. **On the market floor.** Log every booth in one place: booth number, business card, product photo, price, minimum order, lead time. You will see more than 100 booths in a day — nothing survives without notes.
 3. **Payment.** Sellers take yuan via WeChat Pay or Alipay; a foreign card can be linked, but wholesale amounts are normally paid from an agent’s account. GSR Logistics pays in yuan at the Central Bank rate — [Buying from 1688 & Taobao](/en/services/buying-agent/).
-4. **Address.** The seller gets GSR Logistics’ Yiwu warehouse address and your client code as the delivery address. Within Yiwu, sellers usually deliver in 1–2 days free of charge; from other cities, by domestic express.
+4. **Address.** The seller gets the receiving address your manager names (the Yiwu warehouse, Guangzhou or Kashgar) and your GS code (shipping mark) as the delivery address — the seller writes that code on every carton before dispatch. Within Yiwu, sellers usually deliver in 1–2 days free of charge; from other cities, by domestic express.
 5. **Warehouse and departure.** Every carton is weighed, measured and numbered; the photo report lands in your Telegram; the cargo reaches Tashkent by truck in roughly 15–25 days or by air in 5–10.
 
 For remote buying, step 2 is replaced by sending a link, a sample or a spec; everything else is the same. If the product is not found yet — the [Product & supplier sourcing](/en/services/sourcing/) service and the guide on [finding a supplier in China](/en/guides/finding-a-supplier-in-china/).
 
 ## The Yiwu warehouse: how does consolidation work?
 
-Consolidation means combining one client’s lots from different sellers into a single shipment at the warehouse in China. Goods from 5 booths at the Yiwu market, 1 seller in Keqiao and 2 in Guangzhou are gathered under one client code and leave on one departure — far cheaper than shipping each lot separately.
+Consolidation means combining one client’s lots from different sellers into a single shipment at the warehouse in China. Goods from 5 booths at the Yiwu market, 1 seller in Keqiao and 2 in Guangzhou are gathered under one GS code and leave on one departure — far cheaper than shipping each lot separately.
 
 At the warehouse every carton is weighed, measured, numbered and photographed; when needed it is opened, counted and checked for condition. The photo report arrives in Telegram. Estimated service prices as of September 8, 2026: photo report $1, repacking $0.40/kg, detailed inspection $1/kg; 14 days of free storage in China. Dense cargo (above 170 kg/m³) is priced per kilogram, light and bulky cargo per m³ — the rule is on the [Pricing](/en/pricing/) page and the number for your cargo comes from the [Calculator](/en/calculator/). Full warehouse services — [Yiwu warehouse & quality control](/en/services/warehouse-quality-control/).
 
@@ -127,10 +127,10 @@ The practical takeaway: for January and October departures, order 3–4 weeks be
 3. Buy a sample and mark it: the wholesale lot must match it — the warehouse will have something to compare against.
 4. Confirm whether a price is per piece or per carton — this is where most confusion starts.
 5. Note the lead time: in-stock goods 1–2 days, made to order 7–15 days.
-6. Put the client code and carton number on the label — the warehouse finds your goods by that code.
+6. Put the GS code and carton number on the label — the seller writes them before dispatch, and the warehouse finds your goods by that code.
 7. Price dense and light goods separately: socks go by the kilogram, plush toys by the m³ — [how cargo prices are calculated](/en/guides/how-cargo-prices-are-calculated/).
 8. Stay away from branded marks: customs seizes counterfeit goods, and we do not accept them.
 9. For a commercial lot, check in advance whether a certificate and an Uzbek-language label are required — [Uzbekistan customs duties 2026](/en/guides/uzbekistan-customs-duties-2026/).
 10. Put the holiday calendar into your plan: a 2–3-week delay in February and October is normal.
 
-> **Manager’s tip.** On a first trip, don’t try to see everything in one day: a single Futian district has more than 10,000 booths. Give one day to one district, sort your notes in the evening, and go back the next day only to the 5–10 booths you shortlisted to negotiate prices. If you tell the seller straight away to ship to our warehouse address, the photo report will be in your Telegram before you are back in Tashkent.
+> **Manager’s tip.** On a first trip, don’t try to see everything in one day: a single Futian district has more than 10,000 booths. Give one day to one district, sort your notes in the evening, and go back the next day only to the 5–10 booths you shortlisted to negotiate prices. If you tell the seller straight away to ship to the Yiwu warehouse address, the photo report will be in your Telegram before you are back in Tashkent.

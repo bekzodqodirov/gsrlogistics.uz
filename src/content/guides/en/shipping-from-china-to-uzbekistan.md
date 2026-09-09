@@ -11,13 +11,13 @@ faq:
   - q: "How many days does cargo take from China to Tashkent?"
     a: "Counted from departure from the China warehouse: consolidated truck cargo roughly 15–25 days, air 5–10 days, rail container 20–35 days. Around Chinese New Year (January–February) and the October 1–7 holidays, add 1–2 weeks."
   - q: "Do I need my own warehouse in China or someone who speaks Chinese?"
-    a: "No. Your supplier ships to the consolidation warehouse in Yiwu (义乌); we give you the warehouse address and a cargo code. Our managers speak Uzbek, Russian and Chinese and handle the supplier correspondence."
+    a: "No. Your supplier ships to the consolidation warehouse in Yiwu (义乌); we give you the warehouse address and your GS code (shipping mark). Our managers speak Uzbek, Russian and Chinese and handle the supplier correspondence."
   - q: "Do you take small shipments?"
     a: "Yes. With consolidated cargo you pay only for your space, not for a whole container. Truck cargo starts from 1 kg, air from 0.5 kg; lots above 10 m³ get an individual rate."
   - q: "Who pays customs duties?"
     a: "Commercial goods are cleared officially: the legal entity or sole trader pays duty (0–30% by HS code), 12% VAT and the customs fee as required by law. We prepare the documents, file the customs declaration (GTD) and calculate the payments in advance. Personal parcels are subject to the $200-per-month limit in force since May 1, 2025."
   - q: "How do I know where my cargo is?"
-    a: "Every shipment gets a code. A photo report arrives in Telegram at warehouse intake, and your manager reports loading, the border crossing and arrival in Tashkent. On the Tracking page you can send your cargo code and request the current status."
+    a: "Every shipment gets a GS code — your supplier writes it on every carton before dispatch. A photo report arrives in Telegram at warehouse intake, and your manager reports loading, the border crossing and arrival in Tashkent. On the Tracking page you can send your GS code and request the current status."
 sources:
   - title: "Cabinet of Ministers Resolution No. 244 — duty-free import norms for individuals (lex.uz)"
     url: "https://lex.uz/docs/7484114"
@@ -59,7 +59,7 @@ Consolidated cargo is a method where shipments from several clients are combined
 
 It suits lots from 10 kg to 15 m³ best: Uzum and Yandex Market sellers, shop and market-stall owners, entrepreneurs testing a first batch. Above 15–20 m³ a dedicated container (FCL) or rail usually works out cheaper.
 
-GSR Logistics has been shipping consolidated cargo since June 2022; the third consolidation truck left the Yiwu warehouse on August 2, 2022. Yiwu (义乌) is home to the world’s largest small-commodity wholesale market, which is why the warehouse is there; goods from Guangzhou, Shenzhen and other cities are received through partners.
+GSR Logistics has been shipping consolidated cargo since June 2022; the third consolidation truck left the Yiwu warehouse on August 2, 2022. Yiwu (义乌) is home to the world’s largest small-commodity wholesale market, which is why the consolidation warehouse is there. There are two more receiving addresses in China — Guangzhou (广州) and Kashgar (喀什); your manager tells you which one applies.
 
 ## Which route does the cargo take?
 
@@ -78,8 +78,8 @@ Air cargo flies from Guangzhou or Urumqi to Tashkent airport and is cleared at t
 ## From request to pickup: 7 steps
 
 1. **You send a request.** On Telegram or by phone you name the goods, the city, the approximate weight or volume and the deadline. Your manager proposes a mode and an estimated price.
-2. **Contract and warehouse address.** Pricing rule, transit time and liability go on paper. You receive the Yiwu warehouse address and a personal cargo code.
-3. **The cargo reaches the warehouse.** Your supplier ships to the warehouse address. If the goods are not found yet, we buy them on 1688, Taobao or Alibaba (commission from 3%).
+2. **Contract and warehouse address.** Pricing rule, transit time and liability go on paper. You receive the Yiwu warehouse address and your personal GS code (shipping mark).
+3. **The cargo reaches the warehouse.** Before dispatch your supplier writes the GS code on every carton, then ships the goods to the warehouse address. If the goods are not found yet, we buy them on 1688, Taobao or Alibaba (commission from 3%).
 4. **Intake and photo report.** Every piece is weighed, measured and numbered. Photos arrive in Telegram. On request: inspection (from $1/kg), repacking ($0.40/kg) and insurance (1% of declared value).
 5. **Consolidation and loading.** The cargo joins a lot; the invoice, packing list and HS code are prepared. The China warehouse stores free for up to 14 days, so you can wait for several suppliers and combine their deliveries.
 6. **Road and customs.** Your manager reports loading, the Khorgos crossing and arrival in Tashkent. Customs clearance and the declaration (GTD) are on us; duty and VAT are paid as the law requires.

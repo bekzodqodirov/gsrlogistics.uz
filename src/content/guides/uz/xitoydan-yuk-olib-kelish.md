@@ -11,13 +11,13 @@ faq:
   - q: "Xitoydan Toshkentga yuk necha kunda keladi?"
     a: "Yuk Xitoy omboridan joʻnatilgandan keyin: yigʻma yuk (avto) taxminan 15–25 kun, avia 5–10 kun, temir yoʻl konteyneri 20–35 kun. Xitoy Yangi yili (yanvar–fevral) va 1–7-oktabr bayramlarida muddat 1–2 haftaga choʻzilishi mumkin."
   - q: "Xitoyda oʻz omborim yoki xitoy tilini biladigan odamim boʻlishi shartmi?"
-    a: "Yoʻq. Yetkazib beruvchi yukni Ivu (义乌) shahridagi konsolidatsiya omboriga joʻnatadi, ombor manzilini va yuk kodini biz beramiz. Menejerlar oʻzbek, rus va xitoy tilida gaplashadi, yetkazib beruvchi bilan yozishmani oʻzimiz olib boramiz."
+    a: "Yoʻq. Yetkazib beruvchi yukni Ivu (义乌) shahridagi konsolidatsiya omboriga joʻnatadi, ombor manzilini va GS kodini (markirovka) biz beramiz. Menejerlar oʻzbek, rus va xitoy tilida gaplashadi, yetkazib beruvchi bilan yozishmani oʻzimiz olib boramiz."
   - q: "Kichik hajmdagi yukni ham olib kelasizmi?"
     a: "Ha. Yigʻma yukda siz butun konteyner uchun emas, faqat oʻz joyingiz uchun toʻlaysiz. Avto kargo 1 kg dan, avia 0,5 kg dan qabul qilinadi; 10 m³ dan katta partiyalar uchun alohida narx hisoblanadi."
   - q: "Bojxona toʻlovlarini kim toʻlaydi?"
     a: "Tijorat yuki rasmiy rasmiylashtiriladi: yuridik shaxs yoki YaTT boj (TN VED kodi boʻyicha 0–30%), QQS 12% va bojxona yigʻimini qonun boʻyicha toʻlaydi. Biz hujjatlarni tayyorlaymiz, GTD rasmiylashtiramiz va toʻlovlarni oldindan hisoblab beramiz. Shaxsiy joʻnatmalar uchun 2025-yil 1-maydan oyiga 200 $ limit amal qiladi."
   - q: "Yukim qayerdaligini qanday bilaman?"
-    a: "Har bir yukka kod beriladi. Ombor qabulida foto-hisobot Telegramga keladi, menejer yuklash, chegara va Toshkentga kelish haqida xabar beradi. Saytdagi Kuzatuv sahifasi orqali yuk kodini yuborib, joriy holatni soʻrashingiz mumkin."
+    a: "Har bir yukka GS kod beriladi — yetkazib beruvchi uni joʻnatishdan oldin har bir qutiga yozadi. Ombor qabulida foto-hisobot Telegramga keladi, menejer yuklash, chegara va Toshkentga kelish haqida xabar beradi. Saytdagi Kuzatuv sahifasi orqali GS kodingizni yuborib, joriy holatni soʻrashingiz mumkin."
 sources:
   - title: "Vazirlar Mahkamasining 244-son qarori — jismoniy shaxslar uchun boj toʻlanmaydigan olib kirish normalari (lex.uz)"
     url: "https://lex.uz/docs/7484114"
@@ -59,7 +59,7 @@ Yigʻma yuk — bu bir nechta mijozning yuklari Xitoy omborida bitta partiyaga b
 
 Bu usul 10 kg dan 15 m³ gacha boʻlgan partiyalar uchun eng qulay: Uzum va Yandex Market sotuvchilari, bozor va doʻkon egalari, birinchi partiyasini sinab koʻrayotgan tadbirkorlar. Partiya 15–20 m³ dan oshsa, alohida konteyner (FCL) yoki temir yoʻl arzonroq chiqadi.
 
-GSR Logistics yigʻma yukni 2022-yil iyunidan yuboradi; uchinchi konsolidatsiya furasi Ivu omboridan 2022-yil 2-avgustda chiqqan. Ivu (义乌) — dunyodagi eng katta mayda ulgurji bozor shahri, shu bois ombor aynan shu yerda; Guanchjou, Shenchjen va boshqa shaharlardan yukni hamkorlar orqali qabul qilamiz.
+GSR Logistics yigʻma yukni 2022-yil iyunidan yuboradi; uchinchi konsolidatsiya furasi Ivu omboridan 2022-yil 2-avgustda chiqqan. Ivu (义乌) — dunyodagi eng katta mayda ulgurji bozor shahri, shu bois konsolidatsiya ombori aynan shu yerda. Xitoyda yana ikkita qabul manzili bor — Guanchjou (广州) va Qashqar (喀什); qaysi biriga joʻnatish kerakligini menejer aytadi.
 
 ## Yuk qaysi yoʻldan yuradi?
 
@@ -78,8 +78,8 @@ Avia yuk Guanchjou yoki Urumchidan Toshkent aeroportiga uchadi, soʻng bojxona o
 ## Buyurtmadan qabul qilishgacha: 7 qadam
 
 1. **Soʻrov qoldirasiz.** Telegramda yoki telefon orqali yukning nomi, shahri, taxminiy vazni yoki hajmi va kerakli muddatni aytasiz. Menejer yoʻnalish va taxminiy narxni taklif qiladi.
-2. **Shartnoma va ombor manzili.** Narx qoidasi, muddat va javobgarlik qogʻozda. Siz Ivu ombori manzilini va shaxsiy yuk kodini olasiz.
-3. **Yuk omborga keladi.** Yetkazib beruvchi tovarni ombor manziliga joʻnatadi. Tovar hali topilmagan boʻlsa, 1688, Taobao yoki Alibabadan biz sotib olamiz (komissiya 3% dan).
+2. **Shartnoma va ombor manzili.** Narx qoidasi, muddat va javobgarlik qogʻozda. Siz Ivu ombori manzilini va shaxsiy GS kodingizni (markirovka) olasiz.
+3. **Yuk omborga keladi.** Yetkazib beruvchi joʻnatishdan oldin har bir qutiga GS kodingizni yozadi va tovarni ombor manziliga joʻnatadi. Tovar hali topilmagan boʻlsa, 1688, Taobao yoki Alibabadan biz sotib olamiz (komissiya 3% dan).
 4. **Qabul va foto-hisobot.** Har bir joy tortiladi, oʻlchanadi, raqamlanadi. Suratlar Telegramga keladi. Kerak boʻlsa — tekshiruv (1 $/kg dan), qayta qadoqlash (0,4 $/kg) va sugʻurta (eʼlon qilingan qiymatning 1%).
 5. **Konsolidatsiya va yuklash.** Yuk partiyaga qoʻshiladi, invoys, qadoqlash roʻyxati va TN VED kodi tayyorlanadi. Ombor Xitoyda 14 kungacha bepul saqlaydi — bir nechta yetkazib beruvchidan kelgan partiyalarni kutib, birlashtirish mumkin.
 6. **Yoʻl va bojxona.** Menejer yuklash, Xorgosdan oʻtish va Toshkentga kelish haqida xabar beradi. Bojxona rasmiylashtiruvi va GTD — bizning zimmamizda, boj va QQS qonun boʻyicha toʻlanadi.

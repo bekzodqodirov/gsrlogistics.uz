@@ -38,7 +38,7 @@ const uz: AboutStrings = {
   },
   places: {
     heading: 'Qayerdamiz?',
-    china: { title: 'Xitoy — uchta qabul manzili', text: 'Asosiy ombor — Ivu (义乌), dunyodagi eng katta mayda ulgurji bozor shahri: yukni shu yerda qabul qilamiz, konsolidatsiya qilamiz va joʻnatamiz. Guanchjou va Kashgar boʻyicha ham qabul manzili bor. Qaysi biriga joʻnatish kerakligini menejer aytadi.', citiesLabel: 'Qabul manzillari', addressesLink: 'Toʻliq manzillar' },
+    china: { title: 'Xitoy — uchta qabul manzili', text: 'Asosiy ombor — Ivu (义乌), dunyodagi eng katta mayda ulgurji bozor shahri: yukni shu yerda qabul qilamiz, konsolidatsiya qilamiz va joʻnatamiz. Guanchjou va Qashqar boʻyicha ham qabul manzili bor. Qaysi biriga joʻnatish kerakligini menejer aytadi.', citiesLabel: 'Qabul manzillari', addressesLink: 'Toʻliq manzillar' },
     tashkent: { title: 'Toshkent — ofis', text: 'Shayxontohur tumani, Alisher Navoiy koʻchasi, 27. Shartnoma, hujjatlar, toʻlov va maslahat shu yerda.', directions: 'Alisher Navoiy metro bekati yonida. Kelib koʻrishingiz mumkin — oldindan Telegramda yozing.' },
   },
   team: {
