@@ -21,8 +21,19 @@ const siteUrl = Astro.site ?? new URL(site.url);
 const canonical = pageUrl(siteUrl, lang, pageKey, subs?.[lang]);
 const alts = alternates(siteUrl, pageKey, subs);
 const ogImageAbs = new URL(ogImage, siteUrl).toString();
-// Keep <title> ≤ ~65 chars: append the brand only when there is room; long titles stand alone.
-const fullTitle = title.includes(site.name) || title.length > 48 ? title : `${title} — ${site.name}`;
+/**
+ * <title> must stay legible in a SERP (~65 chars) while the page keeps its long, question-shaped H1
+ * for humans and AI answer engines. So: cut a long title at its first natural boundary (?, :, —),
+ * and append the brand only when there is room.
+ */
+const shortTitle = (() => {
+  if (title.length <= 62) return title;
+  const m = title.match(/^(.{25,62}?[?:—])\s/);
+  if (m) return m[1].replace(/[:—]$/, '').trim();
+  const cut = title.slice(0, 62);
+  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,:—]$/, '').trim() + '…';
+})();
+const fullTitle = shortTitle.includes(site.name) || shortTitle.length > 48 ? shortTitle : `${shortTitle} — ${site.name}`;
 // Meta description: trim to ≤160 chars at a sentence/clause boundary (the page keeps the full text in its intro).
 const metaDescription = (() => {
   if (description.length <= 160) return description;
