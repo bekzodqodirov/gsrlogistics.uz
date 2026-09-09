@@ -66,6 +66,8 @@ export interface Estimate {
   volumetricKg?: number;
   chargeableKg?: number;
   m3?: number;
+  /** Volume actually billed: `m3` raised to the tariff minimum when it falls below it. */
+  chargeableM3?: number;
   densityKgM3?: number;
   container?: Container;
 }
@@ -162,7 +164,7 @@ export function estimateTruck(input: CargoInput, t: Tariffs): Estimate {
   let billableM3 = m3;
   if (billableM3 < t.truck.minM3) { billableM3 = t.truck.minM3; notes.push('min-m3-applied'); }
   const rate = densityBandRate(t.truck.lclPerM3ByDensity, density);
-  return { ...base, rule: 'truck-lcl', rate, unit: 'm3', total: r2(billableM3 * rate), notes, chargeableKg: actual };
+  return { ...base, rule: 'truck-lcl', rate, unit: 'm3', total: r2(billableM3 * rate), notes, chargeableKg: actual, chargeableM3: billableM3 };
 }
 
 export function estimateRail(container: Container, t: Tariffs): Estimate {
@@ -220,7 +222,7 @@ export function formatBreakdown(e: Estimate, lang: Lang, s: BreakdownStrings, t:
   const somRange = (lo: number, hi: number) => { const a = fmtSom(lo, lang), b = fmtSom(hi, lang); return lang === 'en' ? `${a}–${b.replace('UZS ', '')}` : `${a.replace(/ \S+$/, '')}–${b}`; };
   const rateStr = e.unit === 'kg' ? `${usd(e.rate)}${s.units.perKg}` : e.unit === 'm3' ? `${usd(e.rate)}${s.units.perM3}` : usdRange(e.rate, e.totalMax ?? e.rate);
   const vars = {
-    rate: rateStr, density: n(e.densityKgM3 ?? 0, 0), kg: n(e.chargeableKg ?? 0), m3: n(e.m3 ?? 0, 2),
+    rate: rateStr, density: n(e.densityKgM3 ?? 0, 0), kg: n(e.chargeableKg ?? 0), m3: n(e.chargeableM3 ?? e.m3 ?? 0, 2),
     minKg: n(t.air.minKg), minM3: n(t.truck.minM3), volumetric: n(e.volumetricKg ?? 0), divisor: n(e.mode === 'air' ? t.air.volumetricDivisor : t.truck.volumetricDivisor, 0),
     perKgDensity: n(t.truck.perKgFromDensityKgM3, 0), perKgRate: usd(t.truck.perKgAboveDensity),
     category: s.categories[e.category ?? 'standard'], container: s.containers[e.container ?? '20ft'],

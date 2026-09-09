@@ -60,7 +60,7 @@ const intro = tpl(p.intro, vars);
 // the sheet bills per kilogram instead, so that row closes the table.
 const lclRows = lcl.map((s, i) => {
   const prev = i > 0 ? lcl[i - 1].maxKgM3 ?? 0 : 0;
-  const hi = s.maxKgM3 ?? T.truck.perKgFromDensityKgM3;
+  const hi = s.maxKgM3 ?? T.truck.perKgFromDensityKgM3 - 1;
   // the owner's sheet writes 101–150, not 100–150: bands are inclusive, so start the next one at +1
   const label = i === 0 ? tpl(p.lcl.upTo, { b: n(hi, 0) }) : tpl(p.lcl.between, { a: n(prev + 1, 0), b: n(hi, 0) });
   return { label, value: perM3(s.rate) };
@@ -118,7 +118,7 @@ const jsonLd: Array<Record<string, unknown>> = [
       // so a crawler cannot read a dearer band as covering lighter cargo than it actually does.
       ...lcl.map((s, i) => {
         const lo = i > 0 ? (lcl[i - 1].maxKgM3 ?? 0) + 1 : 0;
-        const hi = s.maxKgM3 ?? T.truck.perKgFromDensityKgM3;
+        const hi = s.maxKgM3 ?? T.truck.perKgFromDensityKgM3 - 1;
         return { price: s.rate, unitCode: 'MTQ' as const, validThrough: T.validThrough, description: i === 0 ? `density up to ${hi} kg/m³` : `density ${lo}–${hi} kg/m³` };
       }),
       { price: T.truck.perKgAboveDensity, unitCode: 'KGM' as const, validThrough: T.validThrough, description: `density from ${T.truck.perKgFromDensityKgM3} kg/m³, per kg` },

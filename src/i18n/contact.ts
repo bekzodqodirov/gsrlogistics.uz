@@ -132,7 +132,7 @@ const uz: ContactStrings = {
     success: { title: 'Soʻrovingiz qabul qilindi.', text: 'Ish vaqtida javob beramiz. Shoshilinch boʻlsa — Telegramda yozing.', again: 'Yana soʻrov yuborish' },
     fallback: {
       title: 'Soʻrovni Telegramda yuboring',
-      text: 'Forma serveri hozir javob bermadi. Xabar tayyor — Telegramda ochib yuboring yoki matnni nusxalab menejerga joʻnating.',
+      text: 'Soʻrovlar Telegram orqali qabul qilinadi. Xabar tayyor — Telegramda ochib yuboring yoki matnni nusxalab menejerga joʻnating.',
       open: 'Telegramda ochish',
       copy: 'Matnni nusxalash',
       copied: 'Nusxalandi',
@@ -236,7 +236,7 @@ const ru: ContactStrings = {
     success: { title: 'Заявка принята.', text: 'Ответим в рабочее время. Если срочно — напишите в Telegram.', again: 'Отправить ещё одну заявку' },
     fallback: {
       title: 'Отправьте заявку в Telegram',
-      text: 'Сервер формы сейчас не ответил. Сообщение уже собрано — откройте его в Telegram или скопируйте текст и отправьте менеджеру.',
+      text: 'Заявки принимаются через Telegram. Сообщение уже собрано — откройте его в Telegram или скопируйте текст и отправьте менеджеру.',
       open: 'Открыть в Telegram',
       copy: 'Скопировать текст',
       copied: 'Скопировано',
@@ -340,7 +340,7 @@ const en: ContactStrings = {
     success: { title: 'Request received.', text: 'We reply during working hours. In a hurry? Message us on Telegram.', again: 'Send another request' },
     fallback: {
       title: 'Send your request on Telegram',
-      text: 'The form server did not respond. Your message is ready — open it in Telegram, or copy the text and send it to a manager.',
+      text: 'Requests are taken over Telegram. Your message is ready — open it in Telegram, or copy the text and send it to a manager.',
       open: 'Open in Telegram',
       copy: 'Copy text',
       copied: 'Copied',

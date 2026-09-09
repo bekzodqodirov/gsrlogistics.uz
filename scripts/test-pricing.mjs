@@ -92,6 +92,31 @@ test('example 6: avto ladder 20 kg / 60 kg / 500 kg zich', () => {
   assert.throws(() => estimateTruck({ kg: 20 }, tariffs), /volume is required/i);
 });
 
+// 6b. Below the 0,1 m³ minimum the printed equation must equal the printed total
+test('example 6b: 2 kg in 0,02 m³ bills the 0,1 m³ minimum', () => {
+  const e = estimateTruck({ kg: 2, m3: 0.02 }, tariffs);
+  assert.equal(e.rule, 'truck-lcl');
+  assert.equal(e.m3, 0.02);
+  assert.equal(e.chargeableM3, tariffs.truck.minM3);
+  assert.ok(e.notes.includes('min-m3-applied'));
+  near(e.total, tariffs.truck.minM3 * 110, 'min-volume total');
+  const s = {
+    modes: { air: 'Avia', truck: 'Avto', rail: 'Temir yoʻl' },
+    categories: { standard: 'Oddiy', brand: 'Brend', commercial: 'Seriya', battery: 'Batareyali', liquid: 'Suyuqlik' },
+    rules: { 'air-per-kg': '{rate}', 'truck-lcl': '{density} → {m3} × {rate}', 'truck-per-kg': '{rate}', 'rail-20ft': '{rate}', 'rail-40ft': '{rate}' },
+    notes: { 'volumetric-applied': '', 'min-kg-applied': '', 'min-m3-applied': 'Minimal {minM3} m³', 'no-volume': '', 'switched-to-truck': '', range: '' },
+    units: { kg: 'kg', m3: 'm³', cm: 'sm', kgm3: 'kg/m³', perKg: '/kg', perM3: '/m³', days: 'kun', container: 'konteyner' },
+    labels: { chargeable: 'V', density: 'Z', rule: 'Q', rate: 'T', days: 'M', volumetric: 'H', volume: 'Hajm', total: 'J', totalSom: 'S', range: 'K' },
+    approx: 'taxminan', containers: { '20ft': '20 fut', '40ft': '40 fut' },
+  };
+  const b = formatBreakdown(e, 'uz', s, tariffs);
+  // the equation the reader sees must be the one behind the total: 0,1 × 110 = 11
+  assert.equal(b.rule, '100 → 0,1 × 110 $/m³');
+  assert.equal(b.total.replace(/\s/g, ' '), '≈ 11 $');
+  // ...while the Volume row still reports what was measured, which is where density came from
+  assert.ok(b.rows.some((r) => r.label === 'Hajm' && r.value === '0,02 m³'), JSON.stringify(b.rows));
+});
+
 // 7. Rail
 test('example 7: 20ft / 40ft konteyner', () => {
   const a = estimateRail('20ft', tariffs);
