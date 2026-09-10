@@ -94,6 +94,13 @@ const CAMS = {
 const W_ROUTE = 2.5, W_RAIL = 1, W_LAST = 1.75;
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+/** Ladder the 14 map labels' counter-scale is snapped to: 2^(1/16), i.e. 4.4 % steps, ±2.2 % worst case —
+ *  a third of a pixel on a 12 px label, and only ever while the camera is moving. Why snap at all: in Blink
+ *  an SVG element's transform is part of LAYOUT, not paint (an HTML element's is paint-only), so writing a
+ *  transform to a <text> dirties the whole svg.jmap layout root. Counter-scaling all 14 continuously wrote
+ *  14 transforms EVERY frame; on the ladder the same move writes them about seven times in total. */
+const LBL_STEP = 16;
+const qLabel = (v: number) => 2 ** (Math.round(Math.log2(v) * LBL_STEP) / LBL_STEP);
 
 export function init(root: HTMLElement): void {
   const $ = <T extends Element = HTMLElement>(name: string) => root.querySelector<T>(`[data-j="${name}"]`);
@@ -218,6 +225,11 @@ export function init(root: HTMLElement): void {
     measure(desktop);
     if (!desktop) glyphScale = clamp((390 / M.W) * 1.6, 1, 1.6);
     gsap.set(labels, { transformOrigin: (_i: number, el: SVGTextElement) => el.dataset.o || '0% 100%' });
+    let lblQ = qLabel(1 / introCam().k);
+    gsap.set(labels, { scale: lblQ });
+    /** Write the label counter-scale only when it crosses a rung of the ladder. */
+    const camK = { v: introCam().k };
+    const labelStep = () => { const q = qLabel(1 / camK.v); if (q === lblQ) return; lblQ = q; gsap.set(labels, { scale: q }); };
     // a country name is ~50 map units tall on a phone against ~13 on desktop, so it needs its own anchors
     if (!desktop) countries.forEach((el) => { if (el.dataset.mx) el.setAttribute('x', el.dataset.mx); if (el.dataset.my) el.setAttribute('y', el.dataset.my); });
     if (glyphScale !== 1) {
@@ -275,7 +287,7 @@ export function init(root: HTMLElement): void {
         t.fromTo(cam,
           { x: () => camFor(from()).x, y: () => camFor(from()).y, scale: () => camFor(from()).scale },
           { x: () => camFor(to()).x, y: () => camFor(to()).y, scale: () => camFor(to()).scale, force3D: true, ease, duration: dur, immediateRender: first }, at);
-        if (labels.length) t.fromTo(labels, { scale: () => 1 / from().k }, { scale: () => 1 / to().k, ease, duration: dur, immediateRender: first }, at);
+        void camK; void labelStep;
         // The route and the rail are the only two strokes that are DASHED, and a dashed stroke cannot also
         // carry vector-effect: non-scaling-stroke — Chromium then measures the dash along its own screen-space
         // flattening of the path, ~11 % short of getTotalLength(), so stroke-dashoffset 1 − p draws to 1.11 p.
@@ -451,9 +463,24 @@ export function init(root: HTMLElement): void {
       root.dataset.ready = '1';
     };
 
+    /* ---------- frame 6: prime every tween ----------
+     * immediateRender: false keeps ScrollTrigger's refresh cheap, but it moves the cost, it does not remove
+     * it: each tween then initialises the first time the playhead reaches it — i.e. DURING the scrub. A GSAP
+     * init reads (getComputedStyle, getBBox, getBoundingClientRect for MotionPath's align matrix) in the
+     * middle of a tick that has already written transforms to the SVG, and every read flushes a full SVG
+     * layout. Measured on the baseline: 560 such reads per scrub, bursting to 46 forced layouts of
+     * svg.jmap inside ONE animation frame — 121 of the 158 ms of layout in the whole scrub landed in the
+     * 20 slowest frames. Rendering the timeline end-to-end once, on an idle frame after setup, does all of
+     * that initialisation in one task nobody is watching. */
+    const prime = () => {
+      if (!tl) return;
+      const at = tl.progress();
+      tl.progress(1, true).progress(0, true).progress(at, true);
+    };
+
     const frame = (fn: () => void) => { raf = requestAnimationFrame(() => { raf = 0; fn(); }); };
-    // frames 2 → 3 → (4: ScrollTrigger's queued full refresh after the pin) → 5
-    frame(() => { ctx.add(build); frame(() => { ctx.add(attachPin); frame(() => frame(() => ctx.add(attachScrub))); }); });
+    // frames 2 → 3 → (4: ScrollTrigger's queued full refresh after the pin) → 5 → 6
+    frame(() => { ctx.add(build); frame(() => { ctx.add(attachPin); frame(() => frame(() => { ctx.add(attachScrub); frame(() => ctx.add(prime)); })); }); });
 
     return () => {
       if (raf) cancelAnimationFrame(raf);

@@ -11,8 +11,18 @@
  * diagram answers "where are my boxes" instead of decorating the section.
  *
  * Mechanic: six radios nested in their labels + `:has()` set `--i` (which frame the strip shows)
- * and `--floor` (where the carton's drawn bottom edge lands). Zero JavaScript, no new dependency.
- * Without `:has()` it degrades to one drawing above a numbered six-step explainer.
+ * and `--floor` (where the carton's drawn bottom edge lands). No JavaScript is required for any of
+ * it. Without `:has()` it degrades to one drawing above a numbered six-step explainer.
+ *
+ * The six stops are drawn as outlined tiles, NOT as another hex rail: the section's own five-step
+ * `<ol>` sits directly above with a hex rail that is not interactive, and a second rail underneath
+ * it read as one more progress indicator — the owner scrolled straight past it. A tile with a
+ * border, a hover fill, a pressed state and an underline is a control at rest, with JS off.
+ *
+ * The one enhancement (see the module script) is auto-advance: while the strip is on screen it
+ * walks itself ONCE, 01→06, and the underline on the current tile sweeps for exactly the dwell so
+ * the motion reads as playback rather than a glitch. It drives the same radios, so there is no
+ * second state, and it stops for good the first time the visitor touches the strip.
  *
  * Props: { lang, id? } — `id` seeds the radio `name` so two instances never collide.
  */
@@ -133,12 +143,14 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
 ];
 ---
 
-<div class="gs-flow reveal" style="--reveal-delay:360ms">
+<div class="gs-flow reveal" style="--reveal-delay:360ms" data-gs-flow>
   <div class="gs-head">
     <h3>{t.title}</h3>
     <p>{t.hint}</p>
   </div>
 
+  {/* The tile order is number → glyph → name → underline, and the underline is last so the
+      `:checked ~` combinator reaches every one of them from the input. */}
   <div class="gs-rail" role="radiogroup" aria-label={t.pickerLabel}>
     {STAGE_KEYS.map((k, i) => (
       <label class="gs-stop">
@@ -152,8 +164,8 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
         />
         <span class="gs-n tnum">0{i + 1}</span>
         <svg class="gs-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={GLYPHS[i]} />
-        <span class="hex-node gs-dot" aria-hidden="true"></span>
         <span class="gs-nm">{tr.stages[k].short}</span>
+        <span class="gs-bar" aria-hidden="true"></span>
       </label>
     ))}
   </div>
@@ -198,6 +210,91 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
   </div>
 </div>
 
+<script>
+  // Auto-advance — a progressive enhancement over a picker that already works without it.
+  //
+  // It writes `.checked` on the same six radios the stylesheet reads, so there is exactly one
+  // source of truth and nothing to keep in sync. It never calls .focus() and never dispatches an
+  // event: `:checked` is a property, the selectors see it on the next style recalc, and no
+  // listener (and no live region — there is none here on purpose) can be woken by it. That is
+  // what keeps a screen-reader user's place: nothing is announced, and the first focus into the
+  // group stops the timer for good, so the selection can never move under someone reading it.
+  //
+  // Off entirely under reduced motion, on a hidden tab, off screen, on a low-end/save-data
+  // client, and from the first touch/click/key/focus on the strip onwards.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
+  const lowEnd =
+    !!nav.connection?.saveData ||
+    (!!nav.deviceMemory && nav.deviceMemory <= 2) ||
+    (!!nav.hardwareConcurrency && nav.hardwareConcurrency <= 2);
+  // Without :has() the strip is display:none and the six stages are all on the page at once:
+  // advancing invisible radios would be pure battery burn.
+  const usable = !reduce && !lowEnd && 'IntersectionObserver' in window && CSS.supports('selector(:has(*))');
+
+  if (usable) {
+    for (const root of document.querySelectorAll<HTMLElement>('[data-gs-flow]')) {
+      const pins = Array.from(root.querySelectorAll<HTMLInputElement>('.gs-pin'));
+      const strip = root.querySelector<HTMLElement>('.gs-rail');
+      if (pins.length < 2 || !strip) continue;
+
+      // The dwell lives in the stylesheet (--gs-dwell) because the underline sweep is a CSS
+      // animation of the same length; reading it here is what keeps the two identical.
+      const raw = getComputedStyle(root).getPropertyValue('--gs-dwell').trim();
+      const dwell = raw.endsWith('ms') ? parseFloat(raw) : parseFloat(raw) * 1000;
+      if (!(dwell > 400)) continue;
+
+      let timer = 0;
+      let onScreen = false;
+      let live = true;
+
+      // One pass, stopping on the last stage. It does NOT loop: rewinding six frames of film in
+      // 520ms is the one movement here that looks like a fault rather than a story, and ending on
+      // "delivered" with all six underlines full is the right thing to leave on the screen.
+      const tick = () => {
+        const next = pins.findIndex((p) => p.checked) + 1;
+        if (next >= pins.length) { retire(); return; }
+        pins[next].checked = true; // `:checked` is what the stylesheet reads — no event, no focus
+        timer = window.setTimeout(tick, dwell);
+      };
+      const play = () => {
+        if (!live || !onScreen || document.hidden || timer) return;
+        root.classList.add('is-auto'); // starts the sweep on whichever tile is current
+        timer = window.setTimeout(tick, dwell);
+      };
+      const pause = () => {
+        if (timer) { clearTimeout(timer); timer = 0; }
+        root.classList.remove('is-auto');
+      };
+
+      const seen = ['pointerdown', 'touchstart', 'keydown', 'focusin', 'click'] as const;
+      const io = new IntersectionObserver(
+        (entries) => { onScreen = entries[entries.length - 1].isIntersecting; onScreen ? play() : pause(); },
+        // Any part of the strip inside the middle 76% of the viewport counts as on screen, which
+        // holds whether the block is taller or shorter than the window.
+        { rootMargin: '-12% 0px -12% 0px' },
+      );
+      const onVis = () => { document.hidden ? pause() : play(); };
+      // Called by the visitor's first touch of the strip and by the end of the one pass. Dropping
+      // `.is-arm` hands the underline back to the stylesheet, which fills it for the current stage.
+      function retire() {
+        if (!live) return;
+        live = false;
+        pause();
+        root.classList.remove('is-arm');
+        io.disconnect();
+        document.removeEventListener('visibilitychange', onVis);
+        for (const type of seen) strip.removeEventListener(type, retire);
+      }
+
+      root.classList.add('is-arm');
+      for (const type of seen) strip.addEventListener(type, retire, { passive: true });
+      document.addEventListener('visibilitychange', onVis);
+      io.observe(root);
+    }
+  }
+</script>
+
 <style>
   /* Two grey levels. --border is 1.5:1 on --bg-3 and vanishes at these line weights, so the drawings
      use the palette's own greys: --gs-dim for secondary objects, --gs-dim2 for ground lines. */
@@ -206,6 +303,9 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
     --floor: 150;
     --gs-dim: var(--gray-500);
     --gs-dim2: var(--gray-400);
+    /* One source of truth for the dwell: the underline sweep is `animation: … var(--gs-dwell)`
+       and the module script reads this same property off the root for its timer. Change it here. */
+    --gs-dwell: 3.2s;
     position: relative;
     margin-top: clamp(40px, 5vw, 64px);
   }
@@ -213,30 +313,54 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
   .gs-head h3 { font-size: var(--text-h3); font-weight: 600; line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); text-wrap: balance; }
   .gs-head p { font-size: var(--text-small); color: var(--muted); text-wrap: pretty; }
 
-  /* ---------- the rail ---------- */
-  /* --dot-y is DERIVED from the fixed rows below: 6 (pad) + 12 (numeral) + 6 + 24 (glyph) + 6 + 7
-     (half a node) = 61px. Re-derive it if you touch the padding, the rows or the row gap. */
-  .gs-rail { --dot-y: 61px; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin: 0 0 18px; padding-inline: 2px; }
-  .gs-rail::before, .gs-rail::after { content: ''; position: absolute; left: calc(100% / 12); right: calc(100% / 12); top: var(--dot-y); margin-top: -0.75px; height: 1.5px; }
-  .gs-rail::before { background: var(--border-soft); }
-  .gs-rail::after { background: var(--accent); transform-origin: left center; transform: scaleX(calc(var(--i) / 5)); transition: transform 480ms var(--ease-out-expo); }
+  /* ---------- the six controls ---------- */
+  /* Six outlined tiles, not a rail: see the header note. The gap is what the eye reads as "six
+     separate things", so it never collapses below 6px even at 320px. */
+  .gs-rail { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(6px, 0.7vw, 10px); margin: 0 0 18px; }
 
-  .gs-stop { position: relative; display: grid; grid-template-rows: 12px 24px 14px auto; justify-items: center; row-gap: 6px; padding: 6px 2px 8px; cursor: pointer; border-radius: var(--radius-sm); -webkit-tap-highlight-color: transparent; }
-  .gs-pin { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .gs-n { display: grid; place-items: center; font-size: var(--text-caption); font-weight: 500; color: var(--meta); line-height: 1; }
-  .gs-g { width: 24px; height: 24px; color: var(--gs-dim); transition: color 240ms var(--ease); }
-  .gs-dot { position: relative; z-index: 1; width: 13px; height: 14px; --node-stroke: var(--border); --node-fill: var(--bg); }
-  .gs-dot, .gs-dot::after { transition: background 240ms var(--ease); }
-  .gs-nm { display: none; }
-  /* Sibling combinators, not :has() — the input is the first child of its own label. */
-  .gs-pin:checked ~ .gs-g { color: var(--fg); }
-  .gs-pin:checked ~ .gs-dot { --node-stroke: var(--accent); --node-fill: var(--accent); }
-  .gs-pin:checked ~ .gs-n, .gs-pin:checked ~ .gs-nm { color: var(--fg); font-weight: 600; }
-  .gs-stop:has(:focus-visible) { box-shadow: var(--focus-ring); }
-  @media (hover: hover) {
-    .gs-stop:hover .gs-g { color: var(--fg); }
-    .gs-stop:hover .gs-dot { --node-stroke: var(--fg); }
+  .gs-stop {
+    position: relative;
+    display: grid; grid-template-rows: 12px 24px auto; justify-items: center; row-gap: 6px;
+    padding: 8px 4px 15px;
+    border: 1px solid var(--border-soft); border-radius: var(--radius); background: var(--bg);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+    transition: border-color 200ms var(--ease), background-color 200ms var(--ease), transform 120ms var(--ease);
   }
+  .gs-pin { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .gs-n { display: grid; place-items: center; font-size: var(--text-caption); font-weight: 500; color: var(--meta); line-height: 1; transition: color 200ms var(--ease); }
+  .gs-g { width: 24px; height: 24px; color: var(--meta); transition: color 200ms var(--ease); }
+  .gs-nm { display: none; }
+
+  /* The underline: track always drawn, fill scaled from the left. Full on every stop already
+     passed and on the current one, empty ahead — the same "3 of 6" the rail used to say, on a
+     part of the tile that also reads as a tab indicator. */
+  .gs-bar { position: absolute; left: 9px; right: 9px; bottom: 6px; height: 3px; border-radius: var(--radius-pill); background: var(--border); overflow: hidden; }
+  .gs-bar::after { content: ''; display: block; height: 100%; border-radius: inherit; background: var(--accent); transform: scaleX(0); transform-origin: left center; transition: transform 420ms var(--ease-out-expo); }
+  .gs-stop:has(~ .gs-stop :checked) .gs-bar::after { transform: scaleX(1); }
+
+  /* Sibling combinators where the input can reach; :has() only for the label itself. */
+  .gs-pin:checked ~ .gs-g, .gs-pin:checked ~ .gs-n, .gs-pin:checked ~ .gs-nm { color: var(--fg); }
+  .gs-pin:checked ~ .gs-n, .gs-pin:checked ~ .gs-nm { font-weight: 600; }
+  .gs-pin:checked ~ .gs-bar::after { transform: scaleX(1); }
+  /* Selected = the one near-black outline in the row. Red is spent on the underline, not here. */
+  .gs-stop:has(:checked) { border-color: var(--fg); }
+  .gs-stop:has(:focus-visible) { box-shadow: var(--focus-ring); }
+  .gs-stop:active { background-color: var(--bg-2); transform: scale(0.97); }
+  @media (hover: hover) {
+    .gs-stop:hover { border-color: var(--border); }
+    .gs-stop:hover:not(:has(:checked)) { background-color: var(--bg-2); }
+    .gs-stop:hover .gs-g, .gs-stop:hover .gs-n { color: var(--fg); }
+  }
+
+  /* Playback, in two classes, both written by the script and neither present with JS off.
+     `.is-arm` goes on at parse time and empties the current underline BEFORE the strip is ever
+     scrolled to — without it the bar would be full on arrival and then snap back to zero the
+     instant playback began, which is exactly the flicker that reads as a bug.
+     `.is-auto` is on only while the strip is on screen, so the sweep starts, pauses and restarts
+     with the timer; the two are the same length because both read --gs-dwell. */
+  .gs-flow.is-arm .gs-pin:checked ~ .gs-bar::after { transform: scaleX(0); transition: none; }
+  .gs-flow.is-arm.is-auto .gs-pin:checked ~ .gs-bar::after { animation: gs-sweep var(--gs-dwell) linear forwards; }
+  @keyframes gs-sweep { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
   /* ---------- the stage ---------- */
   .gs-frame { container-type: inline-size; position: relative; overflow: hidden; border: 1px solid var(--card-border); border-radius: var(--radius-lg); background: var(--bg-3); }
@@ -309,12 +433,16 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
      "Приёмка в Китае"). Below this the numbered glyphs carry the rail and the selected stage is
      named in full by the <h4> beside the picture. */
   @media (min-width: 1120px) {
-    .gs-nm { display: block; font-size: var(--text-caption); color: var(--meta); text-align: center; line-height: 1.25; min-height: 2.5em; text-wrap: balance; }
+    /* No min-height reserving a second line: the six labels are one grid row, so a two-line name
+       in one language (RU "Приёмка в Китае") already stretches all six tiles to match. */
+    .gs-nm { display: block; font-size: var(--text-caption); color: var(--meta); text-align: center; line-height: 1.25; text-wrap: balance; }
   }
 
+  /* The script never runs under reduce, so `.is-auto` never appears; belt and braces anyway. */
   @media (prefers-reduced-motion: reduce) {
-    .gs-film, .gs-sfilm, .gs-box, .gs-rail::after, .gs-dot, .gs-g { transition: none; }
-    :global(.gs-road) { animation: none; }
+    .gs-film, .gs-sfilm, .gs-box, .gs-stop, .gs-g, .gs-n, .gs-bar::after { transition: none; }
+    .gs-stop:active { transform: none; }
+    :global(.gs-road), .gs-flow.is-arm.is-auto .gs-pin:checked ~ .gs-bar::after { animation: none; }
   }
 
   /* Only mounted on a light section today, but the site can darken any section: keep the two greys
