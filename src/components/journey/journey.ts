@@ -235,6 +235,46 @@ export function init(root: HTMLElement): void {
     kmEl.textContent = fmtKm(0);
     const kmProxy = { v: 0 };
 
+    /* ---------- off-frame labels leave the layout tree ----------
+     * SVG <text> is by a wide margin the most expensive content in this map. Measured on a 4x-throttled
+     * 390 px phone, over the whole pinned scrub: with `.jmap text { display: none }` the share of frames
+     * over 33 ms falls from ~20 % to ~7 %, which is more than removing the entire static map (12.8 %),
+     * more than the actors (16 %) and more than the camera's scale (13.8 %). None of the cheap dodges
+     * recovers any of it — `visibility: hidden` gets a third of the way (14.9 %), a constant transform
+     * nothing (20.7 %), moving the labels into a second <svg> nothing (20.7 %), dropping the stroked halo
+     * nothing (17.5 %), dropping the country letter-spacing nothing (19.5 %). The cost is not painting the
+     * glyphs and not the per-frame counter-scale write: it is having 14 <text> nodes in an SVG layout tree
+     * that something else re-lays-out on every frame of the scrub.
+     *
+     * They do not all need to be there. Outside the transit stage the camera window is a fraction of the
+     * map — at Yiwu (k 2.9 on a phone) about a tenth of it — so most labels are off-screen anyway. Project
+     * each label through the camera every tick and take the off-frame ones out of the tree. The test is
+     * arithmetic on numbers we already hold, and display flips only when a label crosses the boundary,
+     * which is a handful of times per scrub. The boundary is the viewport plus a 30 % margin, so a label
+     * is already well off-screen before it leaves: no pop-in, and the frames stay pixel-identical. */
+    const labelAt = labels.map((el) => {
+      // countries sit at absolute coordinates; a city label is local to its `.jm-city` translate. Read the
+      // numbers off the attributes — after the mobile country swap above, and with no layout read.
+      const m = (el.parentElement as Element | null)?.getAttribute('transform')?.match(/translate\(\s*(-?[\d.]+)[\s,]+(-?[\d.]+)/);
+      return { el, x: (m ? +m[1] : 0) + (+(el.getAttribute('x') || 0)), y: (m ? +m[2] : 0) + (+(el.getAttribute('y') || 0)), on: true };
+    });
+    /** viewport margin (px) a label must clear before it is allowed to leave the tree, so a toggle is
+     *  never visible. 30 % of the larger axis is far more than one frame of the fastest camera move. */
+    let pad = 0;
+    const gateLabels = (cx: number, cy: number, k: number) => {
+      for (const p of labelAt) {
+        const sx = cx + k * (M.offX + p.x * M.s0), sy = cy + k * (M.offY + p.y * M.s0);
+        const on = sx >= -pad && sx <= M.W + pad && sy >= -pad && sy <= M.H + pad;
+        if (on !== p.on) { p.on = on; p.el.style.display = on ? '' : 'none'; }
+      }
+    };
+    /** Camera position straight out of GSAP's own transform cache — no getComputedStyle, no layout read
+     *  (verified: the instrumented read count over a whole scrub stays at 0). */
+    const gateNow = () => {
+      pad = Math.max(M.W, M.H) * 0.3;
+      gateLabels(+(gsap.getProperty(cam, 'x') as number), +(gsap.getProperty(cam, 'y') as number), +(gsap.getProperty(cam, 'scaleX') as number));
+    };
+
     let tl: gsap.core.Timeline | null = null;
     let pinST: ScrollTrigger | null = null;
     let raf = 0, praf = 0;
@@ -242,6 +282,7 @@ export function init(root: HTMLElement): void {
     /* ---------- state sync: progress rail, section data-stage, mode chips + km caption ---------- */
     let curStage = -1, curChip = -1;
     const sync = (t: number) => {
+      gateNow();
       let st = 0;
       for (let i = 0; i < STAGE_START.length; i++) if (t >= STAGE_START[i] - 0.001) st = i + 1;
       if (st !== curStage) {
@@ -361,7 +402,14 @@ export function init(root: HTMLElement): void {
       // +60, not −60. The pivot is the boom's right-hand end and SVG y grows downward, so a negative
       // angle swung the free end DOWN through the road: the barrier closed on the truck instead of
       // lifting for it. (It was invisible before the .j-barrier group started fading in, so nobody saw it.)
-      t.fromTo(bar, { rotation: 0, transformOrigin: '100% 50%' }, { rotation: 60, duration: 3, ease: 'power2.inOut' }, 63);
+      // The pivot is a length, not '100% 50%'. A percentage origin makes GSAP resolve it against the WIDTH
+      // and HEIGHT of bar.getBBox(), and prime() initialises this tween at setup where that call can still
+      // come back zero-sized: the percentages then collapse to the box's top-left corner and the boom hinges
+      // on its own far end, sticking out across the road instead of standing up at the post. Measured on the
+      // prime build: 1 load in 5. A length only needs the box's ORIGIN, which is right even in that state.
+      // GSAP measures an SVG transformOrigin from the bbox corner, so for a box of (-22, -2, 20, 4) the post
+      // — right edge, vertical middle, i.e. user-space (-2, 0) — is 20px 2px.
+      t.fromTo(bar, { rotation: 0, transformOrigin: '20px 2px' }, { rotation: 60, transformOrigin: '20px 2px', duration: 3, ease: 'power2.inOut' }, 63);
       t.fromTo(stamp, { autoAlpha: 0, scale: 0.6, transformOrigin: '50% 50%' }, { autoAlpha: 1, scale: 1, duration: 3, ease: 'power2.out' }, 64);
       drive(P_KHORGOS - wait[1], P_KHORGOS + 0.01, 70, 2, 'power1.in');
       tick(3, L.s5 - 2.5);
@@ -446,7 +494,8 @@ export function init(root: HTMLElement): void {
           cam.style.willChange = self.isActive ? 'transform' : '';
           stage.style.willChange = self.isActive ? 'transform' : '';
         },
-        onRefresh: () => measure(desktop),
+        // a refresh can change M (viewport, font swap), and the keep sets are computed from it
+        onRefresh: () => { measure(desktop); gateNow(); },
       });
     };
     const attachScrub = () => {
@@ -501,6 +550,8 @@ export function init(root: HTMLElement): void {
       cam.style.willChange = '';
       stage.style.willChange = '';
       svg.style.removeProperty('--lbl');
+      // the static fallback shows every label, so the gating must not survive a breakpoint change
+      labelAt.forEach((p) => p.el.style.removeProperty('display'));
       root.dataset.stage = '0';
       delete root.dataset.ready;
       kmEl.textContent = fmtKm(KM);

@@ -20,9 +20,12 @@
  * border, a hover fill, a pressed state and an underline is a control at rest, with JS off.
  *
  * The one enhancement (see the module script) is auto-advance: while the strip is on screen it
- * walks itself ONCE, 01→06, and the underline on the current tile sweeps for exactly the dwell so
- * the motion reads as playback rather than a glitch. It drives the same radios, so there is no
- * second state, and it stops for good the first time the visitor touches the strip.
+ * walks itself ONCE, 01→06, and the underline on the current tile sweeps for exactly the step so
+ * the motion reads as playback rather than a glitch. The first step is short (`--gs-lead`) and
+ * the rest are the reading pace (`--gs-dwell`): at one uniform dwell the block's opening seconds
+ * were measurably still — 0.003% of its pixels changed per 100ms — so a visitor who did not wait
+ * out a whole dwell saw a photograph. It drives the same radios, so there is no second state,
+ * and it stops for good at the visitor's first click, key or focus anywhere in the block.
  *
  * Props: { lang, id? } — `id` seeds the radio `name` so two instances never collide.
  */
@@ -221,7 +224,12 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
   // group stops the timer for good, so the selection can never move under someone reading it.
   //
   // Off entirely under reduced motion, on a hidden tab, off screen, on a low-end/save-data
-  // client, and from the first touch/click/key/focus on the strip onwards.
+  // client, and from the visitor's first deliberate interaction with the block onwards.
+  //
+  // "Deliberate" is `click` / `keydown` / `focusin`, never `pointerdown` or `touchstart`: on a
+  // phone the finger that starts a scroll lands somewhere, and a finger landing on the strip used
+  // to kill the whole thing before it had shown one frame (measured — see the notes on the fix).
+  // A swipe that scrolls produces no click, so scrolling now leaves playback alone.
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
   const lowEnd =
@@ -238,15 +246,24 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
       const strip = root.querySelector<HTMLElement>('.gs-rail');
       if (pins.length < 2 || !strip) continue;
 
-      // The dwell lives in the stylesheet (--gs-dwell) because the underline sweep is a CSS
-      // animation of the same length; reading it here is what keeps the two identical.
-      const raw = getComputedStyle(root).getPropertyValue('--gs-dwell').trim();
-      const dwell = raw.endsWith('ms') ? parseFloat(raw) : parseFloat(raw) * 1000;
-      if (!(dwell > 400)) continue;
+      // Both step lengths live in the stylesheet, because the underline sweep is a CSS animation
+      // of the same length; reading them here is what keeps the two identical.
+      // --gs-lead is the FIRST step only. At --gs-dwell the block's first 3.2s were measurably
+      // dead: 3-8 changed pixels per 100ms, 0.003% of the block, which is the sweep and nothing
+      // else. A visitor who lingers less than a full dwell saw a still picture — exactly the
+      // "they will just scroll past" the lead-in is here to stop.
+      const ms = (n: string) => {
+        const raw = getComputedStyle(root).getPropertyValue(n).trim();
+        return raw.endsWith('ms') ? parseFloat(raw) : parseFloat(raw) * 1000;
+      };
+      const dwell = ms('--gs-dwell');
+      const lead = ms('--gs-lead');
+      if (!(dwell > 400) || !(lead > 200)) continue;
 
       let timer = 0;
       let onScreen = false;
       let live = true;
+      let step = lead;
 
       // One pass, stopping on the last stage. It does NOT loop: rewinding six frames of film in
       // 520ms is the one movement here that looks like a fault rather than a story, and ending on
@@ -255,19 +272,23 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
         const next = pins.findIndex((p) => p.checked) + 1;
         if (next >= pins.length) { retire(); return; }
         pins[next].checked = true; // `:checked` is what the stylesheet reads — no event, no focus
-        timer = window.setTimeout(tick, dwell);
+        // From the second step on it is the reading pace, not the wake-up. `.is-run` swaps
+        // --gs-step in the stylesheet so the sweep lengthens with the timer, in one place.
+        step = dwell;
+        root.classList.add('is-run');
+        timer = window.setTimeout(tick, step);
       };
       const play = () => {
         if (!live || !onScreen || document.hidden || timer) return;
         root.classList.add('is-auto'); // starts the sweep on whichever tile is current
-        timer = window.setTimeout(tick, dwell);
+        timer = window.setTimeout(tick, step);
       };
       const pause = () => {
         if (timer) { clearTimeout(timer); timer = 0; }
         root.classList.remove('is-auto');
       };
 
-      const seen = ['pointerdown', 'touchstart', 'keydown', 'focusin', 'click'] as const;
+      const seen = ['click', 'keydown', 'focusin'] as const;
       const io = new IntersectionObserver(
         (entries) => { onScreen = entries[entries.length - 1].isIntersecting; onScreen ? play() : pause(); },
         // Any part of the strip inside the middle 76% of the viewport counts as on screen, which
@@ -275,20 +296,23 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
         { rootMargin: '-12% 0px -12% 0px' },
       );
       const onVis = () => { document.hidden ? pause() : play(); };
-      // Called by the visitor's first touch of the strip and by the end of the one pass. Dropping
-      // `.is-arm` hands the underline back to the stylesheet, which fills it for the current stage.
+      // Called by the visitor's first deliberate interaction anywhere in the block and by the end
+      // of the one pass. Dropping `.is-arm` hands the underline back to the stylesheet, which
+      // fills it for the current stage.
       function retire() {
         if (!live) return;
         live = false;
         pause();
-        root.classList.remove('is-arm');
+        root.classList.remove('is-arm', 'is-run');
         io.disconnect();
         document.removeEventListener('visibilitychange', onVis);
-        for (const type of seen) strip.removeEventListener(type, retire);
+        for (const type of seen) root.removeEventListener(type, retire);
       }
 
       root.classList.add('is-arm');
-      for (const type of seen) strip.addEventListener(type, retire, { passive: true });
+      // On the root, not the strip: pressing the tracking link or tabbing into the block is the
+      // visitor taking over too, and WCAG 2.2.2 wants the stop within easy reach of the motion.
+      for (const type of seen) root.addEventListener(type, retire, { passive: true });
       document.addEventListener('visibilitychange', onVis);
       io.observe(root);
     }
@@ -303,9 +327,18 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
     --floor: 150;
     --gs-dim: var(--gray-500);
     --gs-dim2: var(--gray-400);
-    /* One source of truth for the dwell: the underline sweep is `animation: … var(--gs-dwell)`
-       and the module script reads this same property off the root for its timer. Change it here. */
+    /* One source of truth for both step lengths: the underline sweep is
+       `animation: … var(--gs-step)` and the module script reads these same properties off the
+       root for its timer, so the bar can never finish early or late. Change them here.
+       --gs-lead is the FIRST step only, so the block shows it is playing before a visitor has
+       decided to scroll on; --gs-dwell is the reading pace for every step after that.
+       FLOOR on --gs-lead: the block is a `.reveal`, and on an instant jump straight to it the
+       reveal and the playback start in the same frame, so the lead must outlast
+       --reveal-delay (360ms) + --dur-reveal (600ms) = 960ms or the first slide happens while the
+       block is still fading in. Measured on a jump: reveal done at 960ms, first slide at 1230ms. */
+    --gs-lead: 1.2s;
     --gs-dwell: 3.2s;
+    --gs-step: var(--gs-lead);
     position: relative;
     margin-top: clamp(40px, 5vw, 64px);
   }
@@ -352,14 +385,18 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
     .gs-stop:hover .gs-g, .gs-stop:hover .gs-n { color: var(--fg); }
   }
 
-  /* Playback, in two classes, both written by the script and neither present with JS off.
+  /* Playback, in three classes, all written by the script and none present with JS off.
      `.is-arm` goes on at parse time and empties the current underline BEFORE the strip is ever
      scrolled to — without it the bar would be full on arrival and then snap back to zero the
      instant playback began, which is exactly the flicker that reads as a bug.
      `.is-auto` is on only while the strip is on screen, so the sweep starts, pauses and restarts
-     with the timer; the two are the same length because both read --gs-dwell. */
+     with the timer. `.is-run` is added at the first advance and lengthens the step from the
+     wake-up --gs-lead to the reading --gs-dwell; sweep and timer stay identical because both
+     read --gs-step. */
   .gs-flow.is-arm .gs-pin:checked ~ .gs-bar::after { transform: scaleX(0); transition: none; }
-  .gs-flow.is-arm.is-auto .gs-pin:checked ~ .gs-bar::after { animation: gs-sweep var(--gs-dwell) linear forwards; }
+  .gs-flow.is-arm.is-auto .gs-pin:checked ~ .gs-bar::after { animation: gs-sweep var(--gs-step) linear forwards; }
+  /* `.is-run` is added at the first advance: from then on the sweep is the reading pace. */
+  .gs-flow.is-run { --gs-step: var(--gs-dwell); }
   @keyframes gs-sweep { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
   /* ---------- the stage ---------- */
