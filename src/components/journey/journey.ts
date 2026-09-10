@@ -3,7 +3,8 @@
  * when the main thread is idle (requestIdleCallback, 1.5 s timeout). Setup is split over frames so no single task
  * is long: (1) element lookup, route sampling, initial states → (2) rAF: timeline build → (3) rAF: the pin
  * trigger (a pin queues ScrollTrigger's own full refresh for the next frame) → (5) rAF: the scrub trigger, so it is
- * refreshed exactly once. GSAP core + ScrollTrigger + MotionPathPlugin only.
+ * refreshed exactly once → (6) rAF: prime() renders the timeline end to end once, so no tween can initialise
+ * (and force a layout) mid-scrub. GSAP core + ScrollTrigger + MotionPathPlugin only.
  *
  * One gsap.timeline (0–100 "percent" units) driven by two ScrollTriggers over the same range — one pins the stage
  * (anticipatePin 1), one scrubs the timeline (scrub 0.4, invalidateOnRefresh). They are separate on purpose: a pin
@@ -234,13 +235,54 @@ export function init(root: HTMLElement): void {
     kmEl.textContent = fmtKm(0);
     const kmProxy = { v: 0 };
 
+    /* ---------- off-frame labels leave the layout tree ----------
+     * SVG <text> is by a wide margin the most expensive content in this map. Measured on a 4x-throttled
+     * 390 px phone, over the whole pinned scrub: with `.jmap text { display: none }` the share of frames
+     * over 33 ms falls from ~20 % to ~7 %, which is more than removing the entire static map (12.8 %),
+     * more than the actors (16 %) and more than the camera's scale (13.8 %). None of the cheap dodges
+     * recovers any of it — `visibility: hidden` gets a third of the way (14.9 %), a constant transform
+     * nothing (20.7 %), moving the labels into a second <svg> nothing (20.7 %), dropping the stroked halo
+     * nothing (17.5 %), dropping the country letter-spacing nothing (19.5 %). The cost is not painting the
+     * glyphs and not the per-frame counter-scale write: it is having 14 <text> nodes in an SVG layout tree
+     * that something else re-lays-out on every frame of the scrub.
+     *
+     * They do not all need to be there. Outside the transit stage the camera window is a fraction of the
+     * map — at Yiwu (k 2.9 on a phone) about a tenth of it — so most labels are off-screen anyway. Project
+     * each label through the camera every tick and take the off-frame ones out of the tree. The test is
+     * arithmetic on numbers we already hold, and display flips only when a label crosses the boundary,
+     * which is a handful of times per scrub. The boundary is the viewport plus a 30 % margin, so a label
+     * is already well off-screen before it leaves: no pop-in, and the frames stay pixel-identical. */
+    const labelAt = labels.map((el) => {
+      // countries sit at absolute coordinates; a city label is local to its `.jm-city` translate. Read the
+      // numbers off the attributes — after the mobile country swap above, and with no layout read.
+      const m = (el.parentElement as Element | null)?.getAttribute('transform')?.match(/translate\(\s*(-?[\d.]+)[\s,]+(-?[\d.]+)/);
+      return { el, x: (m ? +m[1] : 0) + (+(el.getAttribute('x') || 0)), y: (m ? +m[2] : 0) + (+(el.getAttribute('y') || 0)), on: true };
+    });
+    /** viewport margin (px) a label must clear before it is allowed to leave the tree, so a toggle is
+     *  never visible. 30 % of the larger axis is far more than one frame of the fastest camera move. */
+    let pad = 0;
+    const gateLabels = (cx: number, cy: number, k: number) => {
+      for (const p of labelAt) {
+        const sx = cx + k * (M.offX + p.x * M.s0), sy = cy + k * (M.offY + p.y * M.s0);
+        const on = sx >= -pad && sx <= M.W + pad && sy >= -pad && sy <= M.H + pad;
+        if (on !== p.on) { p.on = on; p.el.style.display = on ? '' : 'none'; }
+      }
+    };
+    /** Camera position straight out of GSAP's own transform cache — no getComputedStyle, no layout read
+     *  (verified: the instrumented read count over a whole scrub stays at 0). */
+    const gateNow = () => {
+      pad = Math.max(M.W, M.H) * 0.3;
+      gateLabels(+(gsap.getProperty(cam, 'x') as number), +(gsap.getProperty(cam, 'y') as number), +(gsap.getProperty(cam, 'scaleX') as number));
+    };
+
     let tl: gsap.core.Timeline | null = null;
     let pinST: ScrollTrigger | null = null;
-    let raf = 0;
+    let raf = 0, praf = 0;
 
     /* ---------- state sync: progress rail, section data-stage, mode chips + km caption ---------- */
     let curStage = -1, curChip = -1;
     const sync = (t: number) => {
+      gateNow();
       let st = 0;
       for (let i = 0; i < STAGE_START.length; i++) if (t >= STAGE_START[i] - 0.001) st = i + 1;
       if (st !== curStage) {
@@ -314,7 +356,8 @@ export function init(root: HTMLElement): void {
           { x: (i: number) => hold[0] + (i % 2 ? 3 : -3), y: (i: number) => hold[1] + (i < 2 ? 0 : -4), duration: 5, stagger: 1, ease: 'power2.inOut', immediateRender: false }, 11);
         t.fromTo(parcels, { autoAlpha: 1 }, { autoAlpha: 0, duration: 1.5, immediateRender: false }, 18.5);
       }
-      t.fromTo(container, { autoAlpha: 0, scale: 0.8, x: hold[0], y: hold[1] - 4, transformOrigin: '50% 50%' }, { autoAlpha: 1, scale: 1, duration: 2 }, 19);
+      // x/y are repeated on the `to` side on purpose — see the note on the stage-5 unload tween below.
+      t.fromTo(container, { autoAlpha: 0, scale: 0.8, x: hold[0], y: hold[1] - 4, transformOrigin: '50% 50%' }, { autoAlpha: 1, scale: 1, x: hold[0], y: hold[1] - 4, duration: 2 }, 19);
       tick(0, L.s2 - 2.5);
 
       // s2: loading — container hops onto the capsule, vehicle appears and departs
@@ -359,7 +402,14 @@ export function init(root: HTMLElement): void {
       // +60, not −60. The pivot is the boom's right-hand end and SVG y grows downward, so a negative
       // angle swung the free end DOWN through the road: the barrier closed on the truck instead of
       // lifting for it. (It was invisible before the .j-barrier group started fading in, so nobody saw it.)
-      t.fromTo(bar, { rotation: 0, transformOrigin: '100% 50%' }, { rotation: 60, duration: 3, ease: 'power2.inOut' }, 63);
+      // The pivot is a length, not '100% 50%'. A percentage origin makes GSAP resolve it against the WIDTH
+      // and HEIGHT of bar.getBBox(), and prime() initialises this tween at setup where that call can still
+      // come back zero-sized: the percentages then collapse to the box's top-left corner and the boom hinges
+      // on its own far end, sticking out across the road instead of standing up at the post. Measured on the
+      // prime build: 1 load in 5. A length only needs the box's ORIGIN, which is right even in that state.
+      // GSAP measures an SVG transformOrigin from the bbox corner, so for a box of (-22, -2, 20, 4) the post
+      // — right edge, vertical middle, i.e. user-space (-2, 0) — is 20px 2px.
+      t.fromTo(bar, { rotation: 0, transformOrigin: '20px 2px' }, { rotation: 60, transformOrigin: '20px 2px', duration: 3, ease: 'power2.inOut' }, 63);
       t.fromTo(stamp, { autoAlpha: 0, scale: 0.6, transformOrigin: '50% 50%' }, { autoAlpha: 1, scale: 1, duration: 3, ease: 'power2.out' }, 64);
       drive(P_KHORGOS - wait[1], P_KHORGOS + 0.01, 70, 2, 'power1.in');
       tick(3, L.s5 - 2.5);
@@ -374,7 +424,14 @@ export function init(root: HTMLElement): void {
       // fade the capsule out as it lands (drive ends at 84), not after: three glyphs and the node label
       // otherwise share the same ~40px on a 390px screen
       if (vehicleInner) t.fromTo(vehicleInner, { autoAlpha: 1 }, { autoAlpha: 0, duration: 2, immediateRender: false }, 82.5);
-      t.fromTo(container, { autoAlpha: 0, x: TASH.shed[0], y: TASH.unload[1] - 8, scale: 1 }, { autoAlpha: 1, y: TASH.unload[1], duration: 2.5, ease: 'power2.out', immediateRender: false }, 84.5);
+      // Every property of a fromTo that the `to` side does not also carry is a one-shot: GSAP applies it when
+      // the tween INITIALISES and never again. That makes such a tween order-dependent — the container's x is
+      // 242 here and 1 478.9 in the stage-2 tween above, so whichever of the two initialised last wins. It
+      // used to be safe by luck (a tween initialises when the playhead first reaches it, which is in timeline
+      // order); prime() renders the whole timeline before the first scroll, which breaks that luck and left
+      // the container unloading at Yiwu, 1 200 map units off screen. Repeating x and scale on the `to` side
+      // makes the tween state its own end state, so it lands the same however it was reached.
+      t.fromTo(container, { autoAlpha: 0, x: TASH.shed[0], y: TASH.unload[1] - 8, scale: 1 }, { autoAlpha: 1, x: TASH.shed[0], y: TASH.unload[1], scale: 1, duration: 2.5, ease: 'power2.out', immediateRender: false }, 84.5);
       tick(4, L.s6 - 2.5);
 
       // s6: delivered — camera settles on Tashkent, map dims, van drives to the door pin, marks lock, CTA
@@ -389,7 +446,7 @@ export function init(root: HTMLElement): void {
       if (mapMarks.length) t.fromTo(mapMarks, { autoAlpha: 0.7 }, { autoAlpha: 0, duration: 3 }, L.s6);
       t.fromTo(container, { autoAlpha: 1 }, { autoAlpha: 0, duration: 2, immediateRender: false }, 90);
       t.fromTo(pin, { autoAlpha: 0 }, { autoAlpha: 1, duration: 2 }, 89);
-      t.fromTo(van, { autoAlpha: 0, x: TASH.van.from[0], y: TASH.van.from[1] }, { autoAlpha: 1, duration: 1.5 }, 90);
+      t.fromTo(van, { autoAlpha: 0, x: TASH.van.from[0], y: TASH.van.from[1] }, { autoAlpha: 1, x: TASH.van.from[0], y: TASH.van.from[1], duration: 1.5 }, 90);
       // The delivery leg draws under the van over the same 6 units the van drives, and lands on the door pin
       // exactly as the van stops. It is the courier's ROUTE, not its trail — it runs from the warehouse to the
       // address, which is further than the van itself travels (the van has to stop short: at 1.6× the phone's
@@ -437,27 +494,55 @@ export function init(root: HTMLElement): void {
           cam.style.willChange = self.isActive ? 'transform' : '';
           stage.style.willChange = self.isActive ? 'transform' : '';
         },
-        onRefresh: () => measure(desktop),
+        // a refresh can change M (viewport, font swap), and the keep sets are computed from it
+        onRefresh: () => { measure(desktop); gateNow(); },
       });
     };
     const attachScrub = () => {
       if (!tl) return;
       // 0.8 left the animation still moving ~580 ms after the wheel stopped, which is most of what reads as
       // "not smooth". 0.4 halves that; below 0.3 a whole 100 px wheel notch lands in a single frame.
-      ScrollTrigger.create({ animation: tl, trigger: root, start: 'top top', end, scrub: 0.4, invalidateOnRefresh: true });
+      // invalidateOnRefresh throws every recorded start/end value away, so a refresh un-primes the timeline
+      // (see prime() below) — re-prime on the next idle frame. This matters in the wild even though the
+      // measurement never saw it: init() asks for one more refresh when the fonts land, and that refresh
+      // usually arrives AFTER the setup chain has primed.
+      ScrollTrigger.create({ animation: tl, trigger: root, start: 'top top', end, scrub: 0.4, invalidateOnRefresh: true, onRefresh: queuePrime });
       sync(tl.time());
       railBtns.forEach((b) => b.addEventListener('click', onRail));
       chips.forEach((c) => c.addEventListener('click', onChip));
       root.dataset.ready = '1';
     };
 
+    /* ---------- frame 6: prime every tween ----------
+     * immediateRender: false keeps ScrollTrigger's refresh cheap, but it moves the cost, it does not remove
+     * it: each tween then initialises the first time the playhead reaches it — i.e. DURING the scrub. A GSAP
+     * init reads (getComputedStyle, getBBox, getBoundingClientRect for MotionPath's align matrix) in the
+     * middle of a tick that has already written transforms to the SVG, and every read flushes a full SVG
+     * layout. Measured on the baseline: 560 such reads per scrub, bursting to 46 forced layouts of
+     * svg.jmap inside ONE animation frame — 121 of the 158 ms of layout in the whole scrub landed in the
+     * 20 slowest frames. Rendering the timeline end-to-end once, on an idle frame after setup, does all of
+     * that initialisation in one task nobody is watching. */
+    function prime(): void {
+      if (!tl) return;
+      const at = tl.progress();
+      // suppressEvents on all three: the km counter's onUpdate and the timeline's own sync() must not fire
+      tl.progress(1, true).progress(0, true).progress(at, true);
+    }
+    /** Deferred so a refresh does not re-render the whole timeline inside ScrollTrigger's own refresh pass. */
+    function queuePrime(): void {
+      if (praf) cancelAnimationFrame(praf);
+      praf = requestAnimationFrame(() => { praf = 0; prime(); });
+    }
+
     const frame = (fn: () => void) => { raf = requestAnimationFrame(() => { raf = 0; fn(); }); };
-    // frames 2 → 3 → (4: ScrollTrigger's queued full refresh after the pin) → 5
-    frame(() => { ctx.add(build); frame(() => { ctx.add(attachPin); frame(() => frame(() => ctx.add(attachScrub))); }); });
+    // frames 2 → 3 → (4: ScrollTrigger's queued full refresh after the pin) → 5 → 6
+    frame(() => { ctx.add(build); frame(() => { ctx.add(attachPin); frame(() => frame(() => { ctx.add(attachScrub); frame(() => ctx.add(prime)); })); }); });
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
+      if (praf) cancelAnimationFrame(praf);
       raf = 0;
+      praf = 0;
       railBtns.forEach((b) => b.removeEventListener('click', onRail));
       chips.forEach((c) => c.removeEventListener('click', onChip));
       pinST = null;
@@ -465,6 +550,8 @@ export function init(root: HTMLElement): void {
       cam.style.willChange = '';
       stage.style.willChange = '';
       svg.style.removeProperty('--lbl');
+      // the static fallback shows every label, so the gating must not survive a breakpoint change
+      labelAt.forEach((p) => p.el.style.removeProperty('display'));
       root.dataset.stage = '0';
       delete root.dataset.ready;
       kmEl.textContent = fmtKm(KM);

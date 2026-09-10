@@ -1,0 +1,78 @@
+---
+/**
+ * Home band "Kim bilan ishlaymiz" — who this company is actually for.
+ *
+ * Deliberately not cards: the page already spends nine bordered boxes on services, and four more
+ * here would read as another catalogue. Four columns of glyph + name + one line on the grey plate,
+ * closed by a full-width hairline and the owner's own "and any businessman" sentence. Short band
+ * padding (.section-sm), so it reads as a breather between two heavy sections rather than a
+ * section of its own — it carries no number in the eyebrow for the same reason.
+ * Props: { lang, class? }.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { segmentsStrings } from '@/i18n/segments';
+import { tpl } from '@/i18n/services';
+import { fmtNumber } from '@/lib/format';
+import tariffs from '@/data/tariffs.json';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props { lang: Lang; class?: string }
+const { lang, class: className } = Astro.props;
+const t = pick(lang, segmentsStrings);
+/* The band's one number. "Am I too small for them?" is the question this whole section answers,
+   and the truck sheet's own minimum is the only honest answer to it. Filled here rather than typed
+   into the strings so it can never drift from tariffs.json. */
+const intro = tpl(t.intro, { min: fmtNumber(tariffs.truck.minM3, lang) });
+---
+<section id="kimlar-uchun" class:list={['section', 'section-sm', 'segments', 'below-fold', className]} aria-labelledby="segments-title">
+  <div class="container">
+    <div class="section-head">
+      <Eyebrow>{t.eyebrow}</Eyebrow>
+      <h2 id="segments-title" class="measure-head">{t.h2}</h2>
+      <p class="intro">{intro}</p>
+    </div>
+
+    <ul class="segs" role="list" aria-label={t.listLabel}>
+      {t.items.map((s, i) => (
+        <li class="seg reveal" style={`--reveal-delay:${(i % 4) * 60}ms`}>
+          <Icon name={s.icon} size={20} class="glyph" />
+          <h3 class="seg-name">{s.name}</h3>
+          <p class="seg-text">{s.text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <p class="everyone">{t.everyone}</p>
+  </div>
+</section>
+
+<style>
+  .segments { background: var(--bg-2); }
+  .segments .section-head { margin-bottom: clamp(28px, 3vw, 40px); }
+
+  .segs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; margin: 0; padding: 0; }
+  .seg { display: grid; gap: 6px; align-content: start; min-width: 0; }
+  /* No tile behind the glyph: on the grey plate a bordered tile would be the fourth boxed thing in
+     a row and this band exists to be lighter than the section above it. */
+  .seg :global(.glyph) { color: var(--fg-2); flex: none; margin-bottom: 6px; }
+  .seg-name { font-size: var(--text-body); line-height: 1.25; font-weight: 600; letter-spacing: -0.004em; color: var(--fg); text-wrap: balance; }
+  .seg-text { font-size: var(--text-small); color: var(--muted); text-wrap: pretty; }
+
+  /* The closing sentence is the owner's own catch-all, so it gets the full width and a rule of its
+     own rather than a fifth column that would look like a forgotten segment. */
+  .everyone {
+    margin-top: clamp(28px, 3vw, 40px); padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: var(--text-intro); line-height: 1.4; color: var(--fg-2); text-wrap: pretty;
+  }
+
+  @media (max-width: 1099px) { .segs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; } }
+  @media (max-width: 599px) {
+    .segs { grid-template-columns: 1fr; gap: 0; }
+    .seg { padding: 16px 0; border-top: 1px solid var(--border-soft); }
+    .seg :global(.glyph) { margin-bottom: 2px; }
+    .everyone { font-size: var(--text-body); }
+  }
+</style>

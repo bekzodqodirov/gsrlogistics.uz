@@ -4,6 +4,13 @@ import type { Lang } from './config';
  * Home dark section "Nima olasiz" — what the client actually receives, as a checklist in
  * chronological order, plus a route-facts strip. Distance comes from src/data/route.ts,
  * day ranges from tariffs.json; nothing here is a counter or a promise.
+ *
+ * Item 4 used to read "you ask your manager for the current status by GS code", which was written
+ * before we knew there was a bot. Two sections above, HowWeTrack now says the client sees every
+ * carton "hech kimdan soʻramasdan" — without asking anyone — so the old line contradicted the
+ * page's strongest claim, and it also listed five transit stages where the tracking page (and the
+ * bot) have six. It now says what the client actually gets: an account in the bot, one line per
+ * carton, and the six-stage list stays on the tracking page this item links to.
  */
 export interface ProofItem {
   title: string;
@@ -37,6 +44,22 @@ export interface ProofStrings {
     nodes: [string, string, string, string];
     drawingLabel: string;
   };
+  /**
+   * Company credentials, in the same column as the route facts — the point in the page where a
+   * visitor is deciding whether to hand a stranger a container of stock.
+   *
+   * WORDING RULE, owner-confirmed 2026-09-10: GSR itself is 8+ years old (2018). The 15 years
+   * belong to the TEAM's experience in the freight business and must never be attributed to the
+   * company, so every label here names its subject explicitly.
+   */
+  company: {
+    label: string;
+    rows: [
+      { value: string; unit?: string; label: string },
+      { value: string; unit?: string; label: string },
+      { value: string; unit?: string; label: string },
+    ];
+  };
 }
 
 const uz: ProofStrings = {
@@ -48,7 +71,7 @@ const uz: ProofStrings = {
     { when: 'Boshida', title: 'Shartnoma va hisob-faktura', text: 'Narx, muddat va javobgarlik — qogʻozda. Toʻlov hisob-faktura boʻyicha, yakunda — bajarilgan ish dalolatnomasi.' },
     { when: 'Shartnomadan keyin', title: 'Xitoydagi qabul manzili va GS kodi', text: 'Menejer Xitoydagi uchta qabul manzilidan qaysi biriga joʻnatishni aytadi. Yetkazib beruvchingiz GS kodini (markirovkani) joʻnatishdan oldin har bir qutiga yozadi — yukingiz boshqaniki bilan aralashmaydi.' },
     { when: 'Qabul punktida', title: 'Foto-hisobot', text: 'Qabulda, oʻlchovda va yuklashda. Vazn, hajm va joy raqami surat bilan birga Telegramga keladi.' },
-    { when: 'Yoʻlda', title: 'GS kodi bilan kuzatuv', text: 'Shu GS kod boʻyicha menejerdan joriy holat va suratni soʻraysiz: qabul punktida, yoʻlda, Xorgosda, Toshkent omborida, yetkazildi.', link: 'tracking', linkLabel: 'Kuzatuv sahifasi' },
+    { when: 'Yoʻlda', title: 'Botda oʻz kabinetingiz', text: 'Har bir qutingiz botda alohida koʻrinadi: oltita bosqichning qaysi birida ekani — sutkaning istalgan vaqtida.', link: 'tracking', linkLabel: 'Kuzatuv sahifasi' },
     { when: 'Toshkentda', title: 'Toshkent omborida qabul yoki uygacha yetkazish', text: 'Yuk kelgach menejer xabar beradi. Oʻzingiz olib ketasiz yoki manzilingizga, viloyatga joʻnatamiz.', link: 'pricing', linkLabel: 'Yetkazish shartlari' },
   ],
   facts: {
@@ -62,6 +85,14 @@ const uz: ProofStrings = {
     nodes: ['Ivu', 'Xorgos', 'Yallama', 'Toshkent'],
     drawingLabel: 'Yoʻnalish: Ivu, Xorgos, Yallama, Toshkent',
   },
+  company: {
+    label: 'Kompaniya haqida',
+    rows: [
+      { value: '8+', unit: 'yil', label: 'GSR — 2018-yildan beri' },
+      { value: '15', unit: 'yil', label: 'Jamoaning yuk tashish sohasidagi tajribasi' },
+      { value: '400+', label: 'Mijozlar' },
+    ],
+  },
 };
 
 const ru: ProofStrings = {
@@ -73,7 +104,7 @@ const ru: ProofStrings = {
     { when: 'В начале', title: 'Договор и счёт-фактура', text: 'Цена, сроки и ответственность — на бумаге. Оплата по счёту, по завершении — акт выполненных работ.' },
     { when: 'После договора', title: 'Адрес приёма в Китае и GS-код', text: 'В Китае три адреса приёма — на какой отправлять, скажет менеджер. GS-код (маркировку) поставщик пишет на каждой коробке до отправки — ваш груз не смешается с чужим.' },
     { when: 'В пункте приёма', title: 'Фотоотчёт', text: 'При приёмке, обмере и погрузке. Вес, объём и номер места приходят в Telegram вместе с фото.' },
-    { when: 'В пути', title: 'Отслеживание по GS-коду', text: 'По тому же GS-коду запрашиваете у менеджера текущий статус и фото: в пункте приёма, в пути, на Хоргосе, на складе в Ташкенте, доставлено.', link: 'tracking', linkLabel: 'Страница отслеживания' },
+    { when: 'В пути', title: 'Свой кабинет в боте', text: 'Каждая ваша коробка видна в боте отдельно: на каком из шести этапов она сейчас — в любое время суток.', link: 'tracking', linkLabel: 'Страница отслеживания' },
     { when: 'В Ташкенте', title: 'Получение на складе в Ташкенте или доставка до двери', text: 'Когда груз прибыл, менеджер сообщает. Забираете сами или отправляем по вашему адресу, в регион.', link: 'pricing', linkLabel: 'Условия доставки' },
   ],
   facts: {
@@ -87,6 +118,14 @@ const ru: ProofStrings = {
     nodes: ['Иу', 'Хоргос', 'Яллама', 'Ташкент'],
     drawingLabel: 'Маршрут: Иу, Хоргос, Яллама, Ташкент',
   },
+  company: {
+    label: 'О компании',
+    rows: [
+      { value: '8+', unit: 'лет', label: 'GSR — с 2018 года' },
+      { value: '15', unit: 'лет', label: 'Опыт команды в грузоперевозках' },
+      { value: '400+', label: 'Клиентов' },
+    ],
+  },
 };
 
 const en: ProofStrings = {
@@ -98,7 +137,7 @@ const en: ProofStrings = {
     { when: 'At the start', title: 'Contract and invoice', text: 'Price, transit time and liability — on paper. Payment against the invoice; a completion act at the end.' },
     { when: 'After signing', title: 'China receiving address and GS code', text: 'There are three receiving addresses in China — your manager tells you which one applies. Your supplier writes the GS code (shipping mark) on every carton before dispatch, so your cargo never mixes with anyone else’s.' },
     { when: 'At the receiving point', title: 'Photo report', text: 'At intake, measuring and loading. Weight, volume and lot number arrive on Telegram together with the photos.' },
-    { when: 'In transit', title: 'Tracking by GS code', text: 'Quote the same GS code and your manager sends the current status and a photo: at the receiving point, in transit, at Khorgos, at the Tashkent warehouse, delivered.', link: 'tracking', linkLabel: 'Tracking page' },
+    { when: 'In transit', title: 'Your own account in the bot', text: 'Every carton shows up separately in the bot: which of the six stages it is at, at any hour of the day.', link: 'tracking', linkLabel: 'Tracking page' },
     { when: 'In Tashkent', title: 'Pick-up at the Tashkent warehouse or door delivery', text: 'Your manager lets you know when the cargo arrives. Collect it yourself or we deliver to your address or region.', link: 'pricing', linkLabel: 'Delivery terms' },
   ],
   facts: {
@@ -111,6 +150,14 @@ const en: ProofStrings = {
     note: 'Transit times are indicative and count from departure from the China warehouse.',
     nodes: ['Yiwu', 'Khorgos', 'Yallama', 'Tashkent'],
     drawingLabel: 'Route: Yiwu, Khorgos, Yallama, Tashkent',
+  },
+  company: {
+    label: 'About the company',
+    rows: [
+      { value: '8+', unit: 'years', label: 'GSR — since 2018' },
+      { value: '15', unit: 'years', label: 'The team’s experience in freight' },
+      { value: '400+', label: 'Clients' },
+    ],
   },
 };
 
