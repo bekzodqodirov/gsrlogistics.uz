@@ -13,10 +13,25 @@ export interface ServicesStrings {
     h2: string;
     intro: string;
     flagshipBadge: string;
+    /** Alt text for the flagship photo slot (rendered only once a real photo is set). */
+    flagshipPhotoAlt: string;
+    /**
+     * Caption under the flagship's day range. The range itself is the card's one big numeral, so
+     * this says what it measures without repeating the number — the numeral, this caption and the
+     * price line below it are the flagship's only figures, and none of them may say the same thing
+     * twice.
+     */
+    flagshipStatLabel: string;
+    /** "min {n} m³" — the truck sheet's minimum billable volume, beside the headline rate. */
+    flagshipMinVolume: string;
     /** "Batafsil" — ghost link on every card. */
     details: string;
     /** Accessible name of the grid. */
     listLabel: string;
+    /** Sub-head over the two other shipping modes (air, rail). */
+    modes: { title: string; text: string };
+    /** Sub-head over the demoted long tail — everything that is not moving the cargo itself. */
+    tail: { title: string; text: string; listLabel: string };
     compare: {
       title: string;
       truck: string;
@@ -98,11 +113,23 @@ export interface ServicesStrings {
 const uz: ServicesStrings = {
   home: {
     eyebrow: '02 — Xizmatlar',
-    h2: 'Xitoy bilan bogʻliq har bir ish. Bir joyda.',
-    intro: 'Tovar topishdan eshigingizgacha — bitta menejer, bitta shartnoma.',
+    h2: 'Asosiy ishimiz — Xitoydan yigʻma yuk.',
+    intro: 'Oyiga 10+ fura Xitoydan Toshkentga. Qolgan hamma ish shu yukning atrofida: tovar topish, xarid, bojxona.',
     flagshipBadge: 'Asosiy xizmat',
+    flagshipPhotoAlt: 'Xitoydagi qabul punktida furaga yuklanayotgan qutilar',
+    flagshipStatLabel: 'Taxminiy muddat',
+    flagshipMinVolume: 'min\u00A0{n}\u00A0m³',
     details: 'Batafsil',
     listLabel: 'Xizmatlar roʻyxati',
+    modes: {
+      title: 'Shoshilinch yoki juda katta yuk uchun',
+      text: 'Yigʻma fura mos kelmasa — Xitoydan Toshkentga yana ikkita yoʻl bor.',
+    },
+    tail: {
+      title: 'Yuk atrofidagi qolgan ishlar',
+      text: 'Har biri — alohida xizmat. Nima kirishi oʻz sahifasida yozilgan.',
+      listLabel: 'Qoʻshimcha xizmatlar',
+    },
     compare: {
       title: 'Qaysi yoʻnalish sizga mos?',
       truck: 'ogʻir va hajmli yuk',
@@ -202,11 +229,23 @@ const uz: ServicesStrings = {
 const ru: ServicesStrings = {
   home: {
     eyebrow: '02 — Услуги',
-    h2: 'Всё, что связано с Китаем. В одном месте.',
-    intro: 'От поиска товара до вашей двери — один менеджер, один договор.',
+    h2: 'Наше основное дело — сборный груз из Китая.',
+    intro: '10+ фур в месяц из Китая в Ташкент. Всё остальное — вокруг этого груза: поиск товара, выкуп, растаможка.',
     flagshipBadge: 'Основная услуга',
+    flagshipPhotoAlt: 'Погрузка коробок в фуру в пункте приёма в Китае',
+    flagshipStatLabel: 'Ориентировочный срок',
+    flagshipMinVolume: 'мин.\u00A0{n}\u00A0м³',
     details: 'Подробнее',
     listLabel: 'Список услуг',
+    modes: {
+      title: 'Если груз срочный или очень крупный',
+      text: 'Когда сборная фура не подходит — из Китая в Ташкент есть ещё два способа.',
+    },
+    tail: {
+      title: 'Остальная работа вокруг груза',
+      text: 'Каждая — отдельная услуга. Что в неё входит, написано на её странице.',
+      listLabel: 'Дополнительные услуги',
+    },
     compare: {
       title: 'Какой способ вам подходит?',
       truck: 'тяжёлый и объёмный груз',
@@ -306,11 +345,23 @@ const ru: ServicesStrings = {
 const en: ServicesStrings = {
   home: {
     eyebrow: '02 — Services',
-    h2: 'Everything China. In one place.',
-    intro: 'From sourcing to your door — one manager, one contract.',
+    h2: 'Our main business is consolidated cargo from China.',
+    intro: '10+ trucks a month from China to Tashkent. Everything else we do sits around that cargo: sourcing, buying, customs.',
     flagshipBadge: 'Core service',
+    flagshipPhotoAlt: 'Cartons being loaded into the truck at the China receiving point',
+    flagshipStatLabel: 'Estimated transit',
+    flagshipMinVolume: 'min\u00A0{n}\u00A0m³',
     details: 'Learn more',
     listLabel: 'List of services',
+    modes: {
+      title: 'When the cargo is urgent or very large',
+      text: 'If a consolidated truck does not fit, there are two other ways from China to Tashkent.',
+    },
+    tail: {
+      title: 'The rest of the work around your cargo',
+      text: 'Each is a service of its own. What it covers is written on its page.',
+      listLabel: 'Additional services',
+    },
     compare: {
       title: 'Which mode suits you?',
       truck: 'heavy and bulky cargo',

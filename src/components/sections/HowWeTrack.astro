@@ -1,0 +1,308 @@
+---
+/**
+ * Home "Shaffoflik" — the QR-per-carton story. Owner-confirmed 2026-09-10
+ * (scratchpad facts2/TRACKING-SYSTEM.md); until today none of it was anywhere on the site.
+ *
+ * What this section has to do, in five seconds, for someone who has never imported anything:
+ * your boxes are registered ONE BY ONE, and you can look at them at any hour without asking a
+ * person. Everything else on this page already answers "what do you do" — the map answers the
+ * route, the six-stage parcel diagram answers the process. So this is deliberately neither:
+ * no map, no stepper, no third progress rail. A picture, three sentences, and one bar.
+ *
+ * The two facts that are genuinely new are carried by the two things the eye lands on:
+ *   · the picture — a QR sticker on EVERY carton, which is what "per carton" looks like;
+ *   · the dial — 24 hours, of which a manager staffs ten. The bot covers the ring. That is the
+ *     whole argument for a bot, drawn instead of claimed.
+ *
+ * Wording is load-bearing, not styling (see src/i18n/track-system.ts): staff scan, the client
+ * never does, and this is stage-by-stage scanning, never a live position. scripts/check-content.mjs
+ * fails the build on either drifting.
+ *
+ * Props: { lang, class?, id?, index? } — the cross-stream contract is { lang, class? }; `index`
+ * prefixes the eyebrow with a section number ("05 — Shaffoflik") if the home page wants one, and is
+ * left off by default so the section can be dropped in at any position without lying about it.
+ *
+ * The section is dark. If it ends up directly beside another dark band, move it rather than
+ * relighting it: the picture and the 24/7 dial are built for a near-black ground.
+ */
+import type { Lang } from '@/i18n/config';
+import { pick } from '@/i18n/config';
+import { trackSystem } from '@/i18n/track-system';
+import { pagePath } from '@/i18n/routes';
+import { site, telegramBotUrl, telegramBotHandle } from '@/lib/site';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props { lang: Lang; class?: string; id?: string; index?: string }
+const { lang, class: className, id = 'shaffoflik', index } = Astro.props;
+const t = pick(lang, trackSystem);
+const headId = `${id}-h`;
+
+/**
+ * THE PHOTOGRAPH. The owner is sending real photos on 2026-09-11; set `shot.src` (plus the real
+ * pixel dimensions) and the drawing below is replaced with no other change.
+ *
+ * The shot this slot needs, precisely: a close-up of cartons at a China receiving point with the
+ * QR stickers on them — at least one sticker square-on so the code is not skewed and large enough
+ * to read as a QR at 320px wide, the GS marking in shot if it fits, no faces, warehouse light
+ * rather than flash. Framed 4:3 (the slot is 4:3 at every width) and at least 1600px wide. It is
+ * centre-cropped with object-fit: cover, so keep the sticker out of the outer 10% of the frame.
+ *
+ * Until it lands the slot holds a drawing of exactly that subject. Not a stock photo, not a grey
+ * box: an empty slot on a live page still has to say the true thing.
+ */
+const shot = { src: '', width: 1600, height: 1200 };
+
+/* ---------- the drawing: three cartons, three codes ---------- */
+
+/**
+ * A decorative QR: a deterministic 21×21 module pattern — three finder squares with their white
+ * separators, the two timing lines, seeded data modules. It is a drawing OF a QR code, not a
+ * working one: nothing here encodes a URL, so nothing can be scanned into a wrong promise.
+ */
+const MODULES = 21;
+const QR = { x: 114, y: 132, size: 66 };
+const cell = QR.size / MODULES;
+let seed = 20260910;
+const rand = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 0x100000000);
+/** null = this cell is not part of the finder at (ox,oy); false = its white separator ring. */
+const finder = (x: number, y: number, ox: number, oy: number): boolean | null => {
+  const dx = x - ox;
+  const dy = y - oy;
+  if (dx < -1 || dx > 7 || dy < -1 || dy > 7) return null;
+  if (dx < 0 || dx > 6 || dy < 0 || dy > 6) return false;
+  return dx === 0 || dx === 6 || dy === 0 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4);
+};
+const step = (cell + 0.06).toFixed(2); // a hair of overlap, so adjacent modules do not show a seam
+let qrPath = '';
+for (let y = 0; y < MODULES; y++) {
+  for (let x = 0; x < MODULES; x++) {
+    const f = finder(x, y, 0, 0) ?? finder(x, y, 14, 0) ?? finder(x, y, 0, 14);
+    const on = f !== null ? f : x === 6 || y === 6 ? (x + y) % 2 === 0 : rand() < 0.46;
+    if (!on) continue;
+    qrPath += `M${(QR.x + x * cell).toFixed(2)} ${(QR.y + y * cell).toFixed(2)}h${step}v${step}h-${step}z`;
+  }
+}
+
+/**
+ * One carton in three-quarter view: front face, top face, right face as three subpaths of one
+ * path, so the shared edges get stroked (that is what makes it a box and not a rectangle) and the
+ * whole thing is opaque, occluding whatever is drawn behind it. (x, y) is the front face's
+ * top-left corner; dx/dy is the depth offset, up and to the right.
+ */
+const carton = (x: number, y: number, w: number, h: number, dx: number, dy: number) =>
+  `M${x} ${y}h${w}v${h}h${-w}z` +
+  `M${x} ${y}l${dx} ${-dy}h${w}l${-dx} ${dy}z` +
+  `M${x + w} ${y}l${dx} ${-dy}v${h}l${-dx} ${dy}z`;
+
+/* The two cartons behind carry their own labels — that is the whole reason there are three of
+   them and not one. At this size a 24-unit code only survives as its three finder squares, drawn
+   as evenodd rings so they read as a QR rather than as three dots. */
+const ring = (x: number, y: number) =>
+  `M${x} ${y}h8v8h-8zM${x + 1.5} ${y + 1.5}h5v5h-5zM${x + 2.75} ${y + 2.75}h2.5v2.5h-2.5z`;
+/** (lx, ly) is the 58×44 label's top-left corner. */
+const miniRings = (lx: number, ly: number) => ring(lx + 6, ly + 6) + ring(lx + 22, ly + 6) + ring(lx + 6, ly + 22);
+/** A few data modules in the gaps between the rings, plus the label's one line of text. */
+const miniInk = (lx: number, ly: number) =>
+  `M${lx + 16} ${ly + 8}h3v3h-3zM${lx + 17} ${ly + 16}h3v3h-3zM${lx + 23} ${ly + 20}h3v3h-3zM${lx + 6} ${ly + 33}h46v4h-46z`;
+
+/* ---------- the 24-hour dial ---------- */
+
+/* Hours a manager is actually on the phone, read off the published opening hours rather than
+   typed twice: change site.openingHoursSpec and the dial moves with it. */
+const spec = site.openingHoursSpec[0];
+const opens = Number(spec.opens.slice(0, 2));
+const closes = Number(spec.closes.slice(0, 2));
+const ticks = Array.from({ length: 24 }, (_, h) => {
+  const a = ((h * 15 - 90) * Math.PI) / 180;
+  const at = (r: number) => [(40 + r * Math.cos(a)).toFixed(2), (40 + r * Math.sin(a)).toFixed(2)];
+  const [x1, y1] = at(26.5);
+  const [x2, y2] = at(31.5);
+  return { x1, y1, x2, y2, staffed: h >= opens && h < closes };
+});
+---
+
+<section id={id} class:list={['section', 'dark', 'noise', 'hw', 'below-fold', className]} aria-labelledby={headId}>
+  <div class="container">
+    <div class="hw-head">
+      <Eyebrow>{index ? `${index} — ${t.eyebrow}` : t.eyebrow}</Eyebrow>
+      <h2 id={headId} class="measure-head">{t.h2}</h2>
+      <p class="intro hw-intro">{t.intro}</p>
+    </div>
+
+    <div class="hw-grid">
+      <figure class="shot reveal">
+        <div class="shot-frame">
+          {shot.src ? (
+            <img src={shot.src} width={shot.width} height={shot.height} alt={t.shot.alt} loading="lazy" decoding="async" />
+          ) : (
+            <svg class="shot-draw" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true" focusable="false">
+              <path class="ground" d="M0 278h400" />
+              {/* two cartons behind, cropped by the frame the way a close-up crops them */}
+              <g class="far">
+                <path class="face" d={carton(-46, 136, 122, 141, 40, 30) + carton(312, 146, 108, 131, 36, 28)} />
+              </g>
+              {/* the one in front, opaque, so it occludes its neighbours instead of overlapping them */}
+              <g class="near">
+                <path class="face" d={carton(86, 76, 164, 201, 56, 46)} />
+                <path class="line" d="M168 76l56-46" />
+              </g>
+              {/* three cartons, three labels — that is the sentence this drawing has to say */}
+              <path class="paper" d="M6 170h58v44H6zM326 180h58v44h-58zM106 122h124v100H106z" />
+              <path class="ink-ring" fill-rule="evenodd" d={miniRings(6, 170) + miniRings(326, 180)} />
+              <path class="ink" d={miniInk(6, 170) + miniInk(326, 180) + qrPath + 'M186 154h32v5h-32zM186 165h24v5h-24zM114 205h108v6H114z'} />
+              <g class="mark">
+                <path d="M186 132h32v15h-32z" />
+                <text x="202" y="143.5" text-anchor="middle">GS</text>
+              </g>
+            </svg>
+          )}
+        </div>
+        <figcaption class="shot-cap caption">{t.shot.caption}</figcaption>
+      </figure>
+
+      <ol class="beats" role="list">
+        {t.beats.map((b, i) => (
+          <li class="beat reveal" style={`--reveal-delay:${80 + i * 80}ms`}>
+            <span class="beat-n tnum" aria-hidden="true">0{i + 1}</span>
+            <h3 class="beat-t">{b.title}</h3>
+            <p class="beat-p">{b.text}</p>
+          </li>
+        ))}
+      </ol>
+
+      <aside class="bot reveal" style="--reveal-delay:320ms" aria-labelledby={`${id}-bot`}>
+        <div class="bot-id">
+          {/* 24 hours. Ten of them have a manager in them; the ring around all of them is the bot. */}
+          <svg class="dial" viewBox="0 0 80 80" aria-hidden="true" focusable="false">
+            <circle class="dial-ring" cx="40" cy="40" r="35.25" pathLength="1" transform="rotate(-90 40 40)" />
+            <g class="dial-ticks">
+              {ticks.map((k) => <path class:list={[k.staffed && 'is-staffed']} d={`M${k.x1} ${k.y1}L${k.x2} ${k.y2}`} />)}
+            </g>
+            <text class="dial-num" x="40" y="44.6" text-anchor="middle">24/7</text>
+          </svg>
+          <div class="bot-name">
+            <p id={`${id}-bot`} class="bot-label">{t.bot.label}</p>
+            <p class="bot-handle">{telegramBotHandle}</p>
+            <ul class="legend" role="list">
+              <li><span class="dot is-bot" aria-hidden="true"></span><span>{t.bot.botHours}</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>{t.bot.managerLabel} — <span class="tnum nowrap">{site.hours[lang]}</span></span></li>
+            </ul>
+          </div>
+        </div>
+        <p class="bot-how">{t.bot.how}</p>
+        <div class="bot-actions">
+          <a class="btn btn-primary" href={telegramBotUrl} target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.bot.open}</a>
+          <a class="link bot-link" href={pagePath(lang, 'tracking')}>{t.bot.link}</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Mirrored from Proof's gradient (which lifts from the top RIGHT) so two dark bands on one page
+     are never the same picture. */
+  .hw { padding-block: clamp(80px, 9vw, 120px); background: radial-gradient(78% 62% at 0% 0%, var(--black-2), var(--black) 68%); }
+  .hw-head { display: grid; gap: 16px; max-width: 64ch; margin-bottom: clamp(36px, 4.5vw, 56px); }
+  .hw-intro { max-width: 58ch; }
+
+  /* Picture and beats share a row; the bot runs the full width under both. The picture is 4:3 at
+     every width — the crop of a photograph is not something to leave to the length of a Russian
+     sentence, and a fixed ratio is what lets the shot be framed once for all three languages. */
+  .hw-grid { display: grid; gap: clamp(32px, 4vw, 40px); }
+
+  /* ---------- the picture ---------- */
+  .shot { display: grid; gap: 12px; margin: 0; min-width: 0; }
+  .shot-frame { position: relative; overflow: hidden; aspect-ratio: 4 / 3; border-radius: var(--radius-lg); border: 1px solid var(--card-border); background: var(--bg-2); }
+  .shot-frame :global(img), .shot-draw { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .shot-frame :global(img) { object-fit: cover; }
+  .shot-cap { max-width: 54ch; text-wrap: pretty; }
+
+  /* Hairlines stay hairlines: the drawing is scaled about 1.5× at container width. */
+  .shot-draw :global(path) { vector-effect: non-scaling-stroke; }
+  .ground, .far, .near { stroke-width: 1.5; stroke-linejoin: round; }
+  .ground, .far { stroke: var(--gray-600); }
+  .near { stroke: var(--gray-500); }
+  /* Opaque in the frame's own colour, which is the only thing that makes the front carton read as
+     in front of the other two rather than drawn on top of them. */
+  .face { fill: var(--bg-2); }
+  .line { fill: none; }
+  .paper { fill: var(--gray-100); }
+  .ink, .ink-ring { fill: var(--black); }
+  .mark { fill: var(--accent); }
+  .mark text { font: 700 11px/1 var(--font-sans); fill: var(--accent-fg); letter-spacing: 0.04em; }
+
+  /* ---------- the three beats ---------- */
+  /* Flex column with space-between so the three beats spread to exactly the height of the picture
+     beside them: both columns start and finish on the same two lines, and the extra air lands in
+     the two hairline gaps instead of pooling under the last sentence. Where the beats are the
+     taller column (narrow desktops, long Russian sentences) there is no extra air and nothing
+     moves. */
+  .beats { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: space-between; }
+  .beat { display: grid; grid-template-columns: 34px minmax(0, 1fr); padding: 18px 0; border-top: 1px solid var(--border); }
+  .beat:first-child { padding-top: 0; border-top: 0; }
+  .beat:last-child { padding-bottom: 0; }
+  .beat-n { font-size: var(--text-small); font-weight: 600; color: var(--meta); line-height: 1.5; }
+  .beat-t { font-size: 1.125rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.006em; }
+  .beat-p { grid-column: 2; margin-top: 6px; font-size: var(--text-small); line-height: 1.5; color: var(--muted); max-width: 52ch; text-wrap: pretty; }
+
+  /* ---------- the bot ---------- */
+  .bot { display: grid; gap: 20px; padding: clamp(20px, 2.4vw, 28px); border: 1px solid var(--card-border); border-radius: var(--radius-lg); background: var(--card); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06); }
+  .bot-id { display: flex; align-items: center; gap: 20px; min-width: 0; }
+  .bot-name { min-width: 0; }
+  .bot-label { font-size: var(--text-caption); letter-spacing: 0.02em; color: var(--meta); }
+  /* Monospace on purpose: this is the one address on the site that a machine answers on. */
+  .bot-handle { margin-top: 2px; font-family: var(--font-mono); font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; color: var(--fg); overflow-wrap: anywhere; }
+  .legend { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 5px; }
+  .legend li { display: flex; gap: 8px; align-items: baseline; font-size: var(--text-caption); line-height: 1.35; color: var(--muted); }
+  .dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--fg-2); transform: translateY(-1px); }
+  .dot.is-bot { background: var(--accent-text); }
+  .nowrap { white-space: nowrap; }
+
+  .dial { flex: none; width: 84px; height: 84px; overflow: visible; }
+  /* All 24 ticks have to read, or the dial stops saying "a day": the ten staffed hours are
+     near-white, the other fourteen are the mid grey rather than the hairline grey. */
+  .dial-ticks path { stroke: var(--gray-600); stroke-width: 2; stroke-linecap: round; }
+  .dial-ticks path.is-staffed { stroke: var(--fg-2); }
+  .dial-num { font: 700 13px/1 var(--font-sans); fill: var(--fg); letter-spacing: -0.02em; }
+
+  .bot-how { font-size: var(--text-small); line-height: 1.5; color: var(--muted); max-width: 52ch; text-wrap: pretty; }
+  .bot-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+  .bot-link { font-size: var(--text-small); }
+
+  /* The ring closes once as the panel arrives. It rides the site's own `.reveal` observer rather
+     than a scroll timeline: the ring is information (the bot covers all 24 hours), so it must not
+     depend on a range calculation that can leave it undrawn. With no JS, or under reduced motion,
+     `.is-in` is on from the start and the ring is simply already closed. */
+  .dial-ring { fill: none; stroke: var(--accent-text); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 900ms var(--ease-out-expo) 400ms; }
+  .bot.is-in .dial-ring { stroke-dashoffset: 0; }
+  :global(html.no-js) .dial-ring { stroke-dashoffset: 0; transition: none; }
+
+  @media (min-width: 620px) {
+    .beat-t { font-size: var(--text-h4); }
+    .beat-p { font-size: var(--text-body); }
+  }
+
+  /* The bar shape: identity, then the sentence that answers "how do I get in", then the way in. */
+  @media (min-width: 880px) {
+    .bot { grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto; align-items: center; gap: clamp(24px, 3.2vw, 48px); }
+  }
+
+  @media (min-width: 1000px) {
+    /* 6 : 5 keeps the picture the larger half without letting the sentences run past a 52ch
+       measure. Both columns are fractions, so the block ends exactly where the head above it does. */
+    /* align-items stays `stretch` (the default) on purpose — that is what lets the beats column
+       take the picture's height and spread itself against it. */
+    .hw-grid { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); column-gap: clamp(40px, 4.5vw, 72px); row-gap: clamp(36px, 4vw, 48px); }
+    .shot { grid-column: 1; }
+    .beats { grid-column: 2; }
+    .bot { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 400px) {
+    /* An 84px dial plus the handle does not fit at 390px once the Russian hours line wraps:
+       drop the dial above the name rather than squeezing either. */
+    .bot-id { flex-wrap: wrap; gap: 16px; }
+  }
+</style>

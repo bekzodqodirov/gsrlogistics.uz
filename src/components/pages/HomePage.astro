@@ -1,14 +1,34 @@
 ---
 /**
  * Home page composition — shared by /, /ru/ and /en/.
- * Section order follows DESIGN_BRIEF §3: hero (light) → journey (dark, pinned) → services (light) →
- * facts (dark) → process (light) → pricing (surface) → tracking (dark) → FAQ (light) → CTA (dark).
+ *
+ * Order, and why (DESIGN_BRIEF §3 plus the 2026-09-10 refocus):
+ *   hero (light) → journey (dark, pinned) → services (light) → HOW WE TRACK (dark) →
+ *   SEGMENTS (grey band) → what you get (dark) → process (light) → pricing (surface) →
+ *   tracking (dark) → FAQ (light) → CTA (dark).
+ *
+ * HowWeTrack sits immediately after Services because Services has just narrowed the company to
+ * one business ("what do you do"), and the QR-per-carton + 24/7 bot is the answer to the question
+ * the audit said the page never answered ("why you"). It is the strongest thing GSR has and it
+ * belongs in the first half of the page, not next to the tracking form at 06.
+ *
+ * Segments then sits between HowWeTrack and Proof for two reasons: "is this for me" is the next
+ * question a visitor asks once he believes the company can do the job, and the band's light plate
+ * is the only breather between two dark sections — HowWeTrack's own file asks not to be placed
+ * directly beside another dark band, and Proof cannot move without breaking the 03–08 eyebrow
+ * numbering that PricingTeaser and TrackingTeaser hard-code.
+ *
+ * The two new sections carry no number in the eyebrow, like Journey: the numbered spine (02
+ * services → 03 what you get → 04 process → 05 pricing → 06 tracking → 07 FAQ → 08 contact)
+ * stays intact because 05 and 06 live in i18n files this stream does not own.
  */
 import type { Lang } from '@/i18n/config';
 import Base from '@/layouts/Base.astro';
 import Hero from '@/components/sections/Hero.astro';
 import Journey from '@/components/journey/Journey.astro';
 import Services from '@/components/sections/Services.astro';
+import HowWeTrack from '@/components/sections/HowWeTrack.astro';
+import Segments from '@/components/sections/Segments.astro';
 import Proof from '@/components/sections/Proof.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
 import PricingTeaser from '@/components/sections/PricingTeaser.astro';
@@ -59,6 +79,8 @@ const serviceGraph = services.slice(0, 3).map((s) =>
   <Hero lang={lang} />
   <Journey lang={lang} />
   <Services lang={lang} />
+  <HowWeTrack lang={lang} />
+  <Segments lang={lang} />
   <Proof lang={lang} index="03" />
   <HowItWorks lang={lang} index="04" />
   <PricingTeaser lang={lang} calculator />

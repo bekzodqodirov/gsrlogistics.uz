@@ -1,6 +1,6 @@
 import { langMeta, type Lang } from '@/i18n/config';
 import { pagePath, pageUrl, type PageKey } from '@/i18n/routes';
-import { site, telegramUrl, instagramUrl, facebookUrl } from './site';
+import { site, telegramUrl, telegramBotUrl, telegramBotHandle, instagramUrl, facebookUrl } from './site';
 
 const SITE = site.url;
 export const ORG_ID = `${SITE}/#organization`;
@@ -53,6 +53,22 @@ export function organizationNode(lang: Lang) {
     contactPoint: [
       { '@type': 'ContactPoint', telephone: site.phoneE164, contactType: 'sales', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: site.telegramDirect },
       { '@type': 'ContactPoint', telephone: site.phone2E164, contactType: 'customer support', availableLanguage: ['uz', 'ru'] },
+      // The cargo-tracking bot is a real contact channel and the only one that is open at 3am: it
+      // answers without a person, which is what makes the 24/7 hours below true.
+      {
+        '@type': 'ContactPoint',
+        name: telegramBotHandle,
+        contactType: 'technical support',
+        url: telegramBotUrl,
+        // No availableLanguage: which languages the bot itself speaks is not established, and a
+        // guess here is a guess a customer finds out about at 3am.
+        hoursAvailable: {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '00:00',
+          closes: '23:59',
+        },
+      },
     ],
     // The three China receiving points, so an assistant answering "where do I send my goods" has them.
     // Named "receiving point", not "GSR Logistics <city>": who operates each one is not established.

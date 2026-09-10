@@ -5,6 +5,8 @@
  *
  * Owner-confirmed on 2026-09-09: the manager's Telegram username, the legal entity, the second
  * phone (which is the WhatsApp number), the e-mail, and the three China receiving addresses.
+ *
+ * Owner-confirmed on 2026-09-10: the cargo-tracking Telegram bot and the four company figures.
  */
 export const site = {
   name: 'GSR Logistics',
@@ -12,6 +14,15 @@ export const site = {
   domain: 'gsrlogistics.uz',
   url: 'https://gsrlogistics.uz',
   foundingYear: 2018, // brand active since 2018 (Telegram channel July 2018) — TODO: confirm legal founding year
+  /**
+   * The two "years" numbers are NOT interchangeable. `foundingYear` is GSR the company and is
+   * written "8+ yil" / "2018-yildan"; `teamYears` is how long the team has worked in the freight
+   * business and is only ever attributed to the TEAM — "GSR 15 yil" is false, and
+   * scripts/check-content.mjs fails the build on it.
+   */
+  teamYears: 15, // owner, 2026-09-10: "sohada ishlayotganimga 15 yil boldi"
+  trucksPerMonth: 10, // "oyiga 10+ truck olib kelamiz" — always written with the plus
+  clients: 400, // "400dan oshiq mijoz" — always written with the plus
   phoneDisplay: '+998 95 018 33 33', // primary number from the Telegram channel
   phoneE164: '+998950183333',
   whatsapp: '998901757800', // WhatsApp runs on the SECOND number, not the primary one
@@ -19,7 +30,13 @@ export const site = {
   /** Direct chat target for CTAs — the manager's Telegram username. */
   telegramDirect: 'https://t.me/bekzodkodirov556',
   telegramGroup: 'gsrgroupchat',
-  telegramBot: '', // optional: tracking bot username, e.g. 'gsr_cargo_bot'
+  /**
+   * The cargo-tracking bot. Staff scan the QR on every carton at each stage and the client watches
+   * those scans here, per carton, in their own account, 24/7 — the bot answers, not a person.
+   * This exact username is the only one allowed on the site (check-content.mjs enforces it): a typo
+   * sends a client to a stranger's bot.
+   */
+  telegramBot: 'GSR_GROUP_AGENT_bot',
   email: 'b.e.kodirov@gmail.com',
   instagram: 'gsrgroup.uz',
   facebook: 'gsrlogistics',
@@ -99,6 +116,9 @@ export const site = {
 
 export const telegramUrl = `https://t.me/${site.telegram}`;
 export const telegramGroupUrl = `https://t.me/${site.telegramGroup}`;
+/** Tracking bot: `@GSR_GROUP_AGENT_bot` for display, this for the link. */
+export const telegramBotHandle = `@${site.telegramBot}`;
+export const telegramBotUrl = `https://t.me/${site.telegramBot}`;
 /** Deep link that opens a chat with a prefilled draft (user-initiated, nothing is collected by the site). */
 export const telegramChat = (text?: string) => text ? `${site.telegramDirect}?text=${encodeURIComponent(text)}` : site.telegramDirect;
 export const facebookUrl = `https://facebook.com/${site.facebook}`;

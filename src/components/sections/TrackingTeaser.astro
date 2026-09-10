@@ -3,12 +3,18 @@
  * Home "06 — Kuzatuv" (DESIGN_BRIEF §3.7): dark short band with an inline code input that
  * submits (GET ?code=) to the tracking page, and the honest "Namuna" status strip.
  * Props: { lang }.
+ *
+ * The band used to promise that a manager would answer with the status. Since 2026-09-10 the two
+ * real doors are named instead: the GS-code lookup (unchanged, still a GET to the tracking page)
+ * and @GSR_GROUP_AGENT_bot, which is open at any hour. The story behind the bot — the QR on every
+ * carton — belongs to HowWeTrack.astro; this band stays a tool, not a second telling of it.
  */
 import type { Lang } from '@/i18n/config';
 import { pick } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { tracking, STAGE_KEYS } from '@/i18n/tracking';
 import { pagePath } from '@/i18n/routes';
+import { telegramBotUrl } from '@/lib/site';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Icon from '@/components/ui/Icon.astro';
 
@@ -56,7 +62,10 @@ const SAMPLE_INDEX = 2;
           </ol>
         </div>
       </div>
-      <a class="link glossary-link" href={`${trackingHref}#holatlar`}>{t.teaser.link}</a>
+      <div class="foot">
+        <a class="btn btn-secondary btn-sm bot-btn" href={telegramBotUrl} target="_blank" rel="noopener"><Icon name="telegram" size={16} />{t.teaser.bot}</a>
+        <a class="link glossary-link" href={`${trackingHref}#holatlar`}>{t.teaser.link}</a>
+      </div>
     </div>
   </div>
 </section>
@@ -84,7 +93,13 @@ const SAMPLE_INDEX = 2;
   .node-label { font-size: var(--text-small); color: var(--muted); line-height: 1.3; max-width: 12ch; padding-right: 6px; }
   .node.is-current .node-label { color: var(--fg); font-weight: 600; }
   .node-label:hover { text-decoration: underline; text-underline-offset: 3px; }
+  /* Two doors, and the copy beside them names the bot first — so the bot is a button, not a link.
+     Outlined rather than red: the red belongs to the code lookup above it, and two red buttons in
+     one panel would make the reader choose between them instead of using whichever fits.
+     The bot door is the one that answers at 3am; it cannot be the smallest thing in the panel. */
+  .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
   .glossary-link { font-size: var(--text-small); }
+  .bot-btn { --btn-border: color-mix(in oklab, var(--fg), transparent 68%); }
   @media (min-width: 640px) { .row { grid-template-columns: 1fr auto; align-items: end; } }
   @media (min-width: 1000px) { .grid { grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; } }
 </style>
