@@ -1,11 +1,19 @@
-// Wraps Chinese runs in the built HTML with <span lang="zh"> so screen readers
-// switch voice instead of reading 义乌 with an Uzbek or Russian one, and so search
-// engines see the language of the address they are indexing.
+// Two passes over the built HTML, both of which need the same careful walk over text
+// nodes, so they share one:
 //
-// Runs last in the postbuild chain: check-content.mjs and generate-llms-full.mjs
-// read the plain HTML before this pass touches it.
+//   1. Wrap Chinese runs in <span lang="zh"> (<tspan> inside SVG) so screen readers switch
+//      voice instead of reading 义乌 with an Uzbek or Russian one, and so search engines see
+//      the language of the address they are indexing.
+//   2. Drop build-time HTML comments. They are notes to whoever maintains a component and
+//      have no business being served: 17.9 KB across the site, 5.6 KB on the home page, in
+//      English, on a site whose visitors read Uzbek. Nothing in dist displays markup with a
+//      comment in it (checked), and comments inside script/style/pre/code are left alone by
+//      the same opaque-element rule the language pass uses.
 //
-// Usage: node scripts/wrap-zh.mjs dist
+// Runs last in the postbuild chain: check-content.mjs and generate-llms-full.mjs read the
+// plain HTML before this pass touches it.
+//
+// Usage: node scripts/polish-html.mjs dist
 import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -36,6 +44,7 @@ function wrap(html) {
   let out = '';
   let i = 0;
   let skipUntil = null; // closing tag we are waiting for, e.g. '</script'
+  let stripped = 0;     // bytes of comment removed
   let svgDepth = 0;     // >0 while inside an <svg>: wrap with <tspan>, never <span>
   let wrapped = 0;
 
@@ -46,11 +55,13 @@ function wrap(html) {
     // Text between the previous tag and this one.
     out += skipUntil ? html.slice(i, lt) : text(html.slice(i, lt));
 
-    // Comments and doctypes are copied whole.
+    // Comments: dropped outside opaque elements, kept verbatim inside them.
     if (html.startsWith('<!--', lt)) {
       const end = html.indexOf('-->', lt);
       const stop = end === -1 ? html.length : end + 3;
-      out += html.slice(lt, stop); i = stop; continue;
+      if (skipUntil) out += html.slice(lt, stop);
+      else stripped += stop - lt;
+      i = stop; continue;
     }
 
     const gt = html.indexOf('>', lt);
@@ -79,14 +90,14 @@ function wrap(html) {
     return chunk.replace(RUN, (run) => { wrapped += 1; return `<${el} lang="zh">${run}</${el}>`; });
   }
 
-  return { html: out, wrapped };
+  return { html: out, wrapped, stripped };
 }
 
-let files = 0, runs = 0;
+let files = 0, runs = 0, bytes = 0;
 for (const file of walk(root)) {
   const before = readFileSync(file, 'utf8');
-  if (!HAS_HAN.test(before)) continue;
-  const { html, wrapped } = wrap(before);
-  if (wrapped) { writeFileSync(file, html); files += 1; runs += wrapped; }
+  if (!HAS_HAN.test(before) && !before.includes('<!--')) continue;
+  const { html, wrapped, stripped } = wrap(before);
+  if (wrapped || stripped) { writeFileSync(file, html); files += 1; runs += wrapped; bytes += stripped; }
 }
-console.log(`lang="zh": ${runs} Chinese runs wrapped across ${files} pages`);
+console.log(`polish: ${runs} Chinese runs declared, ${(bytes / 1024).toFixed(1)} KB of build comments dropped, ${files} pages`);
