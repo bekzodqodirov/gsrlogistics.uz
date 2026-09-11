@@ -285,9 +285,18 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   /* 4.0 viewports of pin + the 1 the stage itself occupies. Must move together with the `end` in
      journey.ts or the reserve and the trigger disagree and CLS comes back. */
   .journey.is-live { height: calc(100svh * 5); }
-  /* contain: paint promotes the pinned stage to its own compositor layer (it already clips) —
+  /* position: sticky, not a scripted pin. ScrollTrigger's pinType "transform" holds the stage with a
+     main-thread translateY computed against the scroll offset the main thread was handed at
+     BeginMainFrame, while the scroll itself is composited — so the compositor presents nearly every
+     frame with a fresh scroll offset against a stale transform, and the whole stage is drawn out of
+     place and snaps back at a perfectly smooth frame rate. Measured: 97.5 % of presented frames
+     displaced on a 4x-throttled phone (median 9 px, max 26 px), 98.8 % on desktop. That is the
+     shivering. A sticky box is positioned by the compositor against the scrollport, so it cannot be a
+     frame behind; measured 0.0 % displaced, CLS unchanged at 0.000. The reserve above gives exactly the
+     travel sticky needs, and journey.ts must therefore NOT pin (its `end` still has to match).
+     contain: paint promotes the stage to its own compositor layer (it already clips) —
      measured 16.6 % → 9.9 % of frames over 33 ms on a 4x-throttled phone. */
-  .journey.is-live .journey-stage { height: 100svh; max-width: none; padding: 0; overflow: hidden; background: var(--bg); contain: paint; }
+  .journey.is-live .journey-stage { position: sticky; top: 0; height: 100svh; max-width: none; padding: 0; overflow: hidden; background: var(--bg); contain: paint; }
   .journey.is-live .journey-map { position: absolute; inset: 0; aspect-ratio: auto; }
   .journey.is-live .journey-head { position: absolute; z-index: 2; left: var(--j-edge); top: calc(var(--header-h) + 28px); margin: 0; pointer-events: none; }
   .journey.is-live .journey-cards { margin: 0; gap: 0; grid-template-columns: 1fr; align-items: center; }
