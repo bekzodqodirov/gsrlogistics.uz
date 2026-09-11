@@ -1,9 +1,9 @@
-import type { Lang } from '@/i18n/config';
+import type { Lang, Locale } from '@/i18n/config';
 
 /** Road distance Yiwu → Tashkent via Urumqi/Khorgos/Almaty/Shymkent. TODO(owner): verify with a routing engine; while unverified the site prints "5 000+ km". */
 export const ROUTE_KM = 5000;
 export const ROUTE_KM_VERIFIED = false;
-export const routeKmLabel = (lang: Lang) => (ROUTE_KM_VERIFIED ? `${ROUTE_KM.toLocaleString(lang === 'en' ? 'en-US' : 'ru-RU').replace(/,/g, ' ')} km` : `${(lang === 'en' ? '5,000' : '5 000')}+ km`);
+export const routeKmLabel = (lang: Locale) => (ROUTE_KM_VERIFIED ? `${ROUTE_KM.toLocaleString(lang === 'en' ? 'en-US' : 'ru-RU').replace(/,/g, ' ')} km` : `${(lang === 'en' ? '5,000' : '5 000')}+ km`);
 
 /** The eight route nodes in travel order with localized names (DESIGN_BRIEF §10.3) and map coordinates (viewBox 0 0 1600 923). */
 export interface RouteNode { id: string; x: number; y: number; name: Record<Lang, string>; zh?: string; role?: 'origin' | 'border' | 'destination' }

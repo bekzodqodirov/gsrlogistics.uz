@@ -7,8 +7,8 @@ import '@/styles/fonts.css';
 import '@/styles/global.css';
 import onestLatin from '@/assets/fonts/onest-latin.woff2?url';
 import onestCyrillic from '@/assets/fonts/onest-cyrillic.woff2?url';
-import { langMeta, type Lang } from '@/i18n/config';
-import { alternates as buildAlternates, pagePath, type PageKey } from '@/i18n/routes';
+import { langMeta, pick, sourceOf, type Locale } from '@/i18n/config';
+import { alternates as buildAlternates, pagePath, subFor, type PageKey } from '@/i18n/routes';
 import { site } from '@/lib/site';
 import { organizationNode, websiteNode, webPageNode, breadcrumbNode, type Crumb } from '@/lib/schema';
 import Seo from '@/components/Seo.astro';
@@ -18,11 +18,12 @@ import Footer from '@/components/Footer.astro';
 import MobileBar from '@/components/MobileBar.astro';
 
 interface Props {
-  lang: Lang;
+  lang: Locale;
   title: string;
   description: string;
   pageKey: PageKey;
-  subs?: Partial<Record<Lang, string>>;
+  /** Item slug per locale. uzc may be omitted — it is looked up in the routes table instead. */
+  subs?: Partial<Record<Locale, string>>;
   ogImage?: string;
   ogType?: 'website' | 'article';
   noindex?: boolean;
@@ -37,7 +38,9 @@ interface Props {
 const { lang, title, description, pageKey, subs, ogImage, ogType, noindex, jsonLd = [], breadcrumbs, datePublished, dateModified, bodyClass, hideMobileBar = false } = Astro.props;
 const siteUrl = Astro.site ?? new URL(site.url);
 const alternates = buildAlternates(siteUrl, pageKey, subs);
-const currentPath = pagePath(lang, pageKey, subs?.[lang]);
+// `subFor`, not `subs?.[lang]`: most `subs` maps come from content and carry only uz/ru/en, so
+// on /kirill/ the item slug has to come from the hand-written table in routes.ts.
+const currentPath = pagePath(lang, pageKey, subs && subFor(lang, pageKey, subs));
 const pageUrlAbs = new URL(currentPath, siteUrl).toString();
 const graph: Array<Record<string, unknown>> = [
   organizationNode(lang),
@@ -46,7 +49,11 @@ const graph: Array<Record<string, unknown>> = [
   ...(breadcrumbs?.length ? [breadcrumbNode(lang, breadcrumbs)] : []),
   ...jsonLd,
 ];
-const localeOg = ogImage ?? `/og/${lang}.png`;
+const skipLink = pick(lang, { uz: 'Asosiy kontentga oʻtish', ru: 'Перейти к содержанию', en: 'Skip to content' });
+// There is no /og/uzc.png: the OG card is a picture of a brand, not a translated page, and
+// `sourceOf` sends the Cyrillic locale to the Latin Uzbek card rather than to a 404. Drop a real
+// uzc card into public/og/ (scripts/generate-og.mjs) and change this line to use `lang` directly.
+const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
 ---
 <!doctype html>
 <html lang={langMeta[lang].htmlLang} dir="ltr" class="no-js">
@@ -55,7 +62,10 @@ const localeOg = ogImage ?? `/og/${lang}.png`;
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <Seo lang={lang} title={title} description={description} pageKey={pageKey} subs={subs} ogImage={localeOg} ogType={ogType} noindex={noindex} publishedTime={datePublished} modifiedTime={dateModified} />
     <link rel="preload" href={onestLatin} as="font" type="font/woff2" crossorigin />
-    {lang === 'ru' && <link rel="preload" href={onestCyrillic} as="font" type="font/woff2" crossorigin />}
+    {/* Cyrillic subset: preloaded on the two locales whose body text is Cyrillic. On uz/en it is
+        still declared in fonts.css by unicode-range, so the switcher's two Cyrillic labels do not
+        pull it down. */}
+    {(lang === 'ru' || lang === 'uzc') && <link rel="preload" href={onestCyrillic} as="font" type="font/woff2" crossorigin />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
@@ -69,7 +79,7 @@ const localeOg = ogImage ?? `/og/${lang}.png`;
     <slot name="head" />
   </head>
   <body class:list={[bodyClass, !hideMobileBar && 'has-mobile-bar']}>
-    <a href="#main" class="skip-link">{lang === 'uz' ? 'Asosiy kontentga oʻtish' : lang === 'ru' ? 'Перейти к содержанию' : 'Skip to content'}</a>
+    <a href="#main" class="skip-link">{skipLink}</a>
     <Header lang={lang} alternates={alternates} currentPath={currentPath} />
     <main id="main" tabindex="-1" class="page-main">
       <div class="gutter-line" aria-hidden="true"></div>

@@ -25,15 +25,14 @@
  * The section is dark. If it ends up directly beside another dark band, move it rather than
  * relighting it: the picture and the 24/7 dial are built for a near-black ground.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { trackSystem } from '@/i18n/track-system';
 import { pagePath } from '@/i18n/routes';
 import { site, telegramBotUrl, telegramBotHandle } from '@/lib/site';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Icon from '@/components/ui/Icon.astro';
 
-interface Props { lang: Lang; class?: string; id?: string; index?: string }
+interface Props { lang: Locale; class?: string; id?: string; index?: string }
 const { lang, class: className, id = 'shaffoflik', index } = Astro.props;
 const t = pick(lang, trackSystem);
 const headId = `${id}-h`;
@@ -186,7 +185,7 @@ const ticks = Array.from({ length: 24 }, (_, h) => {
             <p class="bot-handle">{telegramBotHandle}</p>
             <ul class="legend" role="list">
               <li><span class="dot is-bot" aria-hidden="true"></span><span>{t.bot.botHours}</span></li>
-              <li><span class="dot" aria-hidden="true"></span><span>{t.bot.managerLabel} — <span class="tnum nowrap">{site.hours[lang]}</span></span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>{t.bot.managerLabel} — <span class="tnum nowrap">{pick(lang, site.hours)}</span></span></li>
             </ul>
           </div>
         </div>

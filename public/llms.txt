@@ -1,6 +1,6 @@
 # GSR Logistics
 
-> GSR Logistics (Tashkent, Uzbekistan) ships cargo from China to Uzbekistan — consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent in roughly 15–25 days, air cargo in 5–10 days, rail and containers in 20–35 days — and handles product sourcing, buying on 1688/Taobao/Alibaba, industrial equipment import, customs clearance and photo-reported quality control in China. Three receiving addresses in China: Yiwu 义乌, Guangzhou 广州 and Kashgar 喀什 — your manager tells you which one applies. Working with China since 2018. Legal entity: Imex services LLC. Office: 27 Alisher Navoiy St., Tashkent. Phone +998 95 018 33 33 and +998 90 175 78 00 (WhatsApp on the second number). E-mail b.e.kodirov@gmail.com. Telegram: https://t.me/bekzodkodirov556 (manager), https://t.me/gsrlogistics (channel). Languages: Uzbek (default, /), Russian (/ru/), English (/en/).
+> GSR Logistics (Tashkent, Uzbekistan) ships cargo from China to Uzbekistan — consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent in roughly 15–25 days, air cargo in 5–10 days, rail and containers in 20–35 days — and handles product sourcing, buying on 1688/Taobao/Alibaba, industrial equipment import, customs clearance and photo-reported quality control in China. Three receiving addresses in China: Yiwu 义乌, Guangzhou 广州 and Kashgar 喀什 — your manager tells you which one applies. Working with China since 2018. Legal entity: Imex services LLC. Office: 27 Alisher Navoiy St., Tashkent. Phone +998 95 018 33 33 and +998 90 175 78 00 (WhatsApp on the second number). E-mail b.e.kodirov@gmail.com. Telegram: https://t.me/bekzodkodirov556 (manager), https://t.me/gsrlogistics (channel). Languages: Uzbek Latin (default, /), Russian (/ru/), English (/en/), Uzbek Cyrillic (/kirill/ — the same site in Cyrillic script, see below).
 > Oʻzbekcha: GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk (avto kargo) 15–25 kun, avia kargo 5–10 kun, temir yoʻl va konteyner 20–35 kun; tovar topish, 1688/Taobaoʼdan sotib olish, uskunalar importi, bojxona rasmiylashtiruvi, Ivu omborida sifat nazorati va foto-hisobot. Xitoyda uchta qabul manzili: Ivu, Guanchjou va Qashqar. Qaysi biriga joʻnatish kerakligini menejer aytadi. Toshkent, 2018-yildan.
 > Русский: GSR Logistics — сборные грузы из Китая в Узбекистан 15–25 дней, авиа 5–10 дней, ж/д и контейнеры 20–35 дней; поиск и выкуп товаров (1688/Taobao), импорт оборудования, растаможка, проверка и фотоотчёт на складе в Иу. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар. На какой отправлять — скажет менеджер. Ташкент, с 2018 года.
 
@@ -28,6 +28,19 @@
 - [Biz haqimizda](https://gsrlogistics.uz/biz-haqimizda/): who we are, how we work, the Tashkent office and the three China receiving addresses · [ru](https://gsrlogistics.uz/ru/o-nas/) · [en](https://gsrlogistics.uz/en/about/)
 - [Aloqa](https://gsrlogistics.uz/aloqa/): address, hours, phone, Telegram · [ru](https://gsrlogistics.uz/ru/kontakty/) · [en](https://gsrlogistics.uz/en/contact/)
 
+## Oʻzbekcha (kirill) — Ўзбекча, кирилл
+Every page above also exists in Uzbek Cyrillic under /kirill/, with a Cyrillic slug. It is the Uzbek
+content transliterated script-for-script — same facts, same prices, same dates — and each page names
+its Latin twin in hreflang (uz-Latn ⇄ uz-Cyrl), so the two are one page in two scripts, not two
+offers. URLs are written here in Cyrillic for reading; a browser sends them percent-encoded, and that
+escaped form is what https://gsrlogistics.uz/sitemap-0.xml carries.
+- [Бош саҳифа](https://gsrlogistics.uz/kirill/) — home
+- [Хизматлар](https://gsrlogistics.uz/kirill/хизматлар/) — the nine services, each at /kirill/хизматлар/<slug>/
+- [Нархлар](https://gsrlogistics.uz/kirill/нархлар/) — prices · [Калькулятор](https://gsrlogistics.uz/kirill/калькулятор/) · [Кузатув](https://gsrlogistics.uz/kirill/кузатув/) — tracking
+- [Қўлланма](https://gsrlogistics.uz/kirill/қўлланма/) — the ten guides, each at /kirill/қўлланма/<slug>/ · [Савол-жавоб](https://gsrlogistics.uz/kirill/савол-жавоб/) — FAQ
+- [Биз ҳақимизда](https://gsrlogistics.uz/kirill/биз-ҳақимизда/) — about · [Алоқа](https://gsrlogistics.uz/kirill/алоқа/) — contact · [Махфийлик](https://gsrlogistics.uz/kirill/махфийлик/) — privacy
+
 ## Optional
 - [Maxfiylik siyosati](https://gsrlogistics.uz/maxfiylik/): privacy policy · [ru](https://gsrlogistics.uz/ru/konfidencialnost/) · [en](https://gsrlogistics.uz/en/privacy/)
-- [llms-full.txt](https://gsrlogistics.uz/llms-full.txt): full text of every page in Markdown
+- [llms-full.txt](https://gsrlogistics.uz/llms-full.txt): full text of every page in Markdown (the Cyrillic pages are announced there, not repeated — they are the Uzbek text in the other script)
+- [sitemap-0.xml](https://gsrlogistics.uz/sitemap-0.xml): every URL of all four locales, each with its hreflang alternates

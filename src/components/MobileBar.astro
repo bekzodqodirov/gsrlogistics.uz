@@ -1,12 +1,12 @@
 ---
-import type { Lang } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { pagePath } from '@/i18n/routes';
 import { common } from '@/i18n/common';
 import { phoneUrl, telegramChat } from '@/lib/site';
 import Icon from './ui/Icon.astro';
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
-const t = common[lang];
+const t = pick(lang, common);
 ---
 <div class="mobile-bar" role="region" aria-label={t.header.quickActions}>
   <a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener" class="mb-item mb-primary"><span class="mb-pill"><Icon name="telegram" size={18} /></span><span>{t.bar.telegram}</span></a>

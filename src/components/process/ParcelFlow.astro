@@ -6,7 +6,7 @@
  * behind it (scale → loaded trailer → truck → two border gates → Tashkent shed → your shopfront).
  * That is literally the parcel's point of view: the box does not travel, the world does.
  *
- * The six stops are `STAGE_KEYS` and the words under them are `tracking[lang].stages[k].short`
+ * The six stops are `STAGE_KEYS` and the words under them are `pick(lang, tracking).stages[k].short`
  * verbatim — the same words the manager sends on Telegram and the tracking page prints, so the
  * diagram answers "where are my boxes" instead of decorating the section.
  *
@@ -29,15 +29,14 @@
  *
  * Props: { lang, id? } — `id` seeds the radio `name` so two instances never collide.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { tracking, STAGE_KEYS } from '@/i18n/tracking';
 import { parcel } from '@/i18n/parcel';
 import { pagePath } from '@/i18n/routes';
 import { fmtNumber, fmtUsd } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 
-interface Props { lang: Lang; id?: string }
+interface Props { lang: Locale; id?: string }
 const { lang, id = 'gs' } = Astro.props;
 const tr = pick(lang, tracking);
 const t = pick(lang, parcel);

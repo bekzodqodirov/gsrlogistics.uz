@@ -1,4 +1,4 @@
-import type { Lang } from '@/i18n/config';
+import { pick, type Lang, type Locale } from '@/i18n/config';
 import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
 import tariffs from './tariffs.json';
 
@@ -374,8 +374,11 @@ function en(): FaqGroup[] {
 
 export const faq: Record<Lang, FaqGroup[]> = { uz: uz(), ru: ru(), en: en() };
 
-/** Flat list of every question in one language (for JSON-LD and counts). */
-export const faqItems = (lang: Lang): FaqItem[] => faq[lang].flatMap((g) => g.items);
+/**
+ * Flat list of every question in one locale (for JSON-LD and counts). `pick` is what makes this
+ * work on /kirill/: there is no hand-written Cyrillic FAQ, so it transliterates the Uzbek one.
+ */
+export const faqItems = (lang: Locale): FaqItem[] => pick(lang, faq).flatMap((g) => g.items);
 /** The six questions flagged for the home page, in page order. */
-export const faqTop = (lang: Lang): FaqItem[] => faqItems(lang).filter((i) => i.top);
+export const faqTop = (lang: Locale): FaqItem[] => faqItems(lang).filter((i) => i.top);
 

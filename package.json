@@ -9,16 +9,21 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/generate-cyrillic-guides.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
-    "postbuild": "node scripts/generate-sitemap.mjs dist && node scripts/generate-llms-full.mjs dist && node scripts/check-content.mjs dist && node scripts/polish-html.mjs dist",
+    "postbuild": "node scripts/generate-sitemap.mjs dist && node scripts/generate-llms-full.mjs dist && node scripts/check-content.mjs dist && node scripts/check-kirill.mjs dist && node scripts/test-seo.mjs dist && node scripts/polish-html.mjs dist",
     "og": "node scripts/generate-og.mjs",
     "indexnow": "node scripts/indexnow.mjs dist",
     "map": "node scripts/build-map.mjs",
     "test:pricing": "node scripts/test-pricing.mjs",
-    "check:content": "node scripts/check-content.mjs dist"
+    "test:cyrillic": "node scripts/test-cyrillic.mjs",
+    "test:locale": "node scripts/test-locale.mjs",
+    "test:seo": "node scripts/test-seo.mjs dist",
+    "check:content": "node scripts/check-content.mjs dist",
+    "check:kirill": "node scripts/check-kirill.mjs dist"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
@@ -26,5 +31,9 @@
     "astro": "7.3.1",
     "gsap": "3.15.0",
     "sharp": "0.35.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }

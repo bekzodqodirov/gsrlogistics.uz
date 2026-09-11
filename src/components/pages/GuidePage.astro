@@ -1,10 +1,10 @@
 ---
 /** Guide article template. Props: { lang, entry } where entry is a `guides` collection entry. */
-import type { Lang } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { render, getCollection, type CollectionEntry } from 'astro:content';
 import { common } from '@/i18n/common';
 import { guidesStrings } from '@/i18n/guides';
-import { pagePath, pageUrl } from '@/i18n/routes';
+import { pagePath, pageUrl, itemPath } from '@/i18n/routes';
 import { guideSlugs } from '@/data/guides';
 import { services } from '@/data/services';
 import { site, telegramChat } from '@/lib/site';
@@ -14,10 +14,10 @@ import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
-interface Props { lang: Lang; entry: CollectionEntry<'guides'> }
+interface Props { lang: Locale; entry: CollectionEntry<'guides'> }
 const { lang, entry } = Astro.props;
-const t = guidesStrings[lang];
-const c = common[lang];
+const t = pick(lang, guidesStrings);
+const c = pick(lang, common);
 const { Content, headings } = await render(entry);
 const d = entry.data;
 const label = c.nav.find((n) => n.key === 'guides')?.label ?? t.eyebrow;
@@ -70,7 +70,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
         </section>
         {(related.length > 0 || relatedServices.length > 0) && (
           <section class="related">
-            {relatedServices.length > 0 && <div><h2 class="h4">{t.relatedServices}</h2><ul role="list" class="rel-list">{relatedServices.map((s) => <li><a class="link" href={pagePath(lang, 'services', s.slug[lang])}>{s.name[lang]}</a></li>)}</ul></div>}
+            {relatedServices.length > 0 && <div><h2 class="h4">{t.relatedServices}</h2><ul role="list" class="rel-list">{relatedServices.map((s) => <li><a class="link" href={itemPath(lang, 'services', s.slug)}>{pick(lang, s.name)}</a></li>)}</ul></div>}
             {related.length > 0 && <div><h2 class="h4">{t.related}</h2><ul role="list" class="rel-list">{related.map((e) => <li><a class="link" href={pagePath(lang, 'guides', e.data.slug)}>{e.data.title}</a></li>)}</ul></div>}
             <p><a class="link" href={pagePath(lang, 'guides')}>{t.allGuides}</a></p>
           </section>

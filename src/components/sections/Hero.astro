@@ -4,8 +4,7 @@
  * The H1 text is the LCP element: no image, no opacity reveal on the copy.
  * Props: { lang }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { hero } from '@/i18n/hero';
 import { common } from '@/i18n/common';
 import { pagePath } from '@/i18n/routes';
@@ -16,10 +15,10 @@ import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
 import RouteBand from './hero/RouteBand.astro';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, hero);
-const c = common[lang];
+const c = pick(lang, common);
 const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)}`;
 const proof = [
   { value: range(tariffs.truck.days[0], tariffs.truck.days[1]), unit: t.unitDays, caption: t.proof.truck },
@@ -43,7 +42,7 @@ const proof = [
     <p class="meta-line">
       <a href={phoneUrl} class="tnum phone">{site.phoneDisplay}</a>
       <span class="dot" aria-hidden="true">·</span>
-      <span class="tnum">{site.hours[lang]}</span>
+      <span class="tnum">{pick(lang, site.hours)}</span>
     </p>
   </div>
 

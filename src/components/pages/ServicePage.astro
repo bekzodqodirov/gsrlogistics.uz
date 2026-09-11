@@ -5,11 +5,10 @@
  * short copy in src/data/services.ts so the build never fails.
  * Props: { lang, service, content? }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { servicesStrings, serviceNumberLine, tpl } from '@/i18n/services';
-import { pagePath, pageUrl } from '@/i18n/routes';
+import { pagePath, itemPath, itemUrl, subFor } from '@/i18n/routes';
 import { services, serviceByKey, serviceSubs, type ServiceMeta } from '@/data/services';
 import type { ServiceContent, ServiceSection } from '@/data/services/types';
 import { guideSlugs } from '@/data/guides';
@@ -23,12 +22,18 @@ import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
 
-interface Props { lang: Lang; service: ServiceMeta; content?: ServiceContent }
+/**
+ * `content` arrives ALREADY RESOLVED to one locale — the page reads `getServiceContent(key)` and
+ * hands over one branch. A /kirill/ page must resolve it with `pick('uzc', byLang)`, never with
+ * `.uz`: this component transliterates nothing itself, so the Latin branch would print a Latin body
+ * under Cyrillic chrome. Everything else on the page goes through `pick` here.
+ */
+interface Props { lang: Locale; service: ServiceMeta; content?: ServiceContent }
 const { lang, service, content } = Astro.props;
 const t = pick(lang, servicesStrings);
-const c = common[lang];
-const name = service.name[lang];
-const short = service.short[lang];
+const c = pick(lang, common);
+const name = pick(lang, service.name);
+const short = pick(lang, service.short);
 const index = services.indexOf(service) + 1;
 const indexLabel = String(index).padStart(2, '0');
 const updatedIso = content?.updated ?? tariffs.updated;
@@ -57,14 +62,14 @@ const stickyStat = days
   : digitFact ? { value: digitFact.value, unit: '', label: digitFact.label } : undefined;
 const numberLine = serviceNumberLine(lang, service.key);
 const subs = serviceSubs(service);
-const pageAbs = pageUrl(site.url, lang, 'services', service.slug[lang]);
+const pageAbs = itemUrl(site.url, lang, 'services', service.slug);
 
 /* ---------- Breadcrumbs ---------- */
 const servicesLabel = c.nav.find((n) => n.key === 'services')?.label ?? t.index.eyebrow;
 const breadcrumbs = [
   { name: c.breadcrumbHome, key: 'home' as const },
   { name: servicesLabel, key: 'services' as const },
-  { name, key: 'services' as const, sub: service.slug[lang] },
+  { name, key: 'services' as const, sub: subFor(lang, 'services', service.slug) },
 ];
 
 /* ---------- JSON-LD: Service (+ offers only from tariffs.json for truck/air) + FAQPage ---------- */
@@ -200,7 +205,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
           </div>
           <p class="side-hint">{t.page.stickyHint}</p>
           <p class="side-phone"><a href={phoneUrl} class="tnum"><Icon name="phone" size={16} />{site.phoneDisplay}</a></p>
-          <p class="caption side-hours tnum">{site.hours[lang]}</p>
+          <p class="caption side-hours tnum">{pick(lang, site.hours)}</p>
         </div>
       </aside>
     </div>
@@ -212,10 +217,10 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
           <ul class="related-grid" role="list">
             {related.map((r) => (
               <li>
-                <a href={pagePath(lang, 'services', r.slug[lang])} class="card card-hover rel-card">
+                <a href={itemPath(lang, 'services', r.slug)} class="card card-hover rel-card">
                   <span class="rel-glyph"><Icon name={r.icon} size={24} /></span>
-                  <h3 class="rel-name">{r.name[lang]}</h3>
-                  <p class="rel-short">{r.short[lang]}</p>
+                  <h3 class="rel-name">{pick(lang, r.name)}</h3>
+                  <p class="rel-short">{pick(lang, r.short)}</p>
                   <p class="rel-num tnum">{serviceNumberLine(lang, r.key)}</p>
                   <span class="link">{c.cta.details}</span>
                 </a>
@@ -249,7 +254,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
           <Button href={telegramChat(cta.draft)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{site.hours[lang]}</span></p>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>

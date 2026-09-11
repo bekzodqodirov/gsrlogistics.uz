@@ -1,6 +1,6 @@
 ---
 /** /qollanma/ — list of guides in the current language. Props: { lang }. */
-import type { Lang } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { getCollection } from 'astro:content';
 import { common } from '@/i18n/common';
 import { guidesStrings } from '@/i18n/guides';
@@ -9,10 +9,10 @@ import { fmtDate, readingMinutes } from '@/lib/format';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
-const t = guidesStrings[lang];
-const c = common[lang];
+const t = pick(lang, guidesStrings);
+const c = pick(lang, common);
 const label = c.nav.find((n) => n.key === 'guides')?.label ?? t.eyebrow;
 const entries = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => b.data.updatedDate.getTime() - a.data.updatedDate.getTime());
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'guides' as const }];

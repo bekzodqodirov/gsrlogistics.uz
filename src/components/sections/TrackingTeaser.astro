@@ -9,8 +9,7 @@
  * and @GSR_GROUP_AGENT_bot, which is open at any hour. The story behind the bot — the QR on every
  * carton — belongs to HowWeTrack.astro; this band stays a tool, not a second telling of it.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { tracking, STAGE_KEYS } from '@/i18n/tracking';
 import { pagePath } from '@/i18n/routes';
@@ -18,10 +17,10 @@ import { telegramBotUrl } from '@/lib/site';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Icon from '@/components/ui/Icon.astro';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, tracking);
-const c = common[lang];
+const c = pick(lang, common);
 const trackingHref = pagePath(lang, 'tracking');
 const SAMPLE_INDEX = 2;
 ---

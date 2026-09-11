@@ -9,8 +9,7 @@
  * @GSR_GROUP_AGENT_bot 24/7 — so the bot now sits directly under the GS-code form, which itself is
  * untouched and still works exactly as before (GET /api/track, Telegram draft as the fallback).
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { tracking, STAGE_KEYS } from '@/i18n/tracking';
 import { telegramBotUrl, telegramBotHandle } from '@/lib/site';
@@ -22,10 +21,10 @@ import Icon from '@/components/ui/Icon.astro';
 import TrackingForm from '@/components/TrackingForm.astro';
 import CtaBand from '@/components/sections/CtaBand.astro';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, tracking);
-const c = common[lang];
+const c = pick(lang, common);
 const label = c.nav.find((n) => n.key === 'tracking')?.label ?? t.eyebrow;
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'tracking' as const }];
 ---

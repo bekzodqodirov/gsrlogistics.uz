@@ -1,29 +1,40 @@
 ---
 /**
- * Trilingual 404. One <h1> only: the Uzbek copy is in the markup and a tiny inline script swaps the
- * strings (and the block's lang) when the URL sits under /ru/ or /en/. Rendering all three blocks and
- * hiding two put three <h1> elements in the document, which every validator and h1-counting check flags.
+ * The 404 in every locale. One <h1> only: the Uzbek Latin copy is in the markup and a tiny inline
+ * script swaps the strings (and the block's lang) when the URL sits under /ru/, /en/ or /kirill/.
+ * Rendering four blocks and hiding three put four <h1> elements in the document, which every
+ * validator and h1-counting check flags.
+ *
+ * The Cyrillic copy is not hand-written: `pick()` transliterates the Uzbek branch, exactly as every
+ * /kirill/ page does, so the 404 can never drift out of step with the locale it belongs to.
+ *
+ * The script tests `/kirill` without a trailing slash as well, so that a 404 served for the locale's
+ * own root is recognised too; `/ru/` and `/en/` never need that because neither is ever the last
+ * segment of a missing path that a reader would land on.
  */
 import Base from '@/layouts/Base.astro';
 import Icon from '@/components/ui/Icon.astro';
-import { locales, langMeta } from '@/i18n/config';
+import { locales, langMeta, pick } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { pagePath } from '@/i18n/routes';
 import { telegramChat } from '@/lib/site';
 
 const copy = Object.fromEntries(
-  locales.map((l) => [
-    l,
-    {
-      lang: langMeta[l].htmlLang,
-      title: common[l].notFound.title,
-      text: common[l].notFound.text,
-      home: common[l].notFound.home,
-      homeHref: pagePath(l, 'home'),
-      tg: common[l].cta.telegram,
-      tgHref: telegramChat(common[l].telegramDraft.general),
-    },
-  ]),
+  locales.map((l) => {
+    const c = pick(l, common);
+    return [
+      l,
+      {
+        lang: langMeta[l].htmlLang,
+        title: c.notFound.title,
+        text: c.notFound.text,
+        home: c.notFound.home,
+        homeHref: pagePath(l, 'home'),
+        tg: c.cta.telegram,
+        tgHref: telegramChat(c.telegramDraft.general),
+      },
+    ];
+  }),
 );
 const uz = copy.uz;
 ---
@@ -52,7 +63,7 @@ const uz = copy.uz;
       var w = document.querySelector('[data-nf]');
       if (!w) return;
       var p = location.pathname;
-      var l = p.indexOf('/ru/') === 0 ? 'ru' : p.indexOf('/en/') === 0 ? 'en' : 'uz';
+      var l = p.indexOf('/ru/') === 0 ? 'ru' : p.indexOf('/en/') === 0 ? 'en' : p === '/kirill' || p.indexOf('/kirill/') === 0 ? 'uzc' : 'uz';
       if (l === 'uz') return;
       var d;
       try { d = JSON.parse(w.getAttribute('data-nf'))[l]; } catch (e) { return; }

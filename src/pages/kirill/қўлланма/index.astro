@@ -1,0 +1,16 @@
+---
+/**
+ * Qoʻllanmalar roʻyxati → /kirill/қўлланма/
+ *
+ * The /kirill/ tree mirrors the Latin one file for file, exactly as /ru/ and /en/ do: one route
+ * per page, the same page component, `lang="uzc"`. The directory names are the Cyrillic slugs
+ * registered in src/i18n/routes.ts — written out, never computed, because a slug is permanent.
+ *
+ * Nothing here can drift from that registry unnoticed: the page's own canonical and the Latin
+ * page's uz-Cyrl hreflang are both built from `routeSlugs`, so a directory renamed by one letter
+ * makes the canonical point at a path that is not this file's, and the Latin twin's alternate
+ * point at nothing. scripts/check-kirill.mjs fails the build on either.
+ */
+import GuidesIndexPage from '@/components/pages/GuidesIndexPage.astro';
+---
+<GuidesIndexPage lang="uzc" />

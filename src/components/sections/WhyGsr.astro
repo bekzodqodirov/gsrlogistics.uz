@@ -4,10 +4,9 @@
  * glyph, one sentence, and a tabular fact line filled from tariffs.json / site.ts.
  * Light section, 3×2 grid (1 column on mobile), reveal stagger. Props: { lang, index? }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { whyStrings, tpl } from '@/i18n/why';
-import { pagePath } from '@/i18n/routes';
+import { pagePath, itemPath } from '@/i18n/routes';
 import { serviceByKey } from '@/data/services';
 import { site } from '@/lib/site';
 import { fmtDate, fmtNumber } from '@/lib/format';
@@ -15,7 +14,7 @@ import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Icon, { type IconName } from '@/components/ui/Icon.astro';
 
-interface Props { lang: Lang; index?: string }
+interface Props { lang: Locale; index?: string }
 const { lang, index = '03' } = Astro.props;
 const t = pick(lang, whyStrings);
 
@@ -32,7 +31,7 @@ const vars = {
 const hrefFor = (link: NonNullable<(typeof t.reasons)[number]['link']>) =>
   link === 'pricing' ? pagePath(lang, 'pricing')
   : link === 'contact' ? pagePath(lang, 'contact')
-  : pagePath(lang, 'services', serviceByKey(link).slug[lang]);
+  : itemPath(lang, 'services', serviceByKey(link).slug);
 
 /* One glyph set for the whole page: these used to be inlined here at stroke 1.5, which put two
    different weights in adjacent sections (#xizmatlar at 1.75, #nima-uchun at 1.5). They now come

@@ -4,11 +4,10 @@
  * Every figure is read from src/data/tariffs.json; worked examples are computed with src/lib/pricing.ts
  * so the page, the calculator and the tests can never disagree. Props: { lang }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { pricingStrings, tpl, monthYear } from '@/i18n/pricing';
-import { pagePath, pageUrl } from '@/i18n/routes';
+import { pagePath, pageUrl, itemUrl } from '@/i18n/routes';
 import { services } from '@/data/services';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
 import { fmtDate, fmtNumber, fmtUsd, fmtSom, withFrom, daysWord } from '@/lib/format';
@@ -22,12 +21,12 @@ import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Calculator from '@/components/Calculator.astro';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, pricingStrings);
 const p = t.page;
 const b = t.breakdown;
-const c = common[lang];
+const c = pick(lang, common);
 const T = tariffs as unknown as Tariffs;
 
 /* ---------- Numbers ---------- */
@@ -89,7 +88,7 @@ const extrasRows = [
 ];
 /* Hero tiles: the truck headline is a price per m³, never per kg. uz keeps the postposition in the unit ("110 $/m³ dan"); ru/en put "от" / "from" before the figure ("от 110 $/м³", "from $110/m³"). */
 const tileValue = (v: number) => (lang === 'en' ? usd(v) : n(v));
-const tilePrefix = lang === 'uz' ? '' : c.strings.from;
+const tilePrefix = lang === 'uz' || lang === 'uzc' ? '' : c.strings.from; // Uzbek puts "dan/дан" after the figure, so the tile carries no prefix
 const tiles = [
   { label: p.tiles.truck, value: tileValue(truckFrom), unit: p.tiles.fromM3, sub: `${range(T.truck.days)} ${b.units.days}` },
   { label: p.tiles.air, value: tileValue(airFrom), unit: p.tiles.fromKg, sub: `${range(T.air.days)} ${b.units.days}` },
@@ -112,7 +111,7 @@ const truckService = services.find((s) => s.key === 'truck')!;
 const airService = services.find((s) => s.key === 'air')!;
 const jsonLd: Array<Record<string, unknown>> = [
   serviceNode(lang, {
-    name: truckService.name[lang], description: truckService.short[lang], url: pageUrl(site.url, lang, 'services', truckService.slug[lang]), serviceType: truckService.name.en,
+    name: pick(lang, truckService.name), description: pick(lang, truckService.short), url: itemUrl(site.url, lang, 'services', truckService.slug), serviceType: truckService.name.en,
     offers: [
       // Band descriptions mirror the visible table's inclusive spans (101–150, not "up to 150"),
       // so a crawler cannot read a dearer band as covering lighter cargo than it actually does.
@@ -125,7 +124,7 @@ const jsonLd: Array<Record<string, unknown>> = [
     ],
   }),
   serviceNode(lang, {
-    name: airService.name[lang], description: airService.short[lang], url: pageUrl(site.url, lang, 'services', airService.slug[lang]), serviceType: airService.name.en,
+    name: pick(lang, airService.name), description: pick(lang, airService.short), url: itemUrl(site.url, lang, 'services', airService.slug), serviceType: airService.name.en,
     offers: (['standard', 'brand', 'commercial'] as const).map((k) => ({ price: T.air.perKg[k], unitCode: 'KGM' as const, validThrough: T.validThrough, description: k })),
   }),
   faqNode(faq),
@@ -333,7 +332,7 @@ const ctaDraft = p.cta.draft;
           <Button href={telegramChat(ctaDraft)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{site.hours[lang]}</span></p>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>

@@ -5,8 +5,7 @@
  * serialised into `data-i18n`. Without JS the form still submits to the pricing page tables.
  * Props: { lang, id?, compact? }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { pricingStrings, tpl } from '@/i18n/pricing';
 import { pagePath } from '@/i18n/routes';
@@ -16,10 +15,10 @@ import { CATEGORIES } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
 import Icon from '@/components/ui/Icon.astro';
 
-interface Props { lang: Lang; id?: string; compact?: boolean }
+interface Props { lang: Locale; id?: string; compact?: boolean }
 const { lang, id = 'calc', compact = false } = Astro.props;
 const t = pick(lang, pricingStrings);
-const c = common[lang];
+const c = pick(lang, common);
 const b = t.breakdown;
 const pricingUrl = pagePath(lang, 'pricing');
 const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(tariffs.updated, lang)}`;
@@ -251,14 +250,14 @@ const uid = (s: string) => `${id}-${s}`;
   import tariffs from '@/data/tariffs.json';
   import { estimate, isAirAllowed, formatBreakdown, type Category, type Container, type Mode, type Tariffs, type BreakdownStrings } from '@/lib/pricing';
   import { fmtNumber } from '@/lib/format';
-  import type { Lang } from '@/i18n/config';
+  import type { Locale } from '@/i18n/config';
 
   interface I18n { b: BreakdownStrings; resultEmpty: string; overLimit: string; needVolume: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string }
   const T = tariffs as unknown as Tariffs;
   const sub = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : ''));
 
   function init(form: HTMLFormElement) {
-    const lang = (form.dataset.lang || 'uz') as Lang;
+    const lang = (form.dataset.lang || 'uz') as Locale;
     const i18n = JSON.parse(form.dataset.i18n || '{}') as I18n;
     const tgBase = form.dataset.tg || '';
     const el = <E extends HTMLElement = HTMLElement>(name: string) => form.querySelector<E>(`[data-el="${name}"]`);

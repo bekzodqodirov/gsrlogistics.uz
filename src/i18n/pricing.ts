@@ -1,4 +1,4 @@
-import type { Lang } from './config';
+import { pick, type Lang, type Locale } from './config';
 import type { BreakdownStrings } from '@/lib/pricing';
 
 /**
@@ -737,9 +737,9 @@ export function tpl(s: string, vars: Record<string, string | number>): string {
   return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
 }
 
-/** "2026-yil sentabr" / "сентябрь 2026" / "September 2026" from an ISO date. */
-export function monthYear(iso: string, lang: Lang): string {
+/** "2026-yil sentabr" / "2026-йил сентябрь" / "сентябрь 2026" / "September 2026" from an ISO date. */
+export function monthYear(iso: string, lang: Locale): string {
   const d = new Date(iso);
-  const t = pricingStrings[lang];
+  const t = pick(lang, pricingStrings);
   return tpl(t.monthYear, { month: t.months[d.getUTCMonth()], year: d.getUTCFullYear() });
 }

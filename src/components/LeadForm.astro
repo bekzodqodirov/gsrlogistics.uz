@@ -12,14 +12,13 @@
  * t.me reads as the draft; other fields travel as harmless extra params.
  * Props: { lang, id?, dark? }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { contact } from '@/i18n/contact';
 import { pagePath } from '@/i18n/routes';
 import { site, telegramChat } from '@/lib/site';
 import Icon from '@/components/ui/Icon.astro';
 
-interface Props { lang: Lang; id?: string; dark?: boolean; endpoint?: string }
+interface Props { lang: Locale; id?: string; dark?: boolean; endpoint?: string }
 const { lang, id = 'lead', dark = false, endpoint = '/api/lead' } = Astro.props;
 const t = pick(lang, contact).form;
 const uid = (s: string) => `${id}-${s}`;

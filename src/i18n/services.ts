@@ -1,4 +1,4 @@
-import type { Lang } from './config';
+import { pick, type Lang, type Locale } from './config';
 import type { ServiceKey } from '@/data/services';
 
 /**
@@ -477,8 +477,8 @@ import tariffs from '@/data/tariffs.json';
 import { fmtNumber } from '@/lib/format';
 
 /** One tabular "number line" per service card, composed only from tariffs.json values. */
-export function serviceNumberLine(lang: Lang, key: ServiceKey): string {
-  const t = servicesStrings[lang].line;
+export function serviceNumberLine(lang: Locale, key: ServiceKey): string {
+  const t = pick(lang, servicesStrings).line;
   const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)} ${t.days}`;
   switch (key) {
     case 'truck': return `${range(tariffs.truck.days[0], tariffs.truck.days[1])} · ${tpl(t.fromM3, { n: fmtNumber(tariffs.truck.lclPerM3ByDensity[0].rate, lang) })}`;

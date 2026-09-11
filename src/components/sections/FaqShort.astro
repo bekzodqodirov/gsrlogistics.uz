@@ -4,8 +4,7 @@
  * <details> in a 980px column, plus a link to the full FAQ page. Props: { lang, index? } — `index`
  * is the section number printed in the eyebrow ("07"). All copy is server-rendered.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { faqStrings, faqTpl } from '@/i18n/faq';
 import { faqTop } from '@/data/faq';
 import { pagePath } from '@/i18n/routes';
@@ -13,7 +12,7 @@ import { fmtDate } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 
-interface Props { lang: Lang; index?: string }
+interface Props { lang: Locale; index?: string }
 const { lang, index = '07' } = Astro.props;
 const t = pick(lang, faqStrings);
 const items = faqTop(lang);

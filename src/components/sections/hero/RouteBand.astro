@@ -6,14 +6,13 @@
  * Ticks, labels and half-marks are HTML positioned in % of the same 1600×320 grid.
  * Draw animation: CSS only, started by the `.is-drawn` class the parent toggles at `document.fonts.ready`.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { hero } from '@/i18n/hero';
 import { routeNodes, ROUTE_KM, ROUTE_KM_VERIFIED } from '@/data/route';
 import { fmtNumber } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, hero);
 
@@ -49,7 +48,7 @@ const kmSuffix = ROUTE_KM_VERIFIED ? '' : '+'; // the "+" disappears once the ow
 const kmUnit = lang === 'ru' ? 'км' : 'km'; // Cyrillic unit in Russian copy, matching the journey card and FAQ
 const km = `${kmNumber}${kmSuffix} ${kmUnit}`;
 const days = `${fmtNumber(tariffs.truck.days[0], lang)}–${fmtNumber(tariffs.truck.days[1], lang)}`;
-const routeText = `${t.drawingLabel}: ${nodes.map((n) => n.name[lang]).join(' → ')}`;
+const routeText = `${t.drawingLabel}: ${nodes.map((n) => pick(lang, n.name)).join(' → ')}`;
 ---
 <div class="drawing" role="group" aria-label={routeText}>
 <div class="band">
@@ -73,7 +72,7 @@ const routeText = `${t.drawingLabel}: ${nodes.map((n) => n.name[lang]).join(' �
         )}
         <span class="tick" aria-hidden="true"></span>
         <span class="label">
-          <span class="name">{n.name[lang]}</span>
+          <span class="name">{pick(lang, n.name)}</span>
           {n.second && <span class:list={['second', n.role === 'destination' && 'coords', n.id === 'yiwu' && 'zh']} lang={n.id === 'yiwu' ? 'zh' : undefined}>{n.second}</span>}
         </span>
       </li>
