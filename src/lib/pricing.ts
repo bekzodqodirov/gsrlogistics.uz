@@ -11,7 +11,7 @@
  * Every estimate returns the rule it applied, the rate, the unit, the total, the day range and note codes;
  * the UI translates codes into sentences (see `formatBreakdown` + `src/i18n/pricing.ts`).
  */
-import type { Lang } from '../i18n/config.ts';
+import type { Locale } from '../i18n/config.ts';
 import { fmtNumber, fmtSom, fmtUsd, fmtUsdNumber } from './format.ts';
 
 /* ---------------- Types for tariffs.json ---------------- */
@@ -215,7 +215,7 @@ export interface Breakdown {
 
 const sub = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
 
-export function formatBreakdown(e: Estimate, lang: Lang, s: BreakdownStrings, t: Tariffs): Breakdown {
+export function formatBreakdown(e: Estimate, lang: Locale, s: BreakdownStrings, t: Tariffs): Breakdown {
   const n = (v: number, f = 2) => fmtNumber(v, lang, f);
   const usd = (v: number) => fmtUsd(v, lang);
   const usdRange = (lo: number, hi: number) => (lang === 'en' ? `$${fmtUsdNumber(lo, lang)}–${fmtUsdNumber(hi, lang)}` : `${n(lo)}–${n(hi)} $`);

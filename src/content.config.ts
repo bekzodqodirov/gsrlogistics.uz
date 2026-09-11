@@ -3,14 +3,18 @@ import { glob } from 'astro/loaders';
 
 /**
  * Guides: markdown files at src/content/guides/<lang>/<slug>.md
- * `translationKey` links the three language versions of one article for hreflang.
+ * `translationKey` links the language versions of one article for hreflang.
+ *
+ * `uz`, `ru` and `en` are written by hand. `uzc` (Uzbek Cyrillic) is GENERATED from `uz` by
+ * scripts/generate-cyrillic-guides.mjs on every build (npm prebuild) and is gitignored — its
+ * files are never edited, and a change made there is lost on the next build.
  */
 const guides = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/guides' }),
   schema: z.object({
     title: z.string(),
     description: z.string().max(320),
-    lang: z.enum(['uz', 'ru', 'en']),
+    lang: z.enum(['uz', 'ru', 'en', 'uzc']),
     translationKey: z.string(),
     slug: z.string(),
     publishDate: z.coerce.date(),

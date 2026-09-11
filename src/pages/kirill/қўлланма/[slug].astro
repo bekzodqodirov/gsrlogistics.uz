@@ -1,0 +1,22 @@
+---
+/**
+ * Qoʻllanma maqolalari → /kirill/қўлланма/<cyrillic-slug>/
+ *
+ * Built from the `uzc` branch of the guides collection, which scripts/generate-cyrillic-guides.mjs
+ * writes from the Uzbek articles on every build (npm prebuild). The article is therefore Cyrillic
+ * AT THE SOURCE: the body, the heading ids the table of contents links to, the FAQ that becomes
+ * FAQPage JSON-LD and the internal links between articles are all converted before Astro parses the
+ * markdown — none of them could be fixed up afterwards in the rendered page.
+ *
+ * The slug is the entry's own frontmatter slug, as in every other locale; the generator fails the
+ * build if it ever differs from the one registered in src/i18n/routes.ts.
+ */
+import { getCollection } from 'astro:content';
+import GuidePage from '@/components/pages/GuidePage.astro';
+export async function getStaticPaths() {
+  const entries = await getCollection('guides', (e) => e.data.lang === 'uzc' && !e.data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+<GuidePage lang="uzc" entry={entry} />

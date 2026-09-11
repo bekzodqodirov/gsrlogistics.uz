@@ -1,0 +1,28 @@
+---
+/**
+ * Xizmat sahifalari → /kirill/хизматлар/<cyrillic-slug>/
+ *
+ * The /kirill/ tree mirrors the Latin one file for file, exactly as /ru/ and /en/ do. Two things
+ * differ from src/pages/xizmatlar/[slug].astro, and only two:
+ *
+ *   the slug   comes from `serviceSlugsUzc` in src/i18n/routes.ts — written out by hand, because a
+ *              slug is permanent and a transliterator change must never be able to move a live URL.
+ *              `uzcSub` throws for a service with no entry, so a new service cannot ship a Cyrillic
+ *              page whose hreflang points nowhere.
+ *   the copy   comes from the Uzbek branch through `pick()`, which transliterates and memoises it —
+ *              the same call every component on this page makes for every other string.
+ */
+import ServicePage from '@/components/pages/ServicePage.astro';
+import { pick } from '@/i18n/config';
+import { uzcSub } from '@/i18n/routes';
+import { services, type ServiceMeta } from '@/data/services';
+import { getServiceContent } from '@/data/services/load';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: uzcSub('services', s.slug.uz) }, props: { service: s } }));
+}
+const { service } = Astro.props as { service: ServiceMeta };
+const byLang = getServiceContent(service.key);
+const content = byLang && pick('uzc', byLang);
+---
+<ServicePage lang="uzc" service={service} content={content} />

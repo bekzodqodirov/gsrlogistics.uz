@@ -1,15 +1,15 @@
 ---
-import { langMeta, locales, type Lang } from '@/i18n/config';
-import { alternates, pageUrl, type PageKey } from '@/i18n/routes';
+import { langMeta, locales, type Locale } from '@/i18n/config';
+import { alternates, pageUrl, subFor, type PageKey } from '@/i18n/routes';
 import { site } from '@/lib/site';
 
 interface Props {
-  lang: Lang;
+  lang: Locale;
   title: string;
   description: string;
   /** Route key + per-locale item slugs, used for canonical + hreflang. */
   pageKey: PageKey;
-  subs?: Partial<Record<Lang, string>>;
+  subs?: Partial<Record<Locale, string>>;
   ogImage?: string; // absolute or site-relative
   ogType?: 'website' | 'article';
   noindex?: boolean;
@@ -18,19 +18,27 @@ interface Props {
 }
 const { lang, title, description, pageKey, subs, ogImage = '/og/default.png', ogType = 'website', noindex = false, publishedTime, modifiedTime } = Astro.props;
 const siteUrl = Astro.site ?? new URL(site.url);
-const canonical = pageUrl(siteUrl, lang, pageKey, subs?.[lang]);
+// `subFor`, not `subs?.[lang]`: a `subs` map built from content has no uzc entry, and the
+// canonical of /kirill/хизматлар/авто-карго/ would collapse to the services index.
+const canonical = pageUrl(siteUrl, lang, pageKey, subs && subFor(lang, pageKey, subs));
 const alts = alternates(siteUrl, pageKey, subs);
 const ogImageAbs = new URL(ogImage, siteUrl).toString();
 /**
- * <title> must stay legible in a SERP (~65 chars) while the page keeps its long, question-shaped H1
+ * <title> must stay legible in a SERP (~580px) while the page keeps its long, question-shaped H1
  * for humans and AI answer engines. So: cut a long title at its first natural boundary (?, :, —),
  * and append the brand only when there is room.
+ *
+ * The budget is in characters because that is what we can count here, but Google cuts on pixels,
+ * and Cyrillic runs about 11% wider per character than Latin. Measured across the 29 page titles:
+ * at one shared budget of 62, Uzbek Latin put 2 titles over 580px and Uzbek Cyrillic put 16. So
+ * the Cyrillic locale gets its own, narrower one. uz/ru/en keep 62 exactly, by construction.
  */
+const titleBudget = lang === 'uzc' ? 56 : 62;
 const shortTitle = (() => {
-  if (title.length <= 62) return title;
-  const m = title.match(/^(.{25,62}?[?:—])\s/);
+  if (title.length <= titleBudget) return title;
+  const m = title.match(new RegExp(`^(.{25,${titleBudget}}?[?:—])\\s`));
   if (m) return m[1].replace(/[:—]$/, '').trim();
-  const cut = title.slice(0, 62);
+  const cut = title.slice(0, titleBudget);
   return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s|,:—]+(?:GSR|\S{1,2})$/u, '').replace(/[,:—|]$/, '').trim() + '…';
 })();
 const fullTitle = shortTitle.includes(site.name) || shortTitle.length > 48 ? shortTitle : `${shortTitle} — ${site.name}`;

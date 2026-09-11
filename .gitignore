@@ -6,3 +6,7 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Uzbek Cyrillic guides: generated from src/content/guides/uz by scripts/generate-cyrillic-guides.mjs
+# (npm prebuild). Build output — never edit by hand, never commit.
+src/content/guides/uzc/

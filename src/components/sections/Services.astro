@@ -15,21 +15,20 @@
  *
  * PHOTO SLOT — `flagshipPhoto` below. Props: { lang }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { servicesStrings, serviceNumberLine, tpl } from '@/i18n/services';
-import { pagePath } from '@/i18n/routes';
+import { itemPath } from '@/i18n/routes';
 import { services, type ServiceMeta } from '@/data/services';
 import { fmtDate, fmtNumber } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Icon from '@/components/ui/Icon.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, servicesStrings);
 const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)}`;
-const href = (s: ServiceMeta) => pagePath(lang, 'services', s.slug[lang]);
+const href = (s: ServiceMeta) => itemPath(lang, 'services', s.slug);
 
 const flagship = services.find((s) => s.flagship) ?? services[0];
 const modeKeys = ['air', 'rail'] as const;
@@ -38,9 +37,9 @@ const modes = modeKeys.map((k) => services.find((s) => s.key === k)).filter((s):
 const tail = services.filter((s) => s !== flagship && !modes.includes(s));
 
 const compare = [
-  { key: 'truck', icon: 'truck', name: services.find((s) => s.key === 'truck')!.name[lang], days: range(tariffs.truck.days[0], tariffs.truck.days[1]), fit: t.home.compare.truck },
-  { key: 'air', icon: 'plane', name: services.find((s) => s.key === 'air')!.name[lang], days: range(tariffs.air.days[0], tariffs.air.days[1]), fit: t.home.compare.air },
-  { key: 'rail', icon: 'train', name: services.find((s) => s.key === 'rail')!.name[lang], days: range(tariffs.rail.days[0], tariffs.rail.days[1]), fit: t.home.compare.rail },
+  { key: 'truck', icon: 'truck', name: pick(lang, services.find((s) => s.key === 'truck')!.name), days: range(tariffs.truck.days[0], tariffs.truck.days[1]), fit: t.home.compare.truck },
+  { key: 'air', icon: 'plane', name: pick(lang, services.find((s) => s.key === 'air')!.name), days: range(tariffs.air.days[0], tariffs.air.days[1]), fit: t.home.compare.air },
+  { key: 'rail', icon: 'train', name: pick(lang, services.find((s) => s.key === 'rail')!.name), days: range(tariffs.rail.days[0], tariffs.rail.days[1]), fit: t.home.compare.rail },
 ] as const;
 const truckDays = range(tariffs.truck.days[0], tariffs.truck.days[1]);
 /**
@@ -66,7 +65,7 @@ const truckPrice = `${tpl(t.line.fromM3, { n: fmtNumber(tariffs.truck.lclPerM3By
  * photo the card keeps the day-range stat in the same slot, so the section is finished either
  * way — the photo replaces the stat, it does not leave a hole waiting for it.
  */
-const flagshipPhoto: { src: string; width: number; height: number } | null = null;
+const flagshipPhoto = null as { src: string; width: number; height: number } | null;
 ---
 <section id="xizmatlar" class="section services below-fold" aria-labelledby="services-title">
   <div class="container">
@@ -83,8 +82,8 @@ const flagshipPhoto: { src: string; width: number; height: number } | null = nul
           <Icon name={flagship.icon} size={24} class="glyph" />
           <span class="badge">{t.home.flagshipBadge}</span>
         </div>
-        <h3 class="flag-title">{flagship.name[lang]}</h3>
-        <p class="flag-sentence">{flagship.short[lang]}</p>
+        <h3 class="flag-title">{pick(lang, flagship.name)}</h3>
+        <p class="flag-sentence">{pick(lang, flagship.short)}</p>
         {/* With a photo in the aside the figures have nowhere else to go, so the standard number
             line comes back here. Without one the aside carries them, unrepeated. */}
         {flagshipPhoto && <p class="numline tnum">{serviceNumberLine(lang, flagship.key)}</p>}
@@ -124,8 +123,8 @@ const flagshipPhoto: { src: string; width: number; height: number } | null = nul
           <li class="reveal" style={`--reveal-delay:${i * 60}ms`}>
             <a href={href(s)} class="card card-hover mode">
               <div class="top"><Icon name={s.icon} size={20} class="glyph" /></div>
-              <h4 class="mode-title">{s.name[lang]}</h4>
-              <p class="sentence">{s.short[lang]}</p>
+              <h4 class="mode-title">{pick(lang, s.name)}</h4>
+              <p class="sentence">{pick(lang, s.short)}</p>
               <p class="numline tnum">{serviceNumberLine(lang, s.key)}</p>
               <span class="link">{t.home.details}</span>
             </a>
@@ -160,8 +159,8 @@ const flagshipPhoto: { src: string; width: number; height: number } | null = nul
             <a href={href(s)} class="tail-row">
               <Icon name={s.icon} size={20} class="tail-glyph" />
               <span class="tail-body">
-                <span class="tail-name">{s.name[lang]}</span>
-                <span class="tail-text">{s.short[lang]}</span>
+                <span class="tail-name">{pick(lang, s.name)}</span>
+                <span class="tail-text">{pick(lang, s.short)}</span>
               </span>
               <span class="chev" aria-hidden="true">›</span>
             </a>

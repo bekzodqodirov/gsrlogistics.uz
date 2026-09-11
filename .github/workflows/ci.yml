@@ -16,4 +16,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # `astro check` — the type-check the header above promises. It needs @astrojs/check +
+      # typescript, which are devDependencies, so `npm ci` installs them.
+      - run: npm run check
+      - run: npm run test:pricing
+      - run: npm run test:cyrillic
+      - run: npm run test:locale
       - run: npm run build

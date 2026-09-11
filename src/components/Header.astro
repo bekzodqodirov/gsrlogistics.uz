@@ -1,17 +1,20 @@
 ---
-import { langMeta, locales, type Lang } from '@/i18n/config';
-import { pagePath } from '@/i18n/routes';
+import { pick, langMeta, locales, type Locale } from '@/i18n/config';
+import { pagePath, itemPath } from '@/i18n/routes';
 import { common } from '@/i18n/common';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
 import Logo from './ui/Logo.astro';
 import Icon from './ui/Icon.astro';
 import { services } from '@/data/services';
 import tariffs from '@/data/tariffs.json';
-interface Props { lang: Lang; alternates: Array<{ lang: Lang; href: string }>; currentPath: string }
+interface Props { lang: Locale; alternates: Array<{ lang: Locale; href: string }>; currentPath: string }
 const { lang, alternates, currentPath } = Astro.props;
-const t = common[lang];
+const t = pick(lang, common);
 const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '/en/' && currentPath.startsWith(href);
-const allServices = { uz: 'Barcha xizmatlar', ru: 'Все услуги', en: 'All services' }[lang];
+// The switcher shows the sibling page in every locale. Cyrillic paths are decoded back to UTF-8:
+// `new URL().pathname` percent-encodes them, and a visible href should read as the word it is.
+const switchHref = (l: Locale) => { const alt = alternates.find((a) => a.lang === l); return alt ? decodeURI(new URL(alt.href).pathname) : pagePath(l, 'home'); };
+const allServices = pick(lang, { uz: 'Barcha xizmatlar', ru: 'Все услуги', en: 'All services' });
 const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–${tariffs.truck.days[1]} ${t.strings.days}` : key === 'air' ? `${tariffs.air.days[0]}–${tariffs.air.days[1]} ${t.strings.days}` : key === 'rail' ? `${tariffs.rail.days[0]}–${tariffs.rail.days[1]} ${t.strings.days}` : '';
 ---
 <header class="site-header" id="site-header" data-scrolled="false">
@@ -30,9 +33,9 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
                 <ul role="list" class="mega-grid">
                   {services.map((s) => (
                     <li>
-                      <a href={pagePath(lang, 'services', s.slug[lang])} class="mega-item">
+                      <a href={itemPath(lang, 'services', s.slug)} class="mega-item">
                         <Icon name={s.icon} size={20} class="mega-icon" />
-                        <span class="mega-body"><span class="mega-name">{s.name[lang]}</span><span class="mega-short">{s.short[lang]}</span>{daysFor(s.key) && <span class="mega-days tnum">{daysFor(s.key)}</span>}</span>
+                        <span class="mega-body"><span class="mega-name">{pick(lang, s.name)}</span><span class="mega-short">{pick(lang, s.short)}</span>{daysFor(s.key) && <span class="mega-days tnum">{daysFor(s.key)}</span>}</span>
                       </a>
                     </li>
                   ))}
@@ -46,7 +49,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
     </nav>
     <div class="header-actions">
       <div class="lang" role="group" aria-label={t.header.langLabel}>
-        {locales.map((l) => { const alt = alternates.find((a) => a.lang === l); const href = alt ? new URL(alt.href).pathname : pagePath(l, 'home'); return <a href={href} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined} title={langMeta[l].label}>{langMeta[l].short}</a>; })}
+        {locales.map((l) => <a href={switchHref(l)} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined} title={langMeta[l].label}>{langMeta[l].short}</a>)}
       </div>
       <a href={phoneUrl} class="phone" aria-label={`${t.header.phoneLabel}: ${site.phoneDisplay}`}><Icon name="phone" size={18} /><span class="tnum">{site.phoneDisplay}</span></a>
       <a href={telegramChat(t.telegramDraft.general)} class="btn btn-primary btn-sm header-cta" target="_blank" rel="noopener"><Icon name="telegram" size={16} />{t.cta.telegram}</a>
@@ -64,7 +67,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
         <a href={telegramChat(t.telegramDraft.general)} class="btn btn-primary btn-block" target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.cta.telegram}</a>
         <a href={phoneUrl} class="btn btn-outline btn-block"><Icon name="phone" size={18} /><span class="tnum">{site.phoneDisplay}</span></a>
         <div class="lang lang-mobile" role="group" aria-label={t.header.langLabel}>
-          {locales.map((l) => { const alt = alternates.find((a) => a.lang === l); const href = alt ? new URL(alt.href).pathname : pagePath(l, 'home'); return <a href={href} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined}>{langMeta[l].label}</a>; })}
+          {locales.map((l) => <a href={switchHref(l)} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined}>{langMeta[l].label}</a>)}
         </div>
       </div>
     </nav>
@@ -132,8 +135,24 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   @media (min-width: 900px) { .nav-desktop { display: block; } .menu-btn { display: none; } .mobile-menu { display: none !important; } }
   @media (min-width: 1280px) { .header-cta { display: inline-flex; } }
   :global(html:lang(ru)) .nav-desktop > ul > li > a { font-size: 0.875rem; padding: 0 8px; }
-  /* uz/en pages: keep the Cyrillic switcher label off the web font so the cyrillic subset is not downloaded. */
-  :global(html:not(:lang(ru))) .lang a[lang='ru'] { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  /* A page whose own body text is Latin must not pull the 15.8 KB Cyrillic subset down for two
+     switcher labels alone. Both Cyrillic labels — Русский and Ўзбекча — fall back to the system
+     font there; on ru and uz-Cyrl pages the subset is loaded for the page anyway, so they keep
+     Onest. (Before the fourth locale this rule covered `[lang='ru']` only, and the new Ўз label
+     was re-introducing the download on every uz and en page.) */
+  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) .lang a[lang='ru'],
+  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) .lang a[lang='uz-Cyrl'] { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  /* Four locales, a 390px phone and a wordmark. Below the desktop breakpoint the switcher keeps
+     its 44px HEIGHT — the dimension a thumb actually needs — and gives up the fixed 44px width,
+     which was only padding around a three-letter label. Four 44px pills plus the brand overran
+     the viewport by 20px the moment the fourth locale appeared; measured at 320–430px after. */
+  @media (max-width: 899px) {
+    .lang a { min-width: 32px; padding: 0 4px; }
+    .lang a + a::before { margin-right: 4px; }
+    .header-inner { gap: 8px; }
+    .brand { margin-right: 0; }
+    .lang-mobile a { min-width: 0; padding: 0 6px; }
+  }
   @media (min-width: 1520px) { .phone { display: inline-flex; } }
   :global(body.menu-open) { overflow: hidden; }
 </style>
@@ -143,7 +162,9 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   const menu = document.getElementById('mobile-menu');
   if (btn && menu) {
     const set = (open: boolean) => { btn.setAttribute('aria-expanded', String(open)); menu.hidden = !open; document.body.classList.toggle('menu-open', open); };
-    btn.addEventListener('click', () => set(menu.hidden));
+    // `hidden` is typed `boolean | 'until-found'` by lib.dom; this element's is only ever written
+    // by `set` two lines up, which writes a boolean.
+    btn.addEventListener('click', () => set(menu.hidden as boolean));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { set(false); btn.focus(); } });
     window.matchMedia('(min-width: 900px)').addEventListener('change', (e) => { if (e.matches) set(false); });
   }

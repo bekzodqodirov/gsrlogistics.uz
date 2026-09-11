@@ -4,8 +4,7 @@
  * desktop, FAQPage JSON-LD for every question, an answer-first intro and a closing CTA band.
  * All questions/answers come from src/data/faq.ts (numbers from tariffs.json). Props: { lang }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { faqStrings, faqTpl } from '@/i18n/faq';
 import { faq, faqItems } from '@/data/faq';
@@ -19,11 +18,11 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, faqStrings);
-const c = common[lang];
-const groups = faq[lang];
+const c = pick(lang, common);
+const groups = pick(lang, faq);
 const all = faqItems(lang);
 const truckFrom = tariffs.truck.lclPerM3ByDensity[0].rate;
 const vars = {
@@ -113,7 +112,7 @@ let n = 0;
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
           <a class="link" href={pagePath(lang, 'calculator')}>{c.cta.calculate}</a>
         </div>
-        <p class="caption tnum cta-meta">{site.phoneDisplay} · {site.hours[lang]}</p>
+        <p class="caption tnum cta-meta">{site.phoneDisplay} · {pick(lang, site.hours)}</p>
       </div>
     </section>
   </article>

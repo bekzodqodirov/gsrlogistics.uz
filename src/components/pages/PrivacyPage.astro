@@ -1,16 +1,16 @@
 ---
 /** /maxfiylik/ — trilingual privacy policy. Props: { lang }. */
-import type { Lang } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { privacy } from '@/i18n/privacy';
 import { site, telegramChat } from '@/lib/site';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
-const t = privacy[lang];
-const c = common[lang];
+const t = pick(lang, privacy);
+const c = pick(lang, common);
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: c.footer.privacy, key: 'privacy' as const }];
 ---
 <Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="privacy" breadcrumbs={breadcrumbs} dateModified="2026-09-08">
@@ -27,7 +27,7 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: c
     <div class="container container-text">
       <div class="prose policy">
         {/* Operator line: trade name + site.legalEntity from src/lib/site.ts; the STIR is added there once the owner supplies it */}
-        <p><strong>{t.operatorLabel}:</strong> {site.legalEntity ? `${t.operatorFallback} (${site.legalEntity})` : t.operatorFallback}. {site.address[lang]}. {site.email}.</p>
+        <p><strong>{t.operatorLabel}:</strong> {site.legalEntity ? `${t.operatorFallback} (${site.legalEntity})` : t.operatorFallback}. {pick(lang, site.address)}. {site.email}.</p>
         {t.sections.map((s) => (
           <section>
             <h2>{s.heading}</h2>

@@ -5,8 +5,7 @@
  * a static "map card" (no embeds) linking to Yandex/Google, the lead form and directions.
  * The page IS the CTA: no closing CTA band, mobile bar hidden. Props: { lang }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { contact, fill } from '@/i18n/contact';
 import { site, phoneUrl, phone2Url, telegramUrl, telegramGroupUrl, telegramChat, instagramUrl, facebookUrl, whatsappUrl } from '@/lib/site';
@@ -17,13 +16,13 @@ import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Icon from '@/components/ui/Icon.astro';
 import LeadForm from '@/components/LeadForm.astro';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, contact);
-const c = common[lang];
+const c = pick(lang, common);
 const label = c.nav.find((n) => n.key === 'contact')?.label ?? t.eyebrow;
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'contact' as const }];
-const intro = fill(t.intro, { address: site.address[lang], hours: site.hours[lang] });
+const intro = fill(t.intro, { address: pick(lang, site.address), hours: pick(lang, site.hours) });
 const pageUrl = new URL(Astro.url.pathname, Astro.site ?? site.url).toString();
 const contactNode = {
   '@type': 'ContactPage',
@@ -62,7 +61,7 @@ const socials = [
           <dl class="nap-list">
             <div class="row">
               <dt><Icon name="map-pin" size={18} /><span>{t.card.addressLabel}</span></dt>
-              <dd><address class="addr">{site.address[lang]}<br /><span class="muted tnum">{site.address.postalCode}</span></address></dd>
+              <dd><address class="addr">{pick(lang, site.address)}<br /><span class="muted tnum">{site.address.postalCode}</span></address></dd>
             </div>
             <div class="row">
               <dt><Icon name="phone" size={18} /><span>{t.card.phoneLabel}</span></dt>
@@ -74,7 +73,7 @@ const socials = [
             </div>
             <div class="row">
               <dt><Icon name="clock" size={18} /><span>{t.card.hoursLabel}</span></dt>
-              <dd><span class="val tnum">{site.hours[lang]}</span></dd>
+              <dd><span class="val tnum">{pick(lang, site.hours)}</span></dd>
             </div>
             <div class="row">
               <dt><Icon name="mail" size={18} /><span>{t.card.emailLabel}</span></dt>
@@ -105,7 +104,7 @@ const socials = [
           <ol class="wh-list" role="list">
             {site.chinaWarehouses.map((w) => (
               <li class="wh">
-                <p class="wh-city">{w.city[lang]}<span class="wh-zh" lang="zh">{w.cityZh}</span></p>
+                <p class="wh-city">{pick(lang, w.city)}<span class="wh-zh" lang="zh">{w.cityZh}</span></p>
                 {site.publishChinaAddresses && (
                   <p class="wh-addr" lang="zh">{w.address}{w.note ? `（${w.note}）` : ''}</p>
                 )}

@@ -11,14 +11,14 @@
  */
 import mapPaths from './map-paths.svg.txt?raw';
 import meta from './map-meta.json';
-import type { Lang } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { journey } from '@/i18n/journey';
 import { routeNodes, extraPlaces } from '@/data/route';
 import Glyphs from './Glyphs.astro';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
-const t = journey[lang];
+const t = pick(lang, journey);
 const { routeD, railD, airD, kgD } = meta;
 
 /** Label placement per node (dx, dy in map units; anchor). Chosen so labels never sit on the route line. */
@@ -116,13 +116,13 @@ const A = {
         return (
           <g class:list={['jm-city', p.minor && 'jm-minor', n.role && `jm-${n.role}`]} data-j="city" transform={`translate(${n.x} ${n.y})`}>
             <circle r="3" class="jm-dot"></circle>
-            <text x={p.dx} y={p.dy} text-anchor={p.anchor ?? 'start'} data-o={p.anchor === 'end' ? '100% 100%' : p.anchor === 'middle' ? '50% 100%' : '0% 100%'} data-j="label">{n.name[lang]}{suffix[n.id]}</text>
+            <text x={p.dx} y={p.dy} text-anchor={p.anchor ?? 'start'} data-o={p.anchor === 'end' ? '100% 100%' : p.anchor === 'middle' ? '50% 100%' : '0% 100%'} data-j="label">{pick(lang, n.name)}{suffix[n.id]}</text>
           </g>
         );
       })}
       <g class="jm-city jm-minor jm-faint" data-j="city" transform={`translate(${gz.x} ${gz.y})`}>
         <circle r="2.5" class="jm-dot"></circle>
-        <text x="9" y="5" data-o="0% 100%" data-j="label">{gz.name[lang]}</text>
+        <text x="9" y="5" data-o="0% 100%" data-j="label">{pick(lang, gz.name)}</text>
       </g>
       <g class="jm-city jm-minor jm-faint jm-alt" data-j="city" transform={`translate(${alt.x} ${alt.y})`}>
         <text x="4" y="16" text-anchor="start" data-o="0% 100%" data-j="label">{t.map.altRoute}</text>

@@ -22,7 +22,7 @@
  * services → 03 what you get → 04 process → 05 pricing → 06 tracking → 07 FAQ → 08 contact)
  * stays intact because 05 and 06 live in i18n files this stream does not own.
  */
-import type { Lang } from '@/i18n/config';
+import { pick, type Locale, type Localized } from '@/i18n/config';
 import Base from '@/layouts/Base.astro';
 import Hero from '@/components/sections/Hero.astro';
 import Journey from '@/components/journey/Journey.astro';
@@ -36,17 +36,17 @@ import TrackingTeaser from '@/components/sections/TrackingTeaser.astro';
 import FaqShort from '@/components/sections/FaqShort.astro';
 import CtaBand from '@/components/sections/CtaBand.astro';
 import { serviceNode } from '@/lib/schema';
-import { pageUrl } from '@/i18n/routes';
+import { itemUrl } from '@/i18n/routes';
 import { site } from '@/lib/site';
 import { services } from '@/data/services';
 import tariffs from '@/data/tariffs.json';
 import { fmtUsd } from '@/lib/format';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 
 const fromRate = tariffs.truck.lclPerM3ByDensity[0].rate;
-const seo: Record<Lang, { title: string; description: string }> = {
+const seo: Localized<{ title: string; description: string }> = {
   uz: {
     title: 'Xitoydan Toshkentga kargo: yigʻma yuk 15–25 kun, avia 5–10 kun — GSR Logistics',
     description: `Xitoydan Oʻzbekistonga yuk tashish, tovar topish va sotib olish. Qabul manzillari: Ivu, Guanchjou va Qashqar. Ivu omboridan Xorgos orqali Toshkentgacha: yigʻma yuk taxminan 15–25 kun, avia 5–10 kun, ${fmtUsd(fromRate, 'uz')}/m³ dan. Bojxona rasmiylashtiruvi, foto-hisobot, 1688/Taobaodan xarid. Toshkent, 2018-yildan.`.replace('’', 'ʼ'),
@@ -63,9 +63,9 @@ const seo: Record<Lang, { title: string; description: string }> = {
 const siteUrl = Astro.site ?? new URL(site.url);
 const serviceGraph = services.slice(0, 3).map((s) =>
   serviceNode(lang, {
-    name: s.name[lang],
-    description: s.short[lang],
-    url: pageUrl(siteUrl, lang, 'services', s.slug[lang]),
+    name: pick(lang, s.name),
+    description: pick(lang, s.short),
+    url: itemUrl(siteUrl, lang, 'services', s.slug),
     serviceType: s.key === 'air' ? 'Air freight' : s.key === 'rail' ? 'Rail freight' : 'Consolidated truck freight',
     offers: s.key === 'truck'
       ? [{ price: tariffs.truck.lclPerM3ByDensity[0].rate, unitCode: 'MTQ', validThrough: tariffs.validThrough, description: 'Consolidated truck cargo China → Tashkent, per m³ by density (estimate)' }]
@@ -75,7 +75,7 @@ const serviceGraph = services.slice(0, 3).map((s) =>
   }),
 );
 ---
-<Base lang={lang} title={seo[lang].title} description={seo[lang].description} pageKey="home" jsonLd={serviceGraph} dateModified={tariffs.updated}>
+<Base lang={lang} title={pick(lang, seo).title} description={pick(lang, seo).description} pageKey="home" jsonLd={serviceGraph} dateModified={tariffs.updated}>
   <Hero lang={lang} />
   <Journey lang={lang} />
   <Services lang={lang} />

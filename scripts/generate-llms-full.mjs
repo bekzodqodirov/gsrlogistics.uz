@@ -1,5 +1,12 @@
 // Post-build: writes dist/llms-full.txt — every page as Markdown-ish plain text grouped by language.
 // Usage: node scripts/generate-llms-full.mjs [dist]
+//
+// The Uzbek Cyrillic locale (/kirill/) is DELIBERATELY not dumped here. It is the Uzbek section
+// transliterated — the same sentences, the same figures, the same tables, in the other script — so
+// emitting it would add ~300 KB and not one new fact, and would make a model reading this file
+// believe the site says everything twice. Instead the locale is announced once at the top and each
+// Uzbek page carries its Cyrillic URL, read from that page's own uz-Cyrl alternate, so anything
+// that needs to cite or link the Cyrillic page has the exact URL without the text being repeated.
 import fs from 'node:fs';
 import path from 'node:path';
 const dist = process.argv[2] || 'dist';
@@ -23,13 +30,23 @@ function extract(html) {
   return { title, desc, body: out.join('\n') };
 }
 const pages = walk(dist).map((f) => ({ file: f, url: SITE + '/' + path.relative(dist, path.dirname(f)).replace(/\\/g, '/') + '/' })).map((p) => ({ ...p, url: p.url.replace(/\/\.\/$/, '/').replace(/\/\/$/, '/') })).filter((p) => !/\/404\//.test(p.url) && !/\/dev-/.test(p.url));
-const lang = (u) => (/\/ru\//.test(u) ? 'ru' : /\/en\//.test(u) ? 'en' : 'uz');
+const lang = (u) => (/\/ru\//.test(u) ? 'ru' : /\/en\//.test(u) ? 'en' : /\/kirill(\/|$)/.test(u) ? 'uzc' : 'uz');
 const groups = { uz: [], ru: [], en: [] };
-for (const p of pages) { const html = fs.readFileSync(p.file, 'utf8'); if (/name="robots" content="noindex/i.test(html)) continue; groups[lang(p.url)].push({ ...p, ...extract(html) }); }
+let cyrillic = 0;
+for (const p of pages) {
+  const html = fs.readFileSync(p.file, 'utf8');
+  if (/name="robots" content="noindex/i.test(html)) continue;
+  if (lang(p.url) === 'uzc') { cyrillic += 1; continue; } // announced at the top, not repeated
+  // The page's own uz-Cyrl alternate: already percent-encoded, the one spelling of that URL.
+  const uzc = (html.match(/<link rel="alternate" hreflang="uz-Cyrl" href="([^"]+)"/) || [])[1];
+  groups[lang(p.url)].push({ ...p, uzc, ...extract(html) });
+}
 let out = `# GSR Logistics — full site text\n\n> Cargo from China to Uzbekistan: consolidated truck (15–25 days), air (5–10), rail (20–35); sourcing, buying on 1688/Taobao, customs clearance, Yiwu warehouse. Tashkent. Generated ${new Date().toISOString().slice(0, 10)}.\n`;
+out += `> The site publishes four locales: Uzbek Latin (uz, at /), Russian (ru, /ru/), English (en, /en/) and Uzbek Cyrillic (uz-Cyrl, /kirill/). The Cyrillic locale is the Uzbek one transliterated script-for-script — same pages, same numbers, Cyrillic slugs — so its ${cyrillic} pages are NOT repeated below; each Uzbek page names its Cyrillic URL on its own "Uzbek Cyrillic:" line, and every Cyrillic URL is in https://gsrlogistics.uz/sitemap-0.xml with hreflang.\n`;
 for (const [l, name] of [['uz', 'Oʻzbekcha'], ['ru', 'Русский'], ['en', 'English']]) {
   out += `\n\n# ===== ${name} (${l}) =====\n`;
-  for (const p of groups[l].sort((a, b) => a.url.localeCompare(b.url))) out += `\n\n---\nURL: ${p.url}\nTitle: ${p.title}\nDescription: ${p.desc}\n${p.body}\n`;
+  for (const p of groups[l].sort((a, b) => a.url.localeCompare(b.url))) out += `\n\n---\nURL: ${p.url}\n${l === 'uz' && p.uzc ? `Uzbek Cyrillic: ${p.uzc}\n` : ''}Title: ${p.title}\nDescription: ${p.desc}\n${p.body}\n`;
 }
 fs.writeFileSync(path.join(dist, 'llms-full.txt'), out);
-console.log(`llms-full.txt: ${pages.length} pages, ${(out.length / 1024).toFixed(0)} KB`);
+const written = groups.uz.length + groups.ru.length + groups.en.length;
+console.log(`llms-full.txt: ${written} pages, ${(out.length / 1024).toFixed(0)} KB (+${cyrillic} Cyrillic pages announced, not duplicated)`);

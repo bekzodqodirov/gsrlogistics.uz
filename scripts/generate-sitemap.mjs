@@ -1,5 +1,10 @@
 // Post-build: rewrites dist/sitemap-0.xml so every URL carries xhtml:link hreflang alternates
 // (read from each page's own <link rel="alternate">), plus lastmod from the page's dateModified meta.
+//
+// Every <loc> is the page's own <link rel="canonical">, copied byte for byte. That matters most for
+// the Cyrillic locale, whose URLs are percent-encoded (`/kirill/%D0%BD%D0%B0%D1%80%D1%85...`): a
+// sitemap entry that spelled the same page any other way would offer Google a second URL for one
+// page. scripts/check-kirill.mjs asserts the two are identical, entry for entry.
 import fs from 'node:fs';
 import path from 'node:path';
 const dist = process.argv[2] || 'dist';
@@ -13,7 +18,12 @@ for (const f of walk(dist)) {
   if (!canonical) continue;
   const alts = [...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)].map((m) => ({ lang: m[1], href: m[2] }));
   const mod = (html.match(/property="article:modified_time" content="([^"]+)"/) || [])[1] || today;
-  const pri = canonical.endsWith('gsrlogistics.uz/') || /\/(ru|en)\/$/.test(canonical) ? '1.0' : /xizmatlar|uslugi|services|narxlar|ceny|pricing/.test(canonical) ? '0.9' : '0.7';
+  // Priority is judged on the DECODED path: the Cyrillic slugs arrive percent-encoded, so a regex
+  // over the raw canonical would score every /kirill/ page 0.7 — the Cyrillic home included.
+  const p = decodeURIComponent(new URL(canonical).pathname);
+  const home = p === '/' || /^\/(ru|en|kirill)\/$/.test(p);
+  const money = /xizmatlar|uslugi|services|хизматлар|narxlar|ceny|pricing|нархлар/.test(p);
+  const pri = home ? '1.0' : money ? '0.9' : '0.7';
   entries.push({ loc: canonical, alts, mod: mod.slice(0, 10), pri });
 }
 entries.sort((a, b) => a.loc.localeCompare(b.loc));

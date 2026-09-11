@@ -1,17 +1,27 @@
 ---
-import { langMeta, locales, type Lang } from '@/i18n/config';
-import { pagePath } from '@/i18n/routes';
+import { pick, langMeta, locales, type Locale } from '@/i18n/config';
+import { pagePath, itemPath } from '@/i18n/routes';
 import { common } from '@/i18n/common';
 import { site, phoneUrl, phone2Url, whatsappUrl, telegramUrl, telegramGroupUrl, instagramUrl, facebookUrl, telegramChat } from '@/lib/site';
 import { services } from '@/data/services';
 import tariffs from '@/data/tariffs.json';
 import Logo from './ui/Logo.astro';
 import Icon from './ui/Icon.astro';
-interface Props { lang: Lang; alternates: Array<{ lang: Lang; href: string }> }
+interface Props { lang: Locale; alternates: Array<{ lang: Locale; href: string }> }
 const { lang, alternates } = Astro.props;
-const t = common[lang];
+const t = pick(lang, common);
 const year = new Date().getFullYear();
-const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
+// Three words that live nowhere else. Written as one localized record rather than three inline
+// ternaries so the Cyrillic branch comes from `pick` like every other string on the page — a
+// `lang === 'uz' ? … : …` chain silently hands the English branch to /kirill/.
+const modeWord = pick(lang, {
+  uz: { truck: 'Yigʻma yuk', air: 'Avia', rail: 'Temir yoʻl' },
+  ru: { truck: 'Сборный груз', air: 'Авиа', rail: 'Ж/д' },
+  en: { truck: 'Consolidated', air: 'Air', rail: 'Rail' },
+});
+// Cyrillic paths come back percent-encoded from `new URL().pathname`; show the word, not the bytes.
+const switchHref = (l: Locale) => { const alt = alternates.find((a) => a.lang === l); return alt ? decodeURI(new URL(alt.href).pathname) : pagePath(l, 'home'); };
+const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' });
 ---
 <footer class="site-footer dark" id="site-footer">
   <div class="container">
@@ -20,9 +30,9 @@ const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
         <Logo size={32} />
         <p class="muted footer-desc">{t.footer.desc}</p>
         <ul role="list" class="fact-stack tnum">
-          <li>{lang === 'uz' ? 'Yigʻma yuk' : lang === 'ru' ? 'Сборный груз' : 'Consolidated'} <strong>{tariffs.truck.days[0]}–{tariffs.truck.days[1]} {t.strings.days}</strong></li>
-          <li>{lang === 'uz' ? 'Avia' : lang === 'ru' ? 'Авиа' : 'Air'} <strong>{tariffs.air.days[0]}–{tariffs.air.days[1]} {t.strings.days}</strong></li>
-          <li>{lang === 'uz' ? 'Temir yoʻl' : lang === 'ru' ? 'Ж/д' : 'Rail'} <strong>{tariffs.rail.days[0]}–{tariffs.rail.days[1]} {t.strings.days}</strong> <span class="meta">· {t.strings.approx}</span></li>
+          <li>{modeWord.truck} <strong>{tariffs.truck.days[0]}–{tariffs.truck.days[1]} {t.strings.days}</strong></li>
+          <li>{modeWord.air} <strong>{tariffs.air.days[0]}–{tariffs.air.days[1]} {t.strings.days}</strong></li>
+          <li>{modeWord.rail} <strong>{tariffs.rail.days[0]}–{tariffs.rail.days[1]} {t.strings.days}</strong> <span class="meta">· {t.strings.approx}</span></li>
         </ul>
         <div class="socials">
           <a href={telegramUrl} target="_blank" rel="noopener" aria-label={t.footer.channel}><Icon name="telegram" /></a>
@@ -34,7 +44,7 @@ const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
         <details class="footer-group" open>
           <summary><h2 class="footer-h">{t.footer.services}</h2><Icon name="chevron-down" size={16} /></summary>
           <ul role="list">
-            {services.map((s) => <li><a href={pagePath(lang, 'services', s.slug[lang])}>{s.name[lang]}</a></li>)}
+            {services.map((s) => <li><a href={itemPath(lang, 'services', s.slug)}>{pick(lang, s.name)}</a></li>)}
           </ul>
         </details>
       </nav>
@@ -56,15 +66,15 @@ const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
           <li><a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.cta.telegram}</a></li>
           <li><a href={telegramGroupUrl} target="_blank" rel="noopener"><Icon name="users" size={18} />{t.footer.group}</a></li>
           <li><a href={`mailto:${site.email}`}><Icon name="mail" size={18} />{site.email}</a></li>
-          <li><a href={site.yandexMapsUrl} target="_blank" rel="noopener"><Icon name="map-pin" size={18} /><span>{site.address[lang]}</span></a></li>
-          <li><span class="muted"><Icon name="clock" size={18} />{site.hours[lang]}</span></li>
+          <li><a href={site.yandexMapsUrl} target="_blank" rel="noopener"><Icon name="map-pin" size={18} /><span>{pick(lang, site.address)}</span></a></li>
+          <li><span class="muted"><Icon name="clock" size={18} />{pick(lang, site.hours)}</span></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <p class="caption">© {year} {site.name} · {city}{site.legalEntity ? ` · ${site.legalEntity}` : ''}. {t.footer.rights}</p>
       <div class="footer-langs" role="group" aria-label={t.footer.languages}>
-        {locales.map((l) => { const alt = alternates.find((a) => a.lang === l); const href = alt ? new URL(alt.href).pathname : pagePath(l, 'home'); return <a href={href} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined}>{langMeta[l].label}</a>; })}
+        {locales.map((l) => <a href={switchHref(l)} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined}>{langMeta[l].label}</a>)}
       </div>
     </div>
   </div>
@@ -94,8 +104,10 @@ const city = { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }[lang];
     .footer-group summary :global(svg) { display: none; }
     .footer-group > ul { display: block; padding-top: 0; }
   }
-  /* uz/en pages: keep the Cyrillic label off the web font so the cyrillic subset is not downloaded. */
-  :global(html:not(:lang(ru))) .footer-langs a[lang='ru'] { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  /* Same reasoning as the header switcher: on a page whose own text is Latin, both Cyrillic labels
+     fall back to the system font so the 15.8 KB Cyrillic subset is not downloaded for two words. */
+  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) .footer-langs a[lang='ru'],
+  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) .footer-langs a[lang='uz-Cyrl'] { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
   .site-footer ul li + li { margin-top: 10px; }
   .site-footer ul a { color: var(--fg-2); font-size: 0.9375rem; transition: color var(--dur) var(--ease); }
   .site-footer ul a:hover { color: var(--fg); }

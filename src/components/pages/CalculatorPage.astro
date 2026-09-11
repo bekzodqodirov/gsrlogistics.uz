@@ -3,8 +3,7 @@
  * Calculator page (/kalkulyator/, /ru/kalkulyator/, /en/calculator/): the live calculator,
  * how it computes, what to keep in mind, and a link to the full tables. Props: { lang }.
  */
-import type { Lang } from '@/i18n/config';
-import { pick } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { pricingStrings, tpl } from '@/i18n/pricing';
 import { pagePath } from '@/i18n/routes';
@@ -19,11 +18,11 @@ import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Calculator from '@/components/Calculator.astro';
 
-interface Props { lang: Lang }
+interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, pricingStrings);
 const p = t.calcPage;
-const c = common[lang];
+const c = pick(lang, common);
 const T = tariffs as unknown as Tariffs;
 const n = (v: number, f = 2) => fmtNumber(v, lang, f);
 const updated = fmtDate(T.updated, lang);
@@ -96,7 +95,7 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: l
           <Button href={telegramChat(p.cta.draft)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{site.hours[lang]}</span></p>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>

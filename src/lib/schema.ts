@@ -1,4 +1,4 @@
-import { langMeta, type Lang } from '@/i18n/config';
+import { langMeta, pick, type Locale, type Localized } from '@/i18n/config';
 import { pagePath, pageUrl, type PageKey } from '@/i18n/routes';
 import { site, telegramUrl, telegramBotUrl, telegramBotHandle, instagramUrl, facebookUrl } from './site';
 
@@ -6,17 +6,34 @@ const SITE = site.url;
 export const ORG_ID = `${SITE}/#organization`;
 export const WEBSITE_ID = `${SITE}/#website`;
 
-const descriptions: Record<Lang, string> = {
+/**
+ * ── Locales and identity in the graph ─────────────────────────────────────────────────────────
+ *
+ * `inLanguage` is per page and carries the BCP-47 tag from `langMeta`, so a /kirill/ page declares
+ * `uz-Cyrl` and a `/` page `uz-Latn`. Google reads the script subtag, and the two Uzbek scripts
+ * must not both claim `uz` or one gets treated as a duplicate of the other.
+ *
+ * The `@id`s work the other way round and are deliberately NOT per locale:
+ *   · ORG_ID and WEBSITE_ID are one organization and one website seen in four languages, so every
+ *     locale points at the same node. Minting `#organization-uzc` would invent a second company.
+ *   · webPageNode/articleNode/serviceNode hang their `@id` off the page's own URL, which IS per
+ *     locale — and must be the canonical URL, percent-encoded exactly as `pageUrl` returns it, so
+ *     the node id, `url`, `<link rel=canonical>` and the sitemap `<loc>` are one string.
+ * `availableLanguage` lists the languages a human at GSR answers in; Latin and Cyrillic Uzbek are
+ * one spoken language, so the script variant is not added there.
+ */
+const descriptions: Localized<string> = {
   uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent.',
   ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент.',
   en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent.',
 };
 
 /** How a China receiving point is labelled in structured data — never as a GSR facility. */
-const receivingPoint: Record<Lang, string> = { uz: 'qabul punkti', ru: 'пункт приёма', en: 'receiving point' };
+const receivingPoint: Localized<string> = { uz: 'qabul punkti', ru: 'пункт приёма', en: 'receiving point' };
 
 /** Organization + LocalBusiness node, shared @id across locales. */
-export function organizationNode(lang: Lang) {
+export function organizationNode(lang: Locale) {
+  const point = pick(lang, receivingPoint);
   return {
     '@type': ['Organization', 'LocalBusiness'],
     '@id': ORG_ID,
@@ -26,7 +43,7 @@ export function organizationNode(lang: Lang) {
     url: SITE,
     logo: { '@type': 'ImageObject', url: `${SITE}/icons/icon-512.png`, width: 512, height: 512 },
     image: `${SITE}/og/default.png`,
-    description: descriptions[lang],
+    description: pick(lang, descriptions),
     telephone: site.phoneE164,
     email: site.email,
     foundingDate: String(site.foundingYear),
@@ -74,7 +91,7 @@ export function organizationNode(lang: Lang) {
     // Named "receiving point", not "GSR Logistics <city>": who operates each one is not established.
     location: site.chinaWarehouses.map((w) => ({
       '@type': 'Place',
-      name: `${w.city[lang]} (${w.cityZh}) — ${receivingPoint[lang]}`,
+      name: `${pick(lang, w.city)} (${w.cityZh}) — ${point}`,
       address: {
         '@type': 'PostalAddress',
         addressLocality: w.localityZh,
@@ -86,7 +103,7 @@ export function organizationNode(lang: Lang) {
   };
 }
 
-export function websiteNode(lang: Lang) {
+export function websiteNode(lang: Locale) {
   return {
     '@type': 'WebSite',
     '@id': WEBSITE_ID,
@@ -97,7 +114,7 @@ export function websiteNode(lang: Lang) {
   };
 }
 
-export function webPageNode(lang: Lang, opts: { url: string; name: string; description: string; datePublished?: string; dateModified?: string; type?: string }) {
+export function webPageNode(lang: Locale, opts: { url: string; name: string; description: string; datePublished?: string; dateModified?: string; type?: string }) {
   return {
     '@type': opts.type ?? 'WebPage',
     '@id': `${opts.url}#webpage`,
@@ -114,7 +131,7 @@ export function webPageNode(lang: Lang, opts: { url: string; name: string; descr
 
 export interface Crumb { name: string; key?: PageKey; sub?: string; url?: string }
 
-export function breadcrumbNode(lang: Lang, crumbs: Crumb[]) {
+export function breadcrumbNode(lang: Locale, crumbs: Crumb[]) {
   return {
     '@type': 'BreadcrumbList',
     itemListElement: crumbs.map((c, i) => ({
@@ -133,7 +150,7 @@ export function faqNode(items: Array<{ q: string; a: string }>) {
   };
 }
 
-export function serviceNode(lang: Lang, opts: { name: string; description: string; url: string; serviceType: string; offers?: Array<{ price: number; unitCode: 'KGM' | 'MTQ'; validThrough: string; description?: string }> }) {
+export function serviceNode(lang: Locale, opts: { name: string; description: string; url: string; serviceType: string; offers?: Array<{ price: number; unitCode: 'KGM' | 'MTQ'; validThrough: string; description?: string }> }) {
   return {
     '@type': 'Service',
     '@id': `${opts.url}#service`,
@@ -158,7 +175,7 @@ export function serviceNode(lang: Lang, opts: { name: string; description: strin
   };
 }
 
-export function articleNode(lang: Lang, opts: { url: string; headline: string; description: string; datePublished: string; dateModified: string; image?: string }) {
+export function articleNode(lang: Locale, opts: { url: string; headline: string; description: string; datePublished: string; dateModified: string; image?: string }) {
   return {
     '@type': 'Article',
     '@id': `${opts.url}#article`,
@@ -176,5 +193,5 @@ export function articleNode(lang: Lang, opts: { url: string; headline: string; d
 }
 
 /** Helper: absolute URL of the localized home page. */
-export function homeUrl(lang: Lang) { return pageUrl(SITE, lang, 'home'); }
+export function homeUrl(lang: Locale) { return pageUrl(SITE, lang, 'home'); }
 export { pagePath };
