@@ -1,20 +1,21 @@
 /**
  * Journey client module — imported by Journey.astro once the section is within 100 % rootMargin; init() runs only
  * when the main thread is idle (requestIdleCallback, 1.5 s timeout). Setup is split over frames so no single task
- * is long: (1) element lookup, route sampling, initial states → (2) rAF: timeline build → (3) rAF: the pin
- * trigger (a pin queues ScrollTrigger's own full refresh for the next frame) → (5) rAF: the scrub trigger, so it is
- * refreshed exactly once → (6) rAF: prime() renders the timeline end to end once, so no tween can initialise
+ * is long: (1) element lookup, route sampling, initial states → (2) rAF: timeline build → (3) rAF: the scrub
+ * trigger → (4) rAF: prime() renders the timeline end to end once, so no tween can initialise
  * (and force a layout) mid-scrub. GSAP core + ScrollTrigger + MotionPathPlugin only.
  *
- * One gsap.timeline (0–100 "percent" units) driven by two ScrollTriggers over the same range — one pins the stage
- * (anticipatePin 1), one scrubs the timeline (scrub 0.4, invalidateOnRefresh). They are separate on purpose: a pin
- * trigger that also owns an animation renders the whole timeline to its end and back on every refresh (to check
- * whether the animation moves the pinned element), which is the single most expensive task on a slow phone.
+ * One gsap.timeline (0–100 "percent" units) driven by ONE ScrollTrigger (scrub 0.4, invalidateOnRefresh).
+ * This module does not pin. The stage is held by CSS `position: sticky` in Journey.astro — see the note there:
+ * a scripted pin writes its transform on the main thread against a scroll offset that the compositor has
+ * already moved past, so the stage is drawn out of place on 97.5 % of presented frames (up to 26 px) at a
+ * perfectly smooth frame rate. That, not dropped frames, was what read as shivering.
  * start "top top", end = 4 × stage height (3.5 on mobile) — the CSS reserve in Journey.astro must match. Stage labels:
  *   s0 intro 0–8 · s1 Yiwu warehouse 8–22 · s2 loading 22–34 · s3 transit 34–60 · s4 Khorgos 60–72 ·
  *   s5 Tashkent warehouse 72–88 · s6 delivered + CTA 88–100.
- * The pin uses pinType "transform": the default fixed pin drops the stage out of flow on pin and unpin, and the
- * browser scores each flip as a full-viewport layout shift. The dark header state is owned by Header.astro's
+ * Both scripted pins were measured and rejected: pinType "fixed" is displacement-free but drops the stage out of
+ * flow on pin and unpin, and the browser scores each flip as a full-viewport layout shift (CLS 1.963); pinType
+ * "transform" keeps CLS at 0 but is the one-frame lag above. Sticky is both. The dark header state is owned by Header.astro's
  * IntersectionObserver over every .dark section, so it holds here even when this module never loads.
  * Camera = the HTML .cam wrapper, transform only (translate + scale). The vehicle <g> lives inside the SVG and
  * is driven along #route by MotionPathPlugin in lockstep with the route's stroke-dashoffset (pathLength="1").
@@ -276,7 +277,7 @@ export function init(root: HTMLElement): void {
     };
 
     let tl: gsap.core.Timeline | null = null;
-    let pinST: ScrollTrigger | null = null;
+    let scrubST: ScrollTrigger | null = null;
     let raf = 0, praf = 0;
 
     /* ---------- state sync: progress rail, section data-stage, mode chips + km caption ---------- */
@@ -312,12 +313,30 @@ export function init(root: HTMLElement): void {
       Object.entries(L).forEach(([k, v]) => t.addLabel(k, v));
       t.set({}, {}, L.end); // pins the duration at exactly 100
 
+      /** On-screen label size and on-screen stroke weight are the PRODUCT of the camera's scale k and the
+       *  counter-scale 1/k. Tween both with the same ease and the product is 1 only at the endpoints:
+       *  lerp(k0,k1,e) × lerp(1/k0,1/k1,e) bulges in between. Measured across 120 positions on a phone, the
+       *  route's on-screen weight should be a constant 2.5 px and reached 3.417 px (+37 %) mid s3→s4, and the
+       *  country labels went 13 px → 17 px — the line and the lettering visibly breathe six times per scrub, at
+       *  a perfect 60 fps. Driving the 1/k side with the exact inverse ease makes the product 1 throughout.
+       *  Maps 0→0 and 1→1, so every resting frame is unchanged. */
+      const camEase = 'power2.inOut';
+      const invEase = (from: () => CamTarget, to: () => CamTarget) => {
+        const base = gsap.parseEase(camEase);
+        return (p: number) => {
+          const k0 = from().k, k1 = to().k;
+          if (k0 === k1) return p;
+          const k = k0 + (k1 - k0) * base(p);
+          return (1 / k - 1 / k0) / (1 / k1 - 1 / k0);
+        };
+      };
       const camMove = (from: () => CamTarget, to: () => CamTarget, at: number, dur: number, first = false) => {
-        const ease = 'power2.inOut';
+        const ease = camEase;
+        const iEase = invEase(from, to);
         t.fromTo(cam,
           { x: () => camFor(from()).x, y: () => camFor(from()).y, scale: () => camFor(from()).scale },
           { x: () => camFor(to()).x, y: () => camFor(to()).y, scale: () => camFor(to()).scale, force3D: true, ease, duration: dur, immediateRender: first }, at);
-        if (labels.length) t.fromTo(labels, { scale: () => 1 / from().k }, { scale: () => 1 / to().k, ease, duration: dur, immediateRender: first }, at);
+        if (labels.length) t.fromTo(labels, { scale: () => 1 / from().k }, { scale: () => 1 / to().k, ease: iEase, duration: dur, immediateRender: first }, at);
         // The route and the rail are the only two strokes that are DASHED, and a dashed stroke cannot also
         // carry vector-effect: non-scaling-stroke — Chromium then measures the dash along its own screen-space
         // flattening of the path, ~11 % short of getTotalLength(), so stroke-dashoffset 1 − p draws to 1.11 p.
@@ -331,7 +350,7 @@ export function init(root: HTMLElement): void {
         // and deletes the line. The route would step 2 → 3 → 1 user units and visibly change weight per stage.
         const wid = (el: SVGPathElement, px: number) => t.fromTo(el,
           { strokeWidth: () => px / (from().k * M.s0) },
-          { strokeWidth: () => px / (to().k * M.s0), ease, duration: dur, autoRound: false, immediateRender: first }, at);
+          { strokeWidth: () => px / (to().k * M.s0), ease: iEase, duration: dur, autoRound: false, immediateRender: first }, at);
         wid(route, W_ROUTE);
         wid(railMask, W_RAIL);
         if (lastMile) wid(lastMile, W_LAST);
@@ -465,8 +484,8 @@ export function init(root: HTMLElement): void {
 
     /* ---------- frames 3–5: scroll triggers, rail/chip jumps ---------- */
     const scrollToTime = (time: number) => {
-      if (!pinST || !tl) return;
-      const y = pinST.start + (pinST.end - pinST.start) * (time / tl.duration());
+      if (!scrubST || !tl) return;
+      const y = scrubST.start + (scrubST.end - scrubST.start) * (time / tl.duration());
       window.scrollTo({ top: Math.round(y) + 1, left: 0, behavior: 'auto' });
     };
     const onRail = (e: Event) => { const i = railBtns.indexOf(e.currentTarget as HTMLButtonElement); if (i >= 0) scrollToTime(STAGE_START[i] + SETTLED); };
@@ -475,29 +494,6 @@ export function init(root: HTMLElement): void {
     // 5.5/4.5 made the section 39.6 % of the whole page and 50 wheel notches long, with the transit beat alone
     // running 1.43 viewports for one card. 4.0/3.5 keeps 0.57 viewports per beat. Mirrored in Journey.astro's CSS reserve.
     const end = () => `+=${Math.round(stage.offsetHeight * (desktop ? 4 : 3.5))}`;
-    const attachPin = () => {
-      pinST = ScrollTrigger.create({
-        trigger: root,
-        pin: stage,
-        pinSpacing: false,
-        // The default 'fixed' pin flips the stage out of flow on every pin and unpin, and the browser
-        // scores each flip as a full-viewport layout shift (measured CLS 3.2 mobile / 4.8 desktop).
-        // 'transform' keeps the stage in flow and moves it with translate3d, which never shifts layout.
-        pinType: 'transform',
-        start: 'top top',
-        end,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onToggle: (self) => {
-          // the stage is what actually moves under pinType 'transform'; promoting it too is the single
-          // biggest mobile win (16.6 % → 9.9 % of frames over 33 ms at 4x CPU throttle)
-          cam.style.willChange = self.isActive ? 'transform' : '';
-          stage.style.willChange = self.isActive ? 'transform' : '';
-        },
-        // a refresh can change M (viewport, font swap), and the keep sets are computed from it
-        onRefresh: () => { measure(desktop); gateNow(); },
-      });
-    };
     const attachScrub = () => {
       if (!tl) return;
       // 0.8 left the animation still moving ~580 ms after the wheel stopped, which is most of what reads as
@@ -506,7 +502,17 @@ export function init(root: HTMLElement): void {
       // (see prime() below) — re-prime on the next idle frame. This matters in the wild even though the
       // measurement never saw it: init() asks for one more refresh when the fonts land, and that refresh
       // usually arrives AFTER the setup chain has primed.
-      ScrollTrigger.create({ animation: tl, trigger: root, start: 'top top', end, scrub: 0.4, invalidateOnRefresh: true, onRefresh: queuePrime });
+      scrubST = ScrollTrigger.create({
+        animation: tl, trigger: root, start: 'top top', end, scrub: 0.4, invalidateOnRefresh: true,
+        // .cam is what moves now that CSS holds the stage; promoting the stage too is still the single
+        // biggest mobile win (16.6 % → 9.9 % of frames over 33 ms at 4x CPU throttle)
+        onToggle: (self) => {
+          cam.style.willChange = self.isActive ? 'transform' : '';
+          stage.style.willChange = self.isActive ? 'transform' : '';
+        },
+        // a refresh can change M (viewport, font swap), and the keep sets are computed from it
+        onRefresh: () => { measure(desktop); gateNow(); queuePrime(); },
+      });
       sync(tl.time());
       railBtns.forEach((b) => b.addEventListener('click', onRail));
       chips.forEach((c) => c.addEventListener('click', onChip));
@@ -536,7 +542,7 @@ export function init(root: HTMLElement): void {
 
     const frame = (fn: () => void) => { raf = requestAnimationFrame(() => { raf = 0; fn(); }); };
     // frames 2 → 3 → (4: ScrollTrigger's queued full refresh after the pin) → 5 → 6
-    frame(() => { ctx.add(build); frame(() => { ctx.add(attachPin); frame(() => frame(() => { ctx.add(attachScrub); frame(() => ctx.add(prime)); })); }); });
+    frame(() => { ctx.add(build); frame(() => { ctx.add(attachScrub); frame(() => ctx.add(prime)); }); });
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
@@ -545,7 +551,7 @@ export function init(root: HTMLElement): void {
       praf = 0;
       railBtns.forEach((b) => b.removeEventListener('click', onRail));
       chips.forEach((c) => c.removeEventListener('click', onChip));
-      pinST = null;
+      scrubST = null;
       tl = null;
       cam.style.willChange = '';
       stage.style.willChange = '';
