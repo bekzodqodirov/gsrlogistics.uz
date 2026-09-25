@@ -13,7 +13,7 @@
  *      list on hairlines, no card, no glyph tile.
  * Nothing is removed: every service still links to its own page.
  *
- * PHOTO SLOT — `flagshipPhoto` below. Props: { lang }.
+ * The flagship carries the owner's own loading photograph — see `flagshipPhoto`. Props: { lang }.
  */
 import { pick, type Locale } from '@/i18n/config';
 import { servicesStrings, serviceNumberLine, tpl } from '@/i18n/services';
@@ -23,6 +23,8 @@ import { fmtDate, fmtNumber } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Icon from '@/components/ui/Icon.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
+import { Picture } from 'astro:assets';
+import loadingShot from '@/assets/photos/yuklash-fura.jpg';
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -51,21 +53,15 @@ const truckDays = range(tariffs.truck.days[0], tariffs.truck.days[1]);
 const truckPrice = `${tpl(t.line.fromM3, { n: fmtNumber(tariffs.truck.lclPerM3ByDensity[0].rate, lang) })} · ${tpl(t.home.flagshipMinVolume, { n: fmtNumber(tariffs.truck.minM3, lang) })}`;
 
 /**
- * Real photo slot for the flagship card. Empty until the owner's own shot arrives — an image
- * service or a stock photo would be a lie about a warehouse we are naming by address.
+ * The flagship's photograph: the owner's own shot of cartons going onto a truck by forklift in
+ * China (sent 2026-09-25, 822x616, already 4:3). It replaces the day-range stat in the same slot;
+ * the day range then rides in the number line above, so no figure is lost. Set this back to null
+ * and the card falls back to the stat with no other change.
  *
- * WHICH SHOT: cartons with the GS mark stacked at the China receiving point, being loaded into
- * the trailer. Landscape, 4:3, the boxes filling the frame; a truck-only shot with no cargo
- * does not say "consolidated". Shot list name: "loading at the receiving point".
- *
- * TO FILL IT: drop the file in src/assets/photos/ and
- *   import flagshipShot from '@/assets/photos/<file>.jpg';
- *   const flagshipPhoto = flagshipShot;
- * Astro's ImageMetadata already carries src/width/height, so nothing else changes. With no
- * photo the card keeps the day-range stat in the same slot, so the section is finished either
- * way — the photo replaces the stat, it does not leave a hole waiting for it.
+ * Never a stock photo here: this card names a real route and a real receiving point, and a
+ * picture of someone else's warehouse would be a lie about ours.
  */
-const flagshipPhoto = null as { src: string; width: number; height: number } | null;
+const flagshipPhoto = loadingShot as typeof loadingShot | null;
 ---
 <section id="xizmatlar" class="section services below-fold" aria-labelledby="services-title">
   <div class="container">
@@ -91,7 +87,9 @@ const flagshipPhoto = null as { src: string; width: number; height: number } | n
 
       {flagshipPhoto ? (
         <figure class="flag-shot">
-          <img src={flagshipPhoto.src} width={flagshipPhoto.width} height={flagshipPhoto.height} alt={t.home.flagshipPhotoAlt} loading="lazy" decoding="async" />
+          {/* 380px aside on desktop, full card width on a phone — the source is 822px, so 822 is the
+              largest width worth asking for; the browser picks by DPR from the sizes hint. */}
+          <Picture src={flagshipPhoto} formats={['avif', 'webp']} widths={[380, 600, 822]} sizes="(max-width: 899px) calc(100vw - 40px), 380px" alt={t.home.flagshipPhotoAlt} loading="lazy" decoding="async" />
         </figure>
       ) : (
         <div class="flag-stat">
@@ -219,9 +217,12 @@ const flagshipPhoto = null as { src: string; width: number; height: number } | n
   .flag-price { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft); font-size: var(--text-small); font-weight: 600; color: var(--fg); }
 
   /* Photo slot: 4:3, same corner radius as the card's inner edge, cropped to fill so a portrait
-     phone shot cannot stretch the row. Only rendered once a real photo is set. */
+     phone shot cannot stretch the row. <Picture> wraps the <img> in a <picture> the scoped styles
+     do not reach, so the picture box steps aside (display: contents) and the img is addressed as
+     :global — otherwise height: 100% resolves against an inline box and the crop collapses. */
   .flag-shot { margin: 0; border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
-  .flag-shot img { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .flag-shot :global(picture) { display: contents; }
+  .flag-shot :global(img) { display: block; width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
   /* A photo carries its own weight; the day-stat needs the long run of the micro route-line to
      fill the same track, so the two asides are not the same width. */
   .has-photo { align-items: stretch; grid-template-columns: minmax(0, 1fr) minmax(0, 380px); }

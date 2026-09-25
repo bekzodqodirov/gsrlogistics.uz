@@ -31,6 +31,8 @@ import { pagePath } from '@/i18n/routes';
 import { site, telegramBotUrl, telegramBotHandle } from '@/lib/site';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Icon from '@/components/ui/Icon.astro';
+import { Picture } from 'astro:assets';
+import qrShot from '@/assets/photos/qr-stiker.jpg';
 
 interface Props { lang: Locale; class?: string; id?: string; index?: string }
 const { lang, class: className, id = 'shaffoflik', index } = Astro.props;
@@ -38,19 +40,19 @@ const t = pick(lang, trackSystem);
 const headId = `${id}-h`;
 
 /**
- * THE PHOTOGRAPH. The owner is sending real photos on 2026-09-11; set `shot.src` (plus the real
- * pixel dimensions) and the drawing below is replaced with no other change.
+ * THE PHOTOGRAPH — the owner's own, sent 2026-09-25: a hand putting the QR label on a carton at
+ * the Yiwu receiving point. The label reads "YW" (Yiwu), the client's GS code and the carton's own
+ * number, over the carton's printed ITEM / QTY / G.W. / N.W. / MEAS block — the photo says the
+ * whole sentence of this section by itself: this box, this code, counted and measured.
  *
- * The shot this slot needs, precisely: a close-up of cartons at a China receiving point with the
- * QR stickers on them — at least one sticker square-on so the code is not skewed and large enough
- * to read as a QR at 320px wide, the GS marking in shot if it fits, no faces, warehouse light
- * rather than flash. Framed 4:3 (the slot is 4:3 at every width) and at least 1600px wide. It is
- * centre-cropped with object-fit: cover, so keep the sticker out of the outer 10% of the frame.
+ * Source is a phone screenshot (591x1280 with black bars). It is pre-cropped to exactly 4:3 in
+ * src/assets/photos/qr-stiker.jpg so object-fit: cover never has to guess, and the label sits
+ * inside the frame rather than at its edge. 591px is small for a retina 4:3 slot; it reads fine at
+ * this size because the subject is a label close up, but a sharper original would be welcome.
  *
- * Until it lands the slot holds a drawing of exactly that subject. Not a stock photo, not a grey
- * box: an empty slot on a live page still has to say the true thing.
+ * Set `shot` to null and the drawing below comes back — the slot still says the true thing.
  */
-const shot = { src: '', width: 1600, height: 1200 };
+const shot = qrShot as typeof qrShot | null;
 
 /* ---------- the drawing: three cartons, three codes ---------- */
 
@@ -132,8 +134,8 @@ const ticks = Array.from({ length: 24 }, (_, h) => {
     <div class="hw-grid">
       <figure class="shot reveal">
         <div class="shot-frame">
-          {shot.src ? (
-            <img src={shot.src} width={shot.width} height={shot.height} alt={t.shot.alt} loading="lazy" decoding="async" />
+          {shot ? (
+            <Picture src={shot} formats={['avif', 'webp']} widths={[400, 591]} sizes="(max-width: 899px) calc(100vw - 40px), 620px" alt={t.shot.alt} loading="lazy" decoding="async" />
           ) : (
             <svg class="shot-draw" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true" focusable="false">
               <path class="ground" d="M0 278h400" />
@@ -214,6 +216,7 @@ const ticks = Array.from({ length: 24 }, (_, h) => {
   /* ---------- the picture ---------- */
   .shot { display: grid; gap: 12px; margin: 0; min-width: 0; }
   .shot-frame { position: relative; overflow: hidden; aspect-ratio: 4 / 3; border-radius: var(--radius-lg); border: 1px solid var(--card-border); background: var(--bg-2); }
+  .shot-frame :global(picture) { display: contents; }
   .shot-frame :global(img), .shot-draw { position: absolute; inset: 0; width: 100%; height: 100%; }
   .shot-frame :global(img) { object-fit: cover; }
   .shot-cap { max-width: 54ch; text-wrap: pretty; }

@@ -21,6 +21,7 @@ export interface ProofItem {
   link?: 'tracking' | 'pricing' | 'contact';
   linkLabel?: string;
 }
+export interface ShotCopy { alt: string; caption: string }
 export interface ProofStrings {
   eyebrow: string;
   h2: string;
@@ -60,6 +61,16 @@ export interface ProofStrings {
       { value: string; unit?: string; label: string },
     ];
   };
+  /**
+   * The owner's own photographs (sent 2026-09-25), in the order a carton meets them: the receiving
+   * point, the packing, the truck. Captions say only what is in the frame. The receiving point is
+   * "the receiving point" — never "our warehouse": the building is not ours, the banner is.
+   * The Foshan place and date are read off the timestamp camera's watermark on the original.
+   */
+  shots: {
+    label: string;
+    items: [ShotCopy, ShotCopy, ShotCopy];
+  };
 }
 
 const uz: ProofStrings = {
@@ -91,6 +102,14 @@ const uz: ProofStrings = {
       { value: '8+', unit: 'yil', label: 'GSR — 2018-yildan beri' },
       { value: '15', unit: 'yil', label: 'Jamoaning yuk tashish sohasidagi tajribasi' },
       { value: '400+', label: 'Mijozlar' },
+    ],
+  },
+  shots: {
+    label: 'Jarayondan suratlar',
+    items: [
+      { alt: 'Ivudagi qabul punkti: GSR Logistics banneri ostida poddonlarga terilgan yuklar', caption: 'Ivudagi qabul punkti. Yuk shu yerda suratga olinadi, sanaladi, oʻlchanadi va har bir qutiga QR yopishtiriladi.' },
+      { alt: 'Yogʻoch panjaraga olingan moʻrt yuk poddonlarda', caption: 'Moʻrt yuk yogʻoch panjarada, poddonda — yoʻlda ezilmasligi uchun.' },
+      { alt: 'Fura ichida strech-plyonkaga oʻralgan poddonlardagi yuk', caption: 'Fura ichida: yuk poddonlarda, strech-plyonkaga oʻralgan. Foshan, 2026-yil 21-sentabr.' },
     ],
   },
 };
@@ -126,6 +145,14 @@ const ru: ProofStrings = {
       { value: '400+', label: 'Клиентов' },
     ],
   },
+  shots: {
+    label: 'Фото из работы',
+    items: [
+      { alt: 'Пункт приёма в Иу: грузы на поддонах под вывеской GSR Logistics', caption: 'Пункт приёма в Иу. Здесь груз фотографируют, пересчитывают, обмеряют и наклеивают QR на каждую коробку.' },
+      { alt: 'Хрупкий груз в деревянной обрешётке на поддонах', caption: 'Хрупкий груз в деревянной обрешётке, на поддоне — чтобы не смяло в пути.' },
+      { alt: 'Груз на поддонах в стрейч-плёнке внутри фуры', caption: 'Внутри фуры: груз на поддонах, в стрейч-плёнке. Фошань, 21 сентября 2026.' },
+    ],
+  },
 };
 
 const en: ProofStrings = {
@@ -157,6 +184,14 @@ const en: ProofStrings = {
       { value: '8+', unit: 'years', label: 'GSR — since 2018' },
       { value: '15', unit: 'years', label: 'The team’s experience in freight' },
       { value: '400+', label: 'Clients' },
+    ],
+  },
+  shots: {
+    label: 'From the job',
+    items: [
+      { alt: 'The Yiwu receiving point: cargo on pallets under the GSR Logistics sign', caption: 'The Yiwu receiving point. Goods are photographed, counted and measured here, and every carton gets its QR.' },
+      { alt: 'Fragile goods in wooden crating on pallets', caption: 'Fragile goods in wooden crating, on a pallet, so nothing is crushed on the road.' },
+      { alt: 'Palletised cargo in stretch wrap inside a truck trailer', caption: 'Inside the trailer: cargo on pallets, in stretch wrap. Foshan, 21 September 2026.' },
     ],
   },
 };

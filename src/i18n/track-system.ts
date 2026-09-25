@@ -44,7 +44,7 @@ const uz: TrackSystemStrings = {
     'Xitoydagi qabul punktida yukingizni suratga olamiz, sanaymiz, oʻlchaymiz va har bir qutiga QR kod yopishtiramiz. Undan keyingi har bir bosqichda ombor xodimlari shu kodni skanerlaydi — siz esa botda har bir qutingiz qayerdaligini koʻrasiz. Kechasi soat uchda ham.',
   shot: {
     caption: 'QR quti ustida qoladi: yoʻldagi har bir yuklash va tushirishda aynan shu kod skanerlanadi.',
-    alt: 'Xitoydagi qabul punktida qutiga yopishtirilgan QR kod.',
+    alt: 'Ivudagi qabul punktida qutiga GS kodli QR stiker yopishtirilmoqda; qutida uning oʻlchami va vazni yozilgan.',
   },
   beats: [
     {
@@ -77,7 +77,7 @@ const ru: TrackSystemStrings = {
     'В пункте приёма в Китае мы фотографируем, пересчитываем и обмеряем груз и наклеиваем QR-код на каждую коробку. Дальше на каждом этапе сотрудники склада сканируют этот код — а вы видите в боте, где сейчас каждая ваша коробка. Даже в три часа ночи.',
   shot: {
     caption: 'QR остаётся на коробке: именно этот код сканируют при каждой погрузке и разгрузке в пути.',
-    alt: 'QR-код, наклеенный на коробку в пункте приёма в Китае.',
+    alt: 'В пункте приёма в Иу на коробку наклеивают QR-стикер с GS-кодом; на коробке напечатаны её размеры и вес.',
   },
   beats: [
     {
@@ -110,7 +110,7 @@ const en: TrackSystemStrings = {
     'At the receiving point in China we photograph, count and measure your goods and stick a QR code on every carton. At each stage after that our warehouse staff scan that code — and you see where each of your cartons is, in the bot. Even at three in the morning.',
   shot: {
     caption: 'The QR stays on the carton: this is the code that gets scanned at every loading and unloading on the way.',
-    alt: 'A QR code stuck on a carton at the receiving point in China.',
+    alt: 'A QR sticker with the GS code going onto a carton at the Yiwu receiving point; the carton’s size and weight are printed beside it.',
   },
   beats: [
     {
