@@ -6,7 +6,7 @@ export interface AboutStrings {
   story: { heading: string; paragraphs: string[] };
   how: { heading: string; items: Array<{ title: string; text: string }> };
   /** `china.cities` is rendered from site.chinaWarehouses, so the list never drifts from the addresses. */
-  places: { heading: string; china: { title: string; text: string; citiesLabel: string; addressesLink: string }; tashkent: { title: string; text: string; directions: string } };
+  places: { heading: string; china: { title: string; text: string; citiesLabel: string; addressesLink: string }; tashkent: { title: string; text: string; directions: string }; photo: { alt: string; caption: string } };
   team: { heading: string; text: string; roles: Array<{ title: string; text: string }> };
   facts: Array<{ value: string; label: string }>;
   honesty: { heading: string; text: string };
@@ -40,6 +40,7 @@ const uz: AboutStrings = {
     heading: 'Qayerdamiz?',
     china: { title: 'Xitoy — uchta qabul manzili', text: 'Asosiy ombor — Ivu (义乌), dunyodagi eng katta mayda ulgurji bozor shahri: yukni shu yerda qabul qilamiz, konsolidatsiya qilamiz va joʻnatamiz. Guanchjou va Qashqar boʻyicha ham qabul manzili bor. Qaysi biriga joʻnatish kerakligini menejer aytadi.', citiesLabel: 'Qabul manzillari', addressesLink: 'Toʻliq manzillar' },
     tashkent: { title: 'Toshkent — ofis', text: 'Shayxontohur tumani, Alisher Navoiy koʻchasi, 27. Shartnoma, hujjatlar, toʻlov va maslahat shu yerda.', directions: 'Alisher Navoiy metro bekati yonida. Kelib koʻrishingiz mumkin — oldindan Telegramda yozing.' },
+    photo: { alt: 'Ivudagi qabul punkti: GSR Logistics banneri ostida poddonlarga terilgan yuklar', caption: 'Ivudagi qabul punkti. Bannerda — GSR Logistics nomi, Toshkentdagi manzilimiz va Ivudagi telefon raqami.' },
   },
   team: {
     heading: 'Kim bilan ishlaysiz?',
@@ -87,6 +88,7 @@ const ru: AboutStrings = {
     heading: 'Где мы?',
     china: { title: 'Китай — три адреса приёма', text: 'Основной склад — Иу (义乌), крупнейший в мире город мелкооптовой торговли: здесь мы принимаем, консолидируем и отправляем груз. Есть адреса приёма в Гуанчжоу и Кашгаре. На какой отправлять — скажет менеджер.', citiesLabel: 'Адреса приёма', addressesLink: 'Полные адреса' },
     tashkent: { title: 'Ташкент — офис', text: 'Шайхантахурский район, ул. Алишера Навои, 27. Договор, документы, оплата и консультации — здесь.', directions: 'Рядом со станцией метро «Алишер Навои». Можно приехать — напишите заранее в Telegram.' },
+    photo: { alt: 'Пункт приёма в Иу: грузы на поддонах под вывеской GSR Logistics', caption: 'Пункт приёма в Иу. На вывеске — GSR Logistics, наш адрес в Ташкенте и телефон в Иу.' },
   },
   team: {
     heading: 'С кем вы работаете?',
@@ -134,6 +136,7 @@ const en: AboutStrings = {
     heading: 'Where we are',
     china: { title: 'China — three receiving addresses', text: 'The main warehouse is in Yiwu (义乌), the world’s largest small-commodity wholesale city: cargo is received, consolidated and dispatched there. There are receiving addresses in Guangzhou and Kashgar as well. Your manager tells you which one applies to your order.', citiesLabel: 'Receiving addresses', addressesLink: 'Full addresses' },
     tashkent: { title: 'Tashkent — office', text: '27 Alisher Navoiy Street, Shaykhantakhur district. Contracts, documents, payments and advice happen here.', directions: 'Next to Alisher Navoiy metro station. Visits are welcome — message us on Telegram first.' },
+    photo: { alt: 'The Yiwu receiving point: cargo on pallets under the GSR Logistics sign', caption: 'The Yiwu receiving point. The sign carries the GSR Logistics name, our Tashkent address and the Yiwu phone number.' },
   },
   team: {
     heading: 'Who you work with',

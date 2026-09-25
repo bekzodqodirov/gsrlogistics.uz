@@ -1,6 +1,9 @@
 import { langMeta, pick, type Locale, type Localized } from '@/i18n/config';
 import { pagePath, pageUrl, type PageKey } from '@/i18n/routes';
 import { site, telegramUrl, telegramBotUrl, telegramBotHandle, instagramUrl, facebookUrl } from './site';
+import ivuShot from '@/assets/photos/ivu-qabul-punkti.jpg';
+import loadingShot from '@/assets/photos/yuklash-fura.jpg';
+import qrShot from '@/assets/photos/qr-stiker.jpg';
 
 const SITE = site.url;
 export const ORG_ID = `${SITE}/#organization`;
@@ -42,7 +45,11 @@ export function organizationNode(lang: Locale) {
     alternateName: ['GSR Group', 'The Great Silk Road Group'],
     url: SITE,
     logo: { '@type': 'ImageObject', url: `${SITE}/icons/icon-512.png`, width: 512, height: 512 },
-    image: `${SITE}/og/default.png`,
+    /* The owner's own photographs first — the Yiwu receiving point under the GSR banner, loading,
+       the QR label going on — then the branded card. For a LocalBusiness these are "images of the
+       business", and real ones are the evidence an assistant or a map can check a name against.
+       Reading `.src` is also what makes Astro emit the original JPEG, so these URLs resolve. */
+    image: [ivuShot, loadingShot, qrShot].map((i) => `${SITE}${i.src}`).concat(`${SITE}/og/default.png`),
     description: pick(lang, descriptions),
     telephone: site.phoneE164,
     email: site.email,

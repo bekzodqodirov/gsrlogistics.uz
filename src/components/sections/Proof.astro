@@ -8,6 +8,8 @@
  *      Owner-confirmed 2026-09-10. This is the point in the page where a visitor decides whether
  *      to hand a stranger a container of stock, which is why they live here and not in the hero.
  *      Deliberately NOT a second card: see the .company rule in the stylesheet below.
+ * Closed by a strip of the owner's own photographs (receiving point, packing, truck) — the one
+ * place on the page where the checklist's claims can be seen rather than read.
  * No counters, no animated numbers.
  * Props: { lang, index? }.
  */
@@ -18,6 +20,10 @@ import { routeKmLabel } from '@/data/route';
 import { fmtNumber } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
+import { Picture } from 'astro:assets';
+import ivuShot from '@/assets/photos/ivu-qabul-punkti.jpg';
+import crateShot from '@/assets/photos/yogoch-panjara.jpg';
+import truckShot from '@/assets/photos/fura-ichida.jpg';
 
 interface Props { lang: Locale; index?: string }
 const { lang, index = '04' } = Astro.props;
@@ -33,6 +39,8 @@ const nodes = [
   { x: 76, y: 40, label: t.facts.nodes[2], anchor: 'middle' },
   { x: 24, y: 52, label: t.facts.nodes[3], anchor: 'start' },
 ] as const;
+/** In the order a carton meets them. Copy (alt + caption) is index-matched in proofStrings.shots. */
+const shots = [ivuShot, crateShot, truckShot] as const;
 const routeD = 'M296 62 C 250 60, 214 34, 168 30 C 132 28, 104 36, 76 40 C 56 43, 40 48, 24 52';
 ---
 <section id="nima-olasiz" class="section dark noise proof below-fold" aria-labelledby="proof-title">
@@ -104,6 +112,22 @@ const routeD = 'M296 62 C 250 60, 214 34, 168 30 C 132 28, 104 36, 76 40 C 56 43
         </div>
       </div>
     </div>
+
+    <div class="shots">
+      <h3 id="proof-shots-title" class="facts-label">{t.shots.label}</h3>
+      {/* A scroll strip on a phone (three stacked 4:3 photos would be a screen and a half of
+          scrolling for one idea), three columns from 700px. Focusable so a keyboard can scroll it. */}
+      <div class="shots-row" role="region" aria-labelledby="proof-shots-title" tabindex="0">
+        {shots.map((img, i) => (
+          <figure class="pshot reveal" style={`--reveal-delay:${i * 80}ms`}>
+            <div class="pshot-frame">
+              <Picture src={img} formats={['avif', 'webp']} widths={[400, 760]} sizes="(max-width: 699px) 82vw, (max-width: 1199px) 31vw, 380px" alt={t.shots.items[i].alt} loading="lazy" decoding="async" />
+            </div>
+            <figcaption class="caption pshot-cap">{t.shots.items[i].caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
   </div>
 </section>
 
@@ -133,6 +157,15 @@ const routeD = 'M296 62 C 250 60, 214 34, 168 30 C 132 28, 104 36, 76 40 C 56 43
   /* Credentials, not a headline: half the route card's numeral so the two blocks do not compete. */
   .co-val { font-size: clamp(1.5rem, 1vw + 1.125rem, 1.875rem); }
   .facts-label { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-bottom: 16px; }
+
+  /* ---------- the photographs ---------- */
+  .shots { margin-top: clamp(56px, 7vw, 96px); padding-top: 28px; border-top: 1px solid var(--border); }
+  .shots-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
+  .pshot { margin: 0; display: grid; gap: 12px; align-content: start; min-width: 0; }
+  .pshot-frame { position: relative; overflow: hidden; aspect-ratio: 4 / 3; border-radius: var(--radius-lg); border: 1px solid var(--card-border); background: var(--card); }
+  .pshot-frame :global(picture) { display: contents; }
+  .pshot-frame :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .pshot-cap { color: var(--muted); max-width: 44ch; text-wrap: pretty; }
   .route { width: 100%; height: auto; max-width: 360px; overflow: visible; }
   .lbl { font: 500 11px/1 var(--font-sans); fill: var(--muted); letter-spacing: 0.01em; }
   .stats { display: grid; margin-top: 8px; }
@@ -158,5 +191,11 @@ const routeD = 'M296 62 C 250 60, 214 34, 168 30 C 132 28, 104 36, 76 40 C 56 43
     .side { grid-template-columns: 1fr; }
     .panel { padding: 20px; }
     .val { font-size: 1.75rem; }
+  }
+
+  @media (max-width: 699px) {
+    .shots-row { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 82%; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; padding-bottom: 4px; }
+    .shots-row::-webkit-scrollbar { display: none; }
+    .pshot { scroll-snap-align: start; }
   }
 </style>

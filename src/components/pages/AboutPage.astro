@@ -9,6 +9,8 @@ import { site, phoneUrl, telegramChat } from '@/lib/site';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
+import { Picture } from 'astro:assets';
+import ivuShot from '@/assets/photos/ivu-qabul-punkti.jpg';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
 interface Props { lang: Locale }
@@ -87,6 +89,14 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
             </div>
           </div>
         </div>
+        {/* The owner's photo of the Yiwu point (2026-09-25). "Receiving point", not "our warehouse":
+            the building is a host's; the banner — with the Tashkent address on it — is ours. */}
+        <figure class="place-shot">
+          <div class="place-frame">
+            <Picture src={ivuShot} formats={['avif', 'webp']} widths={[480, 980, 1280]} sizes="(max-width: 1239px) calc(100vw - 40px), 1200px" alt={t.places.photo.alt} loading="lazy" decoding="async" />
+          </div>
+          <figcaption class="caption muted">{t.places.photo.caption}</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -156,6 +166,11 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
   .values li:first-child .idx { color: var(--accent-text); } /* one red index per section */
   .fg2 { color: var(--fg-2); }
   .place { display: grid; gap: 12px; align-content: start; }
+  /* 16:9 of a 4:3 original: the band that holds the GSR banner and the pallets under it. */
+  .place-shot { margin: 24px 0 0; display: grid; gap: 12px; }
+  .place-frame { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-2); }
+  .place-frame :global(picture) { display: contents; }
+  .place-frame :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 52%; }
   .cities { display: grid; gap: 4px; margin: 0; }
   .cities dt { font-size: var(--text-small); color: var(--muted); }
   .cities dd { display: flex; flex-wrap: wrap; align-items: baseline; margin: 0; font-weight: 600; color: var(--fg); }
