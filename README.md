@@ -61,7 +61,7 @@ Barcha narx va muddatlar `src/data/tariffs.json` faylida (avia $/kg, avto zinapo
 
 - tasdiqlanmagan daʼvolar: «bojsiz», «100% kafolat», «eng tez», «xalqaro», mijozlar soni, viloyat filiallari;
 - Xitoydagi qabul punktlarini (Ivu, Guanchjou, Qashqar) «bizning omborimiz» deb atash — egalik tasdiqlanmagan: hamma joyda «Ivu ombori», «Guanchjou qabul punkti», «Qashqar qabul punkti»;
-- almashtirilgan kontaktlar (+998 97 333 39 33, info@gsrlogistics.uz, t.me/+998950183333) va Guanchjou haqidagi eskirgan «hamkorlar orqali» jumlasi;
+- egasi 2026-09-09 da almashtirgan eski kontaktlar (roʻyxati `scripts/check-content.mjs` ichida; bu yerda ataylab yozilmagan — README ochiq, qidiruv tizimlarining AI-xulosalari uni oʻqib, eski raqamlarni kompaniya kontakti deb koʻrsatgan) va Guanchjou haqidagi eskirgan «hamkorlar orqali» jumlasi;
 - javob tezligini vaʼda qilish («hozir javob beramiz», «быстрее всего», «fastest reply»);
 - kalka va ruscha soʻzlar: Kitay, zayavka, tomonidan, amalga oshiramiz, uzel;
 - «powerbank» (toʻgʻrisi — «power bank»);

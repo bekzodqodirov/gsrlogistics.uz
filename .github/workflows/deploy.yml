@@ -41,3 +41,23 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Tell Bing and Yandex (IndexNow) that the site changed. Until 2026-09-25 this never ran: the
+  # script and the key file existed, nothing called them, and two weeks after launch no search
+  # engine had a single page of the site. Bing matters beyond Bing — ChatGPT's search draws on it.
+  # Runs after the deploy and reads the LIVE sitemap, so every URL it announces already answers.
+  # A refused ping is a missed nudge, not a broken site, so it never turns the workflow red.
+  # Google does not take IndexNow; for Google the sitemap goes in through Search Console.
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch the live sitemap
+        run: mkdir -p live && curl -fsSL --retry 3 --retry-delay 10 https://gsrlogistics.uz/sitemap-0.xml -o live/sitemap-0.xml
+      - name: Ping IndexNow
+        run: node scripts/indexnow.mjs live
+        continue-on-error: true

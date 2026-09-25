@@ -14,4 +14,7 @@ const res = await fetch('https://api.indexnow.org/indexnow', {
   method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' },
   body: JSON.stringify({ host: HOST, key: KEY, keyLocation: `https://${HOST}/${KEY}.txt`, urlList: urls }),
 });
-console.log('IndexNow response:', res.status, await res.text());
+// 200 = accepted, 202 = accepted, key validation pending. Anything else is worth a red step in
+// the log (422 = URLs not on this host, 403 = key file not found or wrong, 429 = too often).
+console.log('IndexNow response:', res.status, (await res.text()) || '(empty body)');
+if (!res.ok) process.exit(1);
