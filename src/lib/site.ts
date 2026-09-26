@@ -59,9 +59,13 @@ export const site = {
    * Search-engine ownership codes, rendered as <meta> tags on every page (components/Seo.astro).
    * Google is verified by a DNS TXT record (domain property), so it needs nothing here.
    * Bing: from Bing Webmaster Tools, owner, 2026-09-26.
+   * Yandex: from Yandex Webmaster, owner, 2026-09-26. The owner chose the HTML-file method
+   * (public/yandex_<code>.html); Yandex issues the same code for its meta tag, so both are published
+   * and either method verifies.
    */
   verification: {
     bing: 'ABC29A564B37612E19A95F6C59ADD25C',
+    yandex: '8aa51397ceb70671',
   },
   instagram: 'gsrgroup.uz',
   facebook: 'gsrlogistics',
