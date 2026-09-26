@@ -16,6 +16,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { contact } from '@/i18n/contact';
 import { pagePath } from '@/i18n/routes';
 import { site, telegramChat } from '@/lib/site';
+import { serviceTeam, teamTag } from '@/lib/leads';
 import Icon from '@/components/ui/Icon.astro';
 
 interface Props { lang: Locale; id?: string; dark?: boolean; endpoint?: string }
@@ -31,6 +32,8 @@ const routes = [
   { value: 'sourcing', label: t.routeOptions.sourcing },
   { value: 'other', label: t.routeOptions.other },
 ];
+/** Which team the Telegram fallback opens for each route choice — the same split as the service pages. */
+const routeTeam = { truck: serviceTeam.truck, air: serviceTeam.air, rail: serviceTeam.rail, sourcing: serviceTeam.sourcing, other: 'general' };
 const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.fromEntries(routes.map((r) => [r.value, r.label])), sending: t.sending, submit: t.submit, copied: t.fallback.copied, copy: t.fallback.copy, copyFail: t.fallback.copyFail });
 ---
 <form
@@ -42,6 +45,9 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   data-lang={lang}
   data-endpoint={endpoint}
   data-tg={site.telegramDirect}
+  data-route-team={JSON.stringify(routeTeam)}
+  data-teams={JSON.stringify(site.leadTeams)}
+  data-tags={JSON.stringify(teamTag)}
   data-i18n={i18n}
   aria-labelledby={uid('title')}
 >
@@ -202,6 +208,17 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
     const copyStatus = q<HTMLElement>('copy-status');
     const endpoint = window.__LEAD_ENDPOINT ?? (window.__LEAD_ENDPOINT = form.dataset.endpoint || '/api/lead');
     const tgBase = form.dataset.tg || '';
+    const parse = (s?: string) => { try { return JSON.parse(s || '{}'); } catch { return {}; } };
+    const routeTeam: Record<string, string> = parse(form.dataset.routeTeam);
+    const teamsCfg: Record<string, string[]> = parse(form.dataset.teams);
+    const tags: Record<string, string> = parse(form.dataset.tags);
+    const teamOf = () => routeTeam[route.value] || 'general';
+    // The visitor's own manager for that team (ContactPicker keeps it sticky); else the team's first.
+    const chatBase = () => {
+      const team = teamOf();
+      const who = (window as unknown as { gsrManagerFor?: (t: string) => string | undefined }).gsrManagerFor?.(team) ?? teamsCfg[team]?.[0];
+      return who ? `https://t.me/${who}` : tgBase;
+    };
 
     // Progressive enhancement: JS owns submission from here on; keep the GET action only as a no-JS path.
     form.setAttribute('data-enhanced', 'true');
@@ -232,11 +249,12 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
       if (route.value) lines.push(`${d.route}: ${i18n.routes[route.value] ?? route.value}`);
       lines.push(`${d.cargo}: ${text.value.trim()}`);
       lines.push(`${d.page}: ${location.origin}${location.pathname}`);
+      if (tags[teamOf()]) lines.push('', tags[teamOf()]);
       return lines.join('\n');
     };
     const show = (panel: HTMLElement) => { fields.hidden = true; success.hidden = panel !== success; fallback.hidden = panel !== fallback; panel.focus?.(); };
     const showFallback = (msg: string) => {
-      const url = `${tgBase}?text=${encodeURIComponent(msg)}`;
+      const url = `${chatBase()}?text=${encodeURIComponent(msg)}`;
       tgLink.href = url;
       draft.value = msg;
       show(fallback);

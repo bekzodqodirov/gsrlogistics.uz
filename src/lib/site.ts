@@ -29,6 +29,23 @@ export const site = {
   telegram: 'gsrlogistics', // public channel @gsrlogistics (GSR Group)
   /** Direct chat target for CTAs — the manager's Telegram username. */
   telegramDirect: 'https://t.me/bekzodkodirov556',
+  /**
+   * WHO ANSWERS WHAT — the managers' own Telegram usernames, per team (without the @).
+   * Owner, 2026-09-26: GSR's CRM is its own system, and the managers' personal Telegram accounts are
+   * connected to it. So the account a message lands in IS the assignment: routing a visitor to the
+   * right username is all it takes for the lead to appear under the right manager.
+   *   cargo   — bringing cargo: consolidated truck, air, rail, customs, warehouse
+   *   buying  — sourcing, buying on 1688/Taobao, equipment import, car import
+   *   general — anything else, and the no-JavaScript fallback of every general button
+   * One username = everyone goes to that person. Several = each visitor is given one at random and
+   * keeps that same manager on every later visit (remembered in their browser).
+   * ⚠️ Until the owner sends the team usernames, all three point at the one account used so far.
+   */
+  leadTeams: {
+    cargo: ['bekzodkodirov556'],
+    buying: ['bekzodkodirov556'],
+    general: ['bekzodkodirov556'],
+  },
   telegramGroup: 'gsrgroupchat',
   /**
    * The cargo-tracking bot. Staff scan the QR on every carton at each stage and the client watches

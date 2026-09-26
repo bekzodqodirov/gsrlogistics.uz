@@ -27,7 +27,7 @@ const eyebrow = number ? `${number} — ${t.eyebrow}` : t.eyebrow;
         <h2 id={`${id}-h`} class="display-2 measure-head">{t.h2}</h2>
         <p class="intro cta-text">{t.text}</p>
         <div class="cta-row">
-          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram">{t.telegram}</Button>
+          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram" data-picker>{t.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{t.call}</Button>
         </div>
       </div>

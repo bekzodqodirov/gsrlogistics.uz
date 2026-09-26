@@ -108,7 +108,7 @@ let n = 0;
         <h2 id="faq-cta-h" class="display-2 measure-head">{t.cta.title}</h2>
         <p class="intro cta-text">{t.cta.text}</p>
         <div class="cluster cta-row">
-          <Button href={telegramHref} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+          <Button href={telegramHref} variant="primary" icon="telegram" data-picker>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
           <a class="link" href={pagePath(lang, 'calculator')}>{c.cta.calculate}</a>
         </div>

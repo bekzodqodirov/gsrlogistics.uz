@@ -51,7 +51,7 @@ const itemList = {
         <p class="intro answer">{t.index.intro}</p>
         <div class="cta-row">
           <Button href={pagePath(lang, 'calculator')} variant="primary">{c.cta.calculate}</Button>
-          <Button href={telegramChat(c.telegramDraft.general)} variant="secondary" icon="telegram">{c.cta.telegram}</Button>
+          <Button href={telegramChat(c.telegramDraft.general)} variant="secondary" icon="telegram" data-picker>{c.cta.telegram}</Button>
         </div>
       </div>
     </header>
@@ -129,7 +129,7 @@ const itemList = {
           <h2 id="cta-title" class="display-2 measure-head cta-h2">{t.index.ctaTitle}</h2>
           <p class="intro cta-text">{t.index.ctaText}</p>
           <div class="cta-row">
-            <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+            <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram" data-picker>{c.cta.telegram}</Button>
             <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
           </div>
           <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>

@@ -124,7 +124,7 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
         <h2 class="display-2 measure-head">{t.cta.title}</h2>
         <p class="intro" style="margin-top:12px;max-width:52ch">{t.cta.text}</p>
         <div class="cluster" style="margin-top:28px">
-          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram" data-picker>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
         <p class="caption tnum" style="margin-top:20px">{site.phoneDisplay} · {pick(lang, site.hours)}</p>

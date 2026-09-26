@@ -66,7 +66,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
         )}
         <section class="ask card">
           <div><h2 class="h4">{t.askTitle}</h2><p class="fg2">{t.askText}</p></div>
-          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram">{c.cta.telegram}</Button>
+          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram" data-picker>{c.cta.telegram}</Button>
         </section>
         {(related.length > 0 || relatedServices.length > 0) && (
           <section class="related">

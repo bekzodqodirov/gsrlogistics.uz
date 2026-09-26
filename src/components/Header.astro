@@ -52,7 +52,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
         {locales.map((l) => <a href={switchHref(l)} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined} title={langMeta[l].label}>{langMeta[l].short}</a>)}
       </div>
       <a href={phoneUrl} class="phone" aria-label={`${t.header.phoneLabel}: ${site.phoneDisplay}`}><Icon name="phone" size={18} /><span class="tnum">{site.phoneDisplay}</span></a>
-      <a href={telegramChat(t.telegramDraft.general)} class="btn btn-primary btn-sm header-cta" target="_blank" rel="noopener"><Icon name="telegram" size={16} />{t.cta.telegram}</a>
+      <a href={telegramChat(t.telegramDraft.general)} class="btn btn-primary btn-sm header-cta" target="_blank" rel="noopener" data-picker><Icon name="telegram" size={16} />{t.cta.telegram}</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label={t.header.menu} data-menu-toggle>
         <Icon name="menu" size={22} class="icon-open" /><Icon name="x" size={22} class="icon-close" />
       </button>
@@ -64,7 +64,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
         {t.nav.map((n) => { const href = pagePath(lang, n.key); return <li><a href={href} aria-current={isActive(href) ? 'page' : undefined}>{n.label}<Icon name="chevron-right" size={18} /></a></li>; })}
       </ul>
       <div class="mobile-menu-foot">
-        <a href={telegramChat(t.telegramDraft.general)} class="btn btn-primary btn-block" target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.cta.telegram}</a>
+        <a href={telegramChat(t.telegramDraft.general)} class="btn btn-primary btn-block" target="_blank" rel="noopener" data-picker><Icon name="telegram" size={18} />{t.cta.telegram}</a>
         <a href={phoneUrl} class="btn btn-outline btn-block"><Icon name="phone" size={18} /><span class="tnum">{site.phoneDisplay}</span></a>
         <div class="lang lang-mobile" role="group" aria-label={t.header.langLabel}>
           {locales.map((l) => <a href={switchHref(l)} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined}>{langMeta[l].label}</a>)}
