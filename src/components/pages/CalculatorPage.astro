@@ -8,7 +8,7 @@ import { common } from '@/i18n/common';
 import { pricingStrings, tpl } from '@/i18n/pricing';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl } from '@/lib/site';
-import { telegramFor } from '@/lib/leads';
+import { leadAttrs, telegramFor } from '@/lib/leads';
 import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
 import type { Tariffs } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
@@ -93,7 +93,7 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: l
         <h2 id="cta-h" class="display-2 measure-head cta-h2">{p.cta.title}</h2>
         <p class="intro cta-text">{p.cta.text}</p>
         <div class="cta-row">
-          <Button href={telegramFor('cargo', p.cta.draft, Astro.url.pathname)} variant="primary" icon="telegram" data-team="cargo">{c.cta.telegram}</Button>
+          <Button href={telegramFor('cargo', p.cta.draft, Astro.url.pathname)} variant="primary" icon="telegram" {...leadAttrs('cargo', 'kalkulyator', label)}>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
         <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>

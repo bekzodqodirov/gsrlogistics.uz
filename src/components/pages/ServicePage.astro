@@ -13,7 +13,7 @@ import { services, serviceByKey, serviceSubs, type ServiceMeta } from '@/data/se
 import type { ServiceContent, ServiceSection } from '@/data/services/types';
 import { guideSlugs } from '@/data/guides';
 import { site, phoneUrl } from '@/lib/site';
-import { serviceTeam, telegramFor } from '@/lib/leads';
+import { leadAttrs, serviceTeam, telegramFor } from '@/lib/leads';
 import { fmtDate, fmtNumber } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
 import tariffs from '@/data/tariffs.json';
@@ -58,6 +58,8 @@ const cta = content?.cta ?? { title: fb.ctaTitle, text: fb.ctaText, draft: tpl(f
 /** This page already knows its service, so its Telegram buttons skip the picker and open that service's team. */
 const team = serviceTeam[service.key];
 const tgHref = telegramFor(team, cta.draft, Astro.url.pathname);
+/** With JavaScript: GSR's system picks the team's manager, filed under the service's Uzbek slug. */
+const tgLead = leadAttrs(team, service.slug.uz, name);
 const daysFor: Partial<Record<string, [number, number]>> = { truck: tariffs.truck.days as [number, number], air: tariffs.air.days as [number, number], rail: tariffs.rail.days as [number, number] };
 const days = daysFor[service.key];
 const digitFact = facts.find((f) => /\d/.test(f.value));
@@ -105,7 +107,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
         <p class="intro answer">{intro}</p>
         <div class="cta-row">
           <Button href={pagePath(lang, 'calculator')} variant="primary">{c.cta.calculate}</Button>
-          <Button href={tgHref} variant="secondary" icon="telegram" data-team={team}>{c.cta.telegram}</Button>
+          <Button href={tgHref} variant="secondary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
         </div>
       </div>
     </header>
@@ -204,7 +206,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
           {stickyStat && <p class="caption side-fact">{stickyStat.label}</p>}
           <p class="side-line tnum">{numberLine}</p>
           <div class="side-actions">
-            <Button href={tgHref} variant="primary" icon="telegram" block data-team={team}>{c.cta.telegram}</Button>
+            <Button href={tgHref} variant="primary" icon="telegram" block {...tgLead}>{c.cta.telegram}</Button>
             <Button href={pagePath(lang, 'calculator')} variant="secondary" block>{c.cta.calculate}</Button>
           </div>
           <p class="side-hint">{t.page.stickyHint}</p>
@@ -255,7 +257,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
         <h2 id="cta-h" class="display-2 measure-head cta-h2">{cta.title}</h2>
         <p class="intro cta-text">{cta.text}</p>
         <div class="cta-row">
-          <Button href={tgHref} variant="primary" icon="telegram" data-team={team}>{c.cta.telegram}</Button>
+          <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
         <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>

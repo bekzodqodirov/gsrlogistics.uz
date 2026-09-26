@@ -1,10 +1,12 @@
 # Forma va kuzatuv funksiyalari — Cloudflare Pages sozlamalari
 
+> **2026-09-26:** aloqa formasi endi GSR tizimi (`gsrwms.uz`) orqali ishlaydi va `functions/api/lead.ts` ni chaqirmaydi. Quyidagi `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` va Turnstile boʻlimlari faqat oʻsha eski funksiya uchun — hozir ularni sozlash shart emas. Kuzatuv (`/api/track`) boʻlimi oʻz kuchida.
+
 Sayt toʻliq statik. Ikkita kichik serverless funksiya (`functions/api/`) ixtiyoriy:
 
 | Funksiya | Manzil | Nima qiladi | Sozlanmasa nima boʻladi |
 |---|---|---|---|
-| `functions/api/lead.ts` | `POST /api/lead` | Aloqa sahifasidagi formani Telegram guruhingizga yuboradi | Forma Telegram chatini ochadi (deep link) va matnni nusxalash imkonini beradi — hech narsa yoʻqolmaydi |
+| `functions/api/lead.ts` | `POST /api/lead` | **2026-09-26 dan ishlatilmaydi.** Aloqa formasi endi GSR tizimidan menejer soʻraydi va Telegramni kodli xabar bilan ochadi (README → «Mijozlarni menejerlarga taqsimlash») | — |
 | `functions/api/track.ts` | `GET /api/track?code=…` | Yuk kodini Google Sheets jadvalidan topib, holatni koʻrsatadi | Kuzatuv sahifasi Telegramga «Yuk kodi: …» xabar bilan yoʻnaltiradi |
 
 Hech qanday maʼlumot saqlanmaydi: forma faqat Telegramga yuboriladi, kuzatuv faqat jadvaldan oʻqiydi.
@@ -75,4 +77,4 @@ npx wrangler pages dev dist --binding TELEGRAM_BOT_TOKEN=… --binding TELEGRAM_
 
 ## 6. Boshqa hostingda (GitHub Pages va h.k.)
 
-`functions/` ishlamaydi — bu normal: forma Telegram deep link bilan, kuzatuv Telegram xabar bilan ishlayveradi. Kelajakda boshqa endpoint qoʻysangiz, `LeadForm` va `TrackingForm` komponentlarida `endpoint` prop’ini (`/api/lead`, `/api/track`) oʻzgartiring — brauzer skripti `window.__LEAD_ENDPOINT` orqali ham oʻqiydi.
+`functions/` ishlamaydi — bu normal: forma Telegram deep link bilan, kuzatuv Telegram xabar bilan ishlayveradi. Kelajakda boshqa endpoint qoʻysangiz, `TrackingForm` komponentida `endpoint` prop’ini (`/api/track`) oʻzgartiring.

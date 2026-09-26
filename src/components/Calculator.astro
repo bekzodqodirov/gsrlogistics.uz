@@ -10,6 +10,7 @@ import { common } from '@/i18n/common';
 import { pricingStrings, tpl } from '@/i18n/pricing';
 import { pagePath } from '@/i18n/routes';
 import { site } from '@/lib/site';
+import { leadAttrs } from '@/lib/leads';
 import { fmtDate, fmtNumber, fmtUsd, withFrom } from '@/lib/format';
 import { CATEGORIES } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
@@ -23,6 +24,8 @@ const b = t.breakdown;
 const pricingUrl = pagePath(lang, 'pricing');
 const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(tariffs.updated, lang)}`;
 const kursNote = tpl(t.calc.kursNote, { rate: fmtNumber(tariffs.usdToSom, lang, 0) });
+/** Heads the one line the manager reads on the lead: «Kalkulyator · Avto … · 120 kg · …». */
+const calcLabel = c.nav.find((x) => x.key === 'calculator')?.label ?? t.calc.title;
 const i18n = JSON.stringify({
   b,
   resultEmpty: t.calc.resultEmpty,
@@ -33,6 +36,7 @@ const i18n = JSON.stringify({
   draftRail: t.calc.draftRail,
   draftNoVolume: t.calc.draftNoVolume,
   volumeLabel: t.calc.volumeLabel,
+  summaryLabel: calcLabel,
 });
 const rateOf = (v: number) => `${fmtUsd(v, lang)}${b.units.perKg}`;
 const rateOfM3 = (v: number) => `${fmtUsd(v, lang)}${b.units.perM3}`;
@@ -153,7 +157,7 @@ const uid = (s: string) => `${id}-${s}`;
         <p class="rule" data-el="rule"></p>
         <dl class="rows" data-el="rows"></dl>
         <ul class="notes" data-el="notes" role="list"></ul>
-        <a class="btn btn-primary confirm" data-el="tg" href={site.telegramDirect} target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.calc.confirm}</a>
+        <a class="btn btn-primary confirm" data-el="tg" href={site.telegramDirect} target="_blank" rel="noopener" {...leadAttrs('cargo', 'kalkulyator', calcLabel)}><Icon name="telegram" size={18} />{t.calc.confirm}</a>
         <p class="draft caption"><span class="draft-label">{t.calc.draftPreview}:</span> <span data-el="draft"></span></p>
       </div>
     </div>
@@ -252,7 +256,7 @@ const uid = (s: string) => `${id}-${s}`;
   import { fmtNumber } from '@/lib/format';
   import type { Locale } from '@/i18n/config';
 
-  interface I18n { b: BreakdownStrings; resultEmpty: string; overLimit: string; needVolume: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string }
+  interface I18n { b: BreakdownStrings; resultEmpty: string; overLimit: string; needVolume: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string; summaryLabel: string }
   const T = tariffs as unknown as Tariffs;
   const sub = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : ''));
 
@@ -310,8 +314,17 @@ const uid = (s: string) => `${id}-${s}`;
       const draft = e.mode === 'rail'
         ? sub(i18n.draftRail, { container: i18n.b.containers[container], total: r.total })
         : sub(i18n.draft, { mode: i18n.b.modes[e.mode], kg: fmtNumber(kg, lang), volume: volText, category: i18n.b.categories[category], total: r.total });
-      el('draft')!.textContent = draft;
-      el<HTMLAnchorElement>('tg')!.href = `${tgBase}?text=${encodeURIComponent(draft)}`;
+      // With JavaScript the button asks GSR's system for a cargo manager (components/ContactPicker.astro)
+      // and sends «Kod: GSR-…» over this one line; the preview shows the line. The href keeps the full
+      // sentence for "open in new tab".
+      const summary = (e.mode === 'rail'
+        ? [i18n.summaryLabel, i18n.b.modes.rail, i18n.b.containers[container], r.total]
+        : [i18n.summaryLabel, i18n.b.modes[e.mode], `${fmtNumber(kg, lang)} ${i18n.b.units.kg}`, volText, i18n.b.categories[category], r.total]
+      ).join(' · ');
+      el('draft')!.textContent = summary;
+      const tg = el<HTMLAnchorElement>('tg')!;
+      tg.dataset.summary = summary;
+      tg.href = `${tgBase}?text=${encodeURIComponent(draft)}`;
       body.hidden = false; empty.hidden = true;
     }
 

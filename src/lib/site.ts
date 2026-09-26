@@ -27,24 +27,33 @@ export const site = {
   phoneE164: '+998950183333',
   whatsapp: '998901757800', // WhatsApp runs on the SECOND number, not the primary one
   telegram: 'gsrlogistics', // public channel @gsrlogistics (GSR Group)
-  /** Direct chat target for CTAs — the manager's Telegram username. */
+  /**
+   * The company's own Telegram account (owner, 2026-09-26: "bu kompaniya username"). Every chat
+   * button lands here when nothing better is known: without JavaScript, when GSR's system does not
+   * answer, and when a fallback list below is empty.
+   */
+  telegramCompany: 'bekzodkodirov556',
+  /** Direct chat target for CTAs — the company account above, as a link. */
   telegramDirect: 'https://t.me/bekzodkodirov556',
   /**
-   * WHO ANSWERS WHAT — the managers' own Telegram usernames, per team (without the @).
-   * Owner, 2026-09-26: GSR's CRM is its own system, and the managers' personal Telegram accounts are
-   * connected to it. So the account a message lands in IS the assignment: routing a visitor to the
-   * right username is all it takes for the lead to appear under the right manager.
+   * WHO GETS A NEW CLIENT. Owner, 2026-09-26: GSR's own system (gsrwms.uz) knows which sales manager
+   * is least busy in each team and hands the site that manager's Telegram username, one click at a
+   * time — see lib/lead-client.ts and README → «Mijozlarni menejerlarga taqsimlash». The managers
+   * themselves are set in the GSR admin, not here.
+   */
+  leadAssign: 'https://gsrwms.uz/api/lead/assign',
+  /**
+   * The site's own list, used only when GSR's system gives no manager (not deployed yet, down, slow,
+   * over its limit). Usernames without the @, per team; one is picked at random per click. Empty =
+   * the company account. Owner, 2026-09-26: fallback goes to the company account, so all are empty.
    *   cargo   — bringing cargo: consolidated truck, air, rail, customs, warehouse
    *   buying  — sourcing, buying on 1688/Taobao, equipment import, car import
-   *   general — anything else, and the no-JavaScript fallback of every general button
-   * One username = everyone goes to that person. Several = each visitor is given one at random and
-   * keeps that same manager on every later visit (remembered in their browser).
-   * ⚠️ Until the owner sends the team usernames, all three point at the one account used so far.
+   *   general — anything else
    */
   leadTeams: {
-    cargo: ['bekzodkodirov556'],
-    buying: ['bekzodkodirov556'],
-    general: ['bekzodkodirov556'],
+    cargo: [] as string[],
+    buying: [] as string[],
+    general: [] as string[],
   },
   telegramGroup: 'gsrgroupchat',
   /**
