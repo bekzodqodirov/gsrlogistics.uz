@@ -21,11 +21,9 @@ export interface LeadFormStrings {
   consent: string;
   consentLink: string;
   submit: string;
-  sending: string;
   errors: { name: string; phone: string; cargo: string; consent: string };
   success: { title: string; text: string; again: string };
   /** Shown when the endpoint is missing or fails: Telegram deep link + copyable text. */
-  fallback: { title: string; text: string; open: string; copy: string; copied: string; copyFail: string };
   noJs: string;
   /** Labels used inside the composed Telegram message. */
   draft: { intro: string; name: string; phone: string; route: string; cargo: string; page: string };
@@ -108,7 +106,7 @@ const uz: ContactStrings = {
   },
   form: {
     title: 'Soʻrov qoldiring',
-    lead: 'Formani toʻldiring — menejer ish vaqtida Telegram yoki telefon orqali bogʻlanadi.',
+    lead: 'Formani toʻldiring — Telegram tayyor xabar bilan ochiladi, uni menejerga oʻzingiz yuborasiz.',
     name: 'Ismingiz',
     namePlaceholder: 'Ism',
     phone: 'Telefon',
@@ -121,8 +119,7 @@ const uz: ContactStrings = {
     cargoHint: 'Nima, qancha, qayerdan va qachongacha — bir-ikki jumla yetarli.',
     consent: 'Maʼlumotlarim menejer bilan bogʻlanish uchun ishlatilishiga roziman — {link}.',
     consentLink: 'maxfiylik siyosati',
-    submit: 'Soʻrov qoldiring',
-    sending: 'Yuborilmoqda…',
+    submit: 'Telegramda yuborish',
     errors: {
       name: 'Ismingizni kiriting.',
       phone: 'Telefon raqamini +998 bilan toʻliq kiriting.',
@@ -130,14 +127,6 @@ const uz: ContactStrings = {
       consent: 'Davom etish uchun rozilik belgisini qoʻying.',
     },
     success: { title: 'Soʻrovingiz qabul qilindi.', text: 'Ish vaqtida javob beramiz. Shoshilinch boʻlsa — Telegramda yozing.', again: 'Yana soʻrov yuborish' },
-    fallback: {
-      title: 'Soʻrovni Telegramda yuboring',
-      text: 'Soʻrovlar Telegram orqali qabul qilinadi. Xabar tayyor — Telegramda ochib yuboring yoki matnni nusxalab menejerga joʻnating.',
-      open: 'Telegramda ochish',
-      copy: 'Matnni nusxalash',
-      copied: 'Nusxalandi',
-      copyFail: 'Nusxalab boʻlmadi — matnni qoʻlda belgilang.',
-    },
     noJs: 'Tugma Telegramni ochadi. Xabarga ismingiz va telefon raqamingizni ham qoʻshing.',
     draft: { intro: 'Assalomu alaykum! Saytdan soʻrov qoldiryapman.', name: 'Ism', phone: 'Telefon', route: 'Yoʻnalish', cargo: 'Yuk', page: 'Sahifa' },
   },
@@ -212,7 +201,7 @@ const ru: ContactStrings = {
   },
   form: {
     title: 'Оставить заявку',
-    lead: 'Заполните форму — менеджер свяжется в рабочее время через Telegram или по телефону.',
+    lead: 'Заполните форму — откроется Telegram с готовым сообщением, и вы сами отправите его менеджеру.',
     name: 'Ваше имя',
     namePlaceholder: 'Имя',
     phone: 'Телефон',
@@ -225,8 +214,7 @@ const ru: ContactStrings = {
     cargoHint: 'Что, сколько, откуда и к какому сроку — достаточно одной-двух фраз.',
     consent: 'Согласен на обработку данных для связи с менеджером — {link}.',
     consentLink: 'политика конфиденциальности',
-    submit: 'Оставить заявку',
-    sending: 'Отправляем…',
+    submit: 'Отправить в Telegram',
     errors: {
       name: 'Укажите имя.',
       phone: 'Введите номер телефона полностью, начиная с +998.',
@@ -234,14 +222,6 @@ const ru: ContactStrings = {
       consent: 'Чтобы продолжить, поставьте отметку о согласии.',
     },
     success: { title: 'Заявка принята.', text: 'Ответим в рабочее время. Если срочно — напишите в Telegram.', again: 'Отправить ещё одну заявку' },
-    fallback: {
-      title: 'Отправьте заявку в Telegram',
-      text: 'Заявки принимаются через Telegram. Сообщение уже собрано — откройте его в Telegram или скопируйте текст и отправьте менеджеру.',
-      open: 'Открыть в Telegram',
-      copy: 'Скопировать текст',
-      copied: 'Скопировано',
-      copyFail: 'Не удалось скопировать — выделите текст вручную.',
-    },
     noJs: 'Кнопка откроет Telegram. Добавьте в сообщение своё имя и номер телефона.',
     draft: { intro: 'Здравствуйте! Оставляю заявку с сайта.', name: 'Имя', phone: 'Телефон', route: 'Направление', cargo: 'Груз', page: 'Страница' },
   },
@@ -316,7 +296,7 @@ const en: ContactStrings = {
   },
   form: {
     title: 'Leave a request',
-    lead: 'Fill in the form — a manager gets back to you during working hours on Telegram or by phone.',
+    lead: 'Fill in the form — Telegram opens with the message ready, and you send it to the manager yourself.',
     name: 'Your name',
     namePlaceholder: 'Name',
     phone: 'Phone',
@@ -329,8 +309,7 @@ const en: ContactStrings = {
     cargoHint: 'What, how much, from where and by when — a sentence or two is enough.',
     consent: 'I agree that my details are used to contact me about this request — {link}.',
     consentLink: 'privacy policy',
-    submit: 'Leave a request',
-    sending: 'Sending…',
+    submit: 'Send on Telegram',
     errors: {
       name: 'Please enter your name.',
       phone: 'Enter the full phone number starting with +998.',
@@ -338,14 +317,6 @@ const en: ContactStrings = {
       consent: 'Tick the consent box to continue.',
     },
     success: { title: 'Request received.', text: 'We reply during working hours. In a hurry? Message us on Telegram.', again: 'Send another request' },
-    fallback: {
-      title: 'Send your request on Telegram',
-      text: 'Requests are taken over Telegram. Your message is ready — open it in Telegram, or copy the text and send it to a manager.',
-      open: 'Open in Telegram',
-      copy: 'Copy text',
-      copied: 'Copied',
-      copyFail: 'Could not copy — select the text manually.',
-    },
     noJs: 'The button opens Telegram. Add your name and phone number to the message.',
     draft: { intro: 'Hello! I am sending a request from the website.', name: 'Name', phone: 'Phone', route: 'Service', cargo: 'Cargo', page: 'Page' },
   },

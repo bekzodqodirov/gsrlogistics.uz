@@ -10,7 +10,7 @@ import { pricingStrings, tpl, monthYear } from '@/i18n/pricing';
 import { pagePath, pageUrl, itemUrl } from '@/i18n/routes';
 import { services } from '@/data/services';
 import { site, phoneUrl } from '@/lib/site';
-import { telegramFor } from '@/lib/leads';
+import { leadAttrs, telegramFor } from '@/lib/leads';
 import { fmtDate, fmtNumber, fmtUsd, fmtSom, withFrom, daysWord } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
 import { estimateAir, estimateTruck, formatBreakdown, type Tariffs } from '@/lib/pricing';
@@ -135,6 +135,7 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: p
 const ctaDraft = p.cta.draft;
 /** Every price on this page is a cargo price, so its Telegram buttons go to the cargo team. */
 const tgHref = telegramFor('cargo', ctaDraft, Astro.url.pathname);
+const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
 ---
 <Base lang={lang} title={seoTitle} description={seoDescription} pageKey="pricing" breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={T.updated}>
   <article class="page">
@@ -147,7 +148,7 @@ const tgHref = telegramFor('cargo', ctaDraft, Astro.url.pathname);
         <p class="caption hero-meta"><Icon name="clock" size={14} />{estimateMeta}</p>
         <div class="cta-row">
           <Button href={pagePath(lang, 'calculator')} variant="primary">{c.cta.calculate}</Button>
-          <Button href={tgHref} variant="secondary" icon="telegram" data-team="cargo">{c.cta.telegram}</Button>
+          <Button href={tgHref} variant="secondary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
         </div>
       </div>
     </header>
@@ -332,7 +333,7 @@ const tgHref = telegramFor('cargo', ctaDraft, Astro.url.pathname);
         <h2 id="cta-h" class="display-2 measure-head cta-h2">{p.cta.title}</h2>
         <p class="intro cta-text">{p.cta.text}</p>
         <div class="cta-row">
-          <Button href={tgHref} variant="primary" icon="telegram" data-team="cargo">{c.cta.telegram}</Button>
+          <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
         <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>

@@ -5,11 +5,15 @@ import type { Lang } from './config';
  * (components/ContactPicker.astro). It exists so a message lands with the manager who handles that
  * work — owner, 2026-09-26: cargo and buying are separate people. See lib/leads.ts.
  *
- * Two taps at most: the topic, then one detail. Every final choice opens Telegram with a draft the
- * visitor can still edit — nothing is sent by the site, and the footnote says so.
+ * Two taps at most: the topic, then one detail. The final choice asks GSR's system for the least
+ * busy manager of that team (lib/lead-client.ts) and shows `done` — the manager, the message with its
+ * one-off code, and the Telegram button — while Telegram opens. Nothing is sent by the site: the
+ * visitor presses send, and the footnote says so.
  *
- * Drafts end with no reply-time promise (check-content.mjs bans those), and the machine tag and page
- * path are appended by lib/leads.ts, not written here.
+ * `draft` is the no-JavaScript message (with its tag line from lib/leads.ts). With JavaScript the
+ * message is `codeWord: GSR-…` over one summary line built from the labels and `msg` below — the line
+ * the manager reads on the lead. No reply-time promise anywhere (check-content.mjs bans those), and
+ * nothing that says a manager will write first: the visitor writes, the manager answers.
  */
 interface Choice { label: string; /** What goes into the draft for this choice. */ msg: string }
 export interface LeadStrings {
@@ -22,6 +26,11 @@ export interface LeadStrings {
   buying: { label: string; sub: string; question: string; draft: string; choices: [Choice, Choice, Choice] };
   track: { label: string; sub: string };
   other: { label: string; sub: string; draft: string };
+  /** The word in front of the code on the message's first line. */
+  codeWord: string;
+  /** Shown for the moment (at most 1.5 s) GSR's system takes to answer. */
+  wait: string;
+  done: { title: string; manager: string; open: string; copy: string; copied: string; copyFail: string; note: string };
 }
 
 const uz: LeadStrings = {
@@ -55,6 +64,17 @@ const uz: LeadStrings = {
   },
   track: { label: 'Yukim qayerda?', sub: 'Har bir qutingiz holati — botda, sutkaning istalgan vaqtida' },
   other: { label: 'Boshqa savol', sub: 'Umumiy menejerga', draft: 'Assalomu alaykum! Savolim bor: ' },
+  codeWord: 'Kod',
+  wait: 'Menejer tanlanmoqda…',
+  done: {
+    title: 'Xabaringiz tayyor',
+    manager: 'Menejer',
+    open: 'Telegramda yozish',
+    copy: 'Nusxa olish',
+    copied: 'Nusxa olindi',
+    copyFail: 'Nusxa olinmadi — matnni belgilab, qoʻlda nusxa oling',
+    note: 'Tayyor xabarni oʻzgartirmasdan, birinchi xabar qilib yuboring.',
+  },
 };
 
 const ru: LeadStrings = {
@@ -88,6 +108,17 @@ const ru: LeadStrings = {
   },
   track: { label: 'Где мой груз?', sub: 'Статус каждой коробки — в боте, в любое время суток' },
   other: { label: 'Другой вопрос', sub: 'Общему менеджеру', draft: 'Здравствуйте! У меня вопрос: ' },
+  codeWord: 'Код',
+  wait: 'Подбираем менеджера…',
+  done: {
+    title: 'Сообщение готово',
+    manager: 'Менеджер',
+    open: 'Написать в Telegram',
+    copy: 'Скопировать',
+    copied: 'Скопировано',
+    copyFail: 'Не удалось скопировать — выделите текст вручную',
+    note: 'Отправьте готовое сообщение первым, не меняя его.',
+  },
 };
 
 const en: LeadStrings = {
@@ -121,6 +152,17 @@ const en: LeadStrings = {
   },
   track: { label: 'Where is my cargo?', sub: 'Every carton’s status — in the bot, at any hour' },
   other: { label: 'Something else', sub: 'To the general manager', draft: 'Hello! I have a question: ' },
+  codeWord: 'Code',
+  wait: 'Finding your manager…',
+  done: {
+    title: 'Your message is ready',
+    manager: 'Manager',
+    open: 'Write on Telegram',
+    copy: 'Copy',
+    copied: 'Copied',
+    copyFail: 'Couldn’t copy — select the text and copy it by hand',
+    note: 'Send the prepared message as your first message, without changing it.',
+  },
 };
 
 export const leadStrings: Record<Lang, LeadStrings> = { uz, ru, en };

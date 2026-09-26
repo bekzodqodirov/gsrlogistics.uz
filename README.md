@@ -45,23 +45,28 @@ Barcha kontakt va kompaniya faktlari **bitta faylda**: `src/lib/site.ts`. Undagi
 
 ## Mijozlarni menejerlarga taqsimlash
 
-Menejerlarning shaxsiy Telegram akkauntlari CRM tizimiga ulangan, shuning uchun xabar qaysi akkauntga tushsa, CRMʼda oʻsha menejerga tushadi. Sayt har bir mijozni kerakli akkauntga yuboradi:
+Qaysi menejer boʻshroq ekanini **GSR tizimi** (`gsrwms.uz`) biladi. Sayt har bir mijozni oʻsha tizim tanlagan menejerga yuboradi (egasi, 2026-09-26):
 
-- **Xizmat sahifalari, «Narxlar» va «Kalkulyator»** mijozdan hech narsa soʻramaydi, toʻgʻridan-toʻgʻri oʻz jamoasiga olib boradi.
-- **Umumiy tugmalar** (sarlavha, bosh sahifa, pastki panel, footer…) avval qisqa soʻrovnoma ochadi: yuk olib kelish, tovar sotib olish, «yukim qayerda?» (botga) yoki boshqa savol. Keyin kerakli menejerni tayyor xabar bilan ochadi. Xabar oxirida teg turadi: `#yuk`, `#xarid` yoki `#savol`, va mijoz qaysi sahifadan yozgani.
-- JavaScript ishlamasa, umumiy tugma oddiy havola boʻlib, umumiy menejerga olib boradi.
+1. Mijoz Telegram tugmasini bosadi. Umumiy tugmalar (sarlavha, bosh sahifa, pastki panel, footer…) avval qisqa soʻrovnoma ochadi: yuk olib kelish, tovar sotib olish, «yukim qayerda?» (botga) yoki boshqa savol. Xizmat sahifalari, «Narxlar», «Kalkulyator» va aloqa formasi hech narsa soʻramaydi, chunki jamoasi maʼlum.
+2. Oxirgi tugma bosilganda brauzer bitta soʻrov yuboradi: `https://gsrwms.uz/api/lead/assign?team=…&lead=GSR-…&tag=…&page=…&lang=…`. Bu yerda `team` — `cargo` (yigʻma yuk, avia, temir yoʻl, bojxona, ombor), `buying` (tovar topish, sotib olish, uskunalar, avtomobil) yoki `general`; `lead` — shu bosish uchun yaratilgan bir martalik kod.
+3. Tizim menejerning Telegram usernameʼini qaytaradi. Sayt «Menejer: @…», tayyor xabar, «Nusxa olish» tugmasi va «Tayyor xabarni oʻzgartirmasdan, birinchi xabar qilib yuboring» degan eslatmani koʻrsatadi, keyin Telegramni ochadi. Xabar shunday boʻladi:
+   ```
+   Kod: GSR-7KQ2MX9PLA
+   Yuk olib kelish · 1–5 m³
+   ```
+4. Mijoz xabarni yuboradi va tizim oʻsha menejerga lidni oʻzi ochadi. Sayt hech narsani saqlamaydi va mijozga oʻzi yozmaydi.
 
-Kim nima bilan shugʻullanishi `src/lib/site.ts` dagi `leadTeams` da yoziladi (username `@` belgisisiz):
+Tizim javob bermasa (hali deploy qilinmagan, ishlamayapti, 1,5 soniyadan koʻp kutdi, cheklovdan oshdi) mijoz **kompaniya akkauntiga** (`@bekzodkodirov556`) oʻsha kodli xabar bilan tushadi, xato koʻrsatilmaydi. Bu zaxira `src/lib/site.ts` da:
 
 ```ts
-leadTeams: {
-  cargo:   ['menejer1'],             // yigʻma yuk, avia, temir yoʻl, bojxona, ombor
-  buying:  ['menejer2'],             // tovar topish, sotib olish, uskunalar, avtomobil
-  general: ['bekzodkodirov556'],     // boshqa savollar
-},
+telegramCompany: 'bekzodkodirov556',               // zaxira va JavaScriptsiz havolalar
+leadAssign: 'https://gsrwms.uz/api/lead/assign',   // GSR tizimi
+leadTeams: { cargo: [], buying: [], general: [] }, // ixtiyoriy: jamoa boʻyicha zaxira menejerlar
 ```
 
-Bir jamoada bir nechta menejer boʻlsa, ularning hammasini yozing: `['menejer1', 'menejer3']`. Har bir yangi mijozga ulardan biri tasodifan beriladi va keyingi kirishlarida ham oʻsha menejerga tushadi. Qaysi xizmat qaysi jamoaga tegishli ekani `src/lib/leads.ts` dagi `serviceTeam` da.
+Menejerlarning oʻzi GSR admin panelida belgilanadi, saytda emas. `leadTeams` ga username yozilsa, tizim javob bermaganda oʻsha jamoadan tasodifiy biri tanlanadi, boʻsh boʻlsa kompaniya akkaunti. Qaysi xizmat qaysi jamoaga tegishli ekani `src/lib/leads.ts` dagi `serviceTeam` da, soʻrov kodi esa `src/lib/lead-client.ts` da.
+
+Sinov: GSR tizimida har bir javob berilgan soʻrov real menejerga yuk sifatida hisoblanadi, test rejimi yoʻq. Shuning uchun toʻliq sinovni bir marta qiling: menejerga hech qachon yozmagan Telegram akkauntdan soʻrovnomani toʻldiring, tayyor xabarni oʻzgartirmasdan yuboring va CRMʼda «Sayt» manbali yangi lid paydo boʻlganini tekshiring.
 
 ## Narxlarni yangilash
 
@@ -109,6 +114,6 @@ src/
   content/guides/             Markdown maqolalar
   lib/                        site.ts (kompaniya faktlari), schema.ts, format.ts
 scripts/                      xarita generatori, OG rasmlar, llms-full, IndexNow
-functions/api/                Cloudflare Pages Functions (forma → Telegram, kuzatuv)
+functions/api/                Cloudflare Pages Functions (kuzatuv; `lead.ts` endi ishlatilmaydi — forma GSR tizimi orqali ishlaydi)
 docs/                         SEO-PLAYBOOK, DEPLOY-FUNCTIONS
 ```

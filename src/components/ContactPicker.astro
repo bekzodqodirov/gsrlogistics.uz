@@ -1,27 +1,31 @@
 ---
 /**
- * The one-question picker in front of every general "write to us" button.
+ * The one-question picker in front of every general "write to us" button, and the result screen
+ * every chat button on the site ends on.
  *
  * Why: GSR's managers split the work — one team brings cargo, another finds and buys goods — and
- * their personal Telegram accounts are wired into GSR's own CRM, so the account a message lands in
- * is the assignment. A general button cannot know which team the visitor needs; this asks, in at
- * most two taps, and opens Telegram at the right manager with a draft that already says what it is
- * about. Owner, 2026-09-26. Routing rules and team usernames: lib/leads.ts, site.leadTeams.
+ * GSR's own system (gsrwms.uz) knows which manager of a team is least busy. A general button cannot
+ * know the team; this asks, in at most two taps. Then, at the final click, the browser asks GSR's
+ * system for a manager (lib/lead-client.ts), shows the manager and the prepared message with its
+ * one-off code, and opens Telegram at that manager. When the visitor sends that message, GSR's
+ * system opens the lead for that manager by itself. Owner, 2026-09-26.
  *
- * How a button opts in: an <a data-picker> whose href is the general team's chat. The click is
- * intercepted and this dialog opens instead. Without JavaScript, or with a modifier key / middle
- * click ("open in new tab"), the href is followed as it is — the general team still gets it.
- * Service pages do NOT use the picker: they already know their service and link straight to its
- * team (data-team), so a visitor on the "buying" page is never asked what they want.
+ * Who comes through here (all handled by the one script below):
+ *   - <a data-picker>: a general button. The click opens this dialog at the topic step.
+ *   - <a data-team data-topic data-summary>: a final choice — the picker's own, a service page's,
+ *     the pricing page's, the calculator's (lib/leads.ts → leadAttrs). The click runs the flow.
+ *   - a "gsr:lead" event: the contact form (LeadForm.astro), after it validates.
+ * Without JavaScript, or with a modifier key / middle click ("open in new tab"), every link is followed
+ * as rendered: the company account with a plain draft and no code.
  *
- * Every final choice is a real <a href> rendered here, per page, with the page path in the draft —
- * the script never builds a message, it only swaps in the visitor's own manager when a team has
- * more than one (sticky, per browser, so a returning client reaches the same person).
+ * The result screen is not optional: a lead opens only if the coded message is the visitor's FIRST
+ * message to that manager, unchanged, so the screen says so, and it keeps a real Telegram link and a
+ * copy button for browsers that do not leave the page.
  */
 import { pick, type Locale } from '@/i18n/config';
 import { leadStrings } from '@/i18n/lead';
 import { site, telegramBotUrl } from '@/lib/site';
-import { telegramFor } from '@/lib/leads';
+import { assignLang, leadAttrs, teamTopic, telegramFor } from '@/lib/leads';
 import Icon from '@/components/ui/Icon.astro';
 
 interface Props { lang: Locale }
@@ -29,11 +33,12 @@ const { lang } = Astro.props;
 const t = pick(lang, leadStrings);
 const path = Astro.url.pathname;
 const fill = (draft: string, v: string) => draft.replace('{v}', v);
+const cfg = JSON.stringify({ endpoint: site.leadAssign, company: site.telegramCompany, fallback: site.leadTeams });
 ---
-<dialog class="lp" id="lead-picker" aria-labelledby="lp-title" data-teams={JSON.stringify(site.leadTeams)}>
+<dialog class="lp" id="lead-picker" aria-labelledby="lp-title" data-assign={cfg} data-lang={assignLang(lang)} data-code-word={t.codeWord}>
   <div class="lp-sheet">
     <div class="lp-head">
-      <h2 id="lp-title" class="lp-title">{t.title}</h2>
+      <h2 id="lp-title" class="lp-title" data-lp-title data-title-done={t.done.title}>{t.title}</h2>
       <button type="button" class="lp-x" data-lp-close aria-label={t.close}><Icon name="x" size={20} /></button>
     </div>
 
@@ -56,15 +61,15 @@ const fill = (draft: string, v: string) => draft.replace('{v}', v);
         </li>
         <li>
           {/* Existing clients asking "where is it" are answered by the bot, per carton, at any hour —
-              not by a sales manager. */}
-          <a class="lp-opt" href={telegramBotUrl} target="_blank" rel="noopener" data-lp-final>
+              not by a sales manager, so this one asks GSR's system nothing. */}
+          <a class="lp-opt" href={telegramBotUrl} target="_blank" rel="noopener" data-lp-bot>
             <span class="lp-ico"><Icon name="route" size={22} /></span>
             <span class="lp-txt"><span class="lp-label">{t.track.label}</span><span class="lp-sub">{t.track.sub}</span></span>
             <Icon name="arrow-up-right" size={18} class="lp-chev" />
           </a>
         </li>
         <li>
-          <a class="lp-opt" href={telegramFor('general', t.other.draft, path)} data-team="general" target="_blank" rel="noopener" data-lp-final>
+          <a class="lp-opt" href={telegramFor('general', t.other.draft, path)} target="_blank" rel="noopener" {...leadAttrs('general', teamTopic.general, t.other.label)}>
             <span class="lp-ico"><Icon name="telegram" size={22} /></span>
             <span class="lp-txt"><span class="lp-label">{t.other.label}</span><span class="lp-sub">{t.other.sub}</span></span>
             <Icon name="arrow-up-right" size={18} class="lp-chev" />
@@ -78,7 +83,7 @@ const fill = (draft: string, v: string) => draft.replace('{v}', v);
       <p class="lp-q" id="lp-q-cargo">{t.cargo.question}</p>
       <ul class="lp-chips" role="list" aria-labelledby="lp-q-cargo">
         {t.cargo.choices.map((c) => (
-          <li><a class="lp-chip" href={telegramFor('cargo', fill(t.cargo.draft, c.msg), path)} data-team="cargo" target="_blank" rel="noopener" data-lp-final><Icon name="telegram" size={18} />{c.label}</a></li>
+          <li><a class="lp-chip" href={telegramFor('cargo', fill(t.cargo.draft, c.msg), path)} target="_blank" rel="noopener" {...leadAttrs('cargo', teamTopic.cargo, `${t.cargo.label} · ${c.msg}`)}><Icon name="telegram" size={18} />{c.label}</a></li>
         ))}
       </ul>
     </div>
@@ -88,59 +93,140 @@ const fill = (draft: string, v: string) => draft.replace('{v}', v);
       <p class="lp-q" id="lp-q-buying">{t.buying.question}</p>
       <ul class="lp-chips lp-chips-wide" role="list" aria-labelledby="lp-q-buying">
         {t.buying.choices.map((c) => (
-          <li><a class="lp-chip" href={telegramFor('buying', fill(t.buying.draft, c.msg), path)} data-team="buying" target="_blank" rel="noopener" data-lp-final><Icon name="telegram" size={18} />{c.label}</a></li>
+          <li><a class="lp-chip" href={telegramFor('buying', fill(t.buying.draft, c.msg), path)} target="_blank" rel="noopener" {...leadAttrs('buying', teamTopic.buying, `${t.buying.label} · ${c.msg}`)}><Icon name="telegram" size={18} />{c.label}</a></li>
         ))}
       </ul>
     </div>
 
-    <p class="lp-foot">{t.footnote}</p>
+    <div class="lp-step lp-wait" data-lp-step="wait" hidden>
+      <span class="lp-spin" aria-hidden="true"></span>
+      <p role="status">{t.wait}</p>
+    </div>
+
+    <div class="lp-step" data-lp-step="done" hidden>
+      <p class="lp-who">{t.done.manager}: <strong class="lp-user" data-lp-user></strong></p>
+      <p class="lp-msg" data-lp-msg></p>
+      <div class="lp-copy-row">
+        <button type="button" class="lp-copy" data-lp-copy data-copied={t.done.copied} data-copy-fail={t.done.copyFail}><Icon name="copy" size={16} />{t.done.copy}</button>
+        <span class="lp-copy-status" data-lp-copy-status role="status"></span>
+      </div>
+      <p class="lp-note"><Icon name="info" size={16} />{t.done.note}</p>
+      <a class="btn btn-primary lp-open" data-lp-open href={site.telegramDirect}><Icon name="telegram" size={18} />{t.done.open}</a>
+    </div>
+
+    <p class="lp-foot" data-lp-foot>{t.footnote}</p>
   </div>
 </dialog>
 
 <script>
+  import { assign, warm, type AssignConfig, type LeadTeam } from '@/lib/lead-client';
+
+  interface LeadEventDetail { team: LeadTeam; topic?: string; summary: string; trigger?: HTMLElement; handled?: boolean }
   const dlg = document.getElementById('lead-picker') as HTMLDialogElement | null;
 
-  /* The visitor's own manager for a team: the only one, or one picked at random on the first visit
-     and remembered, so a returning client is never handed to someone new. Storage can be refused
-     (private mode); then the pick is simply not remembered. */
-  const teams: Record<string, string[]> = (() => { try { return JSON.parse(dlg?.dataset.teams || '{}'); } catch { return {}; } })();
-  const managerFor = (team: string): string | undefined => {
-    const list = teams[team] || [];
-    if (list.length <= 1) return list[0];
-    const key = `gsr-manager-${team}`;
-    try { const saved = localStorage.getItem(key); if (saved && list.includes(saved)) return saved; } catch { /* storage refused */ }
-    const chosen = list[Math.floor(Math.random() * list.length)];
-    try { localStorage.setItem(key, chosen); } catch { /* storage refused */ }
-    return chosen;
-  };
-  (window as unknown as { gsrManagerFor?: typeof managerFor }).gsrManagerFor = managerFor;
-  // Only teams with several managers need touching; with one, the server-rendered href is already right.
-  document.querySelectorAll<HTMLAnchorElement>('a[data-team]').forEach((a) => {
-    const team = a.dataset.team || '';
-    if ((teams[team] || []).length <= 1) return;
-    const who = managerFor(team);
-    if (!who) return;
-    try { const u = new URL(a.href); u.pathname = `/${who}`; a.href = u.toString(); } catch { /* leave the link as rendered */ }
-  });
-
   if (dlg && typeof dlg.showModal === 'function') {
+    const cfg = JSON.parse(dlg.dataset.assign || '{}') as AssignConfig;
+    const lang = dlg.dataset.lang || '';
+    const codeWord = dlg.dataset.codeWord || 'Kod';
+    const q = <T extends HTMLElement>(sel: string) => dlg.querySelector<T>(sel)!;
+    const title = q<HTMLElement>('[data-lp-title]');
+    const titleTopic = title.textContent || '';
+    const foot = q<HTMLElement>('[data-lp-foot]');
+    const user = q<HTMLElement>('[data-lp-user]');
+    const msg = q<HTMLElement>('[data-lp-msg]');
+    const open = q<HTMLAnchorElement>('[data-lp-open]');
+    const copyBtn = q<HTMLButtonElement>('[data-lp-copy]');
+    const copyStatus = q<HTMLElement>('[data-lp-copy-status]');
     const steps = Array.from(dlg.querySelectorAll<HTMLElement>('[data-lp-step]'));
+
     const show = (name: string) => {
       for (const s of steps) s.hidden = s.dataset.lpStep !== name;
+      title.textContent = name === 'done' ? title.dataset.titleDone || titleTopic : titleTopic;
+      foot.hidden = name === 'done';
       const current = steps.find((s) => s.dataset.lpStep === name);
-      current?.querySelector<HTMLElement>('.lp-opt, .lp-chip')?.focus();
+      current?.querySelector<HTMLElement>('.lp-opt, .lp-chip, .lp-open')?.focus();
     };
     let opener: HTMLElement | null = null;
 
+    /* One flow at a time. The button that started it stays disabled until the visitor comes back
+       (pageshow from the back/forward cache) or closes the dialog. */
+    let busy = false;
+    let trigger: HTMLElement | null = null;
+    /* Bumped when the dialog closes: a flow the visitor closed while it waited must not navigate. */
+    let flow = 0;
+    const setDisabled = (el: HTMLElement | null, off: boolean) => {
+      if (!el) return;
+      if (el instanceof HTMLButtonElement) el.disabled = off;
+      if (off) el.setAttribute('aria-disabled', 'true'); else el.removeAttribute('aria-disabled');
+    };
+    const reset = () => { busy = false; setDisabled(trigger, false); trigger = null; };
+
+    const run = async (d: LeadEventDetail) => {
+      if (busy) return;
+      busy = true;
+      const id = ++flow;
+      trigger = d.trigger ?? null;
+      setDisabled(trigger, true);
+      if (!dlg.open) { opener = trigger; dlg.showModal(); }
+      show('wait');
+      let r;
+      try {
+        r = await assign(cfg, { team: d.team, topic: d.topic, lang, summary: d.summary, codeWord });
+      } catch {
+        if (id !== flow) return;
+        // Nothing in assign() is expected to throw (the network part cannot); if the browser lacks
+        // something it needs, the visitor still reaches a person: the link as rendered, no code.
+        const plain = trigger instanceof HTMLAnchorElement ? trigger.href : `https://t.me/${cfg.company}`;
+        dlg.close();
+        window.location.assign(plain);
+        return;
+      }
+      if (id !== flow) return;
+      dlg.dataset.via = r.assigned ? 'gsr' : 'fallback';
+      user.textContent = `@${r.username}`;
+      msg.textContent = r.text;
+      open.href = r.url;
+      copyStatus.textContent = '';
+      show('done');
+      // Same tab, after the await: a window.open here is blocked by Safari, iOS, Firefox and the
+      // Instagram/Facebook/TikTok browsers. If the app takes the link instead, the screen stays.
+      window.location.assign(r.url);
+    };
+
+    /* Warm the connection to GSR's system when a visitor heads for any chat button. */
+    const aimed = (e: Event) => {
+      if (!(e.target as Element | null)?.closest?.('a[data-picker], a[data-summary], form[data-lead]')) return;
+      warm(cfg.endpoint);
+      document.removeEventListener('pointerover', aimed);
+      document.removeEventListener('focusin', aimed);
+    };
+    document.addEventListener('pointerover', aimed, { passive: true });
+    document.addEventListener('focusin', aimed);
+
     document.addEventListener('click', (e) => {
-      const a = (e.target as Element | null)?.closest?.<HTMLAnchorElement>('a[data-picker]');
+      const a = (e.target as Element | null)?.closest?.<HTMLAnchorElement>('a[data-picker], a[data-team][data-summary]');
       if (!a) return;
-      // "Open in new tab" and friends keep their plain meaning: the general team's chat.
+      // "Open in new tab" and friends keep their plain meaning: the link as rendered.
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       e.preventDefault();
-      opener = a;
-      dlg.showModal();
-      show('topic');
+      if (a.hasAttribute('data-picker')) {
+        if (busy) return;
+        opener = a;
+        warm(cfg.endpoint);
+        dlg.showModal();
+        show('topic');
+        return;
+      }
+      const team = a.dataset.team as LeadTeam;
+      void run({ team, topic: a.dataset.topic, summary: a.dataset.summary || '', trigger: a });
+    });
+
+    /* The contact form hands over here once it has validated; `handled` tells it someone answered. */
+    document.addEventListener('gsr:lead', (e) => {
+      const d = (e as CustomEvent<LeadEventDetail>).detail;
+      if (!d) return;
+      d.handled = true;
+      void run(d);
     });
 
     dlg.addEventListener('click', (e) => {
@@ -149,13 +235,29 @@ const fill = (draft: string, v: string) => draft.replace('{v}', v);
       if (go) { show(go.dataset.lpGo || 'topic'); return; }
       if (el.closest('[data-lp-back]')) { show('topic'); return; }
       if (el.closest('[data-lp-close]')) { dlg.close(); return; }
-      // Let the link open Telegram first, then put the page back the way it was.
-      if (el.closest('[data-lp-final]')) { setTimeout(() => dlg.close(), 0); return; }
+      // The bot link opens in a new tab; put the page back the way it was.
+      if (el.closest('[data-lp-bot]')) { setTimeout(() => dlg.close(), 0); return; }
       // The sheet has no padding of its own, so a click whose target is the dialog itself is the backdrop.
       if (el === dlg) dlg.close();
     });
 
-    dlg.addEventListener('close', () => { show('topic'); opener?.focus(); opener = null; });
+    copyBtn.addEventListener('click', async () => {
+      const text = msg.textContent || '';
+      try {
+        await navigator.clipboard.writeText(text);
+        copyStatus.textContent = copyBtn.dataset.copied || '';
+      } catch {
+        // No clipboard API (older in-app browsers, http): select the message so a long-press copies it.
+        const range = document.createRange();
+        range.selectNodeContents(msg);
+        const sel = getSelection();
+        sel?.removeAllRanges(); sel?.addRange(range);
+        copyStatus.textContent = copyBtn.dataset.copyFail || '';
+      }
+    });
+
+    dlg.addEventListener('close', () => { flow++; reset(); show('topic'); opener?.focus(); opener = null; });
+    addEventListener('pageshow', (e) => { if (e.persisted) reset(); });
   }
 </script>
 
@@ -197,6 +299,26 @@ const fill = (draft: string, v: string) => draft.replace('{v}', v);
   .lp-chip :global(svg) { flex: none; color: var(--accent-text); }
   .lp-chip:hover { border-color: var(--accent); }
   .lp-foot { margin: 2px 0 0; font-size: var(--text-caption, 0.8125rem); color: var(--meta); text-wrap: pretty; }
+  .lp-foot[hidden] { display: none; }
+  .lp [aria-disabled='true'] { pointer-events: none; opacity: 0.6; }
+
+  .lp-wait { grid-auto-flow: column; justify-content: start; align-items: center; gap: 12px; min-height: 120px; color: var(--muted); }
+  .lp-wait p { margin: 0; }
+  .lp-spin { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--card-border); border-top-color: var(--accent); animation: lp-spin 0.8s linear infinite; }
+  @keyframes lp-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .lp-spin { animation-duration: 2.4s; } }
+
+  .lp-who { margin: 0; color: var(--muted); }
+  .lp-user { color: var(--fg); font-weight: 600; overflow-wrap: anywhere; }
+  /* The message exactly as it will be sent: its line break matters (the code stands alone on line one). */
+  .lp-msg { margin: 0; padding: 12px 14px; border: 1px solid var(--card-border); border-radius: var(--radius); background: var(--bg-2); white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--text-small); line-height: 1.5; user-select: all; -webkit-user-select: all; }
+  .lp-copy-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .lp-copy { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 14px; border: 1px solid var(--card-border); border-radius: 999px; background: var(--card); color: var(--fg); font: inherit; font-size: var(--text-small); font-weight: 500; cursor: pointer; }
+  .lp-copy:hover { border-color: var(--accent); }
+  .lp-copy-status { font-size: var(--text-small); color: var(--muted); }
+  .lp-note { display: flex; gap: 8px; align-items: flex-start; margin: 0; font-size: var(--text-small); color: var(--fg); text-wrap: pretty; }
+  .lp-note :global(svg) { flex: none; margin-top: 2px; color: var(--accent-text); }
+  .lp-open { width: 100%; justify-content: center; }
 
   /* A phone gets a bottom sheet: thumbs live at the bottom of the screen, and so does the Telegram button that opened this. */
   @media (max-width: 599px) {
