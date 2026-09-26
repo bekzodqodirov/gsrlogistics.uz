@@ -55,6 +55,14 @@ export const site = {
    */
   telegramBot: 'GSR_GROUP_AGENT_bot',
   email: 'b.e.kodirov@gmail.com',
+  /**
+   * Search-engine ownership codes, rendered as <meta> tags on every page (components/Seo.astro).
+   * Google is verified by a DNS TXT record (domain property), so it needs nothing here.
+   * Bing: from Bing Webmaster Tools, owner, 2026-09-26.
+   */
+  verification: {
+    bing: 'ABC29A564B37612E19A95F6C59ADD25C',
+  },
   instagram: 'gsrgroup.uz',
   facebook: 'gsrlogistics',
   address: {
