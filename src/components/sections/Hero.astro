@@ -37,7 +37,7 @@ const proof = [
     <p class="intro sub">{t.sub}</p>
     <div class="cta-row" data-hero-cta>
       <Button href={pagePath(lang, 'calculator')} variant="primary">{t.ctaPrimary}</Button>
-      <Button href={telegramChat(c.telegramDraft.general)} variant="secondary" icon="telegram">{t.ctaSecondary}</Button>
+      <Button href={telegramChat(c.telegramDraft.general)} variant="secondary" icon="telegram" data-picker>{t.ctaSecondary}</Button>
     </div>
     <p class="meta-line">
       <a href={phoneUrl} class="tnum phone">{site.phoneDisplay}</a>

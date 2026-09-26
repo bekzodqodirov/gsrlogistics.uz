@@ -61,7 +61,7 @@ const telegramHref = telegramChat(c.telegramDraft.general);
 
     <div class="cta-row">
       <Button href={contactHref} variant="secondary">{c.cta.sendRequest}</Button>
-      <Button href={telegramHref} variant="ghost" icon="telegram">{c.cta.telegram}</Button>
+      <Button href={telegramHref} variant="ghost" icon="telegram" data-picker>{c.cta.telegram}</Button>
     </div>
     <p class="footnote caption">{t.note}</p>
   </div>

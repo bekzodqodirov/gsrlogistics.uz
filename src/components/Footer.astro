@@ -63,7 +63,7 @@ const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }
           <li><a href={phoneUrl} class="tnum"><Icon name="phone" size={18} />{site.phoneDisplay}</a></li>
           <li><a href={phone2Url} class="tnum"><Icon name="phone" size={18} />{site.phone2Display}</a></li>
           <li><a href={whatsappUrl} target="_blank" rel="noopener" class="tnum"><Icon name="whatsapp" size={18} />WhatsApp · {site.phone2Display}</a></li>
-          <li><a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener"><Icon name="telegram" size={18} />{t.cta.telegram}</a></li>
+          <li><a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener" data-picker><Icon name="telegram" size={18} />{t.cta.telegram}</a></li>
           <li><a href={telegramGroupUrl} target="_blank" rel="noopener"><Icon name="users" size={18} />{t.footer.group}</a></li>
           <li><a href={`mailto:${site.email}`}><Icon name="mail" size={18} />{site.email}</a></li>
           <li><a href={site.yandexMapsUrl} target="_blank" rel="noopener"><Icon name="map-pin" size={18} /><span>{pick(lang, site.address)}</span></a></li>

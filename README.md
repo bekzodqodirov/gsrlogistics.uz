@@ -43,6 +43,26 @@ Barcha kontakt va kompaniya faktlari **bitta faylda**: `src/lib/site.ts`. Undagi
 | Xitoydagi qabul punktlari (Ivu, Guanchjou, Qashqar): xitoycha manzil, qabul qiluvchi, +86 | `chinaWarehouses` | egasining manzil kartochkasidan kiritilgan (2026-09-09), WeChat hali yoʻq. Egalik tasdiqlanmagan — matnda «bizning omborimiz» demang. Manzillarni sahifalardan olib tashlash uchun `publishChinaAddresses: false` qiling (shahar nomlari qoladi) |
 | Komissiya, sugʻurta % | `sourcingCommissionPct`, `insurancePct` | 3 %, 1 % — tasdiqlang |
 
+## Mijozlarni menejerlarga taqsimlash
+
+Menejerlarning shaxsiy Telegram akkauntlari CRM tizimiga ulangan, shuning uchun xabar qaysi akkauntga tushsa, CRMʼda oʻsha menejerga tushadi. Sayt har bir mijozni kerakli akkauntga yuboradi:
+
+- **Xizmat sahifalari, «Narxlar» va «Kalkulyator»** mijozdan hech narsa soʻramaydi, toʻgʻridan-toʻgʻri oʻz jamoasiga olib boradi.
+- **Umumiy tugmalar** (sarlavha, bosh sahifa, pastki panel, footer…) avval qisqa soʻrovnoma ochadi: yuk olib kelish, tovar sotib olish, «yukim qayerda?» (botga) yoki boshqa savol. Keyin kerakli menejerni tayyor xabar bilan ochadi. Xabar oxirida teg turadi: `#yuk`, `#xarid` yoki `#savol`, va mijoz qaysi sahifadan yozgani.
+- JavaScript ishlamasa, umumiy tugma oddiy havola boʻlib, umumiy menejerga olib boradi.
+
+Kim nima bilan shugʻullanishi `src/lib/site.ts` dagi `leadTeams` da yoziladi (username `@` belgisisiz):
+
+```ts
+leadTeams: {
+  cargo:   ['menejer1'],             // yigʻma yuk, avia, temir yoʻl, bojxona, ombor
+  buying:  ['menejer2'],             // tovar topish, sotib olish, uskunalar, avtomobil
+  general: ['bekzodkodirov556'],     // boshqa savollar
+},
+```
+
+Bir jamoada bir nechta menejer boʻlsa, ularning hammasini yozing: `['menejer1', 'menejer3']`. Har bir yangi mijozga ulardan biri tasodifan beriladi va keyingi kirishlarida ham oʻsha menejerga tushadi. Qaysi xizmat qaysi jamoaga tegishli ekani `src/lib/leads.ts` dagi `serviceTeam` da.
+
 ## Narxlarni yangilash
 
 Barcha narx va muddatlar `src/data/tariffs.json` faylida (avia $/kg, avto zinapoya, m³ boʻyicha zichlik jadvali, konteynerlar, qoʻshimcha xizmatlar, viloyatlarga yetkazish). Raqamni oʻzgartiring, `updated` sanasini yangilang, `git push` qiling — narxlar sahifasi, kalkulyator, bosh sahifa va schema.org avtomatik yangilanadi. Sayt hamma joyda «taxminiy narx · yangilangan: …» yozuvini koʻrsatadi.

@@ -104,7 +104,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
               {i === 5 && (
                 <div class="jcard-cta" data-j="cta">
                   <a class="btn btn-primary" href={pagePath(lang, 'calculator')}><Icon name="calculator" size={18} />{c.cta.calculate}</a>
-                  <a class="link jcard-tg" href={telegramChat(c.telegramDraft.general)} target="_blank" rel="noopener">{c.cta.telegram}</a>
+                  <a class="link jcard-tg" href={telegramChat(c.telegramDraft.general)} target="_blank" rel="noopener" data-picker>{c.cta.telegram}</a>
                 </div>
               )}
             </article>
