@@ -139,6 +139,8 @@ const brands: KeepLatin[] = [
   // Company and product names that are Latin in every language, including the owner's own.
   // `suffixable` because Uzbek glues its cases on: Telegram-да, Telegram-га, Taobao-дан.
   { latin: 'GSR Logistics', suffixable: true }, // the guides use the possessive: GSR Logistics-нинг
+  // The legal entity, exactly as the owner spelled it: the footer prints it untransliterated, so the prose must match.
+  { latin: 'Imex services LLC', suffixable: true },
   { latin: 'GSR', suffixable: true },
   { latin: 'Telegram', suffixable: true },
   { latin: 'WhatsApp', suffixable: true },

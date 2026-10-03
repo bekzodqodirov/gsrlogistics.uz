@@ -107,7 +107,7 @@ const en: TrackSystemStrings = {
   eyebrow: 'Transparency',
   h2: 'Every one of your cartons carries its own QR code',
   intro:
-    'At the receiving point in China we photograph, count and measure your goods and stick a QR code on every carton. At each stage after that our warehouse staff scan that code — and you see where each of your cartons is, in the bot. Even at three in the morning.',
+    'At the receiving point in China we photograph, count and measure your goods and stick a QR code on every carton. At each stage after that the staff scan that code — and you see where each of your cartons is, in the bot. Even at three in the morning.',
   shot: {
     caption: 'The QR stays on the carton: this is the code that gets scanned at every loading and unloading on the way.',
     alt: 'A QR sticker with the GS code going onto a carton at the Yiwu receiving point; the carton’s size and weight are printed beside it.',

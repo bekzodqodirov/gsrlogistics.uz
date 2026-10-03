@@ -20,7 +20,7 @@ Nom: `GSR Logistics` (yuridik shaxs: `Imex services LLC`) · Manzil: `Toshkent, 
 - **Google Business Profile** (business.google.com): kategoriya «Freight forwarding service» / «Logistics service»; ish vaqti; xizmatlar roʻyxati (narx bilan); ombor/yuk fotolari; haftada 1 post; savol-javob boʻlimiga javob bering. Gemini va Google AI Mode aynan shu kartochkaga tayanadi.
 - **Yandex Business** (yandex.uz/business): mavjud kartochkani (org/98882247475) tasdiqlab oling, maʼlumotlarni yangilang, fotolar qoʻshing.
 - **2GIS** (2gis.uz): eski kartochka oʻchirilgan — yangisini yarating.
-- **Goldenpages.uz / Yellowpages.uz**: manzil «Shayxontohur» (Olmazor emas), sayt `gsrlogistics.uz` (`gsrlogistic.uz` emas).
+- **Yellowpages.uz / top.uz**: manzil «Shayxontohur» (Olmazor emas), sayt `https://gsrlogistics.uz` (`gsrlogistic.uz` emas), rubrika «Международные грузоперевозки» (samosval emas). **Goldenpages.uz** (Id=99695): nom «GSR Logistics» (yuridik shaxs Imex services LLC, «GSR GROUP QK MChJ» emas), ish vaqti 9:00–19:00, sayt yoʻq — qoʻshing. Toʻliq matn: `docs/KORINUVCHANLIK-2026-10.md`.
 - **Bing Places, Apple Business Connect** — 10 daqiqa, bepul.
 
 ## 3. Sharhlar

@@ -140,14 +140,14 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
   /* same proof strip as the service pages and the pricing page: a full-bleed band, not a bare rule */
   .facts-wrap { background: var(--bg-3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
   .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
-  .facts[data-count='3'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .facts[data-count='3'], .facts[data-count='6'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .fact { padding: 24px 24px 20px 0; display: grid; align-content: start; gap: 8px; min-width: 0; }
   .fact + .fact { border-left: 1px solid var(--border-soft); padding-left: 24px; }
   .fact-value { font-size: clamp(1.5rem, 1.6vw + 0.9rem, 2.25rem); line-height: 1.05; font-weight: 700; letter-spacing: -0.025em; color: var(--fg); text-wrap: balance; overflow-wrap: anywhere; }
   .fact-value.is-long { font-size: clamp(1.25rem, 0.6vw + 1rem, 1.5rem); letter-spacing: -0.012em; line-height: 1.2; }
   .fact-label { max-width: 28ch; text-wrap: pretty; }
   @media (max-width: 899px) {
-    .facts, .facts[data-count='3'] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .facts, .facts[data-count='3'], .facts[data-count='6'] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .fact { padding: 18px 16px 16px 0; }
     .fact + .fact { border-left: 0; padding-left: 0; }
     .fact:nth-child(even) { border-left: 1px solid var(--border-soft); padding-left: 16px; }

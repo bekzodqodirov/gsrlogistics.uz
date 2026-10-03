@@ -14,11 +14,11 @@ export interface AboutStrings {
 }
 
 const uz: AboutStrings = {
-  seoTitle: 'Biz haqimizda — GSR Logistics, Xitoydan Oʻzbekistonga yuk tashish, 2018-yildan',
+  seoTitle: 'Biz haqimizda — GSR Logistics, Xitoydan yuk, 2018-yildan',
   seoDescription: 'GSR Logistics — Toshkentdagi logistika kompaniyasi: Xitoyda uchta qabul manzili — Ivu, Guanchjou, Qashqar; Ivu omboridan Xorgos orqali Toshkentgacha yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Menejerlar oʻzbek, rus va xitoy tillarida. 2018-yildan beri.',
   eyebrow: 'Biz haqimizda',
   h1: 'Xitoyda oʻz odamingiz bor.',
-  intro: 'GSR Logistics — Toshkentdagi logistika kompaniyasi. 2018-yildan beri Xitoy bilan ishlaymiz: Xitoyda uchta qabul manzili — Ivu, Guanchjou va Qashqar; Ivu omboridan Xorgos orqali Toshkentgacha yigʻma yuk taxminan 15–25 kunda, avia 5–10 kunda keladi. Tovarni topamiz, sotib olamiz, tekshiramiz, bojxonadan oʻtkazamiz — bitta shartnoma, bitta menejer.',
+  intro: 'GSR Logistics — Toshkentdagi logistika kompaniyasi. 2018-yildan beri Xitoy bilan ishlaymiz: Xitoyda uchta qabul manzili — Ivu, Guanchjou va Qashqar; Ivu omboridan Xorgos orqali Toshkentgacha yigʻma yuk taxminan 15–25 kunda, avia 5–10 kunda keladi. Tovarni topamiz, sotib olamiz, tekshiramiz, bojxonadan oʻtkazamiz — bitta shartnoma, bitta menejer. GSR Logistics — Imex services LLC kompaniyasining brendi (ijtimoiy tarmoqlarda GSR Group nomi bilan ham tanilgan); ofis — Toshkent, Shayxontohur tumani, Alisher Navoiy koʻchasi, 27. Jamoaning yuk tashish sohasidagi tajribasi — 15 yil.',
   story: {
     heading: 'Qanday boshlangan?',
     paragraphs: [
@@ -56,17 +56,19 @@ const uz: AboutStrings = {
     { value: '3', label: 'til: oʻzbek, rus, xitoy' },
     { value: '15–25', label: 'kun — yigʻma yuk, taxminan' },
     { value: '3', label: 'qabul manzili Xitoyda, 1 ofis Toshkentda' },
+    { value: '10+', label: 'fura oyiga, Xitoydan Toshkentga' },
+    { value: '400+', label: 'mijoz' },
   ],
   honesty: { heading: 'Nimani vaʼda qilmaymiz?', text: '«Bojsiz», «100% kafolat», «eng tez» degan gaplarni aytmaymiz. Boj va QQS qonun boʻyicha toʻlanadi — biz uni oldindan hisoblab beramiz. Muddatlar taxminiy: chegara navbatlari, Xitoy bayramlari va ob-havo taʼsir qiladi. Shuning uchun har raqam yonida «taxminan» yozamiz.' },
   cta: { title: 'Tanishib olaylik.', text: 'Yukingiz, shahringiz va muddatni yozing — yoʻnalish va narxni taklif qilamiz.' },
 };
 
 const ru: AboutStrings = {
-  seoTitle: 'О компании — GSR Logistics, доставка грузов из Китая в Узбекистан с 2018 года',
+  seoTitle: 'О компании — GSR Logistics, доставка грузов из Китая с 2018',
   seoDescription: 'GSR Logistics — логистическая компания в Ташкенте: три адреса приёма в Китае — Иу, Гуанчжоу, Кашгар; сборный груз со склада в Иу через Хоргос до Ташкента, авиа и ж/д карго, поиск и выкуп товаров, таможенное оформление. Менеджеры говорят по-узбекски, по-русски и по-китайски. С 2018 года.',
   eyebrow: 'О компании',
   h1: 'Свой человек в Китае.',
-  intro: 'GSR Logistics — логистическая компания в Ташкенте. Работаем с Китаем с 2018 года: в Китае три адреса приёма — Иу, Гуанчжоу и Кашгар; сборный груз со склада в Иу через Хоргос приходит в Ташкент ориентировочно за 15–25 дней, авиа — за 5–10. Находим товар, выкупаем, проверяем, растамаживаем — один договор, один менеджер.',
+  intro: 'GSR Logistics — логистическая компания в Ташкенте. Работаем с Китаем с 2018 года: в Китае три адреса приёма — Иу, Гуанчжоу и Кашгар; сборный груз со склада в Иу через Хоргос приходит в Ташкент ориентировочно за 15–25 дней, авиа — за 5–10. Находим товар, выкупаем, проверяем, растамаживаем — один договор, один менеджер. GSR Logistics — бренд компании Imex services LLC (в соцсетях известна и как GSR Group); офис — Ташкент, Шайхантахурский район, ул. Алишера Навои, 27. Опыт команды в грузоперевозках — 15 лет.',
   story: {
     heading: 'С чего всё началось?',
     paragraphs: [
@@ -104,17 +106,19 @@ const ru: AboutStrings = {
     { value: '3', label: 'языка: узбекский, русский, китайский' },
     { value: '15–25', label: 'дней — сборный груз, ориентировочно' },
     { value: '3', label: 'адреса приёма в Китае, 1 офис в Ташкенте' },
+    { value: '10+', label: 'фур в месяц из Китая в Ташкент' },
+    { value: '400+', label: 'клиентов' },
   ],
   honesty: { heading: 'Чего мы не обещаем?', text: 'Мы не говорим «без пошлин», «100% гарантия» и «самые быстрые». Пошлина и НДС платятся по закону — мы заранее их рассчитываем. Сроки ориентировочные: на них влияют очереди на границе, китайские праздники и погода. Поэтому рядом с каждой цифрой стоит слово «ориентировочно».' },
   cta: { title: 'Давайте познакомимся.', text: 'Напишите, что за груз, из какого города и к какому сроку — предложим маршрут и цену.' },
 };
 
 const en: AboutStrings = {
-  seoTitle: 'About — GSR Logistics, freight from China to Uzbekistan since 2018',
+  seoTitle: 'About GSR Logistics — China–Uzbekistan freight since 2018',
   seoDescription: 'GSR Logistics is a Tashkent logistics company: three receiving addresses in China — Yiwu, Guangzhou and Kashgar; consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent, air and rail cargo, product sourcing and buying, customs clearance. Managers speak Uzbek, Russian and Chinese. Since 2018.',
   eyebrow: 'About',
   h1: 'Your people on the ground in China.',
-  intro: 'GSR Logistics is a logistics company in Tashkent. We have worked with China since 2018: three receiving addresses in China — Yiwu, Guangzhou and Kashgar; consolidated cargo from the Yiwu warehouse reaches Tashkent via Khorgos in roughly 15–25 days, air freight in 5–10. We find the product, buy it, inspect it and clear customs — one contract, one manager.',
+  intro: 'GSR Logistics is a logistics company in Tashkent. We have worked with China since 2018: three receiving addresses in China — Yiwu, Guangzhou and Kashgar; consolidated cargo from the Yiwu warehouse reaches Tashkent via Khorgos in roughly 15–25 days, air freight in 5–10. We find the product, buy it, inspect it and clear customs — one contract, one manager. GSR Logistics is the brand of Imex services LLC (also known as GSR Group on social media); the office is at 27 Alisher Navoiy Street, Shaykhantakhur district, Tashkent. The team has 15 years of experience in freight.',
   story: {
     heading: 'How it started',
     paragraphs: [
@@ -152,6 +156,8 @@ const en: AboutStrings = {
     { value: '3', label: 'languages: Uzbek, Russian, Chinese' },
     { value: '15–25', label: 'days — consolidated cargo, roughly' },
     { value: '3', label: 'receiving addresses in China, 1 office in Tashkent' },
+    { value: '10+', label: 'trucks a month from China to Tashkent' },
+    { value: '400+', label: 'clients' },
   ],
   honesty: { heading: 'What we do not promise', text: 'We never say “duty-free”, “100% guaranteed” or “the fastest”. Duty and VAT are paid by law — we calculate them in advance. Transit times are indicative: border queues, Chinese holidays and weather affect them. That is why every figure comes with “roughly”.' },
   cta: { title: 'Let’s get acquainted.', text: 'Tell us the cargo, the city and the deadline — we propose a route and a price.' },

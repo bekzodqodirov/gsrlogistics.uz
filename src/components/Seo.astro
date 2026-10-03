@@ -36,7 +36,7 @@ const ogImageAbs = new URL(ogImage, siteUrl).toString();
 const titleBudget = lang === 'uzc' ? 56 : 62;
 const shortTitle = (() => {
   if (title.length <= titleBudget) return title;
-  const m = title.match(new RegExp(`^(.{25,${titleBudget}}?[?:—])\\s`));
+  const m = title.match(new RegExp(`^(.{20,${titleBudget}}?[?:—])\\s`));
   if (m) return m[1].replace(/[:—]$/, '').trim();
   const cut = title.slice(0, titleBudget);
   return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s|,:—]+(?:GSR|\S{1,2})$/u, '').replace(/[,:—|]$/, '').trim() + '…';

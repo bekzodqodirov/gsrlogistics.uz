@@ -1,6 +1,7 @@
 import { langMeta, pick, type Locale, type Localized } from '@/i18n/config';
 import { pagePath, pageUrl, type PageKey } from '@/i18n/routes';
-import { site, telegramUrl, telegramBotUrl, telegramBotHandle, instagramUrl, facebookUrl } from './site';
+import { hero } from '@/i18n/hero';
+import { site, telegramUrl, telegramGroupUrl, telegramBotUrl, telegramBotHandle, instagramUrl, facebookUrl, whatsappUrl } from './site';
 import ivuShot from '@/assets/photos/ivu-qabul-punkti.jpg';
 import loadingShot from '@/assets/photos/yuklash-fura.jpg';
 import qrShot from '@/assets/photos/qr-stiker.jpg';
@@ -22,13 +23,14 @@ export const WEBSITE_ID = `${SITE}/#website`;
  *   · webPageNode/articleNode/serviceNode hang their `@id` off the page's own URL, which IS per
  *     locale — and must be the canonical URL, percent-encoded exactly as `pageUrl` returns it, so
  *     the node id, `url`, `<link rel=canonical>` and the sitemap `<loc>` are one string.
- * `availableLanguage` lists the languages a human at GSR answers in; Latin and Cyrillic Uzbek are
- * one spoken language, so the script variant is not added there.
+ * `knowsLanguage` lists the languages a human at GSR answers in (schema.org puts `availableLanguage`
+ * on a ContactPoint, not on an Organization); Latin and Cyrillic Uzbek are one spoken language, so the
+ * script variant is not added there.
  */
 const descriptions: Localized<string> = {
-  uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent.',
-  ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент.',
-  en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent.',
+  uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent, 2018-yildan; oyiga 10+ fura, 400+ mijoz; Xitoyda uchta qabul punkti — Ivu, Guanchjou, Qashqar.',
+  ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент, с 2018 года; 10+ фур в месяц, 400+ клиентов; три пункта приёма в Китае — Иу, Гуанчжоу, Кашгар.',
+  en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent, since 2018; 10+ trucks a month, 400+ clients; three receiving points in China — Yiwu, Guangzhou, Kashgar.',
 };
 
 /** How a China receiving point is labelled in structured data — never as a GSR facility. */
@@ -51,7 +53,8 @@ export function organizationNode(lang: Locale) {
        Reading `.src` is also what makes Astro emit the original JPEG, so these URLs resolve. */
     image: [ivuShot, loadingShot, qrShot].map((i) => `${SITE}${i.src}`).concat(`${SITE}/og/default.png`),
     description: pick(lang, descriptions),
-    telephone: site.phoneE164,
+    slogan: pick(lang, hero).h1b,
+    telephone: [site.phoneE164, site.phone2E164],
     email: site.email,
     foundingDate: String(site.foundingYear),
     address: {
@@ -63,7 +66,7 @@ export function organizationNode(lang: Locale) {
       addressCountry: site.address.country,
     },
     geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
-    hasMap: site.yandexMapsUrl,
+    hasMap: [site.yandexMapsUrl, site.googleMapsUrl],
     openingHoursSpecification: site.openingHoursSpec.map((s) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: s.days, opens: s.opens, closes: s.closes })),
     priceRange: '$$',
     currenciesAccepted: 'UZS, USD',
@@ -71,18 +74,19 @@ export function organizationNode(lang: Locale) {
       { '@type': 'Country', name: 'Uzbekistan' },
       { '@type': 'Country', name: 'China' },
     ],
-    availableLanguage: ['uz', 'ru', 'en', 'zh'],
+    knowsLanguage: ['uz', 'ru', 'en', 'zh'],
     knowsAbout: ['freight forwarding', 'China to Uzbekistan cargo', 'consolidated cargo', 'customs clearance Uzbekistan', 'product sourcing in China', '1688 buying agent'],
-    sameAs: [telegramUrl, instagramUrl, facebookUrl, site.yandexMapsUrl].filter(Boolean),
+    // Every profile that is the company's own: an assistant checking "is this the same GSR" matches on these.
+    sameAs: [telegramUrl, telegramGroupUrl, instagramUrl, facebookUrl, site.yandexMapsUrl, site.googleMapsUrl].filter(Boolean),
     contactPoint: [
       { '@type': 'ContactPoint', telephone: site.phoneE164, contactType: 'sales', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: site.telegramDirect },
-      { '@type': 'ContactPoint', telephone: site.phone2E164, contactType: 'customer support', availableLanguage: ['uz', 'ru'] },
+      { '@type': 'ContactPoint', name: 'WhatsApp', telephone: site.phone2E164, contactType: 'customer support', availableLanguage: ['uz', 'ru'], url: whatsappUrl },
       // The cargo-tracking bot is a real contact channel and the only one that is open at 3am: it
       // answers without a person, which is what makes the 24/7 hours below true.
       {
         '@type': 'ContactPoint',
         name: telegramBotHandle,
-        contactType: 'technical support',
+        contactType: 'customer service',
         url: telegramBotUrl,
         // No availableLanguage: which languages the bot itself speaks is not established, and a
         // guess here is a guess a customer finds out about at 3am.
@@ -157,7 +161,21 @@ export function faqNode(items: Array<{ q: string; a: string }>) {
   };
 }
 
-export function serviceNode(lang: Locale, opts: { name: string; description: string; url: string; serviceType: string; offers?: Array<{ price: number; unitCode: 'KGM' | 'MTQ'; validThrough: string; description?: string }> }) {
+export interface ServiceOffer {
+  price?: number;
+  /** A published range (containers): minPrice–maxPrice instead of one price. */
+  minPrice?: number;
+  maxPrice?: number;
+  unitCode?: 'KGM' | 'MTQ';
+  /** Free-text unit where no UN/CEFACT code fits ("20 ft container", "% of the order value"). */
+  unitText?: string;
+  /** A commission: the number is a percentage, so no currency is attached to it. */
+  percent?: boolean;
+  validThrough: string;
+  description?: string;
+}
+
+export function serviceNode(lang: Locale, opts: { name: string; description: string; url: string; serviceType: string; offers?: ServiceOffer[] }) {
   return {
     '@type': 'Service',
     '@id': `${opts.url}#service`,
@@ -172,8 +190,18 @@ export function serviceNode(lang: Locale, opts: { name: string; description: str
       ? {
           offers: opts.offers.map((o) => ({
             '@type': 'Offer',
-            priceCurrency: 'USD',
-            priceSpecification: { '@type': 'UnitPriceSpecification', price: o.price, priceCurrency: 'USD', unitCode: o.unitCode, validThrough: o.validThrough, ...(o.description ? { description: o.description } : {}) },
+            ...(o.percent ? {} : { priceCurrency: 'USD' }),
+            priceSpecification: {
+              '@type': 'UnitPriceSpecification',
+              ...(o.price !== undefined ? { price: o.price } : {}),
+              ...(o.minPrice !== undefined ? { minPrice: o.minPrice } : {}),
+              ...(o.maxPrice !== undefined ? { maxPrice: o.maxPrice } : {}),
+              ...(o.percent ? {} : { priceCurrency: 'USD' }),
+              ...(o.unitCode ? { unitCode: o.unitCode } : {}),
+              ...(o.unitText ? { unitText: o.unitText } : {}),
+              validThrough: o.validThrough,
+              ...(o.description ? { description: o.description } : {}),
+            },
             availability: 'https://schema.org/InStock',
             url: opts.url,
           })),

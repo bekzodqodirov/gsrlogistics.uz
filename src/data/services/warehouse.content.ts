@@ -14,7 +14,7 @@ const content: ServiceContentByLang = {
   uz: {
     key: 'warehouse',
     seo: {
-      title: 'Xitoyda ombor: qabul, sifat tekshiruvi, foto-hisobot, qadoqlash — GSR Logistics',
+      title: 'Xitoyda ombor: qabul, tekshiruv, foto-hisobot',
       description:
         'Xitoydagi uchta qabul punktida — Ivu, Guanchjou va Qashqarda — yukni qabul qilamiz, GS kodingiz bilan belgilaymiz, ochib tekshiramiz, foto-hisobot yuboramiz, bir necha yetkazib beruvchidan jamlaymiz, qadoqlaymiz va 1% sugʻurta qilamiz. 14 kun bepul saqlash.',
     },
@@ -156,7 +156,7 @@ const content: ServiceContentByLang = {
   ru: {
     key: 'warehouse',
     seo: {
-      title: 'Склад в Китае: приёмка, проверка качества, фотоотчёт, упаковка — GSR Logistics',
+      title: 'Склад в Китае: приёмка, проверка, фотоотчёт',
       description:
         'В Китае три пункта приёма — Иу, Гуанчжоу и Кашгар: принимаем груз, маркируем вашим GS-кодом, вскрываем и проверяем, отправляем фотоотчёт, консолидируем от нескольких поставщиков, упаковываем и страхуем за 1%. 14 дней бесплатного хранения.',
     },
@@ -298,7 +298,7 @@ const content: ServiceContentByLang = {
   en: {
     key: 'warehouse',
     seo: {
-      title: 'China warehouse: receiving, quality control, photo reports, packing — GSR Logistics',
+      title: 'China warehouse: inspection, photo reports',
       description:
         'At the three receiving points in China — Yiwu, Guangzhou and Kashgar — we receive your cargo, label it with your GS code, open and inspect it, send photo reports, consolidate goods from several suppliers, repack and insure for 1%. 14 days of free storage.',
     },

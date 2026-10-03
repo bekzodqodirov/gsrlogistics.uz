@@ -18,6 +18,10 @@ function extract(html) {
   const title = strip((html.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || '');
   const desc = decode((html.match(/<meta name="description" content="([^"]*)"/i) || [])[1] || '');
   let main = (html.match(/<main[^>]*>([\s\S]*?)<\/main>/i) || [])[1] || '';
+  // Comments first: this runs before polish-html.mjs strips them from dist, so a maintainer's note
+  // inside a component would otherwise be served to every AI reader as page text. Then the UI that
+  // is not content: dialogs, templates, noscript fallbacks.
+  main = main.replace(/<!--[\s\S]*?-->/g, '').replace(/<(dialog|template|noscript)\b[\s\S]*?<\/\1>/gi, '');
   main = main.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/<nav[\s\S]*?<\/nav>/gi, '');
   const out = [];
   const re = /<(h1|h2|h3|p|li|th|td|summary|dt|dd)[^>]*>([\s\S]*?)<\/\1>/gi;

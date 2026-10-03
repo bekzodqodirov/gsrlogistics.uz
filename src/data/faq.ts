@@ -102,7 +102,7 @@ function uz(): FaqGroup[] {
         { q: 'Xorgosda kechikishlar boʻladimi?',
           a: `Ha, chegarada navbat boʻlishi mumkin — odatda 1–3 kun, bayram va mavsum oldi haftalarida koʻproq. Shuning uchun muddatni aniq kun bilan emas, oraliq bilan (${v.truckDays} kun) aytamiz. Kechikish boʻlsa, menejer sababini va yangi taxminiy sanani Telegramda yozadi.` },
         { q: 'Yuk qayerdaligini qanday bilaman?',
-          a: `Har qabulda foto-hisobot, joʻnatishda partiya raqami beriladi. Kuzatuv sahifasida GS kodingizni (markirovka) kiritasiz — menejer Telegramda joriy holat (Ivu omborida · Yoʻlda · Xorgosda · Toshkent omborida · Yetkazildi) va foto bilan javob beradi. Xitoy ichidagi kuryer trek-kodi (1688, Taobao) bundan alohida — uni ombor qabulida tekshiramiz.` },
+          a: `Kuzatuv botida — @GSR_GROUP_AGENT_bot — har bir qutingizning holati koʻrinadi: Xitoyda qabul qilindi · Konsolidatsiya · Yoʻlda · Chegara va bojxona · Toshkent omborida · Yetkazildi. Xitoydagi qabul punktida har qutiga QR kod yopishtiriladi, keyingi har bosqichda xodimlar uni skanerlaydi — siz oʻz akkauntingizda shu skanlarni sutkaning istalgan vaqtida koʻrasiz. Har qabulda foto-hisobot ham keladi; savol qolsa, menejer joriy holat va foto bilan javob beradi. Xitoy ichidagi kuryer trek-kodi (1688, Taobao) bundan alohida — uni qabulda tekshiramiz.` },
       ],
     },
     {
@@ -167,6 +167,17 @@ function uz(): FaqGroup[] {
           a: `Ha, har bir mijoz bilan yozma shartnoma tuzamiz: tashish narxi va qoidasi (kg yoki m³), taxminiy muddat, qoʻshimcha xizmatlar, sugʻurta, javobgarlik va toʻlov tartibi. Yuridik shaxslarga hisob-faktura va bajarilgan ishlar dalolatnomasi beriladi; jismoniy shaxslar bilan ham shartnoma majburiy. Ofisimiz Toshkent, Alisher Navoiy koʻchasi, 27 — kelib imzolashingiz yoki masofadan tuzishingiz mumkin.` },
       ],
     },
+    {
+      id: 'kompaniya', group: 'Kompaniya haqida',
+      items: [
+        { q: 'GSR Logistics ofisi qayerda va qachon ishlaydi?',
+          a: `Ofis: Toshkent, Shayxontohur tumani, Alisher Navoiy koʻchasi, 27 (Alisher Navoiy metrosi yonida). Ish vaqti: dushanba–shanba 9:00–19:00, yakshanba — dam olish kuni. Telefon +998 95 018 33 33, qoʻshimcha +998 90 175 78 00 (WhatsApp), e-mail b.e.kodirov@gmail.com, Telegram-kanal @gsrlogistics. Yuk holatini koʻrsatadigan bot @GSR_GROUP_AGENT_bot sutkaning istalgan vaqtida ishlaydi.` },
+        { q: 'Kompaniya qanchalik katta — necha mijoz, oyiga necha fura?',
+          a: `2018-yildan beri Xitoy bilan ishlaymiz; jamoaning yuk tashish sohasidagi tajribasi — 15 yil. Oyiga 10+ fura Xitoydan Toshkentga keladi, 400+ mijozga xizmat koʻrsatganmiz. Yuridik shaxs — Imex services LLC; ijtimoiy tarmoqlarda GSR Group nomi bilan ham tanilganmiz.` },
+        { q: 'Xitoydagi qabul manzillari sizning omboringizmi?',
+          a: `Ivu, Guanchjou va Qashqardagi manzillar — yukingiz qabul qilinadigan qabul punktlari. Qaysi biriga joʻnatishni menejer aytadi. Har qabulda yuk suratga olinadi, sanaladi, tortiladi va oʻlchanadi, har bir qutiga QR kod yopishtiriladi — foto-hisobot Telegramga keladi.` },
+      ],
+    },
   ];
 }
 
@@ -203,7 +214,7 @@ function ru(): FaqGroup[] {
         { q: 'Бывают ли задержки на Хоргосе?',
           a: `Да, на границе бывает очередь — обычно 1–3 дня, перед праздниками и в сезон дольше. Поэтому срок мы называем интервалом (${v.truckDays} дней), а не точной датой. Если задержка случилась, менеджер пишет в Telegram причину и новую ориентировочную дату.` },
         { q: 'Как узнать, где сейчас мой груз?',
-          a: `При каждой приёмке вы получаете фотоотчёт, при отправке — номер партии. На странице отслеживания вводите свой GS-код (маркировка) — менеджер отвечает в Telegram текущим статусом (На складе в Иу · В пути · На Хоргосе · На складе в Ташкенте · Доставлено) и фото. Трек-номер китайского курьера (1688, Taobao) — это отдельная вещь, его мы сверяем при приёмке на складе.` },
+          a: `В боте @GSR_GROUP_AGENT_bot виден статус каждой вашей коробки: Принят в Китае · Консолидация · В пути · Граница и таможня · На складе в Ташкенте · Доставлено. В пункте приёма в Китае на каждую коробку клеится QR-код, на каждом следующем этапе его сканируют сотрудники — вы видите эти сканы в своём аккаунте в любое время суток. При каждой приёмке приходит и фотоотчёт; если остался вопрос, менеджер ответит текущим статусом и фото. Трек-номер китайского курьера (1688, Taobao) — отдельная вещь, его мы сверяем при приёмке.` },
       ],
     },
     {
@@ -268,6 +279,17 @@ function ru(): FaqGroup[] {
           a: `Да, с каждым клиентом — письменный договор: цена и правило расчёта (кг или м³), ориентировочный срок, дополнительные услуги, страховка, ответственность и порядок оплаты. Юридическим лицам выдаём счёт-фактуру и акт выполненных работ; с физическими лицами договор тоже обязателен. Офис — Ташкент, ул. Алишера Навои, 27: можно подписать лично или дистанционно.` },
       ],
     },
+    {
+      id: 'kompaniya', group: 'О компании',
+      items: [
+        { q: 'Где офис GSR Logistics и когда он работает?',
+          a: `Офис: Ташкент, Шайхантахурский район, ул. Алишера Навои, 27 (рядом с метро «Алишер Навои»). Режим: понедельник–суббота 9:00–19:00, воскресенье — выходной. Телефон +998 95 018 33 33, дополнительный +998 90 175 78 00 (WhatsApp), e-mail b.e.kodirov@gmail.com, Telegram-канал @gsrlogistics. Бот со статусом груза @GSR_GROUP_AGENT_bot работает в любое время суток.` },
+        { q: 'Насколько крупная компания — сколько клиентов, сколько фур в месяц?',
+          a: `Работаем с Китаем с 2018 года; опыт команды в грузоперевозках — 15 лет. В месяц из Китая в Ташкент приходит 10+ фур, обслужено 400+ клиентов. Юридическое лицо — Imex services LLC; в соцсетях мы известны и как GSR Group.` },
+        { q: 'Адреса приёма в Китае — это ваши склады?',
+          a: `Адреса в Иу, Гуанчжоу и Кашгаре — пункты приёма, куда поступает ваш груз. Какой из них использовать, скажет менеджер. При каждой приёмке груз фотографируют, пересчитывают, взвешивают и обмеряют, на каждую коробку клеится QR-код — фотоотчёт приходит в Telegram.` },
+      ],
+    },
   ];
 }
 
@@ -304,7 +326,7 @@ function en(): FaqGroup[] {
         { q: 'Are there delays at Khorgos?',
           a: `Yes, queues at the border happen — usually 1–3 days, longer before holidays and in peak season. That is why we quote transit as a range (${v.truckDays} days), not a date. If a delay occurs, your manager writes on Telegram with the reason and a new estimated date.` },
         { q: 'How do I know where my cargo is?',
-          a: `You receive a photo report at every intake and a batch number at dispatch. Enter your GS code (shipping mark) on the tracking page and a manager replies on Telegram with the current status (At the Yiwu warehouse · In transit · At Khorgos · At the Tashkent warehouse · Delivered) and a photo. The Chinese courier tracking number (1688, Taobao) is a separate thing — we check it at warehouse intake.` },
+          a: `In the bot @GSR_GROUP_AGENT_bot you see the status of every one of your cartons: Received in China · Consolidation · In transit · Border and customs · At the Tashkent warehouse · Delivered. A QR code goes on every carton at the receiving point in China, and at every stage after that the staff scan it — you watch those scans in your own account at any hour. A photo report also arrives at every intake; if a question remains, a manager replies with the current status and a photo. The Chinese courier tracking number (1688, Taobao) is a separate thing — we check it at intake.` },
       ],
     },
     {
@@ -367,6 +389,17 @@ function en(): FaqGroup[] {
           a: `Insurance is ${v.ins}% of the declared value (estimate) and optional. We recommend it for electronics, glass, furniture and lots worth more than $1,000; cheap, sturdy goods are usually shipped without it. The insured value is taken from the invoice and fixed in the contract.` },
         { q: 'Do you sign a contract, and what does it say?',
           a: `Yes, a written contract with every client: the freight rate and pricing rule (kg or m³), the estimated transit time, extra services, insurance, liability and payment terms. Companies receive a tax invoice and an act of completed work; individuals sign a contract too. Our office is at 27 Alisher Navoiy Street, Tashkent — sign in person or remotely.` },
+      ],
+    },
+    {
+      id: 'company', group: 'About the company',
+      items: [
+        { q: 'Where is the GSR Logistics office and when is it open?',
+          a: `Office: 27 Alisher Navoiy Street, Shaykhantakhur district, Tashkent (next to the Alisher Navoiy metro station). Hours: Monday–Saturday 9:00–19:00, closed on Sunday. Phone +998 95 018 33 33, second line +998 90 175 78 00 (WhatsApp), e-mail b.e.kodirov@gmail.com, Telegram channel @gsrlogistics. The cargo-status bot @GSR_GROUP_AGENT_bot works at any hour.` },
+        { q: 'How big is the company — how many clients, how many trucks a month?',
+          a: `We have worked with China since 2018; the team has 15 years of experience in freight. 10+ trucks a month arrive from China in Tashkent, and we have served 400+ clients. The legal entity is Imex services LLC; on social media we are also known as GSR Group.` },
+        { q: 'Are the receiving addresses in China your own warehouses?',
+          a: `The addresses in Yiwu, Guangzhou and Kashgar are receiving points where your cargo is accepted. Your manager tells you which one to use. At every intake the cargo is photographed, counted, weighed and measured, and a QR code goes on every carton — the photo report lands in your Telegram.` },
       ],
     },
   ];

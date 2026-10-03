@@ -90,7 +90,8 @@ export const site = {
   },
   geo: { lat: 41.3208, lng: 69.2531 }, // Yandex Maps card, near Alisher Navoiy metro — TODO: verify pin
   yandexMapsUrl: 'https://yandex.uz/maps/org/98882247475/',
-  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=41.3208,69.2531',
+  /** The existing Google Maps listing "GSR Logistics, Navoi Avenue 27" (its CID), verified 2026-10-03 — the owner still has to claim it. */
+  googleMapsUrl: 'https://www.google.com/maps?cid=14536427051693213311',
   legalEntity: 'Imex services LLC', // TODO: add the STIR when the owner supplies it
   phone2Display: '+998 90 175 78 00',
   phone2E164: '+998901757800',

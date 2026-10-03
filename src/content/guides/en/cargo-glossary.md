@@ -1,5 +1,5 @@
 ---
-title: "Cargo glossary: consolidated cargo, volumetric weight, GTD, FCL — 43 terms in plain words"
+title: "Cargo glossary: 43 terms from consolidation to GTD"
 description: "43 terms you meet when shipping from China to Uzbekistan — cargo, consolidated freight, volumetric weight, density, GS code, consolidation, GTD, HS code, FCL/LCL, CMR, Incoterms — short, precise definitions with numbers. As of September 2026."
 lang: en
 translationKey: glossary
