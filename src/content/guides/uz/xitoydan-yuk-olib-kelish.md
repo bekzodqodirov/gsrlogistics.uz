@@ -1,5 +1,5 @@
 ---
-title: "Xitoydan Oʻzbekistonga yuk qanday olib kelinadi? Toʻliq qoʻllanma (2026)"
+title: "Xitoydan yuk olib kelish: 3 usul, narx va muddat (2026)"
 description: "Xitoydan Oʻzbekistonga yuk olib kelishning 3 yoʻli (avto 15–25 kun, avia 5–10, temir yoʻl 20–35), Ivu → Xorgos → Toshkent marshruti, buyurtmadan qabulgacha 7 qadam, hujjatlar, bojxona limitlari va 2026-yil sentabr holatiga taxminiy narxlar."
 lang: uz
 translationKey: shipping-from-china

@@ -46,7 +46,7 @@ const ru: FaqStrings = {
 };
 
 const en: FaqStrings = {
-  seoTitle: 'China cargo FAQ — prices, transit times, customs | GSR Logistics',
+  seoTitle: 'China cargo FAQ — prices, transit, customs',
   seoDescription: 'Straight answers to 32 questions about shipping from China to Uzbekistan: consolidated truck freight in 15–25 days, air in 5–10, pricing per kg or m³, the $200 personal limit, duties and VAT, prohibited goods, insurance, buying on 1688.',
   eyebrow: 'FAQ',
   h1: 'Cargo from China: the questions we get most',

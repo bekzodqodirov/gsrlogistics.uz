@@ -1,6 +1,6 @@
 ---
 title: "Ivu va Guanchjou bozorlari: Xitoyda qayerdan nima sotib olinadi?"
-description: "Ivu Futian bozori — 5 ta korpus, 75 000 dan ortiq doʻkon; Guanchjou — sumka, kiyim, poyabzal; Shenchjen — elektronika; Keqiao — mato; Foshan — mebel. Har bozorda nima sotiladi, safar va masofaviy xarid, GSR Logisticsning Ivu ombori orqali konsolidatsiya va 2026–2027 mavsum taqvimi."
+description: "Ivu Futian bozori — 5 ta korpus, 75 000 dan ortiq doʻkon; Guanchjou — sumka, kiyim, poyabzal; Shenchjen — elektronika; Keqiao — mato; Foshan — mebel. Har bozorda nima sotiladi, safar va masofaviy xarid, Ivudagi qabul punkti orqali konsolidatsiya va 2026–2027 mavsum taqvimi."
 lang: uz
 translationKey: yiwu-guangzhou
 slug: yiwu-va-guangzhou-bozorlari
@@ -9,7 +9,7 @@ updatedDate: 2026-09-08
 tags: [sourcing, buying, warehouse, bozorlar]
 faq:
   - q: "Ivu bozorida minimal partiya qancha?"
-    a: "Odatda bitta quti (一箱起批) yoki bir necha oʻnlab dona — mahsulotga qarab 12, 24, 48 yoki 100 dona. Narx dona boshiga yuanda aytiladi. Ayni tovarni 1688 orqali ham xuddi shu sotuvchidan olsa boʻladi; bir nechta doʻkondan olingan mayda partiyalar GSR Logisticsning Ivu omborida bitta yukka yigʻiladi."
+    a: "Odatda bitta quti (一箱起批) yoki bir necha oʻnlab dona — mahsulotga qarab 12, 24, 48 yoki 100 dona. Narx dona boshiga yuanda aytiladi. Ayni tovarni 1688 orqali ham xuddi shu sotuvchidan olsa boʻladi; bir nechta doʻkondan olingan mayda partiyalar Ivudagi qabul punktida bitta yukka yigʻiladi."
   - q: "Ivu va Guanchjou — qaysi biri arzon?"
     a: "Tovarga bogʻliq. Mayda ulgurji tovar (oʻyinchoq, taqinchoq, xoʻjalik mollari, paypoq) Ivuda arzon va bir joyda; kiyim, sumka, poyabzal va elektronika Guanchjou va Shenchjenda kengroq va sifat darajasi yuqoriroq. Guanchjouda yuk shu shahardagi qabul manziliga topshiriladi, shuning uchun ichki yetkazish tannarxga sezilarli taʼsir qilmaydi."
   - q: "Xitoyga oʻzim borishim shartmi?"
@@ -31,7 +31,7 @@ sources:
     date: "2026-01-01"
 ---
 
-Ivu (义乌) Xalqaro savdo shahri — dunyodagi eng katta mayda ulgurji bozor: 5 ta korpus, 75 000 dan ortiq doʻkon va 2 milliondan ortiq tovar turi bir hududda. Guanchjou kiyim, sumka va poyabzal, Shenchjen elektronika, Keqiao mato, Foshan mebel boʻyicha markaz. Bu qoʻllanmada qaysi bozorda nima sotilishi, safar bilan masofaviy xaridning farqi, yukni GSR Logisticsning Ivu ombori orqali qanday yigʻish va 2026–2027 mavsum taqvimi tushuntirilgan.
+Ivu (义乌) Xalqaro savdo shahri — dunyodagi eng katta mayda ulgurji bozor: 5 ta korpus, 75 000 dan ortiq doʻkon va 2 milliondan ortiq tovar turi bir hududda. Guanchjou kiyim, sumka va poyabzal, Shenchjen elektronika, Keqiao mato, Foshan mebel boʻyicha markaz. Bu qoʻllanmada qaysi bozorda nima sotilishi, safar bilan masofaviy xaridning farqi, yukni Ivudagi qabul punkti orqali qanday yigʻish va 2026–2027 mavsum taqvimi tushuntirilgan.
 
 ## Ivu Futian bozori: 5 ta korpusda nima sotiladi?
 

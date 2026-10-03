@@ -1,6 +1,6 @@
 ---
 title: "Yiwu and Guangzhou markets: what to buy where in China?"
-description: "Yiwu’s Futian market — 5 districts, 75,000+ booths; Guangzhou — bags, garments, shoes; Shenzhen — electronics; Keqiao — fabrics; Foshan — furniture. What each market sells, buying trips vs remote buying, consolidation at GSR Logistics’ Yiwu warehouse and the 2026–2027 seasonal calendar."
+description: "Yiwu’s Futian market — 5 districts, 75,000+ booths; Guangzhou — bags, garments, shoes; Shenzhen — electronics; Keqiao — fabrics; Foshan — furniture. What each market sells, buying trips vs remote buying, consolidation at the Yiwu receiving point and the 2026–2027 seasonal calendar."
 lang: en
 translationKey: yiwu-guangzhou
 slug: yiwu-and-guangzhou-markets
@@ -9,7 +9,7 @@ updatedDate: 2026-09-08
 tags: [sourcing, buying, warehouse, bozorlar]
 faq:
   - q: "What is the minimum order at the Yiwu market?"
-    a: "Usually one carton (一箱起批) or a few dozen pieces — 12, 24, 48 or 100 units depending on the product. Prices are quoted in yuan per piece. The same seller often lists the same item on 1688; small lots from several booths are consolidated into one shipment at GSR Logistics’ Yiwu warehouse."
+    a: "Usually one carton (一箱起批) or a few dozen pieces — 12, 24, 48 or 100 units depending on the product. Prices are quoted in yuan per piece. The same seller often lists the same item on 1688; small lots from several booths are consolidated into one shipment at the Yiwu receiving point."
   - q: "Which is cheaper, Yiwu or Guangzhou?"
     a: "It depends on the product. Small commodities (toys, jewellery, housewares, socks) are cheaper in Yiwu and sit in one place; garments, bags, shoes and electronics are wider in range and higher in quality in Guangzhou and Shenzhen. In Guangzhou goods go to a receiving address in the same city, so domestic delivery barely affects the landed cost."
   - q: "Do I have to travel to China myself?"
@@ -31,7 +31,7 @@ sources:
     date: "2026-01-01"
 ---
 
-Yiwu International Trade City (义乌) is the world’s largest small-commodity wholesale market: 5 districts, more than 75,000 booths and over 2 million product lines on one site. Guangzhou is the hub for garments, bags and shoes, Shenzhen for electronics, Keqiao for fabrics, Foshan for furniture. This guide covers what each market sells, how a buying trip differs from remote buying, how to consolidate goods through GSR Logistics’ Yiwu warehouse, and the 2026–2027 seasonal calendar.
+Yiwu International Trade City (义乌) is the world’s largest small-commodity wholesale market: 5 districts, more than 75,000 booths and over 2 million product lines on one site. Guangzhou is the hub for garments, bags and shoes, Shenzhen for electronics, Keqiao for fabrics, Foshan for furniture. This guide covers what each market sells, how a buying trip differs from remote buying, how to consolidate goods through the Yiwu receiving point, and the 2026–2027 seasonal calendar.
 
 ## Yiwu’s Futian market: what do the five districts sell?
 

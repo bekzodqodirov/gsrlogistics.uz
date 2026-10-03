@@ -20,7 +20,7 @@ const content: ServiceContentByLang = {
   uz: {
     key: 'buying',
     seo: {
-      title: '1688, Taobao va Alibabadan tovar sotib olish — komissiya 3% dan',
+      title: '1688 dan tovar olib berish — Taobao, Alibaba, komissiya 3% dan',
       description:
         'Havolani yuborasiz — biz narxni dollarda hisoblaymiz, sotuvchiga yuanda toʻlaymiz, tovarni Ivu omborida tekshirib Toshkentga olib kelamiz. 1688, Taobao, Pinduoduo, Alibaba. Komissiya 3% dan, toʻlov soʻmda.',
     },
@@ -38,7 +38,7 @@ const content: ServiceContentByLang = {
     },
     sections: [
       {
-        heading: 'Sotib olish xizmati qanday ishlaydi?',
+        heading: '1688 dan tovar olib berish qanday ishlaydi?',
         body: [
           'Xitoy saytlari faqat xitoy bank kartasi yoki Alipay bilan toʻlovni qabul qiladi, sotuvchilar faqat xitoy tilida yozadi, tovar esa faqat Xitoy ichidagi manzilga joʻnatiladi. Biz shu uch toʻsiqni olib tashlaymiz: toʻlaymiz, yozishamiz va Ivu omborining manzilini beramiz.',
         ],

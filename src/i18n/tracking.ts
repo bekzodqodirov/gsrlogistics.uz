@@ -214,7 +214,7 @@ const en: TrackingStrings = {
   eyebrow: 'Tracking',
   h1: 'Where is your cargo right now?',
   intro:
-    'Every one of your cartons gets a QR code at the receiving point in China, and at each stage after that our warehouse staff scan it. You watch those scans in @GSR_GROUP_AGENT_bot — in your own account, at any hour, carton by carton. You can also send a GS-code request below — the answer appears here or comes from your manager on Telegram. Every shipment passes through six stages, explained below.',
+    'Every one of your cartons gets a QR code at the receiving point in China, and at each stage after that the staff there scan it. You watch those scans in @GSR_GROUP_AGENT_bot — in your own account, at any hour, carton by carton. You can also send a GS-code request below — the answer appears here or comes from your manager on Telegram. Every shipment passes through six stages, explained below.',
   form: {
     label: 'Enter your GS code',
     placeholder: 'GS code',
@@ -263,7 +263,7 @@ const en: TrackingStrings = {
     title: 'Tracking questions',
     items: [
       { q: 'How do I connect to the bot?', a: 'Two ways: with your own phone number — if it is in the system, the bot recognises you; or through a link your manager sends you. After that your shipments are in your account.' },
-      { q: 'Do I have to scan the QR myself?', a: 'No. We stick the QR on at receiving in China and our warehouse staff scan it at every stage. Nothing is asked of you — you simply see the result in the bot.' },
+      { q: 'Do I have to scan the QR myself?', a: 'No. We stick the QR on at receiving in China and the staff scan it at every stage. Nothing is asked of you — you simply see the result in the bot.' },
       { q: 'I have several cartons — will I see them all?', a: 'Yes. A QR goes on each carton separately, so each carton also appears separately in the bot.' },
       { q: 'How often is the status updated?', a: 'Whenever a stage changes: receiving in China, loading, border crossing, arrival in Tashkent. While the cargo is in transit the stage stays the same — that is normal, a truck can take 15–25 days. The bot shows the last scan.' },
       { q: 'Is the arrival date exact?', a: 'No, it is an estimate. Transit counts from departure from the China warehouse: truck 15–25 days, air 5–10, rail 20–35. Holidays and border queues can add days.' },

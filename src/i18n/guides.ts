@@ -8,7 +8,7 @@ export interface GuidesStrings {
   tagLabels: Record<string, string>;
 }
 const uz: GuidesStrings = {
-  seoTitle: 'Qoʻllanma: Xitoydan yuk olib kelish, kargo narxlari, bojxona, 1688 — GSR Logistics',
+  seoTitle: 'Qoʻllanma: Xitoydan yuk, narxlar, bojxona, 1688',
   seoDescription: 'Xitoydan Oʻzbekistonga yuk olib kelish boʻyicha amaliy qoʻllanmalar: kargo narxi qanday hisoblanadi, avia/avto/temir yoʻl taqqoslash, 1688 orqali buyurtma, 2026-yil bojxona toʻlovlari, ishlab chiqaruvchi topish, Ivu va Guanchjou bozorlari, taqiqlangan tovarlar, lugʻat, yoʻnalishlar.',
   eyebrow: 'Qoʻllanma', h1: 'Xitoydan yuk olib kelish: qoʻllanmalar',
   intro: 'Bu yerda Xitoydan Oʻzbekistonga yuk olib kelishning har bir bosqichi raqamlar bilan tushuntirilgan: narx qanday hisoblanadi, qaysi yoʻnalish qachon mos, bojxonada nima boʻladi, 1688-dan qanday buyurtma beriladi. Maqolalar 2026-yil sentabr holatiga yangilangan.',
@@ -17,7 +17,7 @@ const uz: GuidesStrings = {
   tagLabels: { truck: 'Avto kargo', air: 'Avia', rail: 'Temir yoʻl', customs: 'Bojxona', warehouse: 'Ombor', sourcing: 'Tovar topish', buying: 'Xarid', suppliers: 'Yetkazib beruvchilar', import: 'Import', '1688': '1688', glossary: 'Lugʻat', lugat: 'Lugʻat', slovar: 'Lugʻat', routes: 'Yoʻnalishlar', yonalishlar: 'Yoʻnalishlar', marshruty: 'Yoʻnalishlar', taqqoslash: 'Taqqoslash', bozorlar: 'Bozorlar' },
 };
 const ru: GuidesStrings = {
-  seoTitle: 'Гид: доставка из Китая, цены на карго, таможня, 1688 — GSR Logistics',
+  seoTitle: 'Гид: доставка из Китая, цены, таможня, 1688',
   seoDescription: 'Практические гиды по доставке грузов из Китая в Узбекистан: как считается стоимость карго, авиа/авто/ж/д, заказ с 1688, таможенные платежи 2026, поиск поставщика, рынки Иу и Гуанчжоу, запрещённые товары, словарь, маршруты.',
   eyebrow: 'Гид', h1: 'Доставка из Китая: гиды',
   intro: 'Здесь каждый этап доставки из Китая в Узбекистан объяснён с цифрами: как считается цена, какой способ когда подходит, что происходит на таможне, как заказать с 1688. Статьи обновлены по состоянию на сентябрь 2026 года.',
@@ -26,7 +26,7 @@ const ru: GuidesStrings = {
   tagLabels: { truck: 'Авто', air: 'Авиа', rail: 'Ж/д', customs: 'Таможня', warehouse: 'Склад', sourcing: 'Поиск товаров', buying: 'Выкуп', suppliers: 'Поставщики', import: 'Импорт', '1688': '1688', glossary: 'Словарь', lugat: 'Словарь', slovar: 'Словарь', routes: 'Маршруты', yonalishlar: 'Маршруты', marshruty: 'Маршруты', taqqoslash: 'Сравнение', bozorlar: 'Рынки' },
 };
 const en: GuidesStrings = {
-  seoTitle: 'Guides: shipping from China, cargo prices, customs, 1688 — GSR Logistics',
+  seoTitle: 'Guides: China shipping, prices, customs, 1688',
   seoDescription: 'Practical guides on shipping from China to Uzbekistan: how cargo prices are calculated, air vs truck vs rail, ordering from 1688, customs duties 2026, finding a supplier, Yiwu and Guangzhou markets, prohibited goods, glossary, routes.',
   eyebrow: 'Guides', h1: 'Shipping from China: guides',
   intro: 'Every stage of shipping from China to Uzbekistan explained with numbers: how the price is calculated, which mode fits when, what happens at customs, how to order from 1688. Updated as of September 2026.',

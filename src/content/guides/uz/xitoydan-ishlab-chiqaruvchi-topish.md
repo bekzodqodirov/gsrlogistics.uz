@@ -1,5 +1,5 @@
 ---
-title: "Xitoydan ishonchli ishlab chiqaruvchi yoki yetkazib beruvchini qanday topish mumkin?"
+title: "Xitoydan ishonchli ishlab chiqaruvchi qanday topiladi?"
 description: "Xitoyda yetkazib beruvchi topishning uch manbai — zavod, savdo kompaniyasi, 1688 — va tekshiruvning toʻrt bosqichi: biznes-litsenziya, eksport huquqi, Alibaba Verified, zavod auditi. Namuna, MOQ, narx muzokarasi, EXW va FOB, shartnoma va oldindan toʻlov (180 kun qoidasi), yuklashdan oldingi sifat nazorati."
 lang: uz
 translationKey: find-supplier
