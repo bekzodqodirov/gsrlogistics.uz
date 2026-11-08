@@ -44,7 +44,7 @@ export type Mode = 'air' | 'truck' | 'rail';
 export type Category = 'standard' | 'brand' | 'commercial' | 'battery' | 'liquid';
 export type Container = '20ft' | '40ft';
 export type RuleCode = 'air-per-kg' | 'truck-lcl' | 'truck-per-kg' | 'rail-20ft' | 'rail-40ft';
-export type NoteCode = 'volumetric-applied' | 'min-kg-applied' | 'min-m3-applied' | 'no-volume' | 'switched-to-truck' | 'range';
+export type NoteCode = 'volumetric-applied' | 'min-kg-applied' | 'no-volume' | 'switched-to-truck' | 'range';
 
 export interface Dims { l: number; w: number; h: number } // centimetres
 export interface CargoInput { kg: number; dims?: Dims; m3?: number; category?: Category }
@@ -66,7 +66,7 @@ export interface Estimate {
   volumetricKg?: number;
   chargeableKg?: number;
   m3?: number;
-  /** Volume actually billed: `m3` raised to the tariff minimum when it falls below it. */
+  /** Volume billed. Always the measured volume: below `truck.minM3` the cargo is refused, not billed up. */
   chargeableM3?: number;
   densityKgM3?: number;
   container?: Container;
@@ -77,6 +77,21 @@ export const AIR_FORBIDDEN: ReadonlyArray<Category> = ['battery', 'liquid'];
 /** Thrown by estimateTruck when no volume was supplied — the truck sheet cannot price weight alone. */
 export class VolumeRequiredError extends RangeError {
   constructor() { super('Truck cargo is priced per m³ by density; a volume is required'); this.name = 'VolumeRequiredError'; }
+}
+/**
+ * Thrown by estimateTruck below `truck.minM3`. Owner, 2026-11-08: consolidated cargo under 1 m³ is not
+ * carried at all — not billed up to the minimum, as the sheet did with its old 0,1 m³ floor — so there
+ * is no price to show. The calculator turns this into the "too small for truck, send it by air" note.
+ */
+export class BelowMinimumVolumeError extends RangeError {
+  minM3: number;
+  m3: number;
+  constructor(minM3: number, m3: number) {
+    super(`Consolidated cargo starts at ${minM3} m³; ${m3} m³ is not accepted`);
+    this.name = 'BelowMinimumVolumeError';
+    this.minM3 = minM3;
+    this.m3 = m3;
+  }
 }
 
 const r2 = (n: number) => Math.round(n * 100) / 100;
@@ -143,8 +158,9 @@ export function estimateAir(input: CargoInput, t: Tariffs): Estimate {
 
 /**
  * Truck (consolidated), from the owner's own sheet: density (kg ÷ m³) picks a band and the total is
- * m³ × that band's rate, with `minM3` as the floor. At or above `perKgFromDensityKgM3` the sheet bills
- * per kilogram instead. A volume is required — weight alone cannot pick a band, so it throws.
+ * m³ × that band's rate. At or above `perKgFromDensityKgM3` the sheet bills per kilogram instead. A
+ * volume is required — weight alone cannot pick a band — and it must be at least `minM3`: smaller
+ * cargo is refused whatever its density, so both cases throw instead of inventing a price.
  */
 export function estimateTruck(input: CargoInput, t: Tariffs): Estimate {
   const notes: NoteCode[] = [];
@@ -152,6 +168,7 @@ export function estimateTruck(input: CargoInput, t: Tariffs): Estimate {
   const m3 = resolveM3(input);
   // The sheet prices a volume. Weight alone cannot pick a band, so refuse rather than invent a rate.
   if (m3 <= 0) throw new VolumeRequiredError();
+  if (m3 < t.truck.minM3) throw new BelowMinimumVolumeError(t.truck.minM3, m3);
   const density = densityKgM3(actual, m3);
   const days = pair(t.truck.days);
   const base = { mode: 'truck' as const, days, category: input.category, actualKg: actual, m3, densityKgM3: density || undefined };
@@ -161,10 +178,8 @@ export function estimateTruck(input: CargoInput, t: Tariffs): Estimate {
     return { ...base, rule: 'truck-per-kg', rate: t.truck.perKgAboveDensity, unit: 'kg', total: r2(actual * t.truck.perKgAboveDensity), notes, chargeableKg: actual };
   }
 
-  let billableM3 = m3;
-  if (billableM3 < t.truck.minM3) { billableM3 = t.truck.minM3; notes.push('min-m3-applied'); }
   const rate = densityBandRate(t.truck.lclPerM3ByDensity, density);
-  return { ...base, rule: 'truck-lcl', rate, unit: 'm3', total: r2(billableM3 * rate), notes, chargeableKg: actual, chargeableM3: billableM3 };
+  return { ...base, rule: 'truck-lcl', rate, unit: 'm3', total: r2(m3 * rate), notes, chargeableKg: actual, chargeableM3: m3 };
 }
 
 export function estimateRail(container: Container, t: Tariffs): Estimate {

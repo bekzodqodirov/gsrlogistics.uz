@@ -5,7 +5,7 @@ lang: en
 translationKey: find-supplier
 slug: finding-a-supplier-in-china
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [sourcing, buying, warehouse, suppliers]
 faq:
   - q: "How do I tell a factory from a trading company?"
@@ -13,7 +13,7 @@ faq:
   - q: "How much does a sample cost and how fast does it arrive?"
     a: "A factory usually makes a sample in 3–10 days; it costs 1.5–3 times the unit price, and many factories credit it once you place the order. The sample arrives at the Yiwu warehouse — we photograph, measure and film it; on request we fly it to Tashkent in roughly 5–10 days."
   - q: "Can the MOQ be lowered?"
-    a: "Usually yes: split one model across several colours, take ready stock from the factory’s warehouse, offer 10–30% more per unit for a trial batch, or combine several models made from the same material into one order. If the factory’s MOQ is 300–1,000 pieces, take the first batch from a 1688 seller with an MOQ of 2–50 pieces and move to the factory later."
+    a: "Usually yes: split one model across several colours, take ready stock from the factory’s warehouse, offer 10–30% more per unit for a trial batch, or combine several models made from the same material into one order. If the factory’s MOQ is 300–1,000 pieces, take the first batch from a 1688 seller with an MOQ of 2–50 pieces and move to the factory later. An order through us, though, must total at least 1 m³: goods from different sellers are gathered at the Yiwu receiving point under one GS code and counted together."
   - q: "How much prepayment is normal and how do I protect myself?"
     a: "The usual split is 30% on order and 70% before shipment, after inspection. For a company the contract is registered in EEISVO and prepaid goods must arrive within 180 days (PKM-283). Pay only to the company account named on the licence, never to a personal WeChat or card; on 1688 and Alibaba, paying through the platform holds the money until the goods are confirmed."
   - q: "Can I find a factory myself without Chinese?"
@@ -56,9 +56,9 @@ Finding a product in China is easy; finding a reliable source is not. One produc
 | Language | Chinese only | Often English too | Chinese only |
 | Own brand (logo, packaging) | Yes | Yes, through the factory | Rarely |
 | Responsibility for quality | Clear, one source | Split between middleman and factory | Platform protection |
-| Best for | Regular batches, own brand, technical goods | Mixed orders, small volume, complex goods | First batch, testing, marketplaces |
+| Best for | Regular batches, own brand, technical goods | Mixed orders, small volume, complex goods | First batch, marketplaces |
 
-Rule of thumb: buy the first batch on 1688 or from a trading company, and move to a factory once you know the product sells. The 1688 ordering process is in [How to order from 1688](/en/guides/how-to-order-from-1688/).
+Rule of thumb: buy the first batch on 1688 or from a trading company, and move to a factory once you know the product sells. An order through us, from any source, must total at least 1 m³. The 1688 ordering process is in [How to order from 1688](/en/guides/how-to-order-from-1688/).
 
 ## How do you verify a supplier?
 
@@ -116,7 +116,7 @@ The usual payment split is 30% on order and 70% before shipment, after the inspe
 2. Prepayment is not mandatory, but if you do prepay, the goods must arrive or the money must be returned within 180 calendar days (PKM-283 of May 14, 2020). With a 60–90-day production lead time, plan around that deadline.
 3. Pay only to the company account named on the licence. On 1688 and Alibaba, paying through the platform (Trade Assurance) holds the money until the goods are confirmed.
 
-If you cannot pay China directly, we pay in yuan through the [Buying from 1688 & Taobao](/en/services/buying-agent/) service. Customs will need the contract, invoice and certificate of origin — see [Uzbekistan customs duties 2026](/en/guides/uzbekistan-customs-duties-2026/).
+If you cannot pay China directly, we pay in yuan through the [Buying from 1688 & Taobao](/en/services/buying-agent/) service — for orders with a total volume of at least 1 m³. Customs will need the contract, invoice and certificate of origin — see [Uzbekistan customs duties 2026](/en/guides/uzbekistan-customs-duties-2026/).
 
 ## Quality control before shipping
 

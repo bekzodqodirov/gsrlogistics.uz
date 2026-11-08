@@ -5,19 +5,19 @@ lang: en
 translationKey: prohibited-goods
 slug: prohibited-goods
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [truck, air, customs, warehouse]
 faq:
   - q: "Can I ship a power bank or a product with a battery from China?"
-    a: "Yes, but by truck only. Under IATA rules lithium batteries are dangerous goods and are not accepted in consolidated air cargo. On a truck departure, power banks, phones, laptops and e-scooter batteries are accepted in factory packaging; a surcharge may apply — your manager tells you in advance."
+    a: "Yes, but by truck only. Under IATA rules lithium batteries are dangerous goods and are not accepted in consolidated air cargo, and truck cargo starts at 1 m³ — so under 1 m³ such goods cannot be shipped at all. The 1 m³ counts across one shipment: battery goods are counted together with your other goods under one GS code. On a truck departure, power banks, phones, laptops and e-scooter batteries are accepted in factory packaging; a surcharge may apply — your manager tells you in advance."
   - q: "Can I bring in a drone?"
     a: "Not as an individual. Importing drones without a permit has been banned in Uzbekistan since 2015; permits go only to legal entities for official tasks, and violations fall under Article 244-4 of the Criminal Code. GSR Logistics does not accept drones."
   - q: "How do I ship perfume and cosmetics?"
-    a: "By truck only — liquids and alcohol-based products cannot fly. A commercial lot needs an SES conclusion, a conformity document and an Uzbek-language label; duty is 30% on cosmetics (minimum $0.50/kg) and 30% on perfume (minimum $2.50/kg) plus 12% VAT. A small quantity for personal use fits within the $200 monthly allowance."
+    a: "By truck only — liquids and alcohol-based products cannot fly. Truck cargo starts at 1 m³, so perfume and cosmetics travel in a shipment of at least 1 m³ in total; under 1 m³ they cannot be shipped at all. A commercial lot needs an SES conclusion, a conformity document and an Uzbek-language label; duty is 30% on cosmetics (minimum $0.50/kg) and 30% on perfume (minimum $2.50/kg) plus 12% VAT. A small quantity for personal use fits within the $200 monthly customs allowance."
   - q: "Do you carry brand replicas?"
     a: "No. Copies bearing trademarks such as Nike, Apple or Zara are counterfeit: customs detains them under the intellectual-property register, the goods are confiscated, and one carton holds up the whole truck. Unbranded (no-name) goods face no such restriction."
   - q: "Can I send medicines?"
-    a: "For personal use — at most 10 items with up to 5 packs each, and by truck only. Commercial import of medicines requires state registration in Uzbekistan and a Ministry of Health permit — we accept such a lot only with the documents."
+    a: "For personal use — at most 10 items with up to 5 packs each, and by truck only, that is, as part of a shipment of at least 1 m³ in total. Commercial import of medicines requires state registration in Uzbekistan and a Ministry of Health permit — we accept such a lot only with the documents."
 sources:
   - title: "Customs Code of the Republic of Uzbekistan (lex.uz) — prohibitions, intellectual-property register, confiscation"
     url: "https://lex.uz/docs/2876352"
@@ -56,7 +56,7 @@ The restrictions come from three sources, and it pays not to mix them up:
 
 1. **Uzbek law** — the Customs Code, the Criminal Code, Cabinet of Ministers resolutions. These bans do not depend on the mode of transport: the goods will not cross the border by truck or by air.
 2. **Carrier rules** — the IATA Dangerous Goods Regulations (DGR) for aircraft, road-haulage rules for trucks. This is why the same product is refused by an airline and accepted on a truck.
-3. **GSR Logistics warehouse rules** — the checklist applied at intake in Yiwu, Guangzhou and Kashgar. It is the sum of the legal and carrier requirements: one carton of goods we do not accept can hold up a truck carrying a hundred clients' cargo.
+3. **Warehouse rules** — the checklist applied at intake in Yiwu, Guangzhou and Kashgar. It is the sum of the legal and carrier requirements: one carton of goods we do not accept can hold up a truck carrying a hundred clients' cargo.
 
 Each group has its own table below.
 
@@ -81,7 +81,7 @@ If goods from this list reach a receiving point in China, they are refused and r
 
 ## Truck only: goods that airlines refuse
 
-Air cargo runs under the IATA Dangerous Goods Regulations. Lithium batteries (UN3480, UN3481) and magnetised material (UN2807) are Class 9 dangerous goods: they fly only with a special declaration and test documentation, which consolidated cargo never has. That is why the items below go by truck only, in roughly 15–25 days:
+Air cargo runs under the IATA Dangerous Goods Regulations. Lithium batteries (UN3480, UN3481) and magnetised material (UN2807) are Class 9 dangerous goods: they fly only with a special declaration and test documentation, which consolidated cargo never has. That is why the items below go by truck only, in roughly 15–25 days (truck cargo starts at 1 m³ — under 1 m³ they cannot be shipped at all):
 
 | Goods | Why airlines refuse them | Truck conditions |
 |---|---|---|
@@ -123,8 +123,8 @@ Figures and documents — in the guide [Uzbekistan customs duties 2026](/en/guid
 
 In practice it is caught at one of four stages, and the consequences get heavier at each:
 
-1. **At the receiving point in China.** Every carton is weighed, measured and opened when needed. A prohibited item is refused: returned to the seller (return costs charged to the client) or, if it belongs to the "truck only" group, moved from the air to the truck departure. Loss — a few days.
-2. **At the airline scanner.** A hidden battery or liquid shows up on the X-ray. The airline sends the whole consignment back and issues a fine; the cargo moves to the next truck departure. Loss — 2–3 weeks and a fine.
+1. **At the receiving point in China.** Every carton is weighed, measured and opened when needed. A prohibited item is refused: returned to the seller (return costs charged to the client) or, if it belongs to the "truck only" group and the shipment is at least 1 m³, moved from the air to the truck departure. Loss — a few days.
+2. **At the airline scanner.** A hidden battery or liquid shows up on the X-ray. The airline sends the whole consignment back and issues a fine; the cargo moves to the next truck departure if it is at least 1 m³ — we do not carry anything smaller by truck. Loss — 2–3 weeks and a fine.
 3. **At the Khorgos or Yallama border.** If customs finds counterfeit or prohibited goods in one carton, the entire truck goes to inspection: every other client’s cargo waits for days. The goods are confiscated, the cargo owner is fined, and the demurrage and inspection costs fall on the cargo owner.
 4. **Criminal liability.** For narcotics, weapons, drones and explosives it does not end with an administrative fine — the Criminal Code applies; for a drone, Article 244-4 carries up to 3 years, 3–5 years for a repeat offence.
 
@@ -140,4 +140,4 @@ Insurance does not cover prohibited goods. So the rule is simple: when in doubt,
 
 If you are not sure which group your cargo falls into, [message us on Telegram](/en/contact/) — a manager answers in one message. What to expect at customs — [Customs clearance](/en/services/customs/); the terminology — [Cargo glossary](/en/guides/cargo-glossary/).
 
-> **Manager’s tip.** Most trouble comes from small things shipped "without knowing": a gift power bank in a carton, a magnet inside a toy, one spray in a cosmetics set. Write the seller a single line — "batteries, magnets, liquids and aerosols in a separate carton" — and at the warehouse we split the lot: the dry part goes by air, the rest by truck, and the whole shipment stops waiting.
+> **Manager’s tip.** Most trouble comes from small things shipped "without knowing": a gift power bank in a carton, a magnet inside a toy, one spray in a cosmetics set. Write the seller a single line — "batteries, magnets, liquids and aerosols in a separate carton" — and at the warehouse we split the lot: the dry part goes by air, the rest by truck, and the whole shipment stops waiting. The truck part must still be at least 1 m³ — we do not carry anything smaller by truck.

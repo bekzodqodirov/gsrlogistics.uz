@@ -4,7 +4,8 @@ import type { ServiceContentByLang } from './types';
  * Avto kargo (yigʻma yuk) — long-form page content.
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): truck cargo is priced by volume from the
  * cargo's density — 110 $/m³ up to 100 kg/m³, rising to 320 $/m³ at 701–1 000 kg/m³, and 0,55 $/kg
- * from 1 000 kg/m³; minimum billable volume 0,1 m³. There is no per-kilogram ladder for truck cargo.
+ * from 1 000 kg/m³. Truck cargo is accepted only from 1 m³ per shipment (tariffs.json minM3; owner,
+ * 2026-11-08) — anything smaller is refused, not billed up. There is no per-kilogram ladder for truck cargo.
  * Extras 1 $ photo, 0,4 $/kg repack, 1 $/kg inspection, 1% insurance, 14/3 free storage days,
  * door delivery 20 000–30 000 soʻm (free from 5 kg in Tashkent). Keep them in sync when tariffs change.
  */
@@ -20,24 +21,24 @@ const content: ServiceContentByLang = {
       eyebrow: 'Xizmat 01 — Yigʻma yuk',
       h1: 'Xitoydan Toshkentga avto kargo (yigʻma yuk)',
       intro:
-        'Yigʻma yuk — bu bir necha mijozning yukini Ivu omborida bitta fura yoki konteynerga jamlab, Xorgos orqali Toshkentga olib kelish. Xitoy omboridan joʻnatilgach, yuk taxminan 15–25 kunda keladi. Narx kub metr hisobida: yukning zichligi (kg ÷ m³) tarifni tanlaydi — 110 $/m³ dan boshlanadi, minimal hisob hajmi 0,1 m³. Butun konteynerni ijaraga olish shart emas.',
+        'Yigʻma yuk — bu bir necha mijozning yukini Ivu omborida bitta fura yoki konteynerga jamlab, Xorgos orqali Toshkentga olib kelish. Xitoy omboridan joʻnatilgach, yuk taxminan 15–25 kunda keladi. Narx kub metr hisobida: yukning zichligi (kg ÷ m³) tarifni tanlaydi — 110 $/m³ dan boshlanadi; yuk kamida 1 m³ dan qabul qilinadi. Butun konteynerni ijaraga olish shart emas.',
       facts: [
         { label: 'Muddat, Xitoy omboridan', value: '15–25 kun' },
         { label: 'Narx, m³ hisobida', value: '110 $/m³ dan' },
         { label: 'Hisob asosi', value: 'zichlik, kg/m³' },
-        { label: 'Minimal hajm', value: '0,1 m³' },
+        { label: 'Minimal hajm', value: '1 m³' },
       ],
     },
     sections: [
       {
         heading: 'Yigʻma yuk kimga toʻgʻri keladi?',
         body: [
-          'Yigʻma yuk (LCL, сборный груз) — Xitoydan tovar olib kelishning eng koʻp tarqalgan usuli. Yukingiz Ivu (义乌) omborida boshqa mijozlarning yuklari bilan bitta fura yoki konteynerga joylanadi, shuning uchun 0,1 m³ yuk uchun ham, 10 m³ yuk uchun ham faqat oʻz ulushingizga toʻlaysiz. Xitoyda uchta qabul manzili bor: Ivu, Guanchjou va Qashqar — qaysi biriga joʻnatish kerakligini menejer aytadi. Boshqa shaharlardan, masalan Shenchjendan, yetkazib beruvchi yukni Xitoy ichki pochtasi bilan shu manzillardan biriga joʻnatadi.',
+          'Yigʻma yuk (LCL, сборный груз) — Xitoydan tovar olib kelishning eng koʻp tarqalgan usuli. Yukingiz Ivu (义乌) omborida boshqa mijozlarning yuklari bilan bitta fura yoki konteynerga joylanadi, shuning uchun 1 m³ yuk uchun ham, 10 m³ yuk uchun ham faqat oʻz ulushingizga toʻlaysiz. Xitoyda uchta qabul manzili bor: Ivu, Guanchjou va Qashqar — qaysi biriga joʻnatish kerakligini menejer aytadi. Boshqa shaharlardan, masalan Shenchjendan, yetkazib beruvchi yukni Xitoy ichki pochtasi bilan shu manzillardan biriga joʻnatadi.',
           'Bu usul quyidagi holatlarda oʻzini oqlaydi:',
         ],
         bullets: [
           'Ulgurji savdo (Abu Sahiy, Chorsu, Bek Baraka): kiyim-kechak, poyabzal, gazlama — zich yuk, odatda 200–350 kg/m³, yaʼni 160–230 $/m³ oraligʻidagi tarif.',
-          'Uzum, Yandex Market va Instagram sotuvchilari: 20–300 kg li partiyalar har 1–2 haftada; har bir buyurtma alohida kod bilan markirovka qilinadi.',
+          'Uzum, Yandex Market va Instagram sotuvchilari: hajmi kamida 1 m³ boʻlgan partiyalar har 1–2 haftada; turli yetkazib beruvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi va birga hisoblanadi.',
           'Ishlab chiqaruvchilar: ehtiyot qismlar, xomashyo, mayda uskunalar — zichligi 501–700 kg/m³ boʻlgan yuk 300 $/m³, 1 000 kg/m³ va undan zich metall va furnitura esa 0,55 $/kg boʻyicha hisoblanadi.',
           'Yengil va hajmli tovarlar (oʻyinchoq, plastmassa buyumlar, mebel, uy-roʻzgʻor mollari): zichlik 100 kg/m³ gacha — eng past tarif, 110 $/m³.',
         ],
@@ -46,7 +47,7 @@ const content: ServiceContentByLang = {
         heading: 'Narx qanday hisoblanadi?',
         body: [
           'Avto kargoda toʻlov kub metr boʻyicha ketadi, kilogramm boʻyicha emas. Avval zichlikni topamiz: umumiy ogʻirlikni (kg) umumiy hajmga (m³) boʻlamiz. Zichlik jadvaldan tarifni tanlaydi, tarifni hajmga koʻpaytiramiz — chiqqan summa Ivu omboridan Toshkent omborigacha boʻlgan toʻliq yoʻlni qamraydi.',
-          'Hajmni oʻzingiz ham hisoblashingiz mumkin: uzunlik × en × balandlik (sm) ÷ 1 000 000 = m³. Zichlik qancha yuqori boʻlsa, kub metr narxi ham shuncha yuqori — bir xil hajmdagi ogʻir yuk furada koʻproq tonnaj oladi. Faqat juda zich yuk — 1 000 kg/m³ dan boshlab — kilogramm boʻyicha, 0,55 $/kg hisoblanadi. Minimal hisob hajmi — 0,1 m³.',
+          'Hajmni oʻzingiz ham hisoblashingiz mumkin: uzunlik × en × balandlik (sm) ÷ 1 000 000 = m³. Zichlik qancha yuqori boʻlsa, kub metr narxi ham shuncha yuqori — bir xil hajmdagi ogʻir yuk furada koʻproq tonnaj oladi. Faqat juda zich yuk — 1 000 kg/m³ dan boshlab — kilogramm boʻyicha, 0,55 $/kg hisoblanadi. Yigʻma yuk kamida 1 m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz.',
         ],
         table: {
           caption: 'Avto kargo tariflari, Ivu → Toshkent',
@@ -65,11 +66,11 @@ const content: ServiceContentByLang = {
             ['701–1 000', '320 $/m³'],
             ['1 000 va undan yuqori', '0,55 $/kg'],
           ],
-          note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. Zichlik = ogʻirlik (kg) ÷ hajm (m³), minimal hisob hajmi — 0,1 m³. Yakuniy summa yuk Ivu omborida tortilib oʻlchangandan keyin aniqlanadi; brend va seriyali tovarlar uchun tarif alohida kelishiladi.',
+          note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. Zichlik = ogʻirlik (kg) ÷ hajm (m³); minimal hajm — 1 m³, undan kichik yuk qabul qilinmaydi. Yakuniy summa yuk Ivu omborida tortilib oʻlchangandan keyin aniqlanadi; brend va seriyali tovarlar uchun tarif alohida kelishiladi.',
         },
         callout: {
           title: 'Misol: narx qanday chiqadi',
-          text: '48 kg yuk 0,2 m³ ni egallasa, zichlik 48 ÷ 0,2 = 240 kg/m³ — jadvaldan 180 $/m³, hisob 0,2 × 180 = 36 $. Oʻsha 48 kg yengil qadoqda 0,5 m³ ni egallasa, zichlik 96 kg/m³ — 110 $/m³, hisob 0,5 × 110 = 55 $. Shuning uchun omborda har bir joyni oʻlchaymiz.',
+          text: '240 kg yuk 1 m³ ni egallasa, zichlik 240 kg/m³ — jadvaldan 180 $/m³, hisob 1 × 180 = 180 $. Oʻsha 240 kg yengil qadoqda 2,5 m³ ni egallasa, zichlik 240 ÷ 2,5 = 96 kg/m³ — 110 $/m³, hisob 2,5 × 110 = 275 $. Shuning uchun omborda har bir joyni oʻlchaymiz.',
           tone: 'info',
         },
       },
@@ -150,7 +151,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Avia orqali boʻlmaydi — avto orqali boʻladi',
-          text: 'Litiy batareyali texnika, power bank, magnit, suyuqlik va kosmetika avia kargoga olinmaydi, lekin avto kargoda qabul qilinadi. Bunday tovarni oldindan aytib qoʻying — alohida qadoqlanadi.',
+          text: 'Litiy batareyali texnika, power bank, magnit, suyuqlik va kosmetika avia kargoga olinmaydi, lekin avto kargoda qabul qilinadi — partiyaning umumiy hajmi kamida 1 m³ boʻlsa; 1 m³ dan kichik partiyada ularni avia bilan ham, avto bilan ham joʻnatib boʻlmaydi. Bunday tovarni oldindan aytib qoʻying — alohida qadoqlanadi.',
           tone: 'info',
         },
       },
@@ -177,7 +178,7 @@ const content: ServiceContentByLang = {
     faq: [
       {
         q: 'Xitoydan avto kargo 1 kg necha pul?',
-        a: 'Avto kargoda narx kilogramm boʻyicha emas — yukning zichligiga qarab kub metr hisobida chiqadi, 110 $/m³ dan. Zichlik = ogʻirlik ÷ hajm: masalan, 48 kg yuk 0,2 m³ da — 240 kg/m³, tarif 180 $/m³, hisob 0,2 × 180 = 36 $. Faqat 1 000 kg/m³ va undan zich yuk kilogramm boʻyicha — 0,55 $/kg — hisoblanadi. Narxlar 2026-yil 8-sentabrda yangilangan va taxminiy: yakuniy summa yuk Ivu omborida tortilib oʻlchangandan keyin aniqlanadi.',
+        a: 'Avto kargoda narx kilogramm boʻyicha emas — yukning zichligiga qarab kub metr hisobida chiqadi, 110 $/m³ dan. Zichlik = ogʻirlik ÷ hajm: masalan, 240 kg yuk 1 m³ da — 240 kg/m³, tarif 180 $/m³, hisob 1 × 180 = 180 $ (1 m³ — qabul qilinadigan eng kichik hajm). Faqat 1 000 kg/m³ va undan zich yuk kilogramm boʻyicha — 0,55 $/kg — hisoblanadi. Narxlar 2026-yil 8-sentabrda yangilangan va taxminiy: yakuniy summa yuk Ivu omborida tortilib oʻlchangandan keyin aniqlanadi.',
       },
       {
         q: 'Yigʻma yuk necha kunda keladi?',
@@ -185,7 +186,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Minimal hajm bormi?',
-        a: 'Minimal hisob hajmi — 0,1 m³; yuqori chegara yoʻq. Undan kichik joyni ham qabul qilamiz, lekin hisob 0,1 m³ dan boshlanadi.',
+        a: 'Ha, 1 m³. Yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz; yuqori chegara yoʻq. 1 m³ — bitta partiyaning umumiy hajmi: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi. 1 m³ dan kichik yukni avia bilan joʻnatish mumkin — 0,5 kg dan; lekin batareya, magnit, suyuqlik va kosmetika aviaga olinmaydi.',
       },
       {
         q: 'Zichlik nima va u narxga qanday taʼsir qiladi?',
@@ -197,7 +198,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Yuk yoʻqolsa yoki shikastlansa nima boʻladi?',
-        a: 'Sugʻurta qilingan yuk uchun eʼlon qilingan qiymat qoplanadi; sugʻurta — qiymatning 1%. Har bir joy qabulda suratga olinadi va shartnomada javobgarlik shartlari yozib qoʻyiladi — mayda yuk uchun ham shartnoma tuzamiz.',
+        a: 'Sugʻurta qilingan yuk uchun eʼlon qilingan qiymat qoplanadi; sugʻurta — qiymatning 1%. Har bir joy qabulda suratga olinadi va shartnomada javobgarlik shartlari yozib qoʻyiladi — partiya atigi 1 m³ boʻlsa ham, shartnoma tuzamiz.',
       },
       {
         q: 'Bojxona toʻlovlari narxga kiradimi?',
@@ -229,24 +230,24 @@ const content: ServiceContentByLang = {
       eyebrow: 'Услуга 01 — Сборный груз',
       h1: 'Авто карго из Китая в Ташкент (сборный груз)',
       intro:
-        'Сборный груз — это когда грузы нескольких клиентов собирают на складе в Иу в одну фуру или контейнер и везут через Хоргос в Ташкент. После отправки со склада в Китае груз идёт ориентировочно 15–25 дней. Цена считается за кубометры: плотность груза (кг ÷ м³) выбирает ставку — от 110 $/м³, минимальный расчётный объём — 0,1 м³. Арендовать целый контейнер не нужно.',
+        'Сборный груз — это когда грузы нескольких клиентов собирают на складе в Иу в одну фуру или контейнер и везут через Хоргос в Ташкент. После отправки со склада в Китае груз идёт ориентировочно 15–25 дней. Цена считается за кубометры: плотность груза (кг ÷ м³) выбирает ставку — от 110 $/м³; груз принимаем только от 1 м³. Арендовать целый контейнер не нужно.',
       facts: [
         { label: 'Срок от склада в Китае', value: '15–25 дней' },
         { label: 'Цена по кубометрам', value: 'от 110 $/м³' },
         { label: 'Основа расчёта', value: 'плотность, кг/м³' },
-        { label: 'Минимальный объём', value: '0,1 м³' },
+        { label: 'Минимальный объём', value: '1 м³' },
       ],
     },
     sections: [
       {
         heading: 'Кому подходит сборный груз?',
         body: [
-          'Сборный груз (LCL) — самый распространённый способ привезти товар из Китая. Ваш груз на складе в Иу (义乌) укладывается в одну фуру или контейнер вместе с грузами других клиентов, поэтому и за 0,1 м³, и за 10 м³ вы платите только за свою долю. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар — на какой отправлять, скажет менеджер. Из других городов, например из Шэньчжэня, поставщик отправляет товар внутрикитайской доставкой на один из этих адресов.',
+          'Сборный груз (LCL) — самый распространённый способ привезти товар из Китая. Ваш груз на складе в Иу (义乌) укладывается в одну фуру или контейнер вместе с грузами других клиентов, поэтому и за 1 м³, и за 10 м³ вы платите только за свою долю. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар — на какой отправлять, скажет менеджер. Из других городов, например из Шэньчжэня, поставщик отправляет товар внутрикитайской доставкой на один из этих адресов.',
           'Такой формат выгоден в следующих случаях:',
         ],
         bullets: [
           'Оптовая торговля (Абу Сахий, Чорсу, Бек Барака): одежда, обувь, ткани — плотный груз, обычно 200–350 кг/м³, то есть ставка 160–230 $/м³.',
-          'Продавцы Uzum, Яндекс Маркета и Instagram: партии по 20–300 кг раз в одну–две недели; каждый заказ маркируется отдельным кодом.',
+          'Продавцы Uzum, Яндекс Маркета и Instagram: партии от 1 м³ раз в одну–две недели; места от разных поставщиков собираются в пункте приёма в Иу под одним GS-кодом и считаются вместе.',
           'Производители: запчасти, сырьё, мелкое оборудование — груз плотностью 501–700 кг/м³ считается по 300 $/м³, а металл и фурнитура плотностью от 1 000 кг/м³ — по 0,55 $/кг.',
           'Лёгкие и объёмные товары (игрушки, пластик, мебель, хозтовары): плотность до 100 кг/м³ — самая низкая ставка, 110 $/м³.',
         ],
@@ -255,7 +256,7 @@ const content: ServiceContentByLang = {
         heading: 'Как считается цена?',
         body: [
           'В авто карго платят за кубометры, а не за килограммы. Сначала считаем плотность: общий вес (кг) делим на общий объём (м³). Плотность выбирает ставку из таблицы, ставку умножаем на объём — эта сумма покрывает весь путь от склада в Иу до склада в Ташкенте.',
-          'Объём можно посчитать самому: длина × ширина × высота (см) ÷ 1 000 000 = м³. Чем выше плотность, тем дороже кубометр: тот же объём тяжёлого груза съедает больше тоннажа фуры. Только очень плотный груз — от 1 000 кг/м³ — считается по килограммам, по 0,55 $/кг. Минимальный расчётный объём — 0,1 м³.',
+          'Объём можно посчитать самому: длина × ширина × высота (см) ÷ 1 000 000 = м³. Чем выше плотность, тем дороже кубометр: тот же объём тяжёлого груза съедает больше тоннажа фуры. Только очень плотный груз — от 1 000 кг/м³ — считается по килограммам, по 0,55 $/кг. Сборный груз принимаем от 1 м³ — груз меньшего объёма мы не везём.',
         ],
         table: {
           caption: 'Тарифы авто карго, Иу → Ташкент',
@@ -274,11 +275,11 @@ const content: ServiceContentByLang = {
             ['701–1 000', '320 $/м³'],
             ['1 000 и выше', '0,55 $/кг'],
           ],
-          note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Плотность = вес (кг) ÷ объём (м³), минимальный расчётный объём — 0,1 м³. Итоговая сумма определяется после взвешивания и обмера на складе в Иу; для брендовых и серийных товаров тариф согласуется отдельно.',
+          note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Плотность = вес (кг) ÷ объём (м³); минимальный объём — 1 м³, груз меньшего объёма не принимаем. Итоговая сумма определяется после взвешивания и обмера на складе в Иу; для брендовых и серийных товаров тариф согласуется отдельно.',
         },
         callout: {
           title: 'Пример: как считается цена',
-          text: '48 кг занимают 0,2 м³ — плотность 48 ÷ 0,2 = 240 кг/м³, по таблице 180 $/м³, счёт 0,2 × 180 = 36 $. Те же 48 кг в объёмной упаковке на 0,5 м³ — это 96 кг/м³, ставка 110 $/м³, счёт 0,5 × 110 = 55 $. Поэтому на складе мы обмеряем каждое место.',
+          text: '240 кг занимают 1 м³ — плотность 240 кг/м³, по таблице 180 $/м³, счёт 1 × 180 = 180 $. Те же 240 кг в объёмной упаковке на 2,5 м³ — это 240 ÷ 2,5 = 96 кг/м³, ставка 110 $/м³, счёт 2,5 × 110 = 275 $. Поэтому на складе мы обмеряем каждое место.',
           tone: 'info',
         },
       },
@@ -359,7 +360,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Нельзя авиа — можно авто',
-          text: 'Технику с литиевыми батареями, пауэрбанки, магниты, жидкости и косметику авиа карго не принимает, а авто карго — принимает. Предупредите о таком товаре заранее: его упаковывают отдельно.',
+          text: 'Технику с литиевыми батареями, пауэрбанки, магниты, жидкости и косметику авиа карго не принимает, а авто карго — принимает, если общий объём партии от 1 м³: партию меньше 1 м³ с таким товаром не отправить ни авиа, ни авто. Предупредите о таком товаре заранее: его упаковывают отдельно.',
           tone: 'info',
         },
       },
@@ -386,7 +387,7 @@ const content: ServiceContentByLang = {
     faq: [
       {
         q: 'Сколько стоит 1 кг авто карго из Китая?',
-        a: 'В авто карго цена считается не за килограмм, а за кубометр — по плотности груза, от 110 $/м³. Плотность = вес ÷ объём: например, 48 кг в 0,2 м³ — это 240 кг/м³, ставка 180 $/м³, счёт 0,2 × 180 = 36 $. По килограммам считается только очень плотный груз — от 1 000 кг/м³, по 0,55 $/кг. Цены обновлены 8 сентября 2026 г. и являются ориентировочными: итоговая сумма определяется после взвешивания и обмера на складе в Иу.',
+        a: 'В авто карго цена считается не за килограмм, а за кубометр — по плотности груза, от 110 $/м³. Плотность = вес ÷ объём: например, 240 кг в 1 м³ — это 240 кг/м³, ставка 180 $/м³, счёт 1 × 180 = 180 $ (1 м³ — минимальный объём, который мы принимаем). По килограммам считается только очень плотный груз — от 1 000 кг/м³, по 0,55 $/кг. Цены обновлены 8 сентября 2026 г. и являются ориентировочными: итоговая сумма определяется после взвешивания и обмера на складе в Иу.',
       },
       {
         q: 'Сколько дней идёт сборный груз?',
@@ -394,7 +395,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Есть ли минимальный объём?',
-        a: 'Минимальный расчётный объём — 0,1 м³, верхней границы нет. Более мелкое место мы тоже примем, но счёт начинается с 0,1 м³.',
+        a: 'Да, 1 м³. Сборный груз (авто карго) принимаем от 1 м³ — груз меньшего объёма мы не везём; верхней границы нет. 1 м³ — это общий объём одной партии: места от разных продавцов собираются в пункте приёма в Иу под одним GS-кодом. Груз меньше 1 м³ можно отправить авиа — от 0,5 кг; но батареи, магниты, жидкости и косметику авиа карго не принимает.',
       },
       {
         q: 'Что такое плотность и как она влияет на цену?',
@@ -406,7 +407,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Что будет, если груз потеряется или повредится?',
-        a: 'По застрахованному грузу возмещается заявленная стоимость; страховка — 1% от стоимости. Каждое место фотографируется при приёмке, а условия ответственности прописаны в договоре — договор заключаем даже на небольшой груз.',
+        a: 'По застрахованному грузу возмещается заявленная стоимость; страховка — 1% от стоимости. Каждое место фотографируется при приёмке, а условия ответственности прописаны в договоре — договор заключаем, даже если партия всего 1 м³.',
       },
       {
         q: 'Таможенные платежи входят в цену?',
@@ -438,24 +439,24 @@ const content: ServiceContentByLang = {
       eyebrow: 'Service 01 — Consolidated cargo',
       h1: 'Truck cargo from China to Tashkent (consolidated)',
       intro:
-        'Consolidated cargo means we group several clients’ goods at the Yiwu warehouse into one truck or container and drive it through Khorgos to Tashkent. Once dispatched from the warehouse in China, it arrives in roughly 15–25 days. The price is charged per cubic metre: the density of your cargo (kg ÷ m³) picks the rate, which starts at $110/m³, with a minimum billable volume of 0.1 m³. No need to rent a whole container.',
+        'Consolidated cargo means we group several clients’ goods at the Yiwu warehouse into one truck or container and drive it through Khorgos to Tashkent. Once dispatched from the warehouse in China, it arrives in roughly 15–25 days. The price is charged per cubic metre: the density of your cargo (kg ÷ m³) picks the rate, which starts at $110/m³; cargo is accepted only from 1 m³. No need to rent a whole container.',
       facts: [
         { label: 'Transit from the China warehouse', value: '15–25 days' },
         { label: 'Price per cubic metre', value: 'from $110/m³' },
         { label: 'Billing basis', value: 'density, kg/m³' },
-        { label: 'Minimum volume', value: '0.1 m³' },
+        { label: 'Minimum volume', value: '1 m³' },
       ],
     },
     sections: [
       {
         heading: 'Who is consolidated cargo for?',
         body: [
-          'Consolidated cargo (LCL, groupage) is the most common way to bring goods from China. Your shipment is loaded at the Yiwu (义乌) warehouse into one truck or container together with other clients’ goods, so whether you send 0.1 m³ or 10 m³ you pay only for your share. There are three receiving addresses in China: Yiwu, Guangzhou and Kashgar — your manager tells you which one applies. From other cities, Shenzhen for example, the supplier ships to one of those addresses by domestic delivery.',
+          'Consolidated cargo (LCL, groupage) is the most common way to bring goods from China. Your shipment is loaded at the Yiwu (义乌) warehouse into one truck or container together with other clients’ goods, so whether you send 1 m³ or 10 m³ you pay only for your share. There are three receiving addresses in China: Yiwu, Guangzhou and Kashgar — your manager tells you which one applies. From other cities, Shenzhen for example, the supplier ships to one of those addresses by domestic delivery.',
           'It pays off in these cases:',
         ],
         bullets: [
           'Wholesalers (Abu Sahiy, Chorsu, Bek Baraka markets): clothing, footwear, fabrics — dense cargo, usually 200–350 kg/m³, which puts it in the $160–230 per m³ range.',
-          'Uzum, Yandex Market and Instagram sellers: lots of 20–300 kg every one or two weeks; each order is labelled with its own code.',
+          'Uzum, Yandex Market and Instagram sellers: lots of 1 m³ or more every one or two weeks; pieces from different suppliers are gathered at the Yiwu receiving point under one GS code and counted together.',
           'Manufacturers: spare parts, raw materials, small machinery — cargo at 501–700 kg/m³ is billed at $300 per m³, while metal and fittings at 1,000 kg/m³ and above go at $0.55/kg.',
           'Light, bulky goods (toys, plastics, furniture, household items): density up to 100 kg/m³ — the lowest rate, $110 per m³.',
         ],
@@ -464,7 +465,7 @@ const content: ServiceContentByLang = {
         heading: 'How is the price calculated?',
         body: [
           'Truck cargo is billed by volume, not by weight. First we determine the density of your cargo: total weight (kg) divided by total volume (m³). The density picks a rate from the table, and we multiply that rate by your volume — the result covers the whole journey from the Yiwu warehouse to the Tashkent warehouse.',
-          'You can measure the volume yourself: length × width × height (cm) ÷ 1,000,000 = m³. The denser the cargo, the more a cubic metre costs, because the same volume of heavy goods eats more of the truck’s tonnage. Only very dense cargo — from 1,000 kg/m³ — is billed per kilogram instead, at $0.55/kg. The minimum billable volume is 0.1 m³.',
+          'You can measure the volume yourself: length × width × height (cm) ÷ 1,000,000 = m³. The denser the cargo, the more a cubic metre costs, because the same volume of heavy goods eats more of the truck’s tonnage. Only very dense cargo — from 1,000 kg/m³ — is billed per kilogram instead, at $0.55/kg. Consolidated truck cargo is accepted from 1 m³ — we do not carry anything smaller.',
         ],
         table: {
           caption: 'Truck cargo rates, Yiwu → Tashkent',
@@ -483,11 +484,11 @@ const content: ServiceContentByLang = {
             ['701–1,000', '$320/m³'],
             ['1,000 and above', '$0.55/kg'],
           ],
-          note: 'Estimates · Updated September 8, 2026. Density = weight (kg) ÷ volume (m³), and the minimum billable volume is 0.1 m³. The final amount is fixed after weighing and measuring at the Yiwu warehouse; branded and serial goods are quoted separately.',
+          note: 'Estimates · Updated September 8, 2026. Density = weight (kg) ÷ volume (m³); the minimum volume is 1 m³, and smaller cargo is not accepted. The final amount is fixed after weighing and measuring at the Yiwu warehouse; branded and serial goods are quoted separately.',
         },
         callout: {
           title: 'Example: how the price comes out',
-          text: '48 kg taking up 0.2 m³ is a density of 48 ÷ 0.2 = 240 kg/m³ — $180 per m³ from the table, so 0.2 × 180 = $36. The same 48 kg in bulky packaging filling 0.5 m³ is 96 kg/m³ — $110 per m³, so 0.5 × 110 = $55. That is why we measure every piece at the warehouse.',
+          text: '240 kg taking up 1 m³ is a density of 240 kg/m³ — $180 per m³ from the table, so 1 × 180 = $180. The same 240 kg in bulky packaging filling 2.5 m³ is 240 ÷ 2.5 = 96 kg/m³ — $110 per m³, so 2.5 × 110 = $275. That is why we measure every piece at the warehouse.',
           tone: 'info',
         },
       },
@@ -568,7 +569,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Not by air — but fine by truck',
-          text: 'Devices with lithium batteries, power banks, magnets, liquids and cosmetics are refused by air cargo but accepted by truck. Tell us about such goods in advance — they are packed separately.',
+          text: 'Devices with lithium batteries, power banks, magnets, liquids and cosmetics are refused by air cargo but accepted by truck, provided the whole shipment is at least 1 m³: a shipment under 1 m³ with such goods cannot go by air or by truck. Tell us about such goods in advance — they are packed separately.',
           tone: 'info',
         },
       },
@@ -595,7 +596,7 @@ const content: ServiceContentByLang = {
     faq: [
       {
         q: 'How much is 1 kg of truck cargo from China?',
-        a: 'Truck cargo is not priced per kilogram — it is priced per cubic metre, from the density of the load, starting at $110 per m³. Density = weight ÷ volume: 48 kg in 0.2 m³ is 240 kg/m³, so the rate is $180 per m³ and the invoice is 0.2 × 180 = $36. Only very dense cargo, from 1,000 kg/m³, is billed per kilogram, at $0.55/kg. Prices were updated on September 8, 2026 and are estimates — the final amount is fixed after weighing and measuring at the Yiwu warehouse.',
+        a: 'Truck cargo is not priced per kilogram — it is priced per cubic metre, from the density of the load, starting at $110 per m³. Density = weight ÷ volume: 240 kg in 1 m³ is 240 kg/m³, so the rate is $180 per m³ and the invoice is 1 × 180 = $180 (1 m³ is the smallest volume we accept). Only very dense cargo, from 1,000 kg/m³, is billed per kilogram, at $0.55/kg. Prices were updated on September 8, 2026 and are estimates — the final amount is fixed after weighing and measuring at the Yiwu warehouse.',
       },
       {
         q: 'How many days does consolidated cargo take?',
@@ -603,7 +604,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Is there a minimum volume?',
-        a: 'The minimum billable volume is 0.1 m³, and there is no upper limit. We accept smaller pieces too, but billing starts at 0.1 m³.',
+        a: 'Yes, 1 m³. Consolidated truck cargo is accepted from 1 m³ — we do not carry anything smaller, and there is no upper limit. The 1 m³ counts across one shipment: pieces from different sellers are gathered at the Yiwu receiving point under one GS code. Cargo under 1 m³ can go by air, from 0.5 kg — except batteries, magnets, liquids and cosmetics, which cannot fly.',
       },
       {
         q: 'What is density and how does it affect the price?',
@@ -615,7 +616,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'What happens if the cargo is lost or damaged?',
-        a: 'Insured cargo is compensated at its declared value; insurance costs 1% of that value. Every piece is photographed at receiving, and liability terms are written into the contract — we sign a contract even for small shipments.',
+        a: 'Insured cargo is compensated at its declared value; insurance costs 1% of that value. Every piece is photographed at receiving, and liability terms are written into the contract — we sign a contract even for a 1 m³ shipment.',
       },
       {
         q: 'Are customs payments included in the price?',

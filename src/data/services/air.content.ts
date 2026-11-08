@@ -5,7 +5,8 @@ import type { ServiceContentByLang } from './types';
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): air standard 9 / brand 12 / commercial 11,5 $/kg,
  * minimum 0,5 kg, ÷ 5 000 volumetric, 5–10 days; extras 1 $ photo, 0,4 $/kg repack, 1 $/kg inspection,
  * 1% insurance, 14/3 free storage days, door delivery 20 000–30 000 soʻm (free from 5 kg in Tashkent).
- * Truck figures quoted for comparison: priced by volume from density, from 110 $/m³, 15–25 days. Keep in sync when tariffs change.
+ * Truck figures quoted for comparison: priced by volume from density, from 110 $/m³, 15–25 days; truck cargo is accepted
+ * only from 1 m³ per shipment (owner, 2026-11-08), so the 48 kg / 0,2 m³ example is air-only. Keep in sync when tariffs change.
  */
 const content: ServiceContentByLang = {
   uz: {
@@ -43,7 +44,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Misol: 48 kg telefon aksessuari, 0,2 m³',
-          text: 'Avia: 48 kg × 9 $ = 432 $, taxminan 7 kun. Avto: zichlik 48 ÷ 0,2 = 240 kg/m³ — bu 180 $/m³ toifasi, yaʼni 0,2 × 180 = 36 $, taxminan 20 kun. Farq — 396 $: avia avtodan oʻn barobardan qimmat, shuning uchun bunga faqat namuna yoki mavsum boshiga ulgurishi kerak boʻlgan birinchi partiya uchun arziydi. Hajm oshgani sayin farq tez oʻsadi: 300 kg, 1,2 m³ yukda avto 1,2 × 180 = 216 $, avia esa 300 × 9 = 2 700 $ — bunday yuk albatta avto bilan boradi.',
+          text: 'Avia: 48 kg × 9 $ = 432 $, taxminan 7 kun. Avto bilan bunday yuk olinmaydi: yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi — 1 m³ bitta partiyaning umumiy hajmi, shuning uchun 0,2 m³ lik partiyani faqat avia bilan joʻnatish mumkin. Partiya kamida 1 m³ boʻlsa, avto ancha arzon tushadi: 300 kg, 1,2 m³ yukda avto 1,2 × 180 = 216 $, avia esa 300 × 9 = 2 700 $ — oʻn barobardan qimmat, shuning uchun bunday yuk albatta avto bilan boradi.',
           tone: 'info',
         },
       },
@@ -100,7 +101,7 @@ const content: ServiceContentByLang = {
         steps: [
           { title: 'Soʻrov qoldirasiz', text: 'Telegram yoki telefon orqali tovar nomi, soni va taxminiy ogʻirligini aytasiz. Tovar toifasini (oddiy, seriyali, brend) va avia orqali yuborish mumkinligini shu yerda aniqlaymiz.' },
           { title: 'Ombor manzilini olasiz', text: 'Sizga Ivu omborining manzili va shaxsiy GS kodingiz (markirovka) beriladi. Sotuvchi yoki 1688/Taobao doʻkoni joʻnatishdan oldin har bir qutiga GS kodini yozadi va yukni shu manzilga joʻnatadi.' },
-          { title: 'Yukni qabul qilamiz', text: 'Omborda har bir joyni tortamiz, oʻlchaymiz, GS kodingiz bilan markirovka qilamiz va foto-hisobot yuboramiz. Batareya, suyuqlik va magnit borligi tekshiriladi — bunday tovar avto kargoga oʻtkaziladi.' },
+          { title: 'Yukni qabul qilamiz', text: 'Omborda har bir joyni tortamiz, oʻlchaymiz, GS kodingiz bilan markirovka qilamiz va foto-hisobot yuboramiz. Batareya, suyuqlik va magnit borligi tekshiriladi — bunday tovar faqat avto kargo bilan ketadi, u esa kamida 1 m³ dan qabul qilinadi: 1 m³ dan kichik boʻlsa, uni joʻnatib boʻlmaydi.' },
           { title: 'Reysga jamlash', text: 'Yuk eng yaqin reysga joylanadi va Guanchjou yoki Urumchi aeroportiga yoʻl oladi. Sizga reys raqami beriladi; muddat hisobi shu kundan boshlanadi.' },
           { title: 'Parvoz va bojxona', text: 'Menejer yukning holatini xabar qilib boradi. Toshkentda rasmiylashtiruv kompaniya hujjatlari bilan oʻtadi.' },
           { title: 'Toshkentda qabul qilasiz', text: 'Yuk Toshkent omboriga keladi. Toʻlovni yakunlaysiz va yukni olib ketasiz yoki eshikkacha yetkazib beramiz; viloyatlarga joʻnatishni alohida kelishamiz.' },
@@ -135,7 +136,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Avia orqali nimalarni yuborib boʻlmaydi?',
         body: [
-          'Aviatsiya xavfsizlik qoidalari avtodagidan qattiqroq. Quyidagi tovarlar avia kargoga olinmaydi, lekin koʻpchiligini avto kargo orqali yuborish mumkin:',
+          'Aviatsiya xavfsizlik qoidalari avtodagidan qattiqroq. Quyidagi tovarlar avia kargoga olinmaydi, lekin koʻpchiligini avto kargo orqali — kamida 1 m³ partiyada — yuborish mumkin:',
         ],
         bullets: [
           'Litiy batareya va akkumulyatorlar: power bank, batareyali telefon, noutbuk, elektr skuter va oʻyinchoqlar',
@@ -149,7 +150,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Batareyali tovar boʻlsa — avto kargo',
-          text: 'Telefon, noutbuk, power bank, elektr asboblar va batareyali oʻyinchoqlarni avto kargo bilan yuboramiz: 15–25 kun, narx hajm boʻyicha — zichlikka qarab 110 $/m³ dan. Buyurtma berishdan oldin menejerga tovar tarkibini ayting — yuk omborda ushlanib qolmaydi.',
+          text: 'Telefon, noutbuk, power bank, elektr asboblar va batareyali oʻyinchoqlarni avto kargo bilan yuboramiz: 15–25 kun, narx hajm boʻyicha — zichlikka qarab 110 $/m³ dan. Avto kargo kamida 1 m³ dan qabul qilinadi, shuning uchun bunday yuk 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi. Buyurtma berishdan oldin menejerga tovar tarkibini ayting — yuk omborda ushlanib qolmaydi.',
           tone: 'info',
         },
       },
@@ -161,7 +162,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Menejer maslahati',
-          text: 'Sotuvchidan tovarni zich va kichik qutida joʻnatishni soʻrang: avia narxi hajmiy vazn ÷ 5 000 bilan hisoblanadi va boʻsh joy uchun ham toʻlaysiz. Namunani avia bilan, asosiy partiyani avto bilan yuborish — koʻp sotuvchilar uchun eng tejamli sxema.',
+          text: 'Sotuvchidan tovarni zich va kichik qutida joʻnatishni soʻrang: avia narxi hajmiy vazn ÷ 5 000 bilan hisoblanadi va boʻsh joy uchun ham toʻlaysiz. Namunani avia bilan, kamida 1 m³ lik asosiy partiyani avto bilan yuborish — koʻp sotuvchilar uchun eng tejamli sxema.',
           tone: 'success',
         },
       },
@@ -185,7 +186,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Telefon yoki power bank avia bilan boradimi?',
-        a: 'Yoʻq, litiy batareyali tovarlar avia kargoga olinmaydi — ularni avto kargo bilan 15–25 kunda olib kelamiz. Suyuqlik, atir, magnit va aerozollar ham faqat avto orqali boradi.',
+        a: 'Yoʻq, litiy batareyali tovarlar avia kargoga olinmaydi — ularni avto kargo bilan 15–25 kunda olib kelamiz. Suyuqlik, atir, magnit va aerozollar ham faqat avto orqali boradi. Avto kargo kamida 1 m³ dan qabul qilinadi, shuning uchun bunday yuk 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi.',
       },
       {
         q: 'Hajmiy vazn avia uchun qanday hisoblanadi?',
@@ -245,7 +246,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Пример: 48 кг аксессуаров для телефонов, 0,2 м³',
-          text: 'Авиа: 48 кг × 9 $ = 432 $, ориентировочно 7 дней. Авто: плотность 48 ÷ 0,2 = 240 кг/м³ — это ставка 180 $/м³, то есть 0,2 × 180 = 36 $, ориентировочно 20 дней. Разница — 396 $: авиа дороже авто больше чем в десять раз, и платить её стоит только за образец или первую партию, которой нужно выйти в продажу на две недели раньше. С ростом объёма разрыв быстро растёт: на грузе 300 кг в 1,2 м³ авто стоит 1,2 × 180 = 216 $, а авиа — 300 × 9 = 2 700 $, такой груз однозначно едет авто.',
+          text: 'Авиа: 48 кг × 9 $ = 432 $, ориентировочно 7 дней. Авто карго такой груз не принимает: сборный груз берём от 1 м³ (это общий объём одной партии), поэтому партию в 0,2 м³ можно отправить только авиа. От 1 м³ авто намного дешевле: на грузе 300 кг в 1,2 м³ авто стоит 1,2 × 180 = 216 $, а авиа — 300 × 9 = 2 700 $, то есть больше чем в десять раз дороже; такой груз однозначно едет авто.',
           tone: 'info',
         },
       },
@@ -302,7 +303,7 @@ const content: ServiceContentByLang = {
         steps: [
           { title: 'Оставляете заявку', text: 'В Telegram или по телефону называете товар, количество и примерный вес. Здесь же определяем категорию (обычный, серийный, бренд) и можно ли отправить его самолётом.' },
           { title: 'Получаете адрес склада', text: 'Вы получаете адрес склада в Иу и личный GS-код (маркировка). Продавец или магазин на 1688/Taobao пишет GS-код на каждой коробке до отправки и шлёт товар на этот адрес.' },
-          { title: 'Принимаем груз', text: 'На складе взвешиваем и обмеряем каждое место, маркируем вашим GS-кодом и отправляем фотоотчёт. Проверяем на батареи, жидкости и магниты — такой товар переводится на авто карго.' },
+          { title: 'Принимаем груз', text: 'На складе взвешиваем и обмеряем каждое место, маркируем вашим GS-кодом и отправляем фотоотчёт. Проверяем на батареи, жидкости и магниты — такой товар едет только авто карго, которое принимаем от 1 м³: меньше 1 м³ такой груз отправить нельзя.' },
           { title: 'Комплектация рейса', text: 'Груз ставится на ближайший рейс и едет в аэропорт Гуанчжоу или Урумчи. Вы получаете номер рейса; с этого дня идёт отсчёт срока.' },
           { title: 'Перелёт и таможня', text: 'Менеджер сообщает статус груза. В Ташкенте оформление проходит под документы компании.' },
           { title: 'Получаете в Ташкенте', text: 'Груз приходит на склад в Ташкенте. Вы закрываете оплату и забираете его, либо мы доставляем до двери; отправку в регионы согласуем отдельно.' },
@@ -337,7 +338,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Что нельзя отправить самолётом?',
         body: [
-          'Правила авиационной безопасности строже, чем на автотранспорте. Эти товары авиа карго не принимает, но большинство из них можно отправить авто карго:',
+          'Правила авиационной безопасности строже, чем на автотранспорте. Эти товары авиа карго не принимает, но большинство из них можно отправить авто карго — партией от 1 м³:',
         ],
         bullets: [
           'Литиевые батареи и аккумуляторы: пауэрбанки, телефоны и ноутбуки с батареей, электросамокаты, игрушки на батарейках',
@@ -351,7 +352,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Товар с батареей — только авто карго',
-          text: 'Телефоны, ноутбуки, пауэрбанки, электроинструмент и игрушки с батареями отправляем авто карго: 15–25 дней, цена по объёму — от 110 $/м³ в зависимости от плотности груза. Перед заказом скажите менеджеру, что внутри, — груз не задержится на складе.',
+          text: 'Телефоны, ноутбуки, пауэрбанки, электроинструмент и игрушки с батареями отправляем авто карго: 15–25 дней, цена по объёму — от 110 $/м³ в зависимости от плотности груза. Авто карго принимаем от 1 м³, поэтому такой груз меньше 1 м³ отправить нельзя совсем. Перед заказом скажите менеджеру, что внутри, — груз не задержится на складе.',
           tone: 'info',
         },
       },
@@ -363,7 +364,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Совет менеджера',
-          text: 'Попросите продавца упаковать товар плотно и в маленькую коробку: авиа считается по объёмному весу ÷ 5 000, и за пустое место вы тоже платите. Образец — самолётом, основную партию — авто: для большинства продавцов это самая экономная схема.',
+          text: 'Попросите продавца упаковать товар плотно и в маленькую коробку: авиа считается по объёмному весу ÷ 5 000, и за пустое место вы тоже платите. Образец — самолётом, основную партию от 1 м³ — авто: для большинства продавцов это самая экономная схема.',
           tone: 'success',
         },
       },
@@ -387,7 +388,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Полетит ли телефон или пауэрбанк?',
-        a: 'Нет, товары с литиевыми батареями авиа карго не принимает — их привозим авто карго за 15–25 дней. Жидкости, духи, магниты и аэрозоли тоже едут только авто.',
+        a: 'Нет, товары с литиевыми батареями авиа карго не принимает — их привозим авто карго за 15–25 дней. Жидкости, духи, магниты и аэрозоли тоже едут только авто. Авто карго принимаем от 1 м³, поэтому такой груз меньше 1 м³ отправить нельзя совсем.',
       },
       {
         q: 'Как считается объёмный вес для авиа?',
@@ -447,7 +448,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Example: 48 kg of phone accessories in 0.2 m³',
-          text: 'Air: 48 kg × $9 = $432, roughly 7 days. Truck: density is 48 ÷ 0.2 = 240 kg/m³, which falls in the $180 per m³ band, so 0.2 × $180 = $36, roughly 20 days. That is $396 more, over ten times the truck price, and it is worth paying only for a sample or a first lot that has to reach the shelf two weeks sooner. The gap widens fast with size: a 300 kg load in 1.2 m³ costs 1.2 × $180 = $216 by truck against 300 × $9 = $2,700 by air — that one clearly belongs on a truck.',
+          text: 'Air: 48 kg × $9 = $432, roughly 7 days. By truck this lot is not accepted: consolidated truck cargo starts at 1 m³ (counted across one shipment), so a 0.2 m³ lot can only fly. From 1 m³ the truck is far cheaper: a 300 kg load in 1.2 m³ costs 1.2 × $180 = $216 by truck against 300 × $9 = $2,700 by air — over ten times more, so that one clearly belongs on a truck.',
           tone: 'info',
         },
       },
@@ -504,7 +505,7 @@ const content: ServiceContentByLang = {
         steps: [
           { title: 'You leave a request', text: 'On Telegram or by phone you tell us the product, quantity and approximate weight. We confirm the category (standard, commercial, branded) and whether it can fly.' },
           { title: 'You get a warehouse address', text: 'We give you the address of the Yiwu warehouse and your personal GS code (shipping mark). Your seller or 1688/Taobao shop writes the GS code on every carton before dispatch and ships to that address.' },
-          { title: 'We receive the goods', text: 'At the warehouse we weigh and measure every piece, label it with your GS code and send a photo report. We check for batteries, liquids and magnets — such goods are moved to truck cargo.' },
+          { title: 'We receive the goods', text: 'At the warehouse we weigh and measure every piece, label it with your GS code and send a photo report. We check for batteries, liquids and magnets — such goods can travel only as truck cargo, which starts at 1 m³: under 1 m³ they cannot be shipped at all.' },
           { title: 'Flight consolidation', text: 'Your cargo joins the next flight lot and travels to Guangzhou or Urumqi airport. You receive the flight number; transit time counts from that day.' },
           { title: 'Flight and customs', text: 'Your manager keeps you updated on the status. Clearance in Tashkent runs under the company’s documents.' },
           { title: 'You collect in Tashkent', text: 'The cargo arrives at the Tashkent warehouse. You settle the invoice and pick it up, or we deliver to your door; delivery to the regions is arranged separately.' },
@@ -539,7 +540,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'What cannot fly?',
         body: [
-          'Aviation security rules are stricter than road rules. Air cargo refuses the following, but most of it can go by truck:',
+          'Aviation security rules are stricter than road rules. Air cargo refuses the following, but most of it can go by truck, in a shipment of at least 1 m³:',
         ],
         bullets: [
           'Lithium batteries and accumulators: power banks, phones and laptops with batteries, e-scooters, battery-powered toys',
@@ -553,7 +554,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Anything with a battery goes by truck',
-          text: 'Phones, laptops, power banks, power tools and battery toys travel by truck cargo: 15–25 days, priced by volume from $110 per m³ depending on density. Tell your manager what is inside before you order, so the cargo is not held at the warehouse.',
+          text: 'Phones, laptops, power banks, power tools and battery toys travel by truck cargo: 15–25 days, priced by volume from $110 per m³ depending on density. Truck cargo starts at 1 m³, so under 1 m³ such goods cannot be shipped at all. Tell your manager what is inside before you order, so the cargo is not held at the warehouse.',
           tone: 'info',
         },
       },
@@ -565,7 +566,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Manager’s tip',
-          text: 'Ask the seller to pack tight and in a small box: air is billed on volumetric weight ÷ 5 000, and you pay for empty space too. Sample by air, main lot by truck — for most sellers that is the most economical setup.',
+          text: 'Ask the seller to pack tight and in a small box: air is billed on volumetric weight ÷ 5 000, and you pay for empty space too. Sample by air, main lot of 1 m³ or more by truck — for most sellers that is the most economical setup.',
           tone: 'success',
         },
       },
@@ -589,7 +590,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Will a phone or power bank fly?',
-        a: 'No, goods with lithium batteries are refused by air cargo — we bring them by truck in 15–25 days. Liquids, perfume, magnets and aerosols also travel by truck only.',
+        a: 'No, goods with lithium batteries are refused by air cargo — we bring them by truck in 15–25 days. Liquids, perfume, magnets and aerosols also travel by truck only. Truck cargo starts at 1 m³, so under 1 m³ such goods cannot be shipped at all.',
       },
       {
         q: 'How is volumetric weight calculated for air?',

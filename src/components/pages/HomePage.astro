@@ -68,7 +68,7 @@ const serviceGraph = services.slice(0, 3).map((s) =>
     url: itemUrl(siteUrl, lang, 'services', s.slug),
     serviceType: s.key === 'air' ? 'Air freight' : s.key === 'rail' ? 'Rail freight' : 'Consolidated truck freight',
     offers: s.key === 'truck'
-      ? [{ price: tariffs.truck.lclPerM3ByDensity[0].rate, unitCode: 'MTQ', validThrough: tariffs.validThrough, description: 'Consolidated truck cargo China → Tashkent, per m³ by density (estimate)' }]
+      ? [{ price: tariffs.truck.lclPerM3ByDensity[0].rate, unitCode: 'MTQ', minM3: tariffs.truck.minM3, validThrough: tariffs.validThrough, description: `Consolidated truck cargo China → Tashkent, per m³ by density, from ${tariffs.truck.minM3} m³ per shipment (estimate)` }]
       : s.key === 'air'
         ? [{ price: tariffs.air.perKg.standard, unitCode: 'KGM', validThrough: tariffs.validThrough, description: 'Air cargo China → Tashkent, per kg (estimate)' }]
         : undefined,

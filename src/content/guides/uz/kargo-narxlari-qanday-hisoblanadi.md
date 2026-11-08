@@ -5,15 +5,15 @@ lang: uz
 translationKey: cargo-pricing
 slug: kargo-narxlari-qanday-hisoblanadi
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [truck, air, customs, warehouse]
 faq:
   - q: "Kargo narxi kg boʻyicha hisoblanadimi yoki m³ boʻyicha?"
     a: "Avto kargo m³ boʻyicha hisoblanadi: zichlik (vazn ÷ hajm) 1 m³ narxini tanlaydi — 100 kg/m³ gacha yuk uchun 110 $/m³ dan 701–1 000 kg/m³ uchun 320 $/m³ gacha; 1 000 kg/m³ va undan zich yuk esa 0,55 $/kg. Avia har doim kg boʻyicha: haqiqiy va hajmiy vazndan kattasi olinadi."
   - q: "Hajmiy vazn qanday hisoblanadi?"
-    a: "Hajmiy vazn avia uchun kerak: uzunlik × en × balandlik (sm) ÷ 5 000. Masalan, 50×40×40 sm quti: 80 000 ÷ 5 000 = 16 kg, yuk 8 kg boʻlsa ham 16 kg uchun toʻlanadi. Avto kargoda hajmiy vazn narxni belgilamaydi: u yerda haqiqiy hajm (80 000 sm³ = 0,08 m³) va zichlik ishlatiladi."
+    a: "Hajmiy vazn avia uchun kerak: uzunlik × en × balandlik (sm) ÷ 5 000. Masalan, 50×40×40 sm quti: 80 000 ÷ 5 000 = 16 kg, yuk 8 kg boʻlsa ham 16 kg uchun toʻlanadi. Avto kargoda hajmiy vazn narxni belgilamaydi: u yerda haqiqiy hajm (80 000 sm³ = 0,08 m³) va zichlik ishlatiladi; lekin bunday qutini yakka holda avto bilan olib kelmaymiz — yigʻma yuk kamida 1 m³ dan qabul qilinadi."
   - q: "Xitoydan 1 m³ yuk narxi qancha?"
-    a: "2026-yil sentabr holatiga taxminan: avto kargo 110 $/m³ dan (100 kg/m³ gacha yengil yuk), zichlik oshgan sayin stavka 320 $/m³ gacha koʻtariladi; 1 000 kg/m³ va undan zich yuk 0,55 $/kg. Eng kam hisoblanadigan hajm — 0,1 m³. Avia kg boʻyicha: 9–12 $/kg. Aniq narx yuk Ivu omborida tortilib oʻlchangandan keyin belgilanadi."
+    a: "2026-yil sentabr holatiga taxminan: avto kargo 110 $/m³ dan (100 kg/m³ gacha yengil yuk), zichlik oshgan sayin stavka 320 $/m³ gacha koʻtariladi; 1 000 kg/m³ va undan zich yuk 0,55 $/kg. Yigʻma yuk kamida 1 m³ dan qabul qilinadi — bu bitta partiyaning umumiy hajmi; undan kichik yukni avto bilan olib kelmaymiz. Avia kg boʻyicha: 9–12 $/kg; 1 m³ dan kichik yukni avia bilan joʻnatish mumkin — 0,5 kg dan. Aniq narx yuk Ivu omborida tortilib oʻlchangandan keyin belgilanadi."
   - q: "Narxga bojxona toʻlovlari kiradimi?"
     a: "Bojxona rasmiylashtiruvi va GTD kiradi, boj va QQS — kirmaydi: ular TN VED kodi boʻyicha qonunda belgilangan va ularni yuk egasi toʻlaydi. Biz summani oldindan hisoblab beramiz."
   - q: "Yukni tortganda narx oʻzgarishi mumkinmi?"
@@ -57,14 +57,14 @@ Hajmiy vazn — bu qutining oʻlchamlaridan hisoblanadigan shartli «vazn». Sam
 
 | Yoʻnalish | Nima uchun toʻlanadi | Formula |
 |---|---|---|
-| Avto kargo | hajm (m³), stavkani zichlik tanlaydi | uzunlik × en × balandlik (sm) ÷ 1 000 000 = m³; eng kami 0,1 m³ |
+| Avto kargo | hajm (m³), stavkani zichlik tanlaydi | uzunlik × en × balandlik (sm) ÷ 1 000 000 = m³; eng kami 1 m³ — undan kichik yuk qabul qilinmaydi |
 | Avia kargo | toʻlanadigan vazn (kg) | haqiqiy vazn va uzunlik × en × balandlik (sm) ÷ 5 000 dan kattasi |
 
-Misol: 50×40×40 sm quti, 8 kg. Aviada hajmiy vazn 80 000 ÷ 5 000 = 16 kg va 16 > 8, demak 16 kg uchun toʻlanadi. Avtoda esa shu quti — 0,08 m³, narx hajm va zichlikdan chiqadi. Bozorda avto uchun ÷ 6 000 qoidasi (1 m³ ≈ 167 kg) hamon yukning qanchalik «hajmli» ekanini baholashga yordam beradi (Transasia, 2026-yil 23-iyun), lekin bizning avto tarifimizni u belgilamaydi.
+Misol: 50×40×40 sm quti, 8 kg. Aviada hajmiy vazn 80 000 ÷ 5 000 = 16 kg va 16 > 8, demak 16 kg uchun toʻlanadi. Avtoda esa shu quti — 0,08 m³, yaʼni 1 m³ dan kichik, shuning uchun uni yakka holda avto bilan olib kelmaymiz: avtoda narx kamida 1 m³ lik partiyaning hajmi va zichligidan chiqadi. Bozorda avto uchun ÷ 6 000 qoidasi (1 m³ ≈ 167 kg) hamon yukning qanchalik «hajmli» ekanini baholashga yordam beradi (Transasia, 2026-yil 23-iyun), lekin bizning avto tarifimizni u belgilamaydi.
 
 ## Zichlik nima va u avto narxini qanday belgilaydi?
 
-Zichlik — bu yuk ogʻirligining hajmiga nisbati, kg/m³. Hisoblash: umumiy vazn ÷ umumiy hajm. 180 kg va 2 m³ → 90 kg/m³; 48 kg va 0,2 m³ → 240 kg/m³.
+Zichlik — bu yuk ogʻirligining hajmiga nisbati, kg/m³. Hisoblash: umumiy vazn ÷ umumiy hajm. 180 kg va 2 m³ → 90 kg/m³; 240 kg va 1 m³ → 240 kg/m³.
 
 Avto kargoda narx aynan shu raqamdan chiqadi: **zichlik 1 m³ ning stavkasini tanlaydi, keyin stavka hajmga koʻpaytiriladi.** Yuk qanchalik zich boʻlsa, 1 m³ shuncha qimmat turadi — chunki bir xil hajmda koʻproq vazn ketadi.
 
@@ -83,7 +83,7 @@ Avto kargoda narx aynan shu raqamdan chiqadi: **zichlik 1 m³ ning stavkasini ta
 | 701–1 000 kg/m³ | 320 $ |
 | 1 000 kg/m³ va undan yuqori | 0,55 $/kg |
 
-Yuqoridagi ikkita misol pulda: 48 kg 0,2 m³ da → 240 kg/m³ → 0,2 × 180 = 36 $; 180 kg 2 m³ da → 90 kg/m³ → 2 × 110 = 220 $. Suvdan zich yuk — masalan, 1 200 kg 1 m³ da, yaʼni 1 200 kg/m³ — kg boʻyicha ketadi: 1 200 × 0,55 = 660 $, chunki bunday yukda furaning hajmi emas, tonnaji birinchi tugaydi. Eng kam hisoblanadigan hajm — 0,1 m³. Avia esa har doim kg boʻyicha hisoblanadi.
+Yuqoridagi ikkita misol pulda: 240 kg 1 m³ da → 240 kg/m³ → 1 × 180 = 180 $; 180 kg 2 m³ da → 90 kg/m³ → 2 × 110 = 220 $. Suvdan zich yuk — masalan, 1 200 kg 1 m³ da, yaʼni 1 200 kg/m³ — kg boʻyicha ketadi: 1 200 × 0,55 = 660 $, chunki bunday yukda furaning hajmi emas, tonnaji birinchi tugaydi. Yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz. 1 m³ — bitta partiyaning umumiy hajmi: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi. 1 m³ dan kichik yukni avia bilan joʻnatish mumkin — 0,5 kg dan. Avia esa har doim kg boʻyicha hisoblanadi.
 
 Odatiy zichliklar va ular tushadigan stavka:
 
@@ -102,7 +102,7 @@ Quyidagi raqamlar Toshkent bozorining sentabr oʻrtacha koʻrsatkichlari; ular [
 
 | Tarif | Taxminiy narx | Izoh |
 |---|---|---|
-| Avto, yengil yuk, 100 kg/m³ gacha | 110 $/m³ | 0,1 m³ dan |
+| Avto, yengil yuk, 100 kg/m³ gacha | 110 $/m³ | 1 m³ dan |
 | Avto, oʻrtacha zichlik, 101–300 kg/m³ | 130–200 $/m³ | toʻliq jadval yuqorida |
 | Avto, zich yuk, 301–1 000 kg/m³ | 230–320 $/m³ | toʻliq jadval yuqorida |
 | Avto, 1 000 kg/m³ va undan zich yuk | 0,55 $/kg | metall, ehtiyot qism, suyuqlik |
@@ -115,15 +115,15 @@ Taqqoslash uchun: iCargo ham yigʻma yuk uchun aynan shu modelni — zichlik bo�
 
 ## 5 ta misol: narx qanday chiqadi
 
-**1-misol. Kiyim, avto.** 3 ta quti 60×40×40 sm, jami 85 kg. Hajm: 3 × 0,096 = 0,288 m³. Zichlik: 85 ÷ 0,288 = 295 kg/m³ → 251–300 bandi, 200 $/m³. Narx: 0,288 × 200 = **57,6 $**.
+**1-misol. Kiyim, avto.** 12 ta quti 60×40×40 sm, jami 340 kg. Hajm: 12 × 0,096 = 1,152 m³. Zichlik: 340 ÷ 1,152 = 295 kg/m³ → 251–300 bandi, 200 $/m³. Narx: 1,152 × 200 = **230,4 $**.
 
-**2-misol. Plastmassa oʻyinchoq, avto.** 1,2 m³, 120 kg. Zichlik: 120 ÷ 1,2 = 100 kg/m³ → 110 $/m³. Narx: 1,2 × 110 = **132 $**. Xuddi shu 120 kg 0,4 m³ ga zich qadoqlansa: 300 kg/m³ → 200 $/m³ → 0,4 × 200 = 80 $ — hajm uch baravar kichrayadi, stavka esa ikki baravarga ham koʻtarilmaydi.
+**2-misol. Plastmassa oʻyinchoq, avto.** 3,6 m³, 360 kg. Zichlik: 360 ÷ 3,6 = 100 kg/m³ → 110 $/m³. Narx: 3,6 × 110 = **396 $**. Xuddi shu 360 kg 1,2 m³ ga zich qadoqlansa: 300 kg/m³ → 200 $/m³ → 1,2 × 200 = 240 $ — hajm uch baravar kichrayadi, stavka esa ikki baravarga ham koʻtarilmaydi.
 
 **3-misol. Mato, ulgurji, avto.** 400 kg, 1 m³. Zichlik: 400 ÷ 1 = 400 kg/m³ → 351–400 bandi, 260 $/m³. Narx: 1 × 260 = **260 $**. Xuddi shu 400 kg boʻsh joylanib 2 m³ ni egallasa: 200 kg/m³ → 160 $/m³ → 2 × 160 = 320 $. Yakuniy narx omborda oʻlchangach tasdiqlanadi.
 
 **4-misol. Elektronika, avia.** 50×40×40 sm quti, 8 kg. Hajmiy vazn: 80 000 ÷ 5 000 = 16 kg > 8 kg → 16 kg uchun toʻlanadi. Oddiy tovar 9 $/kg → **144 $**; brend boʻlsa 12 $/kg → 192 $.
 
-**5-misol. Namuna, avia yoki avto?** 40×40×30 sm quti, 20 kg. Avia: hajmiy vazn 48 000 ÷ 5 000 = 9,6 kg < 20 → 20 × 9 = **180 $**, 5–10 kun. Avto: hajm 0,048 m³, zichlik 20 ÷ 0,048 = 417 kg/m³ → 280 $/m³; hajm minimaldan kichik, shuning uchun 0,1 m³ hisoblanadi: 0,1 × 280 = **28 $**, 15–25 kun. Farq 152 $ — avia faqat muddat haqiqatan shoshilinch boʻlganda oʻzini oqlaydi.
+**5-misol. Namuna, avia yoki avto?** 40×40×30 sm quti, 20 kg. Avia: hajmiy vazn 48 000 ÷ 5 000 = 9,6 kg < 20 → 20 × 9 = **180 $**, 5–10 kun. Avto: hajm 0,048 m³ — 1 m³ dan kichik, shuning uchun bu quti avto bilan qabul qilinmaydi. Demak, bu namuna alohida joʻnatilsa, faqat avia bilan ketadi — agar unda batareya, magnit, suyuqlik, kosmetika yoki atir boʻlmasa: bunday tovar samolyotga olinmaydi, 1 m³ dan kichik boʻlsa esa uni umuman joʻnatib boʻlmaydi.
 
 Oʻz yukingiz uchun raqamni [Kalkulyator](/kalkulyator/) shu qoidalar boʻyicha beradi: qoʻllangan qoida, tarif va yangilangan sana koʻrsatiladi.
 
@@ -156,9 +156,9 @@ Doʻkon yoki marketpleys uchun tovar — tijorat yuki; uni boj toʻlamasdan olib
 
 ## Narxni qanday kamaytirish mumkin?
 
-1. **Zichlikni oshiring.** Yetkazib beruvchidan vakuum qadoq yoki kichikroq qutini soʻrang: 120 kg yumshoq tovar 2 m³ da 60 kg/m³ → 110 $/m³ → 220 $ turadi, xuddi shu yuk 0,8 m³ ga siqilsa 150 kg/m³ → 130 $/m³ → 104 $. Omborda qayta qadoqlash 0,4 $/kg (bu yerda 48 $), demak sof foyda 68 $.
-2. **Partiyani birlashtiring.** 0,1 m³ minimal hajm har bir joʻnatmaga alohida qoʻllanadi, shuning uchun kichik posilkalarni bitta partiyaga yigʻish arzonroq: 0,06 m³ / 30 kg (500 kg/m³ → 290 $/m³ → 0,1 × 290 = 29 $) va 0,06 m³ / 6 kg (100 kg/m³ → 110 $/m³ → 0,1 × 110 = 11 $) alohida 40 $ turadi, birga esa 0,12 m³ / 36 kg → 300 kg/m³ → 200 $/m³ → 24 $. Xitoyda 14 kun bepul saqlash aynan shunday yigʻish uchun.
-3. **Toʻgʻri yoʻnalishni tanlang.** Yengil hajmli tovar ham, zich yuk ham avto bilan m³ boʻyicha ketadi — faqat 1 000 kg/m³ va undan zich yuk kg boʻyicha (0,55 $/kg) hisoblanadi; 15 m³ dan katta partiyani konteyner bilan taqqoslang; avia esa faqat muddat hal qiluvchi boʻlganda.
+1. **Zichlikni oshiring.** Yetkazib beruvchidan vakuum qadoq yoki kichikroq qutini soʻrang: 240 kg yumshoq tovar 4 m³ da 60 kg/m³ → 110 $/m³ → 440 $ turadi, xuddi shu yuk 1,6 m³ ga siqilsa 150 kg/m³ → 130 $/m³ → 208 $. Omborda qayta qadoqlash 0,4 $/kg (bu yerda 96 $), demak sof foyda 136 $.
+2. **Partiyani birlashtiring.** 1 m³ minimal hajm bitta partiyaning umumiy hajmiga qoʻllanadi: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi va birga hisoblanadi. Shuning uchun har biri 1 m³ ga yetmaydigan xaridlarni bitta partiyaga yigʻing: alohida ular avto bilan qabul qilinmaydi, jami 1 m³ ga yetsa esa birga avto bilan ketadi — bu eng arzon yoʻnalish. Xitoyda 14 kun bepul saqlash aynan shunday yigʻish uchun.
+3. **Toʻgʻri yoʻnalishni tanlang.** Yengil hajmli tovar ham, zich yuk ham avto bilan m³ boʻyicha ketadi — faqat 1 000 kg/m³ va undan zich yuk kg boʻyicha (0,55 $/kg) hisoblanadi; 15 m³ dan katta partiyani konteyner bilan taqqoslang; avia esa muddat hal qiluvchi boʻlganda yoki yuk 1 m³ ga yetmaganda.
 4. **Bayramlarni hisobga oling.** Xitoy Yangi yili va 1–7-oktabr oldidan narx va muddat oʻsadi; 11-noyabr atrofida esa aksincha, chegirmalar boʻladi.
 5. **Hujjatlarni oldindan tayyorlang.** Invoys va TN VED kodi mos boʻlsa, yuk bojxonada turmaydi — saqlash va kechikish xarajati boʻlmaydi.
 

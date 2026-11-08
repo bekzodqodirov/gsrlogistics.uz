@@ -3,7 +3,8 @@ import type { ServiceContentByLang } from './types';
 /**
  * Temir yoʻl va konteyner (FCL / LCL) — long-form page content.
  * Figures mirror src/data/tariffs.json (updated 2026-09-08): 20ft 2 800–5 500 $, 40ft 5 200–6 800 $,
- * 20–35 days; LCL in a container uses the truck density scale (110–320 $/m³, 0,55 $/kg from 1 000 kg/m³, min 0,1 m³);
+ * 20–35 days; LCL in a container uses the truck density scale (110–320 $/m³, 0,55 $/kg from 1 000 kg/m³) and,
+ * like truck cargo, is accepted only from 1 m³ (owner, 2026-11-08);
  * extras 1 $/kg inspection, 1% insurance. Container capacities (20ft ≈ 33 m³, 40HC ≈ 76 m³) are
  * ISO standard values. Keep in sync when tariffs change.
  */
@@ -13,18 +14,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Xitoydan Toshkentga temir yoʻl va konteyner tashish — 20 va 40 fut narxi',
       description:
-        'Xitoydan Toshkentga temir yoʻl orqali konteyner: 20 fut 2 800 $ dan, 40 fut 5 200 $ dan, taxminan 20–35 kun. FCL — butun konteyner, LCL — konteynerdagi joy 0,1 m³ dan. Doʻstiq va Oltinkoʻl orqali, hujjatlar va bojxona bilan.',
+        'Xitoydan Toshkentga temir yoʻl orqali konteyner: 20 fut 2 800 $ dan, 40 fut 5 200 $ dan, taxminan 20–35 kun. FCL — butun konteyner, LCL — konteynerdagi joy 1 m³ dan. Doʻstiq va Oltinkoʻl orqali, hujjatlar va bojxona bilan.',
     },
     hero: {
       eyebrow: 'Xizmat 03 — Temir yoʻl va konteyner',
       h1: 'Xitoydan Toshkentga temir yoʻl va konteyner tashish',
       intro:
-        'Temir yoʻl — katta va ogʻir partiyalar uchun eng tejamli yoʻl. 20 futlik konteyner Xitoydan Toshkentgacha taxminan 2 800–5 500 $, 40 futlik — 5 200–6 800 $; yuk stansiyadan joʻnatilgach, taxminan 20–35 kunda keladi. Butun konteyner (FCL) yoki konteynerdagi joy (LCL, 0,1 m³ dan) — ikkalasi ham Doʻstiq (Dostiq) yoki Oltinkoʻl (Altinkoʻl) orqali Qozogʻiston temir yoʻli bilan Toshkentga keladi.',
+        'Temir yoʻl — katta va ogʻir partiyalar uchun eng tejamli yoʻl. 20 futlik konteyner Xitoydan Toshkentgacha taxminan 2 800–5 500 $, 40 futlik — 5 200–6 800 $; yuk stansiyadan joʻnatilgach, taxminan 20–35 kunda keladi. Butun konteyner (FCL) yoki konteynerdagi joy (LCL, 1 m³ dan) — ikkalasi ham Doʻstiq (Dostiq) yoki Oltinkoʻl (Altinkoʻl) orqali Qozogʻiston temir yoʻli bilan Toshkentga keladi.',
       facts: [
         { label: 'Muddat, stansiyadan', value: '20–35 kun' },
         { label: '20 futlik konteyner', value: '2 800 $ dan' },
         { label: '40 futlik konteyner', value: '5 200 $ dan' },
-        { label: 'LCL — konteynerdagi joy', value: '0,1 m³ dan' },
+        { label: 'LCL — konteynerdagi joy', value: '1 m³ dan' },
       ],
     },
     sections: [
@@ -43,7 +44,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'FCL va LCL nima?',
-          text: 'FCL (Full Container Load) — butun konteyner faqat yukingiz uchun; narx konteyner boʻyicha. LCL (Less than Container Load) — konteynerdagi joy: yukingiz boshqa mijozlarning yuki bilan bitta konteynerda boradi, narx m³ hisobida, 0,1 m³ dan. 10–12 m³ dan oshsa, koʻpincha FCL arzon chiqadi.',
+          text: 'FCL (Full Container Load) — butun konteyner faqat yukingiz uchun; narx konteyner boʻyicha. LCL (Less than Container Load) — konteynerdagi joy: yukingiz boshqa mijozlarning yuki bilan bitta konteynerda boradi, narx m³ hisobida, 1 m³ dan. 10–12 m³ dan oshsa, koʻpincha FCL arzon chiqadi.',
           tone: 'info',
         },
       },
@@ -51,7 +52,7 @@ const content: ServiceContentByLang = {
         heading: 'Konteyner narxi qanday hisoblanadi?',
         body: [
           'FCL narxi konteyner turi (20 fut, 40 fut yoki 40 HC), joʻnatish stansiyasi, yukning ogʻirligi va mavsumga bogʻliq. Xitoyning sharqiy shaharlaridan (Ivu, Shanxay, Guanchjou) uzoqroq, Urumchidan yaqinroq. Narx diapazoni keng, chunki temir yoʻl stavkalari har oy oʻzgaradi — yakuniy narxni soʻrov boʻyicha 1–2 kunda aytamiz.',
-          'LCL narxi avto kargodagi kabi zichlik boʻyicha m³ hisobida chiqadi: zichlik qancha yuqori boʻlsa, 1 m³ shuncha qimmat, lekin 1 kg shuncha arzon. 0,1 m³ dan qabul qilamiz.',
+          'LCL narxi avto kargodagi kabi zichlik boʻyicha m³ hisobida chiqadi: zichlik qancha yuqori boʻlsa, 1 m³ shuncha qimmat, lekin 1 kg shuncha arzon. Minimal hajm ham avto kargodagi kabi: LCL kamida 1 m³ dan qabul qilinadi — undan kichik yukni olmaymiz.',
         ],
         table: {
           caption: 'Temir yoʻl tariflari, Xitoy → Toshkent',
@@ -183,7 +184,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'FCL va LCL nima?',
-        a: 'FCL — butun konteyner faqat yukingiz uchun, narx konteyner boʻyicha. LCL — konteynerdagi joy, boshqa mijozlar bilan birga, narx m³ hisobida 0,1 m³ dan. Yuk 10–12 m³ dan oshsa, FCL odatda arzon chiqadi.',
+        a: 'FCL — butun konteyner faqat yukingiz uchun, narx konteyner boʻyicha. LCL — konteynerdagi joy, boshqa mijozlar bilan birga, narx m³ hisobida 1 m³ dan. Yuk 10–12 m³ dan oshsa, FCL odatda arzon chiqadi.',
       },
       {
         q: 'Konteynerga qancha yuk sigʻadi?',
@@ -199,7 +200,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Temir yoʻl avtodan arzonmi?',
-        a: 'Katta partiyada — ha: 40 HC konteyner mebel uchun 1 m³ taxminan 75–97 $ chiqadi, avto yigʻma yukda esa 130 $/m³ dan. Kichik partiyada (10 m³ gacha) farq kam, avto esa 1–2 hafta tezroq.',
+        a: 'Katta partiyada — ha: 40 HC konteyner mebel uchun 1 m³ taxminan 75–97 $ chiqadi, avto yigʻma yukda esa 130 $/m³ dan. Kichik partiyada (1–10 m³) farq kam, avto esa 1–2 hafta tezroq.',
       },
       {
         q: 'Bojxona toʻlovlari narxga kiradimi?',
@@ -221,18 +222,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Ж/д и контейнерные перевозки из Китая в Ташкент — цена 20 и 40 футов',
       description:
-        'Контейнер из Китая в Ташкент по железной дороге: 20 футов от 2 800 $, 40 футов от 5 200 $, ориентировочно 20–35 дней. FCL — целый контейнер, LCL — место в контейнере от 0,1 м³. Через Достык и Алтынколь, с документами и таможней.',
+        'Контейнер из Китая в Ташкент по железной дороге: 20 футов от 2 800 $, 40 футов от 5 200 $, ориентировочно 20–35 дней. FCL — целый контейнер, LCL — место в контейнере от 1 м³. Через Достык и Алтынколь, с документами и таможней.',
     },
     hero: {
       eyebrow: 'Услуга 03 — Ж/д и контейнеры',
       h1: 'Ж/д и контейнерные перевозки из Китая в Ташкент',
       intro:
-        'Железная дорога — самый экономичный путь для крупных и тяжёлых партий. 20-футовый контейнер из Китая до Ташкента стоит ориентировочно 2 800–5 500 $, 40-футовый — 5 200–6 800 $; после отправки со станции груз идёт ориентировочно 20–35 дней. Целый контейнер (FCL) или место в контейнере (LCL, от 0,1 м³) — оба варианта идут через Достык или Алтынколь по казахстанской железной дороге в Ташкент.',
+        'Железная дорога — самый экономичный путь для крупных и тяжёлых партий. 20-футовый контейнер из Китая до Ташкента стоит ориентировочно 2 800–5 500 $, 40-футовый — 5 200–6 800 $; после отправки со станции груз идёт ориентировочно 20–35 дней. Целый контейнер (FCL) или место в контейнере (LCL, от 1 м³) — оба варианта идут через Достык или Алтынколь по казахстанской железной дороге в Ташкент.',
       facts: [
         { label: 'Срок от станции', value: '20–35 дней' },
         { label: 'Контейнер 20 футов', value: 'от 2 800 $' },
         { label: 'Контейнер 40 футов', value: 'от 5 200 $' },
-        { label: 'LCL — место в контейнере', value: 'от 0,1 м³' },
+        { label: 'LCL — место в контейнере', value: 'от 1 м³' },
       ],
     },
     sections: [
@@ -251,7 +252,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Что такое FCL и LCL?',
-          text: 'FCL (Full Container Load) — целый контейнер только под ваш груз; цена за контейнер. LCL (Less than Container Load) — место в контейнере: ваш груз едет вместе с грузами других клиентов, цена по кубометрам, от 0,1 м³. От 10–12 м³ FCL чаще выходит дешевле.',
+          text: 'FCL (Full Container Load) — целый контейнер только под ваш груз; цена за контейнер. LCL (Less than Container Load) — место в контейнере: ваш груз едет вместе с грузами других клиентов, цена по кубометрам, от 1 м³. От 10–12 м³ FCL чаще выходит дешевле.',
           tone: 'info',
         },
       },
@@ -259,7 +260,7 @@ const content: ServiceContentByLang = {
         heading: 'Как считается цена контейнера?',
         body: [
           'Цена FCL зависит от типа контейнера (20 футов, 40 футов или 40 HC), станции отправления, веса груза и сезона. Из восточных городов Китая (Иу, Шанхай, Гуанчжоу) дороже, из Урумчи — дешевле. Диапазон широкий, потому что ж/д ставки меняются каждый месяц — точную цену называем по запросу за 1–2 дня.',
-          'Цена LCL считается, как в авто карго, по кубометрам в зависимости от плотности: чем выше плотность, тем дороже кубометр, но дешевле килограмм. Принимаем от 0,1 м³.',
+          'Цена LCL считается, как в авто карго, по кубометрам в зависимости от плотности: чем выше плотность, тем дороже кубометр, но дешевле килограмм. Минимум тоже как в авто карго: LCL принимаем от 1 м³ — груз меньшего объёма не берём.',
         ],
         table: {
           caption: 'Тарифы ж/д, Китай → Ташкент',
@@ -391,7 +392,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Что такое FCL и LCL?',
-        a: 'FCL — целый контейнер только под ваш груз, цена за контейнер. LCL — место в контейнере вместе с другими клиентами, цена по кубометрам от 0,1 м³. Если груза больше 10–12 м³, FCL обычно выходит дешевле.',
+        a: 'FCL — целый контейнер только под ваш груз, цена за контейнер. LCL — место в контейнере вместе с другими клиентами, цена по кубометрам от 1 м³. Если груза больше 10–12 м³, FCL обычно выходит дешевле.',
       },
       {
         q: 'Сколько груза помещается в контейнер?',
@@ -407,7 +408,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Железная дорога дешевле авто?',
-        a: 'На крупной партии — да: 40 HC с мебелью обходится ориентировочно в 75–97 $ за кубометр, сборный авто груз — от 130 $/м³. На небольшой партии (до 10 м³) разница невелика, а авто на 1–2 недели быстрее.',
+        a: 'На крупной партии — да: 40 HC с мебелью обходится ориентировочно в 75–97 $ за кубометр, сборный авто груз — от 130 $/м³. На небольшой партии (1–10 м³) разница невелика, а авто на 1–2 недели быстрее.',
       },
       {
         q: 'Таможенные платежи входят в цену?',
@@ -429,18 +430,18 @@ const content: ServiceContentByLang = {
     seo: {
       title: 'Rail and container shipping from China to Tashkent — 20ft and 40ft prices',
       description:
-        'Containers from China to Tashkent by rail: 20ft from $2,800, 40ft from $5,200, roughly 20–35 days. FCL is a whole container, LCL is space in a container from 0.1 m³. Via Dostyk and Altynkol, with documents and customs handled.',
+        'Containers from China to Tashkent by rail: 20ft from $2,800, 40ft from $5,200, roughly 20–35 days. FCL is a whole container, LCL is space in a container from 1 m³. Via Dostyk and Altynkol, with documents and customs handled.',
     },
     hero: {
       eyebrow: 'Service 03 — Rail & containers',
       h1: 'Rail and container shipping from China to Tashkent',
       intro:
-        'Rail is the most economical route for large, heavy consignments. A 20ft container from China to Tashkent costs roughly $2,800–5,500 and a 40ft roughly $5,200–6,800; once dispatched from the station, it arrives in roughly 20–35 days. A whole container (FCL) or space in one (LCL, from 0.1 m³) — both travel through Dostyk or Altynkol on the Kazakh railway to Tashkent.',
+        'Rail is the most economical route for large, heavy consignments. A 20ft container from China to Tashkent costs roughly $2,800–5,500 and a 40ft roughly $5,200–6,800; once dispatched from the station, it arrives in roughly 20–35 days. A whole container (FCL) or space in one (LCL, from 1 m³) — both travel through Dostyk or Altynkol on the Kazakh railway to Tashkent.',
       facts: [
         { label: 'Transit from the station', value: '20–35 days' },
         { label: '20ft container', value: 'from $2,800' },
         { label: '40ft container', value: 'from $5,200' },
-        { label: 'LCL — space in a container', value: 'from 0.1 m³' },
+        { label: 'LCL — space in a container', value: 'from 1 m³' },
       ],
     },
     sections: [
@@ -459,7 +460,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'What are FCL and LCL?',
-          text: 'FCL (Full Container Load) is a whole container for your cargo only, priced per container. LCL (Less than Container Load) is space in a container: your cargo shares it with other clients’ goods and is priced per cubic metre from 0.1 m³. Above 10–12 m³, FCL is usually cheaper.',
+          text: 'FCL (Full Container Load) is a whole container for your cargo only, priced per container. LCL (Less than Container Load) is space in a container: your cargo shares it with other clients’ goods and is priced per cubic metre from 1 m³. Above 10–12 m³, FCL is usually cheaper.',
           tone: 'info',
         },
       },
@@ -467,7 +468,7 @@ const content: ServiceContentByLang = {
         heading: 'How is the container price calculated?',
         body: [
           'The FCL price depends on the container type (20ft, 40ft or 40 HC), the departure station, the cargo weight and the season. Eastern Chinese cities (Yiwu, Shanghai, Guangzhou) cost more than Urumqi. The range is wide because rail rates change every month — we confirm the exact price on request within 1–2 days.',
-          'LCL is priced like truck cargo — per cubic metre by density: the denser the cargo, the more a cubic metre costs but the less a kilogram costs. We accept from 0.1 m³.',
+          'LCL is priced like truck cargo — per cubic metre by density: the denser the cargo, the more a cubic metre costs but the less a kilogram costs. The minimum follows the truck rule too: LCL is accepted from 1 m³, and we do not take anything smaller.',
         ],
         table: {
           caption: 'Rail rates, China → Tashkent',
@@ -599,7 +600,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'What are FCL and LCL?',
-        a: 'FCL is a whole container for your cargo only, priced per container. LCL is space in a container shared with other clients, priced per cubic metre from 0.1 m³. Above 10–12 m³, FCL is usually cheaper.',
+        a: 'FCL is a whole container for your cargo only, priced per container. LCL is space in a container shared with other clients, priced per cubic metre from 1 m³. Above 10–12 m³, FCL is usually cheaper.',
       },
       {
         q: 'How much fits in a container?',
@@ -615,7 +616,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Is rail cheaper than truck?',
-        a: 'For large consignments, yes: a 40 HC of furniture comes to roughly $75–97 per cubic metre, versus consolidated truck cargo from $130/m³. For small lots (up to 10 m³) the difference is small and the truck is 1–2 weeks faster.',
+        a: 'For large consignments, yes: a 40 HC of furniture comes to roughly $75–97 per cubic metre, versus consolidated truck cargo from $130/m³. For small lots (1–10 m³) the difference is small and the truck is 1–2 weeks faster.',
       },
       {
         q: 'Are customs payments included in the price?',

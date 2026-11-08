@@ -31,6 +31,10 @@ export interface PricingStrings {
     resultEmpty: string;
     overLimit: string;
     needVolume: string;
+    /** Truck cargo under the minimum volume: refused, with a pointer to air ({min} = minimum m³). */
+    belowMin: string;
+    /** The same when the goods category cannot fly either. */
+    belowMinNoAir: string;
     ruleLabel: string;
     switchNote: string;
     kursNote: string;
@@ -111,7 +115,6 @@ const uz: PricingStrings = {
     notes: {
       'volumetric-applied': 'Hajmiy vazn ({volumetric} kg, ÷ {divisor}) haqiqiy vazndan katta — hisob hajmiy vazn boʻyicha.',
       'min-kg-applied': 'Minimal hisob vazni — {minKg} kg.',
-      'min-m3-applied': 'Minimal hajm — {minM3} m³.',
       'no-volume': 'Hajm kiritilmagan — avia hisobi faqat vazn boʻyicha.',
       'switched-to-truck': '{category} avia bilan joʻnatilmaydi — avto tarifi qoʻllandi.',
       range: 'Narx oraliq — aniq summa soʻrov boʻyicha.',
@@ -134,7 +137,7 @@ const uz: PricingStrings = {
     volumeModes: { dims: 'Oʻlchamlar, sm', m3: 'Hajm, m³' },
     dims: { l: 'Uzunlik', w: 'En', h: 'Balandlik' },
     m3: 'Hajm',
-    volumeHint: 'Avto kargo uchun majburiy, avia uchun ixtiyoriy.',
+    volumeHint: 'Avto kargo uchun majburiy (kamida {min} m³), avia uchun ixtiyoriy.',
     category: 'Tovar toifasi',
     categoryHint: 'Batareyali va suyuq tovarlar faqat avto bilan yuriladi.',
     container: 'Konteyner',
@@ -143,6 +146,8 @@ const uz: PricingStrings = {
     resultEmpty: 'Vaznni kiriting — narx shu yerda chiqadi.',
     overLimit: 'Bunday hajmdagi yuk uchun kalkulyator narx bermaydi — konteyner yoki charter shartlari alohida hisoblanadi. Telegramda yozing, aniq narxni beramiz.',
     needVolume: 'Avto kargo narxi hajm boʻyicha hisoblanadi: oʻlchamlarni yoki m³ ni ham kiriting. Faqat vazn bilan aviani hisoblash mumkin.',
+    belowMin: 'Yigʻma yuk (avto) kamida {min} m³ dan qabul qilinadi — kichikroq yukni avto bilan olib kelmaymiz. {min} m³ dan kichik yukni avia bilan joʻnatish mumkin: yuqorida «Avia»ni tanlang.',
+    belowMinNoAir: 'Yigʻma yuk (avto) kamida {min} m³ dan qabul qilinadi, bu toifadagi tovar esa avia bilan joʻnatilmaydi — shuning uchun {min} m³ dan kichik bunday yukni olib kela olmaymiz.',
     ruleLabel: 'Qoʻllangan qoida',
     switchNote: 'Bu toifa avia bilan joʻnatilmaydi — kalkulyator avto tarifiga oʻtdi.',
     kursNote: 'Hisob-kitob kursi: 1 $ = {rate} soʻm (taxminiy).',
@@ -162,13 +167,13 @@ const uz: PricingStrings = {
     seoDescription: 'Xitoydan Toshkentga kargo: avto (yigʻma yuk) {truck}/m³ dan — narxni yuk zichligi belgilaydi; avia {air}/kg dan. Zichlik jadvali, narxga nimalar kirishi, toʻlov. Yangilangan: {date}.',
     eyebrow: 'Narxlar — {month}',
     h1: 'Xitoydan Toshkentga kargo narxlari 2026',
-    intro: 'Xitoydan Toshkentga avto kargo (yigʻma yuk) hajm boʻyicha hisoblanadi — {truck}/m³ dan ({month}). Jadvaldagi bandni yuk zichligi (vazn ÷ hajm) tanlaydi: yuk qancha yengil boʻlsa, 1 m³ shuncha arzon. Avia esa kilogramm boʻyicha — {air}/kg dan. Narxga Xitoy omborida qabul, oʻlchash, konsolidatsiya va Toshkent omborigacha yetkazish kiradi; boj, QQS va sugʻurta — alohida.',
+    intro: 'Xitoydan Toshkentga avto kargo (yigʻma yuk) hajm boʻyicha hisoblanadi — {truck}/m³ dan ({month}). Jadvaldagi bandni yuk zichligi (vazn ÷ hajm) tanlaydi: yuk qancha yengil boʻlsa, 1 m³ shuncha arzon. Yigʻma yuk kamida {minM3} m³ dan qabul qilinadi; undan kichik yuk — faqat avia bilan, {air}/kg dan. Narxga Xitoy omborida qabul, oʻlchash, konsolidatsiya va Toshkent omborigacha yetkazish kiradi; boj, QQS va sugʻurta — alohida.',
     tiles: { truck: 'Avto kargo (yigʻma yuk)', air: 'Avia kargo', lcl: 'Zich yuk', rail: 'Konteyner 20 fut', fromKg: '$/kg dan', fromM3: '$/m³ dan', fromContainer: '$ dan' },
     truck: {
       title: 'Avto kargo (yigʻma yuk) — 1 m³ necha pul?',
       intro: 'Avto kargo — Xitoydagi omborda yigʻiladigan, fura bilan Xorgos orqali Toshkentga keladigan yuk. Narx hajm boʻyicha: zichlik (vazn ÷ hajm) jadvaldagi bandni tanlaydi — yuk qancha zich boʻlsa, 1 m³ shuncha qimmat, ammo 1 kg shuncha arzon.',
       head: ['Zichlik', 'Narx'],
-      note: 'Zichlik = vazn (kg) ÷ hajm (m³). Masalan, 2 m³ da 180 kg — 90 kg/m³, yaʼni jadvalning birinchi qatori: 2 × 110 $ = 220 $. Bir joyning hajmi: uzunlik × en × balandlik (metrda).',
+      note: 'Zichlik = vazn (kg) ÷ hajm (m³). Masalan, 2 m³ da 180 kg — 90 kg/m³, yaʼni jadvalning birinchi qatori: 2 × 110 $ = 220 $. Bir joyning hajmi: uzunlik × en × balandlik (metrda). Yigʻma yuk kamida {minM3} m³ dan qabul qilinadi — undan kichik yukni avto bilan olib kelmaymiz.',
       days: 'Muddat: taxminan {days} kun, yuk Xitoy omboridan joʻnatilgandan keyin; ekspress partiyalar {express} kun.',
     },
     lcl: {
@@ -178,11 +183,11 @@ const uz: PricingStrings = {
       upTo: '{b} kg/m³ gacha',
       between: '{a}–{b} kg/m³',
       from: '{a} kg/m³ dan',
-      note: 'Zichlik = vazn ÷ hajm. Minimal hajm — {minM3} m³. Bir joyning hajmi: uzunlik × en × balandlik (m).',
+      note: 'Zichlik = vazn ÷ hajm. Yigʻma yuk kamida {minM3} m³ dan qabul qilinadi. Bir joyning hajmi: uzunlik × en × balandlik (m).',
     },
     air: {
       title: 'Avia kargo — 1 kg necha pul?',
-      intro: 'Avia — shoshilinch, yengil va qimmat tovarlar uchun: telefon aksessuarlari, kiyim namunalari, kichik elektronika. Narx tovar toifasiga qarab, hisoblangan vazn ÷ {divisor} qoidasi bilan.',
+      intro: 'Avia — shoshilinch, yengil va qimmat tovarlar hamda {minM3} m³ dan kichik yuk uchun: telefon aksessuarlari, kiyim namunalari, kichik elektronika. Narx tovar toifasiga qarab, hisoblangan vazn ÷ {divisor} qoidasi bilan.',
       head: ['Tovar toifasi', '1 kg narxi'],
       rows: { standard: 'Oddiy tovarlar (kundalik mahsulotlar, kiyim, aksessuar)', brand: 'Brend (original, qutisi bilan)', commercial: 'Seriya / tijorat (bir xildan 3+ dona, elektronika)', battery: 'Batareyali tovarlar (power bank, akkumulyator)', liquid: 'Suyuqlik, kosmetika, atir' },
       truckOnly: 'faqat avto',
@@ -201,7 +206,7 @@ const uz: PricingStrings = {
       formula: 'Hajmiy vazn (avia)',
       formulaLine: 'Avia narxi hisoblangan vazn boʻyicha: hajmiy vazn (kg) = uzunlik × en × balandlik (sm) ÷ {airDivisor}, haqiqiy va hajmiy vazndan kattasi olinadi. Avto kargoda bu qoida yoʻq — u yerda haqiqiy hajm (m³) hisoblanadi.',
       density: 'Zichlik qoidasi (avto)',
-      densityLine: 'Zichlik (kg/m³) = vazn ÷ hajm. U jadvaldagi bandni tanlaydi: zichlik qancha past boʻlsa, 1 m³ shuncha arzon. Zichligi {threshold} kg/m³ va undan yuqori yuk esa kilogramm boʻyicha — {denseRate}/kg. Minimal hisob hajmi — {minM3} m³.',
+      densityLine: 'Zichlik (kg/m³) = vazn ÷ hajm. U jadvaldagi bandni tanlaydi: zichlik qancha past boʻlsa, 1 m³ shuncha arzon. Zichligi {threshold} kg/m³ va undan yuqori yuk esa kilogramm boʻyicha — {denseRate}/kg. Yigʻma yuk kamida {minM3} m³ dan qabul qilinadi — undan kichik yukni avto bilan olib kelmaymiz.',
       chargeable: 'Shuning uchun avto kargoda faqat vazn yetarli emas: kalkulyatorga oʻlchamlarni yoki m³ ni ham kiriting — zichliksiz narx chiqmaydi.',
     },
     examples: {
@@ -243,7 +248,7 @@ const uz: PricingStrings = {
     how: {
       title: 'Narxlar qanday shakllanadi?',
       paragraphs: [
-        'Kargo narxi uchta narsadan tuziladi: Xitoy ichidagi yigʻish va omborga qabul, Xitoy — Xorgos — Toshkent yoʻlidagi transport va Toshkentdagi rasmiylashtiruv. Yigʻma yukda siz butun fura uchun emas, faqat oʻzingiz egallagan kub metr uchun toʻlaysiz — shuning uchun kichik partiya konteyner ijarasidan ancha arzon tushadi.',
+        'Kargo narxi uchta narsadan tuziladi: Xitoy ichidagi yigʻish va omborga qabul, Xitoy — Xorgos — Toshkent yoʻlidagi transport va Toshkentdagi rasmiylashtiruv. Yigʻma yukda siz butun fura uchun emas, faqat oʻzingiz egallagan kub metr uchun toʻlaysiz (kamida {minM3} m³) — shuning uchun bir necha kub metrlik partiya konteyner ijarasidan ancha arzon tushadi.',
         'Furada sotiladigan narsa — kub metr, va joy chegaralangan. Shuning uchun narxni zichlik belgilaydi: yengil yuk kam vaznda koʻp joy egallaydi, shuning uchun uning kub metri arzonroq; yuk zichlashgani sari 1 m³ qimmatlashadi, lekin 1 kg arzonlashadi. Zichligi {threshold} kg/m³ va undan yuqori — suvdan ogʻir — yuk furaning hajmini emas, tonnajini toʻldiradi, shuning uchun u kilogramm boʻyicha, {denseRate}/kg hisoblanadi. Jadval sahifada ochiq turibdi.',
         'Tariflar mavsumga bogʻliq: 11.11 va Yangi yil oldi partiyalar zichlashadi, Xitoy Yangi yili (yanvar oxiri — fevral) omborlar ikki hafta yopiladi. Shu sababli jadvaldagi narxlar taxminiy va har oy yangilanadi — sana har jadval ostida turadi.',
         'Yakuniy narx Xitoy omborida yuk tortib-oʻlchangandan keyin tasdiqlanadi: haqiqiy vazn, hajm va foto-hisobot Telegramga keladi, shundan keyin hisob yopiladi. Yashirin toʻlovlar yoʻq — shartnomada narx qoidasi yozilgan.',
@@ -255,9 +260,9 @@ const uz: PricingStrings = {
       title: 'Narxlar boʻyicha savollar',
       items: [
         { q: 'Xitoydan Toshkentga 1 kg kargo necha pul?', a: 'Avto kargoda 1 kg narxi yoʻq: yigʻma yuk hajm boʻyicha sotiladi — {truck}/m³ dan, bandni zichlik tanlaydi ({month}). Masalan, 1,2 m³ da 300 kg — zichlik 250 kg/m³, jami 216 $. Avia esa kilogramm boʻyicha — {air}/kg dan.' },
-        { q: 'Hajmiy vazn nima va u qachon hisoblanadi?', a: 'Hajmiy vazn faqat aviada ishlaydi: uzunlik × en × balandlik (sm) ÷ {airDivisor}, soʻng haqiqiy va hajmiy vazndan kattasi olinadi — 60 × 50 × 40 sm quti aviada 24 kg deb hisoblanadi, ichida 8 kg boʻlsa ham. Avto kargoda hajmiy vazn hisoblanmaydi: shu qutining haqiqiy hajmi 0,12 m³, ichida 8 kg boʻlsa zichlik 67 kg/m³ — 110 $/m³ bandi, yaʼni 13,2 $.' },
+        { q: 'Hajmiy vazn nima va u qachon hisoblanadi?', a: 'Hajmiy vazn faqat aviada ishlaydi: uzunlik × en × balandlik (sm) ÷ {airDivisor}, soʻng haqiqiy va hajmiy vazndan kattasi olinadi — 60 × 50 × 40 sm quti aviada 24 kg deb hisoblanadi, ichida 8 kg boʻlsa ham. Avto kargoda hajmiy vazn hisoblanmaydi — haqiqiy hajm (m³) olinadi. Lekin bunday bitta quti (0,12 m³) avto kargoga kirmaydi: yigʻma yuk kamida {minM3} m³ dan qabul qilinadi, shuning uchun u avia bilan keladi.' },
         { q: 'Zich yuk arzonmi yoki hajmli yuk?', a: 'Ikkalasi ham bitta jadvalda. Zichlik qancha past boʻlsa, 1 m³ shuncha arzon; zich yukda 1 m³ qimmatroq, lekin oʻsha hajmda vazn koʻp yuradi, shuning uchun 1 kg arzonroq tushadi. Zichligi {threshold} kg/m³ va undan yuqori yuk — masalan metall yoki plitka — kilogramm boʻyicha, {denseRate}/kg. Kalkulyator zichlikni oʻzi hisoblab, qaysi qator ishlaganini koʻrsatadi.' },
-        { q: 'Minimal vazn yoki hajm bormi?', a: 'Avto kargoda minimal hisob hajmi — {minM3} m³: undan kichik joyni ham olamiz, lekin hisob {minM3} m³ dan boshlanadi. Avia — {airMin} kg dan, konteyner — 20 futdan. Kichik posilkalarni ham yigʻma yukka qoʻshamiz.' },
+        { q: 'Minimal vazn yoki hajm bormi?', a: 'Ha. Yigʻma yuk (avto kargo) kamida {minM3} m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz. {minM3} m³ — bitta partiyaning umumiy hajmi: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi. {minM3} m³ dan kichik yukni avia bilan joʻnatish mumkin — {airMin} kg dan; konteyner — 20 futdan.' },
         { q: 'Narxga bojxona kiradimi?', a: 'Bojxona rasmiylashtiruvi — bizning zimmamizda, hujjatlarni biz tayyorlaymiz. Boj va QQS esa qonun boʻyicha, TN VED kodiga qarab alohida toʻlanadi — summani joʻnatishdan oldin hisoblab beramiz.' },
         { q: 'Sugʻurta qancha turadi?', a: 'Eʼlon qilingan qiymatning {insurance}% (taxminiy). Sugʻurtasiz yuk uchun javobgarlik shartnomada belgilanadi.' },
         { q: 'Toʻlovni qachon va qanday qilaman?', a: 'Yuk Toshkent omboriga kelganda, olishdan oldin — soʻmda, hisob-kitob kursi boʻyicha. Naqd, karta, Click/Payme; yuridik shaxslar uchun hisob-faktura. Oldindan toʻlov shart emas.' },
@@ -294,11 +299,11 @@ const uz: PricingStrings = {
     eyebrow: '05 — Narxlar',
     h2: 'Narx oldindan maʼlum.',
     rules: [
-      'Avto kargo — m³ boʻyicha: zichlik (vazn ÷ hajm) 1 m³ narxini tanlaydi; {threshold} kg/m³ va undan zich yuk kg boʻyicha.',
+      'Avto kargo — m³ boʻyicha, kamida {minM3} m³ dan: zichlik (vazn ÷ hajm) 1 m³ narxini tanlaydi; {threshold} kg/m³ va undan zich yuk kg boʻyicha.',
       'Avia — kg boʻyicha: hajmiy vazn = uzunlik × en × balandlik (sm) ÷ {airDivisor}, haqiqiy vazn bilan solishtiriladi.',
       'Narxga ombor qabuli, oʻlchash va foto-hisobot kiradi; sugʻurta va bojxona toʻlovlari — alohida.',
     ],
-    example: 'Masalan: 48 kg, 0,2 m³ → 240 kg/m³ → 0,2 × 180 $ = 36 $.',
+    example: 'Masalan: 240 kg, 1 m³ → 240 kg/m³ → 1 × 180 $ = 180 $.',
     allRates: 'Barcha tariflar',
     tiles: { truck: 'Avto kargo (yigʻma yuk)', air: 'Avia kargo', lcl: 'Zich yuk' },
     perKgFrom: '$/kg dan',
@@ -322,7 +327,6 @@ const ru: PricingStrings = {
     notes: {
       'volumetric-applied': 'Объёмный вес ({volumetric} кг, ÷ {divisor}) больше фактического — считаем по объёмному.',
       'min-kg-applied': 'Минимальный расчётный вес — {minKg} кг.',
-      'min-m3-applied': 'Минимальный объём — {minM3} м³.',
       'no-volume': 'Объём не указан — авиарасчёт только по весу.',
       'switched-to-truck': '{category} авиа не отправляется — применён тариф авто.',
       range: 'Цена в диапазоне — точная сумма по запросу.',
@@ -345,7 +349,7 @@ const ru: PricingStrings = {
     volumeModes: { dims: 'Размеры, см', m3: 'Объём, м³' },
     dims: { l: 'Длина', w: 'Ширина', h: 'Высота' },
     m3: 'Объём',
-    volumeHint: 'Для авто обязательно, для авиа — по желанию.',
+    volumeHint: 'Для авто обязательно (от {min} м³), для авиа — по желанию.',
     category: 'Категория товара',
     categoryHint: 'Товары с батареями и жидкости едут только авто.',
     container: 'Контейнер',
@@ -354,6 +358,8 @@ const ru: PricingStrings = {
     resultEmpty: 'Введите вес — цена появится здесь.',
     overLimit: 'Для такого объёма калькулятор цену не даёт — контейнер или чартер считаются отдельно. Напишите в Telegram, посчитаем точно.',
     needVolume: 'Авто карго считается по объёму: укажите ещё габариты или м³. Только по весу можно посчитать авиа.',
+    belowMin: 'Сборный груз (авто) принимаем от {min} м³ — меньший объём авто мы не везём. Груз меньше {min} м³ можно отправить авиа: выберите выше «Авиа».',
+    belowMinNoAir: 'Сборный груз (авто) принимаем от {min} м³, а товар этой категории не летит авиа — поэтому такой груз меньше {min} м³ мы привезти не можем.',
     ruleLabel: 'Применённое правило',
     switchNote: 'Эта категория не летит авиа — калькулятор перешёл на тариф авто.',
     kursNote: 'Расчётный курс: 1 $ = {rate} сум (ориентировочно).',
@@ -373,13 +379,13 @@ const ru: PricingStrings = {
     seoDescription: 'Карго из Китая в Ташкент: авто (сборный груз) от {truck}/м³ — цену определяет плотность груза; авиа от {air}/кг. Таблица плотности, что входит в цену, оплата. Обновлено: {date}.',
     eyebrow: 'Цены — {month}',
     h1: 'Цены на карго из Китая в Ташкент 2026',
-    intro: 'Авто карго (сборный груз) из Китая в Ташкент считается по объёму — от {truck}/м³ ({month}). Строку тарифа выбирает плотность груза (вес ÷ объём): чем легче груз, тем дешевле кубометр. Авиа считается по килограммам — от {air}/кг. В цену входят приёмка на складе в Китае, обмер, консолидация и доставка до склада в Ташкенте; пошлина, НДС и страховка — отдельно.',
+    intro: 'Авто карго (сборный груз) из Китая в Ташкент считается по объёму — от {truck}/м³ ({month}). Строку тарифа выбирает плотность груза (вес ÷ объём): чем легче груз, тем дешевле кубометр. Сборный груз принимаем от {minM3} м³; груз меньше — только авиа, от {air}/кг. В цену входят приёмка на складе в Китае, обмер, консолидация и доставка до склада в Ташкенте; пошлина, НДС и страховка — отдельно.',
     tiles: { truck: 'Авто карго (сборный груз)', air: 'Авиа карго', lcl: 'Плотный груз', rail: 'Контейнер 20 футов', fromKg: '$/кг', fromM3: '$/м³', fromContainer: '$' },
     truck: {
       title: 'Авто карго (сборный груз) — сколько стоит 1 м³?',
       intro: 'Авто карго — груз, который собирается на складе в Китае и едет фурой через Хоргос в Ташкент. Цена считается по объёму: плотность (вес ÷ объём) выбирает строку тарифа — чем плотнее груз, тем дороже кубометр, но тем дешевле килограмм.',
       head: ['Плотность', 'Цена'],
-      note: 'Плотность = вес (кг) ÷ объём (м³). Например, 180 кг в 2 м³ — это 90 кг/м³, первая строка таблицы: 2 × 110 $ = 220 $. Объём места: длина × ширина × высота (в метрах).',
+      note: 'Плотность = вес (кг) ÷ объём (м³). Например, 180 кг в 2 м³ — это 90 кг/м³, первая строка таблицы: 2 × 110 $ = 220 $. Объём места: длина × ширина × высота (в метрах). Сборный груз принимаем от {minM3} м³ — меньший объём авто мы не везём.',
       days: 'Срок: ориентировочно {days} дней после отправки со склада в Китае; экспресс-партии — {express} дней.',
     },
     lcl: {
@@ -389,11 +395,11 @@ const ru: PricingStrings = {
       upTo: 'до {b} кг/м³',
       between: '{a}–{b} кг/м³',
       from: 'от {a} кг/м³',
-      note: 'Плотность = вес ÷ объём. Минимальный объём — {minM3} м³. Объём места: длина × ширина × высота (м).',
+      note: 'Плотность = вес ÷ объём. Сборный груз принимаем от {minM3} м³. Объём места: длина × ширина × высота (м).',
     },
     air: {
       title: 'Авиа карго — сколько стоит 1 кг?',
-      intro: 'Авиа — для срочного, лёгкого и дорогого товара: аксессуары для телефонов, образцы одежды, мелкая электроника. Цена зависит от категории, расчётный вес — по правилу ÷ {divisor}.',
+      intro: 'Авиа — для срочного, лёгкого и дорогого товара и для груза меньше {minM3} м³: аксессуары для телефонов, образцы одежды, мелкая электроника. Цена зависит от категории, расчётный вес — по правилу ÷ {divisor}.',
       head: ['Категория товара', 'Цена за 1 кг'],
       rows: { standard: 'Обычные товары (повседневные, одежда, аксессуары)', brand: 'Бренд (оригинал, в коробке)', commercial: 'Серия / коммерческий (3+ одинаковых, электроника)', battery: 'Товары с батареями (power bank, аккумуляторы)', liquid: 'Жидкости, косметика, парфюм' },
       truckOnly: 'только авто',
@@ -412,7 +418,7 @@ const ru: PricingStrings = {
       formula: 'Объёмный вес (авиа)',
       formulaLine: 'В авиа цена идёт от расчётного веса: объёмный вес (кг) = длина × ширина × высота (см) ÷ {airDivisor}, к оплате берётся больший из фактического и объёмного. В авто карго этого правила нет — там считается реальный объём в м³.',
       density: 'Правило плотности (авто)',
-      densityLine: 'Плотность (кг/м³) = вес ÷ объём. Она выбирает строку таблицы: чем ниже плотность, тем дешевле кубометр. Груз плотностью от {threshold} кг/м³ считается по килограммам — {denseRate}/кг. Минимальный расчётный объём — {minM3} м³.',
+      densityLine: 'Плотность (кг/м³) = вес ÷ объём. Она выбирает строку таблицы: чем ниже плотность, тем дешевле кубометр. Груз плотностью от {threshold} кг/м³ считается по килограммам — {denseRate}/кг. Сборный груз принимаем от {minM3} м³ — меньший объём авто мы не везём.',
       chargeable: 'Поэтому для авто одного веса мало: вводите в калькулятор габариты или м³ — без плотности цены не будет.',
     },
     examples: {
@@ -454,7 +460,7 @@ const ru: PricingStrings = {
     how: {
       title: 'Из чего складывается цена?',
       paragraphs: [
-        'Стоимость карго состоит из трёх частей: сбор и приёмка на складе в Китае, транспорт по маршруту Китай — Хоргос — Ташкент и оформление в Ташкенте. В сборном грузе вы платите не за всю фуру, а только за занятые кубометры — поэтому небольшая партия обходится заметно дешевле аренды контейнера.',
+        'Стоимость карго состоит из трёх частей: сбор и приёмка на складе в Китае, транспорт по маршруту Китай — Хоргос — Ташкент и оформление в Ташкенте. В сборном грузе вы платите не за всю фуру, а только за занятые кубометры (от {minM3} м³) — поэтому партия в несколько кубометров обходится заметно дешевле аренды контейнера.',
         'В фуре продаётся, по сути, кубометр, и места в ней немного. Поэтому цену задаёт плотность: лёгкий груз занимает много объёма при малом весе — его кубометр дешевле; чем плотнее груз, тем дороже кубометр, но тем дешевле килограмм. Груз плотностью от {threshold} кг/м³ — тяжелее воды — упирается не в объём фуры, а в её тоннаж, поэтому считается по килограммам, {denseRate}/кг. Вся таблица открыто лежит на этой странице.',
         'Тарифы зависят от сезона: перед 11.11 и Новым годом партии уплотняются, на китайский Новый год (конец января — февраль) склады закрываются на две недели. Поэтому цены в таблицах ориентировочные и обновляются регулярно — дата стоит под каждой таблицей.',
         'Итоговая цена подтверждается после взвешивания и обмера на складе в Китае: фактический вес, объём и фотоотчёт приходят в Telegram, после чего закрывается счёт. Скрытых платежей нет — правило расчёта записано в договоре.',
@@ -466,9 +472,9 @@ const ru: PricingStrings = {
       title: 'Вопросы о ценах',
       items: [
         { q: 'Сколько стоит 1 кг карго из Китая в Ташкент?', a: 'У авто карго нет цены за килограмм: сборный груз продаётся по объёму — от {truck}/м³, строку выбирает плотность ({month}). Например, 300 кг в 1,2 м³ — это 250 кг/м³, итого 216 $. Авиа считается по килограммам — от {air}/кг.' },
-        { q: 'Что такое объёмный вес и когда он применяется?', a: 'Объёмный вес нужен только в авиа: длина × ширина × высота (см) ÷ {airDivisor}, дальше берётся больший из фактического и объёмного — коробка 60 × 50 × 40 см летит как 24 кг, даже если внутри 8 кг. В авто карго объёмный вес не считается: у той же коробки реальный объём 0,12 м³, при 8 кг это 67 кг/м³ — строка 110 $/м³, то есть 13,2 $.' },
+        { q: 'Что такое объёмный вес и когда он применяется?', a: 'Объёмный вес нужен только в авиа: длина × ширина × высота (см) ÷ {airDivisor}, дальше берётся больший из фактического и объёмного — коробка 60 × 50 × 40 см летит как 24 кг, даже если внутри 8 кг. В авто карго объёмный вес не считается — берётся реальный объём (м³). Но одна такая коробка (0,12 м³) в сборный груз не пойдёт: сборный груз принимаем от {minM3} м³, поэтому она едет авиа.' },
         { q: 'Что дешевле — плотный груз или объёмный?', a: 'Обе цены в одной таблице. Чем ниже плотность, тем дешевле кубометр; у плотного груза кубометр дороже, но в том же объёме едет больше веса, поэтому килограмм выходит дешевле. Груз плотностью от {threshold} кг/м³ — например металл или плитка — считается по килограммам, {denseRate}/кг. Калькулятор сам считает плотность и показывает сработавшую строку.' },
-        { q: 'Есть ли минимальный вес или объём?', a: 'В авто карго минимальный расчётный объём — {minM3} м³: место меньше мы примем, но счёт начнётся с {minM3} м³. Авиа — от {airMin} кг, контейнер — от 20 футов. Небольшие посылки тоже добавляем в сборный груз.' },
+        { q: 'Есть ли минимальный вес или объём?', a: 'Да. Сборный груз (авто карго) принимаем от {minM3} м³ — груз меньшего объёма мы не везём. {minM3} м³ — это общий объём одной партии: места от разных продавцов собираются в пункте приёма в Иу под одним GS-кодом. Груз меньше {minM3} м³ можно отправить авиа — от {airMin} кг; контейнер — от 20 футов.' },
         { q: 'Входит ли в цену таможня?', a: 'Таможенное оформление берём на себя, документы готовим мы. Пошлина и НДС платятся отдельно по закону, в зависимости от кода ТН ВЭД — сумму считаем до отправки.' },
         { q: 'Сколько стоит страховка?', a: '{insurance}% от заявленной стоимости (ориентировочно). Ответственность за незастрахованный груз определяется договором.' },
         { q: 'Когда и как платить?', a: 'Когда груз прибыл на склад в Ташкенте, перед выдачей — в сумах по расчётному курсу. Наличные, карта, Click/Payme; для юрлиц — счёт-фактура. Предоплата не требуется.' },
@@ -505,11 +511,11 @@ const ru: PricingStrings = {
     eyebrow: '05 — Цены',
     h2: 'Цена известна заранее.',
     rules: [
-      'Авто карго — по м³: плотность (вес ÷ объём) выбирает цену кубометра; груз плотностью от {threshold} кг/м³ — по кг.',
+      'Авто карго — по м³, от {minM3} м³: плотность (вес ÷ объём) выбирает цену кубометра; груз плотностью от {threshold} кг/м³ — по кг.',
       'Авиа — по кг: объёмный вес = длина × ширина × высота (см) ÷ {airDivisor}, сравнивается с фактическим.',
       'В цену входят приёмка на складе, обмер и фотоотчёт; страховка и таможенные платежи — отдельно.',
     ],
-    example: 'Например: 48 кг, 0,2 м³ → 240 кг/м³ → 0,2 × 180 $ = 36 $.',
+    example: 'Например: 240 кг, 1 м³ → 240 кг/м³ → 1 × 180 $ = 180 $.',
     allRates: 'Все тарифы',
     tiles: { truck: 'Авто карго (сборный груз)', air: 'Авиа карго', lcl: 'Плотный груз' },
     perKgFrom: '$/кг от',
@@ -533,7 +539,6 @@ const en: PricingStrings = {
     notes: {
       'volumetric-applied': 'Volumetric weight ({volumetric} kg, ÷ {divisor}) exceeds the actual weight — priced on the volumetric figure.',
       'min-kg-applied': 'Minimum chargeable weight is {minKg} kg.',
-      'min-m3-applied': 'Minimum volume is {minM3} m³.',
       'no-volume': 'No volume entered — the air estimate uses weight only.',
       'switched-to-truck': '{category} cannot fly — the truck rate was applied.',
       range: 'Price range — the exact figure comes with a quote.',
@@ -556,7 +561,7 @@ const en: PricingStrings = {
     volumeModes: { dims: 'Dimensions, cm', m3: 'Volume, m³' },
     dims: { l: 'Length', w: 'Width', h: 'Height' },
     m3: 'Volume',
-    volumeHint: 'Required for truck cargo, optional for air.',
+    volumeHint: 'Required for truck cargo (from {min} m³), optional for air.',
     category: 'Goods category',
     categoryHint: 'Goods with batteries and liquids travel by truck only.',
     container: 'Container',
@@ -565,6 +570,8 @@ const en: PricingStrings = {
     resultEmpty: 'Enter a weight — the price appears here.',
     overLimit: 'The calculator does not price a shipment this large — container and charter loads are quoted separately. Message us on Telegram and we will price it exactly.',
     needVolume: 'Truck cargo is priced by volume: add the dimensions or the volume in m³. Weight alone can only price air cargo.',
+    belowMin: 'Consolidated truck cargo starts at {min} m³ — we do not carry anything smaller by truck. Cargo under {min} m³ can go by air: choose “Air” above.',
+    belowMinNoAir: 'Consolidated truck cargo starts at {min} m³, and goods in this category cannot fly — so we cannot ship this cargo while it is under {min} m³.',
     ruleLabel: 'Rule applied',
     switchNote: 'This category cannot fly — the calculator switched to the truck rate.',
     kursNote: 'Settlement rate: $1 = {rate} UZS (indicative).',
@@ -584,13 +591,13 @@ const en: PricingStrings = {
     seoDescription: 'Cargo from China to Tashkent: consolidated truck from {truck} per m³, priced by cargo density; air from {air} per kg. The density table, what the price includes, payment. Updated {date}.',
     eyebrow: 'Pricing — {month}',
     h1: 'China to Tashkent cargo rates 2026',
-    intro: 'Consolidated truck cargo from China to Tashkent is priced by volume — from {truck} per m³ ({month}). Density (weight ÷ volume) picks the rate band: the lighter the cargo, the cheaper the cubic metre. Air is priced by weight, from {air} per kg. The price includes receiving at the China warehouse, measuring, consolidation and delivery to the Tashkent warehouse; duty, VAT and insurance are separate.',
+    intro: 'Consolidated truck cargo from China to Tashkent is priced by volume — from {truck} per m³ ({month}). Density (weight ÷ volume) picks the rate band: the lighter the cargo, the cheaper the cubic metre. Consolidated cargo is accepted from {minM3} m³; anything smaller goes by air only, from {air} per kg. The price includes receiving at the China warehouse, measuring, consolidation and delivery to the Tashkent warehouse; duty, VAT and insurance are separate.',
     tiles: { truck: 'Truck cargo (consolidated)', air: 'Air cargo', lcl: 'Dense cargo', rail: '20 ft container', fromKg: '/kg', fromM3: '/m³', fromContainer: '' },
     truck: {
       title: 'Truck cargo (consolidated) — how much per m³?',
       intro: 'Truck cargo is consolidated at the China warehouse and travels by truck through Khorgos to Tashkent. It is priced by volume: density (weight ÷ volume) picks the band — the denser the cargo, the dearer a cubic metre and the cheaper a kilogram.',
       head: ['Density', 'Price'],
-      note: 'Density = weight (kg) ÷ volume (m³). For example, 180 kg in 2 m³ is 90 kg/m³ — the first row of the table: 2 × $110 = $220. Volume of a piece: length × width × height in metres.',
+      note: 'Density = weight (kg) ÷ volume (m³). For example, 180 kg in 2 m³ is 90 kg/m³ — the first row of the table: 2 × $110 = $220. Volume of a piece: length × width × height in metres. Consolidated cargo is accepted from {minM3} m³ — we do not carry anything smaller by truck.',
       days: 'Transit: roughly {days} days after departure from the China warehouse; express batches {express} days.',
     },
     lcl: {
@@ -600,11 +607,11 @@ const en: PricingStrings = {
       upTo: 'up to {b} kg/m³',
       between: '{a}–{b} kg/m³',
       from: 'from {a} kg/m³',
-      note: 'Density = weight ÷ volume. Minimum volume {minM3} m³. Volume of a piece: length × width × height (m).',
+      note: 'Density = weight ÷ volume. Consolidated cargo is accepted from {minM3} m³. Volume of a piece: length × width × height (m).',
     },
     air: {
       title: 'Air cargo — how much per kg?',
-      intro: 'Air is for urgent, light and high-value goods: phone accessories, clothing samples, small electronics. The rate depends on the goods category; chargeable weight follows the ÷ {divisor} rule.',
+      intro: 'Air is for urgent, light and high-value goods, and for cargo under {minM3} m³: phone accessories, clothing samples, small electronics. The rate depends on the goods category; chargeable weight follows the ÷ {divisor} rule.',
       head: ['Goods category', 'Price per kg'],
       rows: { standard: 'Standard goods (everyday items, clothing, accessories)', brand: 'Branded (original, boxed)', commercial: 'Commercial lot (3+ identical items, electronics)', battery: 'Goods with batteries (power banks, cells)', liquid: 'Liquids, cosmetics, perfume' },
       truckOnly: 'truck only',
@@ -623,7 +630,7 @@ const en: PricingStrings = {
       formula: 'Volumetric weight (air)',
       formulaLine: 'Air is priced on chargeable weight: volumetric weight (kg) = length × width × height (cm) ÷ {airDivisor}, and you pay for the greater of actual and volumetric. Truck cargo has no such rule — it is priced on the real volume in m³.',
       density: 'The density rule (truck)',
-      densityLine: 'Density (kg/m³) = weight ÷ volume. It picks the row: the lower the density, the cheaper the cubic metre. Cargo at {threshold} kg/m³ and above is billed per kilogram at {denseRate}/kg. The minimum billable volume is {minM3} m³.',
+      densityLine: 'Density (kg/m³) = weight ÷ volume. It picks the row: the lower the density, the cheaper the cubic metre. Cargo at {threshold} kg/m³ and above is billed per kilogram at {denseRate}/kg. Consolidated cargo is accepted from {minM3} m³ — we do not carry anything smaller by truck.',
       chargeable: 'So weight alone will not do for truck cargo: give the calculator the dimensions or the volume — without density there is no price.',
     },
     examples: {
@@ -665,7 +672,7 @@ const en: PricingStrings = {
     how: {
       title: 'What makes up the price?',
       paragraphs: [
-        'A cargo rate has three parts: collection and receiving at the China warehouse, transport along the China — Khorgos — Tashkent route, and clearance in Tashkent. With consolidated cargo you pay for the cubic metres you take up, not the whole truck — which is why a small lot sits well below the cost of container hire.',
+        'A cargo rate has three parts: collection and receiving at the China warehouse, transport along the China — Khorgos — Tashkent route, and clearance in Tashkent. With consolidated cargo you pay only for the cubic metres you take up (from {minM3} m³), not the whole truck — which is why a few cubic metres cost far less than hiring a container.',
         'What a truck really sells is the cubic metre, and there is only so much of it. Density therefore sets the price: light cargo takes a lot of volume for little weight, so its cubic metre is cheaper; the denser the cargo, the dearer the cubic metre and the cheaper the kilogram. Cargo at {threshold} kg/m³ and above — as heavy as water or heavier — runs into the truck’s payload rather than its volume, so it is billed per kilogram at {denseRate}/kg. The whole table is written openly on this page.',
         'Rates follow the season: batches fill up before 11.11 and New Year, and warehouses close for two weeks over Chinese New Year (late January to February). That is why the table prices are estimates, updated regularly — the date sits under every table.',
         'The final price is confirmed once the cargo is weighed and measured in China: actual weight, volume and the photo report arrive in Telegram, and the invoice is settled on that basis. No hidden charges — the pricing rule is written into the contract.',
@@ -677,9 +684,9 @@ const en: PricingStrings = {
       title: 'Pricing questions',
       items: [
         { q: 'How much is 1 kg of cargo from China to Tashkent?', a: 'Truck cargo has no per-kilogram price: consolidated freight is sold by volume, from {truck} per m³, with density picking the row ({month}). For example, 300 kg in 1.2 m³ is 250 kg/m³ and comes to $216. Air is priced per kilogram, from {air}/kg.' },
-        { q: 'What is volumetric weight and when does it apply?', a: 'Volumetric weight applies to air only: length × width × height (cm) ÷ {airDivisor}, and the greater of actual and volumetric weight is charged — a 60 × 50 × 40 cm box flies as 24 kg even if it holds 8 kg. Truck cargo ignores volumetric weight: that same box is 0.12 m³, and 8 kg in it is 67 kg/m³ — the $110/m³ row, so $13.20.' },
+        { q: 'What is volumetric weight and when does it apply?', a: 'Volumetric weight applies to air only: length × width × height (cm) ÷ {airDivisor}, and the greater of actual and volumetric weight is charged — a 60 × 50 × 40 cm box flies as 24 kg even if it holds 8 kg. Truck cargo ignores volumetric weight and bills the real volume (m³) — but a single box like this (0.12 m³) is too small for it: consolidated cargo is accepted from {minM3} m³, so this box goes by air.' },
         { q: 'Which is cheaper, dense cargo or bulky cargo?', a: 'Both come out of the same table. The lower the density, the cheaper the cubic metre; dense cargo pays more per cubic metre but carries more weight in the same space, so its kilogram costs less. Cargo at {threshold} kg/m³ and above — metal or tiles, say — is billed per kilogram at {denseRate}/kg. The calculator works out the density and shows which row applied.' },
-        { q: 'Is there a minimum weight or volume?', a: 'Truck cargo has a minimum billable volume of {minM3} m³: we take a smaller piece, but billing starts at {minM3} m³. Air starts at {airMin} kg and containers at 20 ft. Small parcels join the consolidated load too.' },
+        { q: 'Is there a minimum weight or volume?', a: 'Yes. Consolidated truck cargo is accepted from {minM3} m³ — we do not carry anything smaller. The {minM3} m³ counts across one shipment: pieces from different sellers are gathered at the Yiwu receiving point under one GS code. Cargo under {minM3} m³ can go by air, from {airMin} kg; containers start at 20 ft.' },
         { q: 'Is customs included in the price?', a: 'Customs clearance is on us — we prepare the documents. Duty and VAT are paid separately by law, according to the HS code, and we calculate the amount before shipping.' },
         { q: 'How much is insurance?', a: '{insurance}% of the declared value (indicative). Liability for uninsured cargo is set out in the contract.' },
         { q: 'When and how do I pay?', a: 'When the cargo reaches the Tashkent warehouse, before release — in UZS at the settlement rate. Cash, card, Click/Payme; invoice for legal entities. No prepayment required.' },
@@ -716,11 +723,11 @@ const en: PricingStrings = {
     eyebrow: '05 — Pricing',
     h2: 'Know the price before you ship.',
     rules: [
-      'Truck cargo is priced per m³: density (weight ÷ volume) picks the rate for a cubic metre; at {threshold} kg/m³ and above it is billed per kg.',
+      'Truck cargo is priced per m³, from {minM3} m³: density (weight ÷ volume) picks the rate for a cubic metre; at {threshold} kg/m³ and above it is billed per kg.',
       'Air is priced per kg: volumetric weight = length × width × height (cm) ÷ {airDivisor}, compared with the actual weight.',
       'The price includes warehouse receiving, measuring and the photo report; insurance and customs payments are separate.',
     ],
-    example: 'Example: 48 kg, 0.2 m³ → 240 kg/m³ → 0.2 × $180 = $36.',
+    example: 'Example: 240 kg, 1 m³ → 240 kg/m³ → 1 × $180 = $180.',
     allRates: 'All rates',
     tiles: { truck: 'Truck cargo (consolidated)', air: 'Air cargo', lcl: 'Dense cargo' },
     perKgFrom: '$/kg from',

@@ -5,6 +5,8 @@ import type { ServiceContentByLang } from './types';
  * Figures: commission "3% dan" = site.sourcingCommissionPct / tariffs.extras.sourcingCommissionPct (2026-09-08);
  * the 5% / 10% tiers mirror the Tashkent market (research wf/10 §6) and must be confirmed by the owner.
  * Transit days mirror tariffs.json (truck 15–25, air 5–10). Sample lead times are Chinese-factory norms, labelled "odatda".
+ * Owner policy 2026-11-08: an order placed through us totals ≥ 1 m³ (no single-item, small or test orders); the MOQs in
+ * the source table are each source's own, never our offer. Samples may still go by air (from 0,5 kg) — invent no other sample rules.
  */
 const content: ServiceContentByLang = {
   uz: {
@@ -56,7 +58,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Zavoddan toʻgʻridan-toʻgʻri yoki 1688 orqali?',
         body: [
-          'Manbani tovar va miqdorga qarab tanlaymiz. 1688 — ulgurji bozor, u yerda ham zavodlar, ham vositachilar sotadi; toʻgʻridan-toʻgʻri zavod — katta va takrorlanadigan partiyalar uchun; Taobao va Pinduoduo — kichik miqdor va chakana tovar uchun. Quyidagi jadval asosiy farqlarni koʻrsatadi.',
+          'Manbani tovar va miqdorga qarab tanlaymiz. 1688 — ulgurji bozor, u yerda ham zavodlar, ham vositachilar sotadi; toʻgʻridan-toʻgʻri zavod — katta va takrorlanadigan partiyalar uchun; Taobao va Pinduoduo — chakana savdo saytlari: sotuvchilar u yerda donalab ham sotadi, lekin biz orqali buyurtmaning umumiy hajmi kamida 1 m³ boʻlishi kerak. Quyidagi jadval asosiy farqlarni koʻrsatadi.',
         ],
         table: {
           caption: 'Tovar manbalarini taqqoslash',
@@ -65,10 +67,10 @@ const content: ServiceContentByLang = {
             ['Zavod (ishlab chiqaruvchi)', 'oʻz brendi, doimiy partiyalar, texnik tovar', '300–1 000 dona yoki 1 model', 'eng past', 'shartnoma, namuna, zavod tekshiruvi shart'],
             ['1688 (ulgurji sayt)', 'doʻkon va marketpleys sotuvchilari', '2–50 dona', 'past', 'sotuvchi reytingi va qaytarish tarixi tekshiriladi'],
             ['Ivu Futian bozori', 'mayda tovarlar, aksessuar, oʻyinchoq, sovgʻa', '1 quti (odatda 100–500 dona)', 'past', 'tovarni joyida koʻrish mumkin'],
-            ['Taobao / Pinduoduo', 'chakana, 1–10 dona, sinov uchun', '1 dona', 'oʻrtacha', 'sifat turlicha — Ivuda tekshiruv tavsiya etiladi'],
+            ['Taobao / Pinduoduo', 'chakana, keng tanlov', '1 dona', 'oʻrtacha', 'sifat turlicha — Ivuda tekshiruv tavsiya etiladi'],
             ['Alibaba', 'eksport shartnomasi, USD toʻlov, katta partiya', '500 dona dan', 'oʻrtacha', 'Trade Assurance, ingliz tilida muloqot'],
           ],
-          note: 'MOQ va narxlar tovar turiga qarab farq qiladi; jadvaldagi raqamlar odatiy diapazon. Aniq taklifni soʻrovingizdan keyin beramiz.',
+          note: 'MOQ va narxlar tovar turiga qarab farq qiladi; jadvaldagi raqamlar — manbalarning oʻz odatiy diapazoni. Biz orqali buyurtmaning umumiy hajmi esa, manba qaysi boʻlishidan qatʼi nazar, kamida 1 m³ boʻlishi kerak: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi (markirovka) ostida yigʻiladi va birga hisoblanadi. Aniq taklifni soʻrovingizdan keyin beramiz.',
         },
       },
       {
@@ -81,7 +83,7 @@ const content: ServiceContentByLang = {
           'Bir modelning bir necha rangi yoki oʻlchamini bitta buyurtmaga jamlash — koʻp zavodlar umumiy miqdorni hisoblaydi.',
           'Zavodning tayyor (omborda turgan) tovarini olish — u koʻpincha MOQsiz sotiladi.',
           'Birinchi partiyani 1688-dagi ulgurji sotuvchidan olib, hajm oshgach zavodga oʻtish.',
-          'Ikki-uch mijozning buyurtmasini birlashtirish — Ivu omborida tovar keyin ajratiladi.',
+          'Ikki-uch mijozning buyurtmasini birlashtirish — Ivu omborida tovar keyin ajratiladi; minimal hajm (1 m³) esa har bir mijozning oʻz yukiga alohida hisoblanadi.',
         ],
       },
       {
@@ -138,7 +140,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Kichik partiya uchun ham izlaysizmi?',
-        a: 'Ha. 1688-dagi ulgurji sotuvchilar 2–50 donadan sotadi, Ivu Futian bozorida bir qutidan olish mumkin. Zavod MOQ si (300–1 000 dona) kerak boʻlmasa, birinchi partiyani shu manbalardan olib, keyin zavodga oʻtishni tavsiya qilamiz.',
+        a: 'Ha, zavod MOQ sidan kichik partiya uchun ham izlaymiz, lekin biz orqali buyurtmaning umumiy hajmi kamida 1 m³ boʻlishi kerak. 1688-dagi ulgurji sotuvchilar 2–50 donadan sotadi, Ivu Futian bozorida bir qutidan olish mumkin; turli sotuvchilardan olingan tovar bitta GS kodi ostida yigʻilib, birga hisoblanadi. Zavod MOQ si (300–1 000 dona) kerak boʻlmasa, birinchi partiyani shu manbalardan olib, keyin zavodga oʻtishni tavsiya qilamiz.',
       },
       {
         q: 'Brend tovarlarni topib berasizmi?',
@@ -212,7 +214,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Напрямую с фабрики или через 1688?',
         body: [
-          'Источник выбираем под товар и объём. 1688 — оптовая площадка, где продают и фабрики, и посредники; прямая фабрика — для крупных и повторяющихся партий; Taobao и Pinduoduo — для малых количеств и розничных товаров. Основные отличия — в таблице.',
+          'Источник выбираем под товар и объём. 1688 — оптовая площадка, где продают и фабрики, и посредники; прямая фабрика — для крупных и повторяющихся партий; Taobao и Pinduoduo — розничные площадки: продавцы там отпускают и поштучно, но заказ через нас должен быть общим объёмом от 1 м³. Основные отличия — в таблице.',
         ],
         table: {
           caption: 'Сравнение источников товара',
@@ -221,10 +223,10 @@ const content: ServiceContentByLang = {
             ['Фабрика (производитель)', 'свой бренд, регулярные партии, технический товар', '300–1 000 шт. или 1 модель', 'самая низкая', 'нужны договор, образец, проверка фабрики'],
             ['1688 (оптовая площадка)', 'магазины и продавцы маркетплейсов', '2–50 шт.', 'низкая', 'проверяем рейтинг продавца и историю возвратов'],
             ['Рынок Футянь в Иу', 'мелкий товар, аксессуары, игрушки, подарки', '1 коробка (обычно 100–500 шт.)', 'низкая', 'товар можно увидеть на месте'],
-            ['Taobao / Pinduoduo', 'розница, 1–10 шт., для теста', '1 шт.', 'средняя', 'качество разное — рекомендуем проверку в Иу'],
+            ['Taobao / Pinduoduo', 'розница, широкий выбор', '1 шт.', 'средняя', 'качество разное — рекомендуем проверку в Иу'],
             ['Alibaba', 'экспортный контракт, оплата в USD, крупная партия', 'от 500 шт.', 'средняя', 'Trade Assurance, общение на английском'],
           ],
-          note: 'MOQ и цены зависят от вида товара; цифры в таблице — обычные диапазоны. Точное предложение подготовим после вашего запроса.',
+          note: 'MOQ и цены зависят от вида товара; цифры в таблице — обычные диапазоны самих источников. Общий объём заказа через нас — из любого источника — от 1 м³: места от разных продавцов собираются в пункте приёма в Иу под одним GS-кодом (маркировкой) и считаются вместе. Точное предложение подготовим после вашего запроса.',
         },
       },
       {
@@ -237,7 +239,7 @@ const content: ServiceContentByLang = {
           'Объединить в один заказ несколько цветов или размеров одной модели — многие фабрики считают общее количество.',
           'Взять готовый (складской) товар фабрики — его часто продают без MOQ.',
           'Первую партию купить у оптового продавца на 1688, а с ростом объёма перейти на фабрику.',
-          'Объединить заказы двух-трёх клиентов — на складе в Иу товар потом разделяется.',
+          'Объединить заказы двух-трёх клиентов — на складе в Иу товар потом разделяется, а минимум 1 м³ считается по грузу каждого клиента отдельно.',
         ],
       },
       {
@@ -294,7 +296,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Ищете ли вы товар для маленькой партии?',
-        a: 'Да. Оптовые продавцы на 1688 отпускают от 2–50 шт., на рынке Футянь в Иу можно взять от одной коробки. Если фабричный MOQ (300–1 000 шт.) не нужен, советуем первую партию взять из этих источников, а затем перейти на фабрику.',
+        a: 'Да, ищем и для партии меньше фабричного MOQ, но общий объём заказа через нас должен быть от 1 м³. Оптовые продавцы на 1688 отпускают от 2–50 шт., на рынке Футянь в Иу можно взять от одной коробки; товар от разных продавцов собирается под одним GS-кодом и считается вместе. Если фабричный MOQ (300–1 000 шт.) не нужен, советуем первую партию взять из этих источников, а затем перейти на фабрику.',
       },
       {
         q: 'Найдёте ли брендовый товар?',
@@ -368,7 +370,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Direct from the factory or via 1688?',
         body: [
-          'We choose the source to fit the product and the volume. 1688 is a wholesale marketplace where both factories and traders sell; a direct factory suits large, repeat orders; Taobao and Pinduoduo suit small quantities and retail goods. The table shows the main differences.',
+          'We choose the source to fit the product and the volume. 1688 is a wholesale marketplace where both factories and traders sell; a direct factory suits large, repeat orders; Taobao and Pinduoduo are retail sites where sellers also sell single pieces, but an order through us must still total at least 1 m³. The table shows the main differences.',
         ],
         table: {
           caption: 'Comparing sourcing channels',
@@ -377,10 +379,10 @@ const content: ServiceContentByLang = {
             ['Factory (manufacturer)', 'own brand, repeat batches, technical goods', '300–1,000 pcs or 1 model', 'lowest', 'contract, sample and factory check required'],
             ['1688 (wholesale marketplace)', 'shops and marketplace sellers', '2–50 pcs', 'low', 'we check seller rating and return history'],
             ['Futian market, Yiwu', 'small goods, accessories, toys, gifts', '1 carton (usually 100–500 pcs)', 'low', 'goods can be seen on the spot'],
-            ['Taobao / Pinduoduo', 'retail, 1–10 pcs, for testing', '1 pc', 'medium', 'quality varies — inspection in Yiwu recommended'],
+            ['Taobao / Pinduoduo', 'retail, wide choice', '1 pc', 'medium', 'quality varies — inspection in Yiwu recommended'],
             ['Alibaba', 'export contract, USD payment, large batch', 'from 500 pcs', 'medium', 'Trade Assurance, English-language communication'],
           ],
-          note: 'MOQ and prices depend on the product; the figures are typical ranges. We prepare an exact offer after your request.',
+          note: 'MOQ and prices depend on the product; the figures are each source’s own typical ranges. An order through us, from any source, must total at least 1 m³: pieces from different sellers are gathered at the Yiwu receiving point under one GS code (shipping mark) and counted together. We prepare an exact offer after your request.',
         },
       },
       {
@@ -393,7 +395,7 @@ const content: ServiceContentByLang = {
           'Combine several colours or sizes of one style in a single order — many factories count the total quantity.',
           'Buy the factory’s in-stock goods, which are often sold without any MOQ.',
           'Take the first batch from a wholesale seller on 1688 and move to the factory once volume grows.',
-          'Pool the orders of two or three clients — the goods are split later at the Yiwu warehouse.',
+          'Pool the orders of two or three clients — the goods are split later at the Yiwu warehouse, and the 1 m³ minimum counts for each client’s own shipment.',
         ],
       },
       {
@@ -450,7 +452,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Do you source small quantities too?',
-        a: 'Yes. Wholesale sellers on 1688 ship from 2–50 pieces, and the Futian market in Yiwu sells by the carton. If a factory MOQ of 300–1,000 pieces is too much, we suggest taking the first batch from these sources and moving to a factory later.',
+        a: 'Yes, including batches below a factory MOQ, but an order through us must total at least 1 m³. Wholesale sellers on 1688 ship from 2–50 pieces and the Futian market in Yiwu sells by the carton; goods from different sellers are gathered under one GS code and counted together. If a factory MOQ of 300–1,000 pieces is too much, we suggest taking the first batch from these sources and moving to a factory later.',
       },
       {
         q: 'Can you source branded goods?',

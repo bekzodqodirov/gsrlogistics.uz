@@ -70,7 +70,7 @@ const uz: WhyStrings = {
     {
       glyph: 'calendar',
       title: '{year}-yildan beri Xitoy bilan',
-      text: 'Avval tovar topish va sotib olish, keyin yigʻma yuk. Jismoniy shaxs ham, yuridik shaxs ham — bir quti ham, konteyner ham: yondashuv bir xil aniq.',
+      text: 'Avval tovar topish va sotib olish, keyin yigʻma yuk. Jismoniy shaxs ham, yuridik shaxs ham — 1 m³ lik partiya ham, butun konteyner ham: yondashuv bir xil aniq.',
       fact: 'Toshkent, {address} · kelib koʻrishingiz mumkin',
       link: 'contact',
       linkLabel: 'Manzil va aloqa',
@@ -124,7 +124,7 @@ const ru: WhyStrings = {
     {
       glyph: 'calendar',
       title: 'С Китаем с {year} года',
-      text: 'Сначала поиск и выкуп товаров, затем сборные грузы. Частное лицо или компания, одна коробка или контейнер — подход одинаково точный.',
+      text: 'Сначала поиск и выкуп товаров, затем сборные грузы. Частное лицо или компания, партия от 1 м³ или целый контейнер — подход одинаково точный.',
       fact: 'Ташкент, {address} · можно приехать',
       link: 'contact',
       linkLabel: 'Адрес и контакты',
@@ -178,7 +178,7 @@ const en: WhyStrings = {
     {
       glyph: 'calendar',
       title: 'Working with China since {year}',
-      text: 'First sourcing and buying, then consolidated cargo. Private individual or company, one box or a container — the approach is equally exact.',
+      text: 'First sourcing and buying, then consolidated cargo. Private individual or company, a 1 m³ lot or a whole container — the approach is equally exact.',
       fact: 'Tashkent, {address} · visitors welcome',
       link: 'contact',
       linkLabel: 'Address and contact',

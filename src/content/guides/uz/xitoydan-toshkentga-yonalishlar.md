@@ -5,7 +5,7 @@ lang: uz
 translationKey: routes
 slug: xitoydan-toshkentga-yonalishlar
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [truck, rail, air, customs, yonalishlar]
 faq:
   - q: "Xitoydan Toshkentga fura qaysi chegaradan oʻtadi?"
@@ -83,7 +83,7 @@ Batafsil — [Temir yoʻl va konteyner](/xizmatlar/temir-yol-konteyner/).
 
 ## Avia yoʻl qanday ishlaydi?
 
-Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi (2–4 kun), parvoz 1 kun, Toshkent aeroportida bojxona 1–2 ish kuni. Jami taxminan 3–10 kun, odatda 5–10. Narx 9 $/kg dan, hajmiy vazn ÷ 5 000. Litiy batareya, suyuqlik, magnit va atir aviaga olinmaydi — ular faqat avto yoki temir yoʻl bilan keladi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
+Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi (2–4 kun), parvoz 1 kun, Toshkent aeroportida bojxona 1–2 ish kuni. Jami taxminan 3–10 kun, odatda 5–10. Narx 9 $/kg dan, hajmiy vazn ÷ 5 000. Litiy batareya, suyuqlik, magnit va atir aviaga olinmaydi — ular faqat avto yoki temir yoʻl bilan keladi, shuning uchun bunday yuk 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
 
 ## Toʻrt yoʻl bir jadvalda
 
@@ -94,7 +94,7 @@ Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk X
 | Temir yoʻl, Doʻstiq yoki Oltinkoʻl → Saryagash | ≈ 4 500–6 000 km stansiyaga qarab | 20–35 kun | $ — 20 fut 2 800–5 500 $ | Chegarada iz almashtirish, platforma yetishmasligi, terminal navbati |
 | Avia, Guanchjou yoki Urumchi → Toshkent | ≈ 5 000 km / ≈ 1 300 km | 3–10 kun | $$$ — 9–12 $/kg | Taqiqlangan tovarlar, reys jadvali, bayramda joy tanqisligi |
 
-Avto kargo narxi kilogramm boʻyicha emas, **zichlik boʻyicha** hisoblanadi: umumiy vaznni (kg) umumiy hajmga (m³) boʻlasiz va chiqqan zichlik m³ narxini beradi — 100 kg/m³ gacha yuk uchun 110 $/m³, 701–1 000 kg/m³ uchun 320 $/m³; 1 000 kg/m³ va undan zich yuk 0,55 $/kg boʻyicha hisoblanadi. Masalan, 1,2 m³ da 300 kg — zichlik 250 kg/m³, bu 201–250 oraligʻi, yaʼni 180 $/m³: 1,2 × 180 = **216 $**; 2 m³ da 180 kg — zichlik 90 kg/m³, yaʼni 110 $/m³: 2 × 110 = **220 $**. Shuning uchun yengilroq, lekin katta hajmli yuk qimmatroq tushishi mumkin. Eng kam hisob hajmi — 0,1 m³; narxlar taxminiy, boj va QQS alohida hisoblanadi.
+Avto kargo narxi kilogramm boʻyicha emas, **zichlik boʻyicha** hisoblanadi: umumiy vaznni (kg) umumiy hajmga (m³) boʻlasiz va chiqqan zichlik m³ narxini beradi — 100 kg/m³ gacha yuk uchun 110 $/m³, 701–1 000 kg/m³ uchun 320 $/m³; 1 000 kg/m³ va undan zich yuk 0,55 $/kg boʻyicha hisoblanadi. Masalan, 1,2 m³ da 300 kg — zichlik 250 kg/m³, bu 201–250 oraligʻi, yaʼni 180 $/m³: 1,2 × 180 = **216 $**; 2 m³ da 180 kg — zichlik 90 kg/m³, yaʼni 110 $/m³: 2 × 110 = **220 $**. Shuning uchun yengilroq, lekin katta hajmli yuk qimmatroq tushishi mumkin. Yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz. 1 m³ — bitta partiyaning umumiy hajmi: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi. 1 m³ dan kichik yukni avia bilan joʻnatish mumkin — 0,5 kg dan. Narxlar taxminiy, boj va QQS alohida hisoblanadi.
 
 *Masofa, muddat va narxlar taxminiy · Yangilangan: 2026-yil 8-sentabr. Muddat yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi. Uch transport turini narx boʻyicha batafsil taqqoslash — [Avia, avto yoki temir yoʻl](/qollanma/avia-avto-temir-yol-taqqoslash/) qoʻllanmasida.*
 

@@ -5,15 +5,15 @@ lang: uz
 translationKey: air-vs-truck-vs-rail
 slug: avia-avto-temir-yol-taqqoslash
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [truck, air, rail, taqqoslash]
 faq:
   - q: "Xitoydan Toshkentga eng arzon yoʻl qaysi?"
-    a: "Ogʻir va hajmli yuk uchun — avto (yigʻma yuk): hisob hajm boʻyicha, 110 $/m³ dan. 1 m³ tarifi yukning zichligidan (kg ÷ m³) kelib chiqadi: 100 kg/m³ gacha 110 $, 151–200 kg/m³ — 160 $, 251–300 kg/m³ — 200 $, 701–1 000 kg/m³ — 320 $; 1 000 kg/m³ dan zich yuk esa 0,55 $/kg. Minimal hajm — 0,1 m³. 25 m³ dan katta bir xil partiya uchun 20 futlik konteyner (2 800–5 500 $) yigʻma yukdan arzonroq chiqishi mumkin. Narxlar taxminiy, 2026-yil 8-sentabr holatiga."
+    a: "Ogʻir va hajmli yuk uchun — avto (yigʻma yuk): hisob hajm boʻyicha, 110 $/m³ dan. 1 m³ tarifi yukning zichligidan (kg ÷ m³) kelib chiqadi: 100 kg/m³ gacha 110 $, 151–200 kg/m³ — 160 $, 251–300 kg/m³ — 200 $, 701–1 000 kg/m³ — 320 $; 1 000 kg/m³ dan zich yuk esa 0,55 $/kg. Yigʻma yuk kamida 1 m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz; 1 m³ — bitta partiyaning umumiy hajmi. 1 m³ dan kichik yukni avia bilan joʻnatish mumkin — 0,5 kg dan. 25 m³ dan katta bir xil partiya uchun 20 futlik konteyner (2 800–5 500 $) yigʻma yukdan arzonroq chiqishi mumkin. Narxlar taxminiy, 2026-yil 8-sentabr holatiga."
   - q: "Avia kargo avtodan necha kun tez?"
     a: "Avia taxminan 5–10 kun, avto 15–25 kun — farq oʻrtacha 10–15 kun. Muddat yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi; ombordagi qabul va konsolidatsiya kunlari bunga kirmaydi."
   - q: "Litiy batareyali tovarni avia bilan olib kelsa boʻladimi?"
-    a: "Yoʻq. Litiy batareya, power bank, suyuqlik, atir, magnit va dori aviaga olinmaydi — bu aviakompaniyalarning xavfsizlik talabi. Bunday tovarlar avto (yigʻma yuk) yoki temir yoʻl bilan keladi."
+    a: "Yoʻq. Litiy batareya, power bank, suyuqlik, atir, magnit va dori aviaga olinmaydi — bu aviakompaniyalarning xavfsizlik talabi. Bunday tovarlar faqat avto (yigʻma yuk) yoki temir yoʻl bilan keladi, shuning uchun partiya kamida 1 m³ boʻlishi kerak: 1 m³ dan kichik boʻlsa, bunday yukni umuman joʻnatib boʻlmaydi."
   - q: "Temir yoʻl avtodan nega sekin?"
     a: "Konteyner Doʻstiq yoki Oltinkoʻl chegarasida vagon oʻzgartirishni (Xitoy va MDH temir yoʻl izlari kengligi har xil) va terminal navbatini kutadi. Shuning uchun temir yoʻl taxminan 20–35 kun; evaziga narx konteyner uchun belgilanadi va katta partiyaga arzon tushadi."
 sources:
@@ -34,7 +34,7 @@ sources:
     date: "2025-11-12"
 ---
 
-Xitoydan Oʻzbekistonga yukni uch yoʻl bilan olib kelish mumkin: **avia** (taxminan 5–10 kun, 9 $/kg dan), **avto — yigʻma yuk** (15–25 kun, 110 $/m³ dan — narx yuk zichligiga qarab) va **temir yoʻl** (20–35 kun, 20 futlik konteyner 2 800–5 500 $). Qoida oddiy: yengil, qimmat va shoshilinch — aviaga; ogʻir, hajmli va oddiy tovar — avtoga; 25 m³ dan katta bir xil partiya — konteynerga. Narxlar taxminiy, 2026-yil 8-sentabr holatiga.
+Xitoydan Oʻzbekistonga yukni uch yoʻl bilan olib kelish mumkin: **avia** (taxminan 5–10 kun, 9 $/kg dan), **avto — yigʻma yuk** (15–25 kun, 110 $/m³ dan — narx yuk zichligiga qarab) va **temir yoʻl** (20–35 kun, 20 futlik konteyner 2 800–5 500 $). Qoida oddiy: yengil, qimmat va shoshilinch — aviaga; ogʻir, hajmli va oddiy tovar — avtoga; 25 m³ dan katta bir xil partiya — konteynerga. Yigʻma yuk kamida 1 m³ dan qabul qilinadi — undan kichik yukni faqat avia bilan joʻnatish mumkin. Narxlar taxminiy, 2026-yil 8-sentabr holatiga.
 
 ## Uch yoʻl bir jadvalda
 
@@ -44,7 +44,7 @@ Xitoydan Oʻzbekistonga yukni uch yoʻl bilan olib kelish mumkin: **avia** (taxm
 | Muddat (ombordan joʻnatilgach) | 5–10 kun | 15–25 kun (ekspress 13–18) | 20–35 kun |
 | Qaysi yuk uchun | Elektronika aksessuarlari, namunalar, brend kiyim, ehtiyot qismlar, shoshilinch partiya | Kiyim, poyabzal, oʻyinchoq, maishiy tovarlar, uskunalar, qurilish mollari | Bitta mijozning katta partiyasi: mebel, xomashyo, dastgohlar |
 | Taqiqlar | Litiy batareya, suyuqlik, atir, magnit, dori, dron — olinmaydi | Umumiy roʻyxat: portlovchi va yonuvchi moddalar, tez buziladigan mahsulot, pul va qimmatbaho metall, hujjatlar | Avto bilan bir xil; xavfli yuk alohida kelishuv bilan |
-| Minimal | 0,5 kg | 0,1 m³ | Bitta konteyner (20 yoki 40 fut) |
+| Minimal | 0,5 kg | 1 m³ (undan kichik yuk olinmaydi) | Bitta konteyner (20 yoki 40 fut) |
 | Narx nimadan hisoblanadi | Hajmiy vazn: uzunlik × en × balandlik (sm) ÷ 5 000 | Zichlik: kg ÷ m³ → shu zichlikdagi 1 m³ narxi | Konteyner sigʻimi: ≈ 33 m³ (20 fut) / ≈ 76 m³ (40 fut HC) |
 | Chegara | Toshkent aeroporti | Xorgos (Qozogʻiston) → Shimkent → Toshkent | Doʻstiq yoki Oltinkoʻl → Saryagash → Toshkent |
 
@@ -56,7 +56,7 @@ Avto kargo — bu yukni fura bilan Xitoydan Qozogʻiston orqali Toshkentga olib 
 
 Avto mos keladi, agar:
 
-- yuk 0,1 m³ dan katta yoki 30 kg dan ogʻir boʻlsa — bir xil quti uchun avto aviadan bir necha barobar arzon;
+- partiyaning umumiy hajmi kamida 1 m³ boʻlsa (turli sotuvchilardan kelgan joylar bitta GS kodi ostida birga hisoblanadi) — bir xil yuk uchun avto aviadan bir necha barobar arzon; 1 m³ dan kichik yukni avto olmaydi, uni faqat avia bilan joʻnatish mumkin;
 - tovar oddiy: kiyim, poyabzal, oʻyinchoq, idish-tovoq, maishiy texnika, qurilish mollari;
 - ichida batareya, suyuqlik yoki magnit bor — avia baribir qabul qilmaydi;
 - 15–25 kun kutish biznesga zarar qilmaydi.
@@ -78,7 +78,7 @@ Narx qoidasi: avto kargoda hisob **hajm boʻyicha** yuritiladi, 1 m³ narxi esa 
 | 701–1 000 | 320 $ |
 | 1 000 va undan zich | 0,55 $/kg |
 
-Masalan, 48 kg va 0,2 m³ yuk — zichligi 240 kg/m³, demak 0,2 × 180 = 36 $; 180 kg va 2 m³ oʻyinchoq — 90 kg/m³, yaʼni 2 × 110 = 220 $; 1 200 kg va 1 m³ plitka — 1 200 kg/m³, bu holda kg boʻyicha: 1 200 × 0,55 = 660 $. Minimal hisob hajmi — 0,1 m³. Batafsil — [Avto kargo (yigʻma yuk)](/xizmatlar/avto-kargo/) xizmati sahifasida.
+Masalan, 240 kg va 1 m³ yuk — zichligi 240 kg/m³, demak 1 × 180 = 180 $; 180 kg va 2 m³ oʻyinchoq — 90 kg/m³, yaʼni 2 × 110 = 220 $; 1 200 kg va 1 m³ plitka — 1 200 kg/m³, bu holda kg boʻyicha: 1 200 × 0,55 = 660 $. Yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz. 1 m³ — bitta partiyaning umumiy hajmi: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi. 1 m³ dan kichik yukni avia bilan joʻnatish mumkin — 0,5 kg dan. Batafsil — [Avto kargo (yigʻma yuk)](/xizmatlar/avto-kargo/) xizmati sahifasida.
 
 ## Avia kargo qachon oʻzini oqlaydi?
 
@@ -88,9 +88,9 @@ Avia mos keladi, agar:
 
 - 1 kg tovarning qiymati yuqori — telefon aksessuarlari, kichik elektronika, brend kiyim, ehtiyot qismlar;
 - muddat pulga teng: mavsumiy kolleksiya, marketpleysda tugab qolgan tovar, ishlab chiqarish toʻxtab turgan dastgoh qismi;
-- yuk kichik va zich — 20–30 kg gacha: bunday partiyada avia avtodan taxminan 150–250 $ qimmatga tushadi — qimmat tovar yoki qatʼiy muddat uchun bu ustama koʻpincha oʻzini oqlaydi.
+- yuk kichik va zich — 20–30 kg gacha, hajmi 1 m³ dan ancha kam: bunday partiyani avto (yigʻma yuk) qabul qilmaydi, u faqat avia bilan keladi — 20–30 kg uchun 180–270 $ (9 $/kg).
 
-Avia mos kelmaydi: litiy batareyali tovar (power bank, elektr skuter, SIM-li soat), suyuqlik va kosmetika, atir, magnit, dori, dron. Bunday yuk faqat avto yoki temir yoʻl bilan keladi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
+Avia mos kelmaydi: litiy batareyali tovar (power bank, elektr skuter, SIM-li soat), suyuqlik va kosmetika, atir, magnit, dori, dron. Bunday yuk faqat avto yoki temir yoʻl bilan keladi, shuning uchun partiya kamida 1 m³ boʻlishi kerak: 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
 
 ## Temir yoʻl va konteyner kimga kerak?
 
@@ -108,7 +108,7 @@ Eslatma: Xitoy–Qirgʻiziston–Oʻzbekiston temir yoʻli hali qurilmoqda; bugu
 
 | Yuk | Avia | Avto (yigʻma yuk) | Temir yoʻl | Xulosa |
 |---|---|---|---|---|
-| 20 kg telefon aksessuari, 0,1 m³ (200 kg/m³) | 20 × 9 = 180 $ | 0,1 × 160 = 16 $ | — | Farq 164 $; shoshilinch boʻlmasa → **avto**, 10–15 kun yutish kerak boʻlsa — avia |
+| 20 kg telefon aksessuari, bitta quti 50 × 40 × 50 sm (1 m³ dan kichik) | 20 × 9 = 180 $ | olinmaydi | — | Faqat **avia**; avto uchun partiya kamida 1 m³ boʻlishi kerak |
 | 300 kg kiyim, 1,5 m³ (200 kg/m³) | 300 × 9 = 2 700 $ | 1,5 × 160 = 240 $ | — | 2 460 $ tejaladi → **avto** |
 | 240 kg oʻyinchoq, 3 m³ (80 kg/m³) | hajmiy vazn 600 kg × 9 = 5 400 $ | 3 × 110 = 330 $ | — | Yengil yuk faqat **avto**, m³ boʻyicha |
 | 4 t mebel, 28 m³ (143 kg/m³) | — | 28 × 130 = 3 640 $ | 20 fut 2 800–5 500 $ | Narx yaqin, konteyner plombali → **temir yoʻl** yoki avto |
@@ -139,7 +139,7 @@ Avtoda eng koʻp vaqt Xorgos chegarasida ketadi: navbat 1–3 kun, bayram oldi 5
 
 ## Tanlash uchun besh qadam
 
-1. **Vazn va hajmni aniqlang.** Yetkazib beruvchidan qutilar soni, oʻlchami (sm) va ogʻirligini soʻrang. Zichlik = kg ÷ m³ — avto narxi aynan shu raqamdan chiqadi.
+1. **Vazn va hajmni aniqlang.** Yetkazib beruvchidan qutilar soni, oʻlchami (sm) va ogʻirligini soʻrang. Zichlik = kg ÷ m³ — avto narxi aynan shu raqamdan chiqadi. Partiyaning umumiy hajmi 1 m³ dan kam boʻlsa, avto variantini chiqarib tashlang — yigʻma yuk 1 m³ dan qabul qilinadi.
 2. **Taqiqlarni tekshiring.** Batareya, suyuqlik, magnit bormi? Bor boʻlsa — avia variantini darhol chiqarib tashlang.
 3. **1 kg qiymatini hisoblang.** Tovar narxini vazniga boʻling. 1 kg 100 $ dan qimmat boʻlsa, avia ustamasi tovar qiymatining 10% iga ham yetmaydi; 5 $ dan arzon boʻlsa — faqat avto yoki temir yoʻl.
 4. **Muddatni pulga aylantiring.** 10 kun kechikish sizga qancha turadi (yoʻqotilgan savdo, toʻxtab turgan sex)? Shu summa avia bilan avto farqidan katta boʻlsa — avia.
@@ -152,6 +152,6 @@ Avtoda eng koʻp vaqt Xorgos chegarasida ketadi: navbat 1–3 kun, bayram oldi 5
 - **11.11 va dekabr.** Xitoy ichidagi kuryerlar va chegara terminallari yuklanadi; avto muddati yuqori chegaraga — 25 kunga yaqinlashadi. Kargo kompaniyalari odatda shu davrda chegirma eʼlon qiladi.
 - **Qish.** Xorgos yoʻlida qor tufayli 1–3 kun kechikish boʻlishi mumkin; temir yoʻl ob-havoga bogʻliq emas.
 
-> **Menejer maslahati.** Bir partiyani ikkiga boʻlish koʻpincha eng foydali yechim: birinchi 20–30 kg namuna va shoshilinch qismini avia bilan, qolgan asosiy hajmni avto bilan joʻnatamiz. Siz savdoni 7 kunda boshlaysiz, asosiy partiya esa arzon narxda keladi.
+> **Menejer maslahati.** Bir partiyani ikkiga boʻlish koʻpincha eng foydali yechim: birinchi 20–30 kg namuna va shoshilinch qismini avia bilan, qolgan asosiy hajmni (kamida 1 m³) avto bilan joʻnatamiz. Siz savdoni 7 kunda boshlaysiz, asosiy partiya esa arzon narxda keladi.
 
 Qaysi yoʻl mos kelishini bilmasangiz — yukning nomi, taxminiy vazni va qachon kerakligini yozing: menejer uch variantni raqamlar bilan taqqoslab beradi.

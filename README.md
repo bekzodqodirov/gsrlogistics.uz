@@ -72,6 +72,8 @@ Sinov: GSR tizimida har bir javob berilgan soʻrov real menejerga yuk sifatida h
 
 Barcha narx va muddatlar `src/data/tariffs.json` faylida (avia $/kg, avto zinapoya, m³ boʻyicha zichlik jadvali, konteynerlar, qoʻshimcha xizmatlar, viloyatlarga yetkazish). Raqamni oʻzgartiring, `updated` sanasini yangilang, `git push` qiling — narxlar sahifasi, kalkulyator, bosh sahifa va schema.org avtomatik yangilanadi. Sayt hamma joyda «taxminiy narx · yangilangan: …» yozuvini koʻrsatadi.
 
+**Eng kichik yuk:** `truck.minM3` — yigʻma yuk (avto va temir yoʻl LCL) qabul qilinadigan eng kichik hajm, hozir **1 m³** (egasi, 2026-11-08). Undan kichik yuk umuman qabul qilinmaydi: kalkulyator narx bermaydi va «avia bilan joʻnating» deydi. Kalkulyator, narxlar sahifasi, savol-javob, bosh sahifa va schema.org bu raqamni shu yerdan oladi; xizmat sahifalari (`src/data/services/*.content.ts`) va qoʻllanmalarda «1 m³» matnda yozilgan — raqam oʻzgarsa, ularni ham yangilang (`scripts/check-content.mjs` eski 0,1 m³ ni build vaqtida taqiqlaydi). Avia oʻz minimumi bilan qoladi (`air.minKg`, 0,5 kg). Sotib olish xizmati ham faqat umumiy hajmi 1 m³ dan boshlanadigan buyurtmalarni oladi.
+
 ## Kontentni tahrirlash
 
 - Xizmat sahifalari: `src/data/services/<xizmat>.content.ts` (uz/ru/en bir faylda).

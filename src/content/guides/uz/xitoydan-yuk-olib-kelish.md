@@ -5,7 +5,7 @@ lang: uz
 translationKey: shipping-from-china
 slug: xitoydan-yuk-olib-kelish
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [truck, air, rail, customs, warehouse]
 faq:
   - q: "Xitoydan Toshkentga yuk necha kunda keladi?"
@@ -13,7 +13,7 @@ faq:
   - q: "Xitoyda oʻz omborim yoki xitoy tilini biladigan odamim boʻlishi shartmi?"
     a: "Yoʻq. Yetkazib beruvchi yukni Ivu (义乌) shahridagi konsolidatsiya omboriga joʻnatadi, ombor manzilini va GS kodini (markirovka) biz beramiz. Menejerlar oʻzbek, rus va xitoy tilida gaplashadi, yetkazib beruvchi bilan yozishmani oʻzimiz olib boramiz."
   - q: "Kichik hajmdagi yukni ham olib kelasizmi?"
-    a: "Ha. Yigʻma yukda siz butun konteyner uchun emas, faqat oʻz joyingiz uchun toʻlaysiz. Avto kargoda hisob hajm boʻyicha yuritiladi — eng kam hisob hajmi 0,1 m³, avia esa 0,5 kg dan qabul qilinadi; 10 m³ dan katta partiyalar uchun alohida narx hisoblanadi."
+    a: "Yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz. 1 m³ — bitta partiyaning umumiy hajmi: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi. 1 m³ dan kichik yukni avia bilan joʻnatish mumkin — 0,5 kg dan. Biroq batareya, magnitli buyumlar, suyuqlik, kosmetika va atir samolyotga olinmaydi — bunday yuk 1 m³ dan kichik boʻlsa, uni joʻnatib boʻlmaydi. Yigʻma yukda siz butun konteyner uchun emas, faqat oʻz joyingiz uchun toʻlaysiz; 10 m³ dan katta partiyalar uchun alohida narx hisoblanadi."
   - q: "Bojxona toʻlovlarini kim toʻlaydi?"
     a: "Tijorat yuki rasmiy rasmiylashtiriladi: yuridik shaxs yoki YaTT boj (TN VED kodi boʻyicha 0–30%), QQS 12% va bojxona yigʻimini qonun boʻyicha toʻlaydi. Biz hujjatlarni tayyorlaymiz, GTD rasmiylashtiramiz va toʻlovlarni oldindan hisoblab beramiz. Shaxsiy joʻnatmalar uchun 2025-yil 1-maydan oyiga 200 $ limit amal qiladi."
   - q: "Yukim qayerdaligini qanday bilaman?"
@@ -57,7 +57,7 @@ Muddatlar yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi. Toʻliq tarifla
 
 Yigʻma yuk — bu bir nechta mijozning yuklari Xitoy omborida bitta partiyaga birlashtirilib, bitta fura yoki konteynerda yuboriladigan usul. Siz butun konteynerni ijaraga olmaysiz, faqat oʻz joyingiz uchun toʻlaysiz: avtoda — kub metr, aviada — kilogramm hisobida. Xalqaro atamasi LCL (Less than Container Load), rus tilida — сборный груз.
 
-Bu usul 10 kg dan 15 m³ gacha boʻlgan partiyalar uchun eng qulay: Uzum va Yandex Market sotuvchilari, bozor va doʻkon egalari, birinchi partiyasini sinab koʻrayotgan tadbirkorlar. Partiya 15–20 m³ dan oshsa, alohida konteyner (FCL) yoki temir yoʻl arzonroq chiqadi.
+Bu usul 1 m³ dan 15 m³ gacha boʻlgan partiyalar uchun eng qulay: Uzum va Yandex Market sotuvchilari, bozor va doʻkon egalari, birinchi partiyasini olib kelayotgan tadbirkorlar. 1 m³ dan kichik yukni avto bilan olib kelmaymiz — uni avia bilan joʻnatish mumkin. Partiya 15–20 m³ dan oshsa, alohida konteyner (FCL) yoki temir yoʻl arzonroq chiqadi.
 
 GSR Logistics yigʻma yukni 2022-yil iyunidan yuboradi; uchinchi konsolidatsiya furasi Ivu omboridan 2022-yil 2-avgustda chiqqan. Ivu (义乌) — dunyodagi eng katta mayda ulgurji bozor shahri, shu bois konsolidatsiya ombori aynan shu yerda. Xitoyda yana ikkita qabul manzili bor — Guanchjou (广州) va Qashqar (喀什); yukni qaysi manzilga joʻnatish kerakligini menejer aytadi.
 
@@ -79,7 +79,7 @@ Avia yuk Guanchjou yoki Urumchidan Toshkent aeroportiga uchadi, soʻng bojxona o
 
 1. **Soʻrov qoldirasiz.** Telegramda yoki telefon orqali yukning nomi, shahri, taxminiy vazni yoki hajmi va kerakli muddatni aytasiz. Menejer yoʻnalish va taxminiy narxni taklif qiladi.
 2. **Shartnoma va ombor manzili.** Narx qoidasi, muddat va javobgarlik qogʻozda. Siz Ivu ombori manzilini va shaxsiy GS kodingizni (markirovka) olasiz.
-3. **Yuk omborga keladi.** Yetkazib beruvchi joʻnatishdan oldin har bir qutiga GS kodingizni yozadi va tovarni ombor manziliga yuboradi. Tovar hali topilmagan boʻlsa, 1688, Taobao yoki Alibabadan biz sotib olamiz (komissiya 3% dan).
+3. **Yuk omborga keladi.** Yetkazib beruvchi joʻnatishdan oldin har bir qutiga GS kodingizni yozadi va tovarni ombor manziliga yuboradi. Tovar hali topilmagan boʻlsa, 1688, Taobao yoki Alibabadan biz sotib olamiz (komissiya 3% dan) — faqat umumiy hajmi kamida 1 m³ boʻlgan buyurtmalar uchun.
 4. **Qabul va foto-hisobot.** Har bir joy tortiladi, oʻlchanadi, raqamlanadi. Suratlar Telegramga keladi. Kerak boʻlsa — tekshiruv (1 $/kg dan), qayta qadoqlash (0,4 $/kg) va sugʻurta (eʼlon qilingan qiymatning 1%).
 5. **Konsolidatsiya va yuklash.** Yuk partiyaga qoʻshiladi, invoys, qadoqlash roʻyxati va TN VED kodi tayyorlanadi. Ombor Xitoyda 14 kungacha bepul saqlaydi — bir nechta yetkazib beruvchidan kelgan partiyalarni kutib, birlashtirish mumkin.
 6. **Yoʻl va bojxona.** Menejer yuklash, Xorgosdan oʻtish va Toshkentga kelish haqida xabar beradi. Bojxona rasmiylashtiruvi va GTD — bizning zimmamizda, boj va QQS qonun boʻyicha toʻlanadi.
@@ -114,7 +114,7 @@ Avto kargoda narx **hajm boʻyicha** hisoblanadi. Avval yukning zichligini topam
 | 701–1 000 | 320 $/m³ |
 | 1 000 va undan yuqori | 0,55 $/kg |
 
-Eng kam hisob hajmi — 0,1 m³. Masalan: 48 kg, 0,2 m³ → zichlik 240 kg/m³ → 180 $/m³ → 0,2 × 180 = **36 $**. Yengil hajmli yuk: 180 kg, 2 m³ → 90 kg/m³ → 2 × 110 = **220 $**. Metall yoki plitka kabi juda zich yuk: 1 200 kg, 1 m³ → 1 200 kg/m³ → 1 200 × 0,55 = **660 $**. Avia kargo esa aksincha — kilogramm boʻyicha (9–12 $/kg).
+Yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz; 1 m³ — bitta partiyaning umumiy hajmi. Masalan: 240 kg, 1 m³ → zichlik 240 kg/m³ → 180 $/m³ → 1 × 180 = **180 $**. Yengil hajmli yuk: 180 kg, 2 m³ → 90 kg/m³ → 2 × 110 = **220 $**. Metall yoki plitka kabi juda zich yuk: 1 200 kg, 1 m³ → 1 200 kg/m³ → 1 200 × 0,55 = **660 $**. Avia kargo esa aksincha — kilogramm boʻyicha hisoblanadi (9–12 $/kg) va 0,5 kg dan qabul qilinadi: 1 m³ dan kichik yukni shu yoʻl bilan joʻnatish mumkin.
 
 Narxga Ivu omborida qabul, konsolidatsiya, qadoqlash va foto-hisobot kiradi; sugʻurta, boj va QQS — alohida.
 
@@ -124,7 +124,7 @@ Toʻliq hisob usuli — [Kargo narxi qanday hisoblanadi](/qollanma/kargo-narxlar
 
 Umuman qabul qilinmaydi: portlovchi va yonuvchi moddalar; oʻsimlik, hayvon va tez buziladigan mahsulot; pul, qimmatbaho metall va toshlar, zargarlik, antiqa buyumlar; toʻlov vositalari, qimmatli qogʻozlar, hujjatlar; dronlar (jismoniy shaxslarga taqiqlangan); qonun bilan taqiqlangan barcha narsalar.
 
-Faqat avto orqali: litiy batareya va power bank, suyuqlik, kosmetika va atir, magnitli buyumlar — samolyotga olinmaydi. Dori, ratsiya va radio uskunalar uchun ruxsatnoma kerak. Toʻliq roʻyxat — [Taqiqlangan tovarlar](/qollanma/taqiqlangan-tovarlar/) qoʻllanmasida.
+Faqat avto orqali: litiy batareya va power bank, suyuqlik, kosmetika va atir, magnitli buyumlar — samolyotga olinmaydi, shuning uchun bunday yuk 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi. Dori, ratsiya va radio uskunalar uchun ruxsatnoma kerak. Toʻliq roʻyxat — [Taqiqlangan tovarlar](/qollanma/taqiqlangan-tovarlar/) qoʻllanmasida.
 
 ## Necha kun ketadi va nima kechiktiradi?
 
@@ -139,7 +139,7 @@ Oddiy sharoitda avto 15–25 kun keladi; GSR tajribasida eng tez yetkazmalar 12�
 
 - **Toʻliq oldindan toʻlov talab qiladigan nomaʼlum «kargo»** — Toshkentda ofisi va shartnomasi boʻlmagan kanallarga pul oʻtkazmang. Toʻlov yuk Toshkentga kelganda soʻmda yopiladi.
 - **Tijorat yukini pasport orqali olib kelish** — 200 $ limit doʻkon uchun tovarga moʻljallanmagan; bojxona bunday yukni tijorat deb baholaydi va jarima qoʻllaydi.
-- **Yukni faqat vazn boʻyicha oʻlchash** — avtoda toʻlov hajm uchun ketadi: 60×50×40 sm quti 0,12 m³ joy egallaydi, ichida 12 kg boʻlsa zichlik 100 kg/m³ va narx 0,12 × 110 = 13,2 $. Shuning uchun menejerga vazn bilan birga oʻlchamlarni ham ayting.
+- **Yukni faqat vazn boʻyicha oʻlchash** — avtoda toʻlov hajm uchun ketadi: 60×50×40 sm oʻlchamli 10 ta quti 1,2 m³ joy egallaydi, har birida 12 kg boʻlsa (jami 120 kg) zichlik 100 kg/m³ va narx 1,2 × 110 = 132 $. Shuning uchun menejerga vazn bilan birga oʻlchamlarni ham ayting.
 - **Sugʻurtasiz qimmat yuk** — 1% sugʻurta yoʻqotish yoki shikastlanishda toʻliq qiymatni qoplaydi.
 - **Yetkazib beruvchini tekshirmaslik** — ombor qabulidagi foto-hisobot va tekshiruv shu uchun kerak: nuqson yuk Xitoydan chiqmasdan aniqlanadi.
 

@@ -5,7 +5,7 @@ lang: en
 translationKey: routes
 slug: china-tashkent-routes
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [truck, rail, air, customs, routes]
 faq:
   - q: "Which borders does a truck cross between China and Tashkent?"
@@ -83,7 +83,7 @@ Details — [Rail and container](/en/services/rail-container/).
 
 ## How does the air route work?
 
-Air cargo flies from Guangzhou (Baiyun) or Urumqi to Tashkent. The cargo is received at the China warehouse, consolidated into an air batch (2–4 days), flown in 1 day and cleared at Tashkent airport in 1–2 working days. In total roughly 3–10 days, usually 5–10. Rates start at $9/kg with volumetric weight ÷ 5 000. Lithium batteries, liquids, magnets and perfume are not accepted by air — they travel only by truck or rail. Details — [Air cargo](/en/services/air-cargo/).
+Air cargo flies from Guangzhou (Baiyun) or Urumqi to Tashkent. The cargo is received at the China warehouse, consolidated into an air batch (2–4 days), flown in 1 day and cleared at Tashkent airport in 1–2 working days. In total roughly 3–10 days, usually 5–10. Rates start at $9/kg with volumetric weight ÷ 5 000. Lithium batteries, liquids, magnets and perfume are not accepted by air — they travel only by truck or rail, so under 1 m³ they cannot be shipped at all. Details — [Air cargo](/en/services/air-cargo/).
 
 ## The four routes in one table
 
@@ -94,7 +94,7 @@ Air cargo flies from Guangzhou (Baiyun) or Urumqi to Tashkent. The cargo is rece
 | Rail via Dostyk or Altynkol → Saryagash | ≈ 4,500–6,000 km depending on the station | 20–35 days | $ — 20 ft $2,800–5,500 | Gauge change at the border, platform shortages, terminal queues |
 | Air Guangzhou or Urumqi → Tashkent | ≈ 5,000 km / ≈ 1,300 km | 3–10 days | $$$ — $9–12/kg | Restricted goods, flight schedules, capacity shortages around holidays |
 
-Truck cargo is priced not per kilogram but **by density**: divide the total weight (kg) by the total volume (m³), and the resulting density sets the price per m³ — $110/m³ for cargo up to 100 kg/m³, rising to $320/m³ for 701–1,000 kg/m³; cargo at 1,000 kg/m³ and above is charged at $0.55/kg. For example, 300 kg in 1.2 m³ is 250 kg/m³ — the 201–250 band, $180/m³ — so 1.2 × 180 = **$216**; 180 kg in 2 m³ is 90 kg/m³, that is $110/m³, so 2 × 110 = **$220**. That is why lighter but bulkier cargo can cost more. The minimum billable volume is 0.1 m³; prices are indicative, and duty and VAT are calculated separately.
+Truck cargo is priced not per kilogram but **by density**: divide the total weight (kg) by the total volume (m³), and the resulting density sets the price per m³ — $110/m³ for cargo up to 100 kg/m³, rising to $320/m³ for 701–1,000 kg/m³; cargo at 1,000 kg/m³ and above is charged at $0.55/kg. For example, 300 kg in 1.2 m³ is 250 kg/m³ — the 201–250 band, $180/m³ — so 1.2 × 180 = **$216**; 180 kg in 2 m³ is 90 kg/m³, that is $110/m³, so 2 × 110 = **$220**. That is why lighter but bulkier cargo can cost more. Consolidated truck cargo is accepted from 1 m³ — we do not carry anything smaller. The 1 m³ counts across one shipment: pieces from different sellers are gathered at the Yiwu receiving point under one GS code. Cargo under 1 m³ can go by air, from 0.5 kg. Prices are indicative, and duty and VAT are calculated separately.
 
 *Distances, transit times and prices are estimates · Updated September 8, 2026. Transit counts from departure from the China warehouse. A detailed price comparison of the three modes is in the guide [Air, truck or rail](/en/guides/air-vs-truck-vs-rail/).*
 

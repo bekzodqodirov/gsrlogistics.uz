@@ -9,7 +9,8 @@ import type { IconName } from '@/components/ui/Icon.astro';
  * SOURCING RULE for this file: every descriptor has to name work the site already documents —
  * 1688/Taobao buying, sourcing the factory, equipment import, FCL/LCL containers. Nothing here
  * may describe a kind of client we have not been told about, promise a volume we have not
- * published, or restrict who may ship with us. The one figure, the minimum billable volume, is
+ * published, or restrict who may ship with us beyond the published minimum. The one figure, the
+ * smallest consolidated shipment accepted (owner, 2026-11-08: 1 m³ — nothing smaller goes by truck), is
  * templated as {min} and filled from tariffs.json in Segments.astro, so no number is typed here.
  *
  * It also has to avoid saying what the rest of the page already says: "bitta menejer, bitta
@@ -23,7 +24,7 @@ export interface SegmentItem {
 export interface SegmentsStrings {
   eyebrow: string;
   h2: string;
-  /** Contains {min} — the minimum billable volume in m³. */
+  /** Contains {min} — the smallest consolidated shipment accepted, in m³. */
   intro: string;
   listLabel: string;
   items: [SegmentItem, SegmentItem, SegmentItem, SegmentItem];
@@ -34,7 +35,7 @@ export interface SegmentsStrings {
 const uz: SegmentsStrings = {
   eyebrow: 'Kim bilan ishlaymiz',
   h2: 'Kimlar bizga yuk topshiradi.',
-  intro: 'Hajmi muhim emas — bir necha qutidan konteynergacha. Minimal hisob hajmi {min}\u00A0m³, yuqori chegara yoʻq.',
+  intro: 'Yigʻma yuk kamida {min}\u00A0m³ dan qabul qilinadi, yuqori chegara yoʻq — bir necha kub metrdan butun konteynergacha.',
   listLabel: 'Mijozlar toifalari',
   items: [
     { icon: 'cart', name: 'Doʻkonlar va onlayn savdo', text: 'Siz 1688 yoki Taobaoda tanlaysiz — xarid, qabul va yetkazish bizda.' },
@@ -48,7 +49,7 @@ const uz: SegmentsStrings = {
 const ru: SegmentsStrings = {
   eyebrow: 'С кем мы работаем',
   h2: 'Кто передаёт нам груз.',
-  intro: 'Объём не важен — от нескольких коробок до контейнера. Минимальный расчётный объём {min}\u00A0м³, верхней границы нет.',
+  intro: 'Сборный груз принимаем от {min}\u00A0м³, верхней границы нет — от нескольких кубометров до целого контейнера.',
   listLabel: 'Категории клиентов',
   items: [
     { icon: 'cart', name: 'Магазины и онлайн-торговля', text: 'Вы выбираете на 1688 или Taobao — выкуп, приёмка и доставка на нас.' },
@@ -62,7 +63,7 @@ const ru: SegmentsStrings = {
 const en: SegmentsStrings = {
   eyebrow: 'Who we work with',
   h2: 'Who hands us their cargo.',
-  intro: 'Volume is not the point — from a few cartons to a container. The minimum billable volume is {min}\u00A0m³, and there is no upper limit.',
+  intro: 'Consolidated cargo starts at {min}\u00A0m³, with no upper limit — from a few cubic metres to a whole container.',
   listLabel: 'Kinds of client',
   items: [
     { icon: 'cart', name: 'Shops and online sellers', text: 'You pick it on 1688 or Taobao — the buying, the intake and the delivery are ours.' },

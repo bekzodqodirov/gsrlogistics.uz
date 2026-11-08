@@ -119,9 +119,9 @@ const jsonLd: Array<Record<string, unknown>> = [
       ...lcl.map((s, i) => {
         const lo = i > 0 ? (lcl[i - 1].maxKgM3 ?? 0) + 1 : 0;
         const hi = s.maxKgM3 ?? T.truck.perKgFromDensityKgM3 - 1;
-        return { price: s.rate, unitCode: 'MTQ' as const, validThrough: T.validThrough, description: i === 0 ? `density up to ${hi} kg/m³` : `density ${lo}–${hi} kg/m³` };
+        return { price: s.rate, unitCode: 'MTQ' as const, minM3: T.truck.minM3, validThrough: T.validThrough, description: i === 0 ? `density up to ${hi} kg/m³` : `density ${lo}–${hi} kg/m³` };
       }),
-      { price: T.truck.perKgAboveDensity, unitCode: 'KGM' as const, validThrough: T.validThrough, description: `density from ${T.truck.perKgFromDensityKgM3} kg/m³, per kg` },
+      { price: T.truck.perKgAboveDensity, unitCode: 'KGM' as const, minM3: T.truck.minM3, validThrough: T.validThrough, description: `density from ${T.truck.perKgFromDensityKgM3} kg/m³, per kg` },
     ],
   }),
   serviceNode(lang, {
@@ -181,7 +181,7 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
           </div>
           <figcaption class="caption tbl-meta">{estimateMeta}</figcaption>
         </figure>
-        <p class="para small-note">{tpl(p.truck.note, { divisor: n(T.truck.volumetricDivisor, 0) })}</p>
+        <p class="para small-note">{tpl(p.truck.note, { divisor: n(T.truck.volumetricDivisor, 0), minM3: n(T.truck.minM3) })}</p>
         <p class="para small-note">{tpl(p.truck.days, { days: range(T.truck.days), express: range(T.truck.expressDays) })}</p>
       </section>
 
@@ -189,7 +189,7 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
       <!-- Air -->
       <section class="block" aria-labelledby="air-h">
         <h2 id="air-h">{p.air.title}</h2>
-        <p class="para">{tpl(p.air.intro, { divisor: n(T.air.volumetricDivisor, 0) })}</p>
+        <p class="para">{tpl(p.air.intro, { divisor: n(T.air.volumetricDivisor, 0), minM3: n(T.truck.minM3) })}</p>
         <figure class="tbl">
           <div class="table-wrap">
             <table class="table">

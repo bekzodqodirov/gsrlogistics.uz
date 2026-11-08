@@ -5,19 +5,19 @@ lang: uz
 translationKey: prohibited-goods
 slug: taqiqlangan-tovarlar
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [truck, air, customs, warehouse]
 faq:
   - q: "Power bank yoki batareyali tovarni Xitoydan olib kelsam boʻladimi?"
-    a: "Ha, faqat avto orqali. Litiy batareya IATA qoidalari boʻyicha xavfli yuk hisoblanadi va yigʻma avia yukka olinmaydi. Avto reysida power bank, telefon, noutbuk, elektr skuter batareyasi zavod qadoqida qabul qilinadi; qoʻshimcha toʻlov boʻlishi mumkin — menejer oldindan aytadi."
+    a: "Ha, faqat avto orqali. Litiy batareya IATA qoidalari boʻyicha xavfli yuk hisoblanadi va yigʻma avia yukka olinmaydi, avto kargo esa kamida 1 m³ dan qabul qilinadi — shuning uchun bunday yuk 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi. 1 m³ — bitta partiyaning umumiy hajmi: batareyali tovar boshqa tovarlaringiz bilan bitta GS kodi ostida birga hisoblanadi. Avto reysida power bank, telefon, noutbuk, elektr skuter batareyasi zavod qadoqida qabul qilinadi; qoʻshimcha toʻlov boʻlishi mumkin — menejer oldindan aytadi."
   - q: "Dron olib kelsam boʻladimi?"
     a: "Jismoniy shaxslarga — yoʻq. Oʻzbekistonda dronlarni ruxsatsiz olib kirish 2015-yildan taqiqlangan, ruxsat faqat yuridik shaxslarga xizmat vazifalari uchun beriladi, buzganlik uchun Jinoyat kodeksining 244-4-moddasi boʻyicha javobgarlik bor. GSR Logistics dronlarni qabul qilmaydi."
   - q: "Atir va kosmetikani qanday olib kelish mumkin?"
-    a: "Faqat avto orqali — suyuqlik va spirtli mahsulot samolyotga olinmaydi. Tijorat partiyasi uchun SES xulosasi, muvofiqlik hujjati va oʻzbek tilidagi yorliq kerak; boj — kosmetika uchun 30% (kamida 0,5 $/kg), atir uchun 30% (kamida 2,5 $/kg) va QQS 12%. Shaxsiy foydalanish uchun kichik miqdor oylik 200 $ limit ichida yuradi."
+    a: "Faqat avto orqali — suyuqlik va spirtli mahsulot samolyotga olinmaydi. Avto kargo esa kamida 1 m³ dan qabul qilinadi, shuning uchun atir va kosmetika umumiy hajmi kamida 1 m³ boʻlgan partiya tarkibida keladi; undan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi. Tijorat partiyasi uchun SES xulosasi, muvofiqlik hujjati va oʻzbek tilidagi yorliq kerak; boj — kosmetika uchun 30% (kamida 0,5 $/kg), atir uchun 30% (kamida 2,5 $/kg) va QQS 12%. Shaxsiy foydalanish uchun kichik miqdor bojxonada oylik 200 $ limit ichida yuradi."
   - q: "Brend nusxalari (replika) olib kelinadimi?"
     a: "Yoʻq. Nike, Apple, Zara kabi tovar belgilari tushirilgan nusxalar kontrafakt hisoblanadi: bojxona intellektual mulk reyestri boʻyicha ularni ushlab qoladi, tovar musodara qilinadi, va bitta quti butun furani kechiktiradi. Belgisiz (no name) mahsulot olib kelishga cheklov yoʻq."
   - q: "Dori-darmon yuborsam boʻladimi?"
-    a: "Shaxsiy ehtiyoj uchun — koʻpi bilan 10 nom, har biridan 5 qadoqgacha va faqat avto orqali. Tijorat maqsadida dori Oʻzbekistonda davlat roʻyxatidan oʻtgan va Sogʻliqni saqlash vazirligi ruxsati boʻlgan holdagina olib kirilishi mumkin — bunday partiyani faqat hujjatlar bilan qabul qilamiz."
+    a: "Shaxsiy ehtiyoj uchun — koʻpi bilan 10 nom, har biridan 5 qadoqgacha va faqat avto orqali, yaʼni umumiy hajmi kamida 1 m³ boʻlgan partiya tarkibida. Tijorat maqsadida dori Oʻzbekistonda davlat roʻyxatidan oʻtgan va Sogʻliqni saqlash vazirligi ruxsati boʻlgan holdagina olib kirilishi mumkin — bunday partiyani faqat hujjatlar bilan qabul qilamiz."
 sources:
   - title: "Oʻzbekiston Respublikasi Bojxona kodeksi (lex.uz) — taqiqlar, intellektual mulk reyestri, musodara"
     url: "https://lex.uz/docs/2876352"
@@ -56,7 +56,7 @@ Cheklovlar uchta manbadan keladi va ularni aralashtirmaslik kerak:
 
 1. **Oʻzbekiston qonunlari** — Bojxona kodeksi, Jinoyat kodeksi, Vazirlar Mahkamasi qarorlari. Bu taqiqlar transport turiga bogʻliq emas: tovar avto bilan ham, avia bilan ham chegaradan oʻtmaydi.
 2. **Tashuvchi qoidalari** — samolyot uchun IATA xavfli yuklar reglamenti (DGR), fura uchun yoʻl tashuvi qoidalari. Shu sababli bir tovar aviaga olinmaydi, avtoga olinadi.
-3. **GSR Logistics ombori qoidalari** — Ivu, Guanchjou va Qashqardagi qabul punktlarida tovar qabul qilinayotganda tekshiriladigan roʻyxat. U qonun va tashuvchi talablarining yigʻindisi: biz qabul qilmaydigan tovar bitta quti sababli 100 mijozning furasini kechiktirishi mumkin.
+3. **Ombor qoidalari** — Ivu, Guanchjou va Qashqardagi qabul punktlarida tovar qabul qilinayotganda tekshiriladigan roʻyxat. U qonun va tashuvchi talablarining yigʻindisi: biz qabul qilmaydigan tovar bitta quti sababli 100 mijozning furasini kechiktirishi mumkin.
 
 Har guruh uchun alohida jadval quyida.
 
@@ -81,7 +81,7 @@ Bu roʻyxatdagi tovar Xitoydagi qabul punktiga kelsa, u qabul qilinmaydi va sotu
 
 ## Faqat avto orqali: samolyot olmaydigan tovarlar
 
-Avia kargo IATA xavfli yuklar reglamenti boʻyicha ishlaydi. Litiy batareya (UN3480, UN3481) va magnitlangan materiallar (UN2807) — 9-sinf xavfli yuk: ular faqat maxsus deklaratsiya va sinov hujjatlari bilan uchadi, yigʻma yukda esa bunday hujjat boʻlmaydi. Shu sababli quyidagilar faqat fura bilan, taxminan 15–25 kunda yuradi:
+Avia kargo IATA xavfli yuklar reglamenti boʻyicha ishlaydi. Litiy batareya (UN3480, UN3481) va magnitlangan materiallar (UN2807) — 9-sinf xavfli yuk: ular faqat maxsus deklaratsiya va sinov hujjatlari bilan uchadi, yigʻma yukda esa bunday hujjat boʻlmaydi. Shu sababli quyidagilar faqat fura bilan, taxminan 15–25 kunda yuradi (avto kargo kamida 1 m³ dan qabul qilinadi — bunday yuk 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi):
 
 | Tovar | Nega aviaga olinmaydi | Avto shartlari |
 |---|---|---|
@@ -123,8 +123,8 @@ Raqamlar va hujjatlar — [2026-yil bojxona toʻlovlari](/qollanma/bojxona-tolov
 
 Amalda toʻrt bosqichning birida aniqlanadi, va har bosqichda oqibat ogʻirlashadi:
 
-1. **Xitoydagi qabul punktida.** Har quti tortiladi, oʻlchanadi, kerak boʻlsa ochiladi. Taqiqlangan tovar topilsa — qabul qilinmaydi: sotuvchiga qaytariladi (qaytarish xarajati mijoz hisobidan) yoki, agar bu «faqat avto» guruhi boʻlsa, avia oʻrniga avto reysiga oʻtkaziladi. Yoʻqotish — bir necha kun.
-2. **Aviakompaniya skanerida.** Yashirilgan batareya yoki suyuqlik rentgenda koʻrinadi. Aviakompaniya butun partiyani qaytaradi va jarima yozadi; yuk keyingi avto reysiga oʻtadi. Yoʻqotish — 2–3 hafta va jarima.
+1. **Xitoydagi qabul punktida.** Har quti tortiladi, oʻlchanadi, kerak boʻlsa ochiladi. Taqiqlangan tovar topilsa — qabul qilinmaydi: sotuvchiga qaytariladi (qaytarish xarajati mijoz hisobidan) yoki, agar bu «faqat avto» guruhi boʻlsa va partiya kamida 1 m³ boʻlsa, avia oʻrniga avto reysiga oʻtkaziladi. Yoʻqotish — bir necha kun.
+2. **Aviakompaniya skanerida.** Yashirilgan batareya yoki suyuqlik rentgenda koʻrinadi. Aviakompaniya butun partiyani qaytaradi va jarima yozadi; yuk keyingi avto reysiga oʻtadi — agar u kamida 1 m³ boʻlsa: undan kichik yukni avto bilan olib kelmaymiz. Yoʻqotish — 2–3 hafta va jarima.
 3. **Xorgos yoki Yallama chegarasida.** Bojxona furadagi bitta qutida kontrafakt yoki taqiqlangan tovar topsa, butun fura tekshiruvga qoʻyiladi: qolgan mijozlarning yuki ham kunlab kutadi. Tovar musodara qilinadi, yuk egasiga jarima; kechikish va tekshiruv xarajatlari yuk egasiga tushadi.
 4. **Jinoiy javobgarlik.** Narkotik, qurol, dron va portlovchi moddalar uchun maʼmuriy jarima bilan tugamaydi — Jinoyat kodeksi qoʻllanadi; dron uchun 244-4-modda boʻyicha 3 yilgacha, takroran 3–5 yil.
 
@@ -140,4 +140,4 @@ Sugʻurta taqiqlangan tovarni qoplamaydi. Shuning uchun qoida oddiy: shubha boʻ
 
 Yukingiz qaysi guruhga kirishini bilmasangiz, [Telegramga yozing](/aloqa/) — menejer bir xabarda javob beradi. Bojxonada tovar boʻyicha nima kutilishi — [Bojxona rasmiylashtiruvi](/xizmatlar/bojxona/), atamalar — [Kargo lugʻati](/qollanma/kargo-lugati/).
 
-> **Menejer maslahati.** Eng koʻp muammo «bilmasdan» yuborilgan mayda narsalardan chiqadi: quti ichida sovgʻa power bank, oʻyinchoq ichida magnit, kosmetika toʻplamida bitta sprey. Sotuvchiga «batareya, magnit, suyuqlik va aerozol alohida qutida boʻlsin» deb bir jumla yozib qoʻysangiz, omborda partiyani ikkiga boʻlib, quruq qismini aviaga, qolganini avtoga joʻnatamiz — butun yuk kutib qolmaydi.
+> **Menejer maslahati.** Eng koʻp muammo «bilmasdan» yuborilgan mayda narsalardan chiqadi: quti ichida sovgʻa power bank, oʻyinchoq ichida magnit, kosmetika toʻplamida bitta sprey. Sotuvchiga «batareya, magnit, suyuqlik va aerozol alohida qutida boʻlsin» deb bir jumla yozib qoʻysangiz, omborda partiyani ikkiga boʻlib, quruq qismini aviaga, qolganini avtoga joʻnatamiz — butun yuk kutib qolmaydi. Avto qismi esa kamida 1 m³ boʻlishi kerak — undan kichik yukni avto bilan olib kelmaymiz.

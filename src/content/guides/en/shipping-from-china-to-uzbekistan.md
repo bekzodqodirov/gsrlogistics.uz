@@ -5,7 +5,7 @@ lang: en
 translationKey: shipping-from-china
 slug: shipping-from-china-to-uzbekistan
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [truck, air, rail, customs, warehouse]
 faq:
   - q: "How many days does cargo take from China to Tashkent?"
@@ -13,7 +13,7 @@ faq:
   - q: "Do I need my own warehouse in China or someone who speaks Chinese?"
     a: "No. Your supplier ships to the consolidation warehouse in Yiwu (义乌); we give you the warehouse address and your GS code (shipping mark). Our managers speak Uzbek, Russian and Chinese and handle the supplier correspondence."
   - q: "Do you take small shipments?"
-    a: "Yes. With consolidated cargo you pay only for your space, not for a whole container. Truck cargo is billed by volume, with a minimum billable volume of 0.1 m³; air starts from 0.5 kg; lots above 10 m³ get an individual rate."
+    a: "Consolidated truck cargo is accepted from 1 m³ — we do not carry anything smaller. The 1 m³ counts across one shipment: pieces from different sellers are gathered at the Yiwu receiving point under one GS code. Cargo under 1 m³ can go by air, from 0.5 kg — except batteries, magnets, liquids, cosmetics and perfume, which cannot fly, so under 1 m³ they cannot be shipped at all. With consolidated cargo you pay only for your space, not for a whole container; lots above 10 m³ get an individual rate."
   - q: "Who pays customs duties?"
     a: "Commercial goods are cleared officially: the legal entity or sole trader pays duty (0–30% by HS code), 12% VAT and the customs fee as required by law. We prepare the documents, file the customs declaration (GTD) and calculate the payments in advance. Personal parcels are subject to the $200-per-month limit in force since May 1, 2025."
   - q: "How do I know where my cargo is?"
@@ -57,7 +57,7 @@ Transit times count from departure from the China warehouse. Full tariffs and ru
 
 Consolidated cargo is a method where shipments from several clients are combined into one lot at the China warehouse and sent in one truck or container. You do not rent a whole container; you pay only for your space — by the cubic metre on the truck, by the kilogram by air. The international term is LCL (Less than Container Load); in Uzbek it is yigʻma yuk, in Russian сборный груз.
 
-It suits lots from 10 kg to 15 m³ best: Uzum and Yandex Market sellers, shop and market-stall owners, entrepreneurs testing a first batch. Above 15–20 m³ a dedicated container (FCL) or rail usually works out cheaper.
+It suits lots from 1 m³ to 15 m³ best: Uzum and Yandex Market sellers, shop and market-stall owners, entrepreneurs bringing in a first batch. Anything under 1 m³ is not carried by truck; it can go by air. Above 15–20 m³ a dedicated container (FCL) or rail usually works out cheaper.
 
 GSR Logistics has been shipping consolidated cargo since June 2022; the third consolidation truck left the Yiwu warehouse on August 2, 2022. Yiwu (义乌) is home to the world’s largest small-commodity wholesale market, which is why the consolidation warehouse is there. There are two more receiving addresses in China — Guangzhou (广州) and Kashgar (喀什); your manager tells you which address to use.
 
@@ -79,7 +79,7 @@ Air cargo flies from Guangzhou or Urumqi to Tashkent airport and is cleared at t
 
 1. **You send a request.** On Telegram or by phone you name the goods, the city, the approximate weight or volume and the deadline. Your manager proposes a mode and an estimated price.
 2. **Contract and warehouse address.** Pricing rule, transit time and liability go on paper. You receive the Yiwu warehouse address and your personal GS code (shipping mark).
-3. **The cargo reaches the warehouse.** Before dispatch your supplier writes the GS code on every carton, then ships the goods to the warehouse address. If the goods are not found yet, we buy them on 1688, Taobao or Alibaba (commission from 3%).
+3. **The cargo reaches the warehouse.** Before dispatch your supplier writes the GS code on every carton, then ships the goods to the warehouse address. If the goods are not found yet, we buy them on 1688, Taobao or Alibaba (commission from 3%) — only for orders with a total volume of at least 1 m³.
 4. **Intake and photo report.** Every piece is weighed, measured and numbered. Photos arrive in Telegram. On request: inspection (from $1/kg), repacking ($0.40/kg) and insurance (1% of declared value).
 5. **Consolidation and loading.** The cargo joins a lot; the invoice, packing list and HS code are prepared. The China warehouse stores free for up to 14 days, so you can wait for several suppliers and combine their deliveries.
 6. **Road and customs.** Your manager reports loading, the Khorgos crossing and arrival in Tashkent. Customs clearance and the declaration (GTD) are on us; duty and VAT are paid as the law requires.
@@ -114,7 +114,7 @@ Truck cargo is priced **by volume**. First we work out the density of your cargo
 | 701–1,000 | $320 per m³ |
 | 1,000 and above | $0.55 per kg |
 
-The minimum billable volume is 0.1 m³. Example: 48 kg in 0.2 m³ → density 240 kg/m³ → $180 per m³ → 0.2 × 180 = **$36**. Light bulky cargo: 180 kg in 2 m³ → 90 kg/m³ → 2 × 110 = **$220**. Very dense cargo such as fasteners or tiles: 1,200 kg in 1 m³ → 1,200 kg/m³ → 1,200 × 0.55 = **$660**. Air cargo works the other way round and is charged per kilogram ($9–12/kg).
+Consolidated truck cargo is accepted from 1 m³ — we do not carry anything smaller; the 1 m³ counts across one shipment. Example: 240 kg in 1 m³ → density 240 kg/m³ → $180 per m³ → 1 × 180 = **$180**. Light bulky cargo: 180 kg in 2 m³ → 90 kg/m³ → 2 × 110 = **$220**. Very dense cargo such as fasteners or tiles: 1,200 kg in 1 m³ → 1,200 kg/m³ → 1,200 × 0.55 = **$660**. Air cargo works the other way round: it is charged per kilogram ($9–12/kg) and accepted from 0.5 kg, so cargo under 1 m³ can go by air.
 
 The price includes intake at the Yiwu warehouse, consolidation, packing and the photo report; insurance, duty and VAT are extra.
 
@@ -124,7 +124,7 @@ The full method is in the guide [How cargo prices are calculated](/en/guides/how
 
 Not accepted at all: explosives and flammables; plants, animals and perishables; cash, precious metals and stones, jewellery, antiques; payment instruments, securities, documents; drones (banned for individuals); anything prohibited by law.
 
-Truck only: lithium batteries and power banks, liquids, cosmetics and perfume, magnetic items — airlines refuse them. Medicines, walkie-talkies and radio equipment require permits. The full list is in the [Prohibited goods](/en/guides/prohibited-goods/) guide.
+Truck only: lithium batteries and power banks, liquids, cosmetics and perfume, magnetic items — airlines refuse them, so under 1 m³ they cannot be shipped at all. Medicines, walkie-talkies and radio equipment require permits. The full list is in the [Prohibited goods](/en/guides/prohibited-goods/) guide.
 
 ## How long does it take and what causes delays?
 
@@ -139,7 +139,7 @@ In normal conditions a truck arrives in 15–25 days; the fastest deliveries in 
 
 - **An unknown "cargo" demanding full prepayment** — do not transfer money to channels without an office in Tashkent and a contract. Payment is settled in soums once the cargo has arrived in Tashkent.
 - **Commercial goods under a personal passport** — the $200 limit is not meant for shop stock; customs will class such a lot as commercial and apply penalties.
-- **Judging cargo by weight alone** — by truck you pay for volume: a 60×50×40 cm box occupies 0.12 m³, and at 12 kg that is a density of 100 kg/m³, so 0.12 × 110 = $13.20. Give your manager the dimensions, not only the weight.
+- **Judging cargo by weight alone** — by truck you pay for volume: ten 60×50×40 cm boxes occupy 1.2 m³, and at 12 kg each (120 kg in total) that is a density of 100 kg/m³, so 1.2 × 110 = $132. Give your manager the dimensions, not only the weight.
 - **Valuable cargo without insurance** — 1% insurance covers the full value in case of loss or damage.
 - **An unchecked supplier** — that is what the photo report and warehouse inspection are for: defects are found before the goods leave China.
 

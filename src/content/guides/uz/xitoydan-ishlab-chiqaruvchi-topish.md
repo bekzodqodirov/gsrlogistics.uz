@@ -5,7 +5,7 @@ lang: uz
 translationKey: find-supplier
 slug: xitoydan-ishlab-chiqaruvchi-topish
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [sourcing, buying, warehouse, suppliers]
 faq:
   - q: "Zavod bilan savdo kompaniyasini qanday farqlayman?"
@@ -13,7 +13,7 @@ faq:
   - q: "Namuna qancha turadi va necha kunda keladi?"
     a: "Zavod namunani odatda 3–10 kunda tayyorlaydi; narxi bir dona tovar narxidan 1,5–3 barobar yuqori boʻlib, buyurtma berilgach koʻpincha hisobga olinadi. Namuna Ivu omboriga keladi — suratga olamiz, oʻlchaymiz, video yuboramiz; kerak boʻlsa avia bilan taxminan 5–10 kunda Toshkentga yetkazamiz."
   - q: "MOQni kamaytirib boʻladimi?"
-    a: "Koʻpincha ha: bir modelni bir necha rangga boʻlish, zavodning omboridagi tayyor tovarini olish, birinchi (sinov) partiyaga 10–30% yuqori narx taklif qilish yoki bir xil material ishlatiladigan bir necha modelni birlashtirish. Zavod MOQ si 300–1 000 dona boʻlsa, birinchi partiyani 1688-dagi 2–50 donalik sotuvchidan olib, keyin zavodga oʻtish ham mumkin."
+    a: "Koʻpincha ha: bir modelni bir necha rangga boʻlish, zavodning omboridagi tayyor tovarini olish, birinchi (sinov) partiyaga 10–30% yuqori narx taklif qilish yoki bir xil material ishlatiladigan bir necha modelni birlashtirish. Zavod MOQ si 300–1 000 dona boʻlsa, birinchi partiyani 1688-dagi 2–50 donalik sotuvchidan olib, keyin zavodga oʻtish ham mumkin. Biz orqali buyurtmaning umumiy hajmi esa kamida 1 m³ boʻlishi kerak: turli sotuvchilardan olingan tovar Ivudagi qabul punktida bitta GS kodi ostida yigʻilib, birga hisoblanadi."
   - q: "Oldindan toʻlov qancha va qanday himoyalanaman?"
     a: "Odatiy sxema — 30% buyurtmada, 70% yuklashdan oldin, tekshiruvdan keyin. Yuridik shaxs uchun shartnoma EEISVOda roʻyxatdan oʻtadi va oldindan toʻlangan tovar 180 kun ichida kelishi shart (VMQ-283). Toʻlovni kompaniya hisobiga (shaxsiy WeChat yoki kartaga emas) qiling; 1688 va Alibabada platforma orqali toʻlov pulni tovar kelguncha ushlab turadi."
   - q: "Xitoy tilini bilmasam, oʻzim zavod topa olamanmi?"
@@ -56,9 +56,9 @@ Xitoyda tovar topish oson, ishonchli manbani topish esa qiyin: bitta mahsulotga 
 | Til | Faqat xitoy | Koʻpincha inglizcha ham | Faqat xitoy |
 | Oʻz brendi (logotip, qadoq) | Ha | Ha, zavod orqali | Kamdan-kam |
 | Sifat uchun javobgarlik | Aniq, bitta manba | Tarqoq — zavod bilan vositachi orasida | Platforma himoyasi |
-| Kimga mos | Doimiy partiya, oʻz brendi, texnik tovar | Aralash buyurtma, kichik hajm, murakkab tovar | Birinchi partiya, sinov, marketpleys |
+| Kimga mos | Doimiy partiya, oʻz brendi, texnik tovar | Aralash buyurtma, kichik hajm, murakkab tovar | Birinchi partiya, marketpleys |
 
-Amaliy qoida: birinchi partiyani 1688 yoki savdo kompaniyasidan oling, tovar sotilishiga ishonch hosil qilgach zavodga oʻting. 1688-da buyurtma berish tartibi — [1688 orqali buyurtma berish](/qollanma/1688-orqali-buyurtma-berish/) qoʻllanmasida.
+Amaliy qoida: birinchi partiyani 1688 yoki savdo kompaniyasidan oling, tovar sotilishiga ishonch hosil qilgach zavodga oʻting. Biz orqali buyurtmaning umumiy hajmi esa, manba qaysi boʻlishidan qatʼi nazar, kamida 1 m³ boʻlishi kerak. 1688-da buyurtma berish tartibi — [1688 orqali buyurtma berish](/qollanma/1688-orqali-buyurtma-berish/) qoʻllanmasida.
 
 ## Yetkazib beruvchini qanday tekshirish kerak?
 
@@ -116,7 +116,7 @@ Toʻlov boʻyicha odatiy sxema — 30% buyurtmada, 70% yuklashdan oldin, tekshir
 2. Oldindan toʻlov majburiy emas, lekin toʻlagan boʻlsangiz, tovar 180 kalendar kun ichida kelishi yoki pul qaytishi shart (VMQ-283, 2020-yil 14-may). Ishlab chiqarish muddati 60–90 kun boʻlgan buyurtmada bu muddatni hisobga oling.
 3. Toʻlov faqat litsenziyadagi kompaniya hisobiga. 1688 va Alibabada platforma orqali toʻlov (Trade Assurance) pulni tovar tasdiqlanguncha ushlab turadi.
 
-Xitoyga oʻzingiz toʻlay olmasangiz, [1688 va Taobaodan sotib olish](/xizmatlar/sotib-olish/) xizmati orqali biz yuanda toʻlaymiz. Bojxona uchun shartnoma, invoys va kelib chiqish sertifikati kerak boʻladi — [Bojxona toʻlovlari 2026](/qollanma/bojxona-tolovlari-2026/).
+Xitoyga oʻzingiz toʻlay olmasangiz, [1688 va Taobaodan sotib olish](/xizmatlar/sotib-olish/) xizmati orqali biz yuanda toʻlaymiz — umumiy hajmi kamida 1 m³ boʻlgan buyurtmalar uchun. Bojxona uchun shartnoma, invoys va kelib chiqish sertifikati kerak boʻladi — [Bojxona toʻlovlari 2026](/qollanma/bojxona-tolovlari-2026/).
 
 ## Yuklashdan oldingi sifat nazorati
 
