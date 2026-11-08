@@ -15,6 +15,9 @@ import type { ServiceContentByLang } from './types';
  * own account, so never copy the cargo pages' "the supplier writes it before dispatch" line onto it.
  * FX example uses the CBU rates of 2026-09-08 (USD 11 789,33 · CNY 1 756,72 soʻm, research wf/10 §6) — illustrative only.
  * Payment channels in Uzbekistan (soʻm, card, Click/Payme, bank transfer for legal entities) are market practice — owner to confirm.
+ * Owner policy 2026-11-08: the buying service takes only orders whose TOTAL volume is ≥ 1 m³, whichever platform
+ * (several products and sellers combine under one GS code); never single-item, small or "test" orders. Minimums in
+ * the platform table are the sellers' own, never our offer; the freight example therefore stays ≥ 1 m³.
  */
 const content: ServiceContentByLang = {
   uz: {
@@ -31,7 +34,7 @@ const content: ServiceContentByLang = {
         'Sotib olish xizmati (выкуп) — bu siz 1688, Taobao, Pinduoduo yoki Alibabadan tovar havolasini yuborasiz, biz narxni Markaziy bank kursi boʻyicha dollarda hisoblab beramiz, sotuvchiga yuanda toʻlaymiz, tovarni Ivu (义乌) omborida qabul qilib tekshiramiz va yigʻma yuk bilan taxminan 15–25 kunda Toshkentga olib kelamiz. Xizmat haqi — buyurtma summasining 3% dan. Xitoy kartasi, Alipay yoki xitoy tili kerak emas.',
       facts: [
         { label: 'Komissiya, buyurtma summasidan', value: '3% dan' },
-        { label: 'Saytlar: 1688, Taobao, Pinduoduo, Alibaba', value: '4 sayt' },
+        { label: 'Buyurtmaning umumiy hajmi', value: '1 m³ dan' },
         { label: 'Yuan kursi', value: 'MB kursi' },
         { label: 'Toshkentgacha, avto', value: '15–25 kun' },
       ],
@@ -41,6 +44,7 @@ const content: ServiceContentByLang = {
         heading: '1688 dan tovar olib berish qanday ishlaydi?',
         body: [
           'Xitoy saytlari faqat xitoy bank kartasi yoki Alipay bilan toʻlovni qabul qiladi, sotuvchilar faqat xitoy tilida yozadi, tovar esa faqat Xitoy ichidagi manzilga joʻnatiladi. Biz shu uch toʻsiqni olib tashlaymiz: toʻlaymiz, yozishamiz va Ivu omborining manzilini beramiz.',
+          'Sotib olish xizmati — faqat umumiy hajmi kamida 1 m³ boʻlgan buyurtmalar uchun, sayt qaysi boʻlishidan qatʼi nazar (1688, Taobao, Pinduoduo yoki Alibaba). Bitta dona yoki mayda buyurtmalarni olmaymiz. Bir necha tovarni, hatto turli sotuvchilardan boʻlsa ham, bitta buyurtmaga jamlash mumkin — hajmi birga hisoblanadi.',
         ],
         steps: [
           { title: 'Havolani yuborasiz', text: 'Telegramda tovar havolasi, rangi, oʻlchami va sonini yozasiz. Bir xabarda 1 ta ham, 50 ta ham havola boʻlishi mumkin; sayt ilovasidagi «ulashish» tugmasi yetarli.' },
@@ -69,8 +73,8 @@ const content: ServiceContentByLang = {
           note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. Yuan va dollar kursi Markaziy bank kursi asosida hisob-kitob kunida koʻrsatiladi.',
         },
         callout: {
-          title: 'Misol: 1688-dan 50 ta sumka',
-          text: '50 dona × 38 yuan = 1 900 yuan. 2026-yil 8-sentabrdagi MB kursi (1 yuan = 1 756,72 soʻm, 1 $ = 11 789,33 soʻm) boʻyicha bu ≈ 283 $; komissiya 3% ≈ 8,5 $. Tovar ≈ 3 340 000 soʻm + komissiya ≈ 100 000 soʻm. Tashish alohida: 50 sumka ≈ 20 kg, 0,15 m³ → zichlik ≈ 133 kg/m³ → shu zichlikka 130 $/m³ stavkasi toʻgʻri keladi: 0,15 × 130 $ ≈ 19,5 $.',
+          title: 'Misol: 1688-dan 400 ta sumka',
+          text: '400 dona × 38 yuan = 15 200 yuan. 2026-yil 8-sentabrdagi MB kursi (1 yuan = 1 756,72 soʻm, 1 $ = 11 789,33 soʻm) boʻyicha bu ≈ 2 265 $; komissiya 3% ≈ 68 $. Tovar ≈ 26 700 000 soʻm + komissiya ≈ 800 000 soʻm. Tashish alohida: 400 sumka ≈ 160 kg, 1,2 m³ → zichlik ≈ 133 kg/m³ → shu zichlikka 130 $/m³ stavkasi toʻgʻri keladi: 1,2 × 130 $ = 156 $.',
           tone: 'info',
         },
       },
@@ -81,14 +85,14 @@ const content: ServiceContentByLang = {
         ],
         table: {
           caption: 'Xitoy saytlarini taqqoslash',
-          head: ['Sayt', 'Nima uchun', 'Minimal buyurtma', 'Eʼtibor bering'],
+          head: ['Sayt', 'Nima uchun', 'Sotuvchining minimal buyurtmasi', 'Eʼtibor bering'],
           rows: [
             ['1688.com', 'ulgurji: kiyim, poyabzal, aksessuar, uy-roʻzgʻor, ehtiyot qismlar', '2–10 dona (sotuvchiga qarab)', 'sotuvchi reytingi, «回头率» (qayta xarid foizi), zavod belgisi'],
-            ['Taobao / Tmall', 'chakana, brend doʻkonlar, keng tanlov, 1 dona', '1 dona', 'Tmall — rasmiy doʻkonlar; Taobaoda sotuvchi reytingi va sharhlar'],
-            ['Pinduoduo', 'eng arzon mayda tovarlar, sinov uchun', '1 dona', 'sifat turlicha; Ivuda tekshiruv va foto tavsiya etiladi'],
+            ['Taobao / Tmall', 'chakana, brend doʻkonlar, keng tanlov', '1 dona', 'Tmall — rasmiy doʻkonlar; Taobaoda sotuvchi reytingi va sharhlar'],
+            ['Pinduoduo', 'eng arzon mayda tovarlar', '1 dona', 'sifat turlicha; Ivuda tekshiruv va foto tavsiya etiladi'],
             ['Alibaba.com', 'eksport buyurtmalari, dollarda, katta partiya, shartnoma', '100–500 dona', 'Trade Assurance; narx FOB/EXW deb koʻrsatiladi'],
           ],
-          note: 'Saytlar Xitoy ichidagi manzilga joʻnatadi — Ivu ombori manzilini buyurtmadan oldin beramiz.',
+          note: 'Jadvaldagi minimum — sotuvchining oʻz sharti. Biz orqali buyurtma esa, sayt qaysi boʻlishidan qatʼi nazar, umumiy hajmi kamida 1 m³ boʻlishi kerak; bitta dona yoki mayda buyurtmalarni olmaymiz. Saytlar Xitoy ichidagi manzilga joʻnatadi — Ivu ombori manzilini buyurtmadan oldin beramiz.',
         },
       },
       {
@@ -113,7 +117,7 @@ const content: ServiceContentByLang = {
           'Kiyim va poyabzal: soni, oʻlcham jadvali, tikuv, dogʻ — 1 $/kg tekshiruv bilan.',
           'Elektronika va telefon aksessuarlari: ishlashi, toʻplam butligi; litiy batareyali tovar faqat avto kargo bilan boradi.',
           'Brend tovar: faqat Tmall yoki rasmiy doʻkondan; kontrafaktni sotib olmaymiz va tashimaymiz.',
-          'Suyuqlik, kosmetika, magnit: avia orqali boʻlmaydi — avto orqali alohida qadoqlab yuboramiz.',
+          'Suyuqlik, kosmetika, magnit: avia orqali boʻlmaydi — avto orqali, kamida 1 m³ partiyada, alohida qadoqlab yuboramiz.',
         ],
       },
       {
@@ -144,7 +148,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Taobao va Pinduoduodan ham olib berasizmi?',
-        a: 'Ha: 1688, Taobao, Tmall, Pinduoduo va Alibaba. Pinduoduo tovarini Ivu omborida 1 $/kg evaziga ochib tekshirishni tavsiya qilamiz — u yerda sifat notekis, qaytarish esa faqat Xitoy ichida ishlaydi.',
+        a: 'Ha: 1688, Taobao, Tmall, Pinduoduo va Alibaba — lekin faqat umumiy hajmi kamida 1 m³ boʻlgan buyurtma tarkibida. Pinduoduo tovarini Ivu omborida 1 $/kg evaziga ochib tekshirishni tavsiya qilamiz — u yerda sifat notekis, qaytarish esa faqat Xitoy ichida ishlaydi.',
       },
       {
         q: 'Tovar necha kunda keladi?',
@@ -156,7 +160,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Bitta dona buyurtma qilsam boʻladimi?',
-        a: 'Ha, Taobao va Pinduoduodan 1 donadan olamiz. 1688-da sotuvchilar odatda 2–10 donadan sotadi. Tashishda minimal hisob-kitob: avto uchun 0,1 m³, avia uchun 0,5 kg.',
+        a: 'Yoʻq. Buyurtmaning umumiy hajmi kamida 1 m³ boʻlishi kerak, sayt qaysi boʻlishidan qatʼi nazar. Bir necha tovarni, hatto turli sotuvchilardan boʻlsa ham, bitta buyurtmaga jamlash mumkin — ular Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi va hajmi birga hisoblanadi.',
       },
       {
         q: 'Toʻlovni qanday va qachon qilaman?',
@@ -187,7 +191,7 @@ const content: ServiceContentByLang = {
         'Выкуп — это когда вы присылаете ссылку на товар с 1688, Taobao, Pinduoduo или Alibaba, а мы считаем цену в долларах по курсу Центрального банка, платим продавцу в юанях, принимаем и проверяем товар на складе в Иу (义乌) и привозим его в Ташкент сборным грузом ориентировочно за 15–25 дней. Стоимость услуги — от 3% суммы заказа. Китайская карта, Alipay и знание китайского не нужны.',
       facts: [
         { label: 'Комиссия от суммы заказа', value: 'от 3%' },
-        { label: 'Площадки: 1688, Taobao, Pinduoduo, Alibaba', value: '4 площадки' },
+        { label: 'Общий объём заказа', value: 'от 1 м³' },
         { label: 'Курс юаня', value: 'по курсу ЦБ' },
         { label: 'До Ташкента, авто', value: '15–25 дней' },
       ],
@@ -197,6 +201,7 @@ const content: ServiceContentByLang = {
         heading: 'Как работает выкуп?',
         body: [
           'Китайские площадки принимают оплату только с китайской карты или Alipay, продавцы пишут только по-китайски, а товар отправляют только на адрес внутри Китая. Мы убираем все три барьера: платим, переписываемся и даём адрес склада в Иу.',
+          'Выкуп — только для заказов общим объёмом от 1 м³, с любой площадки (1688, Taobao, Pinduoduo или Alibaba). Единичные и мелкие заказы не берём. Несколько товаров, даже от разных продавцов, можно объединить в один заказ — объём считается вместе.',
         ],
         steps: [
           { title: 'Вы присылаете ссылку', text: 'В Telegram пишете ссылку на товар, цвет, размер и количество. В одном сообщении может быть и одна, и пятьдесят ссылок; достаточно кнопки «поделиться» в приложении площадки.' },
@@ -225,8 +230,8 @@ const content: ServiceContentByLang = {
           note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Курс юаня и доллара берётся по курсу Центрального банка и показывается в расчёте на день оплаты.',
         },
         callout: {
-          title: 'Пример: 50 сумок с 1688',
-          text: '50 шт. × 38 юаней = 1 900 юаней. По курсу ЦБ на 8 сентября 2026 г. (1 юань = 1 756,72 сума, 1 $ = 11 789,33 сума) это ≈ 283 $; комиссия 3% ≈ 8,5 $. Товар ≈ 3 340 000 сумов + комиссия ≈ 100 000 сумов. Перевозка отдельно: 50 сумок ≈ 20 кг, 0,15 м³ → плотность ≈ 133 кг/м³ → этой плотности соответствует ставка 130 $/м³: 0,15 × 130 $ ≈ 19,5 $.',
+          title: 'Пример: 400 сумок с 1688',
+          text: '400 шт. × 38 юаней = 15 200 юаней. По курсу ЦБ на 8 сентября 2026 г. (1 юань = 1 756,72 сума, 1 $ = 11 789,33 сума) это ≈ 2 265 $; комиссия 3% ≈ 68 $. Товар ≈ 26 700 000 сумов + комиссия ≈ 800 000 сумов. Перевозка отдельно: 400 сумок ≈ 160 кг, 1,2 м³ → плотность ≈ 133 кг/м³ → этой плотности соответствует ставка 130 $/м³: 1,2 × 130 $ = 156 $.',
           tone: 'info',
         },
       },
@@ -237,14 +242,14 @@ const content: ServiceContentByLang = {
         ],
         table: {
           caption: 'Сравнение китайских площадок',
-          head: ['Площадка', 'Для чего', 'Минимальный заказ', 'На что смотреть'],
+          head: ['Площадка', 'Для чего', 'Минимальный заказ у продавца', 'На что смотреть'],
           rows: [
             ['1688.com', 'опт: одежда, обувь, аксессуары, товары для дома, запчасти', '2–10 шт. (зависит от продавца)', 'рейтинг продавца, «回头率» (доля повторных покупок), отметка фабрики'],
-            ['Taobao / Tmall', 'розница, брендовые магазины, широкий выбор, 1 шт.', '1 шт.', 'Tmall — официальные магазины; на Taobao — рейтинг и отзывы'],
-            ['Pinduoduo', 'самые дешёвые мелкие товары, для теста', '1 шт.', 'качество разное; рекомендуем проверку и фото в Иу'],
+            ['Taobao / Tmall', 'розница, брендовые магазины, широкий выбор', '1 шт.', 'Tmall — официальные магазины; на Taobao — рейтинг и отзывы'],
+            ['Pinduoduo', 'самые дешёвые мелкие товары', '1 шт.', 'качество разное; рекомендуем проверку и фото в Иу'],
             ['Alibaba.com', 'экспортные заказы, в долларах, крупные партии, договор', '100–500 шт.', 'Trade Assurance; цена указана как FOB/EXW'],
           ],
-          note: 'Площадки отправляют только на адрес внутри Китая — адрес склада в Иу вы получаете до заказа.',
+          note: 'Минимум в таблице — условие самого продавца. Заказ через нас с любой площадки — только общим объёмом от 1 м³; единичные и мелкие заказы не берём. Площадки отправляют только на адрес внутри Китая — адрес склада в Иу вы получаете до заказа.',
         },
       },
       {
@@ -269,7 +274,7 @@ const content: ServiceContentByLang = {
           'Одежда и обувь: количество, размерная сетка, швы, пятна — с проверкой 1 $/кг.',
           'Электроника и аксессуары для телефонов: работоспособность, комплектность; товар с литиевыми батареями едет только авто карго.',
           'Брендовый товар: только с Tmall или из официального магазина; контрафакт не выкупаем и не возим.',
-          'Жидкости, косметика, магниты: авиа нельзя — отправляем авто в отдельной упаковке.',
+          'Жидкости, косметика, магниты: авиа нельзя — отправляем авто, партией от 1 м³, в отдельной упаковке.',
         ],
       },
       {
@@ -300,7 +305,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Выкупаете ли с Taobao и Pinduoduo?',
-        a: 'Да: 1688, Taobao, Tmall, Pinduoduo и Alibaba. Товар с Pinduoduo советуем вскрывать и проверять в Иу за 1 $/кг — качество там неровное, а возврат работает только внутри Китая.',
+        a: 'Да: 1688, Taobao, Tmall, Pinduoduo и Alibaba — но только в составе заказа общим объёмом от 1 м³. Товар с Pinduoduo советуем вскрывать и проверять в Иу за 1 $/кг — качество там неровное, а возврат работает только внутри Китая.',
       },
       {
         q: 'Сколько дней идёт товар?',
@@ -312,7 +317,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Можно заказать одну штуку?',
-        a: 'Да, с Taobao и Pinduoduo выкупаем от 1 шт. На 1688 продавцы обычно отпускают от 2–10 шт. Минимальный расчёт перевозки — 0,1 м³ (авто) или 0,5 кг (авиа).',
+        a: 'Нет. Общий объём заказа должен быть от 1 м³, с любой площадки. Несколько товаров, даже от разных продавцов, можно объединить в один заказ — они собираются в пункте приёма в Иу под одним GS-кодом, и объём считается вместе.',
       },
       {
         q: 'Как и когда платить?',
@@ -343,7 +348,7 @@ const content: ServiceContentByLang = {
         'Our buying service works like this: you send a product link from 1688, Taobao, Pinduoduo or Alibaba; we quote the price in US dollars at the Central Bank rate, pay the seller in yuan, receive and check the goods at the Yiwu (义乌) warehouse and bring them to Tashkent by consolidated truck in roughly 15–25 days. The fee starts at 3% of the order value. No Chinese bank card, Alipay account or Chinese language needed.',
       facts: [
         { label: 'Commission on order value', value: 'from 3%' },
-        { label: 'Platforms: 1688, Taobao, Pinduoduo, Alibaba', value: '4 platforms' },
+        { label: 'Total order volume', value: 'from 1 m³' },
         { label: 'Yuan rate', value: 'Central Bank rate' },
         { label: 'To Tashkent by truck', value: '15–25 days' },
       ],
@@ -353,6 +358,7 @@ const content: ServiceContentByLang = {
         heading: 'How does the buying service work?',
         body: [
           'Chinese marketplaces accept payment only from a Chinese bank card or Alipay, sellers write only in Chinese, and goods ship only to an address inside China. We remove all three barriers: we pay, we write, and we provide the Yiwu warehouse address.',
+          'The buying service takes only orders with a total volume of at least 1 m³, whichever platform they come from (1688, Taobao, Pinduoduo or Alibaba). We do not take single items or small orders. Several products, even from different sellers, can be combined into one order — their volume counts together.',
         ],
         steps: [
           { title: 'You send the link', text: 'On Telegram you send the product link, colour, size and quantity. One message can hold one link or fifty; the “share” button in the marketplace app is enough.' },
@@ -381,8 +387,8 @@ const content: ServiceContentByLang = {
           note: 'Estimates · Updated September 8, 2026. Yuan and dollar rates follow the Central Bank of Uzbekistan and are shown in the quote on the day of payment.',
         },
         callout: {
-          title: 'Example: 50 bags from 1688',
-          text: '50 pcs × 38 yuan = 1,900 yuan. At the Central Bank rate of September 8, 2026 (1 yuan = 1,756.72 UZS, $1 = 11,789.33 UZS) that is ≈ $283; the 3% commission ≈ $8.50. Goods ≈ 3,340,000 UZS + commission ≈ 100,000 UZS. Freight is separate: 50 bags ≈ 20 kg, 0.15 m³ → density ≈ 133 kg/m³, which falls in the $130 per m³ band → 0.15 × $130 ≈ $19.50.',
+          title: 'Example: 400 bags from 1688',
+          text: '400 pcs × 38 yuan = 15,200 yuan. At the Central Bank rate of September 8, 2026 (1 yuan = 1,756.72 UZS, $1 = 11,789.33 UZS) that is ≈ $2,265; the 3% commission ≈ $68. Goods ≈ 26,700,000 UZS + commission ≈ 800,000 UZS. Freight is separate: 400 bags ≈ 160 kg, 1.2 m³ → density ≈ 133 kg/m³, which falls in the $130 per m³ band → 1.2 × $130 = $156.',
           tone: 'info',
         },
       },
@@ -393,14 +399,14 @@ const content: ServiceContentByLang = {
         ],
         table: {
           caption: 'Comparing Chinese marketplaces',
-          head: ['Platform', 'What for', 'Minimum order', 'What to look at'],
+          head: ['Platform', 'What for', 'Seller’s minimum order', 'What to look at'],
           rows: [
             ['1688.com', 'wholesale: clothing, footwear, accessories, household goods, spare parts', '2–10 pcs (depends on seller)', 'seller rating, «回头率» (repeat-purchase rate), factory badge'],
-            ['Taobao / Tmall', 'retail, brand stores, wide choice, single items', '1 pc', 'Tmall = official stores; on Taobao check rating and reviews'],
-            ['Pinduoduo', 'cheapest small goods, for testing', '1 pc', 'quality varies; inspection and photos in Yiwu recommended'],
+            ['Taobao / Tmall', 'retail, brand stores, wide choice', '1 pc', 'Tmall = official stores; on Taobao check rating and reviews'],
+            ['Pinduoduo', 'cheapest small goods', '1 pc', 'quality varies; inspection and photos in Yiwu recommended'],
             ['Alibaba.com', 'export orders, in dollars, large batches, contract', '100–500 pcs', 'Trade Assurance; prices quoted FOB/EXW'],
           ],
-          note: 'Marketplaces ship only to an address inside China — you receive the Yiwu warehouse address before ordering.',
+          note: 'The minimum in the table is the seller’s own rule. An order through us, from any platform, must total at least 1 m³; we do not take single items or small orders. Marketplaces ship only to an address inside China — you receive the Yiwu warehouse address before ordering.',
         },
       },
       {
@@ -425,7 +431,7 @@ const content: ServiceContentByLang = {
           'Clothing and footwear: count, size chart, stitching, stains — with the $1/kg inspection.',
           'Electronics and phone accessories: function and completeness; anything with lithium batteries travels by truck only.',
           'Branded goods: only from Tmall or an official store; we do not buy or ship counterfeits.',
-          'Liquids, cosmetics, magnets: not by air — we send them by truck in separate packaging.',
+          'Liquids, cosmetics, magnets: not by air — we send them by truck, in a shipment of at least 1 m³, in separate packaging.',
         ],
       },
       {
@@ -456,7 +462,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Do you also buy from Taobao and Pinduoduo?',
-        a: 'Yes: 1688, Taobao, Tmall, Pinduoduo and Alibaba. For Pinduoduo goods we recommend the $1/kg opened-box inspection in Yiwu — quality there is uneven and returns work only inside China.',
+        a: 'Yes: 1688, Taobao, Tmall, Pinduoduo and Alibaba — but only as part of an order with a total volume of at least 1 m³. For Pinduoduo goods we recommend the $1/kg opened-box inspection in Yiwu — quality there is uneven and returns work only inside China.',
       },
       {
         q: 'How many days does it take?',
@@ -468,7 +474,7 @@ const content: ServiceContentByLang = {
       },
       {
         q: 'Can I order a single item?',
-        a: 'Yes, from Taobao and Pinduoduo we buy from 1 piece. On 1688 sellers usually ship from 2–10 pieces. The minimum billable freight is 0.1 m³ by truck or 0.5 kg by air.',
+        a: 'No. An order’s total volume must be at least 1 m³, whichever platform it comes from. Several products, even from different sellers, can be combined into one order — they are gathered at the Yiwu receiving point under one GS code and their volume counts together.',
       },
       {
         q: 'How and when do I pay?',

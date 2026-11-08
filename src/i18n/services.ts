@@ -22,7 +22,7 @@ export interface ServicesStrings {
      * twice.
      */
     flagshipStatLabel: string;
-    /** "min {n} m³" — the truck sheet's minimum billable volume, beside the headline rate. */
+    /** "min {n} m³" — the smallest consolidated shipment accepted (owner, 2026-11-08: 1 m³), beside the headline rate. */
     flagshipMinVolume: string;
     /** "Batafsil" — ghost link on every card. */
     details: string;
@@ -169,7 +169,7 @@ const uz: ServicesStrings = {
     compareIntro: 'Uch yoʻnalishni bir jadvalda taqqoslang. Muddatlar taxminiy, yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi.',
     compareHead: { mode: 'Yoʻnalish', days: 'Muddat', min: 'Minimal', rule: 'Narx qoidasi', fits: 'Kimga mos' },
     compareRows: {
-      truck: { min: '0,1 m³', rule: 'm³ boʻyicha, stavka zichlikka qarab — 110 $/m³ dan', fits: 'ulgurji partiya, ogʻir va hajmli yuk' },
+      truck: { min: '1 m³', rule: 'm³ boʻyicha, stavka zichlikka qarab — 110 $/m³ dan', fits: 'ulgurji partiya, ogʻir va hajmli yuk' },
       air: { min: '0,5 kg', rule: 'kg boʻyicha, hajmiy vazn ÷ 5 000', fits: 'shoshilinch, qimmat va yengil tovar' },
       rail: { min: '20ft konteyner', rule: 'konteyner uchun, FCL yoki LCL', fits: 'katta partiya, uskunalar' },
     },
@@ -285,7 +285,7 @@ const ru: ServicesStrings = {
     compareIntro: 'Сравните три способа в одной таблице. Сроки ориентировочные, считаются после отправки со склада в Китае.',
     compareHead: { mode: 'Способ', days: 'Срок', min: 'Минимум', rule: 'Правило цены', fits: 'Кому подходит' },
     compareRows: {
-      truck: { min: '0,1 м³', rule: 'по м³, ставка по плотности — от 110 $/м³', fits: 'оптовые партии, тяжёлый и объёмный груз' },
+      truck: { min: '1 м³', rule: 'по м³, ставка по плотности — от 110 $/м³', fits: 'оптовые партии, тяжёлый и объёмный груз' },
       air: { min: '0,5 кг', rule: 'по кг, объёмный вес ÷ 5 000', fits: 'срочный, дорогой и лёгкий товар' },
       rail: { min: 'контейнер 20ft', rule: 'за контейнер, FCL или LCL', fits: 'крупные партии, оборудование' },
     },
@@ -401,7 +401,7 @@ const en: ServicesStrings = {
     compareIntro: 'Compare the three modes in one table. Transit times are indicative and count from departure from the China warehouse.',
     compareHead: { mode: 'Mode', days: 'Transit', min: 'Minimum', rule: 'Pricing rule', fits: 'Best for' },
     compareRows: {
-      truck: { min: '0.1 m³', rule: 'per m³, rate by density — from $110 per m³', fits: 'wholesale lots, heavy and bulky cargo' },
+      truck: { min: '1 m³', rule: 'per m³, rate by density — from $110 per m³', fits: 'wholesale lots, heavy and bulky cargo' },
       air: { min: '0.5 kg', rule: 'per kg, volumetric weight ÷ 5,000', fits: 'urgent, valuable and light goods' },
       rail: { min: '20ft container', rule: 'per container, FCL or LCL', fits: 'large lots, machinery' },
     },

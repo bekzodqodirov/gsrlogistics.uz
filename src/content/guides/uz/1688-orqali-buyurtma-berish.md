@@ -5,7 +5,7 @@ lang: uz
 translationKey: order-from-1688
 slug: 1688-orqali-buyurtma-berish
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [buying, sourcing, warehouse, "1688"]
 faq:
   - q: "1688-dan Oʻzbekistonga toʻgʻridan-toʻgʻri buyurtma berib boʻladimi?"
@@ -15,7 +15,7 @@ faq:
   - q: "1688-dan buyurtma Toshkentga necha kunda keladi?"
     a: "Avto bilan taxminan 25–40 kun: sotuvchi 1–3 kunda joʻnatadi, Ivu omboriga 2–5 kunda yetadi, tekshiruv va konsolidatsiya 1–3 kun, yoʻl 15–25 kun, bojxona 1–2 ish kuni. Avia bilan 12–20 kun. Buyurtmaga tayyorlanadigan tovar (MOQ bilan) 7–15 kun qoʻshadi."
   - q: "1688 va Taobao qaysi biri arzon?"
-    a: "1688 arzon — bu ulgurji bozor, narx 10–50 donadan boshlanadigan minimal partiya uchun. Taobao — chakana, narx 20–40% yuqori, lekin 1 dona ham olish mumkin. Pinduoduo eng arzon chakana narxlarni beradi, lekin sifat va sotuvchi tekshiruvi zaif."
+    a: "1688 arzon — bu ulgurji bozor, narx 10–50 donadan boshlanadigan minimal partiya uchun. Taobao — chakana, narx 20–40% yuqori, lekin 1 donadan ham sotadi. Pinduoduo eng arzon chakana narxlarni beradi, lekin sifat va sotuvchi tekshiruvi zaif. GSR orqali sotib olish esa — faqat umumiy hajmi kamida 1 m³ boʻlgan buyurtmalar uchun, sayt qaysi boʻlishidan qatʼi nazar: bitta dona yoki mayda buyurtmalarni olmaymiz."
 sources:
   - title: "1688.com — Alibaba guruhining Xitoy ichki ulgurji savdo maydonchasi"
     url: "https://www.1688.com/"
@@ -54,7 +54,7 @@ sources:
 | Xitoy ichida yetkazish | Odatda pullik (5–30 yuan), katta partiyada bepul | Koʻpincha bepul | Bepul |
 | Nimaga mos | Partiya uchun, brend yaratish, marketpleys | Namuna, kam sonli buyurtma | Arzon mayda tovarlar |
 
-Xulosa: namunani Taobaodan 1 dona olib koʻring, partiyani 1688-dan bering. Pinduoduo — faqat arzon, sifatga talab past tovarlar uchun.
+Xulosa: partiyani 1688-dan bering. Pinduoduo — faqat arzon, sifatga talab past tovarlar uchun. GSR orqali sotib olish xizmati esa faqat umumiy hajmi kamida 1 m³ boʻlgan buyurtmalar uchun, sayt qaysi boʻlishidan qatʼi nazar (1688, Taobao, Pinduoduo yoki Alibaba). Bitta dona yoki mayda buyurtmalarni olmaymiz.
 
 ## Akkaunt va ilova: nima kerak?
 
@@ -89,26 +89,26 @@ Xizmat shartlari — [1688 / Taobao / Alibabadan sotib olish](/xizmatlar/sotib-o
 
 ## Narx qanday shakllanadi: hisoblangan misol
 
-Buyurtma: 300 dona telefon gʻilofi, 1688-da 100+ dona uchun narx 10 yuan.
+Buyurtma: 1 500 dona telefon gʻilofi, 1688-da 100+ dona uchun narx 10 yuan.
 
 | Modda | Hisob | Summa |
 |---|---|---|
-| Tovar | 300 × 10 yuan | 3 000 yuan |
+| Tovar | 1 500 × 10 yuan | 15 000 yuan |
 | Xitoy ichida yetkazish (sotuvchi → Ivu) | sotuvchi narxi | 60 yuan |
-| Komissiya 3% | 3 060 × 0,03 | 91,8 yuan |
-| Jami yuanda | | 3 151,8 yuan |
-| Soʻmda (MB kursi 1 756,72, 2026-yil 8-sentabr) | 3 151,8 × 1 756,72 | ≈ 5 537 000 soʻm |
-| Kargo, avto: 40 kg, 0,2 m³ → zichlik 200 kg/m³ → 160 $/m³ | 0,2 × 160 $ | 32 $ |
+| Komissiya 3% | 15 060 × 0,03 | 451,8 yuan |
+| Jami yuanda | | 15 511,8 yuan |
+| Soʻmda (MB kursi 1 756,72, 2026-yil 8-sentabr) | 15 511,8 × 1 756,72 | ≈ 27 250 000 soʻm |
+| Kargo, avto: 200 kg, 1 m³ → zichlik 200 kg/m³ → 160 $/m³ | 1 × 160 $ | 160 $ |
 | Foto-hisobot | | 1 $ |
-| Sugʻurta 1% (eʼlon qilingan qiymat ≈ 470 $) | | ≈ 4,7 $ |
-| Kargo jami (11 800 soʻm/$) | ≈ 37,7 $ | ≈ 445 000 soʻm |
-| **Toshkent omborigacha jami** | | **≈ 5 982 000 soʻm** |
+| Sugʻurta 1% (eʼlon qilingan qiymat ≈ 2 310 $) | | ≈ 23,1 $ |
+| Kargo jami (11 800 soʻm/$) | ≈ 184,1 $ | ≈ 2 172 000 soʻm |
+| **Toshkent omborigacha jami** | | **≈ 29 422 000 soʻm** |
 
-Bitta gʻilof taxminan 19 940 soʻmga tushadi — bojxonasiz. *Taxminiy narx · Yangilangan: 2026-yil 8-sentabr.*
+Bitta gʻilof taxminan 19 610 soʻmga tushadi — bojxonasiz. *Taxminiy narx · Yangilangan: 2026-yil 8-sentabr.*
 
-**Avto kargo hajm boʻyicha hisoblanadi.** Tarifni yukning zichligi tanlaydi: zichlik = vazn (kg) ÷ hajm (m³). Yengil yuk uchun narx 110 $/m³ dan boshlanadi (100 kg/m³ gacha) va zichlashgani sari koʻtariladi — eng yuqori hajm pogʻonasi 701 kg/m³ dan boshlanadi va 320 $/m³ turadi; 1 000 kg/m³ va undan zich yuk esa 0,55 $/kg boʻyicha hisoblanadi. Hisobga olinadigan eng kichik hajm — 0,1 m³. Shuning uchun oʻsha 40 kg quti 0,2 m³ da 32 $, lekin havo bilan toʻlgan 0,5 m³ qutida (zichlik 80 kg/m³) 0,5 × 110 = 55 $ turadi — qadoqni zich qilish toʻgʻridan-toʻgʻri pulni tejaydi.
+**Avto kargo hajm boʻyicha hisoblanadi.** Tarifni yukning zichligi tanlaydi: zichlik = vazn (kg) ÷ hajm (m³). Yengil yuk uchun narx 110 $/m³ dan boshlanadi (100 kg/m³ gacha) va zichlashgani sari koʻtariladi — eng yuqori hajm pogʻonasi 701 kg/m³ dan boshlanadi va 320 $/m³ turadi; 1 000 kg/m³ va undan zich yuk esa 0,55 $/kg boʻyicha hisoblanadi. Shuning uchun oʻsha 200 kg yuk 1 m³ da 160 $, lekin havo bilan toʻlgan qutilarda 2,5 m³ boʻlsa (zichlik 80 kg/m³), 2,5 × 110 = 275 $ turadi — qadoqni zich qilish toʻgʻridan-toʻgʻri pulni tejaydi. Yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi — undan kichik yukni olib kelmaymiz. 1 m³ — bitta partiyaning umumiy hajmi: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi.
 
-**Bojxona alohida.** 300 dona bir xil tovar — tijorat partiyasi: u yuridik shaxs yoki YaTT nomiga rasmiylashtiriladi, boj TN VED kodi boʻyicha va QQS 12% toʻlanadi, GTD beriladi — shundagina tovarni Uzumda yoki doʻkonda rasman sotish mumkin. Shaxsiy foydalanish uchun kichik buyurtmada kuryer limiti 200 $/oy; undan oshgan qismidan 30% (kamida 3 $/kg), 2027-yil 1-yanvardan 20% (kamida 2 $/kg). Hisobni menejer oldindan beradi — [Bojxona rasmiylashtiruvi](/xizmatlar/bojxona/) va [Bojxona toʻlovlari 2026](/qollanma/bojxona-tolovlari-2026/).
+**Bojxona alohida.** 1 500 dona bir xil tovar — tijorat partiyasi: u yuridik shaxs yoki YaTT nomiga rasmiylashtiriladi, boj TN VED kodi boʻyicha va QQS 12% toʻlanadi, GTD beriladi — shundagina tovarni Uzumda yoki doʻkonda rasman sotish mumkin. Shaxsiy foydalanish uchun buyurtmada kuryer limiti 200 $/oy; undan oshgan qismidan 30% (kamida 3 $/kg), 2027-yil 1-yanvardan 20% (kamida 2 $/kg). Hisobni menejer oldindan beradi — [Bojxona rasmiylashtiruvi](/xizmatlar/bojxona/) va [Bojxona toʻlovlari 2026](/qollanma/bojxona-tolovlari-2026/).
 
 ## Taobao va Pinduoduo: nimasi boshqacha?
 
@@ -116,7 +116,7 @@ Bitta gʻilof taxminan 19 940 soʻmga tushadi — bojxonasiz. *Taxminiy narx · 
 
 **Pinduoduo** — eng arzon chakana narx, koʻpincha 1688-dan ham past koʻrinadi. Lekin: sotuvchi mayda, sifat bir partiyadan boshqasiga farq qiladi, qaytarish murakkab, rasm bilan tovar mos kelmasligi tez-tez uchraydi. Arzon mayda tovarlar (kanselyariya, aksessuar, uy-roʻzgʻor) uchun boʻladi; brend yaratish va marketpleys uchun 1688 ishonchliroq.
 
-Uchala platformada ham GSR Logistics bir xil sxemada ishlaydi: havola → hisob → soʻmda toʻlov → yuanda xarid → Ivu ombori → Toshkent.
+Uchala platformada ham GSR Logistics bir xil sxemada ishlaydi: havola → hisob → soʻmda toʻlov → yuanda xarid → Ivu ombori → Toshkent. Shart ham bir xil: buyurtmaning umumiy hajmi kamida 1 m³ boʻlishi kerak — Taobao yoki Pinduoduodan ham bitta dona yoki mayda buyurtmani sotib olmaymiz.
 
 ## Koʻp uchraydigan xatolar
 
@@ -126,7 +126,7 @@ Uchala platformada ham GSR Logistics bir xil sxemada ishlaydi: havola → hisob 
 4. **Oʻz manzilingizni yozish.** 1688 Oʻzbekistonga yetkazmaydi; manzil — menejer bergan qabul manzili va sizning GS kodingiz. Sotuvchi joʻnatishdan oldin GS kodini har bir qutiga yozishi shart: kodsiz qutining kimniki ekanini aniqlab boʻlmaydi.
 5. **Batareyali tovarni aviaga rejalashtirish.** Power bank, simsiz quloqchin, elektr oʻyinchoq — faqat avto. Muddatni shunga qarab hisoblang.
 6. **Brend logotipli tovar.** Nike, Apple, Disney nusxalari bojxonada olib qoʻyiladi, pul qaytmaydi. Logotipsiz (无标) variantini soʻrang.
-7. **Namunasiz katta partiya.** Birinchi marta 1 000 dona emas, 20–50 dona oling — avia bilan 7 kunda keladi, sifatni oʻzingiz koʻrasiz.
+7. **Namunasiz katta partiya.** Birinchi marta yangi tovardan 1 000 dona emas, 20–50 dona oling — sifatni oʻzingiz koʻrasiz. Lekin GSR orqali buyurtmaning umumiy hajmi kamida 1 m³ boʻlishi shart: zarur boʻlsa, bu 20–50 donani boshqa tovarlar bilan bitta buyurtmaga qoʻshing.
 8. **Platformadan tashqari toʻlov.** Sotuvchi «WeChat orqali arzonroq» desa — rad eting: platforma himoyasi yoʻqoladi.
 9. **Yuan kursini hisobga olmaslik.** Vositachining «foizsiz» taklifi koʻpincha kursdagi 5–8% ustamani yashiradi. Hisobda kurs va sanani soʻrang.
 

@@ -5,7 +5,7 @@ lang: en
 translationKey: order-from-1688
 slug: how-to-order-from-1688
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [buying, sourcing, warehouse, "1688"]
 faq:
   - q: "Can I order from 1688 to Uzbekistan directly?"
@@ -15,7 +15,7 @@ faq:
   - q: "How long does a 1688 order take to reach Tashkent?"
     a: "By truck roughly 25–40 days: the seller ships in 1–3 days, the goods reach the Yiwu warehouse in 2–5 days, inspection and consolidation take 1–3 days, the road 15–25 days, customs 1–2 working days. By air 12–20 days. Made-to-order goods (with an MOQ) add 7–15 days."
   - q: "Which is cheaper, 1688 or Taobao?"
-    a: "1688 is cheaper — it is a wholesale market, and the price applies from a minimum lot of 10–50 pieces. Taobao is retail, 20–40% more expensive, but you can buy a single piece. Pinduoduo has the lowest retail prices, but quality and seller vetting are weaker."
+    a: "1688 is cheaper — it is a wholesale market, and the price applies from a minimum lot of 10–50 pieces. Taobao is retail, 20–40% more expensive, but it also sells single pieces. Pinduoduo has the lowest retail prices, but quality and seller vetting are weaker. The GSR buying service, though, takes only orders with a total volume of at least 1 m³, whichever platform they come from: we do not take single items or small orders."
 sources:
   - title: "1688.com — Alibaba Group’s wholesale marketplace for China’s domestic market"
     url: "https://www.1688.com/"
@@ -54,7 +54,7 @@ sources:
 | Delivery inside China | Usually paid (5–30 yuan), free on large lots | Mostly free | Free |
 | Good for | Lots, private label, marketplaces | Samples, small quantities | Cheap small items |
 
-Bottom line: order one sample on Taobao, order the lot on 1688. Pinduoduo is only for cheap goods where quality matters little.
+Bottom line: order the lot on 1688. Pinduoduo is only for cheap goods where quality matters little. The GSR buying service takes only orders with a total volume of at least 1 m³, whichever platform they come from (1688, Taobao, Pinduoduo or Alibaba). We do not take single items or small orders.
 
 ## Account and app: what do you need?
 
@@ -88,26 +88,26 @@ Service terms are on the [Buying from 1688 / Taobao / Alibaba](/en/services/buyi
 
 ## How the price adds up: a worked example
 
-Order: 300 phone cases, 1688 price for 100+ pcs — 10 yuan.
+Order: 1,500 phone cases, 1688 price for 100+ pcs — 10 yuan.
 
 | Item | Calculation | Amount |
 |---|---|---|
-| Goods | 300 × 10 yuan | 3,000 yuan |
+| Goods | 1,500 × 10 yuan | 15,000 yuan |
 | Delivery inside China (seller → Yiwu) | seller’s rate | 60 yuan |
-| Commission 3% | 3,060 × 0.03 | 91.8 yuan |
-| Total in yuan | | 3,151.8 yuan |
-| In UZS (Central Bank rate 1,756.72 on September 8, 2026) | 3,151.8 × 1,756.72 | ≈ UZS 5,537,000 |
-| Freight, truck: 40 kg, 0.2 m³ → density 200 kg/m³ → $160/m³ | 0.2 × $160 | $32 |
+| Commission 3% | 15,060 × 0.03 | 451.8 yuan |
+| Total in yuan | | 15,511.8 yuan |
+| In UZS (Central Bank rate 1,756.72 on September 8, 2026) | 15,511.8 × 1,756.72 | ≈ UZS 27,250,000 |
+| Freight, truck: 200 kg, 1 m³ → density 200 kg/m³ → $160/m³ | 1 × $160 | $160 |
 | Photo report | | $1 |
-| Insurance 1% (declared value ≈ $470) | | ≈ $4.70 |
-| Freight total (UZS 11,800 per $) | ≈ $37.70 | ≈ UZS 445,000 |
-| **Total to the Tashkent warehouse** | | **≈ UZS 5,982,000** |
+| Insurance 1% (declared value ≈ $2,310) | | ≈ $23.10 |
+| Freight total (UZS 11,800 per $) | ≈ $184.10 | ≈ UZS 2,172,000 |
+| **Total to the Tashkent warehouse** | | **≈ UZS 29,422,000** |
 
-One case costs about UZS 19,940 — before customs. *Estimate · Updated September 8, 2026.*
+One case costs about UZS 19,610 — before customs. *Estimate · Updated September 8, 2026.*
 
-**Truck cargo is charged by volume.** The density of the shipment picks the rate: density = weight (kg) ÷ volume (m³). Light cargo starts at $110 per m³ (up to 100 kg/m³) and the rate climbs as the load gets denser — the top volumetric band starts at 701 kg/m³ and costs $320 per m³; at 1,000 kg/m³ and above the price switches to $0.55 per kg instead. The minimum billable volume is 0.1 m³. That is why the same 40 kg costs $32 in 0.2 m³ but 0.5 × $110 = $55 in a loosely packed 0.5 m³ carton (density 80 kg/m³) — tight packing saves money directly.
+**Truck cargo is charged by volume.** The density of the shipment picks the rate: density = weight (kg) ÷ volume (m³). Light cargo starts at $110 per m³ (up to 100 kg/m³) and the rate climbs as the load gets denser — the top volumetric band starts at 701 kg/m³ and costs $320 per m³; at 1,000 kg/m³ and above the price switches to $0.55 per kg instead. That is why the same 200 kg costs $160 in 1 m³ but 2.5 × $110 = $275 in loosely packed cartons that take up 2.5 m³ (density 80 kg/m³) — tight packing saves money directly. Consolidated truck cargo is accepted from 1 m³ — we do not carry anything smaller. The 1 m³ counts across one shipment: pieces from different sellers are gathered at the Yiwu receiving point under one GS code.
 
-**Customs is separate.** 300 identical items are a commercial lot: it is cleared in the name of a legal entity or a sole proprietor, duty is paid by HS code plus 12% VAT, and a customs declaration (GTD) is issued — only then can the goods be sold legally on Uzum or in a shop. A small order for personal use falls under the courier allowance of $200 per month; the excess is charged at 30% (minimum $3/kg), and from January 1, 2027 at 20% (minimum $2/kg). Your manager calculates this in advance — see [Customs clearance](/en/services/customs/) and the guide [Uzbekistan customs duties 2026](/en/guides/uzbekistan-customs-duties-2026/).
+**Customs is separate.** 1,500 identical items are a commercial lot: it is cleared in the name of a legal entity or a sole proprietor, duty is paid by HS code plus 12% VAT, and a customs declaration (GTD) is issued — only then can the goods be sold legally on Uzum or in a shop. An order for personal use falls under the courier allowance of $200 per month; the excess is charged at 30% (minimum $3/kg), and from January 1, 2027 at 20% (minimum $2/kg). Your manager calculates this in advance — see [Customs clearance](/en/services/customs/) and the guide [Uzbekistan customs duties 2026](/en/guides/uzbekistan-customs-duties-2026/).
 
 ## Taobao and Pinduoduo: what is different?
 
@@ -115,7 +115,7 @@ One case costs about UZS 19,940 — before customs. *Estimate · Updated Septemb
 
 **Pinduoduo** has the lowest retail prices, often apparently below 1688. But the sellers are small, quality varies from lot to lot, returns are difficult, and goods that do not match the picture are common. It works for cheap small items (stationery, accessories, household goods); for a private label or a marketplace, 1688 is more reliable.
 
-On all three platforms GSR Logistics works the same way: link → quote → payment in UZS → purchase in yuan → Yiwu warehouse → Tashkent.
+On all three platforms GSR Logistics works the same way: link → quote → payment in UZS → purchase in yuan → Yiwu warehouse → Tashkent. The condition is the same too: the order’s total volume must be at least 1 m³ — we do not buy single items or small orders on Taobao or Pinduoduo either.
 
 ## Common mistakes
 
@@ -125,7 +125,7 @@ On all three platforms GSR Logistics works the same way: link → quote → paym
 4. **Entering your own address.** 1688 does not deliver to Uzbekistan; the address is the receiving point your manager gives you, plus your GS code. The seller must write the GS code on every carton before dispatch: without it there is no way to tell whose cartons they are.
 5. **Planning battery goods by air.** Power banks, wireless earbuds, electronic toys — truck only. Plan the timeline accordingly.
 6. **Goods with brand logos.** Copies of Nike, Apple or Disney are seized at customs with no compensation. Ask for the unbranded (无标) version.
-7. **A big lot without a sample.** The first time, take 20–50 pieces rather than 1,000 — air brings them in 7 days and you see the quality yourself.
+7. **A big lot without a sample.** The first time, take 20–50 pieces of a new item rather than 1,000 and see the quality yourself. Through GSR, though, an order needs a total volume of at least 1 m³ — if necessary, add those 20–50 pieces to one order with other goods.
 8. **Paying outside the platform.** If the seller offers "cheaper via WeChat", decline: you lose the platform’s protection.
 9. **Ignoring the yuan rate.** An agent’s "no commission" offer often hides a 5–8% markup in the exchange rate. Ask for the rate and its date on the quote.
 

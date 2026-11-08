@@ -81,8 +81,8 @@ const breadcrumbs = [
 /* ---------- JSON-LD: Service (+ offers from tariffs.json / site.ts for truck, air, rail, buying) + FAQPage ---------- */
 const offers = service.key === 'truck'
   ? [
-      ...tariffs.truck.lclPerM3ByDensity.map((r, i, all) => ({ price: r.rate, unitCode: 'MTQ' as const, validThrough: tariffs.validThrough, description: r.maxKgM3 ? `≤ ${r.maxKgM3} kg/m³` : `< ${tariffs.truck.perKgFromDensityKgM3} kg/m³` })),
-      { price: tariffs.truck.perKgAboveDensity, unitCode: 'KGM' as const, validThrough: tariffs.validThrough, description: `≥ ${tariffs.truck.perKgFromDensityKgM3} kg/m³, per kg` },
+      ...tariffs.truck.lclPerM3ByDensity.map((r, i, all) => ({ price: r.rate, unitCode: 'MTQ' as const, minM3: tariffs.truck.minM3, validThrough: tariffs.validThrough, description: r.maxKgM3 ? `≤ ${r.maxKgM3} kg/m³` : `< ${tariffs.truck.perKgFromDensityKgM3} kg/m³` })),
+      { price: tariffs.truck.perKgAboveDensity, unitCode: 'KGM' as const, minM3: tariffs.truck.minM3, validThrough: tariffs.validThrough, description: `≥ ${tariffs.truck.perKgFromDensityKgM3} kg/m³, per kg` },
     ]
   : service.key === 'air'
     ? [{ price: tariffs.air.perKg.standard, unitCode: 'KGM' as const, validThrough: tariffs.validThrough, description: 'standard' }]

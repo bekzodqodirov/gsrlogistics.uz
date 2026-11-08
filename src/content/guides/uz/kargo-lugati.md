@@ -5,13 +5,13 @@ lang: uz
 translationKey: glossary
 slug: kargo-lugati
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [lugat, truck, customs, warehouse]
 faq:
   - q: "Kargo va logistika bir narsami?"
     a: "Yoʻq. Kargo — bu Oʻzbekistonda Xitoydan yuk olib kelish xizmatining xalq tilidagi nomi (avia kg boʻyicha, avto esa m³ boʻyicha narxlanadi). Logistika — kengroq tushuncha: marshrut, ombor, hujjatlar va bojxonani rejalashtirish."
   - q: "Hajmiy vazn haqiqiy vazndan katta boʻlsa nima boʻladi?"
-    a: "Aviada toʻlov kattasi boʻyicha olinadi: 20 kg keladigan 80×60×50 sm quti 240 000 ÷ 5 000 = 48 kg hajmiy vazn beradi, yaʼni 48 kg uchun toʻlaysiz. Avtoda esa hajmiy vazn narxni belgilamaydi — oʻsha quti 0,24 m³, zichligi 20 ÷ 0,24 ≈ 83 kg/m³, bu 110 $/m³ zinasi: 0,24 × 110 = 26,4 $ (taxminiy)."
+    a: "Aviada toʻlov kattasi boʻyicha olinadi: 20 kg keladigan 80×60×50 sm quti 240 000 ÷ 5 000 = 48 kg hajmiy vazn beradi, yaʼni 48 kg uchun toʻlaysiz. Avtoda esa hajmiy vazn narxni belgilamaydi, zichlik belgilaydi. Bitta shunday quti (0,24 m³) avto bilan umuman olinmaydi — yigʻma yuk kamida 1 m³ dan qabul qilinadi. 5 ta shunday quti — 100 kg, 1,2 m³: zichligi 100 ÷ 1,2 ≈ 83 kg/m³, bu 110 $/m³ zinasi, 1,2 × 110 = 132 $ (taxminiy)."
   - q: "GTD nima va u menga kerakmi?"
     a: "GTD — yuk bojxona deklaratsiyasi (ГТД). U yuridik shaxs yoki YaTT sifatida rasmiy import qilganda rasmiylashtiriladi va tovarni doʻkon yoki marketpleysda sotish uchun asos boʻladi. Shaxsiy foydalanish uchun kichik joʻnatmalarda GTD rasmiylashtirilmaydi."
 sources:
@@ -34,10 +34,10 @@ Kargo lugʻati — bu Xitoydan Oʻzbekistonga yuk olib kelishda menejer, bojxona
 Oʻzbekistonda Xitoydan yuk olib kelish xizmatining xalq tilidagi nomi (карго, «kitay kargo» deb ham qidiriladi). Narx dollarda hisoblanadi: aviada 1 kg uchun, avtoda esa yukning zichligiga qarab 1 m³ uchun (110 $/m³ dan). Xizmatga Xitoy omborida qabul, konsolidatsiya, chegara va Toshkentgacha yetkazish kiradi.
 
 ### Yigʻma yuk (сборный груз, LCL)
-Bir nechta mijozning yuklari bitta fura yoki konteynerda birga yuboriladi. Siz butun konteyner uchun emas, faqat oʻz joyingiz uchun toʻlaysiz: avtoda m³, aviada kg boʻyicha. GSR Logisticsʼning asosiy xizmati.
+Bir nechta mijozning yuklari bitta fura yoki konteynerda birga yuboriladi. Siz butun konteyner uchun emas, faqat oʻz joyingiz uchun toʻlaysiz: avtoda m³, aviada kg boʻyicha. Fura yoki konteynerdagi joy kamida 1 m³ boʻlishi kerak — undan kichik yukni olib kelmaymiz; aviada — 0,5 kg dan. GSR Logisticsʼning asosiy xizmati.
 
 ### Avto kargo
-Yukni fura (yuk mashinasi) bilan Xitoydan Qozogʻiston orqali Toshkentga olib kelish. Taxminan 15–25 kun. Ogʻir va hajmli yuklar uchun eng arzon yoʻnalish. Narx m³ boʻyicha, yukning zichligiga qarab — 110 $/m³ dan (taxminiy).
+Yukni fura (yuk mashinasi) bilan Xitoydan Qozogʻiston orqali Toshkentga olib kelish. Taxminan 15–25 kun. Ogʻir va hajmli yuklar uchun eng arzon yoʻnalish. Narx m³ boʻyicha, yukning zichligiga qarab — 110 $/m³ dan (taxminiy). Kamida 1 m³ dan qabul qilinadi.
 
 ### Avia kargo
 Yukni samolyotda olib kelish, taxminan 5–10 kun. Shoshilinch, yengil va qimmat yuklar uchun. Litiy batareya, suyuqlik va magnitli tovarlar aviaga olinmaydi.
@@ -72,13 +72,13 @@ Tarozidagi ogʻirlik, kg.
 Qutining hajmidan hisoblanadigan «vazn»: uzunlik × en × balandlik (sm) ÷ 5 000 (avia) yoki ÷ 6 000 (avto). Aviada toʻlov haqiqiy va hajmiy vaznning kattasi boʻyicha olinadi. Avtoda esa narxni hajmiy vazn emas, zichlik belgilaydi — u yerda hajmiy vazn faqat yuk ogʻirligiga nisbatan qancha joy egallashini tezda baholash uchun kerak.
 
 ### Zichlik (плотность), kg/m³
-Yukning ogʻirligini hajmiga boʻlish: 300 kg ÷ 2 m³ = 150 kg/m³. Avto kargoda narx aynan shu koʻrsatkichdan chiqadi: zichlik qaysi zinaga tushsa, 1 m³ uchun shu narx olinadi. 150 kg/m³ — 130 $/m³ zinasi, yaʼni 2 × 130 = 260 $; 48 kg 0,2 m³ da esa 240 kg/m³ boʻlib, 0,2 × 180 = 36 $ (taxminiy).
+Yukning ogʻirligini hajmiga boʻlish: 300 kg ÷ 2 m³ = 150 kg/m³. Avto kargoda narx aynan shu koʻrsatkichdan chiqadi: zichlik qaysi zinaga tushsa, 1 m³ uchun shu narx olinadi. 150 kg/m³ — 130 $/m³ zinasi, yaʼni 2 × 130 = 260 $; 240 kg 1 m³ da esa 240 kg/m³ boʻlib, 1 × 180 = 180 $ (taxminiy).
 
 ### Kub (m³)
 Bir kub metr hajm. Avto kargoda yuk shu birlikda narxlanadi — zichlikka qarab 110 $/m³ dan; faqat suvdan zich yuk (1 000 kg/m³ va undan yuqori) kilogramm boʻyicha hisoblanadi. Yengil va hajmli tovarlar (oʻyinchoq, plastmassa, mebel) eng quyi zinalarga tushadi.
 
 ### Minimalka
-Eng kichik toʻlanadigan miqdor: masalan, avia uchun 0,5 kg, yigʻma yuk uchun 0,1 m³.
+Aviada eng kam miqdor — 0,5 kg. Avtoda esa minimal toʻlov yoʻq, minimal hajm bor: yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi — undan kichik yukni 1 m³ narxida ham olib kelmaymiz. 1 m³ — bitta partiyaning umumiy hajmi: turli sotuvchilardan kelgan joylar Ivudagi qabul punktida bitta GS kodi ostida yigʻiladi.
 
 ### Tarif zinapoyasi
 Narxlar jadvalining zinalari. Avto kargoda zinalar ogʻirlik emas, zichlik boʻyicha: 100 kg/m³ gacha 110 $/m³, 101–150 — 130 $, 151–200 — 160 $, 201–250 — 180 $ va shu tartibda eng yuqori hajm zinasida (701 kg/m³ dan boshlab) 320 $/m³ gacha; zichlik 1 000 kg/m³ ga yetsa yoki undan oshsa, narx 0,55 $/kg boʻyicha hisoblanadi. Aviada narx 1 kg uchun belgilanadi.

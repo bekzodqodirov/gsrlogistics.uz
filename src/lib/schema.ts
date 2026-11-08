@@ -171,6 +171,12 @@ export interface ServiceOffer {
   unitText?: string;
   /** A commission: the number is a percentage, so no currency is attached to it. */
   percent?: boolean;
+  /**
+   * The smallest shipment the offer applies to, in m³ (consolidated cargo: owner, 2026-11-08, nothing
+   * under 1 m³ is carried by truck). Emitted as `eligibleQuantity`, so a reader of the graph learns the
+   * minimum without parsing the page.
+   */
+  minM3?: number;
   validThrough: string;
   description?: string;
 }
@@ -202,6 +208,7 @@ export function serviceNode(lang: Locale, opts: { name: string; description: str
               validThrough: o.validThrough,
               ...(o.description ? { description: o.description } : {}),
             },
+            ...(o.minM3 ? { eligibleQuantity: { '@type': 'QuantitativeValue', minValue: o.minM3, unitCode: 'MTQ' } } : {}),
             availability: 'https://schema.org/InStock',
             url: opts.url,
           })),

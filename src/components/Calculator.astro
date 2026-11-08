@@ -31,6 +31,8 @@ const i18n = JSON.stringify({
   resultEmpty: t.calc.resultEmpty,
   overLimit: t.calc.overLimit,
   needVolume: t.calc.needVolume,
+  belowMin: tpl(t.calc.belowMin, { min: fmtNumber(tariffs.truck.minM3, lang) }),
+  belowMinNoAir: tpl(t.calc.belowMinNoAir, { min: fmtNumber(tariffs.truck.minM3, lang) }),
   switchNote: t.calc.switchNote,
   draft: t.calc.draft,
   draftRail: t.calc.draftRail,
@@ -108,7 +110,7 @@ const uid = (s: string) => `${id}-${s}`;
             <span class="unit" aria-hidden="true">{b.units.m3}</span>
           </div>
         </div>
-        <p class="hint">{t.calc.volumeHint}</p>
+        <p class="hint">{tpl(t.calc.volumeHint, { min: fmtNumber(tariffs.truck.minM3, lang) })}</p>
       </fieldset>
 
       <div class="field">
@@ -252,11 +254,11 @@ const uid = (s: string) => `${id}-${s}`;
 
 <script>
   import tariffs from '@/data/tariffs.json';
-  import { estimate, isAirAllowed, formatBreakdown, type Category, type Container, type Mode, type Tariffs, type BreakdownStrings } from '@/lib/pricing';
+  import { estimate, isAirAllowed, formatBreakdown, BelowMinimumVolumeError, type Category, type Container, type Mode, type Tariffs, type BreakdownStrings, type Estimate } from '@/lib/pricing';
   import { fmtNumber } from '@/lib/format';
   import type { Locale } from '@/i18n/config';
 
-  interface I18n { b: BreakdownStrings; resultEmpty: string; overLimit: string; needVolume: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string; summaryLabel: string }
+  interface I18n { b: BreakdownStrings; resultEmpty: string; overLimit: string; needVolume: string; belowMin: string; belowMinNoAir: string; switchNote: string; draft: string; draftRail: string; draftNoVolume: string; volumeLabel: string; summaryLabel: string }
   const T = tariffs as unknown as Tariffs;
   const sub = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : ''));
 
@@ -299,7 +301,15 @@ const uid = (s: string) => `${id}-${s}`;
       // The truck sheet prices a volume; weight alone cannot pick a density band.
       if (mode === 'truck' && !(m3 || dims)) { showEmpty(i18n.needVolume); return; }
 
-      const e = estimate({ mode, kg, dims, m3, category, container }, T);
+      // Owner, 2026-11-08: consolidated cargo under the minimum (1 m³) is not carried at all, so there
+      // is no truck price to show — say so, and point to air when the goods can fly.
+      let e: Estimate;
+      try {
+        e = estimate({ mode, kg, dims, m3, category, container }, T);
+      } catch (err) {
+        if (err instanceof BelowMinimumVolumeError) { showEmpty(isAirAllowed(category) ? i18n.belowMin : i18n.belowMinNoAir); return; }
+        throw err;
+      }
       const r = formatBreakdown(e, lang, i18n.b, T);
       el('total')!.textContent = r.total;
       el('som')!.textContent = r.totalSom;

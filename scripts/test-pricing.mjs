@@ -2,7 +2,7 @@
 // Node ≥ 22.18 strips types natively; on older 22.x add --experimental-strip-types.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { estimate, estimateAir, estimateTruck, estimateRail, volumetricKg, chargeableKg, densityKgM3, formatBreakdown } from '../src/lib/pricing.ts';
+import { estimate, estimateAir, estimateTruck, estimateRail, volumetricKg, chargeableKg, densityKgM3, formatBreakdown, BelowMinimumVolumeError } from '../src/lib/pricing.ts';
 import { fmtUsd, fmtNumber, withFrom, ruDays } from '../src/lib/format.ts';
 
 const tariffs = JSON.parse(readFileSync(new URL('../src/data/tariffs.json', import.meta.url), 'utf8'));
@@ -92,29 +92,23 @@ test('example 6: avto ladder 20 kg / 60 kg / 500 kg zich', () => {
   assert.throws(() => estimateTruck({ kg: 20 }, tariffs), /volume is required/i);
 });
 
-// 6b. Below the 0,1 m³ minimum the printed equation must equal the printed total
-test('example 6b: 2 kg in 0,02 m³ bills the 0,1 m³ minimum', () => {
-  const e = estimateTruck({ kg: 2, m3: 0.02 }, tariffs);
+// 6b. Owner, 2026-11-08: consolidated cargo starts at 1 m³ and nothing smaller is carried by truck.
+// Below the minimum there is no price at all (the old sheet billed a 0,1 m³ floor), whatever the density.
+test('example 6b: under 1 m³ the truck refuses, at 1 m³ it prices', () => {
+  assert.equal(tariffs.truck.minM3, 1);
+  assert.throws(() => estimateTruck({ kg: 2, m3: 0.02 }, tariffs), BelowMinimumVolumeError);
+  assert.throws(() => estimateTruck({ kg: 48, dims: { l: 50, w: 40, h: 30 } }, tariffs), BelowMinimumVolumeError);
+  assert.throws(() => estimateTruck({ kg: 600, m3: 0.5 }, tariffs), BelowMinimumVolumeError); // dense, still too small
+  assert.throws(() => estimate({ mode: 'truck', kg: 30, m3: 0.99 }, tariffs), BelowMinimumVolumeError);
+  const e = estimateTruck({ kg: 100, m3: 1 }, tariffs);
   assert.equal(e.rule, 'truck-lcl');
-  assert.equal(e.m3, 0.02);
-  assert.equal(e.chargeableM3, tariffs.truck.minM3);
-  assert.ok(e.notes.includes('min-m3-applied'));
-  near(e.total, tariffs.truck.minM3 * 110, 'min-volume total');
-  const s = {
-    modes: { air: 'Avia', truck: 'Avto', rail: 'Temir yoʻl' },
-    categories: { standard: 'Oddiy', brand: 'Brend', commercial: 'Seriya', battery: 'Batareyali', liquid: 'Suyuqlik' },
-    rules: { 'air-per-kg': '{rate}', 'truck-lcl': '{density} → {m3} × {rate}', 'truck-per-kg': '{rate}', 'rail-20ft': '{rate}', 'rail-40ft': '{rate}' },
-    notes: { 'volumetric-applied': '', 'min-kg-applied': '', 'min-m3-applied': 'Minimal {minM3} m³', 'no-volume': '', 'switched-to-truck': '', range: '' },
-    units: { kg: 'kg', m3: 'm³', cm: 'sm', kgm3: 'kg/m³', perKg: '/kg', perM3: '/m³', days: 'kun', container: 'konteyner' },
-    labels: { chargeable: 'V', density: 'Z', rule: 'Q', rate: 'T', days: 'M', volumetric: 'H', volume: 'Hajm', total: 'J', totalSom: 'S', range: 'K' },
-    approx: 'taxminan', containers: { '20ft': '20 fut', '40ft': '40 fut' },
-  };
-  const b = formatBreakdown(e, 'uz', s, tariffs);
-  // the equation the reader sees must be the one behind the total: 0,1 × 110 = 11
-  assert.equal(b.rule, '100 → 0,1 × 110 $/m³');
-  assert.equal(b.total.replace(/\s/g, ' '), '≈ 11 $');
-  // ...while the Volume row still reports what was measured, which is where density came from
-  assert.ok(b.rows.some((r) => r.label === 'Hajm' && r.value === '0,02 m³'), JSON.stringify(b.rows));
+  assert.equal(e.chargeableM3, 1);
+  assert.deepEqual(e.notes, []);
+  near(e.total, 110, 'exactly the minimum');
+  const d = estimateTruck({ kg: 100, dims: { l: 100, w: 100, h: 100 } }, tariffs); // 1 m³ from dimensions
+  near(d.total, 110, 'dimensions at the minimum');
+  // Air keeps its own small-cargo minimum, untouched by the truck rule.
+  near(estimateAir({ kg: 0.3 }, tariffs).total, 0.5 * tariffs.air.perKg.standard, 'air minimum');
 });
 
 // 7. Rail
@@ -128,12 +122,14 @@ test('example 7: 20ft / 40ft konteyner', () => {
 
 // 8. Air-forbidden category switches to truck
 test('example 8: batareyali tovar avia → avto', () => {
-  // the truck sheet needs a volume, so the switched estimate has to carry one
-  const e = estimate({ mode: 'air', kg: 10, m3: 0.2, category: 'battery' }, tariffs);
+  // the truck sheet needs a volume of at least 1 m³, so the switched estimate has to carry one
+  const e = estimate({ mode: 'air', kg: 120, m3: 1.2, category: 'battery' }, tariffs);
   assert.equal(e.mode, 'truck');
   assert.equal(e.notes[0], 'switched-to-truck');
   assert.equal(e.rule, 'truck-lcl');
   assert.throws(() => estimateAir({ kg: 10, category: 'liquid' }, tariffs), RangeError);
+  // ...and a lot too small for the truck stays refused after the switch
+  assert.throws(() => estimate({ mode: 'air', kg: 10, m3: 0.2, category: 'battery' }, tariffs), BelowMinimumVolumeError);
 });
 
 // 9. formatBreakdown produces localized strings
@@ -142,7 +138,7 @@ test('formatBreakdown uz/en', () => {
     modes: { air: 'Avia', truck: 'Avto', rail: 'Temir yoʻl' },
     categories: { standard: 'Oddiy', brand: 'Brend', commercial: 'Seriya', battery: 'Batareyali', liquid: 'Suyuqlik' },
     rules: { 'air-per-kg': 'Avia · {category} · {rate}', 'truck-lcl': 'Zichlik {density} kg/m³ → m³ boʻyicha · {rate}', 'truck-per-kg': 'Zichlik {density} kg/m³ ≥ {perKgDensity} → kg boʻyicha · {rate}', 'rail-20ft': '20ft · {rate}', 'rail-40ft': '40ft · {rate}' },
-    notes: { 'volumetric-applied': 'Hajmiy vazn {volumetric} kg', 'min-kg-applied': 'Minimal {minKg} kg', 'min-m3-applied': 'Minimal {minM3} m³', 'no-volume': 'Hajm kiritilmagan', 'switched-to-truck': 'Avtoga oʻtkazildi', range: 'Oraliq' },
+    notes: { 'volumetric-applied': 'Hajmiy vazn {volumetric} kg', 'min-kg-applied': 'Minimal {minKg} kg', 'no-volume': 'Hajm kiritilmagan', 'switched-to-truck': 'Avtoga oʻtkazildi', range: 'Oraliq' },
     units: { kg: 'kg', m3: 'm³', cm: 'sm', kgm3: 'kg/m³', perKg: '/kg', perM3: '/m³', days: 'kun', container: 'konteyner' },
     labels: { chargeable: 'Hisoblangan vazn', density: 'Zichlik', rule: 'Qoida', rate: 'Tarif', days: 'Muddat', volumetric: 'Hajmiy vazn', volume: 'Hajm', total: 'Jami', totalSom: 'Soʻmda', range: 'Konteyner' },
     approx: 'taxminan', containers: { '20ft': '20 fut', '40ft': '40 fut' },

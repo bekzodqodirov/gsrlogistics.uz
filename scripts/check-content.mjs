@@ -74,6 +74,10 @@ const FORBIDDEN = [
   // ...and equally, we no longer receive Guangzhou cargo only "through partners": there is an address.
   [/(Guanchjou|Гуанчжоу|Guangzhou)[^.!?]{0,80}(hamkorlar orqali|через партнёров|through partners)/i, 'stale "through partners" claim for Guangzhou'],
   [/(hamkorlar orqali|через партнёров|through partners)[^.!?]{0,80}(Guanchjou|Гуанчжоу|Guangzhou)/i, 'stale "through partners" claim for Guangzhou'],
+  // Owner, 2026-11-08: consolidated cargo starts at 1 m³ and nothing smaller is carried by truck. The old
+  // 0,1 m³ billing floor and the small-order offers must not come back (the Cyrillic pages print м³).
+  [/(?<![\d.,])0[.,]1\s?(?:m³|м³|m3)(?!\d)/i, 'stale truck minimum 0,1 m³ — consolidated cargo starts at 1 m³'],
+  [/1 donadan olamiz|выкупаем от 1 шт|we buy from 1 piece|undan kichik joyni ham olamiz|место меньше мы примем|we take a smaller piece|Kichik posilkalarni ham yigʻma yukka|Small parcels join the consolidated/i, 'offers small orders or sub-minimum truck cargo — the minimum is 1 m³'],
   // Contact details the owner replaced on 2026-09-09; none of them may come back.
   [/\+998 ?97 ?333 ?39 ?33|998973333933/, 'retired second phone number'],
   [/info@gsrlogistics\.uz/i, 'retired e-mail address'],

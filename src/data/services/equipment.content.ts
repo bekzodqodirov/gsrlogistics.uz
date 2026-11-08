@@ -44,7 +44,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Kichik dastgoh ham boʻladi',
-          text: '200–500 kg li dastgoh (tikuv, kichik CNC, qadoqlash mashinasi) yigʻma yuk bilan keladi va uskuna shartnomasi shart emas: zavodni tekshiramiz, sotib olamiz, yogʻoch yashikka joylab Toshkentga olib kelamiz. Katta liniyalar uchun quyidagi toʻliq jarayon ishlaydi.',
+          text: '200–500 kg li dastgoh (tikuv, kichik CNC, qadoqlash mashinasi) yigʻma yuk bilan keladi va uskuna shartnomasi shart emas: zavodni tekshiramiz, sotib olamiz, yogʻoch yashikka joylab Toshkentga olib kelamiz. Yigʻma yuk kamida 1 m³ dan qabul qilinadi — 1 m³ bitta partiyaning umumiy hajmi, shuning uchun kichik dastgoh boshqa yukingiz bilan bitta GS kodi ostida birga hisoblanadi. Katta liniyalar uchun quyidagi toʻliq jarayon ishlaydi.',
           tone: 'info',
         },
       },
@@ -96,7 +96,7 @@ const content: ServiceContentByLang = {
           caption: 'Uskuna tashish variantlari, Xitoy → Toshkent',
           head: ['Variant', 'Qachon mos', 'Chegara', 'Taxminiy narx', 'Muddat'],
           rows: [
-            ['Yigʻma yuk (fura ichida joy)', 'kichik dastgoh, ehtiyot qismlar', '2 t va 2,3 m balandlikkacha bir joy', 'm³ hisobida, zichlikka qarab', '15–25 kun'],
+            ['Yigʻma yuk (fura ichida joy)', 'kichik dastgoh, ehtiyot qismlar', 'kamida 1 m³; 2 t va 2,3 m balandlikkacha bir joy', 'm³ hisobida, zichlikka qarab', '15–25 kun'],
             ['Alohida fura', 'liniya 10–20 t, tez kerak', '20–22 t, 13,6 m uzunlik', 'yoʻnalishga qarab kelishiladi', '15–25 kun'],
             ['20 ft konteyner, temir yoʻl', 'zich va ogʻir uskuna', '20 t gacha, 33 m³', '2 800–5 500 $', '20–35 kun'],
             ['40 ft konteyner, temir yoʻl', 'butun liniya, hajmli', '26 t gacha, 67 m³', '5 200–6 800 $', '20–35 kun'],
@@ -109,7 +109,7 @@ const content: ServiceContentByLang = {
         heading: 'Oʻrnatish va kafolat qanday hal qilinadi?',
         body: [
           'Katta liniya uchun oʻrnatish shartnomaga zavod muhandisining kelishi bilan yoziladi: yoʻl, viza va turar joy xarajatlari odatda mijoz hisobidan, kunlik ish haqi zavod bilan kelishiladi. Bizning xodimimiz muhandis bilan birga keladi va tarjima qiladi. Kichik uskuna uchun zavod video-yoʻriqnoma beradi va bizning hamkor montaj guruhi ishga tushiradi.',
-          'Kafolat odatda 12 oy; kafolat davrida sinadigan qismlarni zavod bepul yuboradi, biz ularni yigʻma yuk yoki avia bilan olib kelamiz. Shartnoma tuzishda tez sinadigan qismlar roʻyxatini va birinchi yil uchun zaxira toʻplamini soʻraymiz — bu liniyaning toʻxtab qolishidan saqlaydi.',
+          'Kafolat odatda 12 oy; kafolat davrida sinadigan qismlarni zavod bepul yuboradi, biz ularni yigʻma yuk (partiya kamida 1 m³ boʻlsa) yoki avia bilan olib kelamiz. Shartnoma tuzishda tez sinadigan qismlar roʻyxatini va birinchi yil uchun zaxira toʻplamini soʻraymiz — bu liniyaning toʻxtab qolishidan saqlaydi.',
         ],
         callout: {
           title: 'Menejer maslahati',
@@ -205,7 +205,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Небольшой станок — тоже можно',
-          text: 'Станок весом 200–500 кг (швейный, малый ЧПУ, упаковочная машина) едет сборным грузом, и отдельный договор на оборудование не нужен: проверяем завод, выкупаем, упаковываем в деревянный ящик и привозим в Ташкент. Для крупных линий работает полный процесс ниже.',
+          text: 'Станок весом 200–500 кг (швейный, малый ЧПУ, упаковочная машина) едет сборным грузом, и отдельный договор на оборудование не нужен: проверяем завод, выкупаем, упаковываем в деревянный ящик и привозим в Ташкент. Сборный груз принимаем от 1 м³ — это общий объём одной партии, поэтому небольшой станок считается вместе с другими вашими грузами под одним GS-кодом. Для крупных линий работает полный процесс ниже.',
           tone: 'info',
         },
       },
@@ -257,7 +257,7 @@ const content: ServiceContentByLang = {
           caption: 'Варианты перевозки оборудования, Китай → Ташкент',
           head: ['Вариант', 'Когда подходит', 'Ограничения', 'Ориентировочная цена', 'Срок'],
           rows: [
-            ['Сборный груз (место в фуре)', 'небольшой станок, запчасти', 'до 2 т и 2,3 м высоты на место', 'по м³, по плотности', '15–25 дней'],
+            ['Сборный груз (место в фуре)', 'небольшой станок, запчасти', 'от 1 м³; до 2 т и 2,3 м высоты на место', 'по м³, по плотности', '15–25 дней'],
             ['Отдельная фура', 'линия 10–20 т, нужно быстро', '20–22 т, длина 13,6 м', 'договорная по маршруту', '15–25 дней'],
             ['Контейнер 20 футов, ж/д', 'плотное и тяжёлое оборудование', 'до 20 т, 33 м³', '2 800–5 500 $', '20–35 дней'],
             ['Контейнер 40 футов, ж/д', 'целая линия, объёмная', 'до 26 т, 67 м³', '5 200–6 800 $', '20–35 дней'],
@@ -270,7 +270,7 @@ const content: ServiceContentByLang = {
         heading: 'Как решаются монтаж и гарантия?',
         body: [
           'Для крупной линии монтаж прописывается в договоре как приезд инженера завода: дорога, виза и проживание обычно за счёт клиента, дневная ставка согласуется с заводом. Наш сотрудник приезжает вместе с инженером и переводит. Для небольшого оборудования завод даёт видеоинструкцию, а запуск выполняет наша партнёрская монтажная бригада.',
-          'Гарантия обычно 12 месяцев; вышедшие из строя детали в гарантийный период завод отправляет бесплатно, мы привозим их сборным грузом или авиа. При заключении договора запрашиваем перечень быстроизнашивающихся деталей и комплект запаса на первый год — это защищает от простоя линии.',
+          'Гарантия обычно 12 месяцев; вышедшие из строя детали в гарантийный период завод отправляет бесплатно, мы привозим их сборным грузом (если партия от 1 м³) или авиа. При заключении договора запрашиваем перечень быстроизнашивающихся деталей и комплект запаса на первый год — это защищает от простоя линии.',
         ],
         callout: {
           title: 'Совет менеджера',
@@ -366,7 +366,7 @@ const content: ServiceContentByLang = {
         ],
         callout: {
           title: 'Small machines are fine too',
-          text: 'A 200–500 kg machine (sewing, small CNC, packaging) travels as consolidated cargo and needs no separate equipment contract: we verify the factory, buy, crate and deliver to Tashkent. For large lines the full process below applies.',
+          text: 'A 200–500 kg machine (sewing, small CNC, packaging) travels as consolidated cargo and needs no separate equipment contract: we verify the factory, buy, crate and deliver to Tashkent. Consolidated cargo is accepted from 1 m³, counted across one shipment, so a small machine is counted together with your other goods under one GS code. For large lines the full process below applies.',
           tone: 'info',
         },
       },
@@ -418,7 +418,7 @@ const content: ServiceContentByLang = {
           caption: 'Equipment shipping options, China → Tashkent',
           head: ['Option', 'When it fits', 'Limits', 'Indicative price', 'Transit'],
           rows: [
-            ['Consolidated cargo (space in a truck)', 'small machine, spare parts', 'up to 2 t and 2.3 m height per piece', 'per m³, by density', '15–25 days'],
+            ['Consolidated cargo (space in a truck)', 'small machine, spare parts', 'from 1 m³; up to 2 t and 2.3 m height per piece', 'per m³, by density', '15–25 days'],
             ['Dedicated truck', 'a 10–20 t line, needed fast', '20–22 t, 13.6 m length', 'quoted per route', '15–25 days'],
             ['20 ft container, rail', 'dense, heavy equipment', 'up to 20 t, 33 m³', '$2,800–5,500', '20–35 days'],
             ['40 ft container, rail', 'a complete, bulky line', 'up to 26 t, 67 m³', '$5,200–6,800', '20–35 days'],
@@ -431,7 +431,7 @@ const content: ServiceContentByLang = {
         heading: 'How are installation and warranty handled?',
         body: [
           'For a large line, installation is written into the contract as a visit by the factory engineer: travel, visa and accommodation are usually at the client’s expense and the daily rate is agreed with the factory. Our staff member accompanies the engineer and interprets. For smaller equipment the factory provides a video guide and our partner installation crew does the commissioning.',
-          'The warranty is usually 12 months; parts that fail within it are shipped free by the factory and we bring them by consolidated cargo or air. When the contract is drawn up we ask for the wear-parts list and a first-year spares kit — that is what keeps a line from standing idle.',
+          'The warranty is usually 12 months; parts that fail within it are shipped free by the factory and we bring them by consolidated cargo (in a shipment of at least 1 m³) or by air. When the contract is drawn up we ask for the wear-parts list and a first-year spares kit — that is what keeps a line from standing idle.',
         ],
         callout: {
           title: 'Manager’s tip',

@@ -5,15 +5,15 @@ lang: en
 translationKey: yiwu-guangzhou
 slug: yiwu-and-guangzhou-markets
 publishDate: 2026-09-08
-updatedDate: 2026-09-08
+updatedDate: 2026-11-08
 tags: [sourcing, buying, warehouse, bozorlar]
 faq:
   - q: "What is the minimum order at the Yiwu market?"
-    a: "Usually one carton (一箱起批) or a few dozen pieces — 12, 24, 48 or 100 units depending on the product. Prices are quoted in yuan per piece. The same seller often lists the same item on 1688; small lots from several booths are consolidated into one shipment at the Yiwu receiving point."
+    a: "Usually one carton (一箱起批) or a few dozen pieces — 12, 24, 48 or 100 units depending on the product. Prices are quoted in yuan per piece. The same seller often lists the same item on 1688; small lots from several booths are consolidated into one shipment at the Yiwu receiving point. Consolidated truck cargo is accepted from 1 m³, counted across that shipment; cargo under 1 m³ can go by air, from 0.5 kg."
   - q: "Which is cheaper, Yiwu or Guangzhou?"
     a: "It depends on the product. Small commodities (toys, jewellery, housewares, socks) are cheaper in Yiwu and sit in one place; garments, bags, shoes and electronics are wider in range and higher in quality in Guangzhou and Shenzhen. In Guangzhou goods go to a receiving address in the same city, so domestic delivery barely affects the landed cost."
   - q: "Do I have to travel to China myself?"
-    a: "No. For repeat orders and items available on 1688, remote buying is enough: you send a link or a sample, GSR Logistics buys, inspects at the Yiwu warehouse and sends a photo report. A trip pays off for a new product line, a large lot, or furniture and equipment — there, handling the goods yourself matters."
+    a: "No. For repeat orders and items available on 1688, remote buying is enough: you send a link or a sample, GSR Logistics buys (for orders totalling at least 1 m³), inspects at the Yiwu warehouse and sends a photo report. A trip pays off for a new product line, a large lot, or furniture and equipment — there, handling the goods yourself matters."
   - q: "When is the Yiwu market closed?"
     a: "For Chinese New Year — February 6 in 2027 — the market closes for roughly 2–3 weeks and factories for 3–4 weeks. During Golden Week (October 1–7) markets close for 3–7 days. On normal days the Futian market runs seven days a week, roughly 9:00–17:00."
 sources:
@@ -65,7 +65,7 @@ The Canton Fair (广交会) runs twice a year at the Pazhou complex — April–
 
 ## Shenzhen, Keqiao and Foshan: the specialised markets
 
-**Huaqiangbei (华强北), Shenzhen** is the largest electronics market in the world: SEG Plaza and Huaqiang Electronics World (components, cables, chargers), Mingtong (phone accessories), Yuanwang (phones). Earbuds, smartwatches, power banks, cameras, car electronics — all within a few blocks. Two caveats: anything with a lithium battery cannot fly and goes by truck only; copies of well-known brands are counterfeit and we do not accept them (see [Prohibited goods](/en/guides/prohibited-goods/)).
+**Huaqiangbei (华强北), Shenzhen** is the largest electronics market in the world: SEG Plaza and Huaqiang Electronics World (components, cables, chargers), Mingtong (phone accessories), Yuanwang (phones). Earbuds, smartwatches, power banks, cameras, car electronics — all within a few blocks. Two caveats: anything with a lithium battery cannot fly and goes by truck only, so under 1 m³ it cannot be shipped at all; copies of well-known brands are counterfeit and we do not accept them (see [Prohibited goods](/en/guides/prohibited-goods/)).
 
 **Keqiao (柯桥) — China Textile City**, in Shaoxing, roughly 90 km from Yiwu. Fabric is sold by the roll, usually with a one-roll minimum; curtains, bedding fabrics, knits, denim. The primary address for garment workshops. Fabric is dense cargo: a cubic metre of rolls runs 300–500 kg, so the per-m³ rate comes from the upper density bands — roughly $200–290 per m³.
 
@@ -94,7 +94,7 @@ If you plan a trip, the process looks like this:
 
 1. **Plan.** List the markets, districts and floors. Tashkent has direct flights to Urumqi and Beijing; Yiwu is reached via Shanghai or Hangzhou by high-speed rail (Hangzhou–Yiwu about 1 hour). Check visa requirements before you travel.
 2. **On the market floor.** Log every booth in one place: booth number, business card, product photo, price, minimum order, lead time. You will see more than 100 booths in a day — nothing survives without notes.
-3. **Payment.** Sellers take yuan via WeChat Pay or Alipay; a foreign card can be linked, but wholesale amounts are normally paid from an agent’s account. GSR Logistics pays in yuan at the Central Bank rate — [Buying from 1688 & Taobao](/en/services/buying-agent/).
+3. **Payment.** Sellers take yuan via WeChat Pay or Alipay; a foreign card can be linked, but wholesale amounts are normally paid from an agent’s account. GSR Logistics pays in yuan at the Central Bank rate (for orders with a total volume of at least 1 m³) — [Buying from 1688 & Taobao](/en/services/buying-agent/).
 4. **Address.** The seller gets the receiving address your manager names — the Yiwu warehouse, Guangzhou or Kashgar — and your GS code (shipping mark) to write on every carton before dispatch. Within Yiwu, sellers usually deliver in 1–2 days free of charge; from other cities, by domestic express.
 5. **Warehouse and departure.** Every carton is weighed, measured and numbered; the photo report lands in your Telegram; the cargo reaches Tashkent by truck in roughly 15–25 days or by air in 5–10.
 
@@ -104,7 +104,7 @@ For remote buying, step 2 is replaced by sending a link, a sample or a spec; eve
 
 Consolidation means combining one client’s lots from different sellers into a single shipment at the warehouse in China. Goods from 5 booths at the Yiwu market, 1 seller in Keqiao and 2 in Guangzhou are gathered under one GS code and leave on one departure — far cheaper than shipping each lot separately.
 
-At the warehouse every carton is weighed, measured, numbered and photographed; when needed it is opened, counted and checked for condition. The photo report arrives in Telegram. Estimated service prices as of September 8, 2026: photo report $1, repacking $0.40/kg, detailed inspection $1/kg; 14 days of free storage in China. Truck cargo is priced per m³: the density of the lot (kg ÷ m³) picks the band the cubic-metre rate comes from — from $110 per m³ up to 100 kg/m³ and rising with density, while cargo at 1,000 kg/m³ and above is charged at $0.55 per kg. For example, 300 kg in 1.2 m³ → 250 kg/m³ → 1.2 × $180 = $216, whereas 180 kg in 2 m³ → 90 kg/m³ → 2 × $110 = $220: almost the same money, but 2 m³ instead of 1.2 m³. The minimum billable volume is 0.1 m³. Prices are indicative and duty and VAT are separate; the rule is on the [Pricing](/en/pricing/) page and the number for your cargo comes from the [Calculator](/en/calculator/). Full warehouse services — [Yiwu warehouse & quality control](/en/services/warehouse-quality-control/).
+At the warehouse every carton is weighed, measured, numbered and photographed; when needed it is opened, counted and checked for condition. The photo report arrives in Telegram. Estimated service prices as of September 8, 2026: photo report $1, repacking $0.40/kg, detailed inspection $1/kg; 14 days of free storage in China. Truck cargo is priced per m³: the density of the lot (kg ÷ m³) picks the band the cubic-metre rate comes from — from $110 per m³ up to 100 kg/m³ and rising with density, while cargo at 1,000 kg/m³ and above is charged at $0.55 per kg. For example, 300 kg in 1.2 m³ → 250 kg/m³ → 1.2 × $180 = $216, whereas 180 kg in 2 m³ → 90 kg/m³ → 2 × $110 = $220: almost the same money, but 2 m³ instead of 1.2 m³. Consolidated truck cargo is accepted from 1 m³ — we do not carry anything smaller. The 1 m³ counts across one shipment: pieces from different sellers are gathered at the Yiwu receiving point under one GS code. Cargo under 1 m³ can go by air, from 0.5 kg. Prices are indicative and duty and VAT are separate; the rule is on the [Pricing](/en/pricing/) page and the number for your cargo comes from the [Calculator](/en/calculator/). Full warehouse services — [Yiwu warehouse & quality control](/en/services/warehouse-quality-control/).
 
 ## Seasonal calendar: when to buy and when to wait?
 

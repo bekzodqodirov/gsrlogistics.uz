@@ -22,7 +22,7 @@ const t = pick(lang, pricingStrings);
 const c = pick(lang, common);
 const T = tariffs as unknown as Tariffs;
 const n = (v: number, f = 2) => fmtNumber(v, lang, f);
-const vars = { threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0) };
+const vars = { threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0), minM3: n(T.truck.minM3) };
 const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(T.updated, lang)}`;
 const range = (a: number[]) => `${n(a[0], 0)}–${n(a[1], 0)} ${t.breakdown.units.days}`;
 const tiles = [

@@ -45,7 +45,7 @@ const uz: LeadStrings = {
     question: 'Yuk taxminan qancha?',
     draft: 'Assalomu alaykum! Yuk olib kelish boʻyicha yozyapman. Hajmi: {v}.',
     choices: [
-      { label: '1 m³ gacha', msg: '1 m³ gacha' },
+      { label: '1 m³ gacha — faqat avia', msg: '1 m³ gacha (avia)' },
       { label: '1–5 m³', msg: '1–5 m³' },
       { label: '5 m³ dan koʻp', msg: '5 m³ dan koʻp' },
       { label: 'Hali bilmayman', msg: 'hali bilmayman' },
@@ -89,7 +89,7 @@ const ru: LeadStrings = {
     question: 'Примерный объём?',
     draft: 'Здравствуйте! Пишу по доставке груза. Объём: {v}.',
     choices: [
-      { label: 'до 1 м³', msg: 'до 1 м³' },
+      { label: 'до 1 м³ — только авиа', msg: 'до 1 м³ (авиа)' },
       { label: '1–5 м³', msg: '1–5 м³' },
       { label: 'больше 5 м³', msg: 'больше 5 м³' },
       { label: 'Пока не знаю', msg: 'пока не знаю' },
@@ -133,7 +133,7 @@ const en: LeadStrings = {
     question: 'Roughly how much?',
     draft: 'Hello! I’m writing about shipping cargo. Volume: {v}.',
     choices: [
-      { label: 'Under 1 m³', msg: 'under 1 m³' },
+      { label: 'Under 1 m³ — air only', msg: 'under 1 m³ (air)' },
       { label: '1–5 m³', msg: '1–5 m³' },
       { label: 'Over 5 m³', msg: 'over 5 m³' },
       { label: 'Not sure yet', msg: 'not sure yet' },
