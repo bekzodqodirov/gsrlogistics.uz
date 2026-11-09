@@ -96,7 +96,7 @@ const uz: TrackingStrings = {
   },
   stages: {
     received: { name: 'Xitoyda qabul qilindi', short: 'Xitoyda qabul', text: 'Yuk Xitoydagi qabul punktiga (Ivu, Guanchjou yoki Qashqar) keldi: suratga olindi, sanaldi, tortildi va oʻlchandi, tizimga kiritildi, har bir qutiga QR kod yopishtirildi. Foto-hisobot Telegramga yuborildi.' },
-    consolidation: { name: 'Konsolidatsiya', short: 'Konsolidatsiya', text: 'Yuk boshqa mijozlar yuki bilan bitta fura yoki konteynerga yigʻilmoqda. Yuklashda har bir quti QR boʻyicha skanerlanadi — botda shu bosqich koʻrinadi.' },
+    consolidation: { name: 'Konsolidatsiya', short: 'Konsolidatsiya', text: 'Yuk boshqa mijozlar yuki bilan bitta furaga yigʻilmoqda. Yuklashda har bir quti QR boʻyicha skanerlanadi — botda shu bosqich koʻrinadi.' },
     transit: { name: 'Yoʻlda', short: 'Yoʻlda', text: 'Transport Xitoydan chiqdi: Urumchi orqali Xorgosgacha, soʻng Qozogʻiston boʻylab. Avto taxminan 15–25 kun, avia 5–10 kun. Yoʻlda skanerlash boʻlmaydi, shuning uchun bosqich oʻzgarmay turadi.' },
     customs: { name: 'Chegara va bojxona', short: 'Bojxona', text: 'Yuk Xorgos chegarasida yoki Toshkentda bojxona rasmiylashtiruvidan oʻtmoqda: deklaratsiya, boj va QQS hisobi.' },
     tashkent: { name: 'Toshkent omborida', short: 'Toshkentda', text: 'Yuk Toshkentga keldi va tushirishda qaytadan skanerlandi. Menejer xabar beradi: oʻzingiz olib ketasiz yoki viloyatga joʻnatamiz.' },
@@ -168,7 +168,7 @@ const ru: TrackingStrings = {
   },
   stages: {
     received: { name: 'Принят в Китае', short: 'Приёмка в Китае', text: 'Груз поступил в пункт приёма в Китае (Иу, Гуанчжоу или Кашгар): сфотографирован, пересчитан, взвешен и обмерен, занесён в систему, на каждую коробку наклеен QR-код. Фотоотчёт отправлен в Telegram.' },
-    consolidation: { name: 'Консолидация', short: 'Консолидация', text: 'Груз собирается в одну фуру или контейнер вместе с грузами других клиентов. При погрузке каждую коробку сканируют по QR — этот этап и виден в боте.' },
+    consolidation: { name: 'Консолидация', short: 'Консолидация', text: 'Груз собирается в одну фуру вместе с грузами других клиентов. При погрузке каждую коробку сканируют по QR — этот этап и виден в боте.' },
     transit: { name: 'В пути', short: 'В пути', text: 'Транспорт вышел из Китая: через Урумчи до Хоргоса, дальше по Казахстану. Авто — ориентировочно 15–25 дней, авиа — 5–10. В пути сканирований нет, поэтому этап не меняется.' },
     customs: { name: 'Граница и таможня', short: 'Таможня', text: 'Груз проходит границу в Хоргосе или таможенное оформление в Ташкенте: декларация, расчёт пошлины и НДС.' },
     tashkent: { name: 'На складе в Ташкенте', short: 'В Ташкенте', text: 'Груз прибыл в Ташкент и при разгрузке отсканирован заново. Менеджер сообщит: забираете сами или отправляем в регион.' },
@@ -240,7 +240,7 @@ const en: TrackingStrings = {
   },
   stages: {
     received: { name: 'Received in China', short: 'Received in China', text: 'The cargo arrived at the receiving point in China (Yiwu, Guangzhou or Kashgar): photographed, counted, weighed and measured, entered into the system, and a QR code stuck on every carton. The photo report was sent on Telegram.' },
-    consolidation: { name: 'Consolidation', short: 'Consolidation', text: 'The cargo is being grouped with other clients’ goods into one truck or container. Every carton is scanned by its QR as it is loaded — that is the stage the bot shows.' },
+    consolidation: { name: 'Consolidation', short: 'Consolidation', text: 'The cargo is being grouped with other clients’ goods into one truck. Every carton is scanned by its QR as it is loaded — that is the stage the bot shows.' },
     transit: { name: 'In transit', short: 'In transit', text: 'The vehicle has left China: via Urumqi to Khorgos, then across Kazakhstan. Truck roughly 15–25 days, air 5–10. There is nothing to scan on the road, so the stage stays put.' },
     customs: { name: 'Border and customs', short: 'Customs', text: 'The cargo is crossing the Khorgos border or clearing customs in Tashkent: declaration, duty and VAT calculation.' },
     tashkent: { name: 'At the Tashkent warehouse', short: 'In Tashkent', text: 'The cargo reached Tashkent and was scanned again as it was unloaded. Your manager lets you know: collect it yourself or we forward it to your region.' },

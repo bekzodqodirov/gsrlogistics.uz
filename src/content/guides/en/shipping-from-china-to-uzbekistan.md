@@ -5,7 +5,7 @@ lang: en
 translationKey: shipping-from-china
 slug: shipping-from-china-to-uzbekistan
 publishDate: 2026-09-08
-updatedDate: 2026-11-08
+updatedDate: 2026-11-09
 tags: [truck, air, rail, customs, warehouse]
 faq:
   - q: "How many days does cargo take from China to Tashkent?"
@@ -55,9 +55,9 @@ Transit times count from departure from the China warehouse. Full tariffs and ru
 
 ## What is consolidated cargo and who is it for?
 
-Consolidated cargo is a method where shipments from several clients are combined into one lot at the China warehouse and sent in one truck or container. You do not rent a whole container; you pay only for your space — by the cubic metre on the truck, by the kilogram by air. The international term is LCL (Less than Container Load); in Uzbek it is yigʻma yuk, in Russian сборный груз.
+Consolidated cargo is a method where shipments from several clients are combined into one lot at the China warehouse and sent in one truck. You do not rent a whole container; you pay only for your space — by the cubic metre. The international term is LCL (Less than Container Load); in Uzbek it is yigʻma yuk, in Russian сборный груз.
 
-It suits lots from 1 m³ to 15 m³ best: Uzum and Yandex Market sellers, shop and market-stall owners, entrepreneurs bringing in a first batch. Anything under 1 m³ is not carried by truck; it can go by air. Above 15–20 m³ a dedicated container (FCL) or rail usually works out cheaper.
+It suits lots from 1 m³ to 15 m³ best: Uzum and Yandex Market sellers, shop and market-stall owners, entrepreneurs bringing in a first batch. Anything under 1 m³ is not carried by truck; it can go by air. Above 15–20 m³ a whole rail container (FCL) — 20GP, 40GP, 40HQ and other types — usually works out cheaper. We do not run consolidated cargo by rail.
 
 GSR Logistics has been shipping consolidated cargo since June 2022; the third consolidation truck left the Yiwu warehouse on August 2, 2022. Yiwu (义乌) is home to the world’s largest small-commodity wholesale market, which is why the consolidation warehouse is there. There are two more receiving addresses in China — Guangzhou (广州) and Kashgar (喀什); your manager tells you which address to use.
 

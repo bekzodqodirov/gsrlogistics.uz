@@ -52,7 +52,7 @@ const content: ServiceContentByLang = {
           { title: 'Qidiruv va muzokara', text: 'Ivudagi xodimlarimiz zavodlar, 1688 va Alibaba sotuvchilari, Ivu Futian bozori orasidan 3–5 ta taklif yigʻadi: narx, MOQ, ishlab chiqarish muddati, qadoqlash, sertifikatlar. Muzokarani xitoy tilida oʻzimiz olib boramiz.' },
           { title: 'Namuna', text: 'Tanlagan 1–2 zavoddan namuna buyurtma qilamiz. Namuna Ivu omboriga keladi — suratga olamiz, oʻlchaymiz, video yuboramiz; xohlasangiz, avia bilan taxminan 5–10 kunda Toshkentga joʻnatamiz.' },
           { title: 'Zavod tekshiruvi va shartnoma', text: 'Zavodning biznes-litsenziyasi, ishlab chiqarish quvvati va eksport tajribasini tekshiramiz. Keyin spetsifikatsiya, sifat mezonlari, muddat va toʻlov jadvali yozilgan shartnoma tuziladi.' },
-          { title: 'Ishlab chiqarish nazorati va yetkazib berish', text: 'Yuklashdan oldin partiyani tekshiramiz (soni, sifat, qadoqlash) va foto-hisobot yuboramiz. Tovar Ivu omborida konsolidatsiya qilinadi va yigʻma yuk yoki konteyner bilan Toshkentga keladi; bojxona rasmiylashtiruvi bizning zimmamizda.' },
+          { title: 'Ishlab chiqarish nazorati va yetkazib berish', text: 'Yuklashdan oldin partiyani tekshiramiz (soni, sifat, qadoqlash) va foto-hisobot yuboramiz. Tovar Ivu omborida konsolidatsiya qilinadi va yigʻma yuk yoki butun konteyner bilan Toshkentga keladi; bojxona rasmiylashtiruvi bizning zimmamizda.' },
         ],
       },
       {
@@ -208,7 +208,7 @@ const content: ServiceContentByLang = {
           { title: 'Поиск и переговоры', text: 'Сотрудники в Иу собирают 3–5 предложений от фабрик, продавцов 1688 и Alibaba, рынка Футянь в Иу: цена, MOQ, срок производства, упаковка, сертификаты. Переговоры ведём сами на китайском.' },
           { title: 'Образец', text: 'Заказываем образцы у 1–2 выбранных фабрик. Образец приходит на склад в Иу — фотографируем, измеряем, снимаем видео; по желанию отправляем авиа в Ташкент ориентировочно за 5–10 дней.' },
           { title: 'Проверка фабрики и договор', text: 'Проверяем бизнес-лицензию, производственные мощности и экспортный опыт фабрики. Затем заключается договор со спецификацией, критериями качества, сроками и графиком оплаты.' },
-          { title: 'Контроль производства и доставка', text: 'Перед отгрузкой проверяем партию (количество, качество, упаковка) и отправляем фотоотчёт. Товар консолидируется на складе в Иу и едет в Ташкент сборным грузом или контейнером; растаможку берём на себя.' },
+          { title: 'Контроль производства и доставка', text: 'Перед отгрузкой проверяем партию (количество, качество, упаковка) и отправляем фотоотчёт. Товар консолидируется на складе в Иу и едет в Ташкент сборным грузом или целым контейнером; растаможку берём на себя.' },
         ],
       },
       {
@@ -364,7 +364,7 @@ const content: ServiceContentByLang = {
           { title: 'Search and negotiation', text: 'Our Yiwu team collects 3–5 offers from factories, 1688 and Alibaba sellers and the Futian market in Yiwu: price, MOQ, production time, packaging, certificates. We negotiate in Chinese ourselves.' },
           { title: 'Sample', text: 'We order samples from the 1–2 factories you pick. The sample lands at the Yiwu warehouse, where we photograph, measure and film it; on request we fly it to Tashkent in roughly 5–10 days.' },
           { title: 'Factory verification and contract', text: 'We check the business licence, production capacity and export record. Then a contract is signed with the specification, quality criteria, deadlines and payment schedule.' },
-          { title: 'Production control and delivery', text: 'Before loading we inspect the batch (quantity, quality, packaging) and send a photo report. The goods are consolidated in Yiwu and travel to Tashkent by consolidated truck or container; customs clearance is on us.' },
+          { title: 'Production control and delivery', text: 'Before loading we inspect the batch (quantity, quality, packaging) and send a photo report. The goods are consolidated in Yiwu and travel to Tashkent by consolidated truck or in a whole container; customs clearance is on us.' },
         ],
       },
       {

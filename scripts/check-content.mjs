@@ -78,6 +78,13 @@ const FORBIDDEN = [
   // 0,1 m³ billing floor and the small-order offers must not come back (the Cyrillic pages print м³).
   [/(?<![\d.,])0[.,]1\s?(?:m³|м³|m3)(?!\d)/i, 'stale truck minimum 0,1 m³ — consolidated cargo starts at 1 m³'],
   [/1 donadan olamiz|выкупаем от 1 шт|we buy from 1 piece|undan kichik joyni ham olamiz|место меньше мы примем|we take a smaller piece|Kichik posilkalarni ham yigʻma yukka|Small parcels join the consolidated/i, 'offers small orders or sub-minimum truck cargo — the minimum is 1 m³'],
+  // Owner, 2026-11-09: rail takes whole containers only (20GP, 40GP, 40HQ and other types); there is
+  // no consolidated (LCL) cargo by rail, and consolidated cargo travels by truck only. The FCL/LCL
+  // glossary definitions stay; what must not come back is an offer of rail LCL: a choice between FCL
+  // and LCL, a "space / part of a container", or consolidated cargo "in a truck or container".
+  [/\bFCL\s(?:yoki|или|or)\sLCL\b|\bLCL\s(?:yoki|или|or)\sFCL\b/i, 'offers a choice of FCL or LCL — rail takes whole containers only, no LCL'],
+  [/konteynerdagi joy|konteynerda joy oladi|место в контейнере|space in (?:a |one |the )?container|space in one \(LCL|shared containers?\b|konteynerning bir qismi|(?:uning|его) (?:bir qismini|части) \(LCL\)|част[ьи] контейнера|part of (?:a |one )?container|part of one \(LCL\)|temir yoʻl(?:da)? LCL|rail LCL|LCL by rail|ж\/д LCL|LCL по ж\/д/i, 'offers space in a shared container (rail LCL) — rail takes whole containers only'],
+  [/(?:fura|furada|furaga) yoki konteyner|фур[аеуы] или контейнер|truck or (?:a )?container\b/i, 'puts consolidated cargo "in a truck or container" — consolidated cargo is truck only; a container means a whole rail container'],
   // Contact details the owner replaced on 2026-09-09; none of them may come back.
   [/\+998 ?97 ?333 ?39 ?33|998973333933/, 'retired second phone number'],
   [/info@gsrlogistics\.uz/i, 'retired e-mail address'],

@@ -5,7 +5,7 @@ lang: uz
 translationKey: glossary
 slug: kargo-lugati
 publishDate: 2026-09-08
-updatedDate: 2026-11-08
+updatedDate: 2026-11-09
 tags: [lugat, truck, customs, warehouse]
 faq:
   - q: "Kargo va logistika bir narsami?"
@@ -34,7 +34,7 @@ Kargo lugʻati — bu Xitoydan Oʻzbekistonga yuk olib kelishda menejer, bojxona
 Oʻzbekistonda Xitoydan yuk olib kelish xizmatining xalq tilidagi nomi (карго, «kitay kargo» deb ham qidiriladi). Narx dollarda hisoblanadi: aviada 1 kg uchun, avtoda esa yukning zichligiga qarab 1 m³ uchun (110 $/m³ dan). Xizmatga Xitoy omborida qabul, konsolidatsiya, chegara va Toshkentgacha yetkazish kiradi.
 
 ### Yigʻma yuk (сборный груз, LCL)
-Bir nechta mijozning yuklari bitta fura yoki konteynerda birga yuboriladi. Siz butun konteyner uchun emas, faqat oʻz joyingiz uchun toʻlaysiz: avtoda m³, aviada kg boʻyicha. Fura yoki konteynerdagi joy kamida 1 m³ boʻlishi kerak — undan kichik yukni olib kelmaymiz; aviada — 0,5 kg dan. GSR Logisticsʼning asosiy xizmati.
+Bir nechta mijozning yuklari bitta furada birga yuboriladi. Siz butun konteyner uchun emas, faqat oʻz joyingiz uchun m³ boʻyicha toʻlaysiz. Furadagi joy kamida 1 m³ boʻlishi kerak — undan kichik yukni fura bilan olib kelmaymiz, uni faqat avia bilan joʻnatish mumkin (0,5 kg dan). Temir yoʻlda yigʻma yuk qilinmaydi: poyezdda faqat butun konteyner ketadi. GSR Logisticsʼning asosiy xizmati.
 
 ### Avto kargo
 Yukni fura (yuk mashinasi) bilan Xitoydan Qozogʻiston orqali Toshkentga olib kelish. Taxminan 15–25 kun. Ogʻir va hajmli yuklar uchun eng arzon yoʻnalish. Narx m³ boʻyicha, yukning zichligiga qarab — 110 $/m³ dan (taxminiy). Kamida 1 m³ dan qabul qilinadi.
@@ -43,13 +43,13 @@ Yukni fura (yuk mashinasi) bilan Xitoydan Qozogʻiston orqali Toshkentga olib ke
 Yukni samolyotda olib kelish, taxminan 5–10 kun. Shoshilinch, yengil va qimmat yuklar uchun. Litiy batareya, suyuqlik va magnitli tovarlar aviaga olinmaydi.
 
 ### Temir yoʻl kargo
-Konteynerni poyezdda Doʻstiq/Oltinkoʻl chegarasi orqali olib kelish, taxminan 20–35 kun. Katta partiyalar uchun.
+Konteynerni poyezdda Doʻstiq/Oltinkoʻl chegarasi orqali olib kelish, taxminan 20–35 kun. Katta partiyalar uchun — faqat butun konteyner (FCL): 20GP, 40GP, 40HQ va boshqa turlar. Butun konteyner kerak boʻlmagan kichikroq partiya fura bilan yigʻma yuk sifatida, kamida 1 m³ dan ketadi.
 
 ### FCL (Full Container Load)
-Butun konteyner bitta mijoz uchun. 20 futlik konteyner ≈ 33 m³, 40 futlik (HC) ≈ 76 m³.
+Butun konteyner bitta mijoz uchun. 20 futlik konteyner ≈ 33 m³, 40 futlik (40HQ) ≈ 76 m³. GSR temir yoʻlda faqat butun konteyner olib keladi: 20GP, 40GP, 40HQ va boshqa turlar.
 
 ### LCL (Less than Container Load)
-Konteynerning bir qismi — yigʻma yukning xalqaro nomi.
+Yigʻma yukning xalqaro nomi: butun konteynerni toʻldirmaydigan va boshqa mijozlarning yuklari bilan birga joʻnatiladigan yuk. GSR yigʻma yukni faqat fura bilan, kamida 1 m³ dan olib keladi; temir yoʻlda esa faqat butun konteyner (FCL) olinadi.
 
 ### Ekspress kargo
 Tezlashtirilgan avto yoʻnalish: kamroq toʻxtash, tezroq chegara. GSR tajribasida eng tez yetkazmalar 12–13 kun boʻlgan; standart muddat 15–25 kun.
@@ -157,7 +157,7 @@ Qozogʻiston–Oʻzbekiston chegarasidagi avto punkti, Toshkent yaqinida.
 Shartnomadan keyin sizga beriladigan shaxsiy kod. Yetkazib beruvchi uni joʻnatishdan oldin har bir qutiga yozadi; shu kod boʻyicha menejerdan yoki [Kuzatuv](/kuzatuv/) sahifasida holatni bilasiz. Xitoy ichidagi kuryer trek-kodi (1688, Taobao) bundan alohida narsa.
 
 ### Reys / partiya
-Bitta fura yoki konteynerning joʻnatilishi. Kargo kompaniyalari «AK-123» kabi raqamlaydi; toʻlov koʻpincha reys boʻyicha qilinadi.
+Bitta fura yoki butun konteynerning joʻnatilishi. Kargo kompaniyalari «AK-123» kabi raqamlaydi; toʻlov koʻpincha reys boʻyicha qilinadi.
 
 ### PVZ / filial
 Toshkent yoki viloyatdagi yukni olib ketish nuqtasi.

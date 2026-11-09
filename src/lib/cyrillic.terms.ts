@@ -221,6 +221,7 @@ const codes: KeepLatin[] = [
   // freight forwarder writes on the paperwork.
   { latin: 'LCL' }, { latin: 'FCL' },
   { latin: '20ft' }, { latin: '40ft' },
+  { latin: '20GP' }, { latin: '40GP' }, { latin: '40HQ' }, // ISO container types the owner names
   { latin: 'HC', exactCase: true }, // high cube container
   { latin: 'FOB' }, { latin: 'EXW' }, { latin: 'CIF' },
   { latin: 'Incoterms', suffixable: true }, // the standard itself; its codes are above

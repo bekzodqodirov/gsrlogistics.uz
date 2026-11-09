@@ -5,7 +5,7 @@ lang: en
 translationKey: routes
 slug: china-tashkent-routes
 publishDate: 2026-09-08
-updatedDate: 2026-11-08
+updatedDate: 2026-11-09
 tags: [truck, rail, air, customs, routes]
 faq:
   - q: "Which borders does a truck cross between China and Tashkent?"
@@ -83,7 +83,7 @@ Details — [Rail and container](/en/services/rail-container/).
 
 ## How does the air route work?
 
-Air cargo flies from Guangzhou (Baiyun) or Urumqi to Tashkent. The cargo is received at the China warehouse, consolidated into an air batch (2–4 days), flown in 1 day and cleared at Tashkent airport in 1–2 working days. In total roughly 3–10 days, usually 5–10. Rates start at $9/kg with volumetric weight ÷ 5 000. Lithium batteries, liquids, magnets and perfume are not accepted by air — they travel only by truck or rail, so under 1 m³ they cannot be shipped at all. Details — [Air cargo](/en/services/air-cargo/).
+Air cargo flies from Guangzhou (Baiyun) or Urumqi to Tashkent. The cargo is received at the China warehouse, consolidated into an air batch (2–4 days), flown in 1 day and cleared at Tashkent airport in 1–2 working days. In total roughly 3–10 days, usually 5–10. Rates start at $9/kg with volumetric weight ÷ 5 000. Lithium batteries, liquids, magnets and perfume are not accepted by air — they travel only by truck as consolidated freight (from 1 m³) or by rail in a whole container: under 1 m³ they cannot be shipped at all. Details — [Air cargo](/en/services/air-cargo/).
 
 ## The four routes in one table
 
