@@ -47,8 +47,8 @@ const uz: ParcelStrings = {
       facts: ['butun fura shart emas', '{rate}/m³ dan'],
     },
     {
-      text: 'Fura yoʻlga chiqadi. Turini siz tanlaysiz: avto, avia yoki temir yoʻl.',
-      facts: ['avto {truckDays} kun', 'avia {airDays}', 'temir yoʻl {railDays}'],
+      text: 'Fura yoʻlga chiqadi. Turini siz tanlaysiz: avto yoki avia.',
+      facts: ['avto {truckDays} kun', 'avia {airDays}'],
     },
     {
       text: 'Ikki chegara: Xorgos, keyin Yallama yoki Gʻishtkoʻprik.',
@@ -81,8 +81,8 @@ const ru: ParcelStrings = {
       facts: ['целая фура не нужна', 'от {rate}/м³'],
     },
     {
-      text: 'Фура выходит в путь. Способ вы выбираете сами: авто, авиа или ж/д.',
-      facts: ['авто {truckDays} дней', 'авиа {airDays}', 'ж/д {railDays}'],
+      text: 'Фура выходит в путь. Способ вы выбираете сами: авто или авиа.',
+      facts: ['авто {truckDays} дней', 'авиа {airDays}'],
     },
     {
       text: 'Две границы: Хоргос, затем Яллама или Гишткуприк.',
@@ -115,8 +115,8 @@ const en: ParcelStrings = {
       facts: ['no whole truck needed', 'from {rate}/m³'],
     },
     {
-      text: 'The truck sets off. You choose the mode: truck, air or rail.',
-      facts: ['truck {truckDays} days', 'air {airDays}', 'rail {railDays}'],
+      text: 'The truck sets off. You choose the mode: truck or air.',
+      facts: ['truck {truckDays} days', 'air {airDays}'],
     },
     {
       text: 'Two borders: Khorgos, then Yallama or Gishtkuprik.',

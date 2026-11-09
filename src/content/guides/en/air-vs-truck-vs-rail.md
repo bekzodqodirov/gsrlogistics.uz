@@ -5,7 +5,7 @@ lang: en
 translationKey: air-vs-truck-vs-rail
 slug: air-vs-truck-vs-rail
 publishDate: 2026-09-08
-updatedDate: 2026-11-08
+updatedDate: 2026-11-09
 tags: [truck, air, rail, taqqoslash]
 faq:
   - q: "What is the cheapest way to ship from China to Tashkent?"
@@ -13,7 +13,7 @@ faq:
   - q: "How much faster is air than truck?"
     a: "Air takes roughly 5–10 days, truck 15–25 days — a difference of 10–15 days on average. Transit time counts from the day the cargo leaves the China warehouse; receiving and consolidation days are not included."
   - q: "Can I ship a product with a lithium battery by air?"
-    a: "No. Lithium batteries, power banks, liquids, perfume, magnets and medicines are not accepted by air — that is an airline safety requirement. Such goods travel only by truck (consolidated freight) or by rail, so the shipment must total at least 1 m³: under 1 m³ they cannot be shipped at all."
+    a: "No. Lithium batteries, power banks, liquids, perfume, magnets and medicines are not accepted by air — that is an airline safety requirement. Such goods travel only by truck as consolidated freight (from 1 m³) or by rail in a whole container: under 1 m³ they cannot be shipped at all."
   - q: "Why is rail slower than truck?"
     a: "At the Dostyk or Altynkol border the container waits for a gauge change (Chinese and CIS railways use different track widths) and for a terminal slot. That is why rail takes roughly 20–35 days; in return the price is fixed per container and works out lower for large lots."
 sources:
@@ -44,8 +44,8 @@ There are three ways to bring cargo from China to Uzbekistan: **air** (roughly 5
 | Transit (from warehouse departure) | 5–10 days | 15–25 days (express 13–18) | 20–35 days |
 | Best for | Electronics accessories, samples, branded clothing, spare parts, urgent lots | Clothing, footwear, toys, household goods, equipment, building materials | One client’s large lot: furniture, raw materials, machinery |
 | Restrictions | Lithium batteries, liquids, perfume, magnets, medicines, drones — not accepted | General list: explosives and flammables, perishables, cash and precious metals, documents | Same as truck; dangerous goods by separate agreement |
-| Minimum | 0.5 kg | 1 m³ (smaller cargo is not accepted) | One container (20 or 40 ft) |
-| How the price is measured | Volumetric weight: length × width × height (cm) ÷ 5 000 | Density: kg ÷ m³ → the rate for one m³ | Capacity: ≈ 33 m³ (20 ft) / ≈ 76 m³ (40 ft HC) |
+| Minimum | 0.5 kg | 1 m³ (smaller cargo is not accepted) | One whole container (20GP, 40GP, 40HQ and other types) |
+| How the price is measured | Volumetric weight: length × width × height (cm) ÷ 5 000 | Density: kg ÷ m³ → the rate for one m³ | Capacity: ≈ 33 m³ (20 ft) / ≈ 76 m³ (40HQ) |
 | Border | Tashkent airport | Khorgos (Kazakhstan) → Shymkent → Tashkent | Dostyk or Altynkol → Saryagash → Tashkent |
 
 *Estimate · Updated September 8, 2026. The final price is set after the cargo is weighed and measured at the Yiwu warehouse.* All rates are on the [Pricing](/en/pricing/) page; for a quick figure use the [Calculator](/en/calculator/).
@@ -90,11 +90,11 @@ Air suits you if:
 - time is money: a seasonal collection, a marketplace listing that has sold out, a part for an idle machine;
 - the cargo is small and dense — up to 20–30 kg, far below 1 m³: truck does not take a lot that size, so it goes by air only — $180–270 for 20–30 kg at $9/kg.
 
-Air does not suit goods with lithium batteries (power banks, e-scooters, SIM smartwatches), liquids and cosmetics, perfume, magnets, medicines or drones. Such cargo goes only by truck or rail, so the shipment must total at least 1 m³: under 1 m³ it cannot be shipped at all. Details on the [Air cargo](/en/services/air-cargo/) page.
+Air does not suit goods with lithium batteries (power banks, e-scooters, SIM smartwatches), liquids and cosmetics, perfume, magnets, medicines or drones. Such cargo goes only by truck as consolidated freight (from 1 m³) or by rail in a whole container: under 1 m³ it cannot be shipped at all. Details on the [Air cargo](/en/services/air-cargo/) page.
 
 ## Who needs rail and containers?
 
-Rail means moving a whole container (FCL) or part of one (LCL) by train. The container travels on the Chinese railway to the Dostyk or Altynkol border, is transferred to the wider CIS gauge, then continues through Kazakhstan and Saryagash to Tashkent. Transit is roughly 20–35 days; the price is per container: 20 ft $2,800–5,500, 40 ft $5,200–6,800.
+Rail means moving only a whole container (FCL) by train: 20GP, 40GP, 40HQ and other types. We do not run consolidated cargo by rail: a smaller lot that does not need a whole container goes by truck as consolidated freight, from 1 m³. The container travels on the Chinese railway to the Dostyk or Altynkol border, is transferred to the wider CIS gauge, then continues through Kazakhstan and Saryagash to Tashkent. Transit is roughly 20–35 days; the price is per container: 20 ft $2,800–5,500, 40 ft $5,200–6,800.
 
 Rail suits you if:
 

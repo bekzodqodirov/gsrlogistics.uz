@@ -7,7 +7,7 @@ import type { IconName } from '@/components/ui/Icon.astro';
  * businessman bringing goods from China" (his words, 2026-09-10).
  *
  * SOURCING RULE for this file: every descriptor has to name work the site already documents —
- * 1688/Taobao buying, sourcing the factory, equipment import, FCL/LCL containers. Nothing here
+ * 1688/Taobao buying, sourcing the factory, equipment import, whole containers by rail. Nothing here
  * may describe a kind of client we have not been told about, promise a volume we have not
  * published, or restrict who may ship with us beyond the published minimum. The one figure, the
  * smallest consolidated shipment accepted (owner, 2026-11-08: 1 m³ — nothing smaller goes by truck), is

@@ -54,7 +54,7 @@ const content: ServiceContentByLang = {
           { title: 'Tashqi koʻrik va foto', text: 'Quti tashqaridan koʻrikdan oʻtkaziladi: ezilgan, hoʻl yoki ochilgan boʻlsa, darhol suratga olib xabar beramiz. Har qabulda tarozi va yorliq surati Telegramga keladi.' },
           { title: 'Ochib tekshirish (ixtiyoriy)', text: 'Soʻrovingiz boʻyicha qutini ochamiz: tovarni sanaymiz, model, rang va oʻlchamni buyurtma bilan solishtiramiz, koʻrinib turgan nuqsonlarni suratga olamiz. Narxi 1 $/kg, tafsilotli foto-hisobot — har bir joy uchun 1 $.' },
           { title: 'Qaror sizniki', text: 'Foto-hisobotni koʻrib, yukni joʻnatish, qayta qadoqlash yoki nuqson boʻlsa, sotuvchiga qaytarish haqida siz qaror qilasiz. Sotuvchi bilan biz oʻzimiz xitoy tilida gaplashamiz.' },
-          { title: 'Konsolidatsiya', text: 'Tayyor joylar GS kodingiz ostida bitta partiyaga jamlanadi va eng yaqin fura yoki konteynerga yuklanadi. Sizga partiya raqami va joʻnatilgan sana yuboriladi.' },
+          { title: 'Konsolidatsiya', text: 'Tayyor joylar GS kodingiz ostida bitta partiyaga jamlanadi va eng yaqin furaga yuklanadi. Sizga partiya raqami va joʻnatilgan sana yuboriladi.' },
         ],
       },
       {
@@ -196,7 +196,7 @@ const content: ServiceContentByLang = {
           { title: 'Внешний осмотр и фото', text: 'Коробка осматривается снаружи: если она помята, промокла или вскрыта, сразу фотографируем и сообщаем. При каждой приёмке в Telegram приходит фото весов и этикетки.' },
           { title: 'Проверка со вскрытием (по желанию)', text: 'По вашему запросу вскрываем коробку: пересчитываем товар, сверяем модель, цвет и размер с заказом, фотографируем видимые дефекты. Стоимость 1 $/кг, подробный фотоотчёт — 1 $ за место.' },
           { title: 'Решение за вами', text: 'Посмотрев фотоотчёт, вы решаете: отправлять, переупаковать или при браке вернуть продавцу. С продавцом мы говорим по-китайски сами.' },
-          { title: 'Консолидация', text: 'Готовые места собираются в одну партию под вашим GS-кодом и грузятся в ближайшую фуру или контейнер. Вам приходят номер партии и дата отправки.' },
+          { title: 'Консолидация', text: 'Готовые места собираются в одну партию под вашим GS-кодом и грузятся в ближайшую фуру. Вам приходят номер партии и дата отправки.' },
         ],
       },
       {
@@ -338,7 +338,7 @@ const content: ServiceContentByLang = {
           { title: 'External check and photo', text: 'The box is inspected from the outside: if it is crushed, wet or opened, we photograph it and tell you at once. At every receipt a photo of the scale and the label lands in your Telegram.' },
           { title: 'Opening and inspection (optional)', text: 'On your request we open the box, count the goods, compare model, colour and size with the order, and photograph visible defects. The cost is $1/kg; a detailed photo report is $1 per piece.' },
           { title: 'The decision is yours', text: 'After viewing the photo report you decide: ship, repack, or return to the seller in case of defects. We talk to the seller in Chinese ourselves.' },
-          { title: 'Consolidation', text: 'Ready pieces are gathered into one lot under your GS code and loaded onto the next truck or container. You receive the lot number and the dispatch date.' },
+          { title: 'Consolidation', text: 'Ready pieces are gathered into one lot under your GS code and loaded onto the next truck. You receive the lot number and the dispatch date.' },
         ],
       },
       {

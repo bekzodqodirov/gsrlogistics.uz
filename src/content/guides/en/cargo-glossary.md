@@ -5,7 +5,7 @@ lang: en
 translationKey: glossary
 slug: cargo-glossary
 publishDate: 2026-09-08
-updatedDate: 2026-11-08
+updatedDate: 2026-11-09
 tags: [glossary, truck, customs, warehouse]
 faq:
   - q: "Are “cargo” and “logistics” the same thing?"
@@ -34,7 +34,7 @@ This cargo glossary explains, in plain words, the 43 terms that managers, custom
 The everyday Uzbek name for the China-to-Uzbekistan shipping service (also searched as “kitay kargo”, “карго из Китая”). Priced in US dollars: per kg by air, and per m³ by truck depending on the density of the cargo (from $110 per m³). The service covers intake at the China warehouse, consolidation, the border and delivery to Tashkent.
 
 ### Consolidated cargo (LCL)
-Several clients’ goods travel in one truck or container. You pay only for your space, not for the whole container: per m³ by truck, per kg by air. Space in a truck or container starts at 1 m³ — we do not carry anything smaller; by air, from 0.5 kg. GSR Logistics’ core service.
+Several clients’ goods travel in one truck. You pay only for your space, per m³, not for the whole container. Space in a truck starts at 1 m³ — we do not carry anything smaller by truck; it can go only by air (from 0.5 kg). We do not run consolidated cargo by rail: only whole containers go by train. GSR Logistics’ core service.
 
 ### Truck cargo
 Delivery by truck from China through Kazakhstan to Tashkent, roughly 15–25 days. The most economical option for heavy and bulky goods. Priced per m³ by the density of the cargo, from $110 per m³ (indicative). Accepted from 1 m³.
@@ -43,13 +43,13 @@ Delivery by truck from China through Kazakhstan to Tashkent, roughly 15–25 day
 Delivery by plane, roughly 5–10 days. For urgent, light and high-value goods. Lithium batteries, liquids and magnets are not accepted by air.
 
 ### Rail cargo
-A container by train through the Dostyk/Altynkol crossing, roughly 20–35 days. For large lots.
+A container by train through the Dostyk/Altynkol crossing, roughly 20–35 days. For large lots — whole containers only (FCL): 20GP, 40GP, 40HQ and other types. A smaller lot that does not need a whole container goes by truck as consolidated cargo, from 1 m³.
 
 ### FCL (Full Container Load)
-A whole container for one client. A 20 ft container holds ≈ 33 m³, a 40 ft high-cube ≈ 76 m³.
+A whole container for one client. A 20 ft container holds ≈ 33 m³, a 40 ft high-cube (40HQ) ≈ 76 m³. By rail GSR ships only whole containers: 20GP, 40GP, 40HQ and other types.
 
 ### LCL (Less than Container Load)
-Part of a container — the international name for consolidated cargo.
+The international name for consolidated cargo: a shipment that does not fill a whole container and travels with other clients’ goods. GSR carries consolidated cargo by truck only, from 1 m³; by rail, whole containers only (FCL).
 
 ### Express cargo
 An accelerated truck lane: fewer stops, faster border. GSR’s fastest recorded deliveries took 12–13 days; the standard range is 15–25 days.
@@ -157,7 +157,7 @@ The road crossing on the Kazakhstan–Uzbekistan border near Tashkent.
 Your personal code, issued after the contract. The supplier writes it on every carton before dispatch; you quote it to your manager or on the [Tracking](/en/tracking/) page. The Chinese courier’s tracking number (1688, Taobao) is a separate thing.
 
 ### Trip / batch
-The departure of one truck or container. Cargo companies number them like “AK-123”; payment is often per trip.
+The departure of one truck or one whole container. Cargo companies number them like “AK-123”; payment is often per trip.
 
 ### Pickup point / branch
 Where you collect cargo in Tashkent or a region.

@@ -5,7 +5,7 @@ lang: uz
 translationKey: routes
 slug: xitoydan-toshkentga-yonalishlar
 publishDate: 2026-09-08
-updatedDate: 2026-11-08
+updatedDate: 2026-11-09
 tags: [truck, rail, air, customs, yonalishlar]
 faq:
   - q: "Xitoydan Toshkentga fura qaysi chegaradan oʻtadi?"
@@ -83,7 +83,7 @@ Batafsil — [Temir yoʻl va konteyner](/xizmatlar/temir-yol-konteyner/).
 
 ## Avia yoʻl qanday ishlaydi?
 
-Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi (2–4 kun), parvoz 1 kun, Toshkent aeroportida bojxona 1–2 ish kuni. Jami taxminan 3–10 kun, odatda 5–10. Narx 9 $/kg dan, hajmiy vazn ÷ 5 000. Litiy batareya, suyuqlik, magnit va atir aviaga olinmaydi — ular faqat avto yoki temir yoʻl bilan keladi, shuning uchun bunday yuk 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
+Avia kargo Guanchjou (Baiyun) yoki Urumchi aeroportidan Toshkentga uchadi. Yuk Xitoy omborida qabul qilinadi, aviapartiyaga yigʻiladi (2–4 kun), parvoz 1 kun, Toshkent aeroportida bojxona 1–2 ish kuni. Jami taxminan 3–10 kun, odatda 5–10. Narx 9 $/kg dan, hajmiy vazn ÷ 5 000. Litiy batareya, suyuqlik, magnit va atir aviaga olinmaydi — ular faqat avto bilan yigʻma yuk sifatida (kamida 1 m³ dan) yoki temir yoʻlda butun konteynerda keladi: 1 m³ dan kichik boʻlsa, bunday yukni umuman joʻnatib boʻlmaydi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
 
 ## Toʻrt yoʻl bir jadvalda
 

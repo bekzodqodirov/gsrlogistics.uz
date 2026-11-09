@@ -97,7 +97,8 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
   {
     /* 3 · transit — one truck, side view. It reads left→right with the strip: this is a process, not
        a map (no country shapes, no curve), so it never contradicts RouteBand's east→west line.
-       Air and rail live in the fact chips — the five-second read stays one truck. */
+       Air lives in the fact chips — the five-second read stays one truck. Rail is not offered to a
+       carton at all: it takes whole containers only, no consolidated cargo (owner, 2026-11-09). */
     g:
       '<rect x="30" y="48" width="196" height="96" rx="4"/>' +
       '<path d="M226 144V88h42l34 34v22z"/><path d="M236 94h24l12 13h-36z"/>' +

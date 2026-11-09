@@ -5,7 +5,7 @@ lang: uz
 translationKey: air-vs-truck-vs-rail
 slug: avia-avto-temir-yol-taqqoslash
 publishDate: 2026-09-08
-updatedDate: 2026-11-08
+updatedDate: 2026-11-09
 tags: [truck, air, rail, taqqoslash]
 faq:
   - q: "Xitoydan Toshkentga eng arzon yoʻl qaysi?"
@@ -13,7 +13,7 @@ faq:
   - q: "Avia kargo avtodan necha kun tez?"
     a: "Avia taxminan 5–10 kun, avto 15–25 kun — farq oʻrtacha 10–15 kun. Muddat yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi; ombordagi qabul va konsolidatsiya kunlari bunga kirmaydi."
   - q: "Litiy batareyali tovarni avia bilan olib kelsa boʻladimi?"
-    a: "Yoʻq. Litiy batareya, power bank, suyuqlik, atir, magnit va dori aviaga olinmaydi — bu aviakompaniyalarning xavfsizlik talabi. Bunday tovarlar faqat avto (yigʻma yuk) yoki temir yoʻl bilan keladi, shuning uchun partiya kamida 1 m³ boʻlishi kerak: 1 m³ dan kichik boʻlsa, bunday yukni umuman joʻnatib boʻlmaydi."
+    a: "Yoʻq. Litiy batareya, power bank, suyuqlik, atir, magnit va dori aviaga olinmaydi — bu aviakompaniyalarning xavfsizlik talabi. Bunday tovarlar faqat avto bilan yigʻma yuk sifatida (kamida 1 m³ dan) yoki temir yoʻlda butun konteynerda keladi: 1 m³ dan kichik boʻlsa, bunday yukni umuman joʻnatib boʻlmaydi."
   - q: "Temir yoʻl avtodan nega sekin?"
     a: "Konteyner Doʻstiq yoki Oltinkoʻl chegarasida vagon oʻzgartirishni (Xitoy va MDH temir yoʻl izlari kengligi har xil) va terminal navbatini kutadi. Shuning uchun temir yoʻl taxminan 20–35 kun; evaziga narx konteyner uchun belgilanadi va katta partiyaga arzon tushadi."
 sources:
@@ -44,8 +44,8 @@ Xitoydan Oʻzbekistonga yukni uch yoʻl bilan olib kelish mumkin: **avia** (taxm
 | Muddat (ombordan joʻnatilgach) | 5–10 kun | 15–25 kun (ekspress 13–18) | 20–35 kun |
 | Qaysi yuk uchun | Elektronika aksessuarlari, namunalar, brend kiyim, ehtiyot qismlar, shoshilinch partiya | Kiyim, poyabzal, oʻyinchoq, maishiy tovarlar, uskunalar, qurilish mollari | Bitta mijozning katta partiyasi: mebel, xomashyo, dastgohlar |
 | Taqiqlar | Litiy batareya, suyuqlik, atir, magnit, dori, dron — olinmaydi | Umumiy roʻyxat: portlovchi va yonuvchi moddalar, tez buziladigan mahsulot, pul va qimmatbaho metall, hujjatlar | Avto bilan bir xil; xavfli yuk alohida kelishuv bilan |
-| Minimal | 0,5 kg | 1 m³ (undan kichik yuk olinmaydi) | Bitta konteyner (20 yoki 40 fut) |
-| Narx nimadan hisoblanadi | Hajmiy vazn: uzunlik × en × balandlik (sm) ÷ 5 000 | Zichlik: kg ÷ m³ → shu zichlikdagi 1 m³ narxi | Konteyner sigʻimi: ≈ 33 m³ (20 fut) / ≈ 76 m³ (40 fut HC) |
+| Minimal | 0,5 kg | 1 m³ (undan kichik yuk olinmaydi) | Bitta butun konteyner (20GP, 40GP, 40HQ va boshqa turlar) |
+| Narx nimadan hisoblanadi | Hajmiy vazn: uzunlik × en × balandlik (sm) ÷ 5 000 | Zichlik: kg ÷ m³ → shu zichlikdagi 1 m³ narxi | Konteyner sigʻimi: ≈ 33 m³ (20 fut) / ≈ 76 m³ (40HQ) |
 | Chegara | Toshkent aeroporti | Xorgos (Qozogʻiston) → Shimkent → Toshkent | Doʻstiq yoki Oltinkoʻl → Saryagash → Toshkent |
 
 *Taxminiy narx · Yangilangan: 2026-yil 8-sentabr. Yakuniy narx yuk Ivu omborida tortilib, oʻlchangandan keyin aniqlanadi.* Barcha tariflar — [Narxlar](/narxlar/) sahifasida, tezkor hisob — [Kalkulyator](/kalkulyator/)da.
@@ -90,11 +90,11 @@ Avia mos keladi, agar:
 - muddat pulga teng: mavsumiy kolleksiya, marketpleysda tugab qolgan tovar, ishlab chiqarish toʻxtab turgan dastgoh qismi;
 - yuk kichik va zich — 20–30 kg gacha, hajmi 1 m³ dan ancha kam: bunday partiyani avto (yigʻma yuk) qabul qilmaydi, u faqat avia bilan keladi — 20–30 kg uchun 180–270 $ (9 $/kg).
 
-Avia mos kelmaydi: litiy batareyali tovar (power bank, elektr skuter, SIM-li soat), suyuqlik va kosmetika, atir, magnit, dori, dron. Bunday yuk faqat avto yoki temir yoʻl bilan keladi, shuning uchun partiya kamida 1 m³ boʻlishi kerak: 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
+Avia mos kelmaydi: litiy batareyali tovar (power bank, elektr skuter, SIM-li soat), suyuqlik va kosmetika, atir, magnit, dori, dron. Bunday yuk faqat avto bilan yigʻma yuk sifatida (kamida 1 m³ dan) yoki temir yoʻlda butun konteynerda keladi: 1 m³ dan kichik boʻlsa, uni umuman joʻnatib boʻlmaydi. Batafsil — [Avia kargo](/xizmatlar/avia-kargo/).
 
 ## Temir yoʻl va konteyner kimga kerak?
 
-Temir yoʻl — bu butun konteynerni (FCL) yoki uning bir qismini (LCL) poyezdda olib kelish. Konteyner Xitoy temir yoʻlida Doʻstiq yoki Oltinkoʻl chegarasiga keladi, u yerda vagon oʻzgartiriladi (Xitoy va MDH izlari kengligi har xil), soʻng Qozogʻiston orqali Saryagash — Toshkentga yetadi. Muddat taxminan 20–35 kun, narx konteyner uchun: 20 fut 2 800–5 500 $, 40 fut 5 200–6 800 $.
+Temir yoʻl — bu poyezdda faqat butun konteynerni (FCL) olib kelish: 20GP, 40GP, 40HQ va boshqa turlar. Temir yoʻlda yigʻma yuk qilinmaydi: butun konteyner kerak boʻlmagan kichikroq partiya avto bilan yigʻma yuk sifatida keladi — kamida 1 m³ dan. Konteyner Xitoy temir yoʻlida Doʻstiq yoki Oltinkoʻl chegarasiga keladi, u yerda vagon oʻzgartiriladi (Xitoy va MDH izlari kengligi har xil), soʻng Qozogʻiston orqali Saryagash — Toshkentga yetadi. Muddat taxminan 20–35 kun, narx konteyner uchun: 20 fut 2 800–5 500 $, 40 fut 5 200–6 800 $.
 
 Temir yoʻl mos keladi, agar:
 

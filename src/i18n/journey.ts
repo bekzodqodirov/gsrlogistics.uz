@@ -43,8 +43,8 @@ const uz: JourneyStrings = {
   railLabel: 'Yoʻl bosqichlari',
   stages: [
     { title: 'Ivu ombori', short: 'Ivu ombori', body: 'Har bir joyni tortamiz, oʻlchaymiz, raqamlaymiz. Foto-hisobot Telegramga keladi.', facts: ['Qabul', 'oʻlchov', 'foto-hisobot'] },
-    { title: 'Yuklash', short: 'Yuklash', body: 'Yukingiz fura yoki konteynerda joy oladi. Butun konteyner shart emas — faqat oʻz joyingiz uchun toʻlaysiz.', facts: ['Joy raqami', 'yuklash sanasi'] },
-    { title: 'Yoʻlda', short: 'Yoʻlda', body: 'Urumchi orqali Xorgosgacha, soʻng Qozogʻiston boʻylab. Yoʻnalishni siz tanlaysiz.', facts: [] },
+    { title: 'Yuklash', short: 'Yuklash', body: 'Yukingiz furada joy oladi. Butun konteyner shart emas — faqat oʻz joyingiz uchun toʻlaysiz.', facts: ['Joy raqami', 'yuklash sanasi'] },
+    { title: 'Yoʻlda', short: 'Yoʻlda', body: 'Urumchi orqali Xorgosgacha, soʻng Qozogʻiston boʻylab. Yoʻnalishni siz tanlaysiz. Temir yoʻl — faqat butun konteyner.', facts: [] },
     { title: 'Xorgos. Chegara va bojxona', short: 'Xorgos', body: 'Invoys, qadoqlash roʻyxati va TN VED kodi oldindan tayyor. Bojxona rasmiylashtiruvi — bizning zimmamizda.', facts: ['Deklaratsiya', 'boj va QQS hisobi', 'GTD'] },
     { title: 'Toshkent ombori', short: 'Toshkent ombori', body: 'Yuk omborga tushdi — menejer xabar beradi. Oʻzingiz olib ketasiz yoki viloyatga joʻnatamiz.', facts: ['Toshkent', 'olib ketish yoki viloyatga joʻnatish'] },
     { title: 'Topshirildi', short: 'Topshirildi', body: 'Yukni qabul qilasiz. Keyingisini hisoblaymizmi?', facts: [] },
@@ -72,8 +72,8 @@ const ru: JourneyStrings = {
   railLabel: 'Этапы маршрута',
   stages: [
     { title: 'Склад в Иу', short: 'Склад в Иу', body: 'Каждое место взвешиваем, обмеряем, нумеруем. Фотоотчёт приходит в Telegram.', facts: ['Приёмка', 'обмер', 'фотоотчёт'] },
-    { title: 'Погрузка', short: 'Погрузка', body: 'Груз занимает место в фуре или контейнере. Целый контейнер не нужен — платите только за своё место.', facts: ['Номер места', 'дата погрузки'] },
-    { title: 'В пути', short: 'В пути', body: 'Через Урумчи до Хоргоса, дальше по Казахстану. Способ доставки выбираете вы.', facts: [] },
+    { title: 'Погрузка', short: 'Погрузка', body: 'Груз занимает место в фуре. Целый контейнер не нужен — платите только за своё место.', facts: ['Номер места', 'дата погрузки'] },
+    { title: 'В пути', short: 'В пути', body: 'Через Урумчи до Хоргоса, дальше по Казахстану. Способ доставки выбираете вы. Ж/д — только целый контейнер.', facts: [] },
     { title: 'Хоргос. Граница и таможня', short: 'Хоргос', body: 'Инвойс, упаковочный лист и код ТН ВЭД готовы заранее. Таможенное оформление берём на себя.', facts: ['Декларация', 'расчёт пошлины и НДС', 'ГТД'] },
     { title: 'Склад в Ташкенте', short: 'Склад в Ташкенте', body: 'Груз на складе — менеджер сообщит. Забираете сами или отправляем в регион.', facts: ['Ташкент', 'самовывоз или отправка в регион'] },
     { title: 'Выдан', short: 'Выдан', body: 'Вы принимаете груз. Посчитаем следующий?', facts: [] },
@@ -101,8 +101,8 @@ const en: JourneyStrings = {
   railLabel: 'Route stages',
   stages: [
     { title: 'Yiwu warehouse', short: 'Yiwu warehouse', body: 'We weigh, measure and number every piece. The photo report lands in your Telegram.', facts: ['Receiving', 'measuring', 'photo report'] },
-    { title: 'Loading', short: 'Loading', body: 'Your cargo takes its place in a truck or container. No whole container needed — you pay for your space only.', facts: ['Piece number', 'loading date'] },
-    { title: 'In transit', short: 'In transit', body: 'Via Urumqi to Khorgos, then across Kazakhstan. You choose the mode.', facts: [] },
+    { title: 'Loading', short: 'Loading', body: 'Your cargo takes its place in a truck. No whole container needed — you pay for your space only.', facts: ['Piece number', 'loading date'] },
+    { title: 'In transit', short: 'In transit', body: 'Via Urumqi to Khorgos, then across Kazakhstan. You choose the mode. Rail takes whole containers only.', facts: [] },
     { title: 'Khorgos. Border and customs', short: 'Khorgos', body: 'Invoice, packing list and HS code ready in advance. Customs clearance is on us.', facts: ['Declaration', 'duty and VAT estimate', 'customs declaration'] },
     { title: 'Tashkent warehouse', short: 'Tashkent warehouse', body: 'Cargo unloaded — your manager lets you know. Collect it yourself or we forward it to your region.', facts: ['Tashkent', 'pick-up or forwarding to your region'] },
     { title: 'Delivered', short: 'Delivered', body: 'You receive your cargo. Shall we price the next one?', facts: [] },

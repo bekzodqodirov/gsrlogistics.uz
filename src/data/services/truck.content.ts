@@ -21,7 +21,7 @@ const content: ServiceContentByLang = {
       eyebrow: 'Xizmat 01 — Yigʻma yuk',
       h1: 'Xitoydan Toshkentga avto kargo (yigʻma yuk)',
       intro:
-        'Yigʻma yuk — bu bir necha mijozning yukini Ivu omborida bitta fura yoki konteynerga jamlab, Xorgos orqali Toshkentga olib kelish. Xitoy omboridan joʻnatilgach, yuk taxminan 15–25 kunda keladi. Narx kub metr hisobida: yukning zichligi (kg ÷ m³) tarifni tanlaydi — 110 $/m³ dan boshlanadi; yuk kamida 1 m³ dan qabul qilinadi. Butun konteynerni ijaraga olish shart emas.',
+        'Yigʻma yuk — bu bir necha mijozning yukini Ivu omborida bitta furaga jamlab, Xorgos orqali Toshkentga olib kelish. Xitoy omboridan joʻnatilgach, yuk taxminan 15–25 kunda keladi. Narx kub metr hisobida: yukning zichligi (kg ÷ m³) tarifni tanlaydi — 110 $/m³ dan boshlanadi; yuk kamida 1 m³ dan qabul qilinadi. Butun konteynerni ijaraga olish shart emas.',
       facts: [
         { label: 'Muddat, Xitoy omboridan', value: '15–25 kun' },
         { label: 'Narx, m³ hisobida', value: '110 $/m³ dan' },
@@ -33,7 +33,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Yigʻma yuk kimga toʻgʻri keladi?',
         body: [
-          'Yigʻma yuk (LCL, сборный груз) — Xitoydan tovar olib kelishning eng koʻp tarqalgan usuli. Yukingiz Ivu (义乌) omborida boshqa mijozlarning yuklari bilan bitta fura yoki konteynerga joylanadi, shuning uchun 1 m³ yuk uchun ham, 10 m³ yuk uchun ham faqat oʻz ulushingizga toʻlaysiz. Xitoyda uchta qabul manzili bor: Ivu, Guanchjou va Qashqar — qaysi biriga joʻnatish kerakligini menejer aytadi. Boshqa shaharlardan, masalan Shenchjendan, yetkazib beruvchi yukni Xitoy ichki pochtasi bilan shu manzillardan biriga joʻnatadi.',
+          'Yigʻma yuk (LCL, сборный груз) — Xitoydan tovar olib kelishning eng koʻp tarqalgan usuli. Yukingiz Ivu (义乌) omborida boshqa mijozlarning yuklari bilan bitta furaga joylanadi, shuning uchun 1 m³ yuk uchun ham, 10 m³ yuk uchun ham faqat oʻz ulushingizga toʻlaysiz. Xitoyda uchta qabul manzili bor: Ivu, Guanchjou va Qashqar — qaysi biriga joʻnatish kerakligini menejer aytadi. Boshqa shaharlardan, masalan Shenchjendan, yetkazib beruvchi yukni Xitoy ichki pochtasi bilan shu manzillardan biriga joʻnatadi.',
           'Bu usul quyidagi holatlarda oʻzini oqlaydi:',
         ],
         bullets: [
@@ -230,7 +230,7 @@ const content: ServiceContentByLang = {
       eyebrow: 'Услуга 01 — Сборный груз',
       h1: 'Авто карго из Китая в Ташкент (сборный груз)',
       intro:
-        'Сборный груз — это когда грузы нескольких клиентов собирают на складе в Иу в одну фуру или контейнер и везут через Хоргос в Ташкент. После отправки со склада в Китае груз идёт ориентировочно 15–25 дней. Цена считается за кубометры: плотность груза (кг ÷ м³) выбирает ставку — от 110 $/м³; груз принимаем только от 1 м³. Арендовать целый контейнер не нужно.',
+        'Сборный груз — это когда грузы нескольких клиентов собирают на складе в Иу в одну фуру и везут через Хоргос в Ташкент. После отправки со склада в Китае груз идёт ориентировочно 15–25 дней. Цена считается за кубометры: плотность груза (кг ÷ м³) выбирает ставку — от 110 $/м³; груз принимаем только от 1 м³. Арендовать целый контейнер не нужно.',
       facts: [
         { label: 'Срок от склада в Китае', value: '15–25 дней' },
         { label: 'Цена по кубометрам', value: 'от 110 $/м³' },
@@ -242,7 +242,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Кому подходит сборный груз?',
         body: [
-          'Сборный груз (LCL) — самый распространённый способ привезти товар из Китая. Ваш груз на складе в Иу (义乌) укладывается в одну фуру или контейнер вместе с грузами других клиентов, поэтому и за 1 м³, и за 10 м³ вы платите только за свою долю. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар — на какой отправлять, скажет менеджер. Из других городов, например из Шэньчжэня, поставщик отправляет товар внутрикитайской доставкой на один из этих адресов.',
+          'Сборный груз (LCL) — самый распространённый способ привезти товар из Китая. Ваш груз на складе в Иу (义乌) укладывается в одну фуру вместе с грузами других клиентов, поэтому и за 1 м³, и за 10 м³ вы платите только за свою долю. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар — на какой отправлять, скажет менеджер. Из других городов, например из Шэньчжэня, поставщик отправляет товар внутрикитайской доставкой на один из этих адресов.',
           'Такой формат выгоден в следующих случаях:',
         ],
         bullets: [
@@ -439,7 +439,7 @@ const content: ServiceContentByLang = {
       eyebrow: 'Service 01 — Consolidated cargo',
       h1: 'Truck cargo from China to Tashkent (consolidated)',
       intro:
-        'Consolidated cargo means we group several clients’ goods at the Yiwu warehouse into one truck or container and drive it through Khorgos to Tashkent. Once dispatched from the warehouse in China, it arrives in roughly 15–25 days. The price is charged per cubic metre: the density of your cargo (kg ÷ m³) picks the rate, which starts at $110/m³; cargo is accepted only from 1 m³. No need to rent a whole container.',
+        'Consolidated cargo means we group several clients’ goods at the Yiwu warehouse into one truck and drive it through Khorgos to Tashkent. Once dispatched from the warehouse in China, it arrives in roughly 15–25 days. The price is charged per cubic metre: the density of your cargo (kg ÷ m³) picks the rate, which starts at $110/m³; cargo is accepted only from 1 m³. No need to rent a whole container.',
       facts: [
         { label: 'Transit from the China warehouse', value: '15–25 days' },
         { label: 'Price per cubic metre', value: 'from $110/m³' },
@@ -451,7 +451,7 @@ const content: ServiceContentByLang = {
       {
         heading: 'Who is consolidated cargo for?',
         body: [
-          'Consolidated cargo (LCL, groupage) is the most common way to bring goods from China. Your shipment is loaded at the Yiwu (义乌) warehouse into one truck or container together with other clients’ goods, so whether you send 1 m³ or 10 m³ you pay only for your share. There are three receiving addresses in China: Yiwu, Guangzhou and Kashgar — your manager tells you which one applies. From other cities, Shenzhen for example, the supplier ships to one of those addresses by domestic delivery.',
+          'Consolidated cargo (LCL, groupage) is the most common way to bring goods from China. Your shipment is loaded at the Yiwu (义乌) warehouse into one truck together with other clients’ goods, so whether you send 1 m³ or 10 m³ you pay only for your share. There are three receiving addresses in China: Yiwu, Guangzhou and Kashgar — your manager tells you which one applies. From other cities, Shenzhen for example, the supplier ships to one of those addresses by domestic delivery.',
           'It pays off in these cases:',
         ],
         bullets: [

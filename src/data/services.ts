@@ -24,7 +24,7 @@ export const services: ServiceMeta[] = [
     short: { uz: 'Shoshilinch va qimmat yuklar uchun tez yetkazib berish.', ru: 'Быстрая доставка срочных и ценных грузов.', en: 'Fast delivery for urgent and high-value goods.' } },
   { key: 'rail', icon: 'train', slug: { uz: 'temir-yol-konteyner', ru: 'zhd-konteyner', en: 'rail-container' },
     name: { uz: 'Temir yoʻl va konteyner', ru: 'Ж/д и контейнеры', en: 'Rail & containers' },
-    short: { uz: '20 va 40 futlik konteynerlar, FCL va LCL — katta partiyalar uchun.', ru: 'Контейнеры 20 и 40 футов, FCL и LCL — для крупных партий.', en: '20ft and 40ft containers, FCL and LCL for large shipments.' } },
+    short: { uz: 'Faqat butun konteyner: 20 va 40 fut (20GP, 40HQ va boshqalar) — katta partiyalar uchun.', ru: 'Только целый контейнер: 20 и 40 футов (20GP, 40HQ и другие) — для крупных партий.', en: 'Full containers only: 20 and 40 ft (20GP, 40HQ and others), for large shipments.' } },
   { key: 'sourcing', icon: 'search', slug: { uz: 'tovar-topish', ru: 'poisk-tovarov', en: 'sourcing' },
     name: { uz: 'Tovar va ishlab chiqaruvchi topish', ru: 'Поиск товаров и производителей', en: 'Product & supplier sourcing' },
     short: { uz: 'Kerakli tovarni zavoddan topamiz, namunani tekshiramiz, narxni kelishamiz.', ru: 'Найдём товар на фабрике, проверим образец, договоримся о цене.', en: 'We find the product at the factory, check samples and negotiate the price.' } },

@@ -171,7 +171,7 @@ const uz: ServicesStrings = {
     compareRows: {
       truck: { min: '1 m³', rule: 'm³ boʻyicha, stavka zichlikka qarab — 110 $/m³ dan', fits: 'ulgurji partiya, ogʻir va hajmli yuk' },
       air: { min: '0,5 kg', rule: 'kg boʻyicha, hajmiy vazn ÷ 5 000', fits: 'shoshilinch, qimmat va yengil tovar' },
-      rail: { min: '20ft konteyner', rule: 'konteyner uchun, FCL yoki LCL', fits: 'katta partiya, uskunalar' },
+      rail: { min: '20ft konteyner', rule: 'faqat butun konteyner (FCL), yigʻma yuk yoʻq', fits: 'katta partiya, uskunalar' },
     },
     howTitle: 'Qanday boshlaymiz?',
     how: 'Telegramda yoki telefon orqali yozasiz: yuk, shahar va muddatni aytasiz. Menejer yoʻnalish va narxni taklif qiladi, shartnoma tuzamiz va Xitoydagi qabul manzilini beramiz — Ivu, Guanchjou yoki Qashqar. Qaysi biriga joʻnatish kerakligini menejer aytadi. Shundan soʻng yuk yoʻlga chiqadi.',
@@ -287,7 +287,7 @@ const ru: ServicesStrings = {
     compareRows: {
       truck: { min: '1 м³', rule: 'по м³, ставка по плотности — от 110 $/м³', fits: 'оптовые партии, тяжёлый и объёмный груз' },
       air: { min: '0,5 кг', rule: 'по кг, объёмный вес ÷ 5 000', fits: 'срочный, дорогой и лёгкий товар' },
-      rail: { min: 'контейнер 20ft', rule: 'за контейнер, FCL или LCL', fits: 'крупные партии, оборудование' },
+      rail: { min: 'контейнер 20ft', rule: 'только целый контейнер (FCL), без сборного груза', fits: 'крупные партии, оборудование' },
     },
     howTitle: 'С чего начать?',
     how: 'Напишите в Telegram или позвоните: груз, город, сроки. Менеджер предложит способ и цену, заключаем договор и даём адрес приёма в Китае — Иу, Гуанчжоу или Кашгар. На какой отправлять — скажет менеджер. После этого груз отправляется.',
@@ -403,7 +403,7 @@ const en: ServicesStrings = {
     compareRows: {
       truck: { min: '1 m³', rule: 'per m³, rate by density — from $110 per m³', fits: 'wholesale lots, heavy and bulky cargo' },
       air: { min: '0.5 kg', rule: 'per kg, volumetric weight ÷ 5,000', fits: 'urgent, valuable and light goods' },
-      rail: { min: '20ft container', rule: 'per container, FCL or LCL', fits: 'large lots, machinery' },
+      rail: { min: '20ft container', rule: 'full containers only (FCL), no consolidated cargo', fits: 'large lots, machinery' },
     },
     howTitle: 'How do we start?',
     how: 'Message us on Telegram or call: cargo, city, deadline. Your manager proposes a mode and a price, we sign a contract and give you a receiving address in China — Yiwu, Guangzhou or Kashgar, whichever one your manager names — and the cargo is on its way.',

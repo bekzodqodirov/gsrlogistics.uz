@@ -5,7 +5,7 @@ lang: uz
 translationKey: shipping-from-china
 slug: xitoydan-yuk-olib-kelish
 publishDate: 2026-09-08
-updatedDate: 2026-11-08
+updatedDate: 2026-11-09
 tags: [truck, air, rail, customs, warehouse]
 faq:
   - q: "Xitoydan Toshkentga yuk necha kunda keladi?"
@@ -55,9 +55,9 @@ Muddatlar yuk Xitoy omboridan joʻnatilgandan keyin hisoblanadi. Toʻliq tarifla
 
 ## Yigʻma yuk nima va u kimga toʻgʻri keladi?
 
-Yigʻma yuk — bu bir nechta mijozning yuklari Xitoy omborida bitta partiyaga birlashtirilib, bitta fura yoki konteynerda yuboriladigan usul. Siz butun konteynerni ijaraga olmaysiz, faqat oʻz joyingiz uchun toʻlaysiz: avtoda — kub metr, aviada — kilogramm hisobida. Xalqaro atamasi LCL (Less than Container Load), rus tilida — сборный груз.
+Yigʻma yuk — bu bir nechta mijozning yuklari Xitoy omborida bitta partiyaga birlashtirilib, bitta furada yuboriladigan usul. Siz butun konteynerni ijaraga olmaysiz, faqat oʻz joyingiz uchun toʻlaysiz — kub metr hisobida. Xalqaro atamasi LCL (Less than Container Load), rus tilida — сборный груз.
 
-Bu usul 1 m³ dan 15 m³ gacha boʻlgan partiyalar uchun eng qulay: Uzum va Yandex Market sotuvchilari, bozor va doʻkon egalari, birinchi partiyasini olib kelayotgan tadbirkorlar. 1 m³ dan kichik yukni avto bilan olib kelmaymiz — uni avia bilan joʻnatish mumkin. Partiya 15–20 m³ dan oshsa, alohida konteyner (FCL) yoki temir yoʻl arzonroq chiqadi.
+Bu usul 1 m³ dan 15 m³ gacha boʻlgan partiyalar uchun eng qulay: Uzum va Yandex Market sotuvchilari, bozor va doʻkon egalari, birinchi partiyasini olib kelayotgan tadbirkorlar. 1 m³ dan kichik yukni avto bilan olib kelmaymiz — uni avia bilan joʻnatish mumkin. Partiya 15–20 m³ dan oshsa, odatda temir yoʻlda butun konteyner (FCL) — 20GP, 40GP, 40HQ va boshqa turlar — arzonroq chiqadi. Temir yoʻlda yigʻma yuk qilinmaydi.
 
 GSR Logistics yigʻma yukni 2022-yil iyunidan yuboradi; uchinchi konsolidatsiya furasi Ivu omboridan 2022-yil 2-avgustda chiqqan. Ivu (义乌) — dunyodagi eng katta mayda ulgurji bozor shahri, shu bois konsolidatsiya ombori aynan shu yerda. Xitoyda yana ikkita qabul manzili bor — Guanchjou (广州) va Qashqar (喀什); yukni qaysi manzilga joʻnatish kerakligini menejer aytadi.
 
