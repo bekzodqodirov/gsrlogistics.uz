@@ -1,0 +1,25 @@
+{
+  "$comment": "Places where a zh/fa translation is allowed to carry different figures from the English source, each with the reason. Read by scripts/test-translations.mjs; `where` is the location the test prints ('*' matches anything). Structure, placeholders and identifiers can never be allowed here — only numbers.",
+  "numbers": [
+    {
+      "lang": "zh",
+      "where": "src/i18n/contact.ts:contact.zh.*phoneHint",
+      "reason": "GLOSSARY §1.4b: on zh pages the form accepts any international number, so the hint shows +86 / +998 examples instead of the Uzbek-only '+998 XX XXX XX XX'."
+    },
+    {
+      "lang": "fa",
+      "where": "src/i18n/contact.ts:contact.fa.*phoneHint",
+      "reason": "GLOSSARY §1.4b: on fa pages the form accepts any international number, so the hint shows +98 / +998 examples instead of the Uzbek-only '+998 XX XXX XX XX'."
+    },
+    {
+      "lang": "zh",
+      "where": "src/i18n/contact.ts:contact.zh.form.errors.phone",
+      "reason": "GLOSSARY §1.4b: the zh form accepts any international number, so the error asks for the international format starting with + instead of '+998'."
+    },
+    {
+      "lang": "fa",
+      "where": "src/i18n/contact.ts:contact.fa.form.errors.phone",
+      "reason": "GLOSSARY §1.4b: the fa form accepts any international number, so the error asks for the international format starting with + instead of '+998'."
+    }
+  ]
+}

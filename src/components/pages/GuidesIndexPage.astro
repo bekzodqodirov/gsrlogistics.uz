@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 import { common } from '@/i18n/common';
 import { guidesStrings } from '@/i18n/guides';
 import { pagePath } from '@/i18n/routes';
-import { fmtDate, readingMinutes } from '@/lib/format';
+import { fmtDate, fmtInt, readingMinutes, sep } from '@/lib/format';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
@@ -18,7 +18,8 @@ const entries = (await getCollection('guides', (e) => e.data.lang === lang && !e
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'guides' as const }];
 const latest = entries[0]?.data.updatedDate.toISOString().slice(0, 10);
 // Tag keys → localized labels; unknown keys are hidden so no raw slug ever reaches the reader.
-const tagLine = (tags: string[]) => { const labels = tags.map((k) => t.tagLabels[k]).filter(Boolean).slice(0, 3); return labels.length ? ` · ${labels.join(' · ')}` : ''; };
+const tagLine = (tags: string[]) => { const labels = tags.map((k) => t.tagLabels[k]).filter(Boolean).slice(0, 3); return labels.length ? `${sep(lang)}${labels.join(sep(lang))}` : ''; };
+const minutes = (body?: string) => fmtInt(readingMinutes(body ?? ''), lang);
 ---
 <Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="guides" breadcrumbs={breadcrumbs} dateModified={latest}>
   <article class="page">
@@ -35,11 +36,11 @@ const tagLine = (tags: string[]) => { const labels = tags.map((k) => t.tagLabels
         {entries.map((e, i) => (
           <li class="card card-hover">
             <a href={pagePath(lang, 'guides', e.data.slug)} class="g">
-              <span class="g-idx tnum">{String(i + 1).padStart(2, '0')}</span>
+              <span class="g-idx tnum">{fmtInt(i + 1, lang, 2)}</span>
               <span class="g-body">
                 <span class="h4 g-title">{e.data.title}</span>
                 <span class="g-desc">{e.data.description}</span>
-                <span class="caption g-meta tnum">{t.updated}: {fmtDate(e.data.updatedDate, lang)} · {readingMinutes(e.body ?? '')} {t.minutes}{tagLine(e.data.tags)}</span>
+                <span class="caption g-meta tnum">{t.updated}: {fmtDate(e.data.updatedDate, lang)}{sep(lang)}{minutes(e.body)} {t.minutes}{tagLine(e.data.tags)}</span>
               </span>
               <span class="chev" aria-hidden="true">›</span>
             </a>

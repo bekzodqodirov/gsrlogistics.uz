@@ -1,7 +1,18 @@
 import type { ProcessStrings } from '../process';
 
-/**
- * Persian (one text for Iran and Afghanistan) strings for `src/i18n/process.ts`, translated from its English branch.
- * Stub until the translation lands: `undefined` makes `pick` fall back to English.
- */
-export const fa: ProcessStrings | undefined = undefined;
+/** Persian (one text for Iran and Afghanistan) strings for `src/i18n/process.ts`, translated from its English branch. */
+export const fa: ProcessStrings = {
+  eyebrow: 'روند کار',
+  h2: 'پنج گام. گام نخست — یک پیام.',
+  intro: 'از ثبت درخواست تا تحویل بار — یک کارشناس و یک قرارداد. در هر گام از پیش می‌دانید گام بعدی چیست.',
+  listLabel: 'روند کار ما: پنج گام',
+  stepWord: 'گام',
+  steps: [
+    { glyph: 'chat', title: 'درخواست می‌فرستید', text: 'در تلگرام یا تلفنی. نوع بار، وزن تقریبی و شهر برای شروع کافی است.' },
+    { glyph: 'exchange', title: 'دربارهٔ سفارش گفت‌وگو می‌کنیم', text: 'نوع حمل، مدارک، بسته‌بندی و قاعدهٔ قیمت‌گذاری — بر اساس کیلوگرم یا متر مکعب. کارشناس شما به همهٔ پرسش‌ها پاسخ می‌دهد.' },
+    { glyph: 'contract', title: 'مدارک — و کار آغاز می‌شود', text: 'قرارداد، کد GS شما و نشانی تحویلی که کارشناس اعلام می‌کند: ییوو، گوانگجو یا کاشغر. تأمین‌کنندهٔ شما پیش از ارسال، کد را روی هر کارتن می‌نویسد.' },
+    { glyph: 'pin', title: 'کارشناس در مسیر همراه شماست', text: 'خبر محل بار و گزارش تصویری در تلگرام به دستتان می‌رسد: تحویل گرفتن بار، بارگیری، مرز و تاشکند.' },
+    { glyph: 'parcel', title: 'بار را تحویل می‌گیرید', text: 'بار را در تاشکند حضوری تحویل بگیرید یا ما آن را به ولایت شما می‌فرستیم. فاکتور در دست شماست.' },
+  ],
+  note: 'نخستین پیام هیچ تعهدی برای شما ایجاد نمی‌کند: نوع بار، شهر و مهلت موردنظر را بگویید — ما قیمت و مسیر را پیشنهاد می‌کنیم.',
+};

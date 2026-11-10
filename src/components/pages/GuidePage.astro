@@ -8,7 +8,7 @@ import { pagePath, pageUrl, itemPath } from '@/i18n/routes';
 import { guideSlugs } from '@/data/guides';
 import { services } from '@/data/services';
 import { site, telegramChat } from '@/lib/site';
-import { fmtDate, readingMinutes } from '@/lib/format';
+import { fmtDate, fmtInt, readingMinutes, sep } from '@/lib/format';
 import { articleNode, faqNode } from '@/lib/schema';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
@@ -30,7 +30,7 @@ const subs: Partial<Record<Locale, string>> = siblings.length
   : guideSlugs[d.translationKey] ?? { [lang]: d.slug };
 const url = pageUrl(site.url, lang, 'guides', d.slug);
 const pub = d.publishDate.toISOString().slice(0, 10), upd = d.updatedDate.toISOString().slice(0, 10);
-const minutes = readingMinutes(entry.body ?? '');
+const minutes = fmtInt(readingMinutes(entry.body ?? ''), lang);
 // TOC ids come from the rendered headings (github-slugger via Astro), so links always match the article's h2 ids.
 const toc = headings.filter((h) => h.depth === 2).map((h) => ({ text: h.text, id: h.slug }));
 const related = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft && e.id !== entry.id)).filter((e) => e.data.tags.some((tag) => d.tags.includes(tag))).slice(0, 3);
@@ -45,7 +45,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
         <Breadcrumbs lang={lang} items={[{ name: label, key: 'guides' }, { name: d.title }]} />
         <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
         <h1 class="display-2 measure-head">{d.title}</h1>
-        <p class="caption meta-row tnum">{t.updated}: {fmtDate(d.updatedDate, lang)} · {minutes} {t.minutes} · {t.author}: {d.author}</p>
+        <p class="caption meta-row tnum">{t.updated}: {fmtDate(d.updatedDate, lang)}{sep(lang)}{minutes} {t.minutes}{sep(lang)}{t.author}: {d.author}</p>
         <p class="intro answer">{d.description}</p>
       </div>
     </header>

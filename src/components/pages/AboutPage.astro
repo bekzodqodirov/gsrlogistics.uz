@@ -6,6 +6,7 @@ import { about } from '@/i18n/about';
 import { servicesStrings } from '@/i18n/services';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { fmtInt, sep, sepMark } from '@/lib/format';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
@@ -57,7 +58,7 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
       <div class="container">
         <h2 class="h2 mb">{t.how.heading}</h2>
         <ol class="values" role="list">
-          {t.how.items.map((it, i) => <li class="card"><span class="idx tnum">0{i + 1}</span><h3 class="h4">{it.title}</h3><p class="fg2">{it.text}</p></li>)}
+          {t.how.items.map((it, i) => <li class="card"><span class="idx tnum">{fmtInt(i + 1, lang, 2)}</span><h3 class="h4">{it.title}</h3><p class="fg2">{it.text}</p></li>)}
         </ol>
       </div>
     </section>
@@ -72,7 +73,7 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
             <p class="fg2">{t.places.china.text}</p>
             <dl class="cities">
               <dt>{t.places.china.citiesLabel}</dt>
-              <dd>{site.chinaWarehouses.map((w, i) => <><span>{pick(lang, w.city)}<span class="zh" lang="zh">{w.cityZh}</span></span>{i < site.chinaWarehouses.length - 1 ? <span class="sep" aria-hidden="true">·</span> : null}</>)}</dd>
+              <dd>{site.chinaWarehouses.map((w, i) => <><span>{pick(lang, w.city)}<span class="zh" lang="zh">{w.cityZh}</span></span>{i < site.chinaWarehouses.length - 1 ? <span class="sep" aria-hidden="true">{sepMark(lang)}</span> : null}</>)}</dd>
             </dl>
             <div class="cluster">
               <a class="link" href={`${pagePath(lang, 'contact')}#xitoy`}>{t.places.china.addressesLink}</a>
@@ -127,7 +128,7 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
           <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram" data-picker>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption tnum" style="margin-top:20px">{site.phoneDisplay} · {pick(lang, site.hours)}</p>
+        <p class="caption tnum" style="margin-top:20px">{site.phoneDisplay}{sep(lang)}{pick(lang, site.hours)}</p>
       </div>
     </section>
   </article>

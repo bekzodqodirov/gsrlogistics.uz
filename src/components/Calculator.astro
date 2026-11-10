@@ -351,6 +351,39 @@ const uid = (s: string) => `${id}-${s}`;
     form.addEventListener('change', render);
     form.addEventListener('submit', (ev) => { ev.preventDefault(); render(); (body.hidden ? empty : body).scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
     render();
+    fitUnits(form);
+  }
+
+  /*
+   * The stylesheet leaves room at a field's inline end for a short unit ("kg", "sm", "см"). A long one
+   * — Persian "سانتی‌متر" next to a narrow dimension field — would sit on top of the figure. Where a unit
+   * overlaps the text area, widen that field's end padding to clear it; where the field is too narrow
+   * for both, drop the unit (it is aria-hidden, and the volume toggle above names it). Fields whose unit
+   * already fits are never touched, so the short units render exactly as the stylesheet draws them.
+   */
+  function fitUnits(form: HTMLFormElement) {
+    const fit = () => form.querySelectorAll<HTMLElement>('.unit-field').forEach((field) => {
+      const input = field.querySelector('input');
+      const unit = field.querySelector<HTMLElement>('.unit');
+      if (!input || !unit || !input.offsetWidth) return;
+      input.style.paddingInlineEnd = '';
+      unit.hidden = false;
+      const cs = getComputedStyle(input);
+      const rtl = cs.direction === 'rtl';
+      const r = input.getBoundingClientRect(), u = unit.getBoundingClientRect();
+      const pad = parseFloat(rtl ? cs.paddingLeft : cs.paddingRight);
+      // distance from the field's end edge to the far side of the unit
+      const reach = rtl ? u.right - r.left : r.right - u.left;
+      if (reach <= pad) return; // the unit sits inside the padding: nothing to do
+      const needed = Math.ceil(reach + 4);
+      const room = r.width - needed - parseFloat(rtl ? cs.paddingRight : cs.paddingLeft);
+      if (room >= 3 * parseFloat(cs.fontSize)) input.style.paddingInlineEnd = `${needed}px`;
+      else unit.hidden = true;
+    });
+    fit();
+    form.addEventListener('change', fit);
+    (document as Document & { fonts?: FontFaceSet }).fonts?.ready.then(fit, () => {});
+    if ('ResizeObserver' in window) new ResizeObserver(() => fit()).observe(form);
   }
 
   document.querySelectorAll<HTMLFormElement>('form[data-calc]').forEach(init);

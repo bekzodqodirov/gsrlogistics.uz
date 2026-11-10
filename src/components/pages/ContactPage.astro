@@ -10,6 +10,7 @@ import { common } from '@/i18n/common';
 import { contact, fill } from '@/i18n/contact';
 import { site, phoneUrl, phone2Url, telegramUrl, telegramGroupUrl, telegramChat, instagramUrl, facebookUrl, whatsappUrl } from '@/lib/site';
 import { ORG_ID } from '@/lib/schema';
+import { fmtInt, sep, sepMark } from '@/lib/format';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
@@ -114,7 +115,7 @@ const socials = [
                   )}
                   <div class="wh-row">
                     <dt>{t.china.phoneLabel}</dt>
-                    <dd>{w.phones.map((ph, i) => <><a href={`tel:${ph.e164}`} class="tnum">{ph.display}</a>{i < w.phones.length - 1 ? <span class="sep">·</span> : null}</>)}</dd>
+                    <dd>{w.phones.map((ph, i) => <><a href={`tel:${ph.e164}`} class="tnum">{ph.display}</a>{i < w.phones.length - 1 ? <span class="sep">{sepMark(lang)}</span> : null}</>)}</dd>
                   </div>
                 </dl>
               </li>
@@ -126,7 +127,7 @@ const socials = [
         <section class="card map" aria-labelledby="map-h">
           <h2 id="map-h" class="card-h">{t.map.title}</h2>
           <!-- Static "map card": an original monoline sketch of the metro sign, the street and building 27. No embeds. -->
-          <svg class="map-svg" viewBox="0 0 480 240" role="img" aria-label={`${t.map.street}, ${t.map.building} · ${t.map.metro}`}>
+          <svg class="map-svg" viewBox="0 0 480 240" role="img" aria-label={`${t.map.street}, ${t.map.building}${sep(lang)}${t.map.metro}`}>
             <defs>
               <pattern id="ct-grid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="currentColor" opacity=".12" /></pattern>
             </defs>
@@ -155,7 +156,7 @@ const socials = [
             <polygon points="182,96 187,99 187,105 182,108 177,105 177,99" fill="var(--accent)" />
             <g font-family="inherit" font-size="12" fill="currentColor">
               <text x="150" y="128" font-weight="600">{t.map.building}</text>
-              <text x="372" y="102" opacity=".8">M · {t.map.metro}</text>
+              <text x="372" y="102" opacity=".8">M{sep(lang)}{t.map.metro}</text>
               <text x="12" y="176" opacity=".8">{t.map.street}</text>
               <text x="12" y="228" opacity=".55" font-variant="tabular-nums">{t.map.coords}</text>
             </g>
@@ -188,7 +189,7 @@ const socials = [
           <p class="note-line"><Icon name="telegram" size={16} /><span>{t.visit.note}</span></p>
         </div>
         <ol class="steps">
-          {t.visit.steps.map((s, i) => <li><span class="idx tnum" aria-hidden="true">0{i + 1}</span><span>{s}</span></li>)}
+          {t.visit.steps.map((s, i) => <li><span class="idx tnum" aria-hidden="true">{fmtInt(i + 1, lang, 2)}</span><span>{s}</span></li>)}
         </ol>
       </div>
     </section>

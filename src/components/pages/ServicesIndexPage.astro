@@ -113,7 +113,7 @@ const itemList = {
             </tbody>
           </table>
         </div>
-        <p class="caption table-meta">{estimateMeta} · <a href={pagePath(lang, 'pricing')} class="link-quiet">{c.strings.allRates} ›</a></p>
+        <p class="caption table-meta">{estimateMeta}{sep(lang)}<a href={pagePath(lang, 'pricing')} class="link-quiet">{c.strings.allRates} ›</a></p>
 
         <div class="how">
           <h2 class="how-title">{t.index.howTitle}</h2>
@@ -132,7 +132,7 @@ const itemList = {
             <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram" data-picker>{c.cta.telegram}</Button>
             <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
           </div>
-          <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>
+          <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
         </div>
       </div>
     </section>

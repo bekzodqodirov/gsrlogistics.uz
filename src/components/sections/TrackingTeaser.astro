@@ -44,7 +44,7 @@ const SAMPLE_INDEX = 2;
       <form class="row" method="get" action={trackingHref}>
         <div class="field">
           <label for="teaser-code">{c.strings.enterCode}</label>
-          <input class="input code tnum" id="teaser-code" name="code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder={t.form.placeholder} maxlength="32" required pattern="[A-Za-z0-9][A-Za-z0-9\-]{2,31}" />
+          <input class="input code tnum" id="teaser-code" name="code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" dir="ltr" placeholder={t.form.placeholder} maxlength="32" required pattern="[A-Za-z0-9۰-۹٠-٩０-９Ａ-Ｚａ-ｚ][A-Za-z0-9۰-۹٠-٩０-９Ａ-Ｚａ-ｚ\-－]{2,31}" />
         </div>
         <button type="submit" class="btn btn-primary"><Icon name="search" size={18} />{c.strings.track}</button>
       </form>

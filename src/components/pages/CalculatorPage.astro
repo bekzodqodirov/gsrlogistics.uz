@@ -9,7 +9,7 @@ import { pricingStrings, tpl } from '@/i18n/pricing';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl } from '@/lib/site';
 import { leadAttrs, telegramFor } from '@/lib/leads';
-import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
+import { fmtDate, fmtInt, fmtNumber, fmtNumRange, fmtUsd, sep } from '@/lib/format';
 import type { Tariffs } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
@@ -31,7 +31,7 @@ const vars = {
   date: updated, truck: fmtUsd(T.truck.lclPerM3ByDensity[0].rate, lang), air: fmtUsd(T.air.perKg.standard, lang),
   threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
   denseRate: fmtUsd(T.truck.perKgAboveDensity, lang),
-  days: `${n(T.truck.days[0], 0)}–${n(T.truck.days[1], 0)}`,
+  days: fmtNumRange(T.truck.days[0], T.truck.days[1], lang, 0),
 };
 const label = c.nav.find((x) => x.key === 'calculator')?.label ?? p.eyebrow;
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'calculator' as const }];
@@ -61,7 +61,7 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: l
         <ol class="steps">
           {p.steps.map((s, i) => (
             <li class="step">
-              <span class="step-index tnum" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <span class="step-index tnum" aria-hidden="true">{fmtInt(i + 1, lang, 2)}</span>
               <div>
                 <h3 class="step-title">{s.title}</h3>
                 <p class="step-text">{tpl(s.text, vars)}</p>
@@ -96,7 +96,7 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: l
           <Button href={telegramFor('cargo', p.cta.draft, Astro.url.pathname)} variant="primary" icon="telegram" {...leadAttrs('cargo', 'kalkulyator', label)}>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>

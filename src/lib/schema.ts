@@ -18,23 +18,28 @@ export const WEBSITE_ID = `${SITE}/#website`;
  * must not both claim `uz` or one gets treated as a duplicate of the other.
  *
  * The `@id`s work the other way round and are deliberately NOT per locale:
- *   · ORG_ID and WEBSITE_ID are one organization and one website seen in four languages, so every
+ *   · ORG_ID and WEBSITE_ID are one organization and one website seen in every language, so every
  *     locale points at the same node. Minting `#organization-uzc` would invent a second company.
  *   · webPageNode/articleNode/serviceNode hang their `@id` off the page's own URL, which IS per
  *     locale — and must be the canonical URL, percent-encoded exactly as `pageUrl` returns it, so
  *     the node id, `url`, `<link rel=canonical>` and the sitemap `<loc>` are one string.
  * `knowsLanguage` lists the languages a human at GSR answers in (schema.org puts `availableLanguage`
  * on a ContactPoint, not on an Organization); Latin and Cyrillic Uzbek are one spoken language, so the
- * script variant is not added there.
+ * script variant is not added there. These are facts about people, not about pages: publishing a
+ * Persian page is not evidence that anybody at GSR answers in Persian, so 'fa' is in none of these
+ * lists, and scripts/test-seo.mjs fails the build if it appears in one.
  */
 const descriptions: Localized<string> = {
   uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent, 2018-yildan; oyiga 10+ fura, 400+ mijoz; Xitoyda uchta qabul punkti — Ivu, Guanchjou, Qashqar.',
   ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент, с 2018 года; 10+ фур в месяц, 400+ клиентов; три пункта приёма в Китае — Иу, Гуанчжоу, Кашгар.',
   en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent, since 2018; 10+ trucks a month, 400+ clients; three receiving points in China — Yiwu, Guangzhou, Kashgar.',
+  // Translated from the English line above (GLOSSARY.md terms); Persian figures in Persian digits.
+  zh: 'GSR Logistics——从中国到乌兹别克斯坦的汽运拼货、空运和铁路货运，寻找货源与代采购，清关。塔什干，自 2018 年起；每月 10+ 辆卡车，400+ 客户；在中国有三个收货点——义乌、广州、喀什。',
+  fa: 'GSR Logistics — حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا، ترخیص گمرکی. تاشکند، از ۲۰۱۸؛ ماهانه بیش از ۱۰ کامیون، بیش از ۴۰۰ مشتری؛ سه محل تحویل بار در چین — ییوو، گوانگجو، کاشغر.',
 };
 
 /** How a China receiving point is labelled in structured data — never as a GSR facility. */
-const receivingPoint: Localized<string> = { uz: 'qabul punkti', ru: 'пункт приёма', en: 'receiving point' };
+const receivingPoint: Localized<string> = { uz: 'qabul punkti', ru: 'пункт приёма', en: 'receiving point', zh: '收货点', fa: 'محل تحویل بار' };
 
 /** Organization + LocalBusiness node, shared @id across locales. */
 export function organizationNode(lang: Locale) {
@@ -102,7 +107,8 @@ export function organizationNode(lang: Locale) {
     // Named "receiving point", not "GSR Logistics <city>": who operates each one is not established.
     location: site.chinaWarehouses.map((w) => ({
       '@type': 'Place',
-      name: `${pick(lang, w.city)} (${w.cityZh}) — ${point}`,
+      // On the Chinese pages the city's name IS the Chinese one: "义乌 — 收货点", not "义乌 (义乌)".
+      name: lang === 'zh' ? `${w.cityZh} — ${point}` : `${pick(lang, w.city)} (${w.cityZh}) — ${point}`,
       address: {
         '@type': 'PostalAddress',
         addressLocality: w.localityZh,
