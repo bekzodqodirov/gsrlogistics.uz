@@ -1,5 +1,5 @@
 import { pick, type Lang, type Locale, type Localized } from '@/i18n/config';
-import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
+import { fmtDate, fmtNumber, fmtNumRange, fmtSomRange, fmtUsd, fmtUsdRange, unitWord } from '@/lib/format';
 import tariffs from './tariffs.json';
 
 /**
@@ -16,17 +16,21 @@ export interface FaqGroup { id: string; group: string; items: FaqItem[] }
 
 const T = tariffs;
 
-/** Locale-formatted numbers used inside the answers. */
-function nums(lang: Lang) {
+/**
+ * Locale-formatted numbers used inside the answers — every form from src/lib/format.ts, so a zh or fa
+ * builder gets its own digits, currency word, ranges ("X تا Y") and unit words (fa writes Persian unit
+ * words, never a Latin m³ inside a Persian sentence). Exported for those builders.
+ */
+export function nums(lang: Lang) {
   const n = (x: number, f = 0) => fmtNumber(x, lang, f);
-  const usd = (x: number) => (lang === 'en' && !Number.isInteger(x) ? `$${x.toFixed(2)}` : fmtUsd(x, lang));
-  const M3 = lang === 'ru' ? 'м³' : 'm³';
-  const KG = lang === 'ru' ? 'кг' : 'kg';
+  const usd = (x: number) => fmtUsd(x, lang);
+  const M3 = unitWord('m3', lang);
+  const KG = unitWord('kg', lang);
   /** Truck is billed per m³ by density, so its figures carry the m³ unit. */
   const usdM3 = (x: number) => `${usd(x)}/${M3}`;
-  const usdRange = (a: number, b: number) => (lang === 'en' ? `$${n(a)}–${n(b)}` : `${n(a)}–${n(b)} $`);
-  const som = (a: number, b: number) => (lang === 'uz' ? `${n(a)}–${n(b)} soʻm` : lang === 'ru' ? `${n(a)}–${n(b)} сум` : `UZS ${n(a)}–${n(b)}`);
-  const days = (r: number[]) => `${n(r[0])}–${n(r[1])}`;
+  const usdRange = (a: number, b: number) => fmtUsdRange(a, b, lang);
+  const som = (a: number, b: number) => fmtSomRange(a, b, lang);
+  const days = (r: number[]) => fmtNumRange(r[0], r[1], lang, 0);
   const lcl = T.truck.lclPerM3ByDensity;
   /** The same band lookup the calculator uses: the first band the density still fits under. */
   const rateFor = (density: number) => {

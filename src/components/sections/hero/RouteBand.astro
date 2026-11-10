@@ -9,7 +9,7 @@
 import { pick, type Locale } from '@/i18n/config';
 import { hero } from '@/i18n/hero';
 import { routeNodes, ROUTE_KM, ROUTE_KM_VERIFIED } from '@/data/route';
-import { fmtNumber } from '@/lib/format';
+import { arrow, fmtNumber, fmtNumRange, sep, sepMark, unitWord } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 
 interface Props { lang: Locale }
@@ -45,10 +45,11 @@ const pct = (v: number, of: number) => `${Math.round((v / of) * 10000) / 100}%`;
 
 const kmNumber = fmtNumber(ROUTE_KM, lang);
 const kmSuffix = ROUTE_KM_VERIFIED ? '' : '+'; // the "+" disappears once the owner verifies the road distance
-const kmUnit = lang === 'ru' ? 'км' : 'km'; // Cyrillic unit in Russian copy, matching the journey card and FAQ
+const kmUnit = unitWord('km', lang); // Cyrillic unit in Russian copy, matching the journey card and FAQ; 公里 / کیلومتر
 const km = `${kmNumber}${kmSuffix} ${kmUnit}`;
-const days = `${fmtNumber(tariffs.truck.days[0], lang)}–${fmtNumber(tariffs.truck.days[1], lang)}`;
-const routeText = `${t.drawingLabel}: ${nodes.map((n) => pick(lang, n.name)).join(' → ')}`;
+const days = fmtNumRange(tariffs.truck.days[0], tariffs.truck.days[1], lang);
+// The spoken route reads in travel order; fa joins with ← because → does not mirror in RTL text.
+const routeText = `${t.drawingLabel}: ${nodes.map((n) => pick(lang, n.name)).join(arrow(lang))}`;
 ---
 <div class="drawing" role="group" aria-label={routeText}>
 <div class="band">
@@ -79,9 +80,9 @@ const routeText = `${t.drawingLabel}: ${nodes.map((n) => pick(lang, n.name)).joi
     ))}
   </ol>
 </div>
-  <p class="readout" aria-label={`${t.readoutLabel}: ${km} · ${days} ${t.unitDays}`}>
+  <p class="readout" aria-label={`${t.readoutLabel}: ${km}${sep(lang)}${days} ${t.unitDays}`}>
     <span class="km"><span class="count tnum" data-count={ROUTE_KM} data-lang={lang}>{kmNumber}</span>{kmSuffix}<span class="unit">{kmUnit}</span></span>
-    <span class="sep" aria-hidden="true">·</span>
+    <span class="sep" aria-hidden="true">{sepMark(lang)}</span>
     <span class="days"><span class="tnum">{days}</span><span class="unit">{t.unitDays}</span></span>
   </p>
 </div>

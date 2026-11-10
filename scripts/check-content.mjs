@@ -1,8 +1,25 @@
 // Content guard rails: run after every build (npm run check:content).
 // Fails on forbidden claims, wrong apostrophes, inconsistent number/percent style and
-// language leaks between the uz/ru/en trees. Keeps the site honest as content changes.
+// language leaks between the six locale trees. Keeps the site honest as content changes.
+//
+// What runs where — the page's locale comes from scripts/locales.mjs, the table every script shares:
+//   · FORBIDDEN (uz/ru/en claims) and ZH_FA_FORBIDDEN (the same business rules in Chinese and
+//     Persian, scripts/content-rules.mjs) run on EVERY page: on the <main> text, raw and
+//     normalised (Persian/Arabic-Indic/full-width digits, bidi marks, Arabic ي/ك, spaces between
+//     CJK characters — see normalize()), and on the <title>, the meta/OG/Twitter descriptions and
+//     every JSON-LD string; then once on dist/llms.txt.
+//   · The Uzbek style rules run on uz and uzc pages only; the "Uzbek word in ru/en copy" rule on
+//     ru and en. Chinese and Persian pages get their own orthography rules instead (PAGE_RULES)
+//     and an untranslated-text check: English, Uzbek or Russian prose on a zh/fa page is an ERROR
+//     once the locale is finished, and a counted WARNING while it is still pending
+//     (src/i18n/config.ts `PendingLang`), because until then pick() shows the English branch.
+//   · Every new rule carries the sentences it must catch and the ones it must let through, and
+//     they are asserted before any page is read: a rule that misfires on its own fixtures fails
+//     the build.
 import fs from 'node:fs';
 import path from 'node:path';
+import { LOCALES, LOCALE_CODES, isPending, localeOfPath, unprefixed } from './locales.mjs';
+import { ZH_FA_FORBIDDEN, PAGE_RULES, normalize, leakRuns, quotedForeign, selfTest } from './content-rules.mjs';
 const dist = process.argv[2] || 'dist';
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(d, e.name)) : e.name === 'index.html' ? [path.join(d, e.name)] : []);
 const strip = (html) => {
@@ -11,6 +28,61 @@ const strip = (html) => {
     .replace(/<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ');
   return main.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ');
 };
+const decodeEntities = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, '\xA0').replace(/&amp;/g, '&');
+const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
+const UNSEEN = new Set(['script', 'style', 'svg', 'template', 'title']);
+/**
+ * The visible text of a page's <body> that is the page's OWN language: header, main and footer,
+ * minus scripts, styles, SVG and every element whose `lang` names another language (the language
+ * switcher's endonyms, a Chinese address on a Persian page). This is what a zh/fa reader reads, so
+ * it is what the untranslated-text and orthography checks of those locales run on.
+ */
+function proseText(html, pageLang) {
+  const start = html.search(/<body\b/i);
+  const body = start === -1 ? html : html.slice(start);
+  const primary = pageLang.split('-')[0].toLowerCase();
+  let out = '';
+  let i = 0;
+  const stack = [];
+  while (i < body.length) {
+    const lt = body.indexOf('<', i);
+    const chunk = lt === -1 ? body.slice(i) : body.slice(i, lt);
+    if (!stack.some((e) => e.skip)) out += chunk;
+    if (lt === -1) break;
+    if (body.startsWith('<!--', lt)) { const e = body.indexOf('-->', lt); i = e === -1 ? body.length : e + 3; continue; }
+    const gt = body.indexOf('>', lt);
+    if (gt === -1) break;
+    const tag = body.slice(lt, gt + 1);
+    i = gt + 1;
+    out += ' ';
+    const m = /^<(\/?)([a-zA-Z][a-zA-Z0-9-]*)/.exec(tag);
+    if (!m) continue;
+    const name = m[2].toLowerCase();
+    if (m[1]) { const at = stack.map((e) => e.name).lastIndexOf(name); if (at !== -1) stack.length = at; continue; }
+    if (tag.endsWith('/>') || VOID.has(name)) continue;
+    const lang = /\slang\s*=\s*["']?([A-Za-z-]+)/i.exec(tag)?.[1];
+    stack.push({ name, skip: UNSEEN.has(name) || (lang !== undefined && lang.split('-')[0].toLowerCase() !== primary) });
+    if (name === 'script' || name === 'style') { const end = body.toLowerCase().indexOf(`</${name}`, i); if (end !== -1) i = end; }
+  }
+  return decodeEntities(out).replace(/\s+/g, ' ');
+}
+/** The strings a SERP, a link preview and a structured-data reader show: title, descriptions, JSON-LD. */
+function headStrings(html) {
+  const out = [];
+  const title = html.match(/<title>([\s\S]*?)<\/title>/);
+  if (title) out.push(decodeEntities(title[1]));
+  for (const m of html.matchAll(/<meta (?:name|property)="(?:description|og:title|og:description|twitter:title|twitter:description)" content="([^"]*)"/g)) out.push(decodeEntities(m[1]));
+  for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    let ld;
+    try { ld = JSON.parse(m[1]); } catch { continue; } // test-seo.mjs fails an unparsable block
+    (function collect(v) {
+      if (typeof v === 'string') out.push(v);
+      else if (Array.isArray(v)) v.forEach(collect);
+      else if (v && typeof v === 'object') Object.values(v).forEach(collect);
+    })(ld);
+  }
+  return out;
+}
 const errors = [];
 const warn = [];
 /** The one tracking bot (owner-confirmed 2026-09-10). Any other bot handle on a page is a typo. */
@@ -94,12 +166,42 @@ const FORBIDDEN = [
   [/uzel(ini|i)\b/i, 'Russian loan "uzel" → "tugun"'],
   [/powerbank/i, 'powerbank → power bank'],
 ];
+// The new rules prove themselves before they judge a page.
+const misfires = selfTest();
+if (misfires.length) {
+  console.error(`check-content: ${misfires.length} guard rule(s) fail their own fixtures in scripts/content-rules.mjs:\n  ${misfires.join('\n  ')}`);
+  process.exit(1);
+}
+/** Old rules on the raw text OR its normalised copy (strictly more than before); new rules on the normalised copy. */
+const claims = (raw, norm = normalize(raw)) => [
+  ...FORBIDDEN.filter(([re]) => re.test(raw) || re.test(norm)).map(([, msg]) => msg),
+  ...ZH_FA_FORBIDDEN.filter((r) => r.re.test(norm)).map((r) => `${r.msg} — «${norm.match(r.re)[0].trim().slice(0, 48)}»`),
+];
+/** The retired second phone, however it is spaced or hyphenated. */
+const retiredPhone = (norm) => /998973333933/.test(norm.replace(/[\s\-–.()\xA0\u{202F}]/gu, ''));
+const perLocale = Object.fromEntries(LOCALE_CODES.map((c) => [c, { errors: 0, warnings: 0 }]));
+const pending = []; // { url, runs } — untranslated text on a pending locale's page
+const quotesOf = new Map(); // en page url → the foreign quotes its translations may keep
+const enQuotes = (url) => {
+  if (!quotesOf.has(url)) {
+    const f = path.join(dist, ...url.split('/').filter(Boolean), 'index.html');
+    quotesOf.set(url, fs.existsSync(f) ? quotedForeign(proseText(fs.readFileSync(f, 'utf8'), LOCALES.en.htmlLang)) : new Set());
+  }
+  return quotesOf.get(url);
+};
 for (const file of walk(dist)) {
   const url = '/' + path.relative(dist, path.dirname(file)).replace(/\\/g, '/') + '/';
   const html = fs.readFileSync(file, 'utf8');
   const text = strip(html);
-  const lang = /^\/ru\//.test(url) ? 'ru' : /^\/en\//.test(url) ? 'en' : 'uz';
-  for (const [re, msg] of FORBIDDEN) if (re.test(text)) errors.push(`${url}: ${msg}`);
+  const norm = normalize(text);
+  const code = localeOfPath(url);
+  // uz and the Cyrillic uzc share the Uzbek rules, exactly as before there was a locale table.
+  const lang = code === 'uzc' ? 'uz' : code;
+  const errorsBefore = errors.length;
+  const warnBefore = warn.length;
+  for (const [re, msg] of FORBIDDEN) if (re.test(text) || re.test(norm)) errors.push(`${url}: ${msg}`);
+  for (const r of ZH_FA_FORBIDDEN) if (r.re.test(norm)) errors.push(`${url}: ${r.msg} — «${norm.match(r.re)[0].trim().slice(0, 48)}»`);
+  if (retiredPhone(norm) && !errors.slice(errorsBefore).some((e) => e.endsWith('retired second phone number'))) errors.push(`${url}: retired second phone number`);
   // One bot, one username, everywhere — visible text, hrefs and JSON-LD alike (so this reads the
   // raw HTML, not the stripped copy). A single wrong character hands a client to a stranger's bot.
   const bots = new Set();
@@ -115,16 +217,52 @@ for (const file of walk(dist)) {
     // A parenthesised English form is a deliberate glossary gloss: "Xorgos (Khorgos)".
     if (/(?<!\()\b(Guangzhou|Shenzhen|Almaty|Shymkent|Khorgos|Yiwu)\b(?!\))/.test(text)) warn.push(`${url}: English toponym in Uzbek copy`);
   }
-  if (/\d %/.test(text)) warn.push(`${url}: spaced percent`);
-  if (/÷ ?\d{4}\b/.test(text)) warn.push(`${url}: unseparated divisor`);
+  if (/\d %/.test(text) || /\d %/.test(norm)) warn.push(`${url}: spaced percent`);
+  if (/÷ ?\d{4}\b/.test(text) || /÷ ?\d{4}\b/.test(norm)) warn.push(`${url}: unseparated divisor`);
   // Uzbek terms glossed for the reader ("in Uzbek it is yigʻma yuk") are intentional.
-  if (lang !== 'uz' && /(?<!(in Uzbek it is |по-узбекски — ))(Ivu ombor|yigʻma yuk|bojxona rasmiylashtiruvi)/.test(text)) warn.push(`${url}: Uzbek word in ${lang} copy`);
+  if ((lang === 'ru' || lang === 'en') && /(?<!(in Uzbek it is |по-узбекски — ))(Ivu ombor|yigʻma yuk|bojxona rasmiylashtiruvi)/.test(text)) warn.push(`${url}: Uzbek word in ${lang} copy`);
   if (lang === 'en' && /soʻm/.test(text)) warn.push(`${url}: "soʻm" in English copy (use UZS)`);
+  if ((lang === 'zh' || lang === 'fa') && /soʻm/.test(text)) warn.push(`${url}: "soʻm" in ${lang} copy (zh 苏姆, fa سوم)`);
   const h1 = (html.match(/<h1[\s>]/g) || []).length;
   if (h1 !== 1) errors.push(`${url}: ${h1} h1 elements`);
+
+  // The strings outside <main> that a SERP, a link preview or a structured-data reader quotes.
+  const surfaces = new Set();
+  for (const s of headStrings(html)) for (const msg of claims(s)) surfaces.add(msg);
+  for (const s of headStrings(html)) if (retiredPhone(normalize(s))) surfaces.add('retired second phone number');
+  for (const msg of surfaces) errors.push(`${url} (title/meta/JSON-LD): ${msg}`);
+
+  // Chinese and Persian pages: their own orthography, and no untranslated text.
+  if (lang === 'zh' || lang === 'fa') {
+    const own = [proseText(html, LOCALES[lang].htmlLang), ...headStrings(html).slice(0, 1), (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] ?? ''].join(' \n ');
+    for (const r of PAGE_RULES[lang]) {
+      const m = own.match(r.re);
+      if (m) (r.level === 'error' ? errors : warn).push(`${url}: ${r.msg} — «${own.slice(Math.max(0, m.index - 12), m.index + m[0].length + 12).trim()}»`);
+    }
+    const runs = leakRuns(own, enQuotes(`${LOCALES.en.prefix}${unprefixed(url, lang)}`));
+    if (runs.length && isPending(lang)) pending.push({ url, lang, runs });
+    else if (runs.length) errors.push(`${url}: ${runs.length} run(s) of untranslated English/Uzbek/Russian text — «${runs[0].slice(0, 60)}»${runs.length > 1 ? `, «${runs[1].slice(0, 40)}»…` : ''}`);
+  }
+  perLocale[code].errors += errors.length - errorsBefore;
+  perLocale[code].warnings += warn.length - warnBefore;
+}
+// llms.txt is hand-written and read by every assistant that cites the site: the same claims apply.
+const llmsFile = path.join(dist, 'llms.txt');
+if (fs.existsSync(llmsFile)) {
+  const txt = fs.readFileSync(llmsFile, 'utf8');
+  for (const msg of claims(txt)) errors.push(`llms.txt: ${msg}`);
+  if (retiredPhone(normalize(txt)) && !claims(txt).includes('retired second phone number')) errors.push('llms.txt: retired second phone number');
 }
 const out = (label, list) => { if (list.length) { console.log(`\n${label} (${list.length}):`); for (const l of list.slice(0, 40)) console.log('  ' + l); } };
 out('WARNINGS', warn);
 out('ERRORS', errors);
-console.log(`\nchecked ${walk(dist).length} pages · ${errors.length} errors · ${warn.length} warnings`);
+if (pending.length) {
+  const words = (p) => p.runs.join(' ').split(/\s+/).filter((w) => /\p{L}/u.test(w)).length;
+  const langs = [...new Set(pending.map((p) => p.lang))].sort().join(', ');
+  console.log(`\nPENDING (${langs} — still being translated; counted, not failed): untranslated text on ${pending.length} pages, ~${pending.reduce((n, p) => n + words(p), 0)} words`);
+  for (const p of pending.slice(0, 40)) console.log(`  ${p.url}: ~${words(p)} words in ${p.runs.length} runs — «${p.runs[0].slice(0, 60)}»`);
+  if (pending.length > 40) console.log(`  … and ${pending.length - 40} more pages`);
+}
+const byLocale = LOCALE_CODES.map((c) => `${c} ${perLocale[c].errors}/${perLocale[c].warnings}`).join(' · ');
+console.log(`\nchecked ${walk(dist).length} pages · ${errors.length} errors · ${warn.length} warnings (errors/warnings per locale: ${byLocale}) · ${ZH_FA_FORBIDDEN.length} zh/fa claim rules passed their fixtures${pending.length ? ` · ${pending.length} pending-locale pages with untranslated text` : ''}`);
 process.exit(errors.length ? 1 : 0);

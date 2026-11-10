@@ -9,7 +9,7 @@ import { hero } from '@/i18n/hero';
 import { common } from '@/i18n/common';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtNumber } from '@/lib/format';
+import { fmtNumRange, sepMark } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
@@ -19,7 +19,7 @@ interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, hero);
 const c = pick(lang, common);
-const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)}`;
+const range = (a: number, b: number) => fmtNumRange(a, b, lang);
 const proof = [
   { value: range(tariffs.truck.days[0], tariffs.truck.days[1]), unit: t.unitDays, caption: t.proof.truck },
   { value: range(tariffs.air.days[0], tariffs.air.days[1]), unit: t.unitDays, caption: t.proof.air },
@@ -41,7 +41,7 @@ const proof = [
     </div>
     <p class="meta-line">
       <a href={phoneUrl} class="tnum phone">{site.phoneDisplay}</a>
-      <span class="dot" aria-hidden="true">·</span>
+      <span class="dot" aria-hidden="true">{sepMark(lang)}</span>
       <span class="tnum">{pick(lang, site.hours)}</span>
     </p>
   </div>
@@ -110,6 +110,9 @@ const proof = [
 </style>
 
 <script>
+  import { fmtNumber, toAsciiDigits } from '@/lib/format';
+  import type { Locale } from '@/i18n/config';
+
   // Start the route drawing once fonts are ready (so the LCP text never waits), and count the km readout 0 → ROUTE_KM.
   const root = document.querySelector<HTMLElement>('[data-hero]');
   if (root) {
@@ -118,9 +121,11 @@ const proof = [
       root.classList.add('is-drawn');
       const el = root.querySelector<HTMLElement>('[data-count]');
       if (!el || reduce) return;
-      const target = Number(el.dataset.count || 0);
-      const lang = el.dataset.lang || 'uz';
-      const fmt = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'en' ? ',' : ' ');
+      // The figure is read through toAsciiDigits (a data attribute or an i18n value may carry Persian
+      // digits) and written by fmtNumber, the same formatter the server used for the static text.
+      const target = Number(toAsciiDigits(el.dataset.count || '0')) || 0;
+      const lang = (el.dataset.lang || 'uz') as Locale;
+      const fmt = (n: number) => fmtNumber(n, lang);
       const t0 = performance.now(), dur = 1100;
       const tick = (now: number) => {
         const p = Math.min(1, (now - t0) / dur);

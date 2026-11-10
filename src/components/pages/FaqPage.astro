@@ -10,7 +10,7 @@ import { faqStrings, faqTpl } from '@/i18n/faq';
 import { faq, faqItems } from '@/data/faq';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
+import { fmtDate, fmtInt, fmtNumRange, fmtUsd, sep } from '@/lib/format';
 import { faqNode } from '@/lib/schema';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
@@ -26,10 +26,10 @@ const groups = pick(lang, faq);
 const all = faqItems(lang);
 const truckFrom = tariffs.truck.lclPerM3ByDensity[0].rate;
 const vars = {
-  count: all.length,
-  truckDays: `${fmtNumber(tariffs.truck.days[0], lang)}–${fmtNumber(tariffs.truck.days[1], lang)}`,
-  airDays: `${fmtNumber(tariffs.air.days[0], lang)}–${fmtNumber(tariffs.air.days[1], lang)}`,
-  truckFrom: lang === 'en' ? `$${truckFrom}` : fmtUsd(truckFrom, lang),
+  count: fmtInt(all.length, lang),
+  truckDays: fmtNumRange(tariffs.truck.days[0], tariffs.truck.days[1], lang),
+  airDays: fmtNumRange(tariffs.air.days[0], tariffs.air.days[1], lang),
+  truckFrom: fmtUsd(truckFrom, lang),
   date: fmtDate(tariffs.updated, lang),
 };
 const intro = faqTpl(t.intro, vars);
@@ -70,7 +70,7 @@ let n = 0;
               <a href={`#${g.id}`} data-group={g.id}>
                 <svg class="glyph" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={glyphs[i % glyphs.length]}></svg>
                 <span class="label">{g.group}</span>
-                <span class="count tnum" aria-hidden="true">{g.items.length}</span>
+                <span class="count tnum" aria-hidden="true">{fmtInt(g.items.length, lang)}</span>
               </a>
             </li>
           ))}
@@ -82,7 +82,7 @@ let n = 0;
           <section class="group" id={g.id} aria-labelledby={`${g.id}-h`}>
             <div class="group-head">
               <h2 id={`${g.id}-h`} class="h2">{g.group}</h2>
-              <p class="caption tnum">{g.items.length} {t.questionsWord}</p>
+              <p class="caption tnum">{fmtInt(g.items.length, lang)} {t.questionsWord}</p>
             </div>
             <div class="faq-list">
               {g.items.map((it) => {
@@ -112,7 +112,7 @@ let n = 0;
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
           <a class="link" href={pagePath(lang, 'calculator')}>{c.cta.calculate}</a>
         </div>
-        <p class="caption tnum cta-meta">{site.phoneDisplay} · {pick(lang, site.hours)}</p>
+        <p class="caption tnum cta-meta">{site.phoneDisplay}{sep(lang)}{pick(lang, site.hours)}</p>
       </div>
     </section>
   </article>

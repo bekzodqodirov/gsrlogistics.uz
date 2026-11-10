@@ -26,6 +26,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { leadStrings } from '@/i18n/lead';
 import { site, telegramBotUrl } from '@/lib/site';
 import { assignLang, leadAttrs, teamTopic, telegramFor } from '@/lib/leads';
+import { sep } from '@/lib/format';
 import Icon from '@/components/ui/Icon.astro';
 
 interface Props { lang: Locale }
@@ -33,6 +34,8 @@ const { lang } = Astro.props;
 const t = pick(lang, leadStrings);
 const path = Astro.url.pathname;
 const fill = (draft: string, v: string) => draft.replace('{v}', v);
+/** The summary line of a chip: "Yuk · <choice>" (fa joins with " • "). */
+const line = (label: string, msg: string) => `${label}${sep(lang)}${msg}`;
 const cfg = JSON.stringify({ endpoint: site.leadAssign, company: site.telegramCompany, fallback: site.leadTeams });
 ---
 <dialog class="lp" id="lead-picker" aria-labelledby="lp-title" data-assign={cfg} data-lang={assignLang(lang)} data-code-word={t.codeWord}>
@@ -83,7 +86,7 @@ const cfg = JSON.stringify({ endpoint: site.leadAssign, company: site.telegramCo
       <p class="lp-q" id="lp-q-cargo">{t.cargo.question}</p>
       <ul class="lp-chips" role="list" aria-labelledby="lp-q-cargo">
         {t.cargo.choices.map((c) => (
-          <li><a class="lp-chip" href={telegramFor('cargo', fill(t.cargo.draft, c.msg), path)} target="_blank" rel="noopener" {...leadAttrs('cargo', teamTopic.cargo, `${t.cargo.label} · ${c.msg}`)}><Icon name="telegram" size={18} />{c.label}</a></li>
+          <li><a class="lp-chip" href={telegramFor('cargo', fill(t.cargo.draft, c.msg), path)} target="_blank" rel="noopener" {...leadAttrs('cargo', teamTopic.cargo, line(t.cargo.label, c.msg))}><Icon name="telegram" size={18} />{c.label}</a></li>
         ))}
       </ul>
     </div>
@@ -93,7 +96,7 @@ const cfg = JSON.stringify({ endpoint: site.leadAssign, company: site.telegramCo
       <p class="lp-q" id="lp-q-buying">{t.buying.question}</p>
       <ul class="lp-chips lp-chips-wide" role="list" aria-labelledby="lp-q-buying">
         {t.buying.choices.map((c) => (
-          <li><a class="lp-chip" href={telegramFor('buying', fill(t.buying.draft, c.msg), path)} target="_blank" rel="noopener" {...leadAttrs('buying', teamTopic.buying, `${t.buying.label} · ${c.msg}`)}><Icon name="telegram" size={18} />{c.label}</a></li>
+          <li><a class="lp-chip" href={telegramFor('buying', fill(t.buying.draft, c.msg), path)} target="_blank" rel="noopener" {...leadAttrs('buying', teamTopic.buying, line(t.buying.label, c.msg))}><Icon name="telegram" size={18} />{c.label}</a></li>
         ))}
       </ul>
     </div>
@@ -104,7 +107,7 @@ const cfg = JSON.stringify({ endpoint: site.leadAssign, company: site.telegramCo
     </div>
 
     <div class="lp-step" data-lp-step="done" hidden>
-      <p class="lp-who">{t.done.manager}: <strong class="lp-user" data-lp-user></strong></p>
+      <p class="lp-who">{t.done.manager}: <strong class="lp-user" data-lp-user dir="ltr"></strong></p>
       <p class="lp-msg" data-lp-msg></p>
       <div class="lp-copy-row">
         <button type="button" class="lp-copy" data-lp-copy data-copied={t.done.copied} data-copy-fail={t.done.copyFail}><Icon name="copy" size={16} />{t.done.copy}</button>
@@ -274,24 +277,30 @@ const cfg = JSON.stringify({ endpoint: site.leadAssign, company: site.telegramCo
   .lp-sheet { background: var(--bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); padding: 20px; display: grid; gap: 14px; max-height: calc(100dvh - 48px); overflow-y: auto; overscroll-behavior: contain; }
   .lp-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
   .lp-title { font-size: 1.25rem; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
-  .lp-x { flex: none; display: grid; place-items: center; width: 36px; height: 36px; margin: -6px -6px 0 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
+  .lp-x { flex: none; display: grid; place-items: center; width: 36px; height: 36px; margin: 0; margin-block-start: -6px; margin-inline-end: -6px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
   .lp-x:hover { background: var(--bg-2); color: var(--fg); }
   .lp-lead { margin: 0; color: var(--muted); font-size: var(--text-small); text-wrap: pretty; }
 
   .lp-step { display: grid; gap: 12px; }
   .lp-step[hidden] { display: none; }
   .lp-list, .lp-chips { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-  .lp-opt { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 14px 14px; border: 1px solid var(--card-border); border-radius: var(--radius); background: var(--card); color: var(--fg); text-align: left; text-decoration: none; font: inherit; cursor: pointer; transition: border-color var(--dur-fast, 120ms), background-color var(--dur-fast, 120ms); }
+  .lp-opt { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 14px 14px; border: 1px solid var(--card-border); border-radius: var(--radius); background: var(--card); color: var(--fg); text-align: start; text-decoration: none; font: inherit; cursor: pointer; transition: border-color var(--dur-fast, 120ms), background-color var(--dur-fast, 120ms); }
   .lp-opt:hover { border-color: var(--accent); }
   .lp-ico { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); color: var(--accent-text); }
   .lp-txt { display: grid; gap: 2px; min-width: 0; }
   .lp-label { font-weight: 600; line-height: 1.3; }
   .lp-sub { font-size: var(--text-small); color: var(--muted); line-height: 1.35; }
   .lp-opt :global(.lp-chev) { color: var(--meta); }
+  /* RTL: the option rows read right to left, so their trailing chevron / external-link arrow points left.
+     `scale` (not transform), the same property a global mirror for these icon names would set, so the
+     two can never cancel each other out. */
+  :global([dir='rtl']) .lp-opt :global(.lp-chev) { scale: -1 1; }
 
   .lp-back { justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 2px; border: 0; background: none; color: var(--muted); font: inherit; font-size: var(--text-small); cursor: pointer; }
   .lp-back:hover { color: var(--fg); }
   .lp-back :global(.lp-back-ico) { transform: scaleX(-1); }
+  /* RTL: "back" points right, which arrow-right does as drawn: no flip at all, whatever else mirrors icons. */
+  :global([dir='rtl']) .lp-back :global(.lp-back-ico) { transform: none; scale: none; }
   .lp-q { margin: 0; font-weight: 600; font-size: 1.0625rem; }
   .lp-chips { grid-template-columns: 1fr 1fr; }
   .lp-chips-wide { grid-template-columns: 1fr; }
@@ -310,8 +319,11 @@ const cfg = JSON.stringify({ endpoint: site.leadAssign, company: site.telegramCo
 
   .lp-who { margin: 0; color: var(--muted); }
   .lp-user { color: var(--fg); font-weight: 600; overflow-wrap: anywhere; }
-  /* The message exactly as it will be sent: its line break matters (the code stands alone on line one). */
-  .lp-msg { margin: 0; padding: 12px 14px; border: 1px solid var(--card-border); border-radius: var(--radius); background: var(--bg-2); white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--text-small); line-height: 1.5; user-select: all; -webkit-user-select: all; }
+  /* The message exactly as it will be sent: its line break matters (the code stands alone on line one).
+     unicode-bidi: plaintext gives each line its own direction, as Telegram does — the "Code: GSR-…" line
+     reads left to right above a Persian summary that reads right to left. No bidi mark is ever added
+     to the text itself (lib/lead-client.ts strips them): it is what gets sent and copied. */
+  .lp-msg { margin: 0; padding: 12px 14px; border: 1px solid var(--card-border); border-radius: var(--radius); background: var(--bg-2); white-space: pre-wrap; unicode-bidi: plaintext; overflow-wrap: anywhere; font-size: var(--text-small); line-height: 1.5; user-select: all; -webkit-user-select: all; }
   .lp-copy-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
   .lp-copy { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 14px; border: 1px solid var(--card-border); border-radius: 999px; background: var(--card); color: var(--fg); font: inherit; font-size: var(--text-small); font-weight: 500; cursor: pointer; }
   .lp-copy:hover { border-color: var(--accent); }

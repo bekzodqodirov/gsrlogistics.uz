@@ -746,9 +746,14 @@ export function tpl(s: string, vars: Record<string, string | number>): string {
   return s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
 }
 
-/** "2026-yil sentabr" / "2026-йил сентябрь" / "сентябрь 2026" / "September 2026" from an ISO date. */
+import { fmtMonthYear } from '@/lib/format';
+
+/**
+ * "2026-yil sentabr" / "2026-йил сентябрь" / "сентябрь 2026" / "September 2026" / "2026年9月" / "۲۰۲۶/۰۹"
+ * from an ISO date. The form lives in src/lib/format.ts with every other date form, which prints the
+ * year in the locale's digits; the `months` and `monthYear` fields above are no longer read here (they
+ * built the same uz/uzc/ru/en strings, and an ASCII year on a Persian page).
+ */
 export function monthYear(iso: string, lang: Locale): string {
-  const d = new Date(iso);
-  const t = pick(lang, pricingStrings);
-  return tpl(t.monthYear, { month: t.months[d.getUTCMonth()], year: d.getUTCFullYear() });
+  return fmtMonthYear(iso, lang);
 }

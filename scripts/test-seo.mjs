@@ -1,5 +1,6 @@
 /**
- * Post-build SEO audit of the four-locale surface. Fails the build.
+ * Post-build SEO audit of the six-locale surface (uz-Latn, ru, en, uz-Cyrl, zh-Hans, fa). Fails the
+ * build. The locales come from scripts/locales.mjs, the table every script shares.
  *
  * Usage: node scripts/test-seo.mjs [dist]
  *
@@ -30,29 +31,29 @@
  * Checked here, over every built page and not a sample:
  *   1. one non-empty <title>, one <meta name="description">, exactly one <h1>
  *   2. no truncation MID-WORD — where the page also carries the untruncated string in its JSON-LD,
- *      the ellipsis is proved to sit on a word boundary
- *   3. <html lang> and og:locale match the locale the page is served from
+ *      the ellipsis is proved to sit on a word boundary. Han characters count as word characters,
+ *      so a cut between two ideographs is mid-word too: a Chinese title is cut at punctuation.
+ *   3. <html lang>, <html dir>, og:locale and og:locale:alternate match the locale the page is
+ *      served from (dir="rtl" on every Persian page and nowhere else)
+ *   3b. og:image / twitter:image name a file that exists in the build
  *   4. every application/ld+json block parses
- *   5. every JSON-LD `inLanguage` is this page's BCP-47 tag — uz-Latn / uz-Cyrl / ru / en
+ *   5. every JSON-LD `inLanguage` is this page's BCP-47 tag — uz-Latn / uz-Cyrl / ru / en / zh-Hans / fa
+ *   5b. no `knowsLanguage` / `availableLanguage` claims Persian: publishing a Persian page is not
+ *      evidence that anybody at GSR answers in Persian (until the owner confirms one does)
  *   6. no absolute gsrlogistics.uz URL anywhere in the JSON-LD leaves this page's own locale
- *   7. hreflang cluster parity — the four locales' pages form groups of exactly four, and every
- *      page is in its own group (the counting check that catches a whole locale losing a page)
+ *   7. hreflang cluster parity — each cluster has exactly one page per locale and lists exactly
+ *      those pages, every page is in its own cluster, and no locale is missing from one (the
+ *      counting check that catches a whole locale losing a page). A pending locale (src/i18n/
+ *      config.ts `PendingLang`) may be absent from a cluster whose page it has not written yet.
  *   8. SERP width — reported for every locale, and failed only past a ceiling no title should
  *      ever reach, because the budget itself is a design decision and not this script's to make
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { LOCALES, isPending, localeOfPath } from './locales.mjs';
 
 const dist = process.argv[2] || 'dist';
 const SITE = 'https://gsrlogistics.uz';
-
-/** locale → the BCP-47 tag it must declare everywhere, and its og:locale. `langMeta` is the source. */
-const LOCALES = {
-  uz: { prefix: '', htmlLang: 'uz-Latn', ogLocale: 'uz_UZ' },
-  ru: { prefix: '/ru', htmlLang: 'ru', ogLocale: 'ru_RU' },
-  en: { prefix: '/en', htmlLang: 'en', ogLocale: 'en_US' },
-  uzc: { prefix: '/kirill', htmlLang: 'uz-Cyrl', ogLocale: 'uz_Cyrl_UZ' },
-};
 
 /**
  * Arial advance widths in em, measured once in Chromium and grouped by width.
@@ -61,8 +62,16 @@ const LOCALES = {
  * PIXELS, not characters — which is the whole reason this table exists rather than a `.length`.
  * Only the 151 characters the built titles and descriptions actually use are listed; anything
  * else falls back to 0.55em, close to the average. Reconstruction agrees with a live
- * `getBoundingClientRect()` to within 0.5% on the longest titles in all four locales, which is
- * far inside the ±20px of slop in Google's own cut-off.
+ * `getBoundingClientRect()` to within 0.5% on the longest titles in the uz/ru/en/uzc locales,
+ * which is far inside the ±20px of slop in Google's own cut-off.
+ *
+ * Scripts the table does not list are priced by class, not by the 0.55 fallback:
+ *   · Han, CJK symbols and punctuation, full-width forms — 1em each (measured: a 22-character
+ *     Chinese title renders at exactly 1.000em per character; at 0.55em a 62-character title
+ *     would pass the 700px ceiling while really being 1240px wide);
+ *   · half-width forms — 0.5em;
+ *   · format and combining marks (ZWNJ, bidi marks, harakat) — 0: they take no room;
+ *   · Persian letters — the 0.55 fallback, within about 3% of the measured fallback Arabic face.
  */
 const WIDTH_GROUPS = {
   0.206: '’',
@@ -115,9 +124,13 @@ const WIDTH_GROUPS = {
 };
 const EM = new Map();
 for (const [w, chars] of Object.entries(WIDTH_GROUPS)) for (const c of chars) EM.set(c, Number(w));
+const FULL_WIDTH = /[\p{Script=Han}\u{3000}-\u{303F}\u{FF01}-\u{FF60}\u{3040}-\u{30FF}]/u;
+const HALF_WIDTH = /[\u{FF61}-\u{FF9F}]/u;
+const ZERO_WIDTH = /[\p{Cf}\p{Mn}]/u;
+const charEm = (c) => EM.get(c) ?? (FULL_WIDTH.test(c) ? 1 : HALF_WIDTH.test(c) ? 0.5 : ZERO_WIDTH.test(c) ? 0 : 0.55);
 const serpPx = (text, size) => {
   let em = 0;
-  for (const c of text) em += EM.get(c) ?? 0.55;
+  for (const c of text) em += charEm(c);
   return em * size;
 };
 /** Where Google's desktop title link runs out of room, and the ceiling this script will fail. */
@@ -135,11 +148,23 @@ const pathOf = (file) => {
   const rel = path.relative(dist, path.dirname(file)).split(path.sep).filter((s) => s && s !== '.');
   return `/${rel.join('/')}${rel.length ? '/' : ''}`.normalize('NFC');
 };
-const localeOf = (p) => (p.startsWith('/kirill/') ? 'uzc' : p.startsWith('/ru/') ? 'ru' : p.startsWith('/en/') ? 'en' : 'uz');
+const localeOf = localeOfPath;
 const unesc = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const decodePath = (u) => { try { return decodeURIComponent(new URL(u).pathname).normalize('NFC'); } catch { return null; } };
-/** A character that can sit inside a word — so a cut BETWEEN two of them is a cut mid-word. */
-const wordish = (c) => Boolean(c) && (/[\p{L}\p{N}]/u.test(c) || c === 'ʻ' || c === 'ʼ' || c === '’');
+/**
+ * A character that can sit inside a word — so a cut BETWEEN two of them is a cut mid-word. Han
+ * characters are letters here on purpose: Chinese has no spaces, so a cut between two ideographs
+ * is a cut inside a phrase, and Seo.astro must cut at punctuation instead. ZWNJ (a format
+ * character) sits inside a Persian compound (می‌شود), so a cut next to it is mid-word as well.
+ */
+const wordish = (c) => Boolean(c) && (/[\p{L}\p{N}\p{M}\p{Cf}]/u.test(c) || c === 'ʻ' || c === 'ʼ' || c === '’');
+/** One attribute of the <html> start tag, wherever it sits in the tag. */
+const htmlAttr = (html, name) => {
+  const tag = (html.match(/<html\b[^>]*>/i) || [''])[0];
+  const m = new RegExp(`\\s${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i').exec(tag);
+  return m ? unesc(m[1] ?? m[2] ?? m[3]) : undefined;
+};
+const metaAll = (html, prop) => [...html.matchAll(new RegExp(`<meta (?:property|name)="${prop}" content="([^"]*)"`, 'g'))].map((m) => unesc(m[1]));
 
 const pages = [];
 for (const file of walk(dist)) {
@@ -151,8 +176,11 @@ for (const file of walk(dist)) {
     sitePath: p,
     locale: localeOf(p),
     noindex: /name="robots" content="noindex/i.test(html),
-    htmlLang: one(/<html lang="([^"]+)"/),
+    htmlLang: htmlAttr(html, 'lang'),
+    htmlDir: htmlAttr(html, 'dir'),
     ogLocale: one(/<meta property="og:locale" content="([^"]*)"/),
+    ogLocaleAlts: metaAll(html, 'og:locale:alternate'),
+    images: [...new Set([...metaAll(html, 'og:image'), ...metaAll(html, 'twitter:image')])],
     titles: [...html.matchAll(/<title>([\s\S]*?)<\/title>/g)].map((m) => unesc(m[1])),
     descs: [...html.matchAll(/<meta name="description" content="([^"]*)"/g)].map((m) => unesc(m[1])),
     h1s: [...html.matchAll(/<h1[\s>]/g)].length,
@@ -164,11 +192,27 @@ if (!pages.length) { console.error(`test-seo: no pages found in ${dist} — buil
 
 /* ── 1–3: the two strings Google prints, and the language the page declares ───────────────── */
 
-const widths = { uz: [], ru: [], en: [], uzc: [] };
+const widths = Object.fromEntries(Object.keys(LOCALES).map((l) => [l, []]));
+const imageFiles = new Map(); // og:image URL → exists in the build
 for (const pg of pages) {
   const meta = LOCALES[pg.locale];
   if (pg.htmlLang !== meta.htmlLang) err(pg.file, `<html lang="${pg.htmlLang}"> — a ${pg.locale} page must declare ${meta.htmlLang}`);
+  if (pg.htmlDir !== meta.dir) err(pg.file, `<html dir="${pg.htmlDir}"> — a ${pg.locale} page must declare dir="${meta.dir}"`);
   if (pg.ogLocale !== meta.ogLocale) err(pg.file, `og:locale ${pg.ogLocale} — a ${pg.locale} page must declare ${meta.ogLocale}`);
+  // og:locale:alternate: every OTHER locale, once each.
+  const wantAlts = Object.keys(LOCALES).filter((l) => l !== pg.locale).map((l) => LOCALES[l].ogLocale).sort();
+  const gotAlts = [...pg.ogLocaleAlts].sort();
+  if (wantAlts.join() !== gotAlts.join()) err(pg.file, `og:locale:alternate is [${pg.ogLocaleAlts.join(', ')}], expected every other locale once: [${wantAlts.join(', ')}]`);
+  // 3b. The share card must exist: a 404 og:image is a link preview with no picture, and nothing
+  //     else in the build would notice.
+  if (!pg.images.length) err(pg.file, 'no og:image');
+  for (const u of pg.images) {
+    if (!imageFiles.has(u)) {
+      const p = u.startsWith(SITE + '/') ? decodePath(u) : null;
+      imageFiles.set(u, p !== null && fs.existsSync(path.join(dist, p)) && fs.statSync(path.join(dist, p)).isFile());
+    }
+    if (!imageFiles.get(u)) err(pg.file, `og:image / twitter:image ${u} is not a file in ${dist}`);
+  }
 
   if (pg.titles.length !== 1) err(pg.file, `${pg.titles.length} <title> tags, expected 1`);
   if (pg.descs.length !== 1) err(pg.file, `${pg.descs.length} meta descriptions, expected 1`);
@@ -186,6 +230,7 @@ for (const pg of pages) {
 
 let ldNodes = 0;
 let inLangNodes = 0;
+let languageClaims = 0;
 for (const pg of pages) {
   const want = LOCALES[pg.locale].htmlLang;
   if (!pg.ld.length) { err(pg.file, 'no application/ld+json block'); continue; }
@@ -201,9 +246,16 @@ for (const pg of pages) {
     })(parsed['@graph'] ?? parsed);
     ldNodes += nodes.length;
     for (const n of nodes) {
+      const t = Array.isArray(n['@type']) ? n['@type'].join('+') : n['@type'];
+      // 5b. Which languages GSR answers in is a fact about its people, not about the pages: a
+      //     Persian page must not turn into "speaks Persian" in the graph.
+      for (const k of ['knowsLanguage', 'availableLanguage']) {
+        if (!(k in n)) continue;
+        languageClaims += 1;
+        if (/(?:^|[^a-z])(?:fa|fas|per|prs|persian|farsi|dari)(?:[^a-z]|$)|فارسی|دری/i.test(JSON.stringify(n[k]))) err(pg.file, `${t}.${k} claims Persian (${JSON.stringify(n[k])}) — no one at GSR is confirmed to answer in Persian`);
+      }
       if (!('inLanguage' in n)) continue;
       inLangNodes += 1;
-      const t = Array.isArray(n['@type']) ? n['@type'].join('+') : n['@type'];
       if (n.inLanguage !== want) err(pg.file, `${t}.inLanguage is "${n.inLanguage}", a ${pg.locale} page must say "${want}"`);
     }
 
@@ -233,7 +285,7 @@ for (const pg of pages) {
   }
   if (!full) continue;
   for (const [what, cut, whole] of [['<title>', pg.titles[0], full.name], ['meta description', pg.descs[0], full.description]]) {
-    if (!cut || !whole || !cut.endsWith('…')) continue;
+    if (!cut || !whole || !/[…⋯]$/.test(cut)) continue;
     const stem = cut.slice(0, -1);
     if (!whole.startsWith(stem)) continue; // the title also gets a brand appended; not comparable
     proved += 1;
@@ -250,12 +302,25 @@ for (const pg of indexable) {
   if (!clusters.has(key)) clusters.set(key, []);
   clusters.get(key).push(pg);
 }
+const NLOC = Object.keys(LOCALES).length;
+const pendingAbsent = {}; // locale → clusters without a page in it (pending locales only)
+let complete = 0;
 for (const [key, group] of clusters) {
   const hrefs = key ? key.split('|') : [];
-  if (hrefs.length !== 4) errors.push(`hreflang cluster with ${hrefs.length} alternates, expected 4: ${group.map((g) => g.file).join(', ')}`);
-  if (group.length !== 4) errors.push(`hreflang cluster shared by ${group.length} pages, expected 4 (one per locale): ${group.map((g) => g.file).join(', ')}`);
+  const files = group.map((g) => g.file).join(', ');
+  // One page per locale, listed by every page of the cluster: the alternates ARE the group.
   const seen = new Set(group.map((g) => g.locale));
-  for (const l of Object.keys(LOCALES)) if (!seen.has(l)) errors.push(`hreflang cluster has no ${l} page: ${group.map((g) => g.file).join(', ')}`);
+  const missing = Object.keys(LOCALES).filter((l) => !seen.has(l));
+  const tolerated = missing.filter((l) => isPending(l));
+  const expect = NLOC - tolerated.length;
+  if (hrefs.length !== expect) errors.push(`hreflang cluster with ${hrefs.length} alternates, expected ${expect}: ${files}`);
+  if (group.length !== expect) errors.push(`hreflang cluster shared by ${group.length} pages, expected ${expect} (one per locale): ${files}`);
+  if (seen.size !== group.length) errors.push(`hreflang cluster has two pages of one locale: ${files}`);
+  for (const l of missing) {
+    if (isPending(l)) pendingAbsent[l] = (pendingAbsent[l] ?? 0) + 1;
+    else errors.push(`hreflang cluster has no ${l} page: ${files}`);
+  }
+  if (!missing.length) complete += 1;
   for (const pg of group) {
     const self = new URL(pg.sitePath, SITE).toString();
     if (!hrefs.includes(self)) err(pg.file, `not listed in its own hreflang cluster (expected ${self})`);
@@ -266,6 +331,7 @@ for (const [key, group] of clusters) {
 
 const row = (l) => {
   const w = widths[l];
+  if (!w.length) return `  ${l.padEnd(4)} (no indexable pages)`;
   const over = (arr, lim) => arr.filter((x) => x > lim).length;
   const t = w.map((x) => x.t);
   const d = w.map((x) => x.d);
@@ -274,6 +340,8 @@ const row = (l) => {
 };
 console.log('test-seo: SERP width (Arial, title 20px / snippet 14px — Google cuts on pixels, not characters)');
 for (const l of Object.keys(LOCALES)) console.log(row(l));
+const pendingLine = Object.entries(pendingAbsent).map(([l, n]) => `${l} absent from ${n}`).join(', ');
+if (pendingLine) console.log(`test-seo: pending locales — ${pendingLine} hreflang clusters (pages not translated yet; counted, not failed)`);
 
 if (errors.length) {
   console.error(`\ntest-seo: ${errors.length} problem(s)\n  ` + errors.slice(0, 40).join('\n  '));
@@ -281,6 +349,7 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `test-seo: ${pages.length} pages · ${ldNodes} JSON-LD nodes parse, ${inLangNodes} declare inLanguage and all match their locale · ` +
-    `${clusters.size} hreflang clusters of 4 · ${proved} truncations proved to fall on a word boundary`,
+  `test-seo: ${pages.length} pages · ${ldNodes} JSON-LD nodes parse, ${inLangNodes} declare inLanguage and all match their locale, ` +
+    `${languageClaims} language claims and none of them Persian · ${imageFiles.size} share-card URLs, all files · ` +
+    `${clusters.size} hreflang clusters (${complete} with all ${NLOC} locales) · ${proved} truncations proved to fall on a word boundary`,
 );

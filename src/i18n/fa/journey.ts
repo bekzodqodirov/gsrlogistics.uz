@@ -1,7 +1,31 @@
 import type { JourneyStrings } from '../journey';
 
-/**
- * Persian (one text for Iran and Afghanistan) strings for `src/i18n/journey.ts`, translated from its English branch.
- * Stub until the translation lands: `undefined` makes `pick` fall back to English.
- */
-export const fa: JourneyStrings | undefined = undefined;
+/** Persian (one text for Iran and Afghanistan) strings for `src/i18n/journey.ts`, translated from its English branch. */
+export const fa: JourneyStrings = {
+  eyebrow: 'مسیر',
+  title: 'از چین تا درِ خانهٔ شما.',
+  sub: 'هر مرحله — پیش چشم شما.',
+  stageWord: 'مرحله',
+  railLabel: 'مراحل مسیر',
+  stages: [
+    { title: 'انبار ییوو', short: 'انبار ییوو', body: 'هر بسته را وزن‌کشی، اندازه‌گیری و شماره‌گذاری می‌کنیم. گزارش تصویری به تلگرام شما می‌رسد.', facts: ['دریافت بار', 'اندازه‌گیری', 'گزارش تصویری'] },
+    { title: 'بارگیری', short: 'بارگیری', body: 'بار شما در کامیون جای می‌گیرد. کانتینر کامل لازم نیست — فقط هزینهٔ جای خودتان را می‌پردازید.', facts: ['شمارهٔ بسته', 'تاریخ بارگیری'] },
+    { title: 'در راه', short: 'در راه', body: 'از طریق ارومچی تا خورگوس، سپس از مسیر قزاقستان. شیوهٔ حمل را شما انتخاب می‌کنید. حمل ریلی فقط با کانتینر کامل انجام می‌شود.', facts: [] },
+    { title: 'خورگوس. مرز و گمرک', short: 'خورگوس', body: 'فاکتور (اینویس)، لیست بسته‌بندی و کد تعرفه (HS) از پیش آماده است. ترخیص گمرکی بر عهدهٔ ماست.', facts: ['اظهارنامه', 'محاسبهٔ حقوق گمرکی و مالیات بر ارزش افزوده', 'اظهارنامهٔ گمرکی (GTD)'] },
+    { title: 'انبار تاشکند', short: 'انبار تاشکند', body: 'بار در انبار تخلیه شد — کارشناس شما خبر می‌دهد. خودتان آن را تحویل می‌گیرید یا به ولایت شما می‌فرستیم.', facts: ['تاشکند', 'تحویل حضوری یا ارسال به ولایت شما'] },
+    { title: 'تحویل داده شد', short: 'تحویل داده شد', body: 'بار خود را تحویل می‌گیرید. هزینهٔ بار بعدی را حساب کنیم؟', facts: [] },
+  ],
+  chipsLabel: 'شیوهٔ حمل',
+  chips: { truck: 'زمینی', rail: 'ریلی', air: 'هوایی' },
+  daysUnit: 'روز',
+  km: { unit: 'کیلومتر', caption: 'ییوو ← تاشکند، از طریق خورگوس', daysCaption: { truck: 'زمینی، حدوداً', rail: 'ریلی، حدوداً', air: 'هوایی، حدوداً' } },
+  footnote: 'زمان‌های حمل تقریبی است و از هنگام حرکت بار از انبار ییوو محاسبه می‌شود. نشانی‌های تحویل بار در چین: ییوو، گوانگجو و کاشغر.',
+  done: 'انجام شد',
+  map: {
+    aria: 'نقشهٔ مسیر از ییوو تا تاشکند: ییوو، شیان، لانژو، ارومچی، خورگوس، آلماتی، شیمکنت، تاشکند',
+    border: 'گمرک',
+    altRoute: 'مسیر جایگزین',
+    warehouse: 'انبار',
+    countries: { cn: 'چین', kz: 'قزاقستان', uz: 'ازبکستان' },
+  },
+};

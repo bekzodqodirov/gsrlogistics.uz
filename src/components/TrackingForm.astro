@@ -12,7 +12,6 @@ import { common } from '@/i18n/common';
 import { tracking, STAGE_KEYS } from '@/i18n/tracking';
 import { pagePath } from '@/i18n/routes';
 import { site, telegramChat } from '@/lib/site';
-import { fmtDate } from '@/lib/format';
 import Icon from '@/components/ui/Icon.astro';
 
 interface Props { lang: Locale; id?: string; dark?: boolean; endpoint?: string }
@@ -31,15 +30,15 @@ const i18n = JSON.stringify({
   submit: t.form.submit,
   draft: c.telegramDraft.track,
   sampleTag: t.sampleTag,
-  // Month names in the site's own date convention (fmtDate) — Intl lacks uz-Latn data in some browsers.
-  months: Array.from({ length: 12 }, (_, m) => fmtDate(new Date(Date.UTC(2026, m, 15)), lang)),
+  // Dates are formatted in the browser by src/lib/format.ts itself (the script imports it), not by
+  // patching server-rendered month samples: that trick could not work once fa dates carry Persian digits.
 });
 ---
 <div class:list={['track', dark && 'is-dark']} data-track data-lang={lang} data-endpoint={endpoint} data-tg={site.telegramDirect} data-i18n={i18n} id={id}>
   <form class="track-form" method="get" action={telegramChat()} novalidate data-el="form">
     <label class="label" for={uid('code')}>{t.form.label}</label>
     <div class="track-row">
-      <input class="input code tnum" id={uid('code')} name="text" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder={t.form.placeholder} maxlength="32" required data-el="code" aria-describedby={`${uid('hint')} ${uid('err')}`} />
+      <input class="input code tnum" id={uid('code')} name="text" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" dir="ltr" placeholder={t.form.placeholder} maxlength="32" required data-el="code" aria-describedby={`${uid('hint')} ${uid('err')}`} />
       <button type="submit" class="btn btn-primary" data-el="submit"><Icon name="search" size={18} />{t.form.submit}</button>
     </div>
     <p class="hint" id={uid('hint')}>{t.form.hint}</p>
@@ -50,7 +49,7 @@ const i18n = JSON.stringify({
   <div class="strip-wrap" data-el="strip-wrap">
     <p class="strip-head">
       <span class="tag" data-el="tag">{t.sampleTag}</span>
-      <span class="strip-code tnum" data-el="strip-code" hidden></span>
+      <span class="strip-code tnum" data-el="strip-code" dir="ltr" hidden></span>
     </p>
     <div class="strip-scroll">
       <ol class="strip" role="list" data-el="strip" aria-label={t.glossary.title}>
@@ -67,7 +66,7 @@ const i18n = JSON.stringify({
 
   <div class="result" data-el="result" role="status" aria-live="polite" tabindex="-1" hidden>
     <dl class="result-list">
-      <div><dt>{t.form.result.code}</dt><dd class="tnum" data-el="r-code"></dd></div>
+      <div><dt>{t.form.result.code}</dt><dd class="tnum" data-el="r-code" dir="ltr"></dd></div>
       <div><dt>{t.form.result.stage}</dt><dd class="strong" data-el="r-stage"></dd></div>
       <div data-el="r-status-row" hidden><dt>{t.form.result.status}</dt><dd data-el="r-status"></dd></div>
       <div><dt>{t.form.result.updated}</dt><dd class="tnum" data-el="r-updated"></dd></div>
@@ -102,12 +101,13 @@ const i18n = JSON.stringify({
   .strip-code { font-weight: 600; }
   .strip-scroll { overflow-x: auto; scrollbar-width: none; margin-inline: -4px; padding-inline: 4px; }
   .strip { display: grid; grid-template-columns: repeat(6, minmax(108px, 1fr)); gap: 0; position: relative; min-width: 648px; padding: 0; margin: 0; }
-  .strip::before { content: ''; position: absolute; left: 8px; right: 8px; top: 7px; height: 1.5px; background: var(--border); }
-  .node { position: relative; display: grid; gap: 10px; justify-items: start; padding-right: 8px; }
+  .strip::before { content: ''; position: absolute; inset-inline: 8px; top: 7px; height: 1.5px; background: var(--border); }
+  /* The six stages are reading order, so the strip mirrors in RTL (grid does it): logical sides only. */
+  .node { position: relative; display: grid; gap: 10px; justify-items: start; padding-inline-end: 8px; }
   .dot { position: relative; z-index: 1; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--bg); box-sizing: border-box; }
   .node.is-past .dot { background: var(--muted); border-color: var(--muted); }
   .node.is-current .dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 82%); }
-  .node-label { font-size: var(--text-small); color: var(--muted); line-height: 1.3; max-width: 12ch; padding-right: 6px; }
+  .node-label { font-size: var(--text-small); color: var(--muted); line-height: 1.3; max-width: 12ch; padding-inline-end: 6px; }
   .node.is-current .node-label { color: var(--fg); font-weight: 600; }
   .node-label:hover { text-decoration: underline; text-underline-offset: 3px; }
   .strip-note { max-width: 60ch; }
@@ -115,6 +115,9 @@ const i18n = JSON.stringify({
   .result-list > div { display: grid; grid-template-columns: 160px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border-soft); }
   .result-list dt { font-size: var(--text-small); font-weight: 500; color: var(--muted); }
   .result-list dd { margin: 0; color: var(--fg); }
+  /* The code input and the code it reports are LTR islands (dir="ltr": "1234-GS" must not reorder); on an
+     RTL page they still sit on the start side. */
+  :global([dir='rtl']) .track .code, :global([dir='rtl']) .result-list dd[dir='ltr'] { text-align: right; }
   .strong { font-weight: 600; }
   .panel { display: grid; gap: 8px; padding: 20px; border: 1px solid var(--border-soft); border-radius: var(--radius-lg); background: var(--bg-3); justify-items: start; }
   .is-dark .panel { background: rgb(255 255 255 / 0.04); border-color: rgb(255 255 255 / 0.1); }
@@ -128,17 +131,23 @@ const i18n = JSON.stringify({
 </style>
 
 <script>
+  import { fmtDate as formatDate, toAsciiDigits } from '@/lib/format';
+  import type { Locale } from '@/i18n/config';
+
   interface TrackI18n {
     stages: Record<string, string>;
     result: { code: string; stage: string; status: string; updated: string; eta: string; etaUnknown: string };
     notFound: { title: string; text: string };
-    errorEmpty: string; checking: string; submit: string; draft: string; sampleTag: string; months?: string[];
+    errorEmpty: string; checking: string; submit: string; draft: string; sampleTag: string;
   }
   interface TrackResponse { code: string; stage: string; status?: string; updated_at?: string; eta?: string }
   const STAGES = ['received', 'consolidation', 'transit', 'customs', 'tashkent', 'delivered'];
   const CODE_RE = /^[A-Za-z0-9][A-Za-z0-9-]{2,31}$/;
+  /** A code as typed on a Persian keypad (۱۲۳۴-GS) or through a Chinese IME in full-width mode (ＧＳ１２３): ASCII, upper case. */
+  const normCode = (v: string) => toAsciiDigits(v).trim().toUpperCase();
 
   document.querySelectorAll<HTMLElement>('[data-track]').forEach((root) => {
+    const lang = (root.dataset.lang || 'uz') as Locale;
     const i18n = JSON.parse(root.dataset.i18n || '{}') as TrackI18n;
     const endpoint = root.dataset.endpoint || '/api/track';
     const tgBase = root.dataset.tg || '';
@@ -155,15 +164,13 @@ const i18n = JSON.stringify({
     const notfound = q<HTMLElement>('notfound');
     const fallback = q<HTMLElement>('fallback');
 
-    // "2026-yil 8-sentabr" / "8 сентября 2026 г." / "September 8, 2026": rebuilt from the server-side
-    // sample strings (day 15 → replaced), so the client matches src/lib/format.ts exactly.
+    // "2026-yil 8-sentabr" / "8 сентября 2026 г." / "September 8, 2026" / "2026年9月8日" / "۲۰۲۶/۰۹/۰۸":
+    // src/lib/format.ts itself, so the client and the server can never disagree.
     const fmtDate = (iso?: string) => {
       if (!iso) return '';
       const d = new Date(iso);
       if (Number.isNaN(d.getTime())) return iso;
-      const sample = i18n.months?.[d.getUTCMonth()];
-      if (!sample) return iso;
-      return sample.replace('15', String(d.getUTCDate())).replace('2026', String(d.getUTCFullYear()));
+      return formatDate(d, lang);
     };
     const hideAll = () => { result.hidden = true; notfound.hidden = true; fallback.hidden = true; };
     const setStrip = (stageKey: string, label?: string) => {
@@ -200,7 +207,7 @@ const i18n = JSON.stringify({
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const value = code.value.trim().toUpperCase();
+      const value = normCode(code.value);
       if (!CODE_RE.test(value)) { err.textContent = i18n.errorEmpty; err.hidden = false; code.setAttribute('aria-invalid', 'true'); code.focus(); return; }
       err.hidden = true; code.removeAttribute('aria-invalid');
       submit.disabled = true; const label = submit.lastChild; const original = label?.textContent ?? i18n.submit;
@@ -230,8 +237,9 @@ const i18n = JSON.stringify({
     form.addEventListener('pointerdown', () => { autoRan = false; });
     form.addEventListener('keydown', () => { autoRan = false; });
 
-    // Deep link from the home teaser: /kuzatuv/?code=XYZ → prefill and run.
-    const fromUrl = new URLSearchParams(location.search).get('code');
-    if (fromUrl && CODE_RE.test(fromUrl.trim())) { code.value = fromUrl.trim().toUpperCase(); autoRan = true; form.requestSubmit(); }
+    // Deep link from the home teaser: /kuzatuv/?code=XYZ → prefill and run (the teaser takes Persian
+    // and full-width digits too, so the code is normalised the same way).
+    const fromUrl = normCode(new URLSearchParams(location.search).get('code') || '');
+    if (fromUrl && CODE_RE.test(fromUrl)) { code.value = fromUrl; autoRan = true; form.requestSubmit(); }
   });
 </script>

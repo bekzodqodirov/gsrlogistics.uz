@@ -18,7 +18,7 @@ import { journey } from '@/i18n/journey';
 import { common } from '@/i18n/common';
 import { pagePath } from '@/i18n/routes';
 import { telegramChat } from '@/lib/site';
-import { fmtRange, fmtDate, fmtNumber } from '@/lib/format';
+import { endSentence, fmtRange, fmtDate, fmtInt, fmtNumber, sep } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import { ROUTE_KM, ROUTE_KM_VERIFIED } from '@/data/route';
 import Icon from '@/components/ui/Icon.astro';
@@ -38,7 +38,7 @@ const updated = `${c.updated}: ${fmtDate(tariffs.updated, lang)}`;
 const kmFinal = `${fmtNumber(ROUTE_KM, lang)}${ROUTE_KM_VERIFIED ? '' : '+'}`;
 /** Mode chips; `cap` is the km caption tail shown while that chip is active ("avto, taxminan 15–25 kun"). */
 const chips = (['truck', 'rail', 'air'] as const).map((key) => ({ key, label: t.chips[key], days: days[key], cap: `${t.km.daysCaption[key]} ${days[key]}` }));
-const idx = (i: number) => String(i + 1).padStart(2, '0');
+const idx = (i: number) => fmtInt(i + 1, lang, 2);
 const markL = 'M0 -50 L-43.3 -25 L-43.3 25 L-22.3 37.1 L20 12.7 L20 -5.77 L-28.3 22.1 L-33.3 19.23 L-33.3 -19.23 L10 -44.2 Z';
 const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -22.1 L33.3 -19.23 L33.3 19.23 L-10 44.2 Z';
 ---
@@ -66,7 +66,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
 
       <nav class="journey-rail" aria-label={t.railLabel} data-j="rail">
         {t.stages.map((s, i) => (
-          <button type="button" class="jrail-btn" data-j="rail-btn" data-stage={i + 1} aria-label={`${t.stageWord} ${i + 1}: ${s.short}`}>
+          <button type="button" class="jrail-btn" data-j="rail-btn" data-stage={i + 1} aria-label={`${t.stageWord} ${fmtInt(i + 1, lang)}: ${s.short}`}>
             <svg viewBox="0 0 12 13" width="12" height="13" aria-hidden="true" focusable="false"><polygon points="6,0.8 11.2,3.55 11.2,9.45 6,12.2 0.8,9.45 0.8,3.55"></polygon></svg>
           </button>
         ))}
@@ -87,7 +87,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
               </p>
               <h3 class="jcard-title h3" id={`jcard-${i + 1}`}>{s.title}</h3>
               <p class="jcard-body">{s.body}</p>
-              {s.facts.length > 0 && <p class="jcard-facts tnum">{s.facts.join(' · ')}</p>}
+              {s.facts.length > 0 && <p class="jcard-facts tnum">{s.facts.join(sep(lang))}</p>}
               {i === 2 && (
                 <div class="jcard-transit">
                   <div class="jchips" role="group" aria-label={t.chipsLabel}>
@@ -98,7 +98,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
                     ))}
                   </div>
                   <p class="jkm"><span class="jkm-num tnum" data-j="km">{kmFinal}</span><span class="num-unit">{t.km.unit}</span></p>
-                  <p class="jkm-cap caption">{t.km.caption} · <span data-j="kmcap">{chips[0].cap}</span></p>
+                  <p class="jkm-cap caption">{t.km.caption}{sep(lang)}<span data-j="kmcap">{chips[0].cap}</span></p>
                 </div>
               )}
               {i === 5 && (
@@ -112,7 +112,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
         ))}
       </ol>
 
-      <p class="journey-foot caption" data-j="foot">{t.footnote} {updated}{lang === 'ru' ? '' : '.'}</p>
+      <p class="journey-foot caption" data-j="foot">{t.footnote} {endSentence(updated, lang)}</p>
     </div>
   </div>
 </section>

@@ -1,9 +1,20 @@
 import type { Locale, Localized } from '@/i18n/config';
+import { fmtNumber, unitSymbol } from '@/lib/format';
 
 /** Road distance Yiwu → Tashkent via Urumqi/Khorgos/Almaty/Shymkent. TODO(owner): verify with a routing engine; while unverified the site prints "5 000+ km". */
 export const ROUTE_KM = 5000;
 export const ROUTE_KM_VERIFIED = false;
-export const routeKmLabel = (lang: Locale) => (ROUTE_KM_VERIFIED ? `${ROUTE_KM.toLocaleString(lang === 'en' ? 'en-US' : 'ru-RU').replace(/,/g, ' ')} km` : `${(lang === 'en' ? '5,000' : '5 000')}+ km`);
+/**
+ * The road distance as a figure and its unit: "5 000+" + "km" (the "+" goes once the owner verifies
+ * the distance). The figure is fmtNumber's — never a plain-space group, which RTL text would split —
+ * and the unit is the label symbol, so the four older locales keep their Latin "km" and zh/fa get
+ * 公里 / کیلومتر.
+ */
+export const routeKm = (lang: Locale) => ({
+  value: `${fmtNumber(ROUTE_KM, lang)}${ROUTE_KM_VERIFIED ? '' : '+'}`,
+  unit: unitSymbol('km', lang),
+});
+export const routeKmLabel = (lang: Locale) => { const km = routeKm(lang); return `${km.value} ${km.unit}`; };
 
 /** The eight route nodes in travel order with localized names (DESIGN_BRIEF §10.3) and map coordinates (viewBox 0 0 1600 923). */
 export interface RouteNode { id: string; x: number; y: number; name: Localized<string>; zh?: string; role?: 'origin' | 'border' | 'destination' }

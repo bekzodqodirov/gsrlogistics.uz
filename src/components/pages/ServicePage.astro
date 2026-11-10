@@ -14,7 +14,7 @@ import type { ServiceContent, ServiceSection } from '@/data/services/types';
 import { guideSlugs } from '@/data/guides';
 import { site, phoneUrl } from '@/lib/site';
 import { leadAttrs, serviceTeam, telegramFor } from '@/lib/leads';
-import { fmtDate, fmtNumber } from '@/lib/format';
+import { fmtDate, fmtInt, fmtNumRange, sep } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
@@ -36,7 +36,7 @@ const c = pick(lang, common);
 const name = pick(lang, service.name);
 const short = pick(lang, service.short);
 const index = services.indexOf(service) + 1;
-const indexLabel = String(index).padStart(2, '0');
+const indexLabel = fmtInt(index, lang, 2);
 const updatedIso = content?.updated ?? tariffs.updated;
 const updated = fmtDate(updatedIso, lang);
 const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(tariffs.updated, lang)}`;
@@ -62,9 +62,11 @@ const tgHref = telegramFor(team, cta.draft, Astro.url.pathname);
 const tgLead = leadAttrs(team, service.slug.uz, name);
 const daysFor: Partial<Record<string, [number, number]>> = { truck: tariffs.truck.days as [number, number], air: tariffs.air.days as [number, number], rail: tariffs.rail.days as [number, number] };
 const days = daysFor[service.key];
-const digitFact = facts.find((f) => /\d/.test(f.value));
+/** A figure in ASCII or Persian digits (a fa fact reads "۱۵ تا ۲۵"). */
+const DIGIT = /[0-9۰-۹]/;
+const digitFact = facts.find((f) => DIGIT.test(f.value));
 const stickyStat = days
-  ? { value: `${fmtNumber(days[0], lang)}–${fmtNumber(days[1], lang)}`, unit: t.line.days, label: t.page.stickyDays }
+  ? { value: fmtNumRange(days[0], days[1], lang), unit: t.line.days, label: t.page.stickyDays }
   : digitFact ? { value: digitFact.value, unit: '', label: digitFact.label } : undefined;
 const numberLine = serviceNumberLine(lang, service.key);
 const subs = serviceSubs(service);
@@ -100,7 +102,9 @@ const jsonLd: Array<Record<string, unknown>> = [
 ];
 
 /* ---------- Helpers ---------- */
-const isNumeric = (s: string) => /^[\s\d.,–\-−+~≈$%€₽/×÷]*\d[\s\d.,–\-−+~≈$%€₽/×÷a-zA-Zа-яА-Я³²ʻʼ]*$/.test(s.trim()) && s.trim().length <= 24 && /\d/.test(s);
+/* A table cell that is a figure: ASCII or Persian digits, their separators (٫ ٬ ٪ included), then units
+   in any of the site's scripts — Latin, Cyrillic, Persian (with ZWNJ: "۱۵ تا ۲۵ روز") or Chinese ("15–25 天"). */
+const isNumeric = (s: string) => /^[\s\d۰-۹.,٫٬–\-−+~≈$%٪€₽/×÷]*[\d۰-۹][\s\d۰-۹.,٫٬–\-−+~≈$%٪€₽/×÷a-zA-Zа-яА-Я³²ʻʼ؀-ۿ‌一-鿿]*$/.test(s.trim()) && s.trim().length <= 24 && DIGIT.test(s);
 const slugify = (_s: string, i: number) => `s-${i + 1}`;
 const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? 'check-circle' : 'info');
 ---
@@ -148,7 +152,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
               <ol class="steps">
                 {sec.steps.map((st, j) => (
                   <li class="step">
-                    <span class="step-index tnum" aria-hidden="true">{String(j + 1).padStart(2, '0')}</span>
+                    <span class="step-index tnum" aria-hidden="true">{fmtInt(j + 1, lang, 2)}</span>
                     <div class="step-body">
                       <h3 class="step-title">{st.title}</h3>
                       <p class="step-text">{st.text}</p>
@@ -267,7 +271,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
           <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>

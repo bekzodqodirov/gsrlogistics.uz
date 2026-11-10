@@ -1,7 +1,56 @@
 import type { WhyStrings } from '../why';
 
-/**
- * Chinese (Simplified) strings for `src/i18n/why.ts`, translated from its English branch.
- * Stub until the translation lands: `undefined` makes `pick` fall back to English.
- */
-export const zh: WhyStrings | undefined = undefined;
+/** Chinese (Simplified) strings for `src/i18n/why.ts`, translated from its English branch. */
+export const zh: WhyStrings = {
+  eyebrow: '为什么选择 GSR',
+  h2: '不靠承诺，靠事实。',
+  intro: '信任体现在数字和地址上。以下每一条都可以核实。',
+  listLabel: '六个理由',
+  reasons: [
+    {
+      glyph: 'warehouse',
+      title: '中国三个收货点与集货',
+      text: '来自多家供应商的货物集中到一处，称重、测量并重新包装。收货点位于义乌、广州和喀什，具体发往哪一个由客户经理告知。',
+      fact: '义乌 · 广州 · 喀什 · 一个入仓编号，一份账单',
+      link: 'warehouse',
+      linkLabel: '仓库与质检',
+    },
+    {
+      glyph: 'languages',
+      title: '客户经理会说乌兹别克语、俄语和中文',
+      text: '由我们替您与供应商沟通：价格、样品、发货日期。您无需懂中文。',
+      fact: '3 种语言 · 一位客户经理',
+    },
+    {
+      glyph: 'camera',
+      title: '每个环节都有照片报告',
+      text: '收货、测量和装车时我们都会拍照。您可以亲眼看到自己的货物——在 Telegram 上，无需询问。',
+      fact: '收货 · 测量 · 装车',
+    },
+    {
+      glyph: 'document',
+      title: '清关与单证',
+      text: '发票、装箱单、海关编码（HS 编码，ТН ВЭД）、报关单——都由我们负责。由谁作为进口商——您的公司还是我们——取决于合作模式，我们在第一次沟通时就会商定。关税和增值税依法缴纳，金额我们会提前为您算好。',
+      fact: '报关单（GTD）· 提前估算关税和增值税',
+      link: 'customs',
+      linkLabel: '了解清关',
+    },
+    {
+      glyph: 'scale',
+      title: '价格透明：按 kg 或按 m³ 计费',
+      text: '体积重公式公开：长 × 宽 × 高（cm）÷ {div}。密度达到或高于 {th} kg/m³ 按 kg 计费，低于则按 m³ 计费。无任何隐性收费。',
+      fact: '拼货 {rate} 起 · ÷ {div} · {th} kg/m³',
+      link: 'pricing',
+      linkLabel: '全部运价',
+    },
+    {
+      glyph: 'calendar',
+      title: '自 {year} 年起与中国合作',
+      text: '先做寻找货源和代采购，后做拼货运输。无论是个人还是公司，是 1 m³ 的一批货还是整柜——我们都同样严谨。',
+      fact: '塔什干，{address} · 欢迎来访',
+      link: 'contact',
+      linkLabel: '地址与联系方式',
+    },
+  ],
+  meta: '价格为参考价 · 更新于 {date}',
+};

@@ -9,7 +9,7 @@ import { servicesStrings, serviceGroups, serviceNumberLine, tpl } from '@/i18n/s
 import { pagePath, itemPath, itemUrl } from '@/i18n/routes';
 import { services, serviceByKey } from '@/data/services';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtDate, fmtNumber } from '@/lib/format';
+import { fmtDate, fmtInt, fmtRange, sep } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
@@ -21,7 +21,7 @@ interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, servicesStrings);
 const c = pick(lang, common);
-const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)} ${t.line.days}`;
+const range = (a: number, b: number) => fmtRange(a, b, t.line.days, lang);
 const updated = fmtDate(tariffs.updated, lang);
 const estimateMeta = `${c.strings.estimateMeta}: ${updated}`;
 const compareRows = [
@@ -67,7 +67,7 @@ const itemList = {
             {g.keys.map((k) => { const s = serviceByKey(k); const n = services.indexOf(s) + 1; return (
               <li class="row reveal">
                 <a href={itemPath(lang, 'services', s.slug)} class="row-link">
-                  <span class="row-index tnum" aria-hidden="true">{String(n).padStart(2, '0')}</span>
+                  <span class="row-index tnum" aria-hidden="true">{fmtInt(n, lang, 2)}</span>
                   <span class="row-glyph"><Icon name={s.icon} size={24} /></span>
                   <span class="row-main">
                     <span class="row-name">{pick(lang, s.name)}{s.flagship && <span class="badge">{t.home.flagshipBadge}</span>}</span>

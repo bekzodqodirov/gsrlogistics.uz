@@ -16,8 +16,8 @@
 import { pick, type Locale } from '@/i18n/config';
 import { proofStrings } from '@/i18n/proof';
 import { pagePath } from '@/i18n/routes';
-import { routeKmLabel } from '@/data/route';
-import { fmtNumber } from '@/lib/format';
+import { routeKm } from '@/data/route';
+import { fmtDigits, fmtInt, fmtNumRange } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import { Picture } from 'astro:assets';
@@ -28,9 +28,10 @@ import truckShot from '@/assets/photos/fura-ichida.jpg';
 interface Props { lang: Locale; index?: string }
 const { lang, index = '04' } = Astro.props;
 const t = pick(lang, proofStrings);
-const km = routeKmLabel(lang);
-const [kmValue, kmUnit] = km.split(/\s(?=km$)/);
-const days = `${fmtNumber(tariffs.truck.days[0], lang)}–${fmtNumber(tariffs.truck.days[1], lang)}`;
+const { value: kmValue, unit: kmUnit } = routeKm(lang);
+const days = fmtNumRange(tariffs.truck.days[0], tariffs.truck.days[1], lang);
+/** The facts panel's border-crossing count (it was a literal "2" in the markup): a figure, so it takes the locale's digits. */
+const borders = fmtInt(2, lang);
 const hrefFor = (link: 'tracking' | 'pricing' | 'contact') => pagePath(lang, link);
 /* Mini route drawing: Ivu (right) → Xorgos → Yallama → Toshkent (left), viewBox 0 0 320 96. */
 const nodes = [
@@ -46,7 +47,7 @@ const routeD = 'M296 62 C 250 60, 214 34, 168 30 C 132 28, 104 36, 76 40 C 56 43
 <section id="nima-olasiz" class="section dark noise proof below-fold" aria-labelledby="proof-title">
   <div class="container">
     <div class="section-head">
-      <Eyebrow>{index} — {t.eyebrow}</Eyebrow>
+      <Eyebrow>{fmtDigits(index, lang)} — {t.eyebrow}</Eyebrow>
       <h2 id="proof-title" class="measure-head">{t.h2}</h2>
       <p class="intro">{t.intro}</p>
     </div>
@@ -88,7 +89,7 @@ const routeD = 'M296 62 C 250 60, 214 34, 168 30 C 132 28, 104 36, 76 40 C 56 43
             </div>
             <div class="stat-row">
               <dt class="caption">{t.facts.borders}</dt>
-              <dd><span class="val tnum">2</span><span class="num-unit">{t.facts.bordersUnit}</span></dd>
+              <dd><span class="val tnum">{borders}</span><span class="num-unit">{t.facts.bordersUnit}</span></dd>
             </div>
             <div class="stat-row">
               <dt class="caption">{t.facts.days}</dt>

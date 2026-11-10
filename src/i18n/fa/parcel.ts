@@ -1,7 +1,36 @@
 import type { ParcelStrings } from '../parcel';
 
-/**
- * Persian (one text for Iran and Afghanistan) strings for `src/i18n/parcel.ts`, translated from its English branch.
- * Stub until the translation lands: `undefined` makes `pick` fall back to English.
- */
-export const fa: ParcelStrings | undefined = undefined;
+/** Persian (one text for Iran and Afghanistan) strings for `src/i18n/parcel.ts`, translated from its English branch. */
+export const fa: ParcelStrings = {
+  title: 'یک کارتن، شش مرحله.',
+  hint: 'یک مرحله را انتخاب کنید تا ببینید با کارتن شما چه می‌شود.',
+  pickerLabel: 'انتخاب تصویر مرحله',
+  note: 'روی هر کارتن، کد GS شما درج شده است.',
+  trackLink: 'پیگیری با کد GS',
+  steps: [
+    {
+      text: 'کارتن‌های شما به نشانی تحویل می‌رسند: وزن‌کشی، اندازه‌گیری و عکس‌برداری می‌شوند.',
+      facts: ['ییوو • گوانگجو • کاشغر', 'کیلوگرم و متر مکعب', 'گزارش تصویری'],
+    },
+    {
+      text: 'کارتن شما همراه با بار مشتریان دیگر در یک کامیون حمل می‌شود.',
+      facts: ['کامیون کامل لازم نیست', 'از {rate}/متر مکعب'],
+    },
+    {
+      text: 'کامیون راه می‌افتد. نوع حمل را خودتان انتخاب می‌کنید: زمینی یا هوایی.',
+      facts: ['زمینی {truckDays} روز', 'هوایی {airDays}'],
+    },
+    {
+      text: 'دو مرز: خورگوس، سپس یالاما یا گیشت‌کوپریک.',
+      facts: ['خورگوس — چین/قزاقستان', 'اظهارنامه، حقوق گمرکی، مالیات بر ارزش افزوده'],
+    },
+    {
+      text: 'کارتن به انبار تاشکند می‌رسد — کارشناس شما خبر می‌دهد.',
+      facts: ['انبار تاشکند', 'ترخیص گمرکی با ما'],
+    },
+    {
+      text: 'کارتن را خودتان تحویل می‌گیرید، یا آن را به ولایت شما می‌فرستیم.',
+      facts: ['تحویل حضوری', 'ارسال به ولایت', 'فاکتور'],
+    },
+  ],
+};

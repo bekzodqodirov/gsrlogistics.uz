@@ -12,7 +12,7 @@
  * the UI translates codes into sentences (see `formatBreakdown` + `src/i18n/pricing.ts`).
  */
 import type { Locale } from '../i18n/config.ts';
-import { fmtNumber, fmtSom, fmtUsd, fmtUsdNumber } from './format.ts';
+import { fmtNumber, fmtRange, fmtSom, fmtSomRange, fmtUsd, fmtUsdRange } from './format.ts';
 
 /* ---------------- Types for tariffs.json ---------------- */
 export interface DensityBand { maxKgM3: number | null; rate: number }
@@ -233,8 +233,11 @@ const sub = (s: string, vars: Record<string, string | number>) => s.replace(/\{(
 export function formatBreakdown(e: Estimate, lang: Locale, s: BreakdownStrings, t: Tariffs): Breakdown {
   const n = (v: number, f = 2) => fmtNumber(v, lang, f);
   const usd = (v: number) => fmtUsd(v, lang);
-  const usdRange = (lo: number, hi: number) => (lang === 'en' ? `$${fmtUsdNumber(lo, lang)}–${fmtUsdNumber(hi, lang)}` : `${n(lo)}–${n(hi)} $`);
-  const somRange = (lo: number, hi: number) => { const a = fmtSom(lo, lang), b = fmtSom(hi, lang); return lang === 'en' ? `${a}–${b.replace('UZS ', '')}` : `${a.replace(/ \S+$/, '')}–${b}`; };
+  // Ranges come whole from format.ts: the currency once, where the locale writes it ("2 800–5 500 $",
+  // "$2,800–5,500", "2,800–5,500 美元", "۲٬۸۰۰ تا ۵٬۵۰۰ دلار"). The units glued after a rate
+  // (s.units.perKg, perM3) carry their own leading "/".
+  const usdRange = (lo: number, hi: number) => fmtUsdRange(lo, hi, lang);
+  const somRange = (lo: number, hi: number) => fmtSomRange(lo, hi, lang);
   const rateStr = e.unit === 'kg' ? `${usd(e.rate)}${s.units.perKg}` : e.unit === 'm3' ? `${usd(e.rate)}${s.units.perM3}` : usdRange(e.rate, e.totalMax ?? e.rate);
   const vars = {
     rate: rateStr, density: n(e.densityKgM3 ?? 0, 0), kg: n(e.chargeableKg ?? 0), m3: n(e.chargeableM3 ?? e.m3 ?? 0, 2),
@@ -244,7 +247,7 @@ export function formatBreakdown(e: Estimate, lang: Locale, s: BreakdownStrings, 
   };
   const total = e.totalMax ? usdRange(e.total, e.totalMax) : `≈ ${usd(e.total)}`;
   const totalSom = e.totalMax ? somRange(e.total * t.usdToSom, e.totalMax * t.usdToSom) : `≈ ${fmtSom(e.total * t.usdToSom, lang)}`;
-  const days = `${n(e.days[0], 0)}–${n(e.days[1], 0)} ${s.units.days}`;
+  const days = fmtRange(e.days[0], e.days[1], s.units.days, lang);
   const rows: Breakdown['rows'] = [];
   if (e.mode !== 'rail') {
     if (e.volumetricKg) rows.push({ label: s.labels.volumetric, value: `${n(e.volumetricKg)} ${s.units.kg}` });

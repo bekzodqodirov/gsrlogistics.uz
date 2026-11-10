@@ -1,7 +1,26 @@
 import type { HeroStrings } from '../hero';
 
-/**
- * Persian (one text for Iran and Afghanistan) strings for `src/i18n/hero.ts`, translated from its English branch.
- * Stub until the translation lands: `undefined` makes `pick` fall back to English.
- */
-export const fa: HeroStrings | undefined = undefined;
+/** Persian (one text for Iran and Afghanistan) strings for `src/i18n/hero.ts`, translated from its English branch. */
+export const fa: HeroStrings = {
+  eyebrow: 'چین ← ازبکستان • بار تجمیعی، هوایی، ریلی',
+  h1a: 'حمل بار از چین به تاشکند.',
+  h1b: 'هر کیلوگرم، هر روز — حساب‌شده.',
+  h1b_alt: 'هر کیلومتر از مسیر — پیش چشم شما.',
+  sub: 'از انبار ییوو از راه خورگوس تا تاشکند: بار تجمیعی زمینی (کامیون) حدود ۱۵ تا ۲۵ روز و حمل هوایی ۵ تا ۱۰ روز. سه نشانی تحویل بار در چین — ییوو، گوانگجو و کاشغر. تحویل گرفتن و بازرسی بار، گزارش تصویری، ترخیص گمرکی در تاشکند — یک قرارداد، یک کارشناس. GSR Logistics (Imex services LLC) یک شرکت لجستیک در تاشکند است: از سال ۲۰۱۸ با چین کار می‌کنیم، بیش از ۱۰ کامیون در ماه و بیش از ۴۰۰ مشتری.',
+  ctaPrimary: 'محاسبهٔ قیمت',
+  ctaSecondary: 'در تلگرام به ما پیام دهید',
+  drawingLabel: 'مسیر',
+  khorgosRole: 'گمرک',
+  coords: '41.32° N 69.25° E',
+  readoutLabel: 'طول مسیر و مدت حمل',
+  unitDays: 'روز',
+  proof: {
+    truck: 'بار تجمیعی زمینی (کامیون)، از زمان ارسال از انبار چین، به‌طور تقریبی',
+    air: 'حمل هوایی، به‌طور تقریبی',
+    yiwuValue: '3',
+    yiwu: 'نشانی تحویل بار در چین، ۱ دفتر در تاشکند • گزارش تصویری در هر تحویل بار',
+    sinceValue: 'از سال ۲۰۱۸',
+    since: 'از آن زمان با چین کار می‌کنیم • کارشناسان به ازبکی، روسی و چینی صحبت می‌کنند',
+  },
+  proofLabel: 'اطلاعات کلیدی',
+};

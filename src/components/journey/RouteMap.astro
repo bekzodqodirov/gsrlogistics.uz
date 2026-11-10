@@ -14,12 +14,15 @@ import meta from './map-meta.json';
 import { pick, type Locale } from '@/i18n/config';
 import { journey } from '@/i18n/journey';
 import { routeNodes, extraPlaces } from '@/data/route';
+import { sep } from '@/lib/format';
 import Glyphs from './Glyphs.astro';
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, journey);
 const { routeD, railD, airD, kgD } = meta;
+/** The label joins use the locale's separator (fa " • ": U+00B7 reads as the Persian zero). */
+const joint = sep(lang);
 
 /** Label placement per node (dx, dy in map units; anchor). Chosen so labels never sit on the route line. */
 const place: Record<string, { dx: number; dy: number; anchor?: 'start' | 'middle' | 'end'; minor?: boolean }> = {
@@ -33,8 +36,8 @@ const place: Record<string, { dx: number; dy: number; anchor?: 'start' | 'middle
   tashkent: { dx: 11, dy: 6 },
 };
 const suffix: Record<string, string | undefined> = {
-  yiwu: routeNodes[0].zh ? ` · ${routeNodes[0].zh}` : undefined,
-  khorgos: ` · ${t.map.border}`,
+  yiwu: routeNodes[0].zh ? `${joint}${routeNodes[0].zh}` : undefined,
+  khorgos: `${joint}${t.map.border}`,
 };
 /** Country-name anchors (map units; 24.615 units per degree of longitude, lon 60E at x 0). Each has a
  *  second anchor for the phone, where a label is ~50 map units tall instead of ~13 and the desktop

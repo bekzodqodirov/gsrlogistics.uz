@@ -9,7 +9,7 @@ import { whyStrings, tpl } from '@/i18n/why';
 import { pagePath, itemPath } from '@/i18n/routes';
 import { serviceByKey } from '@/data/services';
 import { site } from '@/lib/site';
-import { fmtDate, fmtNumber } from '@/lib/format';
+import { fmtDate, fmtDigits, fmtInt, fmtNumber, fmtUsd, unitSymbol } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Icon, { type IconName } from '@/components/ui/Icon.astro';
@@ -19,12 +19,13 @@ const { lang, index = '03' } = Astro.props;
 const t = pick(lang, whyStrings);
 
 const baseRate = tariffs.truck.lclPerM3ByDensity[0].rate;
-const perKg = lang === 'en' ? `$${baseRate}/m³` : `${fmtNumber(baseRate, lang, 0)} $/m³`;
+/* "110 $/m³" / "$110/m³" / "110 美元/m³" / "۱۱۰ دلار/متر مکعب": the label symbol keeps the Latin m³ in Russian too, as the page always printed it. */
+const perKg = `${fmtUsd(baseRate, lang)}/${unitSymbol('m3', lang)}`;
 const vars = {
   div: fmtNumber(tariffs.truck.volumetricDivisor, lang),
   th: fmtNumber(tariffs.truck.perKgFromDensityKgM3, lang, 0),
   rate: perKg,
-  year: site.foundingYear,
+  year: fmtInt(site.foundingYear, lang),
   address: site.address.streetAddress,
   date: fmtDate(tariffs.updated, lang),
 };
@@ -48,7 +49,7 @@ const glyphFor: Record<string, IconName> = {
 <section id="nima-uchun" class="section why below-fold" aria-labelledby="why-title">
   <div class="container">
     <div class="section-head">
-      <Eyebrow>{index} — {t.eyebrow}</Eyebrow>
+      <Eyebrow>{fmtDigits(index, lang)} — {t.eyebrow}</Eyebrow>
       <h2 id="why-title" class="measure-head">{t.h2}</h2>
       <p class="intro">{t.intro}</p>
     </div>
