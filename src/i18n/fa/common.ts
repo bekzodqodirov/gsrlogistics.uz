@@ -13,7 +13,7 @@ export const fa: CommonStrings = {
     { key: 'contact', label: 'تماس با ما' },
   ],
   cta: { telegram: 'در تلگرام به ما پیام دهید', call: 'تماس بگیرید', quote: 'استعلام قیمت', calculate: 'محاسبهٔ قیمت', track: 'پیگیری', details: 'اطلاعات بیشتر', all: 'همه', back: 'بازگشت', readMore: 'مطالعه', contact: 'تماس با ما', sendRequest: 'ثبت درخواست', copy: 'کپی', copied: 'کپی شد' },
-  footer: { services: 'خدمات', company: 'شرکت', contacts: 'تماس', guides: 'راهنما', address: 'نشانی', hours: 'ساعات کاری', rights: 'تمامی حقوق محفوظ است.', privacy: 'سیاست حریم خصوصی', madeWith: 'ساخته‌شده در تاشکند', languages: 'زبان', channel: 'کانال تلگرام', group: 'گروه تلگرام', desc: 'بار تجمیعی زمینی (کامیون)، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا، ترخیص گمرکی. از سال ۲۰۱۸.' },
+  footer: { services: 'خدمات', company: 'شرکت', contacts: 'تماس', guides: 'راهنما', address: 'نشانی', hours: 'ساعات کاری', rights: 'تمامی حقوق محفوظ است.', privacy: 'سیاست حریم خصوصی', madeWith: 'ساخته‌شده در تاشکند', languages: 'زبان', channel: 'کانال تلگرام', group: 'گروه تلگرام', desc: 'حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا و ترخیص گمرکی. از سال ۲۰۱۸.' },
   header: { menu: 'منو', close: 'بستن', langLabel: 'انتخاب زبان', phoneLabel: 'تلفن', navLabel: 'منوی اصلی', breadcrumbLabel: 'مسیر صفحه', quickActions: 'دسترسی سریع' },
   breadcrumbHome: 'صفحهٔ اصلی',
   updated: 'آخرین به‌روزرسانی',
@@ -22,11 +22,11 @@ export const fa: CommonStrings = {
   minutes: 'دقیقه',
   estimate: 'قیمت تقریبی',
   telegramDraft: {
-    general: 'سلام! دربارهٔ بار از چین سؤالی دارم.',
+    general: 'سلام! دربارهٔ حمل بار از چین سؤالی دارم.',
     quote: 'سلام! می‌خواستم قیمت حمل را بدانم: ',
     track: 'سلام! کد بار: ',
   },
   notFound: { title: 'این صفحه پیدا نشد. اما بار شما پیدا می‌شود.', text: 'این نشانی وجود ندارد یا جابه‌جا شده است. به صفحهٔ اصلی بازگردید یا در تلگرام به ما پیام دهید.', home: 'بازگشت به صفحهٔ اصلی' },
   bar: { telegram: 'Telegram', call: 'تماس', price: 'قیمت' },
-  strings: { confirmTelegram: 'تأیید در تلگرام', enterCode: 'کد بار خود را وارد کنید', track: 'پیگیری', formSuccess: 'درخواست شما دریافت شد. در ساعات کاری پاسخ می‌دهیم.', sample: 'نمونه', managerTip: 'توصیهٔ کارشناس', viewOnMap: 'مشاهده روی نقشه', allRates: 'همهٔ تعرفه‌ها', contents: 'فهرست مطالب', estimateMeta: 'قیمت تقریبی • به‌روزرسانی', approx: 'حدود', from: 'از', days: 'روز', kg: 'کیلوگرم', m3: 'متر مکعب', perKg: 'دلار/کیلوگرم', perM3: 'دلار/متر مکعب' },
+  strings: { confirmTelegram: 'تأیید در تلگرام', enterCode: 'کد بار خود را وارد کنید', track: 'پیگیری', formSuccess: 'درخواست شما دریافت شد. در ساعات کاری پاسخ می‌دهیم.', sample: 'نمونه', managerTip: 'توصیهٔ کارشناس', viewOnMap: 'مشاهده روی نقشه', allRates: 'همهٔ تعرفه‌ها', contents: 'فهرست مطالب', estimateMeta: 'قیمت تقریبی • آخرین به‌روزرسانی', approx: 'تقریباً', from: 'از', days: 'روز', kg: 'کیلوگرم', m3: 'متر مکعب', perKg: 'دلار/کیلوگرم', perM3: 'دلار/متر مکعب' },
 };

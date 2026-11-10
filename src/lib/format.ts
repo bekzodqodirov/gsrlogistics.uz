@@ -67,6 +67,15 @@ interface LocaleFormat {
    * those four rows keep it. zh and fa have one spelling each.
    */
   symbol: Record<Unit, string>;
+  /**
+   * How a typed figure is read (parseNumber). false: uz, uzc, ru and en read exactly as the calculator
+   * always read them (spaces dropped, the FIRST comma is the decimal mark). true: zh and fa also group,
+   * as their visitors write figures: a comma shaped like thousands groups ("1,200") groups, and with
+   * both marks the later one is the decimal ("1,200.5").
+   */
+  readGroups: boolean;
+  /** "/" typed as the decimal mark: Persian writers often type it for ٫ ("۲/۵" is 2.5, not 25). */
+  slashDecimal?: boolean;
 }
 
 const NNBSP = ' '; // narrow no-break space: a CS-class separator that holds a figure together
@@ -93,7 +102,7 @@ const LATIN_UNITS: Record<Unit, string> = { km: 'km', kg: 'kg', m3: 'm³' };
  */
 const FORMATS: Record<Locale, LocaleFormat> = {
   uz: {
-    group: NNBSP, decimal: ',', cents: false,
+    group: NNBSP, decimal: ',', cents: false, readGroups: false,
     usdMark: '$', usdSign: true, usd: (n) => `${n} $`, usdRange: (a, b) => `${a}–${b} $`,
     som: (n) => `${n} soʻm`, somRange: (a, b) => `${a}–${b} soʻm`,
     span: (a, b) => `${a}–${b}`, fromAfter: true, percent: (n) => `${n}%`,
@@ -103,7 +112,7 @@ const FORMATS: Record<Locale, LocaleFormat> = {
   // Uzbek Cyrillic writes сўм (Ў), which is not the Russian сум — the two are different words on
   // the same page when a Russian speaker opens /kirill/.
   uzc: {
-    group: NNBSP, decimal: ',', cents: false,
+    group: NNBSP, decimal: ',', cents: false, readGroups: false,
     usdMark: '$', usdSign: true, usd: (n) => `${n} $`, usdRange: (a, b) => `${a}–${b} $`,
     som: (n) => `${n} сўм`, somRange: (a, b) => `${a}–${b} сўм`,
     span: (a, b) => `${a}–${b}`, fromAfter: true, percent: (n) => `${n}%`,
@@ -111,7 +120,7 @@ const FORMATS: Record<Locale, LocaleFormat> = {
     sep: ' · ', arrow: ' → ', stop: '.', unit: LATIN_UNITS, symbol: LATIN_UNITS,
   },
   ru: {
-    group: NNBSP, decimal: ',', cents: false,
+    group: NNBSP, decimal: ',', cents: false, readGroups: false,
     usdMark: '$', usdSign: true, usd: (n) => `${n} $`, usdRange: (a, b) => `${a}–${b} $`,
     som: (n) => `${n} сум`, somRange: (a, b) => `${a}–${b} сум`,
     span: (a, b) => `${a}–${b}`, fromAfter: false, percent: (n) => `${n}%`,
@@ -119,7 +128,7 @@ const FORMATS: Record<Locale, LocaleFormat> = {
     sep: ' · ', arrow: ' → ', stop: '.', unit: { km: 'км', kg: 'кг', m3: 'м³' }, symbol: LATIN_UNITS,
   },
   en: {
-    group: ',', decimal: '.', cents: true,
+    group: ',', decimal: '.', cents: true, readGroups: false,
     usdMark: '$', usdSign: true, usd: (n) => `$${n}`, usdRange: (a, b) => `$${a}–${b}`,
     som: (n) => `UZS ${n}`, somRange: (a, b) => `UZS ${a}–${b}`,
     span: (a, b) => `${a}–${b}`, fromAfter: false, percent: (n) => `${n}%`,
@@ -129,7 +138,7 @@ const FORMATS: Record<Locale, LocaleFormat> = {
   // CLDR zh groups and decimals like en. The currency is the word 美元 after the figure, and 起 ("from")
   // is a postposition: "110 美元/m³ 起".
   zh: {
-    group: ',', decimal: '.', cents: true,
+    group: ',', decimal: '.', cents: true, readGroups: true,
     usdMark: '美元', usdSign: false, usd: (n) => `${n} 美元`, usdRange: (a, b) => `${a}–${b} 美元`,
     som: (n) => `${n} 苏姆`, somRange: (a, b) => `${a}–${b} 苏姆`,
     span: (a, b) => `${a}–${b}`, fromAfter: true, percent: (n) => `${n}%`,
@@ -140,7 +149,7 @@ const FORMATS: Record<Locale, LocaleFormat> = {
   // Persian digits with ٬ and ٫ (CLDR fa); the currency is the word دلار after the figure (a bare "$"
   // is reordered around digits in RTL text); از ("from") is a preposition; ranges read "X تا Y".
   fa: {
-    group: '٬', decimal: '٫', digits: PERSIAN_DIGITS, cents: false,
+    group: '٬', decimal: '٫', digits: PERSIAN_DIGITS, cents: false, readGroups: true, slashDecimal: true,
     usdMark: 'دلار', usdSign: false, usd: (n) => `${n} دلار`, usdRange: (a, b) => `${a} تا ${b} دلار`,
     som: (n) => `${n} سوم`, somRange: (a, b) => `${a} تا ${b} سوم`,
     span: (a, b) => `${a} تا ${b}`, fromAfter: false, percent: (n) => `${n}٪`,
@@ -373,16 +382,38 @@ export function toAsciiDigits(text: string): string {
 }
 
 /**
- * Read a typed decimal in any of the digit sets above. Spaces group. With both '.' and ',' the
- * later one is the decimal mark ("1,200.5", "1.200,5"). A comma alone is a decimal comma in the
- * locales that write one (uz, uzc, ru: "0,8"); in the others (en, zh, fa) it groups when the figure is
- * shaped like a grouped one ("1,200", "12,500,000") and is a decimal mark otherwise ("0,8").
- * NaN when there is no figure. A minus sign is not rejected here; the caller decides.
+ * Read a typed decimal in any of the digit sets above. NaN when there is no figure. A minus sign is
+ * not rejected here; the caller decides.
+ *  - uz, uzc, ru, en: exactly the calculator's original reading, now over every digit set. Spaces
+ *    are dropped, the first comma is the decimal mark ("0,8"), anything else is ignored.
+ *  - zh, fa (`readGroups`): as those visitors write figures. A comma shaped like thousands groups
+ *    groups ("1,200", "12,500,000"); otherwise it is the decimal mark ("0,8"). With both marks the
+ *    later one is the decimal ("1,200.5", "1.200,5"). fa also reads "/" as ٫ (`slashDecimal`).
  */
 export function parseNumber(raw: string, lang: Locale): number {
-  let s = toAsciiDigits(raw).replace(/[\s   '’]/g, '');
+  const f = FORMATS[lang];
+  let s = toAsciiDigits(raw).replace(/\s/g, '');
+  if (!f.readGroups) return parseFloat(s.replace(',', '.').replace(/[^0-9.]/g, ''));
+  if (f.slashDecimal) s = s.replace(/\//g, '.');
+  s = s.replace(/['’]/g, '');
   const dot = s.lastIndexOf('.'), comma = s.lastIndexOf(',');
   if (dot >= 0 && comma >= 0) s = comma > dot ? s.replace(/\./g, '').replace(',', '.') : s.replace(/,/g, '');
-  else if (comma >= 0) s = FORMATS[lang].decimal !== ',' && /^\d{1,3}(,\d{3})+$/.test(s) ? s.replace(/,/g, '') : s.replace(',', '.');
+  else if (comma >= 0) s = /^\d{1,3}(,\d{3})+$/.test(s) ? s.replace(/,/g, '') : s.replace(',', '.');
   return parseFloat(s.replace(/[^0-9.]/g, ''));
+}
+
+/**
+ * The `pattern` of a decimal input, checked natively when Enter submits the form. It keeps the shape
+ * the calculator's fields always had: digits, at most one decimal mark, then digits. It accepts every
+ * digit set parseNumber reads (ASCII, Persian, Arabic-Indic, full-width) and the Persian thousands
+ * mark ٬ in the whole part. zh and fa also take a comma-grouped figure ("1,200,000.5"), and fa takes
+ * "/" as the decimal mark. Browsers compile it with the `v` flag, which needs "/" escaped; a pattern
+ * that does not compile is silently dropped.
+ */
+export function decimalPattern(lang: Locale): string {
+  const f = FORMATS[lang];
+  const d = '0-9۰-۹٠-٩０-９';
+  const point = `.٫．${f.slashDecimal ? '\\/' : ''}`;
+  const plain = `[${d}٬]*[,،，${point}]?[${d}]*`;
+  return f.readGroups ? `${plain}|[${d}]{1,3}(?:[,，][${d}]{3})+(?:[${point}][${d}]*)?` : plain;
 }

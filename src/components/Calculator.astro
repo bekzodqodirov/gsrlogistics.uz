@@ -11,7 +11,7 @@ import { pricingStrings, tpl } from '@/i18n/pricing';
 import { pagePath } from '@/i18n/routes';
 import { site } from '@/lib/site';
 import { leadAttrs } from '@/lib/leads';
-import { fmtDate, fmtInt, fmtNumber, fmtUsd, sep, withFrom } from '@/lib/format';
+import { decimalPattern, fmtDate, fmtInt, fmtNumber, fmtUsd, sep, withFrom } from '@/lib/format';
 import { CATEGORIES } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
 import Icon from '@/components/ui/Icon.astro';
@@ -49,9 +49,9 @@ const quick = [
   { label: t.page.tiles.lcl, value: rateOf(tariffs.truck.perKgAboveDensity) },
 ];
 /* Decimal inputs are type="text": type="number" silently drops a comma separator ("0,8" → "08") in Chromium regardless of UI locale.
-   The pattern (checked natively when Enter submits) takes what the script reads: ASCII, Persian ۰–۹,
-   Arabic-Indic ٠–٩ and full-width ０–９ digits, the decimal marks . , ٫ ， ． and the grouping ٬ ، and spaces. */
-const decimal = { type: 'text', inputmode: 'decimal', autocomplete: 'off', pattern: '[\\s0-9۰-۹٠-٩０-９.,٫٬،，．]*' } as const;
+   The pattern (checked natively when Enter submits) keeps the fields' shape — digits, one decimal mark,
+   digits — over every digit set the script reads (lib/format.ts decimalPattern). */
+const decimal = { type: 'text', inputmode: 'decimal', autocomplete: 'off', pattern: decimalPattern(lang) } as const;
 /* Sample figures in the locale's own digits and decimal mark: "0,8" / "0.8" / "۰٫۸". */
 const placeholder = { kg: fmtInt(20, lang), dims: [50, 40, 30].map((v) => fmtInt(v, lang)), m3: fmtNumber(0.8, lang) };
 const modes = [
@@ -276,9 +276,10 @@ const uid = (s: string) => `${id}-${s}`;
     const el = <E extends HTMLElement = HTMLElement>(name: string) => form.querySelector<E>(`[data-el="${name}"]`);
     const els = (name: string) => Array.from(form.querySelectorAll<HTMLInputElement>(`[data-el="${name}"]`));
     // Persian, Arabic-Indic and full-width digits (a Persian keypad, a Chinese IME) read as typed: the
-    // field keeps what the visitor wrote and only the parse is normalised (lib/format.ts). A minus sign
-    // is not stripped into a positive number: "-20" would then be quoted as 20 kg while the field still
-    // reads -20, so it counts as no input at all.
+    // field keeps what the visitor wrote and only the parse is normalised (lib/format.ts parseNumber,
+    // which reads uz/uzc/ru/en exactly as this script always did). A minus sign is not stripped into a
+    // positive number: "-20" would then be quoted as 20 kg while the field still reads -20, so it counts
+    // as no input at all.
     const num = (name: string) => { const raw = toAsciiDigits(el<HTMLInputElement>(name)?.value || ''); if (raw.includes('-')) return 0; const v = parseNumber(raw, lang); return Number.isFinite(v) && v > 0 ? v : 0; };
     const checked = (name: string) => els(name).find((r) => r.checked)?.value || '';
     const setMode = (m: Mode) => { els('mode').forEach((r) => { r.checked = r.value === m; }); form.dataset.mode = m; };

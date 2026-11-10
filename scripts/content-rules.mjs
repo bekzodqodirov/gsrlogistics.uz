@@ -55,9 +55,11 @@ export function normalize(t) {
 export const ZH_FA_FORBIDDEN = [
   /* — customs and documents (the uz/ru "bojsiz / без пошлин" rules) — */
   { id: 'zh.dutyFree', msg: 'promises duty-free shipping (zh)',
-    re: /(?<![不非没无未][^。！？!?]{0,12})(?:免税|免关税|包税)\s?(?:运输|运送|送达|发货|进口|清关|到门|到家|直达|专线)|双清包税|包税包清关|包清关包税/iu,
-    bad: ['我们免税运输到塔什干', '双清包税专线'],
-    good: ['我们从不承诺“免税”、“100%保证”或“最快”。', '个人免税额度为每月 200 美元', '我们不提供免税进口'] },
+    // 个人免税进口限额 is the statutory allowance (Cabinet Resolution No. 244), not a promise — as in
+    // the uz rule's "bojsiz olib kirish normalari".
+    re: /(?<![不非没无未][^。！？!?]{0,12})(?<!个人|自然人)(?:免税|免关税|包税)\s?(?:运输|运送|送达|发货|进口(?!限额|额度|限值|限制|标准|规定|政策|门槛|上限|配额)|清关|到门|到家|直达|专线)|双清包税|包税包清关|包清关包税/iu,
+    bad: ['我们免税运输到塔什干', '双清包税专线', '免税进口到乌兹别克斯坦'],
+    good: ['我们从不承诺“免税”、“100%保证”或“最快”。', '个人免税额度为每月 200 美元', '我们不提供免税进口', '内阁第 244 号决议——个人免税进口限额（每月 200 美元）', '免税进口限额为每月 200 美元'] },
   { id: 'zh.noCustoms', msg: 'claims no customs clearance is needed (zh)',
     re: /(?:无需|不需要|不用|免)\s?(?:清关|报关)(?!费|单|员|行)/iu,
     bad: ['无需清关，直接送到', '不用报关'],
@@ -305,6 +307,13 @@ export const PAGE_RULES = {
     { id: 'fa.arabicLetters', level: 'error', msg: 'Arabic ي / ك / ى in Persian text (write ی and ک)',
       re: /[\u{064A}\u{0643}\u{0649}]/u,
       bad: ['\u{0643}ارگو', 'ی\u{064A}وو'], good: ['کارگو', 'ییوو'] },
+    // DECISIONS.md: Persian digits in every displayed quantity, price, date, duration, count and year;
+    // ASCII only inside identifiers (phones, codes, 1688, 20GP, HS codes, URLs). So an ASCII figure
+    // that a Persian unit follows, or that از / تا (from / to) introduces, is a figure printed past
+    // src/lib/format.ts — "20–35 روز", "از 2018". Phones, codes and 1688 are left alone.
+    { id: 'fa.asciiFigure', level: 'warn', msg: 'ASCII digits in a Persian figure (format it with src/lib/format.ts: ۱۵ تا ۲۵ روز, از ۲۰۱۸)',
+      re: new RegExp(`(?<![\\w.+/@#-])\\d+(?:[.,]\\d+)?(?:\\s?[–-]\\s?\\d+(?:[.,]\\d+)?)?[\\s\\p{Cf}]{0,2}(?:روز|ساعت|هفته|ماه|سال|کیلوگرم|کیلو|گرم|تن|مترمکعب|متر|کیلومتر|دلار|سوم|درصد|عدد|کامیون|مشتری)(?!${FA_LETTER})|(?<!${FA_LETTER})(?:از|تا)[\\s\\p{Cf}](?!1688(?!\\d))\\d+(?![\\w/])`, 'u'),
+      bad: ['Rail 20–35 روز', 'از 2018', '۱۵ تا 25 روز', '110 دلار'], good: ['۲۰ تا ۳۵ روز', 'از ۲۰۱۸', 'سفارش از 1688', '+998 95 018 33 33', 'کانتینر 40HQ', 'کد HS 8471 برای پاور بانک'] },
     { id: 'fa.arabicIndicDigits', level: 'error', msg: 'Arabic-Indic digits ٠–٩ (write the Persian ۰–۹)',
       re: /[\u{0660}-\u{0669}]/u,
       bad: ['\u{0664}\u{0665}\u{0660}'], good: ['۴۵۰', '450'] },
@@ -354,17 +363,35 @@ export function quotedForeign(text) {
   return new Set([...(s.match(CYRILLIC_RUN) ?? []), ...(s.match(UZBEK_WORD) ?? [])].map((w) => w.trim()).filter((w) => !NEVER_QUOTED.test(w)));
 }
 
+const GLOSS_SKIPS = /^(?:a|an|and|by|for|in|of|on|per|than|the|to)$/i;
+/**
+ * The English words spell out an acronym that stands right beside them, in the run or within a few
+ * characters of it — "起订量（MOQ，minimum order quantity）", "MOQ (minimum order quantity)". Such a
+ * gloss is kept on purpose; English prose that merely happens to sit near an acronym is not one.
+ */
+function spellsOut(words, near) {
+  const acronyms = new Set([...(near.match(/(?<![A-Za-z])[A-Z]{2,6}(?![A-Za-z])/g) ?? []), ...words.filter((w) => /^[A-Z]{2,6}$/.test(w))]);
+  if (!acronyms.size) return false;
+  const rest = words.filter((w) => !acronyms.has(w));
+  const initials = (ws) => ws.map((w) => w[0]).join('').toUpperCase();
+  return rest.length >= 2 && [initials(rest), initials(rest.filter((w) => !GLOSS_SKIPS.test(w)))].some((i) => acronyms.has(i));
+}
+
 /**
  * Runs of English, Uzbek or Russian prose in the text of a zh or fa page: a Latin run with three or
  * more lowercase words (brands, codes, units and proper names are capitalised or listed), any Uzbek
- * word, any Cyrillic run — minus what `allowed` (the English source page's own quotes) contains.
+ * word, any Cyrillic run — minus what `allowed` (the English source page's own quotes) contains and
+ * minus the English expansion of an acronym standing beside it (spellsOut).
  */
 export function leakRuns(text, allowed = new Set()) {
   const s = text.replace(NOT_PROSE, ' ');
   const runs = [];
-  for (const run of s.match(LATIN_RUN) ?? []) {
-    const prose = (run.match(new RegExp(LATIN_WORD, 'gu')) ?? []).filter((w) => /^[a-zʻʼ]/u.test(w) && w.length >= 2 && !UNITS.has(w.toLowerCase()));
-    if (prose.length >= 3) runs.push(run.trim());
+  for (const m of s.matchAll(LATIN_RUN)) {
+    const run = m[0];
+    const words = run.match(new RegExp(LATIN_WORD, 'gu')) ?? [];
+    const prose = words.filter((w) => /^[a-zʻʼ]/u.test(w) && w.length >= 2 && !UNITS.has(w.toLowerCase()));
+    const near = `${s.slice(Math.max(0, m.index - 12), m.index)} ${s.slice(m.index + run.length, m.index + run.length + 12)}`;
+    if (prose.length >= 3 && !spellsOut(words, near)) runs.push(run.trim());
   }
   const quoted = (w) => allowed.has(w) || QUOTED_TERMS.includes(w);
   for (const w of s.match(UZBEK_WORD) ?? []) if (!quoted(w.trim()) || NEVER_QUOTED.test(w.trim())) runs.push(w.trim());
@@ -373,8 +400,8 @@ export function leakRuns(text, allowed = new Set()) {
 }
 
 const LEAK_FIXTURES = {
-  bad: ['Cargo from China to Tashkent in 15–25 days', 'Xitoydan Toshkentga yuk tashish uchun', 'Сборный груз из Китая в Ташкент', '途经 Xiʼan 和兰州', '查看 the status of your cargo here'],
-  good: ['义乌（Yiwu）发往塔什干', 'GSR Logistics 的客户经理', 'Imex services LLC', '拼货（LCL）', 'حمل بار از چین به تاشکند با GSR Logistics', '每公斤 9 美元起，1 m³ 起', '海关编码（HS 编码，ТН ВЭД）', '写信给 @GSR_GROUP_AGENT_bot 或 b.e.kodirov@gmail.com', 'BYD · Zeekr · Li Auto', 'power bank'],
+  bad: ['Cargo from China to Tashkent in 15–25 days', 'Xitoydan Toshkentga yuk tashish uchun', 'Сборный груз из Китая в Ташкент', '途经 Xiʼan 和兰州', '查看 the status of your cargo here', 'MOQ 是 the smallest quantity a factory accepts', 'MOQ (the smallest quantity a factory accepts)'],
+  good: ['义乌（Yiwu）发往塔什干', 'GSR Logistics 的客户经理', 'Imex services LLC', '拼货（LCL）', 'حمل بار از چین به تاشکند با GSR Logistics', '每公斤 9 美元起，1 m³ 起', '海关编码（HS 编码，ТН ВЭД）', '写信给 @GSR_GROUP_AGENT_bot 或 b.e.kodirov@gmail.com', 'BYD · Zeekr · Li Auto', 'power bank', '起订量（MOQ，minimum order quantity）是工厂接受的最小数量', 'حداقل سفارش (MOQ, minimum order quantity)', '国际通用术语为 LCL（Less than Container Load，拼箱）'],
 };
 
 /* ── The self-test ──────────────────────────────────────────────────────────────────────────── */

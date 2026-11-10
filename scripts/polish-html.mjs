@@ -26,12 +26,17 @@
 // Every pass is idempotent: a second run finds the runs already declared or isolated and
 // changes nothing.
 //
+// Which page is Chinese and which is right-to-left comes from scripts/locales.mjs, the locale table
+// every build script shares, by the page's path (/zh/…, /fa/…) — test-seo.mjs, which runs before this,
+// has already checked that each page's <html lang dir> says the same.
+//
 // Runs last in the postbuild chain: check-content.mjs and generate-llms-full.mjs read the
 // plain HTML before this pass touches it.
 //
 // Usage: node scripts/polish-html.mjs dist
 import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, relative, sep } from 'node:path';
+import { LOCALES, localeOfPath } from './locales.mjs';
 
 const root = process.argv[2] || 'dist';
 
@@ -69,15 +74,11 @@ const walk = (dir) => readdirSync(dir).flatMap((name) => {
   return statSync(p).isDirectory() ? walk(p) : p.endsWith('.html') ? [p] : [];
 });
 
-/** One attribute of the document's <html> start tag. */
-const htmlAttr = (html, name) => {
-  const tag = (html.match(/<html\b[^>]*>/i) || [''])[0];
-  const m = new RegExp(`\\s${name}\\s*=\\s*["']?([^"'\\s>]+)`, 'i').exec(tag);
-  return m ? m[1].toLowerCase() : '';
-};
+/** The locale row (scripts/locales.mjs) of a built file, from its path: zh/pricing/index.html → zh. */
+const localeOfFile = (file) => LOCALES[localeOfPath(`/${relative(root, file).split(sep).join('/')}`)];
 
 /** Wrap Han runs and isolate LTR runs in the text nodes of `html`, leaving tags and opaque elements alone. */
-function wrap(html) {
+function wrap(html, locale) {
   let out = '';
   let i = 0;
   let skipUntil = null; // closing tag we are waiting for, e.g. '</script'
@@ -85,10 +86,10 @@ function wrap(html) {
   let svgDepth = 0;     // >0 while inside an <svg>: wrap with <tspan>, never <span>
   let wrapped = 0;
   let isolated = 0;
-  // Read once per document: a zh-Hans document is Chinese throughout (pass 1 is off); an rtl one
-  // gets pass 3 and isolated Chinese spans.
-  const docZh = /^zh(?:-|$)/.test(htmlAttr(html, 'lang'));
-  const rtl = htmlAttr(html, 'dir') === 'rtl';
+  // Once per document, from its locale: a zh-Hans document is Chinese throughout (pass 1 is off);
+  // an rtl one gets pass 3 and isolated Chinese spans.
+  const docZh = /^zh(?:-|$)/i.test(locale.htmlLang);
+  const rtl = locale.dir === 'rtl';
   // Open elements, for pass 3: is any ancestor dir="ltr" (already isolated), or text-only?
   const stack = [];
   const ltrAncestor = () => stack.some((e) => e.ltr);
@@ -160,8 +161,9 @@ let files = 0, runs = 0, bytes = 0, ltrRuns = 0;
 const perKind = { zh: 0, rtl: 0 };
 for (const file of walk(root)) {
   const before = readFileSync(file, 'utf8');
-  if (!HAS_HAN.test(before) && !before.includes('<!--') && !/<html\b[^>]*\sdir=["']?rtl/i.test(before)) continue;
-  const { html, wrapped, stripped, isolated, docZh, rtl } = wrap(before);
+  const locale = localeOfFile(file);
+  if (!HAS_HAN.test(before) && !before.includes('<!--') && locale.dir !== 'rtl') continue;
+  const { html, wrapped, stripped, isolated, docZh, rtl } = wrap(before, locale);
   if (docZh) perKind.zh += 1;
   if (rtl) perKind.rtl += 1;
   if (html !== before) { writeFileSync(file, html); files += 1; runs += wrapped; bytes += stripped; ltrRuns += isolated; }

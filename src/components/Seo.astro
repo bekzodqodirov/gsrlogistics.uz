@@ -33,9 +33,11 @@ const ogImageAbs = new URL(ogImage, siteUrl).toString();
  * at one shared budget of 62, Uzbek Latin put 2 titles over 580px and Uzbek Cyrillic put 16. So
  * the Cyrillic locale gets its own, narrower one. uz/ru/en keep 62 exactly, by construction.
  *
- * Persian (fa) runs close to the Latin width (scripts/test-seo.mjs prices its letters within about
- * 3% of the measured fallback face), so it shares the Latin budgets; its own punctuation — ؟ ، ؛ —
- * are boundaries as well.
+ * Persian (fa) has the Latin rules with its own punctuation — ؟ ، ؛ — as boundaries too, but not the
+ * Latin budget: priced with scripts/test-seo.mjs's letter widths, the site's fa titles run 9.9px a
+ * character at 20px (Latin Uzbek 9.2, English 9.4), so 62 characters is ~615px and 7 of the 19 went
+ * over 580px. 58 characters is that 580px, and the brand is added only when the whole title still
+ * fits in them (≤ 42 + " — GSR Logistics").
  *
  * Chinese (zh) is a different animal: every Han character is a full em, about twice a Latin letter,
  * and the text has no spaces to cut at. So zh is budgeted in EMs, with the same model test-seo.mjs
@@ -103,8 +105,8 @@ function zhCut(text: string, budget: number, kind: 'title' | 'description'): str
   return text;
 }
 
-const titleBudget = lang === 'uzc' ? 56 : 62;
 const fa = lang === 'fa';
+const titleBudget = lang === 'uzc' ? 56 : fa ? 58 : 62;
 const shortTitle = (() => {
   if (lang === 'zh') return zhCut(title, ZH_TITLE_EM, 'title');
   if (title.length <= titleBudget) return title;
@@ -117,7 +119,7 @@ const shortTitle = (() => {
 const fullTitle =
   lang === 'zh'
     ? shortTitle.includes(site.name) || emWidth(`${shortTitle} — ${site.name}`) > ZH_TITLE_EM ? shortTitle : `${shortTitle} — ${site.name}`
-    : shortTitle.includes(site.name) || shortTitle.length > 48 ? shortTitle : `${shortTitle} — ${site.name}`;
+    : shortTitle.includes(site.name) || shortTitle.length > (fa ? 42 : 48) ? shortTitle : `${shortTitle} — ${site.name}`;
 // Meta description: trim to ≤160 chars at a sentence/clause boundary (the page keeps the full text in its intro).
 const metaDescription = (() => {
   if (lang === 'zh') return zhCut(description, ZH_DESC_EM, 'description');

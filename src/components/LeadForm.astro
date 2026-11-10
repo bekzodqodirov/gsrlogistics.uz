@@ -33,9 +33,15 @@ const { lang, id = 'lead', dark = false } = Astro.props;
 /** The locales whose visitors leave any country's number (see the header); every other keeps the +998 mask. */
 const INTL_PHONE: readonly Locale[] = ['zh', 'fa'];
 const intlPhone = INTL_PHONE.includes(lang);
+const rtl = langMeta[lang].dir === 'rtl';
 /** On an RTL page a Latin name or a pasted list should align as typed. */
-const textDir = langMeta[lang].dir === 'rtl' ? 'auto' : undefined;
+const textDir = rtl ? 'auto' : undefined;
 const t = pick(lang, contact).form;
+/**
+ * RTL pages: the hint's example numbers become LTR islands. Inside Persian text "+98 912 345 6789" would
+ * otherwise show its digit groups in reverse ("6789 345 912 98+"). Other pages print the hint as it is.
+ */
+const phoneHintParts = rtl ? t.phoneHint.split(/(\+\d[\d\s]*\d)/) : undefined;
 const uid = (s: string) => `${id}-${s}`;
 const privacyHref = pagePath(lang, 'privacy');
 const [consentBefore, consentAfter] = t.consent.split('{link}');
@@ -78,7 +84,7 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
     <div class="field">
       <label for={uid('phone')}>{t.phone}</label>
       <input class="input tnum" id={uid('phone')} name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder={intlPhone ? '+' : '+998'} required maxlength={intlPhone ? 24 : 20} data-el="phone" aria-describedby={`${uid('phone-hint')} ${uid('phone-err')}`} />
-      <p class="hint" id={uid('phone-hint')}>{t.phoneHint}</p>
+      <p class="hint" id={uid('phone-hint')}>{phoneHintParts ? phoneHintParts.map((part, i) => (i % 2 ? <span class="tel-example" dir="ltr">{part}</span> : part)) : t.phoneHint}</p>
       <p class="err" id={uid('phone-err')} data-err="phone" hidden></p>
     </div>
 
@@ -142,6 +148,12 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   .hp { position: absolute; inset-inline-start: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
   /* The phone is an LTR island (dir="ltr"); on an RTL page it still sits on the start side, under its label. */
   :global([dir='rtl']) .lead input[type='tel'] { text-align: right; }
+  /* dir="auto" (RTL pages) resolves an EMPTY field to ltr, which would push the Persian placeholder to
+     the left edge: until something is typed the field keeps the page direction. */
+  :global([dir='rtl']) .lead input[dir='auto']:placeholder-shown,
+  :global([dir='rtl']) .lead textarea[dir='auto']:placeholder-shown { direction: rtl; }
+  /* An example number in the phone hint (RTL pages) stays whole: one LTR island, one line. */
+  .tel-example { white-space: nowrap; }
   .checkbox { cursor: pointer; }
   .consent-link { text-decoration: underline; text-underline-offset: 3px; color: var(--fg); }
   .lead-actions { display: grid; gap: 10px; }
