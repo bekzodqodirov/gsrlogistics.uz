@@ -1,4 +1,4 @@
-import type { ServiceContentByLang } from './types';
+import type { ServiceContentSource } from './types';
 
 /**
  * Tovar va ishlab chiqaruvchi topish (sourcing) — long-form page content.
@@ -8,7 +8,7 @@ import type { ServiceContentByLang } from './types';
  * Owner policy 2026-11-08: an order placed through us totals ≥ 1 m³ (no single-item, small or test orders); the MOQs in
  * the source table are each source's own, never our offer. Samples may still go by air (from 0,5 kg) — invent no other sample rules.
  */
-const content: ServiceContentByLang = {
+const content: ServiceContentSource = {
   uz: {
     key: 'sourcing',
     seo: {

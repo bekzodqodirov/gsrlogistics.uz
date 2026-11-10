@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/hero';
+import { fa } from './fa/hero';
 
 /**
  * Home hero + proof strip strings (DESIGN_BRIEF §2). Toponyms come from `src/data/route.ts`;
@@ -107,4 +109,4 @@ const en: HeroStrings = {
   proofLabel: 'Key facts',
 };
 
-export const hero: Record<Lang, HeroStrings> = { uz, ru, en };
+export const hero: Localized<HeroStrings> = { uz, ru, en, zh, fa };

@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/faq';
+import { fa } from './fa/faq';
 
 /** Labels for the FAQ page (/savol-javob/) and the home FAQ section. Questions and answers live in src/data/faq.ts. */
 export interface FaqStrings {
@@ -59,7 +61,7 @@ const en: FaqStrings = {
   home: { eyebrow: 'FAQ', h2: 'Importing for the first time?', sub: 'Or the hundredth — the answers are just as exact.', all: 'All questions' },
 };
 
-export const faqStrings: Record<Lang, FaqStrings> = { uz, ru, en };
+export const faqStrings: Localized<FaqStrings> = { uz, ru, en, zh, fa };
 
 /** Tiny {key} interpolation for the strings above. */
 export function faqTpl(s: string, vars: Record<string, string | number>): string {

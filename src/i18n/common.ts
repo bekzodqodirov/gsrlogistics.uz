@@ -1,5 +1,7 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
 import type { PageKey } from './routes';
+import { zh } from './zh/common';
+import { fa } from './fa/common';
 
 /** Strings shared by header, footer, mobile bar, breadcrumbs and generic CTAs. */
 export interface CommonStrings {
@@ -110,4 +112,4 @@ const en: CommonStrings = {
   strings: { confirmTelegram: 'Confirm on Telegram', enterCode: 'Enter your cargo code', track: 'Track', formSuccess: 'Request received. We reply during working hours.', sample: 'Sample', managerTip: 'Manager’s tip', viewOnMap: 'View on map', allRates: 'All rates', contents: 'Contents', estimateMeta: 'Estimate · Updated', approx: 'roughly', from: 'from', days: 'days', kg: 'kg', m3: 'm³', perKg: '$/kg', perM3: '$/m³' },
 };
 
-export const common: Record<Lang, CommonStrings> = { uz, ru, en };
+export const common: Localized<CommonStrings> = { uz, ru, en, zh, fa };

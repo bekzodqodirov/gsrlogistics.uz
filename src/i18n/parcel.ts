@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/parcel';
+import { fa } from './fa/parcel';
 
 /**
  * Strings for the home "one carton, six stages" diagram (`components/process/ParcelFlow.astro`).
@@ -133,4 +135,4 @@ const en: ParcelStrings = {
   ],
 };
 
-export const parcel: Record<Lang, ParcelStrings> = { uz, ru, en };
+export const parcel: Localized<ParcelStrings> = { uz, ru, en, zh, fa };

@@ -4,6 +4,9 @@ import { defaultLang, langPrefix, locales, type Locale, type Localized } from '.
  * Every static page of the site, with its localized slug.
  * Item pages (services, guides) append the item's own localized slug.
  *
+ * zh and fa use the English slugs (/zh/pricing/, /fa/services/air-cargo/): readers of both type
+ * Latin URLs, and a Persian or Chinese slug would only be percent-encoded noise in a shared link.
+ *
  * ── The Cyrillic slugs ────────────────────────────────────────────────────────────────────
  *
  * They are WRITTEN OUT here, never computed, because a slug is permanent: the moment one is
@@ -17,18 +20,18 @@ import { defaultLang, langPrefix, locales, type Locale, type Localized } from '.
  * word the page actually uses.
  */
 export const routeSlugs = {
-  home: { uz: '', ru: '', en: '', uzc: '' },
-  services: { uz: 'xizmatlar', ru: 'uslugi', en: 'services', uzc: 'хизматлар' },
-  pricing: { uz: 'narxlar', ru: 'ceny', en: 'pricing', uzc: 'нархлар' },
+  home: { uz: '', ru: '', en: '', uzc: '', zh: '', fa: '' },
+  services: { uz: 'xizmatlar', ru: 'uslugi', en: 'services', uzc: 'хизматлар', zh: 'services', fa: 'services' },
+  pricing: { uz: 'narxlar', ru: 'ceny', en: 'pricing', uzc: 'нархлар', zh: 'pricing', fa: 'pricing' },
   // kalkulyator → калькулятор: the soft sign is part of the word, and it is what a Cyrillic
   // searcher types. `toCyrillicSlug` drops ь by slug convention; here the spelling wins.
-  calculator: { uz: 'kalkulyator', ru: 'kalkulyator', en: 'calculator', uzc: 'калькулятор' },
-  tracking: { uz: 'kuzatuv', ru: 'otslezhivanie', en: 'tracking', uzc: 'кузатув' },
-  about: { uz: 'biz-haqimizda', ru: 'o-nas', en: 'about', uzc: 'биз-ҳақимизда' },
-  faq: { uz: 'savol-javob', ru: 'faq', en: 'faq', uzc: 'савол-жавоб' },
-  contact: { uz: 'aloqa', ru: 'kontakty', en: 'contact', uzc: 'алоқа' },
-  guides: { uz: 'qollanma', ru: 'gid', en: 'guides', uzc: 'қўлланма' },
-  privacy: { uz: 'maxfiylik', ru: 'konfidencialnost', en: 'privacy', uzc: 'махфийлик' },
+  calculator: { uz: 'kalkulyator', ru: 'kalkulyator', en: 'calculator', uzc: 'калькулятор', zh: 'calculator', fa: 'calculator' },
+  tracking: { uz: 'kuzatuv', ru: 'otslezhivanie', en: 'tracking', uzc: 'кузатув', zh: 'tracking', fa: 'tracking' },
+  about: { uz: 'biz-haqimizda', ru: 'o-nas', en: 'about', uzc: 'биз-ҳақимизда', zh: 'about', fa: 'about' },
+  faq: { uz: 'savol-javob', ru: 'faq', en: 'faq', uzc: 'савол-жавоб', zh: 'faq', fa: 'faq' },
+  contact: { uz: 'aloqa', ru: 'kontakty', en: 'contact', uzc: 'алоқа', zh: 'contact', fa: 'contact' },
+  guides: { uz: 'qollanma', ru: 'gid', en: 'guides', uzc: 'қўлланма', zh: 'guides', fa: 'guides' },
+  privacy: { uz: 'maxfiylik', ru: 'konfidencialnost', en: 'privacy', uzc: 'махфийлик', zh: 'privacy', fa: 'privacy' },
 } as const satisfies Record<string, Localized<string>>;
 
 export type PageKey = keyof typeof routeSlugs;
@@ -105,7 +108,7 @@ export function pageUrl(site: URL | string, locale: Locale, key: PageKey, sub?: 
  * The item slug of one page in one locale.
  *
  * Call this instead of `subs[locale]` anywhere a page resolves its OWN slug — canonical, the
- * current path, the language switcher. Most `subs` maps are `Record<Lang, string>` built from
+ * current path, the language switcher. Most `subs` maps are built from
  * content that only knows the three hand-written locales, so `subs['uzc']` is `undefined` and a
  * Cyrillic service page would canonicalise itself to `/kirill/хизматлар/` — the index, not the
  * page. Here uzc falls back to the hand-written table above, which is the whole point of it.

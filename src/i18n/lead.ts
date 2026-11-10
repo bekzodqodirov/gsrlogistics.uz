@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/lead';
+import { fa } from './fa/lead';
 
 /**
  * The one-question picker that opens before Telegram on every general "write to us" button
@@ -165,4 +167,4 @@ const en: LeadStrings = {
   },
 };
 
-export const leadStrings: Record<Lang, LeadStrings> = { uz, ru, en };
+export const leadStrings: Localized<LeadStrings> = { uz, ru, en, zh, fa };

@@ -1,4 +1,4 @@
-import { pick, type Lang, type Locale } from '@/i18n/config';
+import { pick, type Lang, type Locale, type Localized } from '@/i18n/config';
 import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
 import tariffs from './tariffs.json';
 
@@ -407,7 +407,7 @@ function en(): FaqGroup[] {
   ];
 }
 
-export const faq: Record<Lang, FaqGroup[]> = { uz: uz(), ru: ru(), en: en() };
+export const faq: Localized<FaqGroup[]> = { uz: uz(), ru: ru(), en: en() };
 
 /**
  * Flat list of every question in one locale (for JSON-LD and counts). `pick` is what makes this

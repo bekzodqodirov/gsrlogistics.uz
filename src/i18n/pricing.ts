@@ -1,5 +1,7 @@
-import { pick, type Lang, type Locale } from './config';
+import { pick, type Locale, type Localized } from './config';
 import type { BreakdownStrings } from '@/lib/pricing';
+import { zh } from './zh/pricing';
+import { fa } from './fa/pricing';
 
 /**
  * Strings for the pricing page, the calculator (component + page) and the home pricing teaser.
@@ -737,7 +739,7 @@ const en: PricingStrings = {
   },
 };
 
-export const pricingStrings: Record<Lang, PricingStrings> = { uz, ru, en };
+export const pricingStrings: Localized<PricingStrings> = { uz, ru, en, zh, fa };
 
 /** Replace {slots} in a template. */
 export function tpl(s: string, vars: Record<string, string | number>): string {

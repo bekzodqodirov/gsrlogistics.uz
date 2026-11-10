@@ -1,0 +1,14 @@
+---
+import ServicePage from '@/components/pages/ServicePage.astro';
+import { services, type ServiceMeta } from '@/data/services';
+import { getServiceContent } from '@/data/services/load';
+import { pick } from '@/i18n/config';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug.zh }, props: { service: s } }));
+}
+const { service } = Astro.props as { service: ServiceMeta };
+const all = getServiceContent(service.key);
+const content = all && pick('zh', all);
+---
+<ServicePage lang="zh" service={service} content={content} />

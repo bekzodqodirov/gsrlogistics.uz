@@ -1,4 +1,4 @@
-import type { ServiceContentByLang } from './types';
+import type { ServiceContentSource } from './types';
 
 /**
  * Xitoydagi qabul punktlari va sifat nazorati — long-form page content.
@@ -10,7 +10,7 @@ import type { ServiceContentByLang } from './types';
  * Guangzhou cargo comes "via partners". The carton mark is the GS code (site.cargoMark) and the
  * supplier must write it before dispatch.
  */
-const content: ServiceContentByLang = {
+const content: ServiceContentSource = {
   uz: {
     key: 'warehouse',
     seo: {

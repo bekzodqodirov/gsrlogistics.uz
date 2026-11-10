@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/proof';
+import { fa } from './fa/proof';
 
 /**
  * Home dark section "Nima olasiz" — what the client actually receives, as a checklist in
@@ -196,4 +198,4 @@ const en: ProofStrings = {
   },
 };
 
-export const proofStrings: Record<Lang, ProofStrings> = { uz, ru, en };
+export const proofStrings: Localized<ProofStrings> = { uz, ru, en, zh, fa };

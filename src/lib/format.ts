@@ -67,6 +67,9 @@ const MONTHS: Record<Locale, string[]> = {
   uzc: ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'],
   ru: ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'],
   en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  // Placeholder until the zh/fa date formats land (zh writes 2026年9月8日, fa a numeric Gregorian date).
+  zh: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  fa: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 };
 
 /** "2026-yil 8-sentabr" / "2026-йил 8-сентябрь" / "8 сентября 2026 г." / "September 8, 2026". */

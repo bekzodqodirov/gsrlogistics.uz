@@ -57,7 +57,7 @@ const skipLink = pick(lang, { uz: 'Asosiy kontentga oʻtish', ru: 'Перейт�
 const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
 ---
 <!doctype html>
-<html lang={langMeta[lang].htmlLang} dir="ltr" class="no-js">
+<html lang={langMeta[lang].htmlLang} dir={langMeta[lang].dir} class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />

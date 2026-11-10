@@ -1,5 +1,7 @@
-import { pick, type Lang, type Locale } from './config';
+import { pick, type Locale, type Localized } from './config';
 import type { ServiceKey } from '@/data/services';
+import { zh } from './zh/services';
+import { fa } from './fa/services';
 
 /**
  * Strings for the home Services grid, the services index page and the service page template.
@@ -458,7 +460,7 @@ const en: ServicesStrings = {
   },
 };
 
-export const servicesStrings: Record<Lang, ServicesStrings> = { uz, ru, en };
+export const servicesStrings: Localized<ServicesStrings> = { uz, ru, en, zh, fa };
 
 /** Fill `{n}` / `{name}` / `{short}` / `{date}` placeholders. */
 export function tpl(s: string, vars: Record<string, string | number>): string {

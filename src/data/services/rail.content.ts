@@ -1,4 +1,4 @@
-import type { ServiceContentByLang } from './types';
+import type { ServiceContentSource } from './types';
 
 /**
  * Temir yoʻl va konteyner (FCL) — long-form page content.
@@ -9,7 +9,7 @@ import type { ServiceContentByLang } from './types';
  * 20–35 days; extras 1 $/kg inspection, 1% insurance. Container capacities (20ft ≈ 33 m³, 40HQ ≈ 76 m³) are
  * ISO standard values. Keep in sync when tariffs change.
  */
-const content: ServiceContentByLang = {
+const content: ServiceContentSource = {
   uz: {
     key: 'rail',
     seo: {

@@ -1,4 +1,4 @@
-import type { ServiceContentByLang } from './types';
+import type { ServiceContentSource } from './types';
 
 /**
  * Uskunalar importi «kalit topshirish» (turnkey equipment import) — long-form page content.
@@ -7,7 +7,7 @@ import type { ServiceContentByLang } from './types';
  * VAT 12%; clearance fee ladder in BRV per VMQ-55/2025; PF-250 of 17.12.2025 (preliminary declaration −20% fee, instalments). Research wf/12 §2.
  * "30% oldindan, qolgani kelganda" is the company's historical practice from its Telegram posts — presented as such, owner to confirm.
  */
-const content: ServiceContentByLang = {
+const content: ServiceContentSource = {
   uz: {
     key: 'equipment',
     seo: {

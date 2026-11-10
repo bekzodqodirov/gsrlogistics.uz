@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/about';
+import { fa } from './fa/about';
 
 export interface AboutStrings {
   seoTitle: string; seoDescription: string;
@@ -163,4 +165,4 @@ const en: AboutStrings = {
   cta: { title: 'Let’s get acquainted.', text: 'Tell us the cargo, the city and the deadline — we propose a route and a price.' },
 };
 
-export const about: Record<Lang, AboutStrings> = { uz, ru, en };
+export const about: Localized<AboutStrings> = { uz, ru, en, zh, fa };

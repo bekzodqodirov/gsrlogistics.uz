@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 /**
- * Four locales, three of them written by hand. `uzc` is Uzbek in Cyrillic, generated from `uz`
+ * Six locales, five of them written by hand (uz, ru, en, zh, fa). `uzc` is Uzbek in Cyrillic, generated from `uz`
  * by transliteration (src/i18n/config.ts → `pick`), and it is served from `/kirill/`.
  *
  * The path segment and the language code are deliberately different strings:
@@ -24,7 +24,7 @@ export default defineConfig({
   build: { format: 'directory', inlineStylesheets: 'auto' },
   i18n: {
     defaultLocale: 'uz',
-    locales: ['uz', 'ru', 'en', { path: 'kirill', codes: ['uz-Cyrl'] }],
+    locales: ['uz', 'ru', 'en', { path: 'kirill', codes: ['uz-Cyrl'] }, { path: 'zh', codes: ['zh-Hans'] }, 'fa'],
     routing: { prefixDefaultLocale: false, redirectToDefaultLocale: false },
   },
   integrations: [
@@ -32,7 +32,7 @@ export default defineConfig({
       // Keyed by the path segment, valued by the hreflang code. `scripts/generate-sitemap.mjs`
       // rewrites sitemap-0.xml after the build from each page's own <link rel="alternate">, so
       // this map only has to agree with it — it does.
-      i18n: { defaultLocale: 'uz', locales: { uz: 'uz', ru: 'ru', en: 'en', kirill: 'uz-Cyrl' } },
+      i18n: { defaultLocale: 'uz', locales: { uz: 'uz', ru: 'ru', en: 'en', kirill: 'uz-Cyrl', zh: 'zh-Hans', fa: 'fa' } },
       changefreq: 'weekly',
       priority: 0.7,
     }),

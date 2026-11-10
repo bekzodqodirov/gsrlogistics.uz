@@ -1,8 +1,9 @@
 ---
 /**
  * The 404 in every locale. One <h1> only: the Uzbek Latin copy is in the markup and a tiny inline
- * script swaps the strings (and the block's lang) when the URL sits under /ru/, /en/ or /kirill/.
- * Rendering four blocks and hiding three put four <h1> elements in the document, which every
+ * script swaps the strings (and the block's lang and dir) when the URL sits under /ru/, /en/, /zh/,
+ * /fa/ or /kirill/. Rendering one block per locale and hiding the rest put several <h1> elements in
+ * the document, which every
  * validator and h1-counting check flags.
  *
  * The Cyrillic copy is not hand-written: `pick()` transliterates the Uzbek branch, exactly as every
@@ -10,7 +11,7 @@
  *
  * The script tests `/kirill` without a trailing slash as well, so that a 404 served for the locale's
  * own root is recognised too; `/ru/` and `/en/` never need that because neither is ever the last
- * segment of a missing path that a reader would land on.
+ * segment of a missing path that a reader would land on; the same holds for /zh/ and /fa/.
  */
 import Base from '@/layouts/Base.astro';
 import Icon from '@/components/ui/Icon.astro';
@@ -26,6 +27,7 @@ const copy = Object.fromEntries(
       l,
       {
         lang: langMeta[l].htmlLang,
+        dir: langMeta[l].dir,
         title: c.notFound.title,
         text: c.notFound.text,
         home: c.notFound.home,
@@ -63,13 +65,14 @@ const uz = copy.uz;
       var w = document.querySelector('[data-nf]');
       if (!w) return;
       var p = location.pathname;
-      var l = p.indexOf('/ru/') === 0 ? 'ru' : p.indexOf('/en/') === 0 ? 'en' : p === '/kirill' || p.indexOf('/kirill/') === 0 ? 'uzc' : 'uz';
+      var l = p.indexOf('/ru/') === 0 ? 'ru' : p.indexOf('/en/') === 0 ? 'en' : p.indexOf('/zh/') === 0 ? 'zh' : p.indexOf('/fa/') === 0 ? 'fa' : p === '/kirill' || p.indexOf('/kirill/') === 0 ? 'uzc' : 'uz';
       if (l === 'uz') return;
       var d;
       try { d = JSON.parse(w.getAttribute('data-nf'))[l]; } catch (e) { return; }
       if (!d) return;
       w.setAttribute('lang', d.lang);
       document.documentElement.setAttribute('lang', d.lang);
+      document.documentElement.setAttribute('dir', d.dir);
       w.querySelector('[data-nf-title]').textContent = d.title;
       w.querySelector('[data-nf-text]').textContent = d.text;
       var home = w.querySelector('[data-nf-home]');

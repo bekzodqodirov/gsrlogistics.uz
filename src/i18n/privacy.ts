@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/privacy';
+import { fa } from './fa/privacy';
 
 // operatorFallback: the trade name («GSR Logistics») shown next to site.legalEntity («Imex services LLC», src/lib/site.ts); it also stands alone if that value is ever emptied. The STIR is still missing — add it in site.ts when the owner supplies it; never invent one.
 export interface PrivacySection { heading: string; paragraphs?: string[]; bullets?: string[] }
@@ -61,4 +63,4 @@ const en: PrivacyStrings = {
   contactHeading: 'Questions', contactText: 'Send personal-data requests via Telegram or email — we reply within 10 working days.',
 };
 
-export const privacy: Record<Lang, PrivacyStrings> = { uz, ru, en };
+export const privacy: Localized<PrivacyStrings> = { uz, ru, en, zh, fa };

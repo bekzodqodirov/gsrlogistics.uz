@@ -21,7 +21,13 @@ const c = pick(lang, common);
 const { Content, headings } = await render(entry);
 const d = entry.data;
 const label = c.nav.find((n) => n.key === 'guides')?.label ?? t.eyebrow;
-const subs = guideSlugs[d.translationKey] ?? { [lang]: d.slug };
+// hreflang lists the languages this article is actually published in — its siblings with the same
+// translationKey — so a language whose translation is not written yet is never advertised. The
+// registry row stays the fallback for an article that is somehow missing from the collection.
+const siblings = await getCollection('guides', (e) => e.data.translationKey === d.translationKey && !e.data.draft);
+const subs: Partial<Record<Locale, string>> = siblings.length
+  ? Object.fromEntries(siblings.map((e) => [e.data.lang, e.data.slug]))
+  : guideSlugs[d.translationKey] ?? { [lang]: d.slug };
 const url = pageUrl(site.url, lang, 'guides', d.slug);
 const pub = d.publishDate.toISOString().slice(0, 10), upd = d.updatedDate.toISOString().slice(0, 10);
 const minutes = readingMinutes(entry.body ?? '');

@@ -1,4 +1,4 @@
-import type { ServiceContentByLang } from './types';
+import type { ServiceContentSource } from './types';
 
 /**
  * Xitoydan avtomobil va elektromobil (buyurtma asosida) — long-form page content.
@@ -7,7 +7,7 @@ import type { ServiceContentByLang } from './types';
  * (their 2023 posts said 10–25 days for in-stock cars). Duty / excise / utilisation fee for cars depend on
  * engine volume, battery, age and change often — the page says "hisoblab beramiz", never a rate.
  */
-const content: ServiceContentByLang = {
+const content: ServiceContentSource = {
   uz: {
     key: 'cars',
     seo: {
