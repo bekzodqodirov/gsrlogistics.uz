@@ -2,7 +2,7 @@ import type { FaqStrings } from '../faq';
 
 /** Persian (one text for Iran and Afghanistan) strings for `src/i18n/faq.ts`, translated from its English branch. */
 export const fa: FaqStrings = {
-  seoTitle: 'پرسش‌های متداول دربارهٔ کارگو از چین — قیمت، مدت حمل، گمرک',
+  seoTitle: 'پرسش‌های متداول دربارهٔ کارگو از چین — قیمت، زمان حمل، گمرک',
   seoDescription: 'پاسخ روشن به ۳۲ پرسش دربارهٔ حمل بار از چین به ازبکستان: بار تجمیعی زمینی ۱۵ تا ۲۵ روز، هوایی ۵ تا ۱۰ روز، قیمت به کیلوگرم یا متر مکعب، سقف ۲۰۰ دلار برای اشخاص، حقوق گمرکی و مالیات بر ارزش افزوده، کالاهای ممنوع، بیمه و خرید از 1688.',
   eyebrow: 'پرسش‌های متداول',
   h1: 'کارگو از چین: پرتکرارترین پرسش‌ها',

@@ -27,7 +27,7 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: c
     <div class="container container-text">
       <div class="prose policy">
         {/* Operator line: trade name + site.legalEntity from src/lib/site.ts; the STIR is added there once the owner supplies it */}
-        <p><strong>{t.operatorLabel}:</strong> {site.legalEntity ? `${t.operatorFallback} (${site.legalEntity})` : t.operatorFallback}. {pick(lang, site.address)}. {site.email}.</p>
+        <p><strong>{t.operatorLabel}:</strong> {site.legalEntity ? `${t.operatorFallback} (${site.legalEntity})` : t.operatorFallback}. {pick(lang, site.address)}. <span dir="ltr">{site.email}</span>.</p>
         {t.sections.map((s) => (
           <section>
             <h2>{s.heading}</h2>
@@ -38,7 +38,7 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: c
         <section>
           <h2>{t.contactHeading}</h2>
           <p>{t.contactText}</p>
-          <p><a href={telegramChat(c.telegramDraft.general)} target="_blank" rel="noopener">{c.cta.telegram}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+          <p><a href={telegramChat(c.telegramDraft.general)} target="_blank" rel="noopener">{c.cta.telegram}</a> · <a href={`mailto:${site.email}`} dir="ltr">{site.email}</a></p>
         </section>
       </div>
     </div>

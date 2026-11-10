@@ -393,6 +393,7 @@ test('toAsciiDigits / parseNumber', () => {
   assert.equal(toAsciiDigits('ＧＳ１２３４－ａ'), 'GS1234-a');       // a tracking code typed in full-width mode
   assert.equal(toAsciiDigits('+998 90 123 45 67'), '+998 90 123 45 67'); // ASCII passes through untouched
   assert.equal(toAsciiDigits('0.8 m³'), '0.8 m³', 'the superscript ³ is not a digit 3');
+  assert.equal(toAsciiDigits('０。８'), '0.8', 'a Chinese IME in Chinese-punctuation mode types 。 for the point');
   const p = (raw, l) => parseNumber(raw, l);
   for (const l of ['uz', 'uzc', 'ru', 'en', 'zh', 'fa']) {
     assert.equal(p('20', l), 20, l); assert.equal(p('۲۰', l), 20, l); assert.equal(p('٢٠', l), 20, l); assert.equal(p('２０', l), 20, l);
@@ -420,6 +421,7 @@ test('toAsciiDigits / parseNumber', () => {
   }
   assert.equal(p('۲/۵', 'fa'), 2.5); assert.equal(p('۰/۸', 'fa'), 0.8); assert.equal(p('۱٬۲۰۰/۵', 'fa'), 1200.5);
   assert.equal(p('2/5', 'zh'), 25, 'only fa reads "/" as a decimal mark');
+  for (const l of ['uz', 'en', 'zh', 'fa']) assert.equal(p('０。８', l), 0.8, l);
 });
 
 // 15b. The decimal inputs' native `pattern`: compiles with the v flag browsers use (an invalid pattern is
@@ -435,6 +437,7 @@ test('decimalPattern', () => {
   for (const v of ['20', '0,8', '1,200', '12,500,000', '1,200.5', '1.2', '7.', '1/2', '1 2']) for (const l of ['uz', 'uzc', 'ru', 'en']) assert.equal(ok(l, v), original.test(v), `${l}: ${v}`);
   for (const l of ['zh', 'fa']) for (const v of ['12,500,000', '1,200.5', '１，２００']) assert.ok(ok(l, v), `${l} accepts ${v}`);
   assert.ok(ok('fa', '۲/۵') && ok('fa', '۱٬۲۰۰/۵') && !ok('zh', '2/5') && !ok('ru', '2/5'), 'only fa takes "/"');
+  for (const l of ['uz', 'en', 'zh', 'fa']) assert.ok(ok(l, '０。８') && !ok(l, '0。8。'), `${l}: 。 as the point, once`);
 });
 
 // 16. Reading time: Chinese is counted in characters, every space-separated script in words

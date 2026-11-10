@@ -346,7 +346,7 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
           <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum" dir="ltr">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>
@@ -362,10 +362,10 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
 
   .tiles-wrap { background: var(--bg-3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
   .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
-  .tile { padding: 24px 24px 20px 0; display: grid; gap: 6px; min-width: 0; }
-  .tile + .tile { border-left: 1px solid var(--border-soft); padding-left: 24px; }
+  .tile { padding-block: 24px 20px; padding-inline: 0 24px; display: grid; gap: 6px; min-width: 0; }
+  .tile + .tile { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 24px; }
   .tile-value { display: flex; align-items: baseline; flex-wrap: wrap; font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; color: var(--fg); }
-  .num-prefix { font-size: var(--text-small); font-weight: 500; letter-spacing: 0; color: var(--muted); margin-right: 6px; }
+  .num-prefix { font-size: var(--text-small); font-weight: 500; letter-spacing: 0; color: var(--muted); margin-inline-end: 6px; }
   .tile-label { font-size: var(--text-small); font-weight: 500; color: var(--fg-2); }
   .tile-sub { margin-top: -2px; }
 
@@ -380,7 +380,7 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
   .small-note + .small-note { margin-top: 6px; }
   .tbl { margin: 24px 0 0; }
   .tbl .table { border: 1px solid var(--border-soft); border-radius: var(--radius); overflow: hidden; }
-  .tbl .table tbody th { font-weight: 500; color: var(--fg); text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+  .tbl .table tbody th { font-weight: 500; color: var(--fg); text-align: start; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
   .tbl .table tbody tr:last-child th { border-bottom: 0; }
   .tbl .table td.num { color: var(--fg); }
   .tbl .table td.is-muted { color: var(--muted); font-weight: 500; }
@@ -402,8 +402,8 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
   .ex-total .stat { font-size: clamp(1.75rem, 1.5vw + 1rem, 2.25rem); letter-spacing: -0.025em; overflow-wrap: anywhere; }
   .ex-som { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); }
   .ex-notes { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; font-size: var(--text-caption); color: var(--muted); }
-  .ex-notes li { padding-left: 12px; position: relative; }
-  .ex-notes li::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 1px; background: var(--meta); }
+  .ex-notes li { padding-inline-start: 12px; position: relative; }
+  .ex-notes li::before { content: ''; position: absolute; inset-inline-start: 0; top: 7px; width: 6px; height: 1px; background: var(--meta); }
 
   .two-lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 8px; }
   .list-title { font-size: var(--text-h4); font-weight: 600; margin-bottom: 12px; }
@@ -427,9 +427,9 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
 
   @media (max-width: 899px) {
     .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .tile { padding: 18px 16px 16px 0; }
-    .tile + .tile { border-left: 0; padding-left: 0; }
-    .tile:nth-child(even) { border-left: 1px solid var(--border-soft); padding-left: 16px; }
+    .tile { padding-block: 18px 16px; padding-inline: 0 16px; }
+    .tile + .tile { border-inline-start: 0; padding-inline-start: 0; }
+    .tile:nth-child(even) { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 16px; }
     .tile:nth-child(n + 3) { border-top: 1px solid var(--border-soft); }
     .tile-value { font-size: 1.5rem; }
     .cta-row { flex-direction: column; }

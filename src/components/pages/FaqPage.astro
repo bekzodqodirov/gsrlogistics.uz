@@ -112,7 +112,7 @@ let n = 0;
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
           <a class="link" href={pagePath(lang, 'calculator')}>{c.cta.calculate}</a>
         </div>
-        <p class="caption tnum cta-meta">{site.phoneDisplay}{sep(lang)}{pick(lang, site.hours)}</p>
+        <p class="caption tnum cta-meta"><span dir="ltr">{site.phoneDisplay}</span>{sep(lang)}{pick(lang, site.hours)}</p>
       </div>
     </section>
   </article>
@@ -173,7 +173,7 @@ let n = 0;
     .groupnav { position: sticky; top: calc(var(--header-h) + 24px); }
     .navtitle { display: block; margin-bottom: 12px; }
     .groupnav ol { flex-direction: column; flex-wrap: nowrap; gap: 2px; }
-    .groupnav a { display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; min-height: 44px; padding: 0 12px 0 10px; border: 0; border-radius: var(--radius); white-space: normal; color: var(--fg-2); }
+    .groupnav a { display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; min-height: 44px; padding-block: 0; padding-inline: 10px 12px; border: 0; border-radius: var(--radius); white-space: normal; color: var(--fg-2); }
     .groupnav .glyph { display: block; color: var(--muted); }
     .groupnav a:hover { background: var(--bg-2); }
     .groupnav a.is-active { background: var(--bg-2); color: var(--fg); }

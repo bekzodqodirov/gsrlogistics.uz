@@ -134,9 +134,12 @@ const routeD = 'M296 62 C 250 60, 214 34, 168 30 C 132 28, 104 36, 76 40 C 56 43
 
 <style>
   .proof { padding-top: max(var(--section-y), 96px); background: radial-gradient(70% 60% at 100% 0%, var(--black-2), var(--black) 70%); }
+  /* RTL: the glow follows the layout to the other top corner (a gradient has no logical position). */
+  :global([dir='rtl']) .proof { background: radial-gradient(70% 60% at 0% 0%, var(--black-2), var(--black) 70%); }
   .grid { display: grid; grid-template-columns: 7fr 5fr; gap: 48px clamp(32px, 5vw, 80px); align-items: start; }
   .list { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
-  .list::before { content: ''; position: absolute; left: 11.5px; top: 12px; bottom: 12px; width: 1px; background: var(--border); }
+  /* The hairline threads the tick column, which is the inline-start column (right in RTL). */
+  .list::before { content: ''; position: absolute; inset-inline-start: 11.5px; top: 12px; bottom: 12px; width: 1px; background: var(--border); }
   .item { position: relative; display: grid; grid-template-columns: 24px 1fr; gap: 20px; padding: 0 0 36px; }
   .item:last-child { padding-bottom: 0; }
   .tick { position: relative; width: 24px; height: 24px; color: var(--muted); background: var(--bg); border-radius: 50%; }

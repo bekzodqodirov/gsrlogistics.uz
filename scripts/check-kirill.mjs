@@ -195,9 +195,11 @@ for (const pg of pages.values()) {
     const target = pages.get(raw);
     if (!target) {
       // A page of a pending locale that is not written yet — a zh/fa guide that a zh/fa service
-      // page already lists — is a gap to count. Anything else is a dead link.
+      // page already lists — is a gap to count, but only from a page of that same locale: any other
+      // page has no business linking into that tree (the rule below), written or not. Anything else
+      // is a dead link.
       const l = localeOfPath(raw);
-      if (isPending(l) && pages.has(TABLE.en.prefix + unprefixed(raw, l))) { pendingLinks[l] = (pendingLinks[l] ?? 0) + 1; continue; }
+      if (isPending(l) && localeOf(raw) === pg.locale && pages.has(TABLE.en.prefix + unprefixed(raw, l))) { pendingLinks[l] = (pendingLinks[l] ?? 0) + 1; continue; }
       err(pg.file, `internal link ${href} → no such page in ${dist}`);
       continue;
     }

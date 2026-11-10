@@ -19,6 +19,15 @@ body {
   overflow-x: clip;
 }
 img, picture, video, canvas, svg { display: block; max-width: 100%; }
+/* RTL (fa): every inline SVG keeps a left-to-right base direction. SVG text-anchor start/end resolve
+   against `direction`, so under an inherited rtl every start/end-anchored label (journey map, Proof
+   mini-route, the contact street sketch) would flip to the far side of its anchor; and the drawings
+   are geography, which never mirrors. Persian words inside still shape and read right to left. */
+[dir='rtl'] svg { direction: ltr; }
+/* Directional icons (Icon.astro adds .icon-dir to arrow-right, arrow-up-right, chevron-right) point
+   the reading way. `scale`, not `transform`: it composes with the hover nudges' translateX, which
+   then reverse with the glyph, and a component that must NOT flip one sets `scale: none`. */
+[dir='rtl'] .icon-dir { scale: -1 1; }
 img { height: auto; }
 input, button, textarea, select { font: inherit; color: inherit; }
 button { background: none; border: 0; padding: 0; cursor: pointer; }
@@ -56,8 +65,8 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 .hex-node::after { content: ''; position: absolute; inset: 1.5px; clip-path: var(--hex-clip); background: var(--node-fill, var(--bg)); }
 /* The gap has to scale with the numeral, not the unit: an em on .num-unit resolves against the unit's
    own small size, so it shrinks exactly where the display number grows. Put most of it on the numeral. */
-.num-unit { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-left: 0.12em; letter-spacing: 0; line-height: 1; vertical-align: baseline; }
-.stat:has(+ .num-unit), .jkm-num:has(+ .num-unit), .fact-value:has(+ .num-unit) { margin-right: 0.07em; }
+.num-unit { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-inline-start: 0.12em; letter-spacing: 0; line-height: 1; vertical-align: baseline; }
+.stat:has(+ .num-unit), .jkm-num:has(+ .num-unit), .fact-value:has(+ .num-unit) { margin-inline-end: 0.07em; }
 :lang(ru) .display-1, :lang(ru) .display-2, :lang(ru) h2 { letter-spacing: -0.01em; }
 .measure { max-width: 60ch; }
 .measure-head { max-width: 32ch; }
@@ -67,16 +76,34 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 .prose > * + * { margin-top: 1em; }
 .prose h2 { margin-top: 2.2em; margin-bottom: 0.6em; font-size: var(--text-h3); }
 .prose h3 { margin-top: 1.8em; margin-bottom: 0.5em; font-size: var(--text-h4); }
-.prose ul, .prose ol { padding-left: 1.4em; }
+.prose ul, .prose ol { padding-inline-start: 1.4em; }
 .prose li + li { margin-top: 0.4em; }
 .prose a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-color: var(--border); }
 .prose a:hover { text-decoration-color: var(--fg); }
 .prose strong { font-weight: 600; }
-.prose blockquote { border-left: 3px solid var(--accent); padding-left: 1em; color: var(--fg-2); }
+.prose blockquote { border-inline-start: 3px solid var(--accent); padding-inline-start: 1em; color: var(--fg-2); }
 .prose table { font-size: var(--text-small); }
 .prose hr { border: 0; border-top: 1px solid var(--border-soft); margin: 2em 0; }
 .prose img { border-radius: var(--radius); }
 .prose code { font-family: var(--font-mono); font-size: 0.9em; background: var(--bg-2); padding: 0.1em 0.35em; border-radius: 6px; }
+
+/* ---------- zh / fa typography (DECISIONS §3; the font stacks and leading tokens are in tokens.css) ---------- */
+/* No tracking in Chinese or Persian: it crowds full-width Han and can break Persian cursive joining,
+   and neither script has letter case, so the uppercase eyebrows and map country names are no
+   exception. Component rules are scoped (higher specificity), hence !important. Kept: the wordmark,
+   which is Latin brand type, and SVG text that sets its own letter-spacing attribute (the GS carton). */
+:root:lang(zh) body *:not(.logo-word):not([letter-spacing]),
+:root:lang(fa) body *:not(.logo-word):not([letter-spacing]) { letter-spacing: 0 !important; }
+/* The type classes above carry literal Onest leadings; Han and Vazirmatn need more. */
+:root:lang(zh) h1, :root:lang(zh) h2, :root:lang(zh) h3, :root:lang(zh) h4, :root:lang(zh) .h2, :root:lang(zh) .h3, :root:lang(zh) .h4,
+:root:lang(fa) h1, :root:lang(fa) h2, :root:lang(fa) h3, :root:lang(fa) h4, :root:lang(fa) .h2, :root:lang(fa) .h3, :root:lang(fa) .h4 { line-height: var(--leading-tight); }
+:root:lang(zh) .display-1, :root:lang(zh) .display-2, :root:lang(fa) .display-1, :root:lang(fa) .display-2 { line-height: var(--leading-display); }
+:root:lang(zh) .intro, :root:lang(zh) .lead { line-height: 1.6; }
+:root:lang(fa) .intro, :root:lang(fa) .lead { line-height: 1.75; }
+:root:lang(zh) .caption, :root:lang(zh) body .faq-item summary { line-height: 1.5; }
+:root:lang(fa) .caption, :root:lang(fa) body .faq-item summary { line-height: 1.6; }
+/* Numbered lists count in Persian digits, like every other figure on a fa page. */
+:root:lang(fa) .prose ol { list-style-type: persian; }
 
 /* ---------- Layout ---------- */
 .container { width: 100%; max-width: calc(var(--container) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
@@ -99,7 +126,7 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 .below-fold { content-visibility: auto; contain-intrinsic-size: auto 800px; }
 .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
 .visually-hidden, .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.skip-link { position: absolute; top: 8px; left: 8px; z-index: 1000; padding: 10px 14px; background: var(--fg); color: var(--bg); border-radius: var(--radius-sm); transform: translateY(-200%); transition: transform var(--dur) var(--ease); }
+.skip-link { position: absolute; top: 8px; inset-inline-start: 8px; z-index: 1000; padding: 10px 14px; background: var(--fg); color: var(--bg); border-radius: var(--radius-sm); transform: translateY(-200%); transition: transform var(--dur) var(--ease); }
 .skip-link:focus { transform: none; }
 
 /* ---------- Buttons ---------- */
@@ -134,6 +161,8 @@ a[href^='tel:']:not(.btn), a[href^='mailto:']:not(.btn) { padding-block: 12px; m
 .link { color: var(--fg); font-weight: 500; display: inline-flex; align-items: center; gap: 4px; padding-block: 12px; margin-block: -12px; }
 .link::after { content: '›'; display: inline-block; transition: transform var(--dur) var(--ease); font-weight: 500; }
 .link:hover::after { transform: translateX(2px); }
+/* '›' is Bidi_Mirrored, so in RTL it already draws as '‹'; only its nudge has to point the same way. */
+[dir='rtl'] .link:hover::after { transform: translateX(-2px); }
 .link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .link-quiet { color: var(--fg); font-weight: 600; text-underline-offset: 4px; }
 .link-quiet:hover { text-decoration: underline; }
@@ -144,6 +173,9 @@ a[href^='tel:']:not(.btn), a[href^='mailto:']:not(.btn) { padding-block: 12px; m
 .card-hover { transition: border-color var(--dur) var(--ease); }
 .card-hover:hover { border-color: var(--meta); }
 .card-hover:hover .link svg, .card-hover:hover .chev { transform: translateX(2px); }
+/* RTL: the text '›' (.chev) mirrors by itself and a .icon-dir svg reverses its nudge through `scale`;
+   anything else moves toward the reading end, which is the left. */
+[dir='rtl'] .card-hover:hover .link svg:not(.icon-dir), [dir='rtl'] .card-hover:hover .chev { transform: translateX(-2px); }
 .card-dark { background: var(--gray-900); color: var(--gray-100); border-color: rgb(255 255 255 / 0.08); }
 .glass { background: color-mix(in oklab, var(--bg), transparent 30%); border: 1px solid color-mix(in oklab, var(--fg), transparent 88%); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--bg), transparent 30%); }
 @media (min-width: 900px) { .glass { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); } }
@@ -162,7 +194,8 @@ a[href^='tel:']:not(.btn), a[href^='mailto:']:not(.btn) { padding-block: 12px; m
 @media (min-width: 1280px) {
   /* One element spans every section, so it cannot read per-section tokens: a translucent mid grey
      lands on #e3e3e3 over white and #292929 over the dark ground, matching --border-soft on both. */
-  .gutter-line { display: block; position: absolute; top: 0; bottom: 0; left: calc((100% - var(--container)) / 2 - 32px); width: 1px; background: rgb(128 128 128 / 0.22); pointer-events: none; z-index: 1; }
+  /* inset-inline-start: the hairline lives in the START gutter (right in RTL), and CtaBand's mark sits on it. */
+  .gutter-line { display: block; position: absolute; top: 0; bottom: 0; inset-inline-start: calc((100% - var(--container)) / 2 - 32px); width: 1px; background: rgb(128 128 128 / 0.22); pointer-events: none; z-index: 1; }
   .gutter-line::after { content: ''; position: absolute; left: 0; top: 0; width: 1px; height: 0; background: var(--red-600); }
   @supports (animation-timeline: scroll()) {
     .gutter-line::after { height: 100%; transform-origin: top; transform: scaleY(0); animation-name: gutter-progress; animation-timing-function: linear; animation-fill-mode: both; }
@@ -176,13 +209,13 @@ a[href^='tel:']:not(.btn), a[href^='mailto:']:not(.btn) { padding-block: 12px; m
 
 /* ---------- Tables & forms ---------- */
 .table { font-size: var(--text-body); }
-.table th, .table td { padding: 14px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-soft); color: var(--fg-2); }
+.table th, .table td { padding: 14px 16px; text-align: start; vertical-align: top; border-bottom: 1px solid var(--border-soft); color: var(--fg-2); }
 .table thead th { border-bottom-color: var(--border); }
-@media (max-width: 640px) { .table th, .table td { padding: 12px; font-size: var(--text-small); } .table-wrap { position: relative; } .table-wrap thead th:first-child, .table-wrap tbody td:first-child { position: sticky; left: 0; background: var(--bg); } }
+@media (max-width: 640px) { .table th, .table td { padding: 12px; font-size: var(--text-small); } .table-wrap { position: relative; } .table-wrap thead th:first-child, .table-wrap tbody td:first-child { position: sticky; inset-inline-start: 0; background: var(--bg); } }
 .table thead th { font-weight: 500; color: var(--muted); font-size: var(--text-small); }
 .table td.num, .table tbody td.val { font-weight: 600; }
 .table tbody tr:last-child td { border-bottom: 0; }
-.table td.num, .table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.table td.num, .table th.num { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 /* Scroll hint: a page script sets data-overflow="start|mid|end" on .table-wrap/.scroll-x when they overflow;
    the trailing edge fades until the scroller reaches its end (a sticky first column stays opaque on the left). */
@@ -190,17 +223,23 @@ a[href^='tel:']:not(.btn), a[href^='mailto:']:not(.btn) { padding-block: 12px; m
 .scroll-x[data-overflow='mid'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); }
 .scroll-x[data-overflow='end'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 28px); mask-image: linear-gradient(90deg, transparent, #000 28px); }
 .table-wrap[data-overflow='end'] { -webkit-mask-image: none; mask-image: none; }
+/* RTL: the trailing edge is the LEFT one (and the sticky first column is on the right), so the same
+   four states with the gradients turned round. A gradient has no logical direction. */
+[dir='rtl'] .table-wrap[data-overflow], [dir='rtl'] .scroll-x[data-overflow] { -webkit-mask-image: linear-gradient(270deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(270deg, #000 calc(100% - 28px), transparent); }
+[dir='rtl'] .scroll-x[data-overflow='mid'] { -webkit-mask-image: linear-gradient(270deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(270deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); }
+[dir='rtl'] .scroll-x[data-overflow='end'] { -webkit-mask-image: linear-gradient(270deg, transparent, #000 28px); mask-image: linear-gradient(270deg, transparent, #000 28px); }
+[dir='rtl'] .table-wrap[data-overflow='end'] { -webkit-mask-image: none; mask-image: none; }
 @media (max-width: 640px) {
   /* Only genuinely wide tables scroll. A 2-column table (label + value) must fit the phone, otherwise
      the value — the thing the page exists to show — is pushed off-screen. */
   .table-wrap .table { min-width: 440px; }
   .table-wrap .table[data-cols='2'], .table-wrap .table[data-cols='1'] { min-width: 0; }
   .table-wrap .table[data-cols='2'] th:first-child, .table-wrap .table[data-cols='2'] td:first-child { max-width: none; }
-  .table-wrap .table[data-cols='2'] td.num, .table-wrap .table[data-cols='2'] td:last-child { text-align: right; }
+  .table-wrap .table[data-cols='2'] td.num, .table-wrap .table[data-cols='2'] td:last-child { text-align: end; }
   .table-wrap .table:not([data-cols='2']):not([data-cols='1']) thead th:first-child,
   .table-wrap .table:not([data-cols='2']):not([data-cols='1']) tbody th:first-child,
   .table-wrap .table:not([data-cols='2']):not([data-cols='1']) tbody td:first-child { min-width: 112px; max-width: 150px; }
-  .table-wrap .table:not([data-cols='2']):not([data-cols='1']) tbody th:first-child { position: sticky; left: 0; background: var(--bg); }
+  .table-wrap .table:not([data-cols='2']):not([data-cols='1']) tbody th:first-child { position: sticky; inset-inline-start: 0; background: var(--bg); }
 }
 .field { display: grid; gap: 6px; }
 .field label, .label { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); }
@@ -208,7 +247,9 @@ a[href^='tel:']:not(.btn), a[href^='mailto:']:not(.btn) { padding-block: 12px; m
 .input::placeholder, .textarea::placeholder { color: var(--meta); }
 .input:focus-visible, .select:focus-visible, .textarea:focus-visible { border-color: var(--accent); box-shadow: var(--focus-ring); outline: none; }
 .textarea { min-height: 120px; resize: vertical; }
-.select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+.select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-inline-end: 40px; }
+/* background-position has no logical keyword: the chevron moves to the inline end by hand. */
+[dir='rtl'] .select { background-position: left 14px center; }
 .hint { font-size: var(--text-caption); color: var(--meta); }
 .checkbox { display: flex; gap: 10px; align-items: flex-start; font-size: var(--text-small); color: var(--fg-2); }
 .checkbox input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent); flex: none; }
@@ -219,7 +260,7 @@ a[href^='tel:']:not(.btn), a[href^='mailto:']:not(.btn) { padding-block: 12px; m
 /* ---------- Breadcrumbs, details ---------- */
 .breadcrumbs { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 8px; align-items: center; font-size: var(--text-small); color: var(--muted); white-space: nowrap; }
 .breadcrumbs a:hover { color: var(--fg); }
-.breadcrumbs li + li::before { content: '›'; margin-right: 8px; color: var(--meta); }
+.breadcrumbs li + li::before { content: '›'; margin-inline-end: 8px; color: var(--meta); }
 .breadcrumbs a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .breadcrumbs [aria-current] { color: var(--fg); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
 .breadcrumbs [aria-current]::before { content: ''; width: 7px; height: 8px; background: var(--accent-text); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }

@@ -66,11 +66,11 @@ const socials = [
             </div>
             <div class="row">
               <dt><Icon name="phone" size={18} /><span>{t.card.phoneLabel}</span></dt>
-              <dd><a href={phoneUrl} class="val tnum">{site.phoneDisplay}</a></dd>
+              <dd><a href={phoneUrl} class="val tnum" dir="ltr">{site.phoneDisplay}</a></dd>
             </div>
             <div class="row">
               <dt><Icon name="phone" size={18} /><span>{t.card.phone2Label}</span></dt>
-              <dd><a href={phone2Url} class="val tnum">{site.phone2Display}</a><br /><a href={whatsappUrl} target="_blank" rel="noopener" class="meta-s wa">{t.card.whatsappLabel}</a></dd>
+              <dd><a href={phone2Url} class="val tnum" dir="ltr">{site.phone2Display}</a><br /><a href={whatsappUrl} target="_blank" rel="noopener" class="meta-s wa">{t.card.whatsappLabel}</a></dd>
             </div>
             <div class="row">
               <dt><Icon name="clock" size={18} /><span>{t.card.hoursLabel}</span></dt>
@@ -78,13 +78,13 @@ const socials = [
             </div>
             <div class="row">
               <dt><Icon name="mail" size={18} /><span>{t.card.emailLabel}</span></dt>
-              <dd><a href={`mailto:${site.email}`} class="val">{site.email}</a></dd>
+              <dd><a href={`mailto:${site.email}`} class="val" dir="ltr">{site.email}</a></dd>
             </div>
             <div class="row">
               <dt><Icon name="telegram" size={18} /><span>{t.card.telegramLabel}</span></dt>
               <dd>
                 <ul class="links" role="list">
-                  {channels.map((x) => <li><a href={x.href} target="_blank" rel="noopener"><Icon name={x.icon} size={16} /><span class="val">{x.label}</span><span class="meta-s">{x.meta}</span></a></li>)}
+                  {channels.map((x) => <li><a href={x.href} target="_blank" rel="noopener"><Icon name={x.icon} size={16} /><span class="val">{x.label}</span><span class="meta-s" dir="ltr">{x.meta}</span></a></li>)}
                 </ul>
               </dd>
             </div>
@@ -92,7 +92,7 @@ const socials = [
               <dt><Icon name="globe" size={18} /><span>{t.card.socialLabel}</span></dt>
               <dd>
                 <ul class="links" role="list">
-                  {socials.map((x) => <li><a href={x.href} target="_blank" rel="noopener"><Icon name={x.icon} size={16} /><span class="val">{x.label}</span><span class="meta-s">{x.meta}</span></a></li>)}
+                  {socials.map((x) => <li><a href={x.href} target="_blank" rel="noopener"><Icon name={x.icon} size={16} /><span class="val">{x.label}</span><span class="meta-s" dir="ltr">{x.meta}</span></a></li>)}
                 </ul>
               </dd>
             </div>
@@ -105,17 +105,19 @@ const socials = [
           <ol class="wh-list" role="list">
             {site.chinaWarehouses.map((w) => (
               <li class="wh">
-                <p class="wh-city">{pick(lang, w.city)}<span class="wh-zh" lang="zh">{w.cityZh}</span></p>
+                <p class="wh-city">{pick(lang, w.city)}<span class="wh-zh" lang="zh" dir="ltr">{w.cityZh}</span></p>
+                {/* Chinese blocks are LTR islands: in an RTL paragraph the closing "）" of "（高德导航）" or
+                    "周先生（小周）" would resolve right-to-left and jump to the far end. */}
                 {site.publishChinaAddresses && (
-                  <p class="wh-addr" lang="zh">{w.address}{w.note ? `（${w.note}）` : ''}</p>
+                  <p class="wh-addr" lang="zh" dir="ltr">{w.address}{w.note ? `（${w.note}）` : ''}</p>
                 )}
                 <dl class="wh-meta">
                   {w.contact && (
-                    <div class="wh-row"><dt>{t.china.contactLabel}</dt><dd lang="zh">{w.contact}</dd></div>
+                    <div class="wh-row"><dt>{t.china.contactLabel}</dt><dd lang="zh" dir="ltr">{w.contact}</dd></div>
                   )}
                   <div class="wh-row">
                     <dt>{t.china.phoneLabel}</dt>
-                    <dd>{w.phones.map((ph, i) => <><a href={`tel:${ph.e164}`} class="tnum">{ph.display}</a>{i < w.phones.length - 1 ? <span class="sep">{sepMark(lang)}</span> : null}</>)}</dd>
+                    <dd>{w.phones.map((ph, i) => <><a href={`tel:${ph.e164}`} class="tnum" dir="ltr">{ph.display}</a>{i < w.phones.length - 1 ? <span class="sep">{sepMark(lang)}</span> : null}</>)}</dd>
                   </div>
                 </dl>
               </li>
@@ -229,6 +231,8 @@ const socials = [
   .wh-city { display: flex; align-items: baseline; gap: 8px; font-weight: 600; color: var(--fg); }
   .wh-zh { font-size: var(--text-small); font-weight: 500; color: var(--meta); }
   .wh-addr { margin-top: 4px; color: var(--fg-2); line-height: 1.5; overflow-wrap: anywhere; }
+  /* An LTR island (dir="ltr") that still lines up with the rest of the card on an RTL page. */
+  :global([dir='rtl']) .wh-addr { text-align: right; }
   .wh-meta { display: grid; gap: 2px; margin: 10px 0 0; }
   .wh-row { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: var(--text-small); }
   .wh-row dt { min-width: 96px; color: var(--muted); }

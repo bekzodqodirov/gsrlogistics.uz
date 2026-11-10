@@ -35,9 +35,11 @@ const UNSEEN = new Set(['script', 'style', 'svg', 'template', 'title']);
  * The visible text of a page's <body> that is the page's OWN language: header, main and footer,
  * minus scripts, styles, SVG and every element whose `lang` names another language (the language
  * switcher's endonyms, a Chinese address on a Persian page). This is what a zh/fa reader reads, so
- * it is what the untranslated-text and orthography checks of those locales run on.
+ * it is what the untranslated-text and orthography checks of those locales run on. With `nodes`,
+ * the same text is also collected one text node at a time, for the rules that must not read across
+ * a tag (two table cells side by side are not one number).
  */
-function proseText(html, pageLang) {
+function proseText(html, pageLang, nodes) {
   const start = html.search(/<body\b/i);
   const body = start === -1 ? html : html.slice(start);
   const primary = pageLang.split('-')[0].toLowerCase();
@@ -47,7 +49,10 @@ function proseText(html, pageLang) {
   while (i < body.length) {
     const lt = body.indexOf('<', i);
     const chunk = lt === -1 ? body.slice(i) : body.slice(i, lt);
-    if (!stack.some((e) => e.skip)) out += chunk;
+    if (!stack.some((e) => e.skip)) {
+      out += chunk;
+      if (nodes && chunk.trim()) nodes.push(decodeEntities(chunk));
+    }
     if (lt === -1) break;
     if (body.startsWith('<!--', lt)) { const e = body.indexOf('-->', lt); i = e === -1 ? body.length : e + 3; continue; }
     const gt = body.indexOf('>', lt);
@@ -237,10 +242,17 @@ for (const file of walk(dist)) {
 
   // Chinese and Persian pages: their own orthography, and no untranslated text.
   if (lang === 'zh' || lang === 'fa') {
-    const own = [proseText(html, LOCALES[lang].htmlLang), ...headStrings(html).slice(0, 1), (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] ?? ''].join(' \n ');
+    const nodes = [];
+    const head = [...headStrings(html).slice(0, 1), decodeEntities((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] ?? '')];
+    const own = [proseText(html, LOCALES[lang].htmlLang, nodes), ...head].join(' \n ');
+    nodes.push(...head);
     for (const r of PAGE_RULES[lang]) {
-      const m = own.match(r.re);
-      if (m) (r.level === 'error' ? errors : warn).push(`${url}: ${r.msg} — «${own.slice(Math.max(0, m.index - 12), m.index + m[0].length + 12).trim()}»`);
+      for (const t of r.textNode ? nodes : [own]) {
+        const m = t.match(r.re);
+        if (!m) continue;
+        (r.level === 'error' ? errors : warn).push(`${url}: ${r.msg} — «${t.slice(Math.max(0, m.index - 12), m.index + m[0].length + 12).trim()}»`);
+        break;
+      }
     }
     const runs = leakRuns(own, enQuotes(`${LOCALES.en.prefix}${unprefixed(url, lang)}`));
     if (runs.length && isPending(lang)) pending.push({ url, lang, runs });
@@ -256,7 +268,9 @@ if (fs.existsSync(llmsFile)) {
   for (const msg of claims(txt)) errors.push(`llms.txt: ${msg}`);
   if (retiredPhone(normalize(txt)) && !claims(txt).includes('retired second phone number')) errors.push('llms.txt: retired second phone number');
 }
-const out = (label, list) => { if (list.length) { console.log(`\n${label} (${list.length}):`); for (const l of list.slice(0, 40)) console.log('  ' + l); } };
+/** How many lines to print per list (CHECK_MAX=… shows more, as in check-kirill.mjs, when one component breaks a whole locale). */
+const SHOW = Number(process.env.CHECK_MAX ?? 40);
+const out = (label, list) => { if (list.length) { console.log(`\n${label} (${list.length}):`); for (const l of list.slice(0, SHOW)) console.log('  ' + l); if (list.length > SHOW) console.log(`  … and ${list.length - SHOW} more`); } };
 out('WARNINGS', warn);
 out('ERRORS', errors);
 if (pending.length) {

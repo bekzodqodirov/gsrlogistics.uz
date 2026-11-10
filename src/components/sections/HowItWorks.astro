@@ -74,11 +74,13 @@ const telegramHref = telegramChat(c.telegramDraft.general);
   .steps::before, .steps::after { content: ''; position: absolute; pointer-events: none; }
   /* stop at the centre of the fifth node instead of the grid's right edge, or the rail trails off
      past the last step: one column minus half a node is exactly that distance from the edge. */
-  .steps::before, .steps::after { left: 0; right: calc((100% - 4 * var(--col-gap)) / 5 - var(--node) / 2); top: calc(var(--node) / 2 - var(--rail-w) / 2); height: var(--rail-w); }
+  /* Reading order, so the rail mirrors in RTL: logical sides, and the drawn line grows from the start. */
+  .steps::before, .steps::after { inset-inline-start: 0; inset-inline-end: calc((100% - 4 * var(--col-gap)) / 5 - var(--node) / 2); top: calc(var(--node) / 2 - var(--rail-w) / 2); height: var(--rail-w); }
   .steps::before { background: var(--border-soft); }
   .steps::after { background: var(--fg); transform-origin: left center; }
+  @media (min-width: 900px) { :global([dir='rtl']) .steps::after { transform-origin: right center; } }
   .step { position: relative; padding-top: calc(var(--node) + 20px); min-width: 0; }
-  .node { position: absolute; top: 0; left: 0; width: var(--node); height: calc(var(--node) * 1.1); clip-path: var(--hex); background: var(--fg); z-index: 1; }
+  .node { position: absolute; top: 0; inset-inline-start: 0; width: var(--node); height: calc(var(--node) * 1.1); clip-path: var(--hex); background: var(--fg); z-index: 1; }
   .node::after { content: ''; position: absolute; inset: 2px; clip-path: var(--hex); background: var(--fg); }
   .step:last-child .node, .step:last-child .node::after { background: var(--accent); }
   .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
@@ -114,15 +116,15 @@ const telegramHref = telegramChat(c.telegramDraft.general);
   }
 
   @media (max-width: 899px) {
-    .steps { grid-template-columns: 1fr; row-gap: 32px; padding-left: calc(var(--node) + 20px); }
-    .steps::before, .steps::after { top: 0; bottom: 0; left: calc(var(--node) / 2 - var(--rail-w) / 2); right: auto; width: var(--rail-w); height: auto; }
+    .steps { grid-template-columns: 1fr; row-gap: 32px; padding-inline-start: calc(var(--node) + 20px); }
+    .steps::before, .steps::after { top: 0; bottom: 0; inset-inline-start: calc(var(--node) / 2 - var(--rail-w) / 2); inset-inline-end: auto; width: var(--rail-w); height: auto; }
     .steps::after { transform-origin: center top; }
     .step { padding-top: 0; }
     /* The vertical rail runs to the bottom of the list, but the last node sits at the top of the last
        step and CSS cannot know that step's height, so paint the tail out with the section ground.
        z-index 2 clears .steps::after, which is the last child and would otherwise draw over it. */
-    .step:last-child::after { content: ''; position: absolute; z-index: 2; left: calc(-1 * (var(--node) + 20px) + var(--node) / 2 - 1.5px); top: calc(4px + var(--node) * 1.1); bottom: 0; width: 3px; background: var(--bg); }
-    .node { top: 4px; left: calc(-1 * (var(--node) + 20px)); }
+    .step:last-child::after { content: ''; position: absolute; z-index: 2; inset-inline-start: calc(-1 * (var(--node) + 20px) + var(--node) / 2 - 1.5px); top: calc(4px + var(--node) * 1.1); bottom: 0; width: 3px; background: var(--bg); }
+    .node { top: 4px; inset-inline-start: calc(-1 * (var(--node) + 20px)); }
     .top { margin-bottom: 10px; }
     .text { font-size: var(--text-body); }
     @supports (animation-timeline: view()) {

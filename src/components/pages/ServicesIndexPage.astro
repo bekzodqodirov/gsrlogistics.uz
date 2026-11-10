@@ -132,7 +132,7 @@ const itemList = {
             <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram" data-picker>{c.cta.telegram}</Button>
             <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
           </div>
-          <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
+          <p class="caption cta-meta"><a href={phoneUrl} class="tnum" dir="ltr">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
         </div>
       </div>
     </section>
@@ -142,7 +142,8 @@ const itemList = {
 <script>
   // Scroll hint: mark scrollers that overflow so global.css can fade the trailing edge (cleared at the end).
   const scrollers = Array.from(document.querySelectorAll<HTMLElement>('.table-wrap, .scroll-x'));
-  const mark = (el: HTMLElement) => { const over = el.scrollWidth - el.clientWidth > 2; if (!over) { el.removeAttribute('data-overflow'); return; } el.dataset.overflow = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? 'end' : el.scrollLeft > 2 ? 'mid' : 'start'; };
+  // Math.abs: in RTL scrollLeft runs from 0 at the start to NEGATIVE values toward the end.
+  const mark = (el: HTMLElement) => { const over = el.scrollWidth - el.clientWidth > 2; if (!over) { el.removeAttribute('data-overflow'); return; } const pos = Math.abs(el.scrollLeft); el.dataset.overflow = pos + el.clientWidth >= el.scrollWidth - 2 ? 'end' : pos > 2 ? 'mid' : 'start'; };
   scrollers.forEach((el) => { mark(el); el.addEventListener('scroll', () => mark(el), { passive: true }); });
   window.addEventListener('resize', () => scrollers.forEach(mark));
 </script>
@@ -168,13 +169,13 @@ const itemList = {
   .row-main { display: grid; gap: 4px; min-width: 0; }
   .row-name { font-size: 1.25rem; font-weight: 600; line-height: 1.25; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .row-short { color: var(--fg-2); text-wrap: pretty; }
-  .row-num { font-weight: 600; color: var(--fg); font-size: var(--text-small); text-align: right; white-space: nowrap; }
+  .row-num { font-weight: 600; color: var(--fg); font-size: var(--text-small); text-align: end; white-space: nowrap; }
 
   .compare { padding-block: clamp(48px, 6vw, 96px); background: var(--bg-2); }
   .compare-head { display: grid; gap: 8px; max-width: 60ch; margin-bottom: 28px; }
   .table { background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); overflow: hidden; min-width: 720px; }
   .table thead th { background: var(--card); }
-  .table tbody th { font-weight: 600; color: var(--fg); text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+  .table tbody th { font-weight: 600; color: var(--fg); text-align: start; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
   .table tbody tr:last-child th { border-bottom: 0; }
   .table-wrap { border-radius: var(--radius-lg); }
   .table-meta { margin-top: 12px; }
@@ -193,7 +194,7 @@ const itemList = {
     .row-index { display: none; }
     .row-glyph { grid-area: glyph; align-self: start; }
     .row-main { grid-area: main; }
-    .row-num { grid-area: num; text-align: left; white-space: normal; }
+    .row-num { grid-area: num; text-align: start; white-space: normal; }
     .row-chev { grid-area: chev; }
     .row-name { font-size: 1.125rem; }
     .cta-row { flex-direction: column; }
@@ -201,5 +202,5 @@ const itemList = {
     .how { grid-template-columns: 1fr; gap: 12px; }
     .table { min-width: 640px; }
   }
-  @media (max-width: 640px) { .table { overflow: visible; } .table tbody th { position: sticky; left: 0; z-index: 1; background: var(--card); } }
+  @media (max-width: 640px) { .table { overflow: visible; } .table tbody th { position: sticky; inset-inline-start: 0; z-index: 1; background: var(--card); } }
 </style>

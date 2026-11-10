@@ -42,7 +42,7 @@ const eyebrow = number ? `${number} — ${t.eyebrow}` : t.eyebrow;
         </div>
         <div class="addr-row">
           <dt>{c.header.phoneLabel}</dt>
-          <dd><a href={phoneUrl} class="tnum phone">{site.phoneDisplay}</a></dd>
+          <dd><a href={phoneUrl} class="tnum phone" dir="ltr">{site.phoneDisplay}</a></dd>
         </div>
       </dl>
     </div>
@@ -59,8 +59,9 @@ const eyebrow = number ? `${number} — ${t.eyebrow}` : t.eyebrow;
      leads from the mark to the content edge. Nothing continues below the mark. */
   @media (min-width: 1280px) {
     .cta { z-index: 2; overflow-x: visible; overflow-y: clip; }
-    .lock { margin-left: -46px; gap: 0; }
-    .lock::before { content: ''; position: absolute; left: 13.5px; bottom: 50%; width: 1px; height: 100vh; background: var(--border-soft); }
+    /* Logical, with global.css .gutter-line: the mark sits on the START-gutter hairline (right in RTL). */
+    .lock { margin-inline-start: -46px; gap: 0; }
+    .lock::before { content: ''; position: absolute; inset-inline-start: 13.5px; bottom: 50%; width: 1px; height: 100vh; background: var(--border-soft); }
     .lock :global(.logo) { position: relative; }
     .lock-line { width: 18px; }
   }

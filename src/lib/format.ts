@@ -365,15 +365,17 @@ export function readingMinutes(text: string): number {
 /**
  * Normalise typed or pasted text to ASCII digits before parsing or validating: Persian ۰–۹ and
  * Arabic-Indic ٠–٩ become 0–9; the full-width forms a Chinese IME types (０–９, ．，＋－ and the
- * letters) become ASCII; '٫' (Arabic decimal separator) becomes '.', '،' (Arabic comma) ',', and '٬'
- * (Arabic thousands separator — it only ever groups) is dropped. Everything else is left alone.
+ * letters) become ASCII, and so does the ideographic full stop '。' a Chinese IME in Chinese-punctuation
+ * mode types for the point ("0。8" is 0.8, not 8); '٫' (Arabic decimal separator) becomes '.', '،'
+ * (Arabic comma) ',', and '٬' (Arabic thousands separator — it only ever groups) is dropped.
+ * Everything else is left alone.
  */
 export function toAsciiDigits(text: string): string {
-  return text.replace(/[٠-٩۰-۹٫٬،　！-～]/g, (ch) => {
+  return text.replace(/[٠-٩۰-۹٫٬،　。！-～]/g, (ch) => {
     const c = ch.charCodeAt(0);
     if (c >= 0x06f0 && c <= 0x06f9) return String(c - 0x06f0);
     if (c >= 0x0660 && c <= 0x0669) return String(c - 0x0660);
-    if (c === 0x066b) return '.';
+    if (c === 0x066b || c === 0x3002) return '.';
     if (c === 0x066c) return '';
     if (c === 0x060c) return ',';
     if (c === 0x3000) return ' ';
@@ -413,7 +415,7 @@ export function parseNumber(raw: string, lang: Locale): number {
 export function decimalPattern(lang: Locale): string {
   const f = FORMATS[lang];
   const d = '0-9۰-۹٠-٩０-９';
-  const point = `.٫．${f.slashDecimal ? '\\/' : ''}`;
+  const point = `.٫．。${f.slashDecimal ? '\\/' : ''}`;
   const plain = `[${d}٬]*[,،，${point}]?[${d}]*`;
   return f.readGroups ? `${plain}|[${d}]{1,3}(?:[,，][${d}]{3})+(?:[${point}][${d}]*)?` : plain;
 }

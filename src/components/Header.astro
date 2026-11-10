@@ -1,21 +1,20 @@
 ---
-import { pick, langMeta, locales, type Locale } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { pagePath, itemPath } from '@/i18n/routes';
 import { common } from '@/i18n/common';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { fmtRange } from '@/lib/format';
 import Logo from './ui/Logo.astro';
 import Icon from './ui/Icon.astro';
+import LangSwitcher from './LangSwitcher.astro';
 import { services } from '@/data/services';
 import tariffs from '@/data/tariffs.json';
 interface Props { lang: Locale; alternates: Array<{ lang: Locale; href: string }>; currentPath: string }
 const { lang, alternates, currentPath } = Astro.props;
 const t = pick(lang, common);
 const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '/en/' && currentPath.startsWith(href);
-// The switcher shows the sibling page in every locale. Cyrillic paths are decoded back to UTF-8:
-// `new URL().pathname` percent-encodes them, and a visible href should read as the word it is.
-const switchHref = (l: Locale) => { const alt = alternates.find((a) => a.lang === l); return alt ? decodeURI(new URL(alt.href).pathname) : pagePath(l, 'home'); };
 const allServices = pick(lang, { uz: 'Barcha xizmatlar', ru: 'Все услуги', en: 'All services' });
-const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–${tariffs.truck.days[1]} ${t.strings.days}` : key === 'air' ? `${tariffs.air.days[0]}–${tariffs.air.days[1]} ${t.strings.days}` : key === 'rail' ? `${tariffs.rail.days[0]}–${tariffs.rail.days[1]} ${t.strings.days}` : '';
+const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'rail' ? fmtRange(tariffs[key].days[0], tariffs[key].days[1], t.strings.days, lang) : '';
 ---
 <header class="site-header" id="site-header" data-scrolled="false">
   <div class="container header-inner">
@@ -48,10 +47,8 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
       </ul>
     </nav>
     <div class="header-actions">
-      <div class="lang" role="group" aria-label={t.header.langLabel}>
-        {locales.map((l) => <a href={switchHref(l)} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined} title={langMeta[l].label}>{langMeta[l].short}</a>)}
-      </div>
-      <a href={phoneUrl} class="phone" aria-label={`${t.header.phoneLabel}: ${site.phoneDisplay}`}><Icon name="phone" size={18} /><span class="tnum">{site.phoneDisplay}</span></a>
+      <LangSwitcher lang={lang} alternates={alternates} variant="menu" />
+      <a href={phoneUrl} class="phone" aria-label={`${t.header.phoneLabel}: ${site.phoneDisplay}`}><Icon name="phone" size={18} /><span class="tnum" dir="ltr">{site.phoneDisplay}</span></a>
       <a href={telegramChat(t.telegramDraft.general)} class="btn btn-primary btn-sm header-cta" target="_blank" rel="noopener" data-picker><Icon name="telegram" size={16} />{t.cta.telegram}</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label={t.header.menu} data-menu-toggle>
         <Icon name="menu" size={22} class="icon-open" /><Icon name="x" size={22} class="icon-close" />
@@ -65,10 +62,8 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
       </ul>
       <div class="mobile-menu-foot">
         <a href={telegramChat(t.telegramDraft.general)} class="btn btn-primary btn-block" target="_blank" rel="noopener" data-picker><Icon name="telegram" size={18} />{t.cta.telegram}</a>
-        <a href={phoneUrl} class="btn btn-outline btn-block"><Icon name="phone" size={18} /><span class="tnum">{site.phoneDisplay}</span></a>
-        <div class="lang lang-mobile" role="group" aria-label={t.header.langLabel}>
-          {locales.map((l) => <a href={switchHref(l)} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined}>{langMeta[l].label}</a>)}
-        </div>
+        <a href={phoneUrl} class="btn btn-outline btn-block"><Icon name="phone" size={18} /><span class="tnum" dir="ltr">{site.phoneDisplay}</span></a>
+        <LangSwitcher lang={lang} alternates={alternates} variant="grid" />
       </div>
     </nav>
   </div>
@@ -84,16 +79,20 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   .nav-desktop > ul > li > a[aria-current='page']::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; background: var(--red-600); border-radius: 2px; }
   .site-header[data-over-dark='true'] .nav-desktop > ul > li > a[aria-current='page']::after { background: var(--red-300); }
   .header-inner { display: flex; align-items: center; gap: 12px; min-height: var(--header-h); min-width: 0; }
-  .brand { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg); margin-right: 8px; }
+  .brand { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg); margin-inline-end: 8px; }
   .nav-desktop { display: none; flex: 1 1 auto; }
   .nav-desktop > ul { display: flex; gap: 2px; align-items: center; }
   .nav-desktop > ul > li > a { position: relative; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; padding: 0 10px; border-radius: var(--radius-pill); font-size: 0.9375rem; font-weight: 500; color: var(--fg-2); transition: background var(--dur) var(--ease), color var(--dur) var(--ease); }
   .nav-desktop > ul > li > a:hover { background: color-mix(in oklab, var(--fg), transparent 93%); color: var(--fg); }
   .nav-desktop > ul > li > a[aria-current='page'] { color: var(--fg); }
   .has-mega { position: relative; display: inline-flex; align-items: center; }
-  .mega-toggle { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 40px; margin-left: -8px; color: var(--muted); border-radius: var(--radius-pill); }
+  .mega-toggle { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 40px; margin-inline-start: -8px; color: var(--muted); border-radius: var(--radius-pill); }
   .mega-toggle:hover, .mega-toggle[aria-expanded='true'] { color: var(--fg); }
-  .mega { position: absolute; top: calc(100% + 8px); left: -8px; width: min(720px, calc(100vw - 48px)); padding: 12px; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur); z-index: 5; }
+  /* Opens from the Services item toward the inline end: rightwards on LTR pages, leftwards on the RTL
+     one. Services is always the first item after the 170px logo, so its inline-start edge sits ~214px
+     from the viewport edge; the width keeps the panel's far edge a gutter inside the viewport from
+     900px (the full logo leaves it ~26px short of 720 there) and is 720px from ~955px up. */
+  .mega { position: absolute; top: calc(100% + 8px); inset-inline-start: -8px; width: min(720px, calc(100vw - 232px)); padding: 12px; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur); z-index: 5; }
   /* Without JS the panel opens on hover and focus alone. Once the script boots it adds .mega-js and
      takes over, so Escape can actually close a panel the pointer or focus is still inside. */
   .has-mega.is-open .mega, .has-mega:not(.mega-js):hover .mega, .has-mega:not(.mega-js):focus-within .mega { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
@@ -110,13 +109,7 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   .mega-all { display: inline-flex; margin: 8px 12px 4px; font-size: var(--text-small); }
   .site-header[data-over-dark='true'] .mega { background: var(--gray-900); border-color: rgb(255 255 255 / 0.08); }
   .site-header[data-over-dark='true'] .mega-item:hover { background: rgb(255 255 255 / 0.06); }
-  .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-  .lang { display: flex; gap: 2px; align-items: center; }
-  /* 44px hit area — the pill itself is transparent, so this only grows the target */
-  .lang a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; height: 44px; padding: 0 6px; border-radius: var(--radius-pill); font-size: 0.875rem; font-weight: 500; color: var(--muted); transition: color var(--dur) var(--ease); }
-  .lang a + a::before { content: '·'; margin-right: 6px; color: var(--border); }
-  .lang a[aria-current='true'] { color: var(--fg); font-weight: 600; }
-  .lang a:hover { color: var(--fg); }
+  .header-actions { display: flex; align-items: center; gap: 8px; margin-inline-start: auto; }
   .phone { display: none; align-items: center; white-space: nowrap; gap: 8px; font-weight: 600; font-size: 0.9375rem; padding: 0 10px; min-height: 40px; border-radius: var(--radius-pill); color: var(--fg); }
   .phone:hover { background: color-mix(in oklab, var(--fg), transparent 93%); }
   .header-cta { display: none; white-space: nowrap; }
@@ -130,29 +123,26 @@ const daysFor = (key: string) => key === 'truck' ? `${tariffs.truck.days[0]}–$
   .mobile-nav a { display: flex; align-items: center; justify-content: space-between; min-height: 56px; font-size: 1.125rem; font-weight: 600; color: var(--fg); }
   .mobile-nav a[aria-current='page'] { color: var(--accent-text); }
   .mobile-menu-foot { display: grid; gap: 12px; padding-top: 20px; }
-  .lang-mobile { justify-content: space-between; }
-  .lang-mobile a { flex: 1; font-size: 0.875rem; letter-spacing: 0; }
   @media (min-width: 900px) { .nav-desktop { display: block; } .menu-btn { display: none; } .mobile-menu { display: none !important; } }
   @media (min-width: 1280px) { .header-cta { display: inline-flex; } }
   :global(html:lang(ru)) .nav-desktop > ul > li > a { font-size: 0.875rem; padding: 0 8px; }
-  /* A page whose own body text is Latin must not pull the 15.8 KB Cyrillic subset down for two
-     switcher labels alone. Both Cyrillic labels — Русский and Ўзбекча — fall back to the system
-     font there; on ru and uz-Cyrl pages the subset is loaded for the page anyway, so they keep
-     Onest. (Before the fourth locale this rule covered `[lang='ru']` only, and the new Ўз label
-     was re-introducing the download on every uz and en page.) */
-  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) .lang a[lang='ru'],
-  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) .lang a[lang='uz-Cyrl'] { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
-  /* Four locales, a 390px phone and a wordmark. Below the desktop breakpoint the switcher keeps
-     its 44px HEIGHT — the dimension a thumb actually needs — and gives up the fixed 44px width,
-     which was only padding around a three-letter label. Four 44px pills plus the brand overran
-     the viewport by 20px the moment the fourth locale appeared; measured at 320–430px after. */
-  @media (max-width: 899px) {
-    .lang a { min-width: 32px; padding: 0 4px; }
-    .lang a + a::before { margin-right: 4px; }
-    .header-inner { gap: 8px; }
-    .brand { margin-right: 0; }
-    .lang-mobile a { min-width: 0; padding: 0 6px; }
+  /* 900–1023px: logo + nav + language trigger in ~850px. The two Uzbek navs are the longest (Latin
+     615px, Cyrillic 676px at 15px/10px; ru 569, fa 550, en 548, zh 513), so below 1024px they tighten
+     like the ru nav does everywhere — Latin to 14px/8px (556px), Cyrillic to 13px/6px (552px) —
+     which leaves every locale ≥8px spare at 900px. From 1024px all six fit as they are. */
+  @media (min-width: 900px) and (max-width: 1023px) {
+    :global(html:lang(uz-Latn)) .nav-desktop > ul > li > a { font-size: 0.875rem; padding: 0 8px; }
+    :global(html:lang(uz-Cyrl)) .nav-desktop > ul > li > a { font-size: 0.8125rem; padding: 0 6px; }
   }
+  /* Below the desktop breakpoint the bar holds the logo, the language trigger and the menu button;
+     the compact trigger (LangSwitcher.astro) is what lets all three fit a 320px phone at full size. */
+  @media (max-width: 899px) {
+    .header-inner { gap: 8px; }
+    .brand { margin-inline-end: 0; }
+  }
+  /* Under 360px the trigger loses its globe and the actions close up, so the widest label (中文)
+     still leaves the 30px logo mark ~6px to spare at 320px. */
+  @media (max-width: 359px) { .header-actions { gap: 4px; } }
   @media (min-width: 1520px) { .phone { display: inline-flex; } }
   :global(body.menu-open) { overflow: hidden; }
 </style>

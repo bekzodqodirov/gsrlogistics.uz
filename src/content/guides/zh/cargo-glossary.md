@@ -18,10 +18,10 @@ sources:
   - title: "乌兹别克斯坦共和国海关法典（lex.uz）"
     url: "https://lex.uz/docs/2876352"
     date: "2016-01-20"
-  - title: "Incoterms 2020——国际商会"
+  - title: "Incoterms 2020 — 国际商会"
     url: "https://iccwbo.org/business-solutions/incoterms-rules/incoterms-2020/"
     date: "2020-01-01"
-  - title: "内阁第 244 号决议——个人免税入境额度"
+  - title: "部长内阁第 244 号决议——个人免税入境额度"
     url: "https://lex.uz/docs/7484114"
     date: "2025-04-19"
 ---
@@ -87,7 +87,7 @@ sources:
 货物丢失或损坏时按申报价值赔偿。保费通常约为货值的 1%。
 
 ### 美元汇率
-货运费用以美元计价，以苏姆支付，按公司公布的汇率结算（通常在中央银行汇率基础上略有上浮）。
+货运费用以美元计价，以苏姆支付，按公司公布的汇率结算（通常在乌兹别克斯坦中央银行汇率基础上略有上浮）。
 
 ## 海关与单证
 

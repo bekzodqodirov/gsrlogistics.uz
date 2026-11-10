@@ -2,7 +2,7 @@ import type { ContactStrings } from '../contact';
 
 /** Chinese (Simplified) strings for `src/i18n/contact.ts`, translated from its English branch. */
 export const zh: ContactStrings = {
-  seoTitle: '联系我们——GSR Logistics，塔什干阿利舍尔·纳沃伊街 27 号',
+  seoTitle: '联系我们 — GSR Logistics，塔什干阿利舍尔·纳沃伊街 27 号',
   seoDescription: '联系 GSR Logistics：塔什干阿利舍尔·纳沃伊街 27 号（地铁站旁），周一至周六 9:00–19:00。可通过 Telegram、电话、Instagram 或在线表单咨询中国货运。',
   eyebrow: '联系我们',
   h1: '联系我们',

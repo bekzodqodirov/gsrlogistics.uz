@@ -9,7 +9,7 @@ export const zh: WhyStrings = {
   reasons: [
     {
       glyph: 'warehouse',
-      title: '中国三个收货点，统一集货',
+      title: '中国 3 个收货点，统一集货',
       text: '我们把多家供应商的货物集中到一处，统一称重、测量并重新包装。收货点位于义乌、广州和喀什，具体发往哪一个由客户经理告知。',
       fact: '义乌 · 广州 · 喀什 · 一个件号，一份账单',
       link: 'warehouse',
@@ -18,12 +18,12 @@ export const zh: WhyStrings = {
     {
       glyph: 'languages',
       title: '客户经理会说乌兹别克语、俄语和中文',
-      text: '由我们替您与供应商沟通：价格、样品、发货日期。您无需懂中文。',
+      text: '由我们替您与供应商沟通：价格、样品、发货日期。您无需亲自与中国供应商打交道。',
       fact: '3 种语言 · 一位客户经理',
     },
     {
       glyph: 'camera',
-      title: '每个环节都有照片报告',
+      title: '每个阶段都有照片报告',
       text: '收货、测量和装车时我们都会拍照。您可以亲眼看到自己的货物——就在 Telegram 上，无需您开口索要。',
       fact: '收货 · 测量 · 装车',
     },

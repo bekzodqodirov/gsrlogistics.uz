@@ -221,7 +221,8 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
             <Button href={pagePath(lang, 'calculator')} variant="secondary" block>{c.cta.calculate}</Button>
           </div>
           <p class="side-hint">{t.page.stickyHint}</p>
-          <p class="side-phone"><a href={phoneUrl} class="tnum"><Icon name="phone" size={16} />{site.phoneDisplay}</a></p>
+          {/* The number is the LTR island; the icon stays outside it, at the inline start. */}
+          <p class="side-phone"><a href={phoneUrl} class="tnum"><Icon name="phone" size={16} /><span dir="ltr">{site.phoneDisplay}</span></a></p>
           <p class="caption side-hours tnum">{pick(lang, site.hours)}</p>
         </div>
       </aside>
@@ -271,7 +272,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
           <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum" dir="ltr">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>
@@ -289,8 +290,8 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   .facts-wrap { background: var(--bg-3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
   .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
   .facts[data-count='3'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .fact { padding: 24px 24px 20px 0; display: grid; align-content: start; gap: 8px; min-width: 0; }
-  .fact + .fact { border-left: 1px solid var(--border-soft); padding-left: 24px; }
+  .fact { padding-block: 24px 20px; padding-inline: 0 24px; display: grid; align-content: start; gap: 8px; min-width: 0; }
+  .fact + .fact { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 24px; }
   .fact-value { font-size: clamp(1.5rem, 1.6vw + 0.9rem, 2.25rem); line-height: 1.05; font-weight: 700; letter-spacing: -0.025em; color: var(--fg); text-wrap: balance; overflow-wrap: anywhere; }
   .fact-value.is-long { font-size: clamp(1.25rem, 0.6vw + 1rem, 1.5rem); letter-spacing: -0.012em; line-height: 1.2; }
   .fact-label { max-width: 28ch; text-wrap: pretty; }
@@ -307,7 +308,8 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   .bullets li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; color: var(--fg-2); }
   .tick { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-2); color: var(--fg); margin-top: 1px; }
   .steps { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 0; max-width: 70ch; position: relative; }
-  .steps::before { content: ''; position: absolute; left: 15px; top: 20px; bottom: 20px; width: 1px; background: var(--border); }
+  /* Threads the numbered circles, which are the inline-start column (right in RTL). */
+  .steps::before { content: ''; position: absolute; inset-inline-start: 15px; top: 20px; bottom: 20px; width: 1px; background: var(--border); }
   .step { display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding: 12px 0; position: relative; }
   .step-index { position: relative; z-index: 1; width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; font-size: var(--text-caption); font-weight: 600; color: var(--fg); }
   .step:first-child .step-index { background: var(--fg); color: var(--bg); border-color: var(--fg); }
@@ -318,8 +320,8 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   .tbl-caption { font-size: var(--text-h4); font-weight: 600; color: var(--fg); margin-bottom: 12px; }
   .tbl .table { border: 1px solid var(--border-soft); border-radius: var(--radius); overflow: hidden; }
   /* Phones: the tariff table scrolls inside .table-wrap (sticky first column + edge fade from global.css) instead of crushing its columns. */
-  @media (max-width: 640px) { .tbl .table { min-width: 560px; overflow: visible; /* overflow:hidden would make the table the sticky root */ } .tbl .table tbody th { position: sticky; left: 0; z-index: 1; background: var(--bg); padding: 12px; font-size: var(--text-small); } .tbl .table th, .tbl .table td { white-space: normal; } .tbl .table td.num { white-space: nowrap; } }
-  .tbl .table tbody th { font-weight: 600; color: var(--fg); text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+  @media (max-width: 640px) { .tbl .table { min-width: 560px; overflow: visible; /* overflow:hidden would make the table the sticky root */ } .tbl .table tbody th { position: sticky; inset-inline-start: 0; z-index: 1; background: var(--bg); padding: 12px; font-size: var(--text-small); } .tbl .table th, .tbl .table td { white-space: normal; } .tbl .table td.num { white-space: nowrap; } }
+  .tbl .table tbody th { font-weight: 600; color: var(--fg); text-align: start; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
   .tbl .table tbody tr:last-child th { border-bottom: 0; }
   .tbl-meta { margin-top: 10px; }
   .callout { display: grid; grid-template-columns: 24px 1fr; gap: 12px; margin-top: 24px; padding: 16px 18px; border: 1px solid var(--border); border-radius: var(--radius); max-width: 70ch; color: var(--fg-2); }
@@ -358,6 +360,8 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   .guide-link:hover { border-color: var(--meta); }
   .guide-link .chev { color: var(--muted); transition: transform var(--dur) var(--ease); }
   .guide-link:hover .chev { transform: translateX(2px); }
+  /* '›' mirrors by itself in RTL (Bidi_Mirrored); its nudge has to follow. */
+  :global([dir='rtl']) .guide-link:hover .chev { transform: translateX(-2px); }
   .updated { display: inline-flex; align-items: center; gap: 6px; margin-top: 32px; }
 
   /* ----- CTA band ----- */
@@ -374,9 +378,9 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   }
   @media (max-width: 899px) {
     .facts, .facts[data-count='3'] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .fact { padding: 18px 16px 16px 0; }
-    .fact + .fact { border-left: 0; padding-left: 0; }
-    .fact:nth-child(even) { border-left: 1px solid var(--border-soft); padding-left: 16px; }
+    .fact { padding-block: 18px 16px; padding-inline: 0 16px; }
+    .fact + .fact { border-inline-start: 0; padding-inline-start: 0; }
+    .fact:nth-child(even) { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 16px; }
     .fact:nth-child(n + 3) { border-top: 1px solid var(--border-soft); }
     .fact-value { font-size: 1.375rem; }
     .cta-row { flex-direction: column; }

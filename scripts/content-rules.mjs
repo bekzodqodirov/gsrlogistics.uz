@@ -107,7 +107,7 @@ export const ZH_FA_FORBIDDEN = [
     bad: ['نماینده رسمی انجمن یک کمربند'],
     good: ['کمربند و جاده'] },
   { id: 'zh.branches', msg: 'claims regional branches (zh)',
-    re: /(?:各州|各地区|各地|全国各地|各省)(?:均|都)?(?:设有|开设|拥有|有)(?:我们的)?(?:分公司|分部|分支机构|办事处)|(?:我们|GSR|公司)(?:在)?[^。！？!?；;]{0,10}(?:设有|开设|拥有)[^。！？!?；;]{0,6}(?:分公司|分部|分支机构)/iu,
+    re: /(?:各州|各地区|各地|全国各地|各省)(?:均|都)?(?:设有|开设|拥有|有)(?:我们的)?(?:分公司|分部|分支机构|办事处)|(?:我们|(?<![\w./@-])GSR|公司)(?:在)?[^。！？!?；;]{0,10}(?:设有|开设|拥有)[^。！？!?；;]{0,6}(?:分公司|分部|分支机构)/iu,
     bad: ['我们在各州设有分公司'],
     good: ['免费送到您所在地区的网点', '我们在塔什干设有办公室'] },
   { id: 'fa.branches', msg: 'claims regional branches (fa)',
@@ -165,7 +165,7 @@ export const ZH_FA_FORBIDDEN = [
     bad: ['每月20多辆卡车', '每月 20+ 辆。', '20+ 辆卡车', '每月超过 15 辆'],
     good: ['每月10+辆卡车', '3–4天', '20 多台车床', '超过 3 台设备', '超过 20 辆汽车', '吐尔尕特口岸每天通行 300 多辆卡车'] },
   { id: 'zh.age', msg: 'company age other than the confirmed 8+ years (zh; GSR since 2018)',
-    re: /(?<![\d+])(?!8(?!\d))\d{1,3}\s?\+\s?年|(?:GSR|我们|我司|本公司)(?![^。！？!?；;]{0,8}团队)[^。！？!?；;]{0,12}(?:(?<![\d+])(?!8(?!\d))\d{1,3}\s?(?:多|余)?\s?年(?:以上|多|有余)?(?:的)?(?:经验|历史|经营|运营|合作|从业)|(?:超过|逾|近)\s?(?!8(?!\d))\d{1,3}\s?年|(?:成立于|创立于|创办于|始建于)\s?(?!2018)(?:19|20)\d{2})/iu,
+    re: /(?<![\d+])(?!8(?!\d))\d{1,3}\s?\+\s?年|(?:(?<![\w./@-])GSR|我们|我司|本公司)(?![^。！？!?；;]{0,8}团队)[^。！？!?；;]{0,12}(?:(?<![\d+])(?!8(?!\d))\d{1,3}\s?(?:多|余)?\s?年(?:以上|多|有余)?(?:的)?(?:经验|历史|经营|运营|合作|从业)|(?:超过|逾|近)\s?(?!8(?!\d))\d{1,3}\s?年|(?:成立于|创立于|创办于|始建于)\s?(?!2018)(?:19|20)\d{2})/iu,
     bad: ['10+年', '我们有10年经验', 'GSR 成立于 2015 年', 'GSR Logistics，成立于 2015 年'],
     good: ['GSR — 自2018年起 8+年', '我们的团队拥有15年货运经验', '自2026年起，关税按新规计算', '车龄超过3年的汽车', '公司成立于2018年', '义乌国际商贸城始建于 2002 年', '供应商在平台上超过 5 年为佳'] },
   { id: 'zh.team15', msg: '15 years belongs to the team, not to GSR (zh; GSR is 8+ years, since 2018)',
@@ -182,7 +182,7 @@ export const ZH_FA_FORBIDDEN = [
     bad: ['ماهانه +۲۰ کامیون', 'ماهانه بیش از ۱۵ تریلی', 'بیش از ۲۰ کامیون در ماه'],
     good: ['ماهانه ۱۰+ کامیون', 'ماهانه بیش از ۱۰ کامیون', 'بیش از ۳ موتر', 'تروگارت روزانه بیش از ۳۰۰ کامیون را رد می‌کند'] },
   { id: 'fa.age', msg: 'company age other than the confirmed 8+ years (fa; GSR since 2018)',
-    re: /(?<![\d+])(?:\+\s?(?!8(?!\d))\d{1,3}|(?!8(?!\d))\d{1,3}\s?\+)\s?سال(?![م\p{Mn}ن])|(?:GSR|شرکت\sما|(?<!\p{Script=Arabic})ما(?!\p{Script=Arabic}))(?![^.؟!?]{0,20}تیم)[^.؟!?]{0,20}(?:بیش\s?از|بالای|افزون\s?بر)\s?(?!8(?!\d))\d{1,3}\s?سال|(?:تأسیس|تاسیس|آغاز\sبه\sکار)[^.؟!?]{0,20}(?!2018)(?:19|20)\d{2}/iu,
+    re: /(?<![\d+])(?:\+\s?(?!8(?!\d))\d{1,3}|(?!8(?!\d))\d{1,3}\s?\+)\s?سال(?![م\p{Mn}ن])|(?:(?<![\w./@-])GSR|شرکت\sما|(?<!\p{Script=Arabic})ما(?!\p{Script=Arabic}))(?![^.؟!?]{0,20}تیم)[^.؟!?]{0,20}(?:بیش\s?از|بالای|افزون\s?بر)\s?(?!8(?!\d))\d{1,3}\s?سال|(?:تأسیس|تاسیس|آغاز\sبه\sکار)[^.؟!?]{0,20}(?!2018)(?:19|20)\d{2}/iu,
     bad: ['+۱۰ سال', 'شرکت ما بیش از ۱۰ سال سابقه دارد', 'تأسیس در ۲۰۱۵'],
     good: ['۸+ سال', 'از سال ۲۰۱۸ با چین کار می‌کنیم', 'تیم ما ۱۵ سال تجربه دارد', 'سابقهٔ فروشنده در پلتفرم بیش از ۵ سال خوب است'] },
   { id: 'fa.team15', msg: '15 years belongs to the team, not to GSR (fa; GSR is 8+ years, since 2018)',
@@ -191,14 +191,19 @@ export const ZH_FA_FORBIDDEN = [
     good: ['تیم ما ۱۵ سال تجربه در حمل‌ونقل دارد.'] },
 
   /* — the three China receiving points are never GSR's own — */
+  // "Our warehouse" is banned outright, as uz "omborimiz" and ru "наш склад" are. "GSR's warehouse"
+  // only with a China place, as the uz/ru/en rule ("GSR Logistics' Yiwu warehouse"): the English
+  // routes guide ends at "the GSR warehouse" — the one in Tashkent — and its translation must pass.
   { id: 'zh.ourWarehouse', msg: 'claims a China receiving point as our own (zh)',
-    re: /我(?:们|司)(?:自己)?的\s?(?:义乌|广州|喀什|中国)?\s?(?:的)?\s?(?:仓库|货仓|库房|仓储中心|收货点)|我(?:们|司)(?:自己)?在\s?(?:义乌|广州|喀什|中国)\s?的\s?(?:仓库|货仓|库房|仓储中心|收货点)|我司\s?(?:义乌|广州|喀什)?\s?仓库|自有(?:的)?(?:仓库|收货点)|自营仓库|GSR(?:\s?Logistics)?\s?(?:的|自有的?|自己的)\s?(?:义乌|广州|喀什)?\s?(?:的)?\s?(?:仓库|收货点)/iu,
-    bad: ['我们的义乌仓库', '我们的仓库工作人员', 'GSR的义乌仓库', '我们在义乌的仓库', '我们的收货点'],
-    good: ['我们在义乌仓库为您验货', '义乌收货点', '仓库工作人员在每个环节扫描二维码', '我们在义乌的员工'] },
+    re: /我(?:们|司)(?:自己)?的\s?(?:义乌|广州|喀什|中国)?\s?(?:的)?\s?(?:仓库|货仓|库房|仓储中心|收货点)|我(?:们|司)(?:自己)?在\s?(?:义乌|广州|喀什|中国)\s?的\s?(?:仓库|货仓|库房|仓储中心|收货点)|我司\s?(?:义乌|广州|喀什)?\s?仓库|自有(?:的)?(?:仓库|收货点)|自营仓库|(?<![\w./@-])GSR(?:\s?Logistics)?\s?(?:自有的?|自己的)\s?(?:义乌|广州|喀什|中国)?\s?(?:的)?\s?(?:仓库|收货点)|(?<![\w./@-])GSR(?:\s?Logistics)?\s?的?\s?(?:(?:义乌|广州|喀什|中国)\s?(?:的)?\s?(?:仓库|收货点)|收货点)/iu,
+    bad: ['我们的义乌仓库', '我们的仓库工作人员', 'GSR的义乌仓库', 'GSR Logistics 义乌仓库', '我们在义乌的仓库', '我们的收货点', 'GSR自己的仓库', 'GSR 的收货点'],
+    // The contact page lists facebook.com/gsrlogistics right above its "中国收货点" heading: a handle
+    // or URL is not the company's name.
+    good: ['我们在义乌仓库为您验货', '义乌收货点', '仓库工作人员在每个环节扫描二维码', '我们在义乌的员工', '提交报关单（GTD）后运抵 GSR 仓库。', '货物运抵 GSR 的仓库', 'Facebook facebook.com/gsrlogistics 中国收货点', '频道 t.me/gsrlogistics 中国收货点'] },
   { id: 'fa.ourWarehouse', msg: 'claims a China receiving point as our own (fa)',
-    re: /انبار(?:\p{Cf}?(?:های|ها))?(?:\p{Mn}|ی)?\s?(?:ما|خودمان|خود\sما)(?!\p{Script=Arabic})|انبار(?:\p{Cf}?(?:های|ها))?مان(?!\p{Script=Arabic})|انبار(?:\p{Mn}|ی)?\s?(?:GSR|جی[\s\p{Cf}]?اس[\s\p{Cf}]?آر)|(?:محل|نقطه|نشانی|مرکز)(?:\p{Mn}|ی)?\s(?:تحویل|دریافت)(?:\sبار)?(?:\p{Mn}|ی)?\s(?:ما|خودمان)(?!\p{Script=Arabic})/iu,
-    bad: ['انبار ما در ییوو', 'انبارمان', 'انبار GSR در ییوو', 'محل تحویل بار ما در ییوو'],
-    good: ['انبار ییوو', 'نقطه دریافت ییوو', 'انبار ماشین‌آلات', 'کارکنان ما در ییوو', 'نشانی ما در تاشکند'] },
+    re: /انبار(?:\p{Cf}?(?:های|ها))?(?:\p{Mn}|ی)?\s?(?:ما|خودمان|خود\sما)(?!\p{Script=Arabic})|انبار(?:\p{Cf}?(?:های|ها))?مان(?!\p{Script=Arabic})|انبار(?:\p{Mn}|ی)?\s?(?:GSR|جی[\s\p{Cf}]?اس[\s\p{Cf}]?آر)[^.؟!?،]{0,14}(?:ییوو|گوانگ[\s\p{Cf}]?(?:ژو|جو)|کاشغر|چین)|انبار(?:\p{Mn}|ی)?\s?(?:ییوو|گوانگ[\s\p{Cf}]?(?:ژو|جو)|کاشغر)(?:\p{Mn}|ی)?\s?(?:GSR|جی[\s\p{Cf}]?اس[\s\p{Cf}]?آر)|(?:محل|نقطه|نشانی|مرکز)(?:\p{Mn}|ی)?\s(?:تحویل|دریافت)(?:\sبار)?(?:\p{Mn}|ی)?\s(?:ما|خودمان|GSR|جی[\s\p{Cf}]?اس[\s\p{Cf}]?آر)(?!\p{Script=Arabic})/iu,
+    bad: ['انبار ما در ییوو', 'انبارمان', 'انبار GSR در ییوو', 'انبار ییووی GSR', 'انبار GSR در چین', 'محل تحویل بار ما در ییوو', 'محل تحویل بار GSR'],
+    good: ['انبار ییوو', 'نقطه دریافت ییوو', 'انبار ماشین‌آلات', 'کارکنان ما در ییوو', 'نشانی ما در تاشکند', 'بار وارد انبار نگهداری موقت می‌شود، اظهارنامهٔ گمرکی (GTD) ثبت می‌شود و کالا به انبار GSR می‌رسد.', 'انبار GSR در تاشکند'] },
   { id: 'zh.partners', msg: 'stale "through partners" claim for Guangzhou (zh)',
     re: /广州[^。！？!?；;]{0,40}(?:通过|经由)(?:合作伙伴|合作方)|(?:通过|经由)(?:合作伙伴|合作方)[^。！？!?；;]{0,40}广州/iu,
     bad: ['广州的货物通过合作伙伴接收'],
@@ -216,7 +221,7 @@ export const ZH_FA_FORBIDDEN = [
   { id: 'zh.small', msg: 'offers small orders or sub-minimum truck cargo (zh) — the minimum is 1 m³',
     // "1 件起" is an offer only when it is GSR's: 1688's own filter 一件代发 ("ships from 1 piece") is
     // quoted in the 1688 guide and is not one.
-    re: /(?:我们|我司|GSR|代购|代采购)[^。！？!?；;]{0,10}(?<![\d.,一二三四五六七八九十百千])(?:1|一)\s?件起(?:购|买|订|发|运)?|(?<![不非没无未][^。！？!?；;]{0,6})单件(?:起|也可|代购|起购|起运)|(?:不足|小于|低于|少于)\s?(?:1|一)\s?(?:立方米|立方|方|CBM|m³)(?![^。！？!?；;]{0,16}空运)[^。！？!?；;]{0,10}(?:也|亦|均)(?:可|能|收|接)|小(?:件|包裹|包)(?:也|亦)(?:可以|可|能够|能)?(?:拼|并入|加入|发)/iu,
+    re: /(?:我们|我司|(?<![\w./@-])GSR|代购|代采购)[^。！？!?；;]{0,10}(?<![\d.,一二三四五六七八九十百千])(?:1|一)\s?件起(?:购|买|订|发|运)?|(?<![不非没无未][^。！？!?；;]{0,6})单件(?:起|也可|代购|起购|起运)|(?:不足|小于|低于|少于)\s?(?:1|一)\s?(?:立方米|立方|方|CBM|m³)(?![^。！？!?；;]{0,16}空运)[^。！？!?；;]{0,10}(?:也|亦|均)(?:可|能|收|接)|小(?:件|包裹|包)(?:也|亦)(?:可以|可|能够|能)?(?:拼|并入|加入|发)/iu,
     bad: ['我们一件起购', '代采购 1 件起', '不足1立方米也可以', '小件也可以拼', '单件代购'],
     good: ['一件代发（1 件起发）', '不足1立方米的货物请走空运', '卡车拼货1立方米起', '21 件起', '不接受单件代购', '不足 1 立方米的货物也可以走空运'] },
   { id: 'fa.m3', msg: 'stale truck minimum 0.1 m³ (fa) — consolidated cargo starts at 1 m³',
@@ -289,16 +294,37 @@ export const ZH_FA_FORBIDDEN = [
 const FA_LETTER = '[\\u{0620}-\\u{064A}\\u{066E}-\\u{06D3}\\u{06D5}\\u{06FA}-\\u{06FF}]';
 // Any Arabic-script character: letters and the Persian digits ۰–۹.
 const FA_ANY = '\\p{Script=Arabic}';
+/**
+ * A number whose digit groups are separated by a space (U+0020, NBSP, NNBSP, thin or ideographic
+ * space), written with the digits of the class `digits`. A phone number (+998 95 018 33 33) is not
+ * one: anything after a "+" and its digits is left alone.
+ */
+function spaceGrouped(digits) {
+  const space = '[ \\u{00A0}\\u{202F}\\u{2009}\\u{3000}]';
+  return new RegExp(`(?<![${digits}\\u{066B}\\u{066C}.,]|\\+[${digits} \\u{00A0}\\u{202F}\\u{2009}-]{0,20})[${digits}]{1,3}(?:${space}[${digits}]{3})+(?![${digits}])`, 'u');
+}
 
-/** level: 'error' fails the build on any page of that language; 'warn' is reported. */
+/**
+ * level: 'error' fails the build on any page of that language; 'warn' is reported. A rule marked
+ * `textNode` is matched against each text node (and the title and description) on its own instead
+ * of against the page's text joined across tags.
+ */
 export const PAGE_RULES = {
   zh: [
     { id: 'zh.traditional', level: 'error', msg: 'Traditional Chinese character on a zh-Hans page',
       re: /[們這貨運關門國車價買賣東華區號際應會與對從過網務電話覽頁說請問題種類點擊報錢費稅單據聯絡讓幫]/u,
       bad: ['我們的貨運'], good: ['我们的货运'] },
-    { id: 'zh.halfPunct', level: 'warn', msg: 'half-width , ; : ? ! between Chinese characters (use ，；：？！)',
-      re: /(?<=\p{Script=Han})[,;:?!](?=\p{Script=Han})/u,
-      bad: ['运输,清关'], good: ['运输，清关', 'GSR Logistics, Tashkent'] },
+    // Also after a space: the usual way it reaches a page is a code-level "label: value" join, which
+    // prints "更新日期: 2026年9月8日" — a half-width colon and a space between Chinese and a figure.
+    { id: 'zh.halfPunct', level: 'warn', msg: 'half-width , ; : ? ! after a Chinese character (use ，；：？！ — a "label: value" join in code prints "更新日期: 2026年9月8日")',
+      re: /(?<=\p{Script=Han})[,;:?!](?=\s?\p{Script=Han})|(?<=\p{Script=Han})[,;:]\s?(?=\d)/u,
+      bad: ['运输,清关', '更新日期: 2026年9月8日', '客户经理: 复制', '输入: 20 kg'], good: ['运输，清关', 'GSR Logistics, Tashkent', '更新日期：2026年9月8日', '周一至周六 9:00–19:00', 'Q: 什么是 FCL？'] },
+    // zh groups thousands with a comma (DECISIONS.md §1: 2,800). A space of any kind between digit
+    // groups is another locale's formatter on a Chinese page (uz/ru group with U+202F). Checked per
+    // text node: a table's neighbouring cells ("100 | 110 美元") are not one number.
+    { id: 'zh.spaceGrouping', level: 'warn', textNode: true, msg: 'digits grouped with a space — zh groups thousands with a comma (2,800) through src/lib/format.ts',
+      re: spaceGrouped('0-9'),
+      bad: ['2 800 美元', '1\u{202F}200\u{202F}000 苏姆', '÷ 5 000'], good: ['2,800 美元', '+86 138 0013 8000', '+998 95 018 33 33', '15–25 天', '2026年9月8日', '2025 2026'] },
     { id: 'zh.pinyin', level: 'warn', msg: 'pinyin place name inside Chinese text (义乌, 广州, 喀什 …; a gloss in parentheses is fine)',
       re: /(?<=\p{Script=Han}\s?)(?:Yiwu|Guangzhou|Kashgar|Shenzhen|Urumqi|Lanzhou|Khorgos)\b(?!\s?[)）])|(?<![(（]\s?)\b(?:Yiwu|Guangzhou|Kashgar|Shenzhen|Urumqi|Lanzhou|Khorgos)(?=\s?\p{Script=Han})/u,
       bad: ['从Yiwu发货', '从 Guangzhou 发货'], good: ['义乌（Yiwu）', '义乌 (Yiwu)', 'from Yiwu to Tashkent'] },
@@ -309,11 +335,19 @@ export const PAGE_RULES = {
       bad: ['\u{0643}ارگو', 'ی\u{064A}وو'], good: ['کارگو', 'ییوو'] },
     // DECISIONS.md: Persian digits in every displayed quantity, price, date, duration, count and year;
     // ASCII only inside identifiers (phones, codes, 1688, 20GP, HS codes, URLs). So an ASCII figure
-    // that a Persian unit follows, or that از / تا (from / to) introduces, is a figure printed past
-    // src/lib/format.ts — "20–35 روز", "از 2018". Phones, codes and 1688 are left alone.
-    { id: 'fa.asciiFigure', level: 'warn', msg: 'ASCII digits in a Persian figure (format it with src/lib/format.ts: ۱۵ تا ۲۵ روز, از ۲۰۱۸)',
-      re: new RegExp(`(?<![\\w.+/@#-])\\d+(?:[.,]\\d+)?(?:\\s?[–-]\\s?\\d+(?:[.,]\\d+)?)?[\\s\\p{Cf}]{0,2}(?:روز|ساعت|هفته|ماه|سال|کیلوگرم|کیلو|گرم|تن|مترمکعب|متر|کیلومتر|دلار|سوم|درصد|عدد|کامیون|مشتری)(?!${FA_LETTER})|(?<!${FA_LETTER})(?:از|تا)[\\s\\p{Cf}](?!1688(?!\\d))\\d+(?![\\w/])`, 'u'),
-      bad: ['Rail 20–35 روز', 'از 2018', '۱۵ تا 25 روز', '110 دلار'], good: ['۲۰ تا ۳۵ روز', 'از ۲۰۱۸', 'سفارش از 1688', '+998 95 018 33 33', 'کانتینر 40HQ', 'کد HS 8471 برای پاور بانک'] },
+    // that a Persian unit or percent sign follows, or that از / تا (from / to) introduces, is a figure
+    // printed past src/lib/format.ts — "20–35 روز", "از 2018", "مالیات 12%". Phones, codes and 1688
+    // are left alone, and so is the English fallback of a pending page ("12% VAT"): the percent sign
+    // counts only next to a Persian word. An ERROR, like every other rule of DECISIONS.md §1.
+    { id: 'fa.asciiFigure', level: 'error', msg: 'ASCII digits in a Persian figure (format it with src/lib/format.ts: ۱۵ تا ۲۵ روز, از ۲۰۱۸, ۱۲٪)',
+      re: new RegExp(`(?<![\\w.+/@#-])\\d+(?:[.,]\\d+)?(?:\\s?[–-]\\s?\\d+(?:[.,]\\d+)?)?[\\s\\p{Cf}]{0,2}(?:روز|ساعت|هفته|ماه|سال|کیلوگرم|کیلو|گرم|تن|مترمکعب|متر|کیلومتر|دلار|سوم|درصد|عدد|کامیون|مشتری)(?!${FA_LETTER})|(?<!${FA_LETTER})(?:از|تا)[\\s\\p{Cf}](?!1688(?!\\d))\\d+(?![\\w/])|(?<=${FA_LETTER}[\\s\\p{Cf}]{1,2})\\d+(?:[.,]\\d+)?\\s?[%\\u{066A}]|(?<![\\w.+/@#-])\\d+(?:[.,]\\d+)?\\s?[%\\u{066A}](?=[\\s\\p{Cf}]{0,2}${FA_LETTER})`, 'u'),
+      bad: ['Rail 20–35 روز', 'از 2018', '۱۵ تا 25 روز', '110 دلار', 'مالیات بر ارزش افزوده 12%', '20% حقوق گمرکی', 'کارمزد 3٪'], good: ['۲۰ تا ۳۵ روز', 'از ۲۰۱۸', 'سفارش از 1688', '+998 95 018 33 33', 'کانتینر 40HQ', 'کد HS 8471 برای پاور بانک', '۱۲٪ مالیات بر ارزش افزوده', 'duty 20% and 12% VAT', 'UTC+5'] },
+    // DECISIONS.md §1: never U+0020 between digit groups — in a right-to-left line the two groups are
+    // two numbers, laid out right to left ("۵ ۰۰۰" displays as "۰۰۰ ۵"); and the no-break spaces are
+    // how uz/ru group, not fa (۵٬۰۰۰). Checked per text node: neighbouring table cells are not one number.
+    { id: 'fa.spaceGrouping', level: 'error', textNode: true, msg: 'digits grouped with a space — a right-to-left line shows "۵ ۰۰۰" as "۰۰۰ ۵"; group thousands with ٬ through src/lib/format.ts (۵٬۰۰۰)',
+      re: spaceGrouped('0-9\\u{06F0}-\\u{06F9}'),
+      bad: ['÷ ۵ ۰۰۰', '۲ ۸۰۰ تا ۵ ۵۰۰ دلار', '20 000 سوم', '۱\u{202F}۲۰۰\u{202F}۰۰۰ سوم'], good: ['۵٬۰۰۰', '+998 95 018 33 33', '+86 138 0013 8000', '۱۵ تا ۲۵ روز', '۲۰۲۶/۰۹/۰۸', '۹:۰۰ تا ۱۹:۰۰', 'کانتینر 40HQ', '۲۰۲۵ ۲۰۲۶'] },
     { id: 'fa.arabicIndicDigits', level: 'error', msg: 'Arabic-Indic digits ٠–٩ (write the Persian ۰–۹)',
       re: /[\u{0660}-\u{0669}]/u,
       bad: ['\u{0664}\u{0665}\u{0660}'], good: ['۴۵۰', '450'] },

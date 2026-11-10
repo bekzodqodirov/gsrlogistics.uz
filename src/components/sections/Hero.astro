@@ -42,7 +42,7 @@ const proof = [
       <Button href={telegramChat(c.telegramDraft.general)} variant="secondary" icon="telegram" data-picker>{t.ctaSecondary}</Button>
     </div>
     <p class="meta-line">
-      <a href={phoneUrl} class="tnum phone">{site.phoneDisplay}</a>
+      <a href={phoneUrl} class="tnum phone" dir="ltr">{site.phoneDisplay}</a>
       <span class="dot" aria-hidden="true">{sepMark(lang)}</span>
       <span class="tnum">{pick(lang, site.hours)}</span>
     </p>
@@ -86,8 +86,8 @@ const proof = [
 
   .proof-wrap { margin-top: 40px; background: var(--bg-3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
   .proof { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
-  .cell { padding: 24px 24px 24px 0; display: grid; align-content: start; gap: 8px; }
-  .cell + .cell { border-left: 1px solid var(--border-soft); padding-left: 24px; }
+  .cell { padding-block: 24px; padding-inline: 0 24px; display: grid; align-content: start; gap: 8px; }
+  .cell + .cell { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 24px; }
   .value { margin: 0; font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--fg); white-space: nowrap; }
   .value .num-unit { letter-spacing: 0; }
   .caption { margin: 0; max-width: 28ch; text-wrap: pretty; }
@@ -102,9 +102,9 @@ const proof = [
     .drawing-wrap { margin-top: 40px; }
     .proof-wrap { margin-top: 28px; }
     .proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .cell { padding: 20px 16px 20px 0; }
-    .cell + .cell { border-left: 0; padding-left: 0; }
-    .cell:nth-child(even) { border-left: 1px solid var(--border-soft); padding-left: 16px; }
+    .cell { padding-block: 20px; padding-inline: 0 16px; }
+    .cell + .cell { border-inline-start: 0; padding-inline-start: 0; }
+    .cell:nth-child(even) { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 16px; }
     .cell:nth-child(n + 3) { border-top: 1px solid var(--border-soft); }
     .value { font-size: clamp(1.625rem, 6vw, 2rem); }
   }

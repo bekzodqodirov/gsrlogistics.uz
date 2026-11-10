@@ -65,7 +65,7 @@ export const zh: PricingStrings = {
   page: {
     seoTitle: '2026 年中国到塔什干货运价格——1 立方米多少钱？',
     seoDescription: '中国到塔什干货运：汽运拼货每立方米 {truck}起，按货物密度定价；空运每公斤 {air}起。密度价格表、费用包含项目、付款方式。更新于 {date}。',
-    eyebrow: '运价——{month}',
+    eyebrow: '运价 — {month}',
     h1: '2026 年中国到塔什干货运价格',
     intro: '中国到塔什干的汽运拼货按体积计费——每立方米 {truck}起（{month}）。货物密度（重量 ÷ 体积）决定适用的价格档位：货物越轻，每立方米越便宜。拼货 {minM3} m³ 起收；不足此体积的货物只能走空运，每公斤 {air}起。价格包含中国仓库收货、测量、集货以及运至塔什干仓库；关税、增值税和保险另计。',
     tiles: { truck: '汽运（拼货）', air: '空运', lcl: '重货', rail: '20 英尺集装箱', fromKg: '美元/kg 起', fromM3: '美元/m³ 起', fromContainer: '美元起' },
@@ -131,7 +131,7 @@ export const zh: PricingStrings = {
       ofValue: '申报价值的 {n}%',
       daysFree: '免费 {n} {days}',
       excludedTitle: '另行付费',
-      excluded: ['关税、增值税和海关规费——依法按海关编码（HS 编码）计征；我们会提前为您计算', '货物本身的费用以及中国境内运输（从供应商到收货地址）', '送货上门——见下文'],
+      excluded: ['关税、增值税和清关手续费——依法按海关编码（HS 编码）计征；我们会提前为您计算', '货物本身的费用以及中国境内运输（从供应商到收货地址）', '送货上门——见下文'],
     },
     regions: {
       title: '各州配送',

@@ -27,6 +27,21 @@
   unicode-range: U+2190-2193, U+2248, U+2260, U+2264-2265;
 }
 
+/* Vazirmatn Variable — Persian (fa) pages only. ONLY the Arabic subset of the pinned
+   @fontsource-variable/vazirmatn (46 KB, OFL-1.1), straight from the package: Latin text and ASCII
+   digits on a fa page stay in Onest. The family is named in exactly one stack, :root:lang(fa) in
+   tokens.css, and a face is only fetched when text set in its family uses its unicode-range, so no
+   other page downloads it; Base.astro preloads it on fa pages. The range is fontsource's own Arabic
+   one (BMP part): it includes ZWNJ/ZWJ/LRM and ٫ ٬ ٪ ۰–۹. */
+@font-face {
+  font-family: 'Vazirmatn Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/vazirmatn/files/vazirmatn-arabic-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+
 /* Metric-matched fallback so the swap from the system font causes (almost) no layout shift. */
 @font-face {
   font-family: 'Onest Fallback';

@@ -96,7 +96,7 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: l
           <Button href={telegramFor('cargo', p.cta.draft, Astro.url.pathname)} variant="primary" icon="telegram" {...leadAttrs('cargo', 'kalkulyator', label)}>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum" dir="ltr">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>
@@ -116,7 +116,8 @@ const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: l
   .block h2 { font-size: var(--text-h2); max-width: 32ch; margin-bottom: 16px; }
   .para { color: var(--fg-2); max-width: 70ch; text-wrap: pretty; }
   .steps { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 0; max-width: 70ch; position: relative; }
-  .steps::before { content: ''; position: absolute; left: 15px; top: 20px; bottom: 20px; width: 1px; background: var(--border); }
+  /* Threads the numbered circles, which are the inline-start column (right in RTL). */
+  .steps::before { content: ''; position: absolute; inset-inline-start: 15px; top: 20px; bottom: 20px; width: 1px; background: var(--border); }
   .step { display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding: 12px 0; position: relative; }
   .step-index { position: relative; z-index: 1; width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; font-size: var(--text-caption); font-weight: 600; color: var(--fg); }
   .step:first-child .step-index { background: var(--fg); color: var(--bg); border-color: var(--fg); }

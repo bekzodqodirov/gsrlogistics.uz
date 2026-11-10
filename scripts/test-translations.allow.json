@@ -20,6 +20,11 @@
       "lang": "fa",
       "where": "src/i18n/contact.ts:contact.fa.form.errors.phone",
       "reason": "GLOSSARY §1.4b: the fa form accepts any international number, so the error asks for the international format starting with + instead of '+998'."
+    },
+    {
+      "lang": "fa",
+      "where": "src/content/guides/fa/how-to-order-from-1688.md#sources[3].title",
+      "reason": "DECISIONS.md §1: Persian dates are numeric and never use month names, so the English 'Customs rules from May 1' can only be written with its year: ۲۰۲۵/۰۵/۰۱, the year of the Spot.uz article it cites (date 2025-04-23)."
     }
   ]
 }

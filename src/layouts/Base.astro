@@ -7,6 +7,7 @@ import '@/styles/fonts.css';
 import '@/styles/global.css';
 import onestLatin from '@/assets/fonts/onest-latin.woff2?url';
 import onestCyrillic from '@/assets/fonts/onest-cyrillic.woff2?url';
+import vazirmatnArabic from '@fontsource-variable/vazirmatn/files/vazirmatn-arabic-wght-normal.woff2?url';
 import { langMeta, pick, sourceOf, type Locale } from '@/i18n/config';
 import { alternates as buildAlternates, pagePath, subFor, type PageKey } from '@/i18n/routes';
 import { site } from '@/lib/site';
@@ -69,6 +70,10 @@ const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
         still declared in fonts.css by unicode-range, so the switcher's two Cyrillic labels do not
         pull it down. */}
     {(lang === 'ru' || lang === 'uzc') && <link rel="preload" href={onestCyrillic} as="font" type="font/woff2" crossorigin />}
+    {/* Persian: Vazirmatn's Arabic subset (fonts.css), on fa pages only — no other page ever uses it.
+        Onest-latin above stays preloaded there too: the wordmark, phones and codes are Latin. zh has
+        no webfont (system CJK faces). */}
+    {lang === 'fa' && <link rel="preload" href={vazirmatnArabic} as="font" type="font/woff2" crossorigin />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
@@ -98,7 +103,9 @@ const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
       const markScroll = (el: HTMLElement) => {
         const over = el.scrollWidth - el.clientWidth > 2;
         if (!over) { el.removeAttribute('data-overflow'); return; }
-        el.dataset.overflow = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? 'end' : el.scrollLeft > 2 ? 'mid' : 'start';
+        // Math.abs: in RTL scrollLeft runs from 0 at the start to NEGATIVE values toward the end.
+        const pos = Math.abs(el.scrollLeft);
+        el.dataset.overflow = pos + el.clientWidth >= el.scrollWidth - 2 ? 'end' : pos > 2 ? 'mid' : 'start';
       };
       scrollers.forEach((el) => { markScroll(el); el.addEventListener('scroll', () => markScroll(el), { passive: true }); });
       window.addEventListener('resize', () => scrollers.forEach(markScroll));

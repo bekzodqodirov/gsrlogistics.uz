@@ -1,12 +1,14 @@
 ---
-import { pick, langMeta, locales, type Locale } from '@/i18n/config';
+import { pick, type Locale } from '@/i18n/config';
 import { pagePath, itemPath } from '@/i18n/routes';
 import { common } from '@/i18n/common';
 import { site, phoneUrl, phone2Url, whatsappUrl, telegramUrl, telegramGroupUrl, instagramUrl, facebookUrl, telegramChat } from '@/lib/site';
+import { endSentence, fmtInt, fmtRange, sep, sepMark } from '@/lib/format';
 import { services } from '@/data/services';
 import tariffs from '@/data/tariffs.json';
 import Logo from './ui/Logo.astro';
 import Icon from './ui/Icon.astro';
+import LangSwitcher from './LangSwitcher.astro';
 interface Props { lang: Locale; alternates: Array<{ lang: Locale; href: string }> }
 const { lang, alternates } = Astro.props;
 const t = pick(lang, common);
@@ -19,9 +21,9 @@ const modeWord = pick(lang, {
   ru: { truck: 'Сборный груз', air: 'Авиа', rail: 'Ж/д' },
   en: { truck: 'Consolidated', air: 'Air', rail: 'Rail' },
 });
-// Cyrillic paths come back percent-encoded from `new URL().pathname`; show the word, not the bytes.
-const switchHref = (l: Locale) => { const alt = alternates.find((a) => a.lang === l); return alt ? decodeURI(new URL(alt.href).pathname) : pagePath(l, 'home'); };
 const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' });
+const days = (d: number[]) => fmtRange(d[0], d[1], t.strings.days, lang);
+const copyright = endSentence(`© ${fmtInt(year, lang)} ${site.name}${sep(lang)}${city}${site.legalEntity ? `${sep(lang)}${site.legalEntity}` : ''}`, lang);
 ---
 <footer class="site-footer dark" id="site-footer">
   <div class="container">
@@ -30,9 +32,9 @@ const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }
         <Logo size={32} />
         <p class="muted footer-desc">{t.footer.desc}</p>
         <ul role="list" class="fact-stack tnum">
-          <li>{modeWord.truck} <strong>{tariffs.truck.days[0]}–{tariffs.truck.days[1]} {t.strings.days}</strong></li>
-          <li>{modeWord.air} <strong>{tariffs.air.days[0]}–{tariffs.air.days[1]} {t.strings.days}</strong></li>
-          <li>{modeWord.rail} <strong>{tariffs.rail.days[0]}–{tariffs.rail.days[1]} {t.strings.days}</strong> <span class="meta">· {t.strings.approx}</span></li>
+          <li>{modeWord.truck} <strong>{days(tariffs.truck.days)}</strong></li>
+          <li>{modeWord.air} <strong>{days(tariffs.air.days)}</strong></li>
+          <li>{modeWord.rail} <strong>{days(tariffs.rail.days)}</strong> <span class="meta">{sepMark(lang)} {t.strings.approx}</span></li>
         </ul>
         <div class="socials">
           <a href={telegramUrl} target="_blank" rel="noopener" aria-label={t.footer.channel}><Icon name="telegram" /></a>
@@ -60,22 +62,22 @@ const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }
       <div>
         <h2 class="footer-h">{t.footer.contacts}</h2>
         <ul role="list" class="contact-list">
-          <li><a href={phoneUrl} class="tnum"><Icon name="phone" size={18} />{site.phoneDisplay}</a></li>
-          <li><a href={phone2Url} class="tnum"><Icon name="phone" size={18} />{site.phone2Display}</a></li>
-          <li><a href={whatsappUrl} target="_blank" rel="noopener" class="tnum"><Icon name="whatsapp" size={18} />WhatsApp · {site.phone2Display}</a></li>
+          {/* Phone numbers and the e-mail are LTR islands: in an RTL line the digit groups and the '+'
+              would otherwise reorder. <bdi>, not <span>, because `.contact-list span` is a flex box. */}
+          <li><a href={phoneUrl} class="tnum"><Icon name="phone" size={18} /><bdi dir="ltr">{site.phoneDisplay}</bdi></a></li>
+          <li><a href={phone2Url} class="tnum"><Icon name="phone" size={18} /><bdi dir="ltr">{site.phone2Display}</bdi></a></li>
+          <li><a href={whatsappUrl} target="_blank" rel="noopener" class="tnum"><Icon name="whatsapp" size={18} /><bdi dir="ltr">WhatsApp{sep(lang)}{site.phone2Display}</bdi></a></li>
           <li><a href={telegramChat(t.telegramDraft.general)} target="_blank" rel="noopener" data-picker><Icon name="telegram" size={18} />{t.cta.telegram}</a></li>
           <li><a href={telegramGroupUrl} target="_blank" rel="noopener"><Icon name="users" size={18} />{t.footer.group}</a></li>
-          <li><a href={`mailto:${site.email}`}><Icon name="mail" size={18} />{site.email}</a></li>
+          <li><a href={`mailto:${site.email}`}><Icon name="mail" size={18} /><bdi dir="ltr">{site.email}</bdi></a></li>
           <li><a href={site.yandexMapsUrl} target="_blank" rel="noopener"><Icon name="map-pin" size={18} /><span>{pick(lang, site.address)}</span></a></li>
           <li><span class="muted"><Icon name="clock" size={18} />{pick(lang, site.hours)}</span></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="caption">© {year} {site.name} · {city}{site.legalEntity ? ` · ${site.legalEntity}` : ''}. {t.footer.rights}</p>
-      <div class="footer-langs" role="group" aria-label={t.footer.languages}>
-        {locales.map((l) => <a href={switchHref(l)} hreflang={langMeta[l].htmlLang} lang={langMeta[l].htmlLang} aria-current={l === lang ? 'true' : undefined}>{langMeta[l].label}</a>)}
-      </div>
+      <p class="caption">{copyright} {t.footer.rights}</p>
+      <LangSwitcher lang={lang} alternates={alternates} variant="row" />
     </div>
   </div>
 </footer>
@@ -87,7 +89,7 @@ const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }
   .footer-desc { margin-top: 16px; max-width: 34ch; font-size: var(--text-small); }
   .fact-stack { margin-top: 20px; font-size: var(--text-small); color: var(--muted); }
   .fact-stack li + li { margin-top: 6px !important; }
-  .fact-stack strong { color: var(--fg); font-weight: 600; margin-left: 6px; }
+  .fact-stack strong { color: var(--fg); font-weight: 600; margin-inline-start: 6px; }
   .socials { display: flex; gap: 8px; margin-top: 20px; }
   .socials a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: color-mix(in oklab, var(--fg), transparent 92%); color: var(--fg); transition: background var(--dur) var(--ease); }
   .socials a:hover { background: color-mix(in oklab, var(--fg), transparent 84%); }
@@ -104,10 +106,6 @@ const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }
     .footer-group summary :global(svg) { display: none; }
     .footer-group > ul { display: block; padding-top: 0; }
   }
-  /* Same reasoning as the header switcher: on a page whose own text is Latin, both Cyrillic labels
-     fall back to the system font so the 15.8 KB Cyrillic subset is not downloaded for two words. */
-  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) .footer-langs a[lang='ru'],
-  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) .footer-langs a[lang='uz-Cyrl'] { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
   .site-footer ul li + li { margin-top: 10px; }
   .site-footer ul a { color: var(--fg-2); font-size: 0.9375rem; transition: color var(--dur) var(--ease); }
   .site-footer ul a:hover { color: var(--fg); }
@@ -116,9 +114,6 @@ const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' }
      attribute, so a bare `.contact-list svg` matched nothing and the icons could flex-shrink. */
   .contact-list :global(svg) { margin-top: 2px; flex: none; }
   .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-top: clamp(32px, 5vw, 56px); padding-top: 24px; border-top: 1px solid var(--border-soft); }
-  .footer-langs { display: flex; gap: 16px; }
-  .footer-langs a { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--text-small); color: var(--muted); }
-  .footer-langs a[aria-current='true'] { color: var(--fg); font-weight: 600; }
 </style>
 <script>
   // Collapse the footer link groups on phones; they render open for no-JS and for ≥640px (CSS keeps them open there).

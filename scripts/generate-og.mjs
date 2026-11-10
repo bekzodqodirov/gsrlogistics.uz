@@ -30,16 +30,20 @@ const variants = {
   ru: { line1: 'Карго из Китая в Ташкент.', line2: 'Каждый килограмм — на счету.', meta: 'Сборный груз 15–25 дней · Авиа 5–10 дней · Ташкент · с 2018 года' },
   en: { line1: 'Cargo from China to Tashkent.', line2: 'Every kilo, every day — accounted for.', meta: 'Consolidated 15–25 days · Air 5–10 days · Tashkent · since 2018' },
 };
-/** Drawn by headless Chromium with pinned fonts — see the header. */
+/**
+ * Drawn by headless Chromium with pinned fonts — see the header. As the en card is the en hero
+ * headline, line1/line2 are the site's own translated hero headline, word for word
+ * (src/i18n/zh/hero.ts and src/i18n/fa/hero.ts, h1a and h1b): a card is no place for new copy.
+ */
 const browserVariants = {
   zh: {
     lang: 'zh-Hans', dir: 'ltr', fonts: ['onest', 'sc'], family: "'Onest', 'Noto Sans SC', sans-serif",
-    line1: '从中国到塔什干的货运。', line2: '每一公斤、每一天，都有据可查。',
+    line1: '中国至塔什干货运。', line2: '每一公斤、每一天，都有据可查。',
     meta: '拼货 15–25 天 · 空运 5–10 天 · 塔什干 · 始于 2018 年',
   },
   fa: {
     lang: 'fa', dir: 'rtl', fonts: ['fa', 'onest'], family: "'Vazirmatn', 'Onest', sans-serif",
-    line1: 'حمل بار از چین به تاشکند.', line2: 'هر کیلو، هر روز — ثبت\u{200C}شده و قابل پیگیری.',
+    line1: 'حمل بار از چین به تاشکند.', line2: 'هر کیلوگرم، هر روز — حساب\u{200C}شده.',
     meta: 'بار تجمیعی ۱۵ تا ۲۵ روز • هوایی ۵ تا ۱۰ روز • تاشکند • از ۲۰۱۸',
   },
 };

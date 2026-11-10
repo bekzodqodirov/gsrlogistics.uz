@@ -90,6 +90,10 @@ const routeText = `${t.drawingLabel}: ${nodes.map((n) => pick(lang, n.name)).joi
 <style>
   .drawing { position: relative; }
   .band { position: relative; height: 320px; overflow: hidden; color: var(--fg); }
+  /* Geography never mirrors: Ivu stays east (right) on an RTL page too. Pinning the band's direction
+     keeps the label alignments below (justify-items start/end) meaning what they mean here; the
+     place names inside are single runs and still read right to left. */
+  :global([dir='rtl']) .band { direction: ltr; }
   .grid { position: absolute; inset: 0; pointer-events: none;
     background-image: radial-gradient(rgb(29 29 31 / 0.08) 1px, transparent 1.2px); background-size: 24px 24px; background-position: 12px 12px;
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 48px, #000 calc(100% - 24px), transparent 100%);
@@ -130,11 +134,12 @@ const routeText = `${t.drawingLabel}: ${nodes.map((n) => pick(lang, n.name)).joi
   .coords { font-variant-numeric: tabular-nums; }
   .node.origin .label, .node.destination .label { transform: translateX(-50%); }
 
+  /* `right`, physical on purpose: the readout hangs over the Ivu (east) end of the drawing in every locale. */
   .readout { position: absolute; top: 20px; right: max(var(--gutter), calc((100% - var(--container)) / 2)); margin: 0;
     display: inline-flex; align-items: baseline; gap: 10px; font-size: var(--text-body); font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .readout .unit { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-left: 4px; }
+  .readout .unit { font-size: var(--text-small); font-weight: 500; color: var(--muted); margin-inline-start: 4px; }
   .readout .sep { color: var(--meta); font-weight: 400; }
-  .count { display: inline-block; min-width: 5ch; text-align: right; }
+  .count { display: inline-block; min-width: 5ch; text-align: end; }
 
   @media (max-width: 899px) {
     .band { height: 140px; }
