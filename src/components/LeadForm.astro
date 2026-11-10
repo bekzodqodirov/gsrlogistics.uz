@@ -7,8 +7,9 @@
  * zh and fa (decision of 2026-11-10): any international number — "+" prefilled on focus, no country
  * forced, a leading 00 read as +, valid when the digits after the + make an E.164 number
  * (^\+[1-9]\d{6,14}$ once the spaces are removed). Every mode reads Persian, Arabic-Indic and
- * full-width digits and keeps ASCII in the field, so the number reaches the manager dialable. The
- * phone input is an LTR island (dir="ltr"); on an RTL page it sits on the start side (text-align: right).
+ * full-width digits and keeps ASCII in the field, so the number reaches the manager dialable (from an
+ * RTL page without its spaces, which a right-to-left line would lay out in reverse order). The phone
+ * input is an LTR island (dir="ltr"); on an RTL page it sits on the start side (text-align: right).
  *
  * Submit flow (bundled script): validate, then hand the answers to the chat flow every Telegram
  * button uses (a "gsr:lead" event → components/ContactPicker.astro). That asks GSR's system for the
@@ -281,13 +282,21 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
       return !firstBad;
     };
 
+    /**
+     * The number as the manager receives it. An RTL page sends it without spaces, brackets or dashes
+     * ("+989123456789"): a right-to-left line (Telegram's, and the preview's) lays spaced digit groups
+     * out in reverse order ("6789 345 912 98+"), and one unbroken run keeps its order. No bidi mark is
+     * added; the text is sent as it is. Other pages send the field as typed.
+     */
+    const rtlPage = getComputedStyle(form).direction === 'rtl';
+    const phoneOut = () => (rtlPage ? phone.value.replace(/[\s()-]/g, '') : phone.value.trim());
     /** The one line the manager reads on the lead: name · phone · service · cargo (fa joins with " • "). */
-    const summary = () => [name.value, phone.value, route.value ? i18n.routes[route.value] ?? '' : '', text.value]
+    const summary = () => [name.value, phoneOut(), route.value ? i18n.routes[route.value] ?? '' : '', text.value]
       .map((v) => v.replace(/\s+/g, ' ').trim()).filter(Boolean).join(sep(lang));
     /** The labelled message, for the one case the chat flow is missing from the page. */
     const compose = (): string => {
       const d = i18n.draft;
-      const lines = [d.intro, `${d.name}: ${name.value.trim()}`, `${d.phone}: ${phone.value.trim()}`];
+      const lines = [d.intro, `${d.name}: ${name.value.trim()}`, `${d.phone}: ${phoneOut()}`];
       if (route.value) lines.push(`${d.route}: ${i18n.routes[route.value] ?? route.value}`);
       lines.push(`${d.cargo}: ${text.value.trim()}`);
       lines.push(`${d.page}: ${location.origin}${location.pathname}`);

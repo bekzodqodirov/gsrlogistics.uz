@@ -118,6 +118,8 @@ const i18n = JSON.stringify({
   /* The code input and the code it reports are LTR islands (dir="ltr": "1234-GS" must not reorder); on an
      RTL page they still sit on the start side. */
   :global([dir='rtl']) .track .code, :global([dir='rtl']) .result-list dd[dir='ltr'] { text-align: right; }
+  /* …and the Persian placeholder ("کد GS") reads right to left until a code is typed. */
+  :global([dir='rtl']) .track .code:placeholder-shown { direction: rtl; }
   .strong { font-weight: 600; }
   .panel { display: grid; gap: 8px; padding: 20px; border: 1px solid var(--border-soft); border-radius: var(--radius-lg); background: var(--bg-3); justify-items: start; }
   .is-dark .panel { background: rgb(255 255 255 / 0.04); border-color: rgb(255 255 255 / 0.1); }

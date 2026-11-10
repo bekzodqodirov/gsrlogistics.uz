@@ -6,7 +6,7 @@ import { estimate, estimateAir, estimateTruck, estimateRail, volumetricKg, charg
 import {
   fmtUsd, fmtNumber, withFrom, ruDays, fmtInt, fmtDigits, fmtNumRange, fmtRange, fmtPercent, fmtUsdNumber, fmtUsdRange,
   usdMark, fmtSom, fmtSomRange, fromPosition, daysWord, unitWord, unitSymbol, sep, sepMark, arrow, endSentence,
-  fmtDate, fmtMonthYear, readingMinutes, toAsciiDigits, parseNumber,
+  fmtDate, fmtMonthYear, readingMinutes, toAsciiDigits, parseNumber, decimalPattern,
 } from '../src/lib/format.ts';
 
 const tariffs = JSON.parse(readFileSync(new URL('../src/data/tariffs.json', import.meta.url), 'utf8'));
@@ -398,13 +398,43 @@ test('toAsciiDigits / parseNumber', () => {
     assert.equal(p('20', l), 20, l); assert.equal(p('۲۰', l), 20, l); assert.equal(p('٢٠', l), 20, l); assert.equal(p('２０', l), 20, l);
     assert.equal(p('0.8', l), 0.8, l); assert.equal(p('0,8', l), 0.8, l); assert.equal(p('۰٫۸', l), 0.8, l); assert.equal(p('０．８', l), 0.8, l);
     assert.equal(p(' 1 200 ', l), 1200, l); assert.equal(p(`1${S}200`, l), 1200, l); assert.equal(p('۱٬۲۰۰', l), 1200, l);
-    assert.equal(p('1,200.5', l), 1200.5, l); assert.equal(p('1.200,5', l), 1200.5, l);
     assert.equal(p('20 kg', l), 20, l);
     assert.ok(Number.isNaN(p('', l)) && Number.isNaN(p('abc', l)), l);
   }
-  // A comma alone: a decimal comma where the locale writes one, a group where it groups with commas.
-  for (const l of ['uz', 'uzc', 'ru']) assert.equal(p('1,200', l), 1.2, l);
-  for (const l of ['en', 'zh', 'fa']) { assert.equal(p('1,200', l), 1200, l); assert.equal(p('１，２００', l), 1200, l); assert.equal(p('1,5', l), 1.5, l); }
+  // uz, uzc, ru, en read EXACTLY as the calculator always did (its num(), copied here verbatim): the
+  // first comma is the decimal mark, whatever else the field holds. Only the digit sets are new.
+  const legacyNum = (value) => { const raw = value.trim().replace(/\s/g, '').replace(',', '.'); return parseFloat(raw.replace(/[^0-9.]/g, '')); };
+  const typed = ['20', '0,8', '0.8', '1,200', '1,200.5', '1.200,5', '12,500,000', '1.2.3', '1,2,3', ' 7 ', '20kg', '0/8', "1'200", '١٢٫٥', '', 'abc', '.5', '5.', ',5'];
+  let n = 0;
+  for (const l of ['uz', 'uzc', 'ru', 'en']) for (const v of typed) {
+    const want = legacyNum(v.replace('١٢٫٥', '12.5')), got = p(v, l);
+    assert.ok(Object.is(got, want), `${l}: parseNumber(${JSON.stringify(v)}) = ${got}, the calculator always read ${want}`); n++;
+  }
+  assert.equal(n, 76);
+  for (const l of ['uz', 'uzc', 'ru', 'en']) { assert.equal(p('1,200', l), 1.2, l); assert.equal(p('1,200.5', l), 1.2, l); assert.equal(p('۲/۵', l), 25, l); }
+  // zh and fa group as their visitors write figures: a comma shaped like thousands groups, with both marks
+  // the later one is the decimal; fa also reads "/" as the decimal mark (۲/۵ is 2.5).
+  for (const l of ['zh', 'fa']) {
+    assert.equal(p('1,200', l), 1200, l); assert.equal(p('１，２００', l), 1200, l); assert.equal(p('1,5', l), 1.5, l);
+    assert.equal(p('1,200.5', l), 1200.5, l); assert.equal(p('1.200,5', l), 1200.5, l); assert.equal(p('12,500,000', l), 12500000, l);
+  }
+  assert.equal(p('۲/۵', 'fa'), 2.5); assert.equal(p('۰/۸', 'fa'), 0.8); assert.equal(p('۱٬۲۰۰/۵', 'fa'), 1200.5);
+  assert.equal(p('2/5', 'zh'), 25, 'only fa reads "/" as a decimal mark');
+});
+
+// 15b. The decimal inputs' native `pattern`: compiles with the v flag browsers use (an invalid pattern is
+// silently dropped), keeps the original shape (digits, one mark, digits), and takes every digit set read above.
+test('decimalPattern', () => {
+  const ok = (l, v) => new RegExp(`^(?:${decimalPattern(l)})$`, 'v').test(v);
+  for (const l of ['uz', 'uzc', 'ru', 'en', 'zh', 'fa']) {
+    for (const v of ['', '20', '0,8', '0.8', '۲۰', '۰٫۸', '٢٠', '２０', '０．８', '۱٬۲۰۰', '1,200', '.5']) assert.ok(ok(l, v), `${l} accepts ${JSON.stringify(v)}`);
+    for (const v of ['1.2.3', '1,2,3', ' 20', '20 ', '1 200', '20kg', '-20', '..', 'abc']) assert.ok(!ok(l, v), `${l} rejects ${JSON.stringify(v)}`);
+  }
+  // the four older locales: what the original [0-9]*[.,]?[0-9]* accepted among ASCII input, exactly
+  const original = new RegExp('^(?:[0-9]*[.,]?[0-9]*)$', 'v');
+  for (const v of ['20', '0,8', '1,200', '12,500,000', '1,200.5', '1.2', '7.', '1/2', '1 2']) for (const l of ['uz', 'uzc', 'ru', 'en']) assert.equal(ok(l, v), original.test(v), `${l}: ${v}`);
+  for (const l of ['zh', 'fa']) for (const v of ['12,500,000', '1,200.5', '１，２００']) assert.ok(ok(l, v), `${l} accepts ${v}`);
+  assert.ok(ok('fa', '۲/۵') && ok('fa', '۱٬۲۰۰/۵') && !ok('zh', '2/5') && !ok('ru', '2/5'), 'only fa takes "/"');
 });
 
 // 16. Reading time: Chinese is counted in characters, every space-separated script in words

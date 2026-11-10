@@ -19,10 +19,13 @@
 //      (a key, an icon, a brand, a code: 'truck', 'Telegram', '20GP') or is a code of four or more
 //      digits (HS 8443, 1688) is copied unchanged — fa may write its list separator " • " where the
 //      source has " · ". Fields that are data whatever they hold (key, related, guideKeys, updated,
-//      icon, glyph, tone, slug) are always copied unchanged, as are ISO dates. Guides: slug,
+//      icon, glyph, tone, slug) and ISO dates are copied unchanged whenever uz, ru and en agree on
+//      them (an 'updated' that is a translated label is not data). Guides: slug,
 //      translationKey, tags, publishDate and the sources' URLs and dates; internal links point at
 //      the translation's own locale with the same English slug. FAILS.
-//   4. numbers — the multiset of figures, after the digits are normalised (Persian ۰–۹,
+//   4. numbers — the set of figure values: a value the source has and the translation lacks, or the
+//      other way round, FAILS; the same value said once more or once less ("不足 0.5 kg 的货物按
+//      0.5 kg 计费" for "billed as 0.5 kg") is the same figure. After the digits are normalised (Persian ۰–۹,
 //      Arabic-Indic ٠–٩ and full-width digits; ٫ is the decimal point, ٬ , and narrow spaces group
 //      thousands; English month names become their numbers, so "September 8, 2026",
 //      "2026年9月8日" and "۲۰۲۶/۰۹/۰۸" agree). A UTC offset after the hours is not counted (the
@@ -166,7 +169,13 @@ export function figuresMatch(en, tr, subset = false, lang = '') {
   if (en.optional.some((n) => en.monthWords?.includes(n))) {
     for (const y of [...extra]) if (/^(?:19|20)\d\d$/.test(y) && en.required.includes(y)) extra.splice(extra.indexOf(y), 1);
   }
-  return { ok: !extra.length && (subset || !missing.length), missing, extra };
+  // A figure said once more, or once less, is the same figure: "不足 0.5 kg 的货物按 0.5 kg 计费" restates
+  // the 0.5 of "Lighter shipments are billed as 0.5 kg". What must match is the set of VALUES — a value
+  // the source lacks is still extra, and one the translation lacks entirely is still missing.
+  const restated = (n, list) => list.some((x) => x === n || (Number.isFinite(Number(x)) && canon(x) === canon(n)));
+  const extraValues = extra.filter((n) => !restated(n, en.required));
+  const missingValues = missing.filter((n) => !restated(n, tr.required));
+  return { ok: !extraValues.length && (subset || !missingValues.length), missing: missingValues, extra: extraValues };
 }
 
 /** The number rules on known sentences — run first, so a change to the matcher cannot pass silently. */
@@ -190,6 +199,9 @@ const FIGURE_CASES = [
   ['48小时发货 (ships within 48 hours)', '48小时发货', 'zh', false, true],
   ['from $110/m³, 15–25 days, rail from $2,800', '110 美元/m³ 起，15–25 天', 'zh', true, true],
   ['from $110/m³, 15–25 days', '120 美元/m³ 起', 'zh', true, false],
+  ['Yes, 0.5 kg. Lighter shipments are billed as 0.5 kg.', '有，0.5 kg。不足 0.5 kg 的货物按 0.5 kg 计费。', 'zh', false, true],
+  ['0.5 kg minimum, 100 kg and over quoted individually', '最低 0.5 kg，0.5 kg 以上单独报价', 'zh', false, false],
+  ['15–25 days by truck, 5–10 days by air', '۱۵ تا ۲۵ روز زمینی، ۱۵ تا ۲۵ روز هوایی', 'fa', false, false],
 ];
 
 /** SEO strings are cut to a SERP budget (GLOSSARY §7): they may drop a figure, never add or change one. */

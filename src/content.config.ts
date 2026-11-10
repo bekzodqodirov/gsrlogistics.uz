@@ -10,7 +10,10 @@ import { glob } from 'astro/loaders';
  * files are never edited, and a change made there is lost on the next build.
  */
 const guides = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/guides' }),
+  // The entry id is the file's path ('en/prohibited-goods', 'zh/prohibited-goods'), never the
+  // frontmatter slug: zh and fa articles share the English slug, and the loader's default id
+  // (data.slug) would make the three silently overwrite one another.
+  loader: glob({ pattern: '**/*.md', base: './src/content/guides', generateId: ({ entry }) => entry.replace(/\.md$/, '') }),
   schema: z.object({
     title: z.string(),
     description: z.string().max(320),
