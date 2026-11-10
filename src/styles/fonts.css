@@ -27,6 +27,47 @@
   unicode-range: U+2190-2193, U+2248, U+2260, U+2264-2265;
 }
 
+/* Onest Han — Chinese (zh) pages only: the SAME three Onest files (same URLs, so nothing is downloaded
+   twice and the onest-latin preload still serves), minus the punctuation Chinese sets full-width: the
+   em dash (——, which must read as one 2em rule, came out as two short dashes with a gap), the curly
+   quotes and the ellipsis. Those fall through to the device's CJK face. Named only in the
+   :root:lang(zh) stack (tokens.css). */
+@font-face {
+  font-family: 'Onest Han';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../assets/fonts/onest-latin.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-2013, U+2016-2017, U+201A-201B, U+201E-2025, U+2027-206F, U+20AC, U+2122, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Onest Han';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../assets/fonts/onest-cyrillic.woff2') format('woff2-variations');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116, U+0492-0493, U+049A-049B, U+04B2-04B3, U+040E, U+045E;
+}
+@font-face {
+  font-family: 'Onest Han';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../assets/fonts/onest-symbols.woff2') format('woff2-variations');
+  unicode-range: U+2190-2193, U+2248, U+2260, U+2264-2265;
+}
+/* …and its metric-matched fallback (as 'Onest Fallback' below) with the same punctuation left out:
+   a local Arial has an em dash too, and would otherwise draw it while Onest loads. */
+@font-face {
+  font-family: 'Onest Han Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Roboto');
+  size-adjust: 103%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  unicode-range: U+0000-2013, U+2016-2017, U+201A-201B, U+201E-2025, U+2027-FFFF;
+}
+
 /* Vazirmatn Variable — Persian (fa) pages only. ONLY the Arabic subset of the pinned
    @fontsource-variable/vazirmatn (46 KB, OFL-1.1), straight from the package: Latin text and ASCII
    digits on a fa page stay in Onest. The family is named in exactly one stack, :root:lang(fa) in

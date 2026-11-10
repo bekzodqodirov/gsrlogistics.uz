@@ -299,8 +299,11 @@ const cfg = JSON.stringify({ endpoint: site.leadAssign, company: site.telegramCo
   .lp-back { justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 2px; border: 0; background: none; color: var(--muted); font: inherit; font-size: var(--text-small); cursor: pointer; }
   .lp-back:hover { color: var(--fg); }
   .lp-back :global(.lp-back-ico) { transform: scaleX(-1); }
-  /* RTL: "back" points right, which arrow-right does as drawn: no flip at all, whatever else mirrors icons. */
-  :global([dir='rtl']) .lp-back :global(.lp-back-ico) { transform: none; scale: none; }
+  /* RTL: "back" points right, which arrow-right does as drawn: no flip at all, whatever else mirrors icons.
+     Two rules, not one: the CSS minifier folds `scale: none` declared beside `transform` into
+     `transform: scale(1)` and drops the `scale` reset, which left Icon's RTL mirror applied. */
+  :global([dir='rtl']) .lp-back :global(.lp-back-ico) { transform: none; }
+  :global([dir='rtl']) .lp-back :global(svg.lp-back-ico) { scale: none; }
   .lp-q { margin: 0; font-weight: 600; font-size: 1.0625rem; }
   .lp-chips { grid-template-columns: 1fr 1fr; }
   .lp-chips-wide { grid-template-columns: 1fr; }

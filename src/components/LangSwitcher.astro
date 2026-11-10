@@ -24,7 +24,7 @@ const t = pick(lang, common);
 // Cyrillic paths come back percent-encoded from `new URL().pathname`; a visible href should read as
 // the word it is, so they are decoded back to UTF-8.
 const switchHref = (l: Locale) => { const alt = alternates.find((a) => a.lang === l); return alt ? decodeURI(new URL(alt.href).pathname) : pagePath(l, 'home'); };
-const links = switcherOrder.map((l) => ({ l, href: switchHref(l), meta: langMeta[l], current: l === lang }));
+const links = switcherOrder.map((l) => ({ href: switchHref(l), meta: langMeta[l], current: l === lang }));
 const label = variant === 'row' ? t.footer.languages : t.header.langLabel;
 ---
 {variant === 'menu' ? (
@@ -37,14 +37,14 @@ const label = variant === 'row' ? t.footer.languages : t.header.langLabel;
       <Icon name="chevron-down" size={14} class="lang-chev" />
     </summary>
     <ul role="list" class="lang-list">
-      {links.map(({ l, href, meta, current }) => (
+      {links.map(({ href, meta, current }) => (
         <li><a href={href} hreflang={meta.htmlLang} lang={meta.htmlLang} dir={meta.dir} aria-current={current ? 'true' : undefined}><span>{meta.label}</span>{current && <Icon name="check" size={16} class="lang-check" />}</a></li>
       ))}
     </ul>
   </details>
 ) : (
   <div class:list={['lang-links', variant === 'grid' ? 'lang-grid' : 'lang-row']} role="group" aria-label={label}>
-    {links.map(({ l, href, meta, current }) => <a href={href} hreflang={meta.htmlLang} lang={meta.htmlLang} dir={meta.dir} aria-current={current ? 'true' : undefined}>{meta.label}</a>)}
+    {links.map(({ href, meta, current }) => <a href={href} hreflang={meta.htmlLang} lang={meta.htmlLang} dir={meta.dir} aria-current={current ? 'true' : undefined}>{meta.label}</a>)}
   </div>
 )}
 
@@ -72,6 +72,7 @@ const label = variant === 'row' ? t.footer.languages : t.header.langLabel;
   .lang-list :global(.lang-check) { flex: none; color: var(--accent-text); }
   :global(.site-header[data-over-dark='true']) .lang-list { background: var(--gray-900); border-color: rgb(255 255 255 / 0.08); }
   :global(.site-header[data-over-dark='true']) .lang-list a:hover { background: rgb(255 255 255 / 0.06); }
+  :global(.site-header[data-over-dark='true']) .lang-list :global(.lang-check) { color: var(--red-300); }
   /* Below 360px the trigger drops the globe and its own spacing: label + chevron still read as a
      language control, and the full logo, the trigger and the menu button fit a 320px bar. */
   @media (max-width: 359px) {

@@ -24,6 +24,8 @@ const modeWord = pick(lang, {
 const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' });
 const days = (d: number[]) => fmtRange(d[0], d[1], t.strings.days, lang);
 const copyright = endSentence(`© ${fmtInt(year, lang)} ${site.name}${sep(lang)}${city}${site.legalEntity ? `${sep(lang)}${site.legalEntity}` : ''}`, lang);
+// A full-width stop (zh 。) carries its own space; after any other stop the next sentence needs one.
+const copyrightLine = `${copyright}${/[。！？]$/.test(copyright) ? '' : ' '}${t.footer.rights}`;
 ---
 <footer class="site-footer dark" id="site-footer">
   <div class="container">
@@ -76,7 +78,7 @@ const copyright = endSentence(`© ${fmtInt(year, lang)} ${site.name}${sep(lang)}
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="caption">{copyright} {t.footer.rights}</p>
+      <p class="caption">{copyrightLine}</p>
       <LangSwitcher lang={lang} alternates={alternates} variant="row" />
     </div>
   </div>
@@ -89,7 +91,9 @@ const copyright = endSentence(`© ${fmtInt(year, lang)} ${site.name}${sep(lang)}
   .footer-desc { margin-top: 16px; max-width: 34ch; font-size: var(--text-small); }
   .fact-stack { margin-top: 20px; font-size: var(--text-small); color: var(--muted); }
   .fact-stack li + li { margin-top: 6px !important; }
-  .fact-stack strong { color: var(--fg); font-weight: 600; margin-inline-start: 6px; }
+  /* isolate: on the RTL page a Latin label in front ("Consolidated", until the Persian one exists)
+     would otherwise pull the first figure into its LTR run and print "۱۵ Consolidated تا ۲۵ روز". */
+  .fact-stack strong { color: var(--fg); font-weight: 600; margin-inline-start: 6px; unicode-bidi: isolate; }
   .socials { display: flex; gap: 8px; margin-top: 20px; }
   .socials a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: color-mix(in oklab, var(--fg), transparent 92%); color: var(--fg); transition: background var(--dur) var(--ease); }
   .socials a:hover { background: color-mix(in oklab, var(--fg), transparent 84%); }

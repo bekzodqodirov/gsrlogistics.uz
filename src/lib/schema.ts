@@ -34,7 +34,7 @@ const descriptions: Localized<string> = {
   ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент, с 2018 года; 10+ фур в месяц, 400+ клиентов; три пункта приёма в Китае — Иу, Гуанчжоу, Кашгар.',
   en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent, since 2018; 10+ trucks a month, 400+ clients; three receiving points in China — Yiwu, Guangzhou, Kashgar.',
   // Translated from the English line above (GLOSSARY.md terms); Persian figures in Persian digits.
-  zh: 'GSR Logistics——从中国到乌兹别克斯坦的汽运拼货、空运和铁路货运，寻找货源与代采购，清关。塔什干，自 2018 年起；每月 10+ 辆卡车，400+ 客户；在中国有三个收货点——义乌、广州、喀什。',
+  zh: 'GSR Logistics——从中国到乌兹别克斯坦的汽运拼货、空运和铁路货运，寻找货源与代采购，清关。塔什干，自 2018 年起；每月 10+ 辆卡车，400+ 客户；在中国有 3 个收货点——义乌、广州、喀什。',
   fa: 'GSR Logistics — حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا، ترخیص گمرکی. تاشکند، از ۲۰۱۸؛ ماهانه بیش از ۱۰ کامیون، بیش از ۴۰۰ مشتری؛ سه محل تحویل بار در چین — ییوو، گوانگجو، کاشغر.',
 };
 

@@ -99,9 +99,10 @@
    element-level :lang(): the switcher's "中文" and "فارسی" labels carry their own lang on every page,
    and an element-level rule would pull the Persian webfont onto all of them.
    zh — no webfont: Onest first, so Latin and digits stay on-brand, then the device's own Simplified
-   Chinese face for Han. Full-width characters want more leading and no tracking. */
+   Chinese face for Han. 'Onest Han' is Onest itself (fonts.css) minus the dash, quotes and ellipsis
+   that Chinese sets full-width. Full-width characters want more leading and no tracking. */
 :root:lang(zh) {
-  --font-sans: 'Onest Variable', 'Onest Fallback', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Noto Sans SC', sans-serif;
+  --font-sans: 'Onest Han', 'Onest Han Fallback', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Noto Sans SC', sans-serif;
   --leading-display: 1.2;
   --leading-tight: 1.3;
   --leading-body: 1.75;
