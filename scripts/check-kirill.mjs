@@ -351,9 +351,11 @@ const pendingReport = () => {
   const lines = [...gaps, ...links, ...pendingNotes];
   if (lines.length) console.log(`check-kirill: pending locales (${LOCALE_CODES.filter(isPending).join(', ')}) — counted, not failed:\n  ` + lines.join('\n  '));
 };
+/** How many problems to print (CHECK_MAX=… shows more when a whole locale breaks at once). */
+const SHOW = Number(process.env.CHECK_MAX ?? 40);
 if (errors.length) {
-  console.error(`check-kirill: ${errors.length} problem(s)\n  ` + errors.slice(0, Number(process.env.CHECK_MAX ?? 40)).join('\n  '));
-  if (errors.length > Number(process.env.CHECK_MAX ?? 40)) console.error(`  … and ${errors.length - Number(process.env.CHECK_MAX ?? 40)} more`);
+  console.error(`check-kirill: ${errors.length} problem(s)\n  ` + errors.slice(0, SHOW).join('\n  '));
+  if (errors.length > SHOW) console.error(`  … and ${errors.length - SHOW} more`);
   pendingReport();
   process.exit(1);
 }

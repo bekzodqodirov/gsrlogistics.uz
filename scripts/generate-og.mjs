@@ -93,16 +93,24 @@ function fontFaces(dir, family, text) {
 }
 
 const browserKeys = Object.keys(browserVariants).filter(want);
-if (browserKeys.length) {
+// `npm run og` with no argument still regenerates the librsvg cards on a machine without Chromium;
+// asking for zh or fa by name without one is an error.
+if (browserKeys.length && !process.env.OG_CHROMIUM && !wanted.length) {
+  console.log(`og: ${browserKeys.join(', ')} skipped — set OG_CHROMIUM (see the header of scripts/generate-og.mjs) to draw them`);
+} else if (browserKeys.length) {
   const need = (name) => { const v = process.env[name]; if (!v) throw new Error(`${name} is not set — see the header of scripts/generate-og.mjs`); return v; };
+  const executablePath = need('OG_CHROMIUM');
   const require = createRequire(import.meta.url);
-  const { chromium } = require(process.env.OG_PLAYWRIGHT || 'playwright-core');
+  let chromium;
+  try { ({ chromium } = require(process.env.OG_PLAYWRIGHT || 'playwright-core')); } catch {
+    throw new Error('playwright-core not found — install it outside the site (npm i --no-save playwright-core) or point OG_PLAYWRIGHT at an install');
+  }
   const FONT_DIRS = {
     onest: ['Onest', path.resolve('node_modules/@fontsource-variable/onest')],
     sc: ['Noto Sans SC', process.env.OG_FONTS_SC],
     fa: ['Vazirmatn', process.env.OG_FONTS_FA || path.resolve('node_modules/@fontsource-variable/vazirmatn')],
   };
-  const browser = await chromium.launch({ executablePath: need('OG_CHROMIUM') });
+  const browser = await chromium.launch({ executablePath });
   try {
     const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
     for (const key of browserKeys) {
