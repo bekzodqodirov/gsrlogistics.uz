@@ -1,7 +1,118 @@
 import type { ServicesStrings } from '../services';
 
-/**
- * Chinese (Simplified) strings for `src/i18n/services.ts`, translated from its English branch.
- * Stub until the translation lands: `undefined` makes `pick` fall back to English.
- */
-export const zh: ServicesStrings | undefined = undefined;
+/** Chinese (Simplified) strings for `src/i18n/services.ts`, translated from its English branch. */
+export const zh: ServicesStrings = {
+  home: {
+    eyebrow: '02 — 服务',
+    h2: '我们的核心业务——中国拼货运输。',
+    intro: '每月 10+ 辆卡车从中国发往塔什干。我们的其他业务都围绕这些货物展开：寻找货源、代采购、清关。',
+    flagshipBadge: '核心服务',
+    flagshipPhotoAlt: '在中国用叉车将纸箱装上卡车',
+    flagshipStatLabel: '预计时效',
+    flagshipMinVolume: '最低 {n} m³',
+    details: '了解详情',
+    listLabel: '服务列表',
+    modes: {
+      title: '货物紧急或体积很大时',
+      text: '如果拼货卡车不适合，从中国到塔什干还有另外两种方式。',
+    },
+    tail: {
+      title: '围绕货物的其他工作',
+      text: '每一项都是独立的服务，具体包含哪些内容，请见各自的页面。',
+      listLabel: '附加服务',
+    },
+    compare: {
+      title: '哪种运输方式适合您？',
+      truck: '重货和大体积货物',
+      air: '急件、高货值、轻货',
+      rail: '集装箱，20ft/40ft',
+    },
+    meta: '时效和价格均为参考，自货物从中国仓库发出起计算 · 更新于 {date}',
+  },
+  line: {
+    days: '天',
+    fromKg: '{n} kg 起',
+    fromM3: '{n} 美元/m³ 起',
+    commissionFrom: '服务费 {n}% 起',
+    yuanPayment: '人民币付款',
+    containers: '20ft / 40ft',
+    turnkey: '交钥匙服务',
+    customs: '报关单（GTD）· 关税和增值税计算',
+    photoEveryReceipt: '每次收货均有照片报告',
+    insurance: '保险 {n}%',
+    toOrder: '按需订购',
+    withCustoms: '含清关',
+  },
+  index: {
+    seoTitle: '中国货物运输与代采购服务——货运、寻找货源、清关',
+    seoDescription: '中国至塔什干拼货汽运 15–25 天、空运 5–10 天、铁路整柜、寻找货源、1688/淘宝代采购、设备进口、清关、义乌/广州/喀什三个收货地址及汽车进口。',
+    eyebrow: '服务',
+    h1: '中国货物运输与代采购服务',
+    intro: 'GSR Logistics 承接九项与中国相关的业务：拼货汽运从义乌仓库经霍尔果斯运至塔什干，约 15–25 天；空运 5–10 天；铁路集装箱 20–35 天。中国有三个收货地址：义乌、广州和喀什。我们为您寻找货源，在 1688 和淘宝代采购，以交钥匙方式进口设备，并办理清关。一位客户经理，一份合同——自 2018 年起。',
+    groups: { shipping: '货物运输', buying: '在中国寻找货源与采购', paperwork: '手续办理与质量控制', vehicles: '汽车' },
+    groupLead: {
+      shipping: '三种方式——汽运、空运、铁路。时效和价格取决于货物的重量、体积和紧急程度。',
+      buying: '您无需懂中文：客户经理会与工厂沟通，用人民币付款，并检查样品。',
+      paperwork: '单证、申报、报关单（GTD）和质检——均在货物发运之前完成。',
+      vehicles: '按需订购汽车和电动汽车——从选车到办理手续。',
+    },
+    compareTitle: '应该选择哪种运输方式？',
+    compareIntro: '在一张表中比较三种运输方式。时效为参考值，自货物从中国仓库发出起计算。',
+    compareHead: { mode: '方式', days: '时效', min: '最低起运量', rule: '计价规则', fits: '适合' },
+    compareRows: {
+      truck: { min: '1 m³', rule: '按 m³ 计费，费率取决于密度——110 美元/m³ 起', fits: '批发货物、重货和大体积货物' },
+      air: { min: '0.5 kg', rule: '按 kg 计费，体积重 ÷ 5,000', fits: '急件、高货值和轻货' },
+      rail: { min: '20ft 集装箱', rule: '仅限整柜（FCL），不做拼货', fits: '大批量货物、设备' },
+    },
+    howTitle: '如何开始合作？',
+    how: '通过 Telegram 给我们留言或致电：告诉我们货物、城市和期限。客户经理会为您推荐运输方式并报价，双方签订合同后，我们会提供中国的收货地址——义乌、广州或喀什，具体发往哪一个由客户经理告知。之后货物即可启运。',
+    ctaTitle: '不确定需要哪项服务？',
+    ctaText: '给我们留言——描述您的货物，我们为您推荐运输方式、时效和价格。',
+  },
+  page: {
+    serviceIndex: '服务 {n}',
+    factsLabel: '关键信息',
+    stickyLabel: '价格与时效',
+    stickyDays: '预计时效',
+    stickyHint: '我们会根据您的货物报出准确价格——欢迎留言。',
+    sectionsLabel: '服务介绍',
+    faqTitle: '常见问题',
+    relatedTitle: '相关服务',
+    guidesTitle: '阅读相关指南',
+    guidesIntro: '与本主题相关的详细文章——计价规则、清关、线路。',
+    ctaEyebrow: '联系我们',
+    fallback: {
+      seoTitle: '{name}——从中国到乌兹别克斯坦',
+      seoDescription: '{short}GSR Logistics（塔什干）——自 2018 年起与中国合作。',
+      eyebrow: '服务',
+      intro: '{short}货物送达中国的收货地址（义乌、广州或喀什）后，我们负责接收、检查并发送照片报告，并在塔什干正式办理清关。一份合同，一位客户经理——自 2018 年起与中国合作。',
+      facts: [
+        { label: '中国收货地址', value: '义乌 · 广州 · 喀什' },
+        { label: '与中国合作', value: '2018 年起' },
+        { label: '报告', value: '照片报告' },
+        { label: '客户经理语言', value: '乌兹别克语 · 俄语 · 中文' },
+      ],
+      sectionTitle: '我们如何工作？',
+      sectionBody: [
+        '您通过 Telegram 或电话提交需求。客户经理会确认货物、城市和期限，然后为您推荐运输方式并报价。',
+        '我们签订合同：价格、时效和责任均白纸黑字写明。货物到达中国的收货地址后，会进行称重、测量和拍照——报告将发送到您的 Telegram。',
+        '塔什干的清关由我们负责；关税和增值税依法缴纳。您可以从仓库自提货物，或由我们转运至您所在的州。',
+      ],
+      ctaTitle: '对这项服务有疑问？',
+      ctaText: '给我们留言——告诉我们货物、城市和期限，我们为您报价并推荐线路。',
+      draft: '您好！我想咨询一下“{name}”服务。',
+    },
+  },
+  guideTitles: {
+    'shipping-from-china': '从中国发货到乌兹别克斯坦——2026 年指南',
+    'cargo-pricing': '货运价格如何计算',
+    'air-vs-truck-vs-rail': '空运、汽运还是铁路——对比',
+    'order-from-1688': '如何在 1688 下单',
+    'customs-2026': '2026 年乌兹别克斯坦海关税费',
+    'find-supplier': '在中国寻找供应商',
+    'yiwu-guangzhou': '义乌和广州市场',
+    'prohibited-goods': '禁运物品',
+    'glossary': '货运术语表',
+    'routes': '中国至塔什干线路',
+  },
+};
