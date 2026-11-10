@@ -6,7 +6,7 @@ import { about } from '@/i18n/about';
 import { servicesStrings } from '@/i18n/services';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtInt, sep, sepMark } from '@/lib/format';
+import { fmtDigits, fmtInt, sep, sepMark } from '@/lib/format';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
@@ -39,7 +39,7 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
         <ul class="facts" role="list" aria-label={sv.page.factsLabel} data-count={t.facts.length}>
           {t.facts.map((f) => (
             <li class="fact">
-              <p class:list={['fact-value', 'tnum', f.value.length > 12 && 'is-long']}>{f.value}</p>
+              <p class:list={['fact-value', 'tnum', f.value.length > 12 && 'is-long']}>{fmtDigits(f.value, lang)}</p>
               <p class="caption fact-label">{f.label}</p>
             </li>
           ))}

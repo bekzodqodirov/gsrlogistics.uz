@@ -3,10 +3,10 @@ import type { GuidesStrings } from '../guides';
 /** Chinese (Simplified) strings for `src/i18n/guides.ts`, translated from its English branch. */
 export const zh: GuidesStrings = {
   seoTitle: '指南：中国货运、价格、清关、1688',
-  seoDescription: '从中国到乌兹别克斯坦货运实用指南：运费如何计算，空运、汽运、铁路对比，1688 下单，2026 年关税，寻找工厂，义乌和广州市场，禁运物品，术语表，线路。',
+  seoDescription: '中国到乌兹别克斯坦货运实用指南：运费如何计算，空运、汽运、铁路对比，1688 下单，2026 年海关税费，寻找工厂，义乌和广州市场，禁运物品，术语表，线路。',
   eyebrow: '指南',
   h1: '从中国运货：实用指南',
-  intro: '从中国运货到乌兹别克斯坦的每个环节，都用数字讲清楚：价格如何计算，哪种运输方式在什么情况下合适，清关时会发生什么，如何在 1688 下单。内容更新至 2026年9月。',
+  intro: '从中国运货到乌兹别克斯坦的每个环节，都用数字讲清楚：价格如何计算，哪种运输方式在什么情况下合适，清关时会发生什么，如何在 1688 下单。所有文章均已更新至 2026年9月。',
   readMore: '阅读',
   minutes: '分钟',
   toc: '目录',

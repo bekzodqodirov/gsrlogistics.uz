@@ -106,7 +106,7 @@ const routeD = 'M296 62 C 250 60, 214 34, 168 30 C 132 28, 104 36, 76 40 C 56 43
             {t.company.rows.map((r) => (
               <div class="stat-row">
                 <dt class="caption">{r.label}</dt>
-                <dd><span class="val co-val tnum">{r.value}</span>{r.unit && <span class="num-unit">{r.unit}</span>}</dd>
+                <dd><span class="val co-val tnum">{fmtDigits(r.value, lang)}</span>{r.unit && <span class="num-unit">{r.unit}</span>}</dd>
               </div>
             ))}
           </dl>

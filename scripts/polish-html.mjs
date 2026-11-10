@@ -55,9 +55,9 @@ const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input'
 const NO_MARKUP = new Set(['option', 'optgroup', 'select', 'datalist']);
 
 // Pass 3: the runs that must read left to right inside right-to-left text. E-mail before @handle,
-// so an address is taken whole; a phone number is international (+ and 7–15 digits) — a bare
+// so an address is taken whole; a handle may hold dots (@gsrgroup.uz) but never ends on one; a phone number is international (+ and 7–15 digits) — a bare
 // digit group is as likely a quantity, which reads correctly in Persian and must not be isolated.
-const LTR_RUN = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|https?:\/\/[^\s<>"'«»]+|(?<![\w/.])t\.me\/[A-Za-z0-9_+/]+|(?<![\w@.])@[A-Za-z0-9_]{4,32}(?![\w@])|\+\d{1,3}(?:(?:[ \xA0\u{202F}-]|&nbsp;|&#160;)?\d){6,14}/gu;
+const LTR_RUN = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|https?:\/\/[^\s<>"'«»]+|(?<![\w/.])t\.me\/[A-Za-z0-9_+/]+|(?<![\w@.])@[A-Za-z0-9_](?:[A-Za-z0-9_.]{2,30}[A-Za-z0-9_])(?![\w@])|\+\d{1,3}(?:(?:[ \xA0\u{202F}-]|&nbsp;|&#160;)?\d){6,14}/gu;
 // Already isolated in the text itself: LRI/FSI/LRE/LRO just before the run, as a character or an entity.
 // A sentence's own punctuation after a URL is not part of it: '… https://t.me/gsrlogistics.'
 const TRAILING = /[.,;:!?؛،)]+$/;
