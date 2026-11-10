@@ -59,6 +59,14 @@ const seo: Localized<{ title: string; description: string }> = {
     title: 'Cargo from China to Tashkent: consolidated 15–25 days, air 5–10 — GSR Logistics',
     description: `Freight from China to Uzbekistan, product sourcing and buying. Receiving addresses in Yiwu, Guangzhou and Kashgar. From the Yiwu warehouse via Khorgos to Tashkent: consolidated truck cargo in roughly 15–25 days, air in 5–10, from ${fmtUsd(fromRate, 'en')}/m³. Customs clearance, photo reports, 1688/Taobao buying. Tashkent, since 2018.`,
   },
+  zh: {
+    title: '中国至塔什干货运：拼货 15–25 天，空运 5–10 天——GSR Logistics',
+    description: `中国至乌兹别克斯坦货运、找货与代采购。义乌、广州、喀什收货，经霍尔果斯至塔什干：拼货约 15–25 天，空运 5–10 天，${fmtUsd(fromRate, 'zh')}/m³ 起。清关、照片报告。`,
+  },
+  fa: {
+    title: 'حمل بار از چین به تاشکند: بار تجمیعی ۱۵ تا ۲۵ روز، هوایی ۵ تا ۱۰ روز — GSR Logistics',
+    description: `حمل بار از چین به ازبکستان و خرید کالا. تحویل در ییوو، گوانگجو و کاشغر؛ از راه خورگوس تا تاشکند: تجمیعی ۱۵ تا ۲۵ روز، هوایی ۵ تا ۱۰، از ${fmtUsd(fromRate, 'fa')}/متر مکعب.`,
+  },
 };
 const siteUrl = Astro.site ?? new URL(site.url);
 const serviceGraph = services.slice(0, 3).map((s) =>

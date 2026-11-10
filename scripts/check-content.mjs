@@ -217,8 +217,11 @@ for (const file of walk(dist)) {
     // A parenthesised English form is a deliberate glossary gloss: "Xorgos (Khorgos)".
     if (/(?<!\()\b(Guangzhou|Shenzhen|Almaty|Shymkent|Khorgos|Yiwu)\b(?!\))/.test(text)) warn.push(`${url}: English toponym in Uzbek copy`);
   }
-  if (/\d %/.test(text) || /\d %/.test(norm)) warn.push(`${url}: spaced percent`);
-  if (/÷ ?\d{4}\b/.test(text) || /÷ ?\d{4}\b/.test(norm)) warn.push(`${url}: unseparated divisor`);
+  // The two style rules read Persian digits too, but keep the Persian thousands separator as one:
+  // "÷ ۵٬۰۰۰" is separated, so it must not turn into "÷ 5000" here.
+  const styled = normalize(text.replace(/\u{066C}/gu, ','));
+  if (/\d %/.test(text) || /\d %/.test(styled)) warn.push(`${url}: spaced percent`);
+  if (/÷ ?\d{4}\b/.test(text) || /÷ ?\d{4}\b/.test(styled)) warn.push(`${url}: unseparated divisor`);
   // Uzbek terms glossed for the reader ("in Uzbek it is yigʻma yuk") are intentional.
   if ((lang === 'ru' || lang === 'en') && /(?<!(in Uzbek it is |по-узбекски — ))(Ivu ombor|yigʻma yuk|bojxona rasmiylashtiruvi)/.test(text)) warn.push(`${url}: Uzbek word in ${lang} copy`);
   if (lang === 'en' && /soʻm/.test(text)) warn.push(`${url}: "soʻm" in English copy (use UZS)`);

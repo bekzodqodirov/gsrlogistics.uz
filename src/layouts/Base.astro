@@ -51,6 +51,8 @@ const graph: Array<Record<string, unknown>> = [
   ...jsonLd,
 ];
 const skipLink = pick(lang, { uz: 'Asosiy kontentga oʻtish', ru: 'Перейти к содержанию', en: 'Skip to content' });
+// Each hand-written locale has its own card — /og/uz.png, ru, en, and the Chinese and Persian
+// /og/zh.png and /og/fa.png (scripts/generate-og.mjs; test-seo.mjs fails a card that is not a file).
 // There is no /og/uzc.png: the OG card is a picture of a brand, not a translated page, and
 // `sourceOf` sends the Cyrillic locale to the Latin Uzbek card rather than to a 404. Drop a real
 // uzc card into public/og/ (scripts/generate-og.mjs) and change this line to use `lang` directly.

@@ -189,15 +189,17 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   const phoneOk = (v: string) => /^\+998\d{9}$/.test(v.replace(/\s/g, ''));
 
   /**
-   * zh and fa: any international number, as typed. ASCII digits; a single leading "+" (a leading 00,
-   * the international prefix, becomes it); spaces, brackets and dashes kept as the visitor groups them;
-   * nothing else. No country is assumed and nothing is regrouped.
+   * zh and fa: any international number, as typed. ASCII digits; one "+", always in front — a "+" typed
+   * anywhere (or a caret that landed before the prefilled one) still means an international number, and
+   * a leading 00, the international prefix, becomes it; spaces, brackets and dashes kept as the visitor
+   * groups them; nothing else. No country is assumed and nothing is regrouped.
    */
   function cleanIntl(raw: string): string {
-    let s = toAsciiDigits(raw).replace(/[^\d\s()+-]/g, '').replace(/\s+/g, ' ').replace(/^\s+/, '');
-    s = s.replace(/^\+?00(?=\d)/, '+'); // "0098…", or "+0098…" typed after the prefilled "+"
-    const lead = s.startsWith('+') ? '+' : '';
-    return lead + s.replace(/\+/g, '');
+    let s = toAsciiDigits(raw).replace(/[^\d\s()+-]/g, '').replace(/\s+/g, ' ');
+    let plus = s.includes('+');
+    s = s.replace(/\+/g, '').replace(/^\s+/, '');
+    if (/^00\d/.test(s)) { s = s.slice(2); plus = true; } // "0098…", or "+0098…" typed after the prefilled "+"
+    return (plus ? '+' : '') + s;
   }
   /** E.164: a "+", a country code that does not start with 0, 7 to 15 digits in all. */
   const intlOk = (v: string) => /^\+[1-9]\d{6,14}$/.test(cleanIntl(v).replace(/[\s()-]/g, ''));
@@ -225,13 +227,21 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
     form.setAttribute('data-enhanced', 'true');
     form.noValidate = true; // JS owns validation and its localized messages; no-JS keeps the native one
     if (intl) {
-      phone.addEventListener('focus', () => { if (!phone.value) phone.value = '+'; });
+      phone.addEventListener('focus', () => {
+        if (phone.value) return;
+        phone.value = '+';
+        // After the click or tap has placed its caret: on an RTL page the field is right-aligned, so a
+        // tap lands before the "+" — put the caret after it.
+        setTimeout(() => { if (document.activeElement === phone && phone.value === '+') phone.setSelectionRange(1, 1); }, 0);
+      });
       phone.addEventListener('input', () => {
         const typed = phone.value;
         const next = cleanIntl(typed);
         if (next === typed) return;
-        // Keep the caret where the visitor is typing: what survives of the text before it.
-        const caret = cleanIntl(typed.slice(0, phone.selectionStart ?? typed.length)).length;
+        // Keep the caret where the visitor is typing: what survives of the text before it (plus the
+        // "+" moved in front of it, when that "+" came from after the caret).
+        const before = cleanIntl(typed.slice(0, phone.selectionStart ?? typed.length));
+        const caret = before.length + (next.startsWith('+') && !before.startsWith('+') ? 1 : 0);
         phone.value = next;
         try { phone.setSelectionRange(caret, caret); } catch { /* the field is not focused */ }
       });

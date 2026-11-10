@@ -21,6 +21,7 @@
     "test:pricing": "node scripts/test-pricing.mjs",
     "test:cyrillic": "node scripts/test-cyrillic.mjs",
     "test:locale": "node scripts/test-locale.mjs",
+    "test:translations": "node scripts/test-translations.mjs",
     "test:seo": "node scripts/test-seo.mjs dist",
     "check:content": "node scripts/check-content.mjs dist",
     "check:kirill": "node scripts/check-kirill.mjs dist"

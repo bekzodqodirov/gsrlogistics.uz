@@ -82,6 +82,8 @@ export const site = {
     uz: 'Toshkent, Shayxontohur tumani, Alisher Navoiy koʻchasi, 27-uy',
     ru: 'г. Ташкент, Шайхантахурский р-н, ул. Алишера Навои, дом 27',
     en: '27 Alisher Navoiy Street, Shaykhantakhur district, Tashkent',
+    zh: '塔什干市沙伊汉塔胡尔区（Shaykhantakhur）阿利舍尔·纳沃伊街 27 号',
+    fa: 'تاشکند، منطقهٔ شیخانطهور، خیابان علیشیر نوایی، پلاک ۲۷',
     streetAddress: 'Alisher Navoiy koʻchasi, 27',
     locality: 'Tashkent',
     region: 'Toshkent',
@@ -110,7 +112,7 @@ export const site = {
   chinaWarehouses: [
     {
       key: 'yiwu',
-      city: { uz: 'Ivu', ru: 'Иу', en: 'Yiwu' },
+      city: { uz: 'Ivu', ru: 'Иу', en: 'Yiwu', zh: '义乌', fa: 'ییوو' },
       cityZh: '义乌',
       localityZh: '义乌市',
       regionZh: '浙江省',
@@ -121,7 +123,7 @@ export const site = {
     },
     {
       key: 'guangzhou',
-      city: { uz: 'Guanchjou', ru: 'Гуанчжоу', en: 'Guangzhou' },
+      city: { uz: 'Guanchjou', ru: 'Гуанчжоу', en: 'Guangzhou', zh: '广州', fa: 'گوانگجو' },
       cityZh: '广州',
       localityZh: '广州市白云区',
       regionZh: '广东省',
@@ -135,7 +137,7 @@ export const site = {
     },
     {
       key: 'kashgar',
-      city: { uz: 'Qashqar', ru: 'Кашгар', en: 'Kashgar' },
+      city: { uz: 'Qashqar', ru: 'Кашгар', en: 'Kashgar', zh: '喀什', fa: 'کاشغر' },
       cityZh: '喀什',
       localityZh: '乌恰县',
       regionZh: '新疆维吾尔自治区',
@@ -149,7 +151,7 @@ export const site = {
   cargoMark: 'GS',
   sourcingCommissionPct: 3, // TODO: confirm ("3% dan")
   insurancePct: 1, // TODO: confirm (% of declared value)
-  hours: { uz: 'Du–Sha 9:00–19:00', ru: 'Пн–Сб 9:00–19:00', en: 'Mon–Sat 9:00–19:00' },
+  hours: { uz: 'Du–Sha 9:00–19:00', ru: 'Пн–Сб 9:00–19:00', en: 'Mon–Sat 9:00–19:00', zh: '周一至周六 9:00–19:00', fa: 'همه روزه به‌جز یکشنبه، ۹:۰۰ تا ۱۹:۰۰' },
   openingHoursSpec: [{ days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '09:00', closes: '19:00' }],
 } as const;
 

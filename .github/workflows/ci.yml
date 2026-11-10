@@ -22,4 +22,7 @@ jobs:
       - run: npm run test:pricing
       - run: npm run test:cyrillic
       - run: npm run test:locale
+      # zh/fa against the English source: structure, {placeholders}, identifiers and figures. A
+      # locale still listed in PendingLang (src/i18n/config.ts) may lack translations; that is reported.
+      - run: npm run test:translations
       - run: npm run build

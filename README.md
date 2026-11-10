@@ -1,6 +1,6 @@
 # GSR Logistics — gsrlogistics.uz
 
-Xitoydan Oʻzbekistonga yuk tashish, tovar topish va sotib olish boʻyicha kompaniyaning rasmiy sayti. Uch tilda (oʻzbek — asosiy, rus, ingliz), statik, juda yengil, AI-qidiruv (ChatGPT, Claude, Gemini, Perplexity, Yandex) va Google/Yandex uchun optimallashtirilgan.
+Xitoydan Oʻzbekistonga yuk tashish, tovar topish va sotib olish boʻyicha kompaniyaning rasmiy sayti. Olti lokal: oʻzbek lotin (asosiy, `/`), rus (`/ru/`), ingliz (`/en/`), oʻzbek kirill (`/kirill/`, lotinchadan avtomatik), xitoy — soddalashtirilgan (`/zh/`) va fors — oʻngdan chapga (`/fa/`); kirilldan boshqa beshtasi qoʻlda yoziladi. Statik, juda yengil, AI-qidiruv (ChatGPT, Claude, Gemini, Perplexity, Yandex) va Google/Yandex uchun optimallashtirilgan.
 
 Texnologiya: [Astro 7](https://astro.build) (statik HTML), Onest shrifti (oʻz serverimizdan), GSAP (faqat «Yoʻl» animatsiyasi uchun, kechiktirib yuklanadi), hech qanday tashqi skript yoʻq.
 
@@ -12,7 +12,10 @@ npm run dev        # http://localhost:4321 — jonli koʻrish
 npm run build      # dist/ papkasiga tayyor sayt
 npm run preview    # dist/ ni lokal koʻrish
 npm run test:pricing   # kalkulyator hisob-kitobini tekshirish (tariffs.json oʻzgarganda)
-npm run og         # OG rasmlarni qayta yaratish (public/og/)
+npm run test:locale    # olti lokal, pick() va format.ts shartnomasi
+npm run test:cyrillic  # lotin → kirill transliteratori
+npm run test:translations  # zh/fa tarjimalari inglizcha manbaga mosmi (tuzilma, {oʻrinbosarlar}, identifikatorlar, raqamlar)
+npm run og         # OG rasmlarni qayta yaratish (public/og/; zh/fa uchun pastroqqa qarang)
 ```
 
 ## Saytni internetga chiqarish (hosting)
@@ -78,11 +81,18 @@ Barcha narx va muddatlar `src/data/tariffs.json` faylida (avia $/kg, avto zinapo
 
 ## Kontentni tahrirlash
 
-- Xizmat sahifalari: `src/data/services/<xizmat>.content.ts` (uz/ru/en bir faylda).
-- Qoʻllanma maqolalari: `src/content/guides/<til>/<slug>.md` (Markdown, yuqorisida frontmatter). Yangi maqola qoʻshsangiz `src/data/guides.ts` ga uch tildagi slug'ni ham qoʻshing (hreflang uchun).
+- Xizmat sahifalari: `src/data/services/<xizmat>.content.ts` (uz/ru/en bir faylda); xitoycha va forscha tarjimasi — `src/data/services/zh/<xizmat>.content.ts` va `src/data/services/fa/<xizmat>.content.ts`.
+- Qoʻllanma maqolalari: `src/content/guides/<til>/<slug>.md` (Markdown, yuqorisida frontmatter); zh/fa maqola inglizcha maqola bilan **bir xil fayl nomida** (`src/content/guides/zh/<slug>.md`). Yangi maqola qoʻshsangiz `src/data/guides.ts` ga har tildagi slug'ni ham qoʻshing (hreflang uchun; zh va fa — inglizcha slug).
 - Savol-javob: `src/data/faq.ts`.
-- Bosh sahifa boʻlimlari matnlari: `src/i18n/*.ts`.
+- Bosh sahifa boʻlimlari matnlari: `src/i18n/*.ts`; ularning xitoycha va forscha tarjimasi — `src/i18n/zh/<modul>.ts` va `src/i18n/fa/<modul>.ts` (bir faylda bitta til).
 - Oʻzbek matnida ʻ (U+02BB) va ʼ (U+02BC) belgilaridan foydalaning (oʻ, gʻ, maʼlumot), oddiy ' emas.
+
+### Xitoy (zh) va fors (fa) tillari
+
+- Ikkalasi ham **inglizcha** matndan tarjima qilinadi va inglizcha slug'larni ishlatadi (`/en/pricing/` → `/zh/pricing/`, `/fa/pricing/`). Fors tili — oʻngdan chapga (`<html dir="rtl">`), Eron va Afgʻoniston oʻquvchilari uchun bitta matn. Raqamlar faqat `src/lib/format.ts` orqali formatlanadi (forschada ۰–۹ raqamlari).
+- **Yozilayotgan til (PendingLang).** `src/i18n/config.ts` dagi bitta qator — `type PendingLang = 'zh' | 'fa';` — tarjimasi hali tugamagan lokallarni belgilaydi: ularning tarmogʻi ixtiyoriy, `pick()` esa inglizchasini koʻrsatadi. Barcha skriptlar shu qatorni `scripts/locales.mjs` orqali oʻqiydi va yetishmayotgan tarjimani **sanab koʻrsatadi**, build'ni toʻxtatmaydi (tarjima qilinmagan matn — ogohlantirish). Hammasi tarjima qilingach, qatorni `type PendingLang = never;` ga almashtiring: shundan keyin TypeScript har bir yozuvda zh/fa ni talab qiladi, skriptlar esa har bir boʻshliqni xato deb hisoblaydi.
+- `npm run test:translations` (`scripts/test-translations.mjs`) har bir zh/fa yozuvini, xizmat sahifasini va maqolani inglizchasi bilan solishtiradi: bir xil kalitlar va massiv uzunliklari (jadval qatorlari/ustunlari, sarlavhalar, roʻyxat bandlari), bir xil `{oʻrinbosar}`lar, oʻzgarmagan identifikatorlar (uz/ru/en da bir xil boʻlgan satr — kalit, ikonka, brend, kod — tarjimada ham aynan shunday), ichki havolalar va raqamlar toʻplami. Raqam farqi faqat sababi bilan `scripts/test-translations.allow.json` ga yozilsa oʻtadi.
+- OG rasmlar `public/og/zh.png` va `public/og/fa.png` brauzerda (Chromium) qatʼiy belgilangan shriftlar bilan chiziladi — buyruq va oʻzgaruvchilar `scripts/generate-og.mjs` boshida. Shriftlar saytga qoʻshilmaydi; rasmlar commit qilinadi, CI ga shrift kerak emas.
 
 ### Matn tekshiruvi (avtomatik)
 
@@ -95,6 +105,8 @@ Barcha narx va muddatlar `src/data/tariffs.json` faylida (avia $/kg, avto zinapo
 - kalka va ruscha soʻzlar: Kitay, zayavka, tomonidan, amalga oshiramiz, uzel;
 - «powerbank» (toʻgʻrisi — «power bank»);
 - har sahifada bitta `h1`, oddiy apostrof, raqam uslubi, tillar aralashuvi.
+
+Xuddi shu biznes qoidalari xitoycha va forscha ham bor (`scripts/content-rules.mjs`: «bizning omborimiz», real vaqt/GPS kuzatuvi, GSR'ga biriktirilgan 15 yil, 400+ va 10+ dan boshqa raqamlar, Afgʻoniston/Eron/Qozogʻistonga yetkazish, temir yoʻlda yigʻma yuk, «fura yoki konteyner», javob tezligi va boshqalar). Har bir qoida yonida u ushlashi va oʻtkazib yuborishi kerak boʻlgan jumlalar turadi; skript sahifalarni oʻqishdan oldin ularni tekshiradi. Qoidalar barcha sahifalar matnida, `<title>`, meta/OG tavsiflari, JSON-LD va `llms.txt` da ishlaydi; fors raqamlari, bidi belgilari va xitoycha soʻzlar orasidagi boʻshliqlar oldindan normallashtiriladi. zh/fa sahifalarida qoʻshimcha ravishda: anʼanaviy xitoy ierogliflari, arabcha ي/ك va ٠–٩, fors matni yonidagi «→» va «·», hamda tarjima qilinmagan inglizcha/oʻzbekcha/ruscha matn (PendingLang paytida — ogohlantirish, keyin — xato).
 
 Xato chiqsa, u sahifa manzili bilan koʻrsatiladi — matnni tuzatib qayta build qiling.
 
@@ -111,13 +123,14 @@ src/
   layouts/Base.astro          sahifa qobigʻi (head, SEO, JSON-LD, header/footer)
   components/sections/        bosh sahifa boʻlimlari
   components/journey/         «Yoʻl» — pinned scroll-animatsiya (SVG xarita + GSAP)
-  components/pages/           sahifa shablonlari (uch til uchun bitta)
-  pages/  ru/  en/            marshrutlar (yupqa oʻramlar)
-  i18n/                       matnlar (uz/ru/en), marshrut sluglari
+  components/pages/           sahifa shablonlari (barcha tillar uchun bitta)
+  pages/  ru/ en/ zh/ fa/ kirill/   marshrutlar (yupqa oʻramlar)
+  i18n/                       matnlar (uz/ru/en; zh/ va fa/ — tarjimalar), marshrut sluglari
   data/                       xizmatlar, tariflar, FAQ, qoʻllanma sluglari
   content/guides/             Markdown maqolalar
   lib/                        site.ts (kompaniya faktlari), schema.ts, format.ts
-scripts/                      xarita generatori, OG rasmlar, llms-full, IndexNow
+scripts/                      xarita generatori, OG rasmlar, llms-full, IndexNow, build'dan keyingi tekshiruvlar
+                              (locales.mjs — barcha skriptlar uchun yagona lokal jadvali)
 functions/api/                Cloudflare Pages Functions (kuzatuv; `lead.ts` endi ishlatilmaydi — forma GSR tizimi orqali ishlaydi)
 docs/                         SEO-PLAYBOOK, DEPLOY-FUNCTIONS
 ```
