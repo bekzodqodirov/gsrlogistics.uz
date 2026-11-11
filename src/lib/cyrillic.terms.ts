@@ -139,6 +139,8 @@ const brands: KeepLatin[] = [
   // Company and product names that are Latin in every language, including the owner's own.
   // `suffixable` because Uzbek glues its cases on: Telegram-да, Telegram-га, Taobao-дан.
   { latin: 'GSR Logistics', suffixable: true }, // the guides use the possessive: GSR Logistics-нинг
+  // The name the brand also goes by on social media (schema.ts alternateName) — never `GSR Гроуп`.
+  { latin: 'GSR Group', suffixable: true },
   // The legal entity, exactly as the owner spelled it: the footer prints it untransliterated, so the prose must match.
   { latin: 'Imex services LLC', suffixable: true },
   { latin: 'GSR', suffixable: true },
@@ -169,6 +171,10 @@ const brands: KeepLatin[] = [
   { latin: 'iOS', exactCase: true },
   { latin: 'Wi-Fi' }, // written Wi-Fi in Uzbek Cyrillic too
   { latin: 'Visa', exactCase: true }, // the card scheme, in the 1688 payment table
+  // The two partners the route film names (works block 2026-11-11-route-video): the companies' own Latin
+  // names, as the film and their signs write them — `БАРЛОУ` / `ҲАОМЕНГ` would be names nobody uses.
+  { latin: 'BARLOU', suffixable: true },  // transport partner, Kazakhstan
+  { latin: 'HAOMENG', suffixable: true }, // documents partner, China (Khorgos)
 
   // Trademarks the guides name as counterfeit risks. Transliterating a trademark is the one
   // thing you must not do to it — the reader is being told to recognise the real logo.

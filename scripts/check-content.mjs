@@ -24,6 +24,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { LOCALES, LOCALE_CODES, isPending, localeOfPath, unprefixed } from './locales.mjs';
 import { ZH_FA_FORBIDDEN, PAGE_RULES, normalize, leakRuns, quotedForeign, selfTest } from './content-rules.mjs';
+import { checkWorks } from './works-blocks.mjs';
 const dist = process.argv[2] || 'dist';
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(d, e.name)) : e.name === 'index.html' ? [path.join(d, e.name)] : []);
 const strip = (html) => {
@@ -96,6 +97,80 @@ const errors = [];
 const warn = [];
 /** The one tracking bot (owner-confirmed 2026-09-10). Any other bot handle on a page is a typo. */
 const BOT = 'GSR_GROUP_AGENT_bot';
+/*
+ * The monthly volume. Owner, 2026-11-11: «hozirda bizda 1 oyda 50–100 ta konteyner tashiyapmiz» — GSR
+ * carries 50–100 containers a month. It replaces the monthly truck count of 2026-09-10, so a truck count
+ * with a "+" is stale wherever it stands, and a figure "a month" is publishable only as 50–100 containers,
+ * however it is phrased: «oyiga 50–100 (ta) konteyner», «50 dan 100 gacha konteyner», «от 50 до 100
+ * контейнеров в месяц», «50 to 100 containers a month». Any other number of trucks or containers a month,
+ * or a container count with a "+", is an invented figure. The month word may stand on either side of the
+ * count, within one sentence (the about page's tile prints "50–100" and then "containers a month").
+ * Like the zh/fa rules, these prove themselves on VOLUME_FIXTURES before any page is read.
+ */
+const VOL_NOUN = '(?:fura|фур|trucks?|lorr(?:y|ies)|konteyner|контейнер|containers?|TEU)';
+// "A month" as a rate. After a count, a duration is not a volume ("2 containers, arriving in about a month",
+// "bir oyda yetib keladi", "дойдут за месяц"), so the count-first rule reads only these words.
+const VOL_PER_MONTH = "(?:(?<![a-zʻ’'ʼ])(?:oyiga|har oy)|/oy(?![a-zʻ’'ʼ])|(?<![а-яёўқғҳ])(?:ойига|ҳар ой)|/ой(?![а-яёўқғҳ])|в месяц|ежемесячно|каждый месяц|/мес|(?<!(?:in|within|about|around|roughly|nearly|almost|after|for|over|under|than|takes|take|took) )a month|per month|monthly|each month|every month|/month|/mo(?![a-z]))";
+// Before a count, "1 oyda", "за месяц" and "in a month" are rates too («1 oyda 50–100 ta konteyner tashiyapmiz»).
+// The letter guards keep "oyda" inside "foydalanish" out; "shu / bu / oʻtgan / kelasi oyda" is one month, not a
+// rate («Shu oyda Ivuda 3 ta konteyner yuklandi» in a works caption), as "this month" and "в этом месяце" are.
+const VOL_MONTH = `(?:${VOL_PER_MONTH}|(?<![a-zʻ’'ʼ])(?<!(?:shu|bu|o[ʻ'’‘]tgan|kelasi|keyingi|joriy|oxirgi|birinchi|ikkinchi) )oyda|(?<![а-яёўқғҳ])(?<!(?:шу|бу|ўтган|келаси|кейинги|жорий|охирги|биринчи|иккинчи) )ойда|за месяц|in a month)`;
+// A range: "50–100", "50 - 100", "50 to 100", "от 50 до 100", "50 dan 100 gacha", "between 50 and 100" (the
+// Cyrillic pages print the Uzbek one as "50 дан 100 гача").
+const VOL_SEP = '(?:\\s?[‒–—−-]\\s?|\\s(?:to|до|dan|дан|and|va|ва|и)\\s)';
+// "Up to": "100 gacha", "100 tagacha" (Cyrillic "100 тагача").
+const VOL_UPTO = '(?:\\s?(?:ta|та)?(?:gacha|гача))?';
+// A number or a range that does not start inside another one: the "100" of "50–100" is not a count of its own.
+const VOL_NUM = `(?<!\\d|\\d[.,]|\\d${VOL_SEP})\\d{1,5}(?:${VOL_SEP}\\d{1,5})?${VOL_UPTO}`;
+// "More than 100": "100 (ta)dan ortiq / koʻp(roq)", "100 с лишним", "100-odd", "100-plus", "100 or so".
+const VOL_MORE = "(?:\\s(?:ta|та)?(?:dan|дан)\\s(?:ortiq|ziyod|oshiq|ko[ʻ'’‘`]p|ортиқ|зиёд|ошиқ|кўп)(?:roq|роқ)?|\\sс\\s(?:лишним|небольшим)|-?\\s?(?:odd|plus)(?![a-z])|\\sor\\sso)";
+// A count in words, the vague and inflating kind: "yuzlab", "yuzdan ortiq", "сотни", "hundreds of", "a hundred".
+const VOL_WORDNUM = "(?:(?:yuz|ming|o[ʻ'’‘`]n)(?:lab|larcha)|(?:юз|минг|ўн)(?:лаб|ларча)|(?:yuz|ming|юз|минг)(?:ta|та)(?:gacha|гача)?|(?:yuz|ming|юз|минг)(?:ta|та)?(?:dan|дан)\\s(?:ortiq|ziyod|oshiq|ko[ʻ'’‘`]p|ортиқ|зиёд|ошиқ|кўп)(?:roq|роқ)?|сот(?:ни|ен|ня|ню)|тысяч[аиу]?|десят(?:ки|ков|ок)|(?:hundreds|thousands|dozens|tens) of|a (?:hundred|thousand))";
+const VOL_OK = `(?!50${VOL_SEP}100(?!\\d)${VOL_UPTO}\\s?(?:ta\\s|та\\s)?(?:konteyner|контейнер|container))`;
+const VOL_COUNT = `(?:${VOL_OK}${VOL_NUM}${VOL_MORE}?|(?<![a-zа-яёўқғҳʻ’'ʼ])${VOL_WORDNUM})\\s?(?:\\+\\s?)?(?:ta\\s|та\\s)?${VOL_NOUN}`;
+const VOLUME_RULES = [
+  [new RegExp(`(?<!\\d)\\d{1,5}\\s?\\+\\s?(?:ta\\s|та\\s)?${VOL_NOUN}`, 'i'), 'truck or container count with a "+" — the confirmed volume is 50–100 containers a month (owner, 2026-11-11), and no truck count is published'],
+  [new RegExp(`${VOL_MONTH}[^.!?]{0,40}?${VOL_COUNT}`, 'i'), 'monthly volume other than the confirmed 50–100 containers a month'],
+  [new RegExp(`${VOL_COUNT}[^.!?]{0,40}?${VOL_PER_MONTH}`, 'i'), 'monthly volume other than the confirmed 50–100 containers a month'],
+];
+const VOLUME_FIXTURES = {
+  bad: [
+    // the retired figure, as the pages printed it until 2026-11-11
+    'Oyiga 10+ fura Xitoydan Toshkentga keladi', '10+ fura oyiga, Xitoydan Toshkentga', 'Ойига 10+ фура Хитойдан Тошкентга',
+    '10+ фур в месяц из Китая в Ташкент', 'В месяц из Китая в Ташкент приходит 10+ фур', '10+ trucks a month arrive from China in Tashkent',
+    'Tashkent, since 2018; 10+ trucks a month, 400+ clients',
+    // any other monthly count, and container counts with a "+"
+    'Oyiga 20 fura keladi', 'oyiga 10 dan ortiq fura', '50–100 trucks a month', '40–50 konteyner/oy', 'oyiga 200 konteyner',
+    'oyiga 100 dan ortiq konteyner', '1 oyda 50–200 ta konteyner', '100+ konteyner', '4000+ containers', 'в месяц приходит 60–120 контейнеров',
+    'от 40 до 50 контейнеров в месяц', '40 to 50 containers a month', 'over 100 containers a month', '50+ containers a month',
+    '50–100+ containers a month', 'between 60 and 120 containers every month', 'har oy 30 ta fura keladi',
+    'In a month we carry 200 containers', 'за месяц перевозим 200 контейнеров',
+    // "more than", "up to" and counts in words
+    'Oyiga 100 tadan ortiq konteyner keladi', 'oyiga 10 tadan koʻp fura', 'oyiga 100 dan koʻproq konteyner', 'Ойига 100 тадан ортиқ контейнер келади',
+    'Oyiga 100 tagacha konteyner tashiymiz', 'Ойига 40 дан 50 гача контейнер', 'oyiga yuzlab konteyner', 'Oyiga oʻnlab fura Xitoydan keladi',
+    'oyiga yuzdan ortiq konteyner', 'сотни контейнеров в месяц', 'Каждый месяц — десятки фур из Китая', 'около сотни контейнеров в месяц',
+    '100 с лишним контейнеров в месяц', 'hundreds of containers a month', 'dozens of trucks every month', 'over a hundred containers a month',
+    '100-odd containers a month', '100-plus containers a month', '100 or so containers a month',
+    'Oyda 200 ta konteyner tashiymiz', 'Bir oyda 120 ta konteyner', 'oyiga yuzta konteyner', 'oyiga yuzlarcha fura', 'перевозим сотню контейнеров в месяц',
+  ],
+  good: [
+    'Oyiga 50–100 konteyner Xitoydan Toshkentga keladi, 400+ mijozga xizmat koʻrsatganmiz.', 'hozirda bizda 1 oyda 50–100 ta konteyner tashiyapmiz',
+    '50–100 konteyner oyiga, Xitoydan Toshkentga', '50 dan 100 gacha konteyner oyiga', 'Ойига 50–100 контейнер Хитойдан Тошкентга келади',
+    'В месяц из Китая в Ташкент приходит 50–100 контейнеров, обслужено 400+ клиентов.', 'от 50 до 100 контейнеров в месяц',
+    'Tashkent, since 2018; 50–100 containers a month, 400+ clients;', '50 to 100 containers a month', 'between 50 and 100 containers a month',
+    '50-100 containers per month',
+    // counts that are not GSR's monthly volume
+    'Regular wholesale importers: one container a month, with price and timing known in advance.', 'Muntazam import qiluvchi ulgurjichilar: oyiga bir konteyner',
+    'Регулярный опт: контейнер в месяц — цена и срок известны заранее.', '20 futlik konteyner Xitoydan Toshkentgacha taxminan 2 800–5 500 $',
+    'Lots above 10 m³: a 20 ft or 40 ft container', 'Torugart handles over 300 trucks a day', 'shaxsiy foydalanish uchun 10 konteyner',
+    'telefon — oyiga 1 dona', 'up to $200 per month by courier', '2 containers loaded in Yiwu, arriving in about a month',
+    '2 ta konteyner yuklandi, bir oyda Toshkentga yetib keladi', '2 контейнера дойдут до Ташкента за месяц', '3 trucks left today; they take a month',
+    'Ойига 50 дан 100 гача контейнер келади', 'oyiga 50 dan 100 tagacha konteyner', 'Hundreds of trucks cross Khorgos every day',
+    'a truck carrying a hundred clients’ cargo',
+    // one named month is not a rate (works captions)
+    'Shu oyda Ivuda 3 ta konteyner yuklandi', 'Oʻtgan oyda 4 ta fura joʻnatildi', 'Шу ойда Ивуда 3 та контейнер юкланди',
+  ],
+};
 const FORBIDDEN = [
   // "bojsiz" is legitimate when denying the promise ("«bojsiz» degan vaʼda bermaymiz") or naming the
   // statutory duty-free allowance; flag it only when the site promises it.
@@ -129,11 +204,11 @@ const FORBIDDEN = [
   [/(?<!не )жив(?:ая|ой|ую|ое) (?:координат|местополож|геолокац)/i, 'claims a live position (RU) — tracking is stage-by-stage QR scanning'],
   [/(?<!not )\ba live (?:vehicle |truck |cargo )?(?:position|location)\b/i, 'claims a live position (EN) — tracking is stage-by-stage QR scanning'],
   [/\bGPS\b(?![\s-]?(?:tracker|trekker|трекер))[^.!?]{0,50}(?:kuzat|отслеж|track)|(?:kuzatuv|kuzatib|отслеживани|tracking)[^.!?]{0,50}\bGPS\b(?![\s-]?(?:tracker|trekker|трекер))/i, 'implies live GPS position — tracking is stage-by-stage QR scanning'],
-  // The four figures the owner confirmed on 2026-09-10 are publishable at exactly those values.
-  // A drifted number is an invented one; and 15 years belongs to the TEAM, never to GSR, which
-  // was founded in 2018 and is written "8+ yil".
+  // The figures the owner confirmed (2026-09-10; the monthly volume on 2026-11-11, VOLUME_RULES above)
+  // are publishable at exactly those values. A drifted number is an invented one; and 15 years belongs
+  // to the TEAM, never to GSR, which was founded in 2018 and is written "8+ yil".
   [/(?<!\d)(?!400\+)\d{2,5}\+\s?(?:mijoz|клиент|clients)/i, 'client count other than the confirmed 400+'],
-  [/(?<!\d)(?!10\+)\d{1,4}\+\s?(?:fura|фур|trucks?)/i, 'truck count other than the confirmed 10+ a month'],
+  ...VOLUME_RULES,
   // Proof's fact list prints the LABEL first and the number second ("Mijozlar 400+"), so the rule
   // above — which reads number-then-label — never sees the one place this figure actually lives on
   // the home page. Mirror it, with the plural forms only: a bare "клиент 5+" or "fura 40+ tonna"
@@ -175,10 +250,18 @@ const FORBIDDEN = [
   [/uzel(ini|i)\b/i, 'Russian loan "uzel" → "tugun"'],
   [/powerbank/i, 'powerbank → power bank'],
 ];
-// The new rules prove themselves before they judge a page.
-const misfires = selfTest();
+// The new rules prove themselves before they judge a page. A good volume sentence must pass every rule
+// that reads a page (the zh/fa ones run on every page too).
+const volumeMisfires = [
+  ...VOLUME_FIXTURES.bad.filter((s) => !VOLUME_RULES.some(([re]) => re.test(s) || re.test(normalize(s)))).map((s) => `the volume rules miss their bad sentence: ${s}`),
+  ...VOLUME_FIXTURES.good.flatMap((s) => [
+    ...FORBIDDEN.filter(([re]) => re.test(s) || re.test(normalize(s))).map(([, msg]) => msg),
+    ...ZH_FA_FORBIDDEN.filter((r) => r.re.test(normalize(s))).map((r) => r.msg),
+  ].map((msg) => `«${msg}» fires on the good volume sentence: ${s}`)),
+];
+const misfires = [...selfTest(), ...volumeMisfires];
 if (misfires.length) {
-  console.error(`check-content: ${misfires.length} guard rule(s) fail their own fixtures in scripts/content-rules.mjs:\n  ${misfires.join('\n  ')}`);
+  console.error(`check-content: ${misfires.length} guard rule(s) fail their own fixtures (scripts/content-rules.mjs, VOLUME_FIXTURES in scripts/check-content.mjs):\n  ${misfires.join('\n  ')}`);
   process.exit(1);
 }
 /** Old rules on the raw text OR its normalised copy (strictly more than before); new rules on the normalised copy. */
@@ -265,6 +348,12 @@ for (const file of walk(dist)) {
   perLocale[code].errors += errors.length - errorsBefore;
   perLocale[code].warnings += warn.length - warnBefore;
 }
+// The works blocks (src/content/works/): their media and the 50 MB video limit, every published block on each
+// locale's works page and the newest three on its home page, and no block text in a language other than the page's
+// own — the page text, the alts and labels, and the block's JSON-LD (scripts/works-blocks.mjs).
+const works = await checkWorks(dist);
+for (const e of works.errors) errors.push(`works: ${e}`);
+for (const w of works.warnings) warn.push(`works: ${w}`);
 // llms.txt is hand-written and read by every assistant that cites the site: the same claims apply.
 const llmsFile = path.join(dist, 'llms.txt');
 if (fs.existsSync(llmsFile)) {
@@ -285,5 +374,5 @@ if (pending.length) {
   if (pending.length > 40) console.log(`  … and ${pending.length - 40} more pages`);
 }
 const byLocale = LOCALE_CODES.map((c) => `${c} ${perLocale[c].errors}/${perLocale[c].warnings}`).join(' · ');
-console.log(`\nchecked ${walk(dist).length} pages · ${errors.length} errors · ${warn.length} warnings (errors/warnings per locale: ${byLocale}) · ${ZH_FA_FORBIDDEN.length} zh/fa claim rules passed their fixtures${pending.length ? ` · ${pending.length} pending-locale pages with untranslated text` : ''}`);
+console.log(`\nchecked ${walk(dist).length} pages · ${errors.length} errors · ${warn.length} warnings (errors/warnings per locale: ${byLocale}) · ${ZH_FA_FORBIDDEN.length} zh/fa claim rules passed their fixtures${pending.length ? ` · ${pending.length} pending-locale pages with untranslated text` : ''}\n${works.summary}`);
 process.exit(errors.length ? 1 : 0);

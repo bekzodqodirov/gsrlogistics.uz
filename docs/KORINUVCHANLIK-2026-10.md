@@ -7,7 +7,7 @@ Claude va Gemini (internet-qidiruv bilan) GSR Logisticsʼni Totrans va Buraqʼda
 - **AI tahlillari eski saytni baholagan.** Ular aytgan hamma narsa — bir sahifali landing, ruscha title/description, Instagram reelsʼga olib boradigan FAQ, «minglab mijoz» — `www.gsrlogistic.uz` (xato yozilgan eski domen) haqida. Bu sayt hali ham jonli (Vercelʼda, Next.js), 2026-yil 30-sentabrda qayta deploy qilingan, yangi saytga havola bermaydi va yangi saytga zid narsalarni yozadi: «Guanjou va yivu shaharlarida shaxsiy omborxonaga egamiz», «24/7», «10 yillik tajriba», «1000+ mijoz», boshqa telefon (+998 90 860 80 06), eski bot `@GSRLogistics_bot`.
 - **Yangi sayt (`gsrlogistics.uz`) hali indekslanmagan.** Tekshirish mumkin boʻlgan qidiruv tizimlarida `site:gsrlogistics.uz` boʻsh; tashqaridan unga faqat Yandex Maps kartochkasi havola beradi. Sayt 24 kunlik — bu normal, lekin shuning uchun AIʼlar uni oʻqimagan.
 - **Kataloglar eski domenga va notoʻgʻri maʼlumotga ishora qiladi.** yellowpages.uz va top.uz: sayt `gsrlogistic.uz`, tuman Olmazor, rubrika «samosvalda sochiluvchan yuk tashish», tavsifda «real-time tracking». goldenpages.uz: nom «"GSR GROUP" QK MChJ», ish vaqti 21:00 gacha, bitta raqami xato telefon.
-- AI aytgan «40–50 konteyner/oy» va «4000+ mijoz» raqamlari hech qaysi saytda yoʻq — tasdiqlangan raqamlar: oyiga 10+ fura, 400+ mijoz, jamoa tajribasi 15 yil. Ularni hech qayerda eʼlon qilmang.
+- AI aytgan «40–50 konteyner/oy» va «4000+ mijoz» raqamlari hech qaysi saytda yoʻq — tasdiqlangan raqamlar: oyiga 10+ fura, 400+ mijoz, jamoa tajribasi 15 yil. Ularni hech qayerda eʼlon qilmang. *(2026-11-11 yangilanishi: egasi oylik hajmni tasdiqladi — «hozirda bizda 1 oyda 50–100 ta konteyner tashiyapmiz»; saytda endi «oyiga 50–100 konteyner» yoziladi, «10+ fura» va «40–50 konteyner/oy» ishlatilmaydi. «4000+ mijoz» hali ham tasdiqlanmagan.)*
 
 ## 2. Yangi saytda allaqachon tuzatilgan narsalar
 
@@ -16,7 +16,7 @@ Claude va Gemini (internet-qidiruv bilan) GSR Logisticsʼni Totrans va Buraqʼda
 | Bir sahifali landing | 116 ta sahifa, 4 til (uz / ru / en / kirill) |
 | Ruscha title/description | Oʻzbekcha, har til oʻz sarlavhasi bilan, hreflang |
 | FAQ — Instagram reels | 35 ta matnli savol-javob, FAQPage JSON-LD |
-| «Minglab mijoz», raqam yoʻq | 400+ mijoz, oyiga 10+ fura, 2018-yildan, jamoa 15 yil |
+| «Minglab mijoz», raqam yoʻq | 400+ mijoz, oyiga 10+ fura, 2018-yildan, jamoa 15 yil *(2026-11-11 dan: «oyiga 10+ fura» oʻrniga «oyiga 50–100 konteyner»)* |
 | «Shaxsiy ombor» | «Qabul punkti» (Ivu, Guanchjou, Qashqar) |
 | 24/7 | Du–Sha 9:00–19:00; faqat bot 24/7 |
 | Narx yoʻq | Zichlik jadvali, avia narxi, konteynerlar, kalkulyator, JSON-LD Offer |
@@ -119,7 +119,7 @@ Kartochkani kimdir boshqaryapti (2026-09-28 da «Представитель ор
 
 ## 5. Eʼlon qilishdan oldin tasdiqlash kerak boʻlgan faktlar
 
-1. **Raqamlar:** «40–50 konteyner/oy», «4000+ mijoz» — tasdiqlanmagan, ishlatilmaydi. Tasdiqlanganlari: 10+ fura/oy, 400+ mijoz.
+1. **Raqamlar:** «40–50 konteyner/oy», «4000+ mijoz» — tasdiqlanmagan, ishlatilmaydi. Tasdiqlanganlari: 10+ fura/oy, 400+ mijoz. *(2026-11-11: oylik hajm — oyiga 50–100 konteyner, egasi tasdiqlagan; u «10+ fura/oy» oʻrniga keldi. «4000+ mijoz» hali ham tasdiqlanmagan.)*
 2. **Yuridik shaxs:** «Imex services LLC» ning guvohnomadagi aniq yozilishi, STIR, shakli. orginfo.uzʼda 5 xil yozilishda topilmadi. 2007-yilgi «GSR LOGISTICS» MChJ (INN 300616173) sizniki boʻlganmi? «GSR AUTO / GSR AVTO» (2024-06-03, Navoiy 27, avtomobil savdosi) va «GSR YM LOGISTIK» bogʻliqmi?
 3. **Shartnoma tomoni:** shartnomalar Imex services LLC nomidan tuziladimi?
 4. **Telefonlar:** +998 97 333 39 33, 99 093 33 33, 99 083 33 33, 95 019 33 33, 98 123 39 33 — hali kompaniyanikimi? +998 90 860 80 06 Qoʻqon filialinikimi, u filial (Navbahor 46) bormi?

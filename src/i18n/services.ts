@@ -116,7 +116,7 @@ const uz: ServicesStrings = {
   home: {
     eyebrow: '02 — Xizmatlar',
     h2: 'Asosiy ishimiz — Xitoydan yigʻma yuk.',
-    intro: 'Oyiga 10+ fura Xitoydan Toshkentga. Qolgan hamma ish shu yukning atrofida: tovar topish, xarid, bojxona.',
+    intro: 'Oyiga 50–100 konteyner Xitoydan Toshkentga. Qolgan hamma ish shu yukning atrofida: tovar topish, xarid, bojxona.',
     flagshipBadge: 'Asosiy xizmat',
     flagshipPhotoAlt: 'Xitoyda qutilar yuklagich bilan furaga ortilmoqda',
     flagshipStatLabel: 'Taxminiy muddat',
@@ -232,7 +232,7 @@ const ru: ServicesStrings = {
   home: {
     eyebrow: '02 — Услуги',
     h2: 'Наше основное дело — сборный груз из Китая.',
-    intro: '10+ фур в месяц из Китая в Ташкент. Всё остальное — вокруг этого груза: поиск товара, выкуп, растаможка.',
+    intro: '50–100 контейнеров в месяц из Китая в Ташкент. Всё остальное — вокруг этого груза: поиск товара, выкуп, растаможка.',
     flagshipBadge: 'Основная услуга',
     flagshipPhotoAlt: 'Погрузка коробок на фуру погрузчиком в Китае',
     flagshipStatLabel: 'Ориентировочный срок',
@@ -348,7 +348,7 @@ const en: ServicesStrings = {
   home: {
     eyebrow: '02 — Services',
     h2: 'Our main business is consolidated cargo from China.',
-    intro: '10+ trucks a month from China to Tashkent. Everything else we do sits around that cargo: sourcing, buying, customs.',
+    intro: '50–100 containers a month from China to Tashkent. Everything else we do sits around that cargo: sourcing, buying, customs.',
     flagshipBadge: 'Core service',
     flagshipPhotoAlt: 'Cartons going onto a truck by forklift in China',
     flagshipStatLabel: 'Estimated transit',

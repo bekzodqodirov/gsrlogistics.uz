@@ -5,7 +5,7 @@ export const zh: ServicesStrings = {
   home: {
     eyebrow: '02 — 服务',
     h2: '我们的核心业务是中国拼货运输。',
-    intro: '每月 10+ 辆卡车从中国发往塔什干。我们的其他业务都围绕这些货物展开：寻找货源、代采购、清关。',
+    intro: '每月 50–100 个集装箱从中国发往塔什干。我们的其他业务都围绕这些货物展开：寻找货源、代采购、清关。',
     flagshipBadge: '核心服务',
     flagshipPhotoAlt: '在中国用叉车将纸箱装上卡车',
     flagshipStatLabel: '预计时效',
