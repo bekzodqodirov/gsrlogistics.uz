@@ -379,8 +379,9 @@ export const PAGE_RULES = {
  * The office's official street address, `site.address.streetAddress` in src/lib/site.ts
  * ("Alisher Navoiy koʻchasi, 27"). A translation may print it as it is written in Uzbek — the Chinese
  * contact page gives it for the taxi driver, followed by its Chinese rendering — so leakRuns() lets
- * exactly this string through. Nothing else of it: «koʻchasi» on its own, or the street name inside
- * an Uzbek sentence, is still untranslated text. Read from the source as text, the way
+ * exactly this string through, when Chinese or Persian text surrounds it. Nothing else of it: «koʻchasi»
+ * on its own, the street name inside an Uzbek sentence, or the address with Uzbek or English words
+ * beside it, is still untranslated text. Read from the source as text, the way
  * scripts/locales.mjs reads config.ts: these scripts run under plain Node, without TypeScript.
  */
 export function parseStreetAddress(source) {
@@ -389,9 +390,17 @@ export function parseStreetAddress(source) {
   return m[1].replace(/\\(.)/g, '$1');
 }
 export const STREET_ADDRESS = parseStreetAddress(readFileSync(new URL('../src/lib/site.ts', import.meta.url), 'utf8'));
-/** STREET_ADDRESS as a whole token: "…koʻchasi, 270" or "…koʻchasi, 27a" is not the official address. */
+/** Spaces, punctuation, symbols and bidi/format marks: what may stand between the address and its neighbours. */
+const ADDRESS_EDGE = '[\\s\\p{P}\\p{S}\\p{Cf}]*';
+/**
+ * STREET_ADDRESS as a whole token ("…koʻchasi, 270" or "…koʻchasi, 27a" is not the official address)
+ * that stands among Chinese or Persian text: the nearest letter on either side, across spaces and
+ * punctuation, must not be Latin. Otherwise the words around it are Uzbek or English — "bizning ofis
+ * …", "Toshkent, Shayxontohur tumani, …", "… yonida" — and cutting the address out would leave too few
+ * of them for the three-word rule below, hiding a real leak that the address's «koʻchasi» exposes.
+ */
 const STREET_ADDRESS_RE = new RegExp(
-  `(?<![\\p{Script=Latin}\\p{Nd}ʻʼ])${STREET_ADDRESS.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{Script=Latin}\\p{Nd}ʻʼ])`,
+  `(?<![\\p{Script=Latin}ʻʼ]${ADDRESS_EDGE})(?<!\\p{Nd})${STREET_ADDRESS.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!\\p{Nd})(?!${ADDRESS_EDGE}[\\p{Script=Latin}ʻʼ])`,
   'gu',
 );
 
@@ -465,6 +474,7 @@ const ADDRESS_FIXTURES = {
   good: [
     `乘出租车时，向司机出示地址：${STREET_ADDRESS}（阿利舍尔·纳沃伊街 27 号）。`,
     `اگر با تاکسی می‌آیید، این نشانی را به راننده نشان دهید: ${STREET_ADDRESS}`,
+    `نشانی: ${STREET_ADDRESS}، تاشکند`,
   ],
   bad: [
     '向司机出示地址：koʻchasi 27',
@@ -472,6 +482,12 @@ const ADDRESS_FIXTURES = {
     'Alisher Navoiy koʻchasi boʻylab 27-uyga yuring',
     '地址：Alisher Navoiy koʻchasi, 28',
     `地址：${STREET_ADDRESS}0 号`,
+    // The address is the official one, but the Uzbek words around it are untranslated text.
+    `地址：${STREET_ADDRESS} yonida`,
+    `bizning ofis ${STREET_ADDRESS}`,
+    `Toshkent, Shayxontohur tumani, ${STREET_ADDRESS}`,
+    `Manzil: ${STREET_ADDRESS}`,
+    `نشانی ما ${STREET_ADDRESS} ga keling`,
   ],
 };
 

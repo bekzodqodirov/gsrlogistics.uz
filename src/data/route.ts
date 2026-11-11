@@ -29,10 +29,10 @@ export const routeNodes: RouteNode[] = [
   { id: 'tashkent', x: 228.5, y: 307.0, name: { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent', zh: '塔什干', fa: 'تاشکند' }, role: 'destination' },
 ];
 export const extraPlaces = {
-  guangzhou: { x: 1311.3, y: 840.1, name: { uz: 'Guanchjou', ru: 'Гуанчжоу', en: 'Guangzhou', zh: '广州', fa: 'گوانگجو' } as Localized<string> },
-  dostyk: { x: 504.7, y: 173.7, name: { uz: 'Dostiq', ru: 'Достык', en: 'Dostyk', zh: '多斯特克', fa: 'دوستیک' } as Localized<string> },
-  kashgar: { x: 393.7, y: 366.5, name: { uz: 'Qashqar', ru: 'Кашгар', en: 'Kashgar', zh: '喀什', fa: 'کاشغر' } as Localized<string> },
-  irkeshtam: { x: 342.7, y: 359.8, name: { uz: 'Irkeshtam', ru: 'Иркештам', en: 'Irkeshtam', zh: '伊尔克什坦', fa: 'ایرکشتام' } as Localized<string> },
-  osh: { x: 315.1, y: 332.4, name: { uz: 'Oʻsh', ru: 'Ош', en: 'Osh', zh: '奥什', fa: 'اوش' } as Localized<string> },
-  andijan: { x: 303.8, y: 324.3, name: { uz: 'Andijon', ru: 'Андижан', en: 'Andijan', zh: '安集延', fa: 'اندیجان' } as Localized<string> },
+  guangzhou: { x: 1311.3, y: 840.1, name: { uz: 'Guanchjou', ru: 'Гуанчжоу', en: 'Guangzhou', zh: '广州', fa: 'گوانگجو' } satisfies Localized<string> },
+  dostyk: { x: 504.7, y: 173.7, name: { uz: 'Dostiq', ru: 'Достык', en: 'Dostyk', zh: '多斯特克', fa: 'دوستیک' } satisfies Localized<string> },
+  kashgar: { x: 393.7, y: 366.5, name: { uz: 'Qashqar', ru: 'Кашгар', en: 'Kashgar', zh: '喀什', fa: 'کاشغر' } satisfies Localized<string> },
+  irkeshtam: { x: 342.7, y: 359.8, name: { uz: 'Irkeshtam', ru: 'Иркештам', en: 'Irkeshtam', zh: '伊尔克什坦', fa: 'ایرکشتام' } satisfies Localized<string> },
+  osh: { x: 315.1, y: 332.4, name: { uz: 'Oʻsh', ru: 'Ош', en: 'Osh', zh: '奥什', fa: 'اوش' } satisfies Localized<string> },
+  andijan: { x: 303.8, y: 324.3, name: { uz: 'Andijon', ru: 'Андижан', en: 'Andijan', zh: '安集延', fa: 'اندیجان' } satisfies Localized<string> },
 };

@@ -89,7 +89,7 @@ function zhCut(text: string, budget: number, kind: 'title' | 'description'): str
     }
   }
   const room = budget - 1; // the ellipsis
-  // A space is a boundary only between two Latin words (English fallback text): the half-width
+  // A space is a boundary only between two Latin words (an English gloss, a brand): the half-width
   // spaces around digits and Latin inside Chinese ("2026 年", "GSR Logistics 的") are not.
   const cjk = (c: string | undefined) => c !== undefined && /[\p{Script=Han}\u{3000}-\u{303F}\u{FF01}-\u{FF60}]/u.test(c);
   let sentence = -1;
