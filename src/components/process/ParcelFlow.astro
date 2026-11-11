@@ -33,7 +33,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { tracking, STAGE_KEYS } from '@/i18n/tracking';
 import { parcel } from '@/i18n/parcel';
 import { pagePath } from '@/i18n/routes';
-import { fmtInt, fmtNumber, fmtUsd } from '@/lib/format';
+import { fmtInt, fmtNumRange, fmtUsd, unitSymbol } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 
 interface Props { lang: Locale; id?: string }
@@ -41,8 +41,9 @@ const { lang, id = 'gs' } = Astro.props;
 const tr = pick(lang, tracking);
 const t = pick(lang, parcel);
 
-/* Every number in the chips comes from the tariff sheet — edit tariffs.json and this moves with it. */
-const range = (d: number[]) => `${fmtNumber(d[0], lang)}–${fmtNumber(d[1], lang)}`;
+/* Every number in the chips comes from the tariff sheet — edit tariffs.json and this moves with it.
+   fmtNumRange: "15–25" in five locales, "۱۵ تا ۲۵" on fa, as the journey and the hero print it. */
+const range = (d: number[]) => fmtNumRange(d[0], d[1], lang);
 const vars: Record<string, string> = {
   rate: fmtUsd(tariffs.truck.lclPerM3ByDensity[0].rate, lang),
   truckDays: range(tariffs.truck.days),
@@ -79,7 +80,8 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
       '<rect x="36" y="62" width="60" height="42" rx="6"/><circle cx="66" cy="83" r="12"/><circle cx="66" cy="83" r="4.5"/>' +
       '<path d="M50 62v-8h16v8"/><path d="M66 104v72M54 176h24"/>' +
       '<g stroke="var(--gs-dim)"><path d="M102 72l16 6M102 83h17M102 94l16-6"/></g>',
-    labels: [{ x: '80%', y: '34.5%', s: 'kg' }, { x: '80%', y: '44.5%', s: 'm³' }],
+    /* unitSymbol: the Latin "kg"/"m³" in uz/uzc/ru/en/zh, Persian unit words on fa (DECISIONS §1). */
+    labels: [{ x: '80%', y: '34.5%', s: unitSymbol('kg', lang) }, { x: '80%', y: '44.5%', s: unitSymbol('m3', lang) }],
   },
   {
     /* 2 · consolidation — loaded trailer. Two ribs fence an 82-unit slot, exactly the carton's width

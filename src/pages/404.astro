@@ -72,7 +72,9 @@ const uz = copy.uz;
       if (!d) return;
       w.setAttribute('lang', d.lang);
       document.documentElement.setAttribute('lang', d.lang);
-      document.documentElement.setAttribute('dir', d.dir);
+      // dir on this section only: the header and footer stay the Uzbek LTR chrome they are on every
+      // locale's 404. Mirrored, their Latin lines reorder ("kun 25–15", the full stop jumps left).
+      w.closest('section').setAttribute('dir', d.dir);
       w.querySelector('[data-nf-title]').textContent = d.title;
       w.querySelector('[data-nf-text]').textContent = d.text;
       var home = w.querySelector('[data-nf-home]');

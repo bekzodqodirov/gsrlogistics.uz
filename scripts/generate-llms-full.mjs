@@ -30,6 +30,10 @@ function extract(html) {
   // is not content: dialogs, templates, noscript fallbacks.
   main = main.replace(/<!--[\s\S]*?-->/g, '').replace(/<(dialog|template|noscript)\b[\s\S]*?<\/\1>/gi, '');
   main = main.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/<nav[\s\S]*?<\/nav>/gi, '');
+  // The bidi islands around phones, e-mails and @handles (a bare <span dir="ltr"> or <bdi>, nothing
+  // else on the tag) are invisible: unwrap them before every tag turns into a space below, or the
+  // privacy line's "…@gmail.com</span>." would read "…@gmail.com ." here.
+  main = main.replace(/<(span|bdi)((?:\s+(?:dir="[a-z]+"|data-astro-cid-[\w-]+))+)\s*>([^<]*)<\/\1>/gi, (m, _tag, attrs, text) => (/\sdir="/.test(attrs) ? text : m));
   const out = [];
   const re = /<(h1|h2|h3|p|li|th|td|summary|dt|dd)[^>]*>([\s\S]*?)<\/\1>/gi;
   let m;
