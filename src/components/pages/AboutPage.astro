@@ -14,6 +14,9 @@ import { Picture } from 'astro:assets';
 import ivuShot from '@/assets/photos/ivu-qabul-punkti.jpg';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
+// zh: a facts-band label breaks between words («…塔什 / 干另有…», «…俄 / 语…» at 320–360px); src/lib/zh-display.ts,
+// .zw rules in global.css (not <ZhBreaks>, whose <style> got inlined into every locale's HTML).
+import { zhDisplayHtml } from '@/lib/zh-display';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, about);
@@ -40,7 +43,7 @@ const aboutNode = { '@type': 'AboutPage', name: t.h1, description: t.seoDescript
           {t.facts.map((f) => (
             <li class="fact">
               <p class:list={['fact-value', 'tnum', f.value.length > 12 && 'is-long']}>{fmtDigits(f.value, lang)}</p>
-              <p class="caption fact-label">{f.label}</p>
+              <p class="caption fact-label">{lang === 'zh' ? <span class="zw" set:html={zhDisplayHtml(f.label)} /> : f.label}</p>
             </li>
           ))}
         </ul>

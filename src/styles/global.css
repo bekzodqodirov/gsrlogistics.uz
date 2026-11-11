@@ -28,6 +28,11 @@ img, picture, video, canvas, svg { display: block; max-width: 100%; }
    the reading way. `scale`, not `transform`: it composes with the hover nudges' translateX, which
    then reverse with the glyph, and a component that must NOT flip one sets `scale: none`. */
 [dir='rtl'] .icon-dir { scale: -1 1; }
+/* RTL (fa): a Chinese name in Persian text (polish-html wraps each run in <span lang="zh" dir="ltr">)
+   stays whole. Han may break between any two ideographs, which tore «(义乌)» into «(义» / «乌)» and
+   «贸易公司» in half at phone widths. The longest such run on the fa pages is 12 ideographs (~200px),
+   so keeping it whole cannot overflow a 320px screen. */
+[dir='rtl'] span[lang|='zh'] { word-break: keep-all; }
 img { height: auto; }
 input, button, textarea, select { font: inherit; color: inherit; }
 button { background: none; border: 0; padding: 0; cursor: pointer; }
@@ -102,6 +107,24 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 :root:lang(fa) .intro, :root:lang(fa) .lead { line-height: 1.75; }
 :root:lang(zh) .caption, :root:lang(zh) body .faq-item summary { line-height: 1.5; }
 :root:lang(fa) .caption, :root:lang(fa) body .faq-item summary { line-height: 1.6; }
+/* Han may break between any two ideographs, so a balanced heading tore words apart («每一 / 天»).
+   polish-html (scripts/zh-phrases.mjs) wraps each clause of a Chinese heading in .zh-ph, and an
+   inline-block line breaks between clauses, never inside one unless the clause alone is too wide. */
+:root:lang(zh) .zh-ph { display: inline-block; }
+/* Han has no italic: the browser slants it synthetically (the guides' *…* notes: «参考价 · 更新于…»).
+   Chinese text stays upright. */
+:root:lang(zh) em, :root:lang(zh) i { font-style: normal; }
+/* Short display text that src/lib/zh-breaks.ts marked up (span.zw: <wbr> between words, span.zc per clause)
+   breaks only there — guide titles, TOC, FAQ questions, about facts (src/lib/zh-display.ts). Same rules as
+   ui/ZhBreaks.astro's own <style>; here they live in the shared stylesheet for the pages that call the library
+   directly: a small component stylesheet shared by several pages gets inlined into every locale's HTML.
+   The guides index card body: a keep-all title word must not widen its grid track past the card (it ran under
+   the chevron at 320px); at 0 minimums an over-wide word wraps instead. Below 360px the index column gives 8px
+   to the title, so «到乌兹别克斯坦？» (8 ideographs, 160px) fits whole instead of breaking before its «？». */
+:root:lang(zh) .zw { word-break: keep-all; overflow-wrap: break-word; }
+:root:lang(zh) .zw .zc { display: inline-block; }
+:root:lang(zh) .guides .g-body { min-width: 0; grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 359px) { :root:lang(zh) .guides .g { grid-template-columns: 32px minmax(0, 1fr) 24px; } }
 /* Numbered lists count in Persian digits, like every other figure on a fa page. */
 :root:lang(fa) .prose ol { list-style-type: persian; }
 /* Marks set beside the FIRST line of a text (align-items: start) were placed for the Latin 1.47 leading;

@@ -165,6 +165,9 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey .journey-stage { position: relative; display: flex; flex-direction: column; max-width: calc(var(--container) + 2 * var(--gutter)); margin-inline: auto; padding: var(--section-y) var(--gutter); }
   .journey .journey-head { order: -1; }
   .journey .journey-head { max-width: 40ch; margin-bottom: clamp(24px, 3vw, 40px); }
+  /* zh: a Han character is about 1.5ch wide, so 40ch held only 8.6 of them at the display-2 size of a
+     1920px screen (52.7px) and tore the 9-character title («从中国到您 / 家门口。»). */
+  :root:lang(zh) .journey .journey-head { max-width: 50ch; }
   .journey .journey-head .eyebrow { margin-bottom: 16px; }
   .journey .journey-sub { margin-top: 12px; color: var(--muted); }
   .journey .journey-map { position: relative; aspect-ratio: 1600 / 923; }

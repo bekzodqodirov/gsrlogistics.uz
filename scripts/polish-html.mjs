@@ -20,8 +20,13 @@
 //      isolated. Components isolate the ones they render; translated prose embeds them where no
 //      component can reach. So any such run that the markup has NOT already isolated — no
 //      ancestor with dir="ltr", no LRI…PDI around it — is wrapped in <span dir="ltr">. The
-//      tel:, mailto: and t.me link texts are exactly these runs. Number ranges, prices and dates
-//      are deliberately left alone: they read correctly inside Persian text.
+//      tel:, mailto: and t.me link texts are exactly these runs. So are a bare host that begins
+//      with a digit ('1688.com' showed as 'com.1688': the dot between a number and a Latin word
+//      takes the Persian direction) and a GSR code ('GSR-…' showed as '…-GSR'). Number ranges,
+//      prices and dates are deliberately left alone: they read correctly inside Persian text.
+//   4. On the Chinese pages only, its own pass after the walk (scripts/zh-phrases.mjs): the
+//      clauses of a heading or an FAQ question are kept whole, so a balanced heading breaks after
+//      its comma instead of inside a word («每一 / 天»).
 //
 // Every pass is idempotent: a second run finds the runs already declared or isolated and
 // changes nothing.
@@ -37,6 +42,7 @@
 import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { LOCALES, localeOfPath } from './locales.mjs';
+import { zhPhrases } from './zh-phrases.mjs';
 
 const root = process.argv[2] || 'dist';
 
@@ -62,8 +68,10 @@ const NO_MARKUP = new Set(['option', 'optgroup', 'select', 'datalist']);
 // Pass 3: the runs that must read left to right inside right-to-left text. E-mail before @handle,
 // so an address is taken whole; a handle may hold dots (@gsrgroup.uz) but never ends on one; a
 // phone number is international (+ and 7–15 digits) — a bare digit group is as likely a quantity,
-// which reads correctly in Persian and must not be isolated.
-const LTR_RUN = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|https?:\/\/[^\s<>"'«»]+|(?<![\w/.])t\.me\/[A-Za-z0-9_+/]+|(?<![\w@.])@[A-Za-z0-9_](?:[A-Za-z0-9_.]{2,30}[A-Za-z0-9_])(?![\w@])|\+\d{1,3}(?:(?:[ \xA0\u{202F}-]|&nbsp;|&#160;)?\d){6,14}/gu;
+// which reads correctly in Persian and must not be isolated. A digit-led host needs letters after
+// its last dot, so a decimal (0.55) never matches; a host that starts with a letter (my.gov.uz)
+// already reads left to right and is left alone.
+const LTR_RUN = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|https?:\/\/[^\s<>"'«»]+|(?<![\w/.])t\.me\/[A-Za-z0-9_+/]+|(?<![\w@.])@[A-Za-z0-9_](?:[A-Za-z0-9_.]{2,30}[A-Za-z0-9_])(?![\w@])|\+\d{1,3}(?:(?:[ \xA0\u{202F}-]|&nbsp;|&#160;)?\d){6,14}|(?<![\w@./-])\d[A-Za-z0-9-]*(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}(?![\w-]|\.[A-Za-z0-9])|(?<![\w-])GSR-[A-Z0-9…]+(?:-[A-Z0-9…]+)*/gu;
 // A sentence's own punctuation after a URL is not part of it: '… https://t.me/gsrlogistics.'
 const TRAILING = /[.,;:!?؛،)]+$/;
 // Already isolated in the text itself: LRI/FSI/LRE/LRO just before the run, as a character or an entity.
@@ -172,3 +180,14 @@ console.log(
   `polish: ${runs} Chinese runs declared, ${(bytes / 1024).toFixed(1)} KB of build comments dropped, ${files} pages` +
     ` · ${perKind.zh} Chinese pages left unwrapped (already zh-Hans) · ${ltrRuns} LTR runs isolated on ${perKind.rtl} right-to-left pages`,
 );
+
+// Pass 4, Chinese pages only, on the HTML the walk above wrote: the clauses of a heading or an FAQ
+// question are kept whole, so it breaks after its comma, not inside a word (scripts/zh-phrases.mjs).
+let zhHeadings = 0, zhPages = 0;
+for (const file of walk(root)) {
+  if (!/^zh(?:-|$)/i.test(localeOfFile(file).htmlLang)) continue;
+  const before = readFileSync(file, 'utf8');
+  const { html, headings } = zhPhrases(before);
+  if (html !== before) { writeFileSync(file, html); zhHeadings += headings; zhPages += 1; }
+}
+console.log(`polish: ${zhHeadings} Chinese headings kept whole per clause on ${zhPages} pages`);
