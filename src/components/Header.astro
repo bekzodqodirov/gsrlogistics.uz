@@ -89,9 +89,9 @@ const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'ra
   .mega-toggle { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 40px; margin-inline-start: -8px; color: var(--muted); border-radius: var(--radius-pill); }
   .mega-toggle:hover, .mega-toggle[aria-expanded='true'] { color: var(--fg); }
   /* Opens from the Services item toward the inline end: rightwards on LTR pages, leftwards on the RTL
-     one. Services is always the first item after the 170px logo, so its inline-start edge sits ~214px
-     from the viewport edge; the width keeps the panel's far edge a gutter inside the viewport from
-     900px (the full logo leaves it ~26px short of 720 there) and is 720px from ~955px up. */
+     one. Services always follows the 170px logo, so its inline-start edge sits ~214px from the
+     viewport edge (gutter + logo + 20px). `100vw - 232px` keeps the panel's far edge a gutter inside
+     the viewport below 952px, where a 720px panel would overrun it by up to ~26px; 720px from there up. */
   .mega { position: absolute; top: calc(100% + 8px); inset-inline-start: -8px; width: min(720px, calc(100vw - 232px)); padding: 12px; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur); z-index: 5; }
   /* Without JS the panel opens on hover and focus alone. Once the script boots it adds .mega-js and
      takes over, so Escape can actually close a panel the pointer or focus is still inside. */
