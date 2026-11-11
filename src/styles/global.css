@@ -107,17 +107,13 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 :root:lang(fa) .intro, :root:lang(fa) .lead { line-height: 1.75; }
 :root:lang(zh) .caption, :root:lang(zh) body .faq-item summary { line-height: 1.5; }
 :root:lang(fa) .caption, :root:lang(fa) body .faq-item summary { line-height: 1.6; }
-/* Han may break between any two ideographs, so a balanced heading tore words apart («每一 / 天»).
-   polish-html (scripts/zh-phrases.mjs) wraps each clause of a Chinese heading in .zh-ph, and an
-   inline-block line breaks between clauses, never inside one unless the clause alone is too wide. */
-:root:lang(zh) .zh-ph { display: inline-block; }
 /* Han has no italic: the browser slants it synthetically (the guides' *…* notes: «参考价 · 更新于…»).
    Chinese text stays upright. */
 :root:lang(zh) em, :root:lang(zh) i { font-style: normal; }
-/* Short display text that src/lib/zh-breaks.ts marked up (span.zw: <wbr> between words, span.zc per clause)
-   breaks only there — guide titles, TOC, FAQ questions, about facts (src/lib/zh-display.ts). Same rules as
-   ui/ZhBreaks.astro's own <style>; here they live in the shared stylesheet for the pages that call the library
-   directly: a small component stylesheet shared by several pages gets inlined into every locale's HTML.
+/* Han may break between any two ideographs, so headings, questions, table cells and labels tore words apart
+   («每一 / 天», «乌兹别 / 克斯坦»). polish-html (scripts/zh-breaks.mjs) wraps each such Chinese text in span.zw with
+   a <wbr> between words, or each clause in an inline-block span.zc when every clause fits a phone line; keep-all
+   forbids every other break between ideographs, and break-word stays the fallback for a unit too wide to fit.
    The guides index card body: a keep-all title word must not widen its grid track past the card (it ran under
    the chevron at 320px); at 0 minimums an over-wide word wraps instead. Below 360px the index column gives 8px
    to the title, so «到乌兹别克斯坦？» (8 ideographs, 160px) fits whole instead of breaking before its «？». */

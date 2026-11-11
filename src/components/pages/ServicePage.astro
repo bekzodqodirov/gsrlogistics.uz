@@ -22,7 +22,6 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
-import ZhBreaks from '@/components/ui/ZhBreaks.astro';
 
 /**
  * `content` arrives ALREADY RESOLVED to one locale — the page reads `getServiceContent(key)` and
@@ -106,22 +105,25 @@ const jsonLd: Array<Record<string, unknown>> = [
 /* A table cell that is a figure: ASCII or Persian digits, their separators (٫ ٬ ٪ included), then units
    in any of the site's scripts — Latin, Cyrillic, Persian (with ZWNJ: "۱۵ تا ۲۵ روز") or Chinese ("15–25 天"). */
 const isNumeric = (s: string) => /^[\s\d۰-۹.,٫٬–\-−+~≈$%٪€₽/×÷]*[\d۰-۹][\s\d۰-۹.,٫٬–\-−+~≈$%٪€₽/×÷a-zA-Zа-яА-Я³²ʻʼ؀-ۿ‌一-鿿]*$/.test(s.trim()) && s.trim().length <= 24 && DIGIT.test(s);
-/* RTL (fa) only, decided here on the server so the other locales render byte-identical:
-   - a table cell with no Persian letter ("1688.com", "Taobao / Tmall") is one left-to-right island; left to the bidi
-     algorithm, a domain that starts with a digit reads "com.1688";
-   - a 2-column table (label + value) gets .fits and stops scrolling on phones: under the 560px minimum its values,
-     end-aligned and so on the LEFT, sat off-screen behind the edge fade. */
+/* Every locale: a 2-column table (label + value) gets .fits and stops scrolling on phones. Under the 560px minimum
+   its value column — the price the table exists to show — sat off-screen behind the edge fade (on RTL pages the
+   values, end-aligned, were the LEFT edge). Decided here on the server, not from Base.astro's data-cols: this
+   page's own 560px minimum (.tbl .table) outranks global.css's [data-cols='2'] rule, which cannot free it.
+   RTL (fa) only, so the other locales render byte-identical: a table cell with no Persian letter ("1688.com",
+   "Taobao / Tmall") is one left-to-right island; left to the bidi algorithm, a domain that starts with a digit
+   reads "com.1688". */
 const rtl = langMeta[lang].dir === 'rtl';
 const ltrCell = (s: string) => rtl && /[A-Za-z]/.test(s) && !/[\u0600-\u06FF]/.test(s);
+const fitsTable = (head: string[]) => head.length < 3;
 /* zh (decided here too, so the other locales render byte-identical):
-   - a 2-column table gets .fits as on fa: under the 560px minimum its value column sat off-screen on phones;
    - a fact value is "long" by its width, a Han character counting as two Latin ones: «110 美元/m³ 起» (11 characters)
      stayed at 36px, wrapped and tore «美 / 元»;
    - a value cell is end-aligned when its whole column is figures, like the head: per cell, «3% 起» or «300 kg 以上的
      同类货物» (a figure first, the postposition after) went to the end while «最高 5%» or «每件 1 美元» stayed at the start;
-     such a figure keeps .fig, which only stops it wrapping («0.40 / 美元/kg» in a narrow value column). */
+     such a figure keeps .fig, which only stops it wrapping («0.40 / 美元/kg» in a narrow value column).
+   Where Chinese headings, cells and labels may break is decided after the build, on the zh pages only, by
+   scripts/zh-breaks.mjs (polish-html): this template prints plain text in every locale. */
 const zh = lang === 'zh';
-const fitsTable = (head: string[]) => (rtl || zh) && head.length < 3;
 const longFact = (v: string) => (zh ? [...v].reduce((n, ch) => n + (/[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF]/.test(ch) ? 2 : 1), 0) > 11 : v.length > 12);
 const numCol = (rows: string[][], ci: number) => ci > 0 && rows.every((r) => !r[ci] || isNumeric(r[ci]));
 const slugify = (_s: string, i: number) => `s-${i + 1}`;
@@ -133,7 +135,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
       <div class="container">
         <Breadcrumbs lang={lang} items={[{ name: servicesLabel, key: 'services' }, { name }]} />
         <Eyebrow class="eyebrow-gap">{eyebrow}</Eyebrow>
-        <h1 class="display-2 measure-head"><ZhBreaks lang={lang} text={h1} clause={8} /></h1>
+        <h1 class="display-2 measure-head">{h1}</h1>
         <p class="intro answer">{intro}</p>
         <div class="cta-row">
           <Button href={pagePath(lang, 'calculator')} variant="primary">{c.cta.calculate}</Button>
@@ -148,7 +150,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
           {facts.map((f) => (
             <li class="fact">
               <p class:list={['fact-value', 'tnum', longFact(f.value) && 'is-long']}>{f.value}</p>
-              <p class="caption fact-label"><ZhBreaks lang={lang} text={f.label} /></p>
+              <p class="caption fact-label">{f.label}</p>
             </li>
           ))}
         </ul>
@@ -160,7 +162,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
       <div class="body">
         {sections.map((sec, i) => (
           <section class="block" id={slugify(sec.heading, i)} aria-labelledby={`${slugify(sec.heading, i)}-h`}>
-            <h2 id={`${slugify(sec.heading, i)}-h`}><ZhBreaks lang={lang} text={sec.heading} clause={9} /></h2>
+            <h2 id={`${slugify(sec.heading, i)}-h`}>{sec.heading}</h2>
             {sec.body.map((p) => <p class="para">{p}</p>)}
             {sec.bullets?.length ? (
               <ul class="bullets">
@@ -173,7 +175,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
                   <li class="step">
                     <span class="step-index tnum" aria-hidden="true">{fmtInt(j + 1, lang, 2)}</span>
                     <div class="step-body">
-                      <h3 class="step-title"><ZhBreaks lang={lang} text={st.title} clause={9} /></h3>
+                      <h3 class="step-title">{st.title}</h3>
                       <p class="step-text">{st.text}</p>
                     </div>
                   </li>
@@ -182,15 +184,15 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
             ) : null}
             {sec.table ? (
               <figure class="tbl">
-                {sec.table.caption && <figcaption class="tbl-caption"><ZhBreaks lang={lang} text={sec.table.caption} clause={9} /></figcaption>}
+                {sec.table.caption && <figcaption class="tbl-caption">{sec.table.caption}</figcaption>}
                 <div class="table-wrap">
                   <table class:list={['table', fitsTable(sec.table.head) && 'fits']}>
                     <thead>
-                      <tr>{sec.table.head.map((h, hi) => <th scope="col" class:list={[numCol(sec.table!.rows, hi) && 'num']}><ZhBreaks lang={lang} text={h} /></th>)}</tr>
+                      <tr>{sec.table.head.map((h, hi) => <th scope="col" class:list={[numCol(sec.table!.rows, hi) && 'num']}>{h}</th>)}</tr>
                     </thead>
                     <tbody>
                       {sec.table.rows.map((r) => (
-                        <tr>{r.map((cell, ci) => ci === 0 ? <th scope="row">{ltrCell(cell) ? <span dir="ltr">{cell}</span> : <ZhBreaks lang={lang} text={cell} />}</th> : <td class:list={[(zh ? numCol(sec.table!.rows, ci) : isNumeric(cell)) && 'num', zh && isNumeric(cell) && 'fig']}>{ltrCell(cell) ? <span dir="ltr">{cell}</span> : <ZhBreaks lang={lang} text={cell} />}</td>)}</tr>
+                        <tr>{r.map((cell, ci) => ci === 0 ? <th scope="row">{ltrCell(cell) ? <span dir="ltr">{cell}</span> : cell}</th> : <td class:list={[(zh ? numCol(sec.table!.rows, ci) : isNumeric(cell)) && 'num', zh && isNumeric(cell) && 'fig']}>{ltrCell(cell) ? <span dir="ltr">{cell}</span> : cell}</td>)}</tr>
                       ))}
                     </tbody>
                   </table>
@@ -206,7 +208,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
                     : <Icon name={toneIcon(sec.callout.tone)} size={20} />}
                 </span>
                 <div>
-                  <p class="callout-title"><ZhBreaks lang={lang} text={sec.callout.title} clause={10} /></p>
+                  <p class="callout-title">{sec.callout.title}</p>
                   <p class="callout-text">{sec.callout.text}</p>
                 </div>
               </aside>
@@ -220,7 +222,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
             <div class="faq-list">
               {faq.map((f) => (
                 <details class="faq-item">
-                  <summary><ZhBreaks lang={lang} text={f.q} clause={10} /></summary>
+                  <summary>{f.q}</summary>
                   <div class="faq-body"><p>{f.a}</p></div>
                 </details>
               ))}
@@ -239,7 +241,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
             <Button href={tgHref} variant="primary" icon="telegram" block {...tgLead}>{c.cta.telegram}</Button>
             <Button href={pagePath(lang, 'calculator')} variant="secondary" block>{c.cta.calculate}</Button>
           </div>
-          <p class="side-hint"><ZhBreaks lang={lang} text={t.page.stickyHint} /></p>
+          <p class="side-hint">{t.page.stickyHint}</p>
           {/* The number is the LTR island; the icon stays outside it, at the inline start. */}
           <p class="side-phone"><a href={phoneUrl} class="tnum"><Icon name="phone" size={16} /><span dir="ltr">{site.phoneDisplay}</span></a></p>
           <p class="caption side-hours tnum">{pick(lang, site.hours)}</p>
@@ -256,8 +258,8 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
               <li>
                 <a href={itemPath(lang, 'services', r.slug)} class="card card-hover rel-card">
                   <span class="rel-glyph"><Icon name={r.icon} size={24} /></span>
-                  <h3 class="rel-name"><ZhBreaks lang={lang} text={pick(lang, r.name)} clause={9} /></h3>
-                  <p class="rel-short"><ZhBreaks lang={lang} text={pick(lang, r.short)} /></p>
+                  <h3 class="rel-name">{pick(lang, r.name)}</h3>
+                  <p class="rel-short">{pick(lang, r.short)}</p>
                   <p class="rel-num tnum">{serviceNumberLine(lang, r.key)}</p>
                   <span class="link">{c.cta.details}</span>
                 </a>
@@ -268,11 +270,11 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
             <div class="guides">
               <div class="guides-head">
                 <h2 class="guides-title">{t.page.guidesTitle}</h2>
-                <p class="guides-intro"><ZhBreaks lang={lang} text={t.page.guidesIntro} /></p>
+                <p class="guides-intro">{t.page.guidesIntro}</p>
               </div>
               <ul class="guides-list" role="list">
                 {guides.map((g) => (
-                  <li><a href={pagePath(lang, 'guides', g.slug)} class="guide-link"><Icon name="document" size={18} /><span><ZhBreaks lang={lang} text={g.title} /></span><span class="chev" aria-hidden="true">›</span></a></li>
+                  <li><a href={pagePath(lang, 'guides', g.slug)} class="guide-link"><Icon name="document" size={18} /><span>{g.title}</span><span class="chev" aria-hidden="true">›</span></a></li>
                 ))}
               </ul>
             </div>
@@ -285,7 +287,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
     <section class="section dark noise cta below-fold" aria-labelledby="cta-h">
       <div class="container cta-inner">
         <Eyebrow>{t.page.ctaEyebrow}</Eyebrow>
-        <h2 id="cta-h" class="display-2 measure-head cta-h2"><ZhBreaks lang={lang} text={cta.title} clause={8} /></h2>
+        <h2 id="cta-h" class="display-2 measure-head cta-h2">{cta.title}</h2>
         <p class="intro cta-text">{cta.text}</p>
         <div class="cta-row">
           <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
@@ -345,7 +347,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   @media (max-width: 640px) { .tbl .table { min-width: 560px; overflow: visible; /* overflow:hidden would make the table the sticky root */ } .tbl .table tbody th { position: sticky; inset-inline-start: 0; z-index: 1; background: var(--bg); padding: 12px; font-size: var(--text-small); } .tbl .table th, .tbl .table td { white-space: normal; } .tbl .table td.num { white-space: nowrap; } }
   .tbl .table tbody th { font-weight: 600; color: var(--fg); text-align: start; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
   .tbl .table tbody tr:last-child th { border-bottom: 0; }
-  /* .fits is set on fa and zh pages only (see fitsTable above): the label + value table fits the phone instead of scrolling. */
+  /* .fits marks a 2-column table (see fitsTable above): the label + value table fits the phone instead of scrolling. */
   @media (max-width: 640px) { .tbl .table.fits { min-width: 0; } }
   /* fa: polish-html wraps each Chinese word in Persian prose in <span lang="zh">; Han may break between any two
      characters, which tore "(义" / "乌)" across lines. The runs are short names, so keep each whole. */

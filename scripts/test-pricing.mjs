@@ -262,10 +262,11 @@ test('format.ts: exact forms in uz, uzc, ru, en, zh, fa', () => {
     fa: {
       n: ['۱٬۲۰۰٬۰۰۰', '۱٬۲۳۴٫۵', '۰٫۵۵', '۱٬۲۰۰٬۰۰۰٫۲۵', '۱۰'], int: ['۲۰۲۶', '۰۷'],
       usd: ['۱۱۰ دلار', '۵٫۵ دلار', '۱٬۲۳۴٫۵ دلار', '۰٫۵۵ دلار'], usdN: '۵٫۵', usdR: ['۲٬۸۰۰ تا ۵٬۵۰۰ دلار', '۲٬۸۰۰ تا ۵٬۵۰۰ دلار'],
-      from: ['۱۱۰ دلار/متر مکعب', 'از', 'از ۱۱۰ دلار/متر مکعب'], som: ['۱٬۲۰۰٬۰۰۰ سوم', '۲٬۵۴۸٬۸۰۰ سوم'], somR: '۲۰٬۰۰۰ تا ۳۰٬۰۰۰ سوم',
+      from: ['۱۱۰ دلار/متر\u00a0مکعب', 'از', 'از ۱۱۰ دلار/متر\u00a0مکعب'], som: ['۱٬۲۰۰٬۰۰۰ سوم', '۲٬۵۴۸٬۸۰۰ سوم'], somR: '۲۰٬۰۰۰ تا ۳۰٬۰۰۰ سوم',
       date: ['۲۰۲۶/۰۹/۰۸', '۲۰۲۶/۱۱/۲۸', '۲۰۳۱/۰۱/۰۱'], my: '۲۰۲۶/۰۹',
       range: ['روز', '۱۵ تا ۲۵ روز', '۱۵ تا ۲۵'], pct: ['۱٪', '۲٫۵٪'], sep: [' • ', '•', ' ← '], stop: 'به‌روزرسانی: ۲۰۲۶/۰۹/۰۸.',
-      unit: ['کیلومتر', 'کیلوگرم', 'متر مکعب'], symbol: ['کیلومتر', 'کیلوگرم', 'متر مکعب'], digits: ['۰۳', '۲۴/۷'], mark: 'دلار', fromPos: 'before',
+      // «متر مکعب» is one unit, joined by a no-break space (U+00A0) so a line never ends between its words.
+      unit: ['کیلومتر', 'کیلوگرم', 'متر\u00a0مکعب'], symbol: ['کیلومتر', 'کیلوگرم', 'متر\u00a0مکعب'], digits: ['۰۳', '۲۴/۷'], mark: 'دلار', fromPos: 'before',
     },
   };
   for (const [l, x] of Object.entries(expect)) {
@@ -410,7 +411,7 @@ test('formatBreakdown zh/fa', () => {
     containers: { '20ft': '20ft', '40ft': '40ft' },
   };
   const zh = { ...base, units: { kg: 'kg', m3: 'm³', cm: 'cm', kgm3: 'kg/m³', perKg: '/kg', perM3: '/m³', days: '天', container: '集装箱' }, approx: '约' };
-  const fa = { ...base, units: { kg: 'کیلوگرم', m3: 'متر مکعب', cm: 'سانتی‌متر', kgm3: 'کیلوگرم بر متر مکعب', perKg: '/کیلوگرم', perM3: '/متر مکعب', days: 'روز', container: 'کانتینر' }, approx: 'حدود' };
+  const fa = { ...base, units: { kg: 'کیلوگرم', m3: 'متر\u00a0مکعب', cm: 'سانتی‌متر', kgm3: 'کیلوگرم بر\u00a0متر\u00a0مکعب', perKg: '/کیلوگرم', perM3: '/متر\u00a0مکعب', days: 'روز', container: 'کانتینر' }, approx: 'حدود' };
   const truck = estimateTruck({ kg: 300, m3: 1.2 }, tariffs), air = estimateAir({ kg: 0.3 }, tariffs), rail = estimateRail('20ft', tariffs);
   const z = formatBreakdown(truck, 'zh', zh, tariffs);
   assert.equal(z.total, '≈ 216 美元');
@@ -424,10 +425,10 @@ test('formatBreakdown zh/fa', () => {
   const f = formatBreakdown(truck, 'fa', fa, tariffs);
   assert.equal(f.total, '≈ ۲۱۶ دلار');
   assert.equal(f.totalSom, '≈ ۲٬۵۴۸٬۸۰۰ سوم');
-  assert.equal(f.rate, '۱۸۰ دلار/متر مکعب');
-  assert.equal(f.rule, '۲۵۰ kg/m³ → ۱٫۲ m³ × ۱۸۰ دلار/متر مکعب'); // the rule template is the translator's; the figures are Persian
+  assert.equal(f.rate, '۱۸۰ دلار/متر\u00a0مکعب');
+  assert.equal(f.rule, '۲۵۰ kg/m³ → ۱٫۲ m³ × ۱۸۰ دلار/متر\u00a0مکعب'); // the rule template is the translator's; the figures are Persian
   assert.equal(f.days, '۱۵ تا ۲۵ روز');
-  assert.deepEqual(f.rows.map((r) => r.value), ['۱٫۲ متر مکعب', '۲۵۰ کیلوگرم بر متر مکعب', '۱۸۰ دلار/متر مکعب', 'حدود ۱۵ تا ۲۵ روز']);
+  assert.deepEqual(f.rows.map((r) => r.value), ['۱٫۲ متر\u00a0مکعب', '۲۵۰ کیلوگرم بر\u00a0متر\u00a0مکعب', '۱۸۰ دلار/متر\u00a0مکعب', 'حدود ۱۵ تا ۲۵ روز']);
   assert.equal(formatBreakdown(air, 'fa', fa, tariffs).total, '≈ ۴٫۵ دلار');
   const fr = formatBreakdown(rail, 'fa', fa, tariffs);
   assert.deepEqual([fr.total, fr.totalSom], ['۲٬۸۰۰ تا ۵٬۵۰۰ دلار', '۳۳٬۰۴۰٬۰۰۰ تا ۶۴٬۹۰۰٬۰۰۰ سوم']);

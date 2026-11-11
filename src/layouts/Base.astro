@@ -98,6 +98,18 @@ const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
     <ContactPicker lang={lang} />
     <script>
       // Reveal-on-scroll: adds .is-in to .reveal elements as they enter; respects reduced motion.
+      // Tag every table with its column count so a 2-column table can drop the mobile min-width
+      // instead of pushing its value column off-screen. Before the scroll hint below measures: tagged
+      // after it, the pricing tables measured 440px wide, then fitted the phone and kept a stale fade
+      // over their end-aligned prices.
+      document.querySelectorAll<HTMLTableElement>('table').forEach((t) => {
+        const row = t.querySelector('tr');
+        if (row) t.dataset.cols = String(row.children.length);
+        // Under prefers-reduced-motion global.css gives every property a 0.01ms transition: the min-width
+        // the tag just dropped would still measure 440px below. End that transition now (transitions only:
+        // finish() throws on an infinite animation, which would stop this whole script).
+        t.getAnimations?.().forEach((a) => { if ('transitionProperty' in a) a.finish(); });
+      });
       // Scroll hint: mark scrollers that overflow so global.css fades their trailing edge.
       const scrollers = Array.from(document.querySelectorAll<HTMLElement>('.table-wrap, .scroll-x'));
       const markScroll = (el: HTMLElement) => {
@@ -110,12 +122,6 @@ const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
       scrollers.forEach((el) => { markScroll(el); el.addEventListener('scroll', () => markScroll(el), { passive: true }); });
       window.addEventListener('resize', () => scrollers.forEach(markScroll));
 
-      // Tag every table with its column count so a 2-column table can drop the mobile min-width
-      // instead of pushing its value column off-screen.
-      document.querySelectorAll<HTMLTableElement>('table').forEach((t) => {
-        const row = t.querySelector('tr');
-        if (row) t.dataset.cols = String(row.children.length);
-      });
       const els = document.querySelectorAll<HTMLElement>('.reveal');
       if (els.length) {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {

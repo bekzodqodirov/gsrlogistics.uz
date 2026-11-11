@@ -9,9 +9,6 @@ import { colon, fmtDate, fmtInt, readingMinutes, sep } from '@/lib/format';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
-// zh: a card title breaks between words, not inside them («…运到塔什 / 干：霍尔果斯、伊尔克 / 什坦…» at 390).
-// src/lib/zh-display.ts; the .zw rules and the zh .g-body track are in global.css, so other locales' HTML is unchanged.
-import { zhDisplayHtml } from '@/lib/zh-display';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, guidesStrings);
@@ -41,7 +38,7 @@ const minutes = (body?: string) => fmtInt(readingMinutes(body ?? ''), lang);
             <a href={pagePath(lang, 'guides', e.data.slug)} class="g">
               <span class="g-idx tnum">{fmtInt(i + 1, lang, 2)}</span>
               <span class="g-body">
-                <span class="h4 g-title">{lang === 'zh' ? <span class="zw" set:html={zhDisplayHtml(e.data.title)} /> : e.data.title}</span>
+                <span class="h4 g-title">{e.data.title}</span>
                 <span class="g-desc">{e.data.description}</span>
                 <span class="caption g-meta tnum">{t.updated}{colon(lang)}{fmtDate(e.data.updatedDate, lang)}{sep(lang)}{minutes(e.body)} {t.minutes}{tagLine(e.data.tags)}</span>
               </span>

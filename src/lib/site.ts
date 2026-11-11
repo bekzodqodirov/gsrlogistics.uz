@@ -83,7 +83,7 @@ export const site = {
     ru: 'г. Ташкент, Шайхантахурский р-н, ул. Алишера Навои, дом 27',
     en: '27 Alisher Navoiy Street, Shaykhantakhur district, Tashkent',
     zh: '塔什干市沙伊汉塔胡尔区（Shaykhantakhur）阿利舍尔·纳沃伊街 27 号',
-    fa: 'تاشکند، منطقهٔ شیخانطهور، خیابان علیشیر نوایی، پلاک ۲۷',
+    fa: 'تاشکند، منطقهٔ شیخانطهور، خیابان علیشیر نوایی، پلاک ۲۷',
     streetAddress: 'Alisher Navoiy koʻchasi, 27',
     locality: 'Tashkent',
     region: 'Toshkent',

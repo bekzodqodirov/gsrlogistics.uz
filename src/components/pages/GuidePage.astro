@@ -14,14 +14,8 @@ import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
-// zh: the title, TOC entries, FAQ questions and related titles break between clauses or words, not inside
-// a word («空运、汽运还是铁 / 路：从中 / 国到…» tore at 390 and at 1440). src/lib/zh-display.ts; the .zw/.zc rules are
-// in global.css. Called directly, not through <ZhBreaks>: its <style>, shared by several pages, was inlined into
-// every locale's HTML.
-import { zhDisplayHtml } from '@/lib/zh-display';
 interface Props { lang: Locale; entry: CollectionEntry<'guides'> }
 const { lang, entry } = Astro.props;
-const zh = lang === 'zh';
 const t = pick(lang, guidesStrings);
 const c = pick(lang, common);
 const { Content, headings } = await render(entry);
@@ -64,7 +58,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
       <div class="container container-text">
         <Breadcrumbs lang={lang} items={[{ name: label, key: 'guides' }, { name: d.title }]} />
         <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
-        <h1 class="display-2 measure-head">{zh ? <span class="zw" set:html={zhDisplayHtml(d.title, 8)} /> : d.title}</h1>
+        <h1 class="display-2 measure-head">{d.title}</h1>
         <p class="caption meta-row tnum">{t.updated}{colon(lang)}{fmtDate(d.updatedDate, lang)}{sep(lang)}{minutes} {t.minutes}{sep(lang)}{t.author}{colon(lang)}{d.author}</p>
         <p class="intro answer">{d.description}</p>
       </div>
@@ -72,8 +66,8 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
     <div class="container container-text layout">
       {toc.length > 1 && (
         <aside class="toc">
-          <details class="toc-mobile"><summary>{t.toc}</summary><ol role="list">{toc.map((h) => <li><a href={`#${h.id}`}>{zh ? <span class="zw" set:html={zhDisplayHtml(h.text)} /> : h.text}</a></li>)}</ol></details>
-          <nav class="toc-desktop" aria-label={t.toc}><p class="caption toc-label">{t.toc}</p><ol role="list">{toc.map((h) => <li><a href={`#${h.id}`} data-toc={h.id}><span class="hex-node toc-hex" aria-hidden="true"></span>{zh ? <span class="zw" set:html={zhDisplayHtml(h.text)} /> : h.text}</a></li>)}</ol></nav>
+          <details class="toc-mobile"><summary>{t.toc}</summary><ol role="list">{toc.map((h) => <li><a href={`#${h.id}`}>{h.text}</a></li>)}</ol></details>
+          <nav class="toc-desktop" aria-label={t.toc}><p class="caption toc-label">{t.toc}</p><ol role="list">{toc.map((h) => <li><a href={`#${h.id}`} data-toc={h.id}><span class="hex-node toc-hex" aria-hidden="true"></span>{h.text}</a></li>)}</ol></nav>
         </aside>
       )}
       <div class="body">
@@ -81,7 +75,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
         {d.faq.length > 0 && (
           <section class="faq">
             <h2 class="h3">{t.faq}</h2>
-            {d.faq.map((f) => <details class="faq-item"><summary>{zh ? <span class="zw" set:html={zhDisplayHtml(f.q, 10)} /> : f.q}</summary><div class="faq-body"><p>{f.a}</p></div></details>)}
+            {d.faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><div class="faq-body"><p>{f.a}</p></div></details>)}
           </section>
         )}
         {d.sources.length > 0 && (
@@ -99,7 +93,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
         {(related.length > 0 || relatedServices.length > 0) && (
           <section class="related">
             {relatedServices.length > 0 && <div><h2 class="h4">{t.relatedServices}</h2><ul role="list" class="rel-list">{relatedServices.map((s) => <li><a class="link" href={itemPath(lang, 'services', s.slug)}>{pick(lang, s.name)}</a></li>)}</ul></div>}
-            {related.length > 0 && <div><h2 class="h4">{t.related}</h2><ul role="list" class="rel-list">{related.map((e) => <li><a class="link" href={pagePath(lang, 'guides', e.data.slug)}>{zh ? <span class="zw" set:html={zhDisplayHtml(e.data.title)} /> : e.data.title}</a></li>)}</ul></div>}
+            {related.length > 0 && <div><h2 class="h4">{t.related}</h2><ul role="list" class="rel-list">{related.map((e) => <li><a class="link" href={pagePath(lang, 'guides', e.data.slug)}>{e.data.title}</a></li>)}</ul></div>}
             <p><a class="link" href={pagePath(lang, 'guides')}>{t.allGuides}</a></p>
           </section>
         )}
@@ -176,14 +170,13 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
   .article-body :global(td:first-child) { color: var(--fg); font-weight: 500; }
   .article-body :global(.table-wrap) { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.2em 0; border: 1px solid var(--border-soft); border-radius: var(--radius); }
   .article-body :global(.table-wrap table) { min-width: 560px; }
-  /* RTL (fa) and zh phones: a 2-column table (label + value) fits the screen instead of scrolling at 560px,
-     which hid the value column — price, fee, time — past the edge behind the fade (zh at 390px: the
-     手续费 column of the customs fee table entirely, the density price columns all but their first
-     digits). :has(), not the data-cols attribute, so it holds from the first paint, before the
-     wrap/scroll-hint scripts run. */
+  /* Phones, every locale: a 2-column table (label + value) fits the screen instead of scrolling at 560px,
+     which hid the value column — price, fee, time — past the edge behind the fade (at 390px: the Fee
+     column of the customs fee table entirely, the density price columns all but their first digits).
+     :has(), not the data-cols attribute, so it holds from the first paint, before the wrap/scroll-hint
+     scripts run. Tables of 3+ columns keep the 560px scroll. */
   @media (max-width: 640px) {
-    :global([dir='rtl']) .article-body :global(table:not(:has(tr > :nth-child(3)))),
-    :global(:root:lang(zh)) .article-body :global(table:not(:has(tr > :nth-child(3)))) { min-width: 0; }
+    .article-body :global(table:not(:has(tr > :nth-child(3)))) { min-width: 0; }
   }
   .article-body :global(.table-wrap th:first-child), .article-body :global(.table-wrap td:first-child) { position: sticky; inset-inline-start: 0; background: var(--bg); }
   .article-body :global(blockquote) { border-inline-start: 2px solid var(--border); padding-inline-start: 16px; color: var(--muted); }

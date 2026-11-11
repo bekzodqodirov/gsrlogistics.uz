@@ -24,9 +24,10 @@
 //      with a digit ('1688.com' showed as 'com.1688': the dot between a number and a Latin word
 //      takes the Persian direction) and a GSR code ('GSR-…' showed as '…-GSR'). Number ranges,
 //      prices and dates are deliberately left alone: they read correctly inside Persian text.
-//   4. On the Chinese pages only, its own pass after the walk (scripts/zh-phrases.mjs): the
-//      clauses of a heading or an FAQ question are kept whole, so a balanced heading breaks after
-//      its comma instead of inside a word («每一 / 天»).
+//   4. On the Chinese pages only, its own pass after the walk (scripts/zh-breaks.mjs): display
+//      text — headings, FAQ questions, table cells, captions, labels — breaks at a clause stop or
+//      between words, never inside a word («每一 / 天», «乌兹别 / 克斯坦»). It is the only place that
+//      decides where Chinese display text may break; the components print plain text.
 //
 // Every pass is idempotent: a second run finds the runs already declared or isolated and
 // changes nothing.
@@ -42,7 +43,7 @@
 import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { LOCALES, localeOfPath } from './locales.mjs';
-import { zhPhrases } from './zh-phrases.mjs';
+import { zhBreaks } from './zh-breaks.mjs';
 
 const root = process.argv[2] || 'dist';
 
@@ -181,13 +182,13 @@ console.log(
     ` · ${perKind.zh} Chinese pages left unwrapped (already zh-Hans) · ${ltrRuns} LTR runs isolated on ${perKind.rtl} right-to-left pages`,
 );
 
-// Pass 4, Chinese pages only, on the HTML the walk above wrote: the clauses of a heading or an FAQ
-// question are kept whole, so it breaks after its comma, not inside a word (scripts/zh-phrases.mjs).
-let zhHeadings = 0, zhPages = 0;
+// Pass 4, Chinese pages only, on the HTML the walk above wrote: display text breaks at a clause
+// stop or between words, never inside a word (scripts/zh-breaks.mjs).
+let zhTexts = 0, zhPages = 0;
 for (const file of walk(root)) {
   if (!/^zh(?:-|$)/i.test(localeOfFile(file).htmlLang)) continue;
   const before = readFileSync(file, 'utf8');
-  const { html, headings } = zhPhrases(before);
-  if (html !== before) { writeFileSync(file, html); zhHeadings += headings; zhPages += 1; }
+  const { html, changed } = zhBreaks(before);
+  if (html !== before) { writeFileSync(file, html); zhTexts += changed; zhPages += 1; }
 }
-console.log(`polish: ${zhHeadings} Chinese headings kept whole per clause on ${zhPages} pages`);
+console.log(`polish: ${zhTexts} Chinese display texts given word and clause breaks on ${zhPages} pages`);

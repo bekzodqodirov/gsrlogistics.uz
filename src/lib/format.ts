@@ -167,7 +167,8 @@ const FORMATS: Record<Locale, LocaleFormat> = {
     span: (a, b) => `${a} تا ${b}`, fromAfter: false, percent: (n) => `${n}٪`,
     date: (y, m, d) => `${y}/${pad2(m + 1)}/${pad2(d)}`, monthYear: (y, m) => `${y}/${pad2(m + 1)}`,
     sep: ' • ', arrow: ' ← ', stop: '.', approxLeads: true,
-    unit: { km: 'کیلومتر', kg: 'کیلوگرم', m3: 'متر مکعب' }, symbol: { km: 'کیلومتر', kg: 'کیلوگرم', m3: 'متر مکعب' },
+    // «متر مکعب» is one unit: a no-break space (U+00A0), or a phone line ends between its words («…دلار/متر | مکعب»).
+    unit: { km: 'کیلومتر', kg: 'کیلوگرم', m3: 'متر\u00a0مکعب' }, symbol: { km: 'کیلومتر', kg: 'کیلوگرم', m3: 'متر\u00a0مکعب' },
   },
 };
 

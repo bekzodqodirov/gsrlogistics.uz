@@ -19,7 +19,7 @@ export interface ServiceMeta {
 export const services: ServiceMeta[] = [
   { key: 'truck', flagship: true, icon: 'truck', slug: { uz: 'avto-kargo', ru: 'avto-kargo', en: 'truck-cargo', zh: 'truck-cargo', fa: 'truck-cargo' },
     name: { uz: 'Avto kargo (yigʻma yuk)', ru: 'Авто карго (сборный груз)', en: 'Truck cargo (consolidated)', zh: '汽运（拼货）', fa: 'حمل زمینی (بار تجمیعی)' },
-    short: { uz: 'Xitoydan Toshkentga yigʻma yuk — m³ hisobida, stavka zichlikka qarab.', ru: 'Сборный груз из Китая в Ташкент — по м³, ставка по плотности.', en: 'Consolidated cargo from China to Tashkent, priced per m³ by density.', zh: '中国至塔什干拼货运输，按 m³ 计费，费率取决于密度。', fa: 'بار تجمیعی از چین به تاشکند — قیمت بر اساس متر مکعب، نرخ بر حسب چگالی.' } },
+    short: { uz: 'Xitoydan Toshkentga yigʻma yuk — m³ hisobida, stavka zichlikka qarab.', ru: 'Сборный груз из Китая в Ташкент — по м³, ставка по плотности.', en: 'Consolidated cargo from China to Tashkent, priced per m³ by density.', zh: '中国至塔什干拼货运输，按 m³ 计费，费率取决于密度。', fa: 'بار تجمیعی از چین به تاشکند — قیمت بر اساس متر مکعب، نرخ بر حسب چگالی.' } },
   { key: 'air', icon: 'plane', slug: { uz: 'avia-kargo', ru: 'avia-kargo', en: 'air-cargo', zh: 'air-cargo', fa: 'air-cargo' },
     name: { uz: 'Avia kargo', ru: 'Авиа карго', en: 'Air cargo', zh: '空运', fa: 'حمل هوایی' },
     short: { uz: 'Shoshilinch va qimmat yuklar uchun tez yetkazib berish.', ru: 'Быстрая доставка срочных и ценных грузов.', en: 'Fast delivery for urgent and high-value goods.', zh: '急件和高货值货物的快速运输。', fa: 'تحویل سریع برای کالاهای فوری و باارزش.' } },

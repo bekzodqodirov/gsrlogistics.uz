@@ -65,7 +65,8 @@ export const zh: ContactStrings = {
     name: '您的姓名',
     namePlaceholder: '姓名',
     phone: '电话',
-    phoneHint: '号码须带国家代码，例如 +86 138 0013 8000 或 +998 90 123 45 67',
+    // U+00A0 inside each example number: a plain space let it break across lines («+998 90 / 123 45 67»).
+    phoneHint: '号码须带国家代码，例如 +86 138 0013 8000 或 +998 90 123 45 67',
     route: '服务类型',
     routeOptions: { air: '空运', truck: '汽运（拼货）', rail: '铁路（集装箱）', sourcing: '寻找货源与代采购', other: '其他问题' },
     routePlaceholder: '请选择',

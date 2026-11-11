@@ -17,10 +17,6 @@ import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
-// zh: a question breaks between its clauses when each fits a 320px line, else between words, never inside one
-// («…下单和付 / 款？», «…什么时间营 / 业？»). src/lib/zh-display.ts; .zw/.zc rules in global.css (not <ZhBreaks>,
-// whose <style> got inlined into every locale's HTML). Every other locale renders the bare text.
-import { zhDisplayHtml } from '@/lib/zh-display';
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -99,7 +95,7 @@ let n = 0;
                 const id = `q${n}`;
                 return (
                   <details class="faq-item" id={id}>
-                    <summary><span class="q">{lang === 'zh' ? <span class="zw" set:html={zhDisplayHtml(it.q, 10)} /> : it.q}</span></summary>
+                    <summary><span class="q">{it.q}</span></summary>
                     <div class="faq-body"><p>{it.a}</p></div>
                   </details>
                 );
@@ -177,10 +173,11 @@ let n = 0;
   .groupnav a.is-active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
   .groupnav .glyph { display: none; }
   .groupnav .count { color: var(--meta); font-weight: 500; }
-  /* fa, zh: the chip's <span class="label"> also matches the global form-label utility (.label, color
-     --fg-2), which painted the ACTIVE chip's name #424245 on its #1d1d1f fill. The name follows its chip.
-     (uz/uzc/ru/en still have that dark-on-dark active chip below 1000px.) */
-  :global(:root:lang(fa)) .groupnav .label, :global(:root:lang(zh)) .groupnav .label { color: inherit; }
+  /* The chip's <span class="label"> also matches the global form-label utility (.label, color --fg-2),
+     which painted the ACTIVE chip's name #424245 on its #1d1d1f fill below 1000px, all but unreadable.
+     The name follows its chip: white on the active chip, --fg-2 on the others; on the desktop rail the
+     active name takes the --fg its row sets. */
+  .groupnav .label { color: inherit; }
   .groupnav a.is-active .count { color: color-mix(in oklab, var(--bg), transparent 30%); }
   @media (min-width: 1000px) {
     .groupnav { position: sticky; top: calc(var(--header-h) + 24px); }
