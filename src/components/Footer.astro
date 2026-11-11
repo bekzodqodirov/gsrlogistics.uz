@@ -20,8 +20,10 @@ const modeWord = pick(lang, {
   uz: { truck: 'Yigʻma yuk', air: 'Avia', rail: 'Temir yoʻl' },
   ru: { truck: 'Сборный груз', air: 'Авиа', rail: 'Ж/д' },
   en: { truck: 'Consolidated', air: 'Air', rail: 'Rail' },
+  zh: { truck: '拼货', air: '空运', rail: '铁路' },
+  fa: { truck: 'بار تجمیعی', air: 'حمل هوایی', rail: 'حمل ریلی' },
 });
-const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' });
+const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent', zh: '塔什干', fa: 'تاشکند' });
 const days = (d: number[]) => fmtRange(d[0], d[1], t.strings.days, lang);
 // Rail's "approx" trails the range as a note ("20–35 days · roughly"); zh 约 only ever precedes a figure ("约 20–35 天").
 const copyright = endSentence(`© ${fmtInt(year, lang)} ${site.name}${sep(lang)}${city}${site.legalEntity ? `${sep(lang)}${site.legalEntity}` : ''}`, lang);
@@ -92,8 +94,9 @@ const copyrightLine = joinSentences(copyright, t.footer.rights);
   .footer-desc { margin-top: 16px; max-width: 34ch; font-size: var(--text-small); }
   .fact-stack { margin-top: 20px; font-size: var(--text-small); color: var(--muted); }
   .fact-stack li + li { margin-top: 6px !important; }
-  /* isolate: on the RTL page a Latin label in front ("Consolidated", until the Persian one exists)
-     would otherwise pull the first figure into its LTR run and print "۱۵ Consolidated تا ۲۵ روز". */
+  /* isolate: the figures are their own bidi run, so the label in front never joins them — on the
+     RTL page an LTR label (as the English one was before the Persian existed) would pull the first
+     figure into its run and print "۱۵ Consolidated تا ۲۵ روز". */
   .fact-stack strong { color: var(--fg); font-weight: 600; margin-inline-start: 6px; unicode-bidi: isolate; }
   .socials { display: flex; gap: 8px; margin-top: 20px; }
   .socials a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: color-mix(in oklab, var(--fg), transparent 92%); color: var(--fg); transition: background var(--dur) var(--ease); }

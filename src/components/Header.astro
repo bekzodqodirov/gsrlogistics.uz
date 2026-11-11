@@ -15,7 +15,7 @@ const t = pick(lang, common);
 // Any locale's home is a prefix of every path in it, so it is never "the current section".
 const home = pagePath(lang, 'home');
 const isActive = (href: string) => href !== home && currentPath.startsWith(href);
-const allServices = pick(lang, { uz: 'Barcha xizmatlar', ru: 'Все услуги', en: 'All services' });
+const allServices = pick(lang, { uz: 'Barcha xizmatlar', ru: 'Все услуги', en: 'All services', zh: '全部服务', fa: 'همهٔ خدمات' });
 const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'rail' ? fmtRange(tariffs[key].days[0], tariffs[key].days[1], t.strings.days, lang) : '';
 ---
 <header class="site-header" id="site-header" data-scrolled="false">

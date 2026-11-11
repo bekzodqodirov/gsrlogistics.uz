@@ -13,6 +13,8 @@
 //     and an untranslated-text check: English, Uzbek or Russian prose on a zh/fa page is an ERROR
 //     once the locale is finished, and a counted WARNING while it is still pending
 //     (src/i18n/config.ts `PendingLang`), because until then pick() shows the English branch.
+//     The office's official street address, exactly as src/lib/site.ts writes it, is not prose:
+//     a translation may print it for a taxi driver (STREET_ADDRESS in content-rules.mjs).
 //   · Every new rule carries the sentences it must catch and the ones it must let through, and
 //     they are asserted before any page is read: a rule that misfires on its own fixtures fails
 //     the build.

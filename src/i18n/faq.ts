@@ -5,6 +5,7 @@ import { fa } from './fa/faq';
 /** Labels for the FAQ page (/savol-javob/) and the home FAQ section. Questions and answers live in src/data/faq.ts. */
 export interface FaqStrings {
   seoTitle: string;
+  /** Placeholder: {count} — the number of questions, filled by FaqPage exactly as in the intro. */
   seoDescription: string;
   eyebrow: string;
   h1: string;
@@ -21,7 +22,7 @@ export interface FaqStrings {
 
 const uz: FaqStrings = {
   seoTitle: 'Xitoydan kargo boʻyicha savol-javob — narx, muddat, bojxona | GSR Logistics',
-  seoDescription: 'Xitoydan Oʻzbekistonga yuk tashish haqida 32 savolga aniq javob: yigʻma yuk 15–25 kun, avia 5–10 kun, narx kg yoki m³ boʻyicha, 200 $ limit, boj va QQS, taqiqlangan tovarlar, sugʻurta, 1688 orqali sotib olish.',
+  seoDescription: 'Xitoydan Oʻzbekistonga yuk tashish haqida {count} savolga aniq javob: yigʻma yuk 15–25 kun, avia 5–10 kun, narx kg yoki m³ boʻyicha, 200 $ limit, boj va QQS, taqiqlangan tovarlar, sugʻurta, 1688 orqali sotib olish.',
   eyebrow: 'Savol-javob',
   h1: 'Xitoydan kargo: eng koʻp beriladigan savollar',
   intro: 'Bu sahifada Xitoydan Oʻzbekistonga yuk tashish boʻyicha {count} ta savolga qisqa javob bor: yigʻma yuk taxminan {truckDays} kun, avia {airDays} kun, narx {truckFrom}/m³ dan, bojxona — rasmiy, GTD bilan. Savolingiz topilmasa, Telegramda yozing — menejer yukingiz boʻyicha aniq raqam bilan javob beradi.',
@@ -35,7 +36,7 @@ const uz: FaqStrings = {
 
 const ru: FaqStrings = {
   seoTitle: 'Вопросы и ответы о карго из Китая — цены, сроки, таможня | GSR Logistics',
-  seoDescription: 'Точные ответы на 32 вопроса о доставке грузов из Китая в Узбекистан: сборный груз 15–25 дней, авиа 5–10 дней, расчёт по кг или м³, лимит 200 $, пошлины и НДС, запрещённые товары, страховка, выкуп с 1688.',
+  seoDescription: 'Точные ответы на {count} вопросов о доставке грузов из Китая в Узбекистан: сборный груз 15–25 дней, авиа 5–10 дней, расчёт по кг или м³, лимит 200 $, пошлины и НДС, запрещённые товары, страховка, выкуп с 1688.',
   eyebrow: 'Вопросы и ответы',
   h1: 'Карго из Китая: ответы на частые вопросы',
   intro: 'На этой странице — короткие ответы на {count} вопроса о доставке грузов из Китая в Узбекистан: сборный груз ориентировочно {truckDays} дней, авиа {airDays} дней, цена от {truckFrom}/м³, таможенное оформление официальное, с ГТД. Не нашли ответ — напишите в Telegram, менеджер посчитает именно ваш груз.',
@@ -49,7 +50,7 @@ const ru: FaqStrings = {
 
 const en: FaqStrings = {
   seoTitle: 'China cargo FAQ — prices, transit, customs',
-  seoDescription: 'Straight answers to 32 questions about shipping from China to Uzbekistan: consolidated truck freight in 15–25 days, air in 5–10, pricing per kg or m³, the $200 personal limit, duties and VAT, prohibited goods, insurance, buying on 1688.',
+  seoDescription: 'Straight answers to {count} questions about shipping from China to Uzbekistan: consolidated truck freight in 15–25 days, air in 5–10, pricing per kg or m³, the $200 personal limit, duties and VAT, prohibited goods, insurance, buying on 1688.',
   eyebrow: 'FAQ',
   h1: 'Cargo from China: the questions we get most',
   intro: 'This page answers {count} questions about shipping from China to Uzbekistan in a few sentences each: consolidated truck freight takes roughly {truckDays} days, air {airDays} days, rates start at {truckFrom}/m³, and customs clearance is official, with a customs declaration. If your question is not here, message us on Telegram and a manager will answer with figures for your shipment.',

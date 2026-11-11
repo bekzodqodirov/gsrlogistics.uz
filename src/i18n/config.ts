@@ -60,11 +60,27 @@ export const switcherOrder: readonly Locale[] = ['uz', 'uzc', 'ru', 'en', 'zh', 
 export const defaultLang: SourceLang = 'uz';
 
 /**
- * Hand-written locales whose branches are still being written. While a locale is listed here its
- * branch is optional and `pick` falls back to the locale's `fallback` (English); once every module
- * carries it, the locale leaves this list and the compiler requires the branch everywhere.
+ * Hand-written locales whose branches are still being written — none: every module carries all
+ * five hand-written branches, so the compiler requires each of them everywhere, the service loader
+ * (src/data/services/load.ts) fails the build on a missing translation file, and every build and
+ * test script treats every locale as finished.
+ *
+ * The mechanism is kept for the next language. While a new locale is being translated, name it
+ * here (`type PendingLang = 'xx';`) and set its flag in `pendingLocales` below: its branch of every
+ * `Localized<T>` becomes optional, `pick` falls back to the locale's `fallback` branch, and the
+ * build and test scripts — which read this line through scripts/locales.mjs — report what the
+ * locale still lacks instead of failing. Once every module carries the branch, set both back.
  */
-type PendingLang = 'zh' | 'fa';
+type PendingLang = never;
+
+/**
+ * `PendingLang` as a value, for build-time code that has to decide whether a missing translation
+ * is allowed (src/data/services/load.ts). The `satisfies` clause holds it to the type line above:
+ * `astro check` fails unless a locale is `true` here exactly when `PendingLang` names it.
+ */
+export const pendingLocales = { uz: false, ru: false, en: false, zh: false, fa: false } as const satisfies {
+  readonly [L in SourceLang]: L extends PendingLang ? true : false;
+};
 
 /**
  * A value in every locale: the hand-written ones are required, the generated Cyrillic one is
@@ -81,7 +97,10 @@ export interface LocaleMeta {
   dir: 'ltr' | 'rtl';
   /** The hand-written locale this one is written in or generated from. */
   source: SourceLang;
-  /** The branch `pick` reads while this locale's own branch is still being written. */
+  /**
+   * The branch `pick` reads while this locale's own branch is still being written (only while the
+   * locale is listed in `PendingLang`; no locale is today).
+   */
   fallback: 'uz' | 'en';
 }
 
@@ -183,8 +202,9 @@ function deepCyrillic(uz: unknown, ru: unknown, en: unknown): unknown {
  * Nothing in the repo provides a `uzc` branch today and nothing has to — the override exists so
  * that a single stubborn sentence can be hand-corrected without forking the whole file.
  *
- * For every other locale: its own branch, or — only while a locale is still being written — the
- * locale's `fallback` branch (English for zh and fa: Uzbek Latin is unreadable to both audiences).
+ * For every other locale: its own branch. Only a locale listed in `PendingLang` (none today) may
+ * lack one; it then gets its `fallback` branch — English for zh and fa when they were being
+ * written, since Uzbek Latin is unreadable to both audiences.
  */
 export function pick<T>(locale: Locale, record: Localized<T>): T {
   if (locale !== 'uzc') {

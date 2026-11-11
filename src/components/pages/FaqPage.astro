@@ -33,6 +33,8 @@ const vars = {
   date: fmtDate(tariffs.updated, lang),
 };
 const intro = faqTpl(t.intro, vars);
+// The meta description counts the questions the same way the intro does.
+const description = faqTpl(t.seoDescription, vars);
 const priceMeta = faqTpl(t.priceMeta, vars);
 const faqLabel = c.nav.find((n) => n.key === 'faq')?.label ?? t.eyebrow;
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: faqLabel, key: 'faq' as const }];
@@ -49,7 +51,7 @@ const glyphs = [
 ];
 let n = 0;
 ---
-<Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="faq" breadcrumbs={breadcrumbs} jsonLd={[faqNode(all)]} dateModified={tariffs.updated}>
+<Base lang={lang} title={t.seoTitle} description={description} pageKey="faq" breadcrumbs={breadcrumbs} jsonLd={[faqNode(all)]} dateModified={tariffs.updated}>
   <article class="page">
     <header class="hero">
       <div class="container">

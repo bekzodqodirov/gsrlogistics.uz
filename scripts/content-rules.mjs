@@ -15,6 +15,7 @@
  * All new expressions use the `u` flag and Unicode property escapes. Code points are written
  * \u{…}; Persian and Chinese letters are written as themselves.
  */
+import { readFileSync } from 'node:fs';
 
 /* ── Normalisation ──────────────────────────────────────────────────────────────────────────── */
 
@@ -375,6 +376,26 @@ export const PAGE_RULES = {
 /* ── Untranslated text on a zh or fa page ───────────────────────────────────────────────────── */
 
 /**
+ * The office's official street address, `site.address.streetAddress` in src/lib/site.ts
+ * ("Alisher Navoiy koʻchasi, 27"). A translation may print it as it is written in Uzbek — the Chinese
+ * contact page gives it for the taxi driver, followed by its Chinese rendering — so leakRuns() lets
+ * exactly this string through. Nothing else of it: «koʻchasi» on its own, or the street name inside
+ * an Uzbek sentence, is still untranslated text. Read from the source as text, the way
+ * scripts/locales.mjs reads config.ts: these scripts run under plain Node, without TypeScript.
+ */
+export function parseStreetAddress(source) {
+  const m = /^\s*streetAddress:\s*'((?:[^'\\\n]|\\.)+)'/m.exec(source);
+  if (!m) throw new Error("scripts/content-rules.mjs: no `streetAddress: '…'` line in src/lib/site.ts");
+  return m[1].replace(/\\(.)/g, '$1');
+}
+export const STREET_ADDRESS = parseStreetAddress(readFileSync(new URL('../src/lib/site.ts', import.meta.url), 'utf8'));
+/** STREET_ADDRESS as a whole token: "…koʻchasi, 270" or "…koʻchasi, 27a" is not the official address. */
+const STREET_ADDRESS_RE = new RegExp(
+  `(?<![\\p{Script=Latin}\\p{Nd}ʻʼ])${STREET_ADDRESS.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{Script=Latin}\\p{Nd}ʻʼ])`,
+  'gu',
+);
+
+/**
  * Foreign terms a translation keeps on purpose (GLOSSARY.md §3): the Russian customs code name.
  * Anything else in Cyrillic, or with the Uzbek ʻ/ʼ letters, is allowed only where the English page
  * the translation was made from quotes it too ("in Russian сборный груз", "kitay kargo").
@@ -414,11 +435,12 @@ function spellsOut(words, near) {
 /**
  * Runs of English, Uzbek or Russian prose in the text of a zh or fa page: a Latin run with three or
  * more lowercase words (brands, codes, units and proper names are capitalised or listed), any Uzbek
- * word, any Cyrillic run — minus what `allowed` (the English source page's own quotes) contains and
- * minus the English expansion of an acronym standing beside it (spellsOut).
+ * word, any Cyrillic run — minus what `allowed` (the English source page's own quotes) contains,
+ * minus the English expansion of an acronym standing beside it (spellsOut), and minus the official
+ * street address, written exactly as site.ts writes it (STREET_ADDRESS).
  */
 export function leakRuns(text, allowed = new Set()) {
-  const s = text.replace(NOT_PROSE, ' ');
+  const s = text.replace(STREET_ADDRESS_RE, ' ').replace(NOT_PROSE, ' ');
   const runs = [];
   for (const m of s.matchAll(LATIN_RUN)) {
     const run = m[0];
@@ -438,6 +460,21 @@ const LEAK_FIXTURES = {
   good: ['义乌（Yiwu）发往塔什干', 'GSR Logistics 的客户经理', 'Imex services LLC', '拼货（LCL）', 'حمل بار از چین به تاشکند با GSR Logistics', '每公斤 9 美元起，1 m³ 起', '海关编码（HS 编码，ТН ВЭД）', '写信给 @GSR_GROUP_AGENT_bot 或 b.e.kodirov@gmail.com', 'BYD · Zeekr · Li Auto', 'power bank', '起订量（MOQ，minimum order quantity）是工厂接受的最小数量', 'حداقل سفارش (MOQ, minimum order quantity)', '国际通用术语为 LCL（Less than Container Load，拼箱）'],
 };
 
+/** The street address: written out in full it is the official address, not untranslated text. */
+const ADDRESS_FIXTURES = {
+  good: [
+    `乘出租车时，向司机出示地址：${STREET_ADDRESS}（阿利舍尔·纳沃伊街 27 号）。`,
+    `اگر با تاکسی می‌آیید، این نشانی را به راننده نشان دهید: ${STREET_ADDRESS}`,
+  ],
+  bad: [
+    '向司机出示地址：koʻchasi 27',
+    '沿 Alisher Navoiy koʻchasi 步行至 27 号楼',
+    'Alisher Navoiy koʻchasi boʻylab 27-uyga yuring',
+    '地址：Alisher Navoiy koʻchasi, 28',
+    `地址：${STREET_ADDRESS}0 号`,
+  ],
+};
+
 /* ── The self-test ──────────────────────────────────────────────────────────────────────────── */
 
 /** Every rule against its own sentences. Returns the list of misfires (empty when all is well). */
@@ -455,6 +492,13 @@ export function selfTest() {
   }
   for (const s of LEAK_FIXTURES.bad) if (!leakRuns(s).length) bad.push(`leakRuns misses: ${s}`);
   for (const s of LEAK_FIXTURES.good) if (leakRuns(s).length) bad.push(`leakRuns fires on: ${s} → ${leakRuns(s).join(' | ')}`);
+  // The official street address passes exactly as site.ts writes it — the zh contact page's taxi line —
+  // and nothing else of it does: the bare word, the street inside an Uzbek sentence, a misspelling.
+  // (A stray short value would be cut out of every page's text, so it must look like an address.)
+  if (STREET_ADDRESS.trim().length < 8 || !/\p{L}{3,}.*\s/u.test(STREET_ADDRESS)) bad.push(`parseStreetAddress() read "${STREET_ADDRESS}" from src/lib/site.ts, which is not a street address`);
+  for (const s of ADDRESS_FIXTURES.good) if (leakRuns(s).length) bad.push(`leakRuns fires on the official street address: ${s} → ${leakRuns(s).join(' | ')}`);
+  for (const s of ADDRESS_FIXTURES.bad) if (!leakRuns(s).length) bad.push(`leakRuns lets a part of the street address through: ${s}`);
+  if (parseStreetAddress("  streetAddress: 'Amir Temur shoh koʻchasi, 1',\n") !== 'Amir Temur shoh koʻchasi, 1') bad.push('parseStreetAddress() misreads a streetAddress line');
   // The quotes of the English source page are allowed on its translation, and only those.
   if (leakRuns('拼货（俄语 сборный груз）', quotedForeign('in Russian сборный груз')).length) bad.push('leakRuns rejects a quote its English source carries');
   if (!leakRuns('拼货（俄语 сборный груз）', quotedForeign('consolidated cargo')).length) bad.push('leakRuns accepts a Cyrillic quote its English source does not carry');

@@ -3,7 +3,7 @@ import type { FaqStrings } from '../faq';
 /** Chinese (Simplified) strings for `src/i18n/faq.ts`, translated from its English branch. */
 export const zh: FaqStrings = {
   seoTitle: '中乌货运常见问题——价格、时效、清关',
-  seoDescription: '中国到乌兹别克斯坦货运 32 问：汽运拼货 15–25 天，空运 5–10 天，按 kg 或 m³ 计费，200 美元个人免税额度，关税和增值税，禁运物品，保险，1688 代采购。',
+  seoDescription: '中国到乌兹别克斯坦货运 {count} 问：汽运拼货 15–25 天，空运 5–10 天，按 kg 或 m³ 计费，200 美元个人免税额度，关税和增值税，禁运物品，保险，1688 代采购。',
   eyebrow: '常见问题',
   h1: '从中国运货：最常被问到的问题',
   intro: '本页简要解答中国到乌兹别克斯坦货运的 {count} 个问题：汽运拼货约 {truckDays} 天，空运 {airDays} 天，运价 {truckFrom}/m³ 起，正规清关，提供报关单（GTD）。如果没有找到您的问题，请在 Telegram 上给我们留言，客户经理会根据您的货物给出具体数字。',

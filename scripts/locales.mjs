@@ -19,8 +19,11 @@
  * makes a locale's branches optional for the compiler and sends `pick()` to the English fallback.
  * While a locale is pending, the scripts REPORT what it still lacks (untranslated text, a guide
  * with no translation, a record without its branch) instead of failing on it. Flipping that line
- * to `type PendingLang = never;` is the whole switch: the compiler then requires every branch and
- * every script here treats the locale as finished, with no second list to keep in step.
+ * to `type PendingLang = never;` switches the compiler and every script here at once: the compiler
+ * then requires every branch and every script treats the locale as finished, with no second list
+ * for the scripts to keep in step. (config.ts states the same fact as a value, `pendingLocales`,
+ * for the service loader; `astro check` fails until its flags agree with the line, and
+ * scripts/test-locale.mjs asserts that they do.)
  *
  * `GSR_PENDING_LOCALES` (comma-separated codes, or `none`) overrides the line for one run, so the
  * strict post-flip behaviour can be exercised without editing config.ts.

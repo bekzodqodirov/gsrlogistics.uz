@@ -58,7 +58,7 @@ register('data:text/javascript,' + encodeURIComponent(HOOK));
 
 const load = (p) => import(new URL(p, ROOT).href);
 const { toCyrillic } = await load('src/lib/cyrillic.ts');
-const { pick, locales, sourceLocales, switcherOrder, langMeta, langPrefix, langFromPath, sourceOf, isLocale } = await load('src/i18n/config.ts');
+const { pick, locales, sourceLocales, switcherOrder, langMeta, langPrefix, langFromPath, sourceOf, isLocale, pendingLocales } = await load('src/i18n/config.ts');
 const scriptLocales = await load('scripts/locales.mjs');
 const { PENDING } = scriptLocales;
 const { fmtDate, fmtSom, fmtNumber, fmtUsd, withFrom, fmtRange, daysWord } = await load('src/lib/format.ts');
@@ -397,6 +397,11 @@ test('scripts/locales.mjs — the table every build script reads — equals lang
     assert.notEqual(langMeta[l].fallback, l, `pending ${l} must fall back to another locale`);
   }
   if (process.env.GSR_PENDING_LOCALES === undefined) assert.deepEqual([...PENDING], fromSource);
+  // …and `pendingLocales`, the same fact as a value (the service loader reads it), says the same:
+  // `astro check` enforces this through `satisfies`, plain Node does not type-check.
+  assert.deepEqual(Object.keys(pendingLocales).sort(), [...sourceLocales].sort(), 'pendingLocales has one flag per hand-written locale');
+  assert.deepEqual(sourceLocales.filter((l) => pendingLocales[l] === true).sort(), [...fromSource].sort(), 'pendingLocales agrees with the PendingLang line');
+  assert.ok(Object.values(pendingLocales).every((v) => typeof v === 'boolean'), 'pendingLocales flags are booleans');
   assert.deepEqual(parsePending("type PendingLang = 'zh' | 'fa';"), ['zh', 'fa']);
   assert.deepEqual(parsePending('type PendingLang = never;'), []);
   assert.throws(() => parsePending("type PendingLang = 'xx';"), /not a locale/);
