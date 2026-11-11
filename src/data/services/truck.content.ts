@@ -1,4 +1,4 @@
-import type { ServiceContentByLang } from './types';
+import type { ServiceContentSource } from './types';
 
 /**
  * Avto kargo (yigʻma yuk) — long-form page content.
@@ -9,7 +9,7 @@ import type { ServiceContentByLang } from './types';
  * Extras 1 $ photo, 0,4 $/kg repack, 1 $/kg inspection, 1% insurance, 14/3 free storage days,
  * door delivery 20 000–30 000 soʻm (free from 5 kg in Tashkent). Keep them in sync when tariffs change.
  */
-const content: ServiceContentByLang = {
+const content: ServiceContentSource = {
   uz: {
     key: 'truck',
     seo: {

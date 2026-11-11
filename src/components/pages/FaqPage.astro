@@ -10,7 +10,7 @@ import { faqStrings, faqTpl } from '@/i18n/faq';
 import { faq, faqItems } from '@/data/faq';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtDate, fmtNumber, fmtUsd } from '@/lib/format';
+import { fmtDate, fmtInt, fmtNumRange, fmtUsd, ruQuestions, sep } from '@/lib/format';
 import { faqNode } from '@/lib/schema';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
@@ -26,13 +26,18 @@ const groups = pick(lang, faq);
 const all = faqItems(lang);
 const truckFrom = tariffs.truck.lclPerM3ByDensity[0].rate;
 const vars = {
-  count: all.length,
-  truckDays: `${fmtNumber(tariffs.truck.days[0], lang)}–${fmtNumber(tariffs.truck.days[1], lang)}`,
-  airDays: `${fmtNumber(tariffs.air.days[0], lang)}–${fmtNumber(tariffs.air.days[1], lang)}`,
-  truckFrom: lang === 'en' ? `$${truckFrom}` : fmtUsd(truckFrom, lang),
+  count: fmtInt(all.length, lang),
+  // Russian only: «вопрос» declined for the count (на 21 вопрос, 32 вопроса, 35 вопросов). The other
+  // locales write their own word into the string and never use {countNoun}.
+  countNoun: lang === 'ru' ? ruQuestions(all.length) : '',
+  truckDays: fmtNumRange(tariffs.truck.days[0], tariffs.truck.days[1], lang),
+  airDays: fmtNumRange(tariffs.air.days[0], tariffs.air.days[1], lang),
+  truckFrom: fmtUsd(truckFrom, lang),
   date: fmtDate(tariffs.updated, lang),
 };
 const intro = faqTpl(t.intro, vars);
+// The meta description counts the questions the same way the intro does.
+const description = faqTpl(t.seoDescription, vars);
 const priceMeta = faqTpl(t.priceMeta, vars);
 const faqLabel = c.nav.find((n) => n.key === 'faq')?.label ?? t.eyebrow;
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: faqLabel, key: 'faq' as const }];
@@ -49,7 +54,7 @@ const glyphs = [
 ];
 let n = 0;
 ---
-<Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="faq" breadcrumbs={breadcrumbs} jsonLd={[faqNode(all)]} dateModified={tariffs.updated}>
+<Base lang={lang} title={t.seoTitle} description={description} pageKey="faq" breadcrumbs={breadcrumbs} jsonLd={[faqNode(all)]} dateModified={tariffs.updated}>
   <article class="page">
     <header class="hero">
       <div class="container">
@@ -70,7 +75,7 @@ let n = 0;
               <a href={`#${g.id}`} data-group={g.id}>
                 <svg class="glyph" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={glyphs[i % glyphs.length]}></svg>
                 <span class="label">{g.group}</span>
-                <span class="count tnum" aria-hidden="true">{g.items.length}</span>
+                <span class="count tnum" aria-hidden="true">{fmtInt(g.items.length, lang)}</span>
               </a>
             </li>
           ))}
@@ -82,7 +87,7 @@ let n = 0;
           <section class="group" id={g.id} aria-labelledby={`${g.id}-h`}>
             <div class="group-head">
               <h2 id={`${g.id}-h`} class="h2">{g.group}</h2>
-              <p class="caption tnum">{g.items.length} {t.questionsWord}</p>
+              <p class="caption tnum">{fmtInt(g.items.length, lang)} {t.questionsWord}</p>
             </div>
             <div class="faq-list">
               {g.items.map((it) => {
@@ -112,7 +117,7 @@ let n = 0;
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
           <a class="link" href={pagePath(lang, 'calculator')}>{c.cta.calculate}</a>
         </div>
-        <p class="caption tnum cta-meta">{site.phoneDisplay} · {pick(lang, site.hours)}</p>
+        <p class="caption tnum cta-meta"><span dir="ltr">{site.phoneDisplay}</span>{sep(lang)}{pick(lang, site.hours)}</p>
       </div>
     </section>
   </article>
@@ -168,12 +173,17 @@ let n = 0;
   .groupnav a.is-active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
   .groupnav .glyph { display: none; }
   .groupnav .count { color: var(--meta); font-weight: 500; }
+  /* The chip's <span class="label"> also matches the global form-label utility (.label, color --fg-2),
+     which painted the ACTIVE chip's name #424245 on its #1d1d1f fill below 1000px, all but unreadable.
+     The name follows its chip: white on the active chip, --fg-2 on the others; on the desktop rail the
+     active name takes the --fg its row sets. */
+  .groupnav .label { color: inherit; }
   .groupnav a.is-active .count { color: color-mix(in oklab, var(--bg), transparent 30%); }
   @media (min-width: 1000px) {
     .groupnav { position: sticky; top: calc(var(--header-h) + 24px); }
     .navtitle { display: block; margin-bottom: 12px; }
     .groupnav ol { flex-direction: column; flex-wrap: nowrap; gap: 2px; }
-    .groupnav a { display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; min-height: 44px; padding: 0 12px 0 10px; border: 0; border-radius: var(--radius); white-space: normal; color: var(--fg-2); }
+    .groupnav a { display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; min-height: 44px; padding-block: 0; padding-inline: 10px 12px; border: 0; border-radius: var(--radius); white-space: normal; color: var(--fg-2); }
     .groupnav .glyph { display: block; color: var(--muted); }
     .groupnav a:hover { background: var(--bg-2); }
     .groupnav a.is-active { background: var(--bg-2); color: var(--fg); }

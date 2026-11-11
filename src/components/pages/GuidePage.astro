@@ -1,6 +1,6 @@
 ---
 /** Guide article template. Props: { lang, entry } where entry is a `guides` collection entry. */
-import { pick, type Locale } from '@/i18n/config';
+import { langMeta, pick, type Locale } from '@/i18n/config';
 import { render, getCollection, type CollectionEntry } from 'astro:content';
 import { common } from '@/i18n/common';
 import { guidesStrings } from '@/i18n/guides';
@@ -8,7 +8,7 @@ import { pagePath, pageUrl, itemPath } from '@/i18n/routes';
 import { guideSlugs } from '@/data/guides';
 import { services } from '@/data/services';
 import { site, telegramChat } from '@/lib/site';
-import { fmtDate, readingMinutes } from '@/lib/format';
+import { colon, fmtDate, fmtDigits, fmtInt, readingMinutes, sep } from '@/lib/format';
 import { articleNode, faqNode } from '@/lib/schema';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
@@ -21,10 +21,30 @@ const c = pick(lang, common);
 const { Content, headings } = await render(entry);
 const d = entry.data;
 const label = c.nav.find((n) => n.key === 'guides')?.label ?? t.eyebrow;
-const subs = guideSlugs[d.translationKey] ?? { [lang]: d.slug };
+// hreflang lists the languages this article is actually published in — its siblings with the same
+// translationKey — so a language whose translation is not written yet is never advertised. The
+// registry row stays the fallback for an article that is somehow missing from the collection.
+const siblings = await getCollection('guides', (e) => e.data.translationKey === d.translationKey && !e.data.draft);
+const subs: Partial<Record<Locale, string>> = siblings.length
+  ? Object.fromEntries(siblings.map((e) => [e.data.lang, e.data.slug]))
+  : guideSlugs[d.translationKey] ?? { [lang]: d.slug };
 const url = pageUrl(site.url, lang, 'guides', d.slug);
 const pub = d.publishDate.toISOString().slice(0, 10), upd = d.updatedDate.toISOString().slice(0, 10);
-const minutes = readingMinutes(entry.body ?? '');
+const minutes = fmtInt(readingMinutes(entry.body ?? ''), lang);
+/* A source's date is ISO text ("2026-09-08", "2025-11") and prints as written. An RTL page writes it in
+   its own digits with slashes ("۲۰۲۶/۰۹/۰۸", the fa date form): between Persian digits a "/" keeps the
+   groups in order, while a "-" would let them run right to left ("۰۸-۰۹-۲۰۲۶"). */
+const sourceDate = (iso: string) => (langMeta[lang].dir === 'rtl' ? fmtDigits(iso.replaceAll('-', '/'), lang) : iso);
+/* Source titles. dir="auto" keeps an all-Latin title's closing ")" or "." on its own side on an RTL
+   page. A Persian title ("Norma.uz — فرمان UP-140: …") keeps the page direction instead — auto would
+   pick LTR from its Latin name and a wrapped title would read out of order — and its leading Latin
+   name before " — " is an LTR island, so "1688.com" never shows as "com.1688". */
+const ARABIC_SCRIPT = /[\u0600-\u06FF]/;
+const sources = d.sources.map((s) => {
+  const rtlTitle = langMeta[lang].dir === 'rtl' && ARABIC_SCRIPT.test(s.title);
+  const lead = rtlTitle ? s.title.match(/^([^\u0600-\u06FF]+?)( — [\s\S]*)$/) : null;
+  return { url: s.url, date: s.date, dir: rtlTitle ? undefined : ('auto' as const), lead: lead?.[1], title: lead ? lead[2] : s.title };
+});
 // TOC ids come from the rendered headings (github-slugger via Astro), so links always match the article's h2 ids.
 const toc = headings.filter((h) => h.depth === 2).map((h) => ({ text: h.text, id: h.slug }));
 const related = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft && e.id !== entry.id)).filter((e) => e.data.tags.some((tag) => d.tags.includes(tag))).slice(0, 3);
@@ -39,7 +59,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
         <Breadcrumbs lang={lang} items={[{ name: label, key: 'guides' }, { name: d.title }]} />
         <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
         <h1 class="display-2 measure-head">{d.title}</h1>
-        <p class="caption meta-row tnum">{t.updated}: {fmtDate(d.updatedDate, lang)} · {minutes} {t.minutes} · {t.author}: {d.author}</p>
+        <p class="caption meta-row tnum">{t.updated}{colon(lang)}{fmtDate(d.updatedDate, lang)}{sep(lang)}{minutes} {t.minutes}{sep(lang)}{t.author}{colon(lang)}{d.author}</p>
         <p class="intro answer">{d.description}</p>
       </div>
     </header>
@@ -61,7 +81,9 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
         {d.sources.length > 0 && (
           <section class="sources">
             <h2 class="h4">{t.sources}</h2>
-            <ol>{d.sources.map((s) => <li><a href={s.url} rel="noopener nofollow" target="_blank">{s.title}</a>{s.date ? <span class="muted"> — {s.date}</span> : null}</li>)}</ol>
+            {/* dir="auto": a source title is often Latin; on an RTL page an all-Latin title ending in ")" or
+                "." would otherwise have that punctuation flipped to its far side. */}
+            <ol>{sources.map((s) => <li><a href={s.url} rel="noopener nofollow" target="_blank" dir={s.dir}>{s.lead && <bdi dir="ltr">{s.lead}</bdi>}{s.title}</a>{s.date ? <span class="muted"> — {sourceDate(s.date)}</span> : null}</li>)}</ol>
           </section>
         )}
         <section class="ask card">
@@ -84,7 +106,8 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
   document.querySelectorAll<HTMLTableElement>('.article-body table').forEach((t) => { if (t.parentElement?.classList.contains('table-wrap')) return; const w = document.createElement('div'); w.className = 'table-wrap'; t.replaceWith(w); w.appendChild(t); });
   // Scroll hint: mark scrollers that overflow so global.css can fade the trailing edge (cleared at the end).
   const scrollers = Array.from(document.querySelectorAll<HTMLElement>('.table-wrap, .scroll-x'));
-  const mark = (el: HTMLElement) => { const over = el.scrollWidth - el.clientWidth > 2; if (!over) { el.removeAttribute('data-overflow'); return; } el.dataset.overflow = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? 'end' : el.scrollLeft > 2 ? 'mid' : 'start'; };
+  // Math.abs: in RTL scrollLeft runs from 0 at the start to NEGATIVE values toward the end.
+  const mark = (el: HTMLElement) => { const over = el.scrollWidth - el.clientWidth > 2; if (!over) { el.removeAttribute('data-overflow'); return; } const pos = Math.abs(el.scrollLeft); el.dataset.overflow = pos + el.clientWidth >= el.scrollWidth - 2 ? 'end' : pos > 2 ? 'mid' : 'start'; };
   scrollers.forEach((el) => { mark(el); el.addEventListener('scroll', () => mark(el), { passive: true }); });
   window.addEventListener('resize', () => scrollers.forEach(mark));
 
@@ -118,35 +141,50 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
   @media (min-width: 1100px) { .layout { grid-template-columns: 220px minmax(0, 1fr); gap: 56px; align-items: start; } .toc { position: sticky; top: 96px; } .toc-desktop { display: block; } .toc-mobile { display: none; } }
   .toc-label { margin-bottom: 10px; }
   .toc ol { display: grid; gap: 8px; font-size: var(--text-small); }
-  .toc a { color: var(--muted); display: block; padding-left: 12px; border-left: 1px solid var(--border-soft); }
-  .toc a:hover { color: var(--fg); border-left-color: var(--fg); }
-  /* Desktop rail: hairline + hex tick per section; the tick fills as the section passes, the current one is red. */
-  .toc-desktop a { position: relative; padding-left: 20px; transition: color var(--dur) var(--ease); }
-  .toc-hex { position: absolute; left: -6.5px; top: 0.3em; --node-stroke: var(--border); --node-fill: var(--bg); }
+  .toc a { color: var(--muted); display: block; padding-inline-start: 12px; border-inline-start: 1px solid var(--border-soft); }
+  .toc a:hover { color: var(--fg); border-inline-start-color: var(--fg); }
+  /* Desktop rail: hairline + hex tick per section; the tick fills as the section passes, the current one is red.
+     Reading order, so it sits on the inline-start side (right in RTL). */
+  .toc-desktop a { position: relative; padding-inline-start: 20px; transition: color var(--dur) var(--ease); }
+  .toc-hex { position: absolute; inset-inline-start: -6.5px; top: 0.3em; --node-stroke: var(--border); --node-fill: var(--bg); }
+  /* zh/fa lines are taller (tokens.css --leading-body): the tick keeps its Latin distance from the middle
+     of the link's first line. */
+  :global(:root:lang(zh)) .toc-hex, :global(:root:lang(fa)) .toc-hex { top: calc(0.5em * var(--leading-body) - 6.1px); }
   .toc-desktop a.is-passed { color: var(--fg-2); }
   .toc-desktop a.is-passed .toc-hex { --node-stroke: var(--fg); --node-fill: var(--fg); }
-  .toc-desktop a.is-current { color: var(--fg); border-left-color: var(--fg); }
+  .toc-desktop a.is-current { color: var(--fg); border-inline-start-color: var(--fg); }
   .toc-desktop a.is-current .toc-hex { --node-stroke: var(--accent-text); --node-fill: var(--accent-text); }
   .toc-mobile { border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 12px 16px; }
   .toc-mobile summary { cursor: pointer; font-weight: 600; font-size: var(--text-small); }
   .toc-mobile ol { margin-top: 12px; }
   .body { min-width: 0; max-width: 720px; }
   .article-body { font-size: var(--text-body); line-height: 1.6; color: var(--fg-2); }
+  /* Long-form leading for Han and Vazirmatn: their own body leading (tokens.css), which is looser than 1.6. */
+  :global(:root:lang(zh)) .article-body, :global(:root:lang(fa)) .article-body { line-height: var(--leading-body); }
   .article-body :global(h2), .article-body :global(h3), .article-body :global(strong) { color: var(--fg); }
   .article-body :global(h2) { scroll-margin-top: 96px; }
   :global(html.no-js) .article-body :global(table) { display: block; overflow-x: auto; }
   .article-body :global(table) { width: 100%; min-width: 560px; font-size: var(--text-small); border-collapse: collapse; margin: 0; }
-  .article-body :global(th), .article-body :global(td) { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-soft); }
+  .article-body :global(th), .article-body :global(td) { padding: 10px 12px; text-align: start; vertical-align: top; border-bottom: 1px solid var(--border-soft); }
   .article-body :global(th) { font-weight: 500; color: var(--muted); }
   .article-body :global(td:first-child) { color: var(--fg); font-weight: 500; }
   .article-body :global(.table-wrap) { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.2em 0; border: 1px solid var(--border-soft); border-radius: var(--radius); }
   .article-body :global(.table-wrap table) { min-width: 560px; }
-  .article-body :global(.table-wrap th:first-child), .article-body :global(.table-wrap td:first-child) { position: sticky; left: 0; background: var(--bg); }
-  .article-body :global(blockquote) { border-left: 2px solid var(--border); padding-left: 16px; color: var(--muted); }
+  /* Phones, every locale: a 2-column table (label + value) fits the screen instead of scrolling at 560px,
+     which hid the value column — price, fee, time — past the edge behind the fade (at 390px: the Fee
+     column of the customs fee table entirely, the density price columns all but their first digits).
+     :has(), not the data-cols attribute, so it holds from the first paint, before the wrap/scroll-hint
+     scripts run. Tables of 3+ columns keep the 560px scroll. */
+  @media (max-width: 640px) {
+    .article-body :global(table:not(:has(tr > :nth-child(3)))) { min-width: 0; }
+  }
+  .article-body :global(.table-wrap th:first-child), .article-body :global(.table-wrap td:first-child) { position: sticky; inset-inline-start: 0; background: var(--bg); }
+  .article-body :global(blockquote) { border-inline-start: 2px solid var(--border); padding-inline-start: 16px; color: var(--muted); }
   .faq { margin-top: 48px; }
   .faq h2 { margin-bottom: 8px; }
   .sources { margin-top: 40px; font-size: var(--text-small); color: var(--fg-2); }
-  .sources ol { padding-left: 1.4em; margin-top: 10px; }
+  .sources ol { padding-inline-start: 1.4em; margin-top: 10px; }
+  :global(:root:lang(fa)) .sources ol { list-style-type: persian; }
   .sources li + li { margin-top: 6px; }
   .sources a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
   .ask { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }

@@ -6,12 +6,13 @@
  */
 import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
+import { faqStrings } from '@/i18n/faq';
 import { pricingStrings, tpl, monthYear } from '@/i18n/pricing';
 import { pagePath, pageUrl, itemUrl } from '@/i18n/routes';
 import { services } from '@/data/services';
 import { site, phoneUrl } from '@/lib/site';
 import { leadAttrs, telegramFor } from '@/lib/leads';
-import { fmtDate, fmtNumber, fmtUsd, fmtSom, withFrom, daysWord } from '@/lib/format';
+import { colon, colonGap, colonMark, fmtDate, fmtInt, fmtNumber, fmtNumRange, fmtPercent, fmtRange, fmtUsd, fmtUsdRange, fromPosition, sep, usdMark, withFrom, daysWord } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
 import { estimateAir, estimateTruck, formatBreakdown, type Tariffs } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
@@ -28,6 +29,8 @@ const t = pick(lang, pricingStrings);
 const p = t.page;
 const b = t.breakdown;
 const c = pick(lang, common);
+/** The link under the FAQ: the FAQ module's own "all questions" label, the one the home FAQ section links with (FaqShort). */
+const faqAll = pick(lang, faqStrings).home.all;
 const T = tariffs as unknown as Tariffs;
 
 /* ---------- Numbers ---------- */
@@ -35,21 +38,21 @@ const n = (v: number, f = 2) => fmtNumber(v, lang, f);
 const usd = (v: number) => fmtUsd(v, lang);
 const perKg = (v: number) => `${usd(v)}${b.units.perKg}`;
 const perM3 = (v: number) => `${usd(v)}${b.units.perM3}`;
-const range = (a: number[]) => `${n(a[0], 0)}–${n(a[1], 0)}`;
+const range = (a: number[]) => fmtNumRange(a[0], a[1], lang, 0);
 const lcl = T.truck.lclPerM3ByDensity;
 const airFrom = T.air.perKg.standard;
 const lclFrom = lcl[0].rate;
 const truckFrom = lclFrom;
 const month = monthYear(T.updated, lang);
 const updated = fmtDate(T.updated, lang);
-const estimateMeta = `${c.strings.estimateMeta}: ${updated}`;
+const estimateMeta = `${c.strings.estimateMeta}${colon(lang)}${updated}`;
 const vars = {
   truck: usd(truckFrom), air: usd(airFrom), lcl: usd(lclFrom), month, date: updated,
   threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
   denseRate: usd(T.truck.perKgAboveDensity), denseDensity: n(T.truck.perKgFromDensityKgM3, 0),
   airMin: n(T.air.minKg), minM3: n(T.truck.minM3), insurance: n(T.extras.insurancePct),
   days: range(T.truck.days), rate: n(T.usdToSom, 0), free: n(T.extras.freeStorageDaysTashkent, 0),
-  door: `${n(T.regions.doorDeliverySom[0], 0)}–${n(T.regions.doorDeliverySom[1], 0)}`, kg: n(T.regions.tashkentDoorFreeFromKg, 0),
+  door: fmtNumRange(T.regions.doorDeliverySom[0], T.regions.doorDeliverySom[1], lang, 0), kg: n(T.regions.tashkentDoorFreeFromKg, 0),
 };
 const seoTitle = p.seoTitle;
 const seoDescription = tpl(p.seoDescription, vars);
@@ -73,28 +76,38 @@ const airRows = [
   { label: p.air.rows.battery, value: p.air.truckOnly, muted: true },
   { label: p.air.rows.liquid, value: p.air.truckOnly, muted: true },
 ];
+/* The table form repeats a "$" sign on both ends ("2 800 $–5 500 $"); zh/fa write their currency word once. */
 const railRows = [
-  { label: p.rail.c20, value: `${usd(T.rail.container20ft[0])}–${usd(T.rail.container20ft[1])}` },
-  { label: p.rail.c40, value: `${usd(T.rail.container40ft[0])}–${usd(T.rail.container40ft[1])}` },
+  { label: p.rail.c20, value: fmtUsdRange(T.rail.container20ft[0], T.rail.container20ft[1], lang, { each: true }) },
+  { label: p.rail.c40, value: fmtUsdRange(T.rail.container40ft[0], T.rail.container40ft[1], lang, { each: true }) },
 ];
 const extrasRows = [
-  { label: p.inclusions.extras.photo, value: `${usd(T.extras.photoReportUsd)} · ${p.inclusions.perReceipt}` },
+  { label: p.inclusions.extras.photo, value: `${usd(T.extras.photoReportUsd)}${sep(lang)}${p.inclusions.perReceipt}` },
   { label: p.inclusions.extras.repack, value: perKg(T.extras.repackPerKg) },
   { label: p.inclusions.extras.inspection, value: perKg(T.extras.inspectionPerKg) },
   // one phrase, not "1% · of the declared value": Uzbek is head-final, so the percentage comes last
   { label: p.inclusions.extras.insurance, value: tpl(p.inclusions.ofValue, { n: n(T.extras.insurancePct) }) },
-  { label: p.inclusions.extras.commission, value: withFrom(`${n(T.extras.sourcingCommissionPct)}%`, lang, c.strings.from) },
+  { label: p.inclusions.extras.commission, value: withFrom(fmtPercent(T.extras.sourcingCommissionPct, lang), lang, c.strings.from) },
   { label: p.inclusions.extras.storageChina, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysChina, 0), days: daysWord(T.extras.freeStorageDaysChina, lang, b.units.days) }) },
   { label: p.inclusions.extras.storageTashkent, value: tpl(p.inclusions.daysFree, { n: n(T.extras.freeStorageDaysTashkent, 0), days: daysWord(T.extras.freeStorageDaysTashkent, lang, b.units.days) }) },
 ];
-/* Hero tiles: the truck headline is a price per m³, never per kg. uz keeps the postposition in the unit ("110 $/m³ dan"); ru/en put "от" / "from" before the figure ("от 110 $/м³", "from $110/m³"). */
-const tileValue = (v: number) => (lang === 'en' ? usd(v) : n(v));
-const tilePrefix = lang === 'uz' || lang === 'uzc' ? '' : c.strings.from; // Uzbek puts "dan/дан" after the figure, so the tile carries no prefix
+/*
+ * Hero tiles: [prefix] value [unit]; the truck headline is a price per m³, never per kg. The unit strings
+ * are each locale's own: uz, uzc, ru, zh and fa write the currency into them ("$/m³ dan", "$/м³",
+ * "美元/m³ 起", "دلار/متر مکعب"), so the figure stays bare; en writes only the per-unit part ("/m³"), so the
+ * figure carries it ("$110"). A preposition ("от", "from", "از") is the prefix; a postposition ("dan",
+ * 起) follows the unit — it is in the unit string already, or it is added there.
+ */
+const fromAfter = fromPosition(lang) === 'after';
+const tilePrefix = fromAfter ? '' : c.strings.from;
+const tileValue = (v: number, unit: string) => (unit.trimStart().startsWith(usdMark(lang)) ? n(v) : usd(v));
+const tileUnit = (unit: string) => (fromAfter && !unit.includes(c.strings.from) ? withFrom(unit, lang, c.strings.from) : unit);
+const tile = (label: string, v: number, unit: string, days: number[]) => ({ label, value: tileValue(v, unit), unit: tileUnit(unit), sub: fmtRange(days[0], days[1], b.units.days, lang) });
 const tiles = [
-  { label: p.tiles.truck, value: tileValue(truckFrom), unit: p.tiles.fromM3, sub: `${range(T.truck.days)} ${b.units.days}` },
-  { label: p.tiles.air, value: tileValue(airFrom), unit: p.tiles.fromKg, sub: `${range(T.air.days)} ${b.units.days}` },
-  { label: p.tiles.lcl, value: tileValue(T.truck.perKgAboveDensity), unit: p.tiles.fromKg, sub: `${range(T.truck.days)} ${b.units.days}` },
-  { label: p.tiles.rail, value: tileValue(T.rail.container20ft[0]), unit: p.tiles.fromContainer, sub: `${range(T.rail.days)} ${b.units.days}` },
+  tile(p.tiles.truck, truckFrom, p.tiles.fromM3, T.truck.days),
+  tile(p.tiles.air, airFrom, p.tiles.fromKg, T.air.days),
+  tile(p.tiles.lcl, T.truck.perKgAboveDensity, p.tiles.fromKg, T.truck.days),
+  tile(p.tiles.rail, T.rail.container20ft[0], p.tiles.fromContainer, T.rail.days),
 ];
 
 /* ---------- Worked examples (computed) ---------- */
@@ -240,12 +253,12 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
         <ol class="examples" role="list">
           {examples.map((ex, i) => (
             <li class="example">
-              <p class="ex-index tnum" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+              <p class="ex-index tnum" aria-hidden="true">{fmtInt(i + 1, lang, 2)}</p>
               <h4 class="ex-title">{ex.title}</h4>
-              <p class="ex-input"><span class="ex-label">{p.examples.inputLabel}:</span> <span class="tnum">{ex.input}</span></p>
+              <p class="ex-input"><span class="ex-label">{p.examples.inputLabel}{colonMark(lang)}</span>{colonGap(lang)}<span class="tnum">{ex.input}</span></p>
               <p class="ex-rule">{ex.r.rule}</p>
               <p class="ex-total"><span class="stat">{ex.r.total}</span></p>
-              <p class="ex-som tnum">{ex.r.totalSom} · {c.strings.approx} {ex.r.days}</p>
+              <p class="ex-som tnum">{ex.r.totalSom}{sep(lang)}{c.strings.approx} {ex.r.days}</p>
               {ex.r.notes.length > 0 && <ul class="ex-notes" role="list">{ex.r.notes.map((note) => <li>{note}</li>)}</ul>}
             </li>
           ))}
@@ -322,7 +335,7 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
             </details>
           ))}
         </div>
-        <p class="faq-more"><a href={pagePath(lang, 'faq')} class="link">{c.nav.find((x) => x.key === 'faq')?.label ?? c.cta.all}</a></p>
+        <p class="faq-more"><a href={pagePath(lang, 'faq')} class="link">{faqAll}</a></p>
       </div>
     </section>
 
@@ -336,7 +349,7 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
           <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
           <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum">{site.phoneDisplay}</a> · <span class="tnum">{pick(lang, site.hours)}</span></p>
+        <p class="caption cta-meta"><a href={phoneUrl} class="tnum" dir="ltr">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>
@@ -352,10 +365,10 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
 
   .tiles-wrap { background: var(--bg-3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
   .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
-  .tile { padding: 24px 24px 20px 0; display: grid; gap: 6px; min-width: 0; }
-  .tile + .tile { border-left: 1px solid var(--border-soft); padding-left: 24px; }
+  .tile { padding-block: 24px 20px; padding-inline: 0 24px; display: grid; gap: 6px; min-width: 0; }
+  .tile + .tile { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 24px; }
   .tile-value { display: flex; align-items: baseline; flex-wrap: wrap; font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; color: var(--fg); }
-  .num-prefix { font-size: var(--text-small); font-weight: 500; letter-spacing: 0; color: var(--muted); margin-right: 6px; }
+  .num-prefix { font-size: var(--text-small); font-weight: 500; letter-spacing: 0; color: var(--muted); margin-inline-end: 6px; }
   .tile-label { font-size: var(--text-small); font-weight: 500; color: var(--fg-2); }
   .tile-sub { margin-top: -2px; }
 
@@ -370,7 +383,7 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
   .small-note + .small-note { margin-top: 6px; }
   .tbl { margin: 24px 0 0; }
   .tbl .table { border: 1px solid var(--border-soft); border-radius: var(--radius); overflow: hidden; }
-  .tbl .table tbody th { font-weight: 500; color: var(--fg); text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+  .tbl .table tbody th { font-weight: 500; color: var(--fg); text-align: start; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
   .tbl .table tbody tr:last-child th { border-bottom: 0; }
   .tbl .table td.num { color: var(--fg); }
   .tbl .table td.is-muted { color: var(--muted); font-weight: 500; }
@@ -392,8 +405,11 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
   .ex-total .stat { font-size: clamp(1.75rem, 1.5vw + 1rem, 2.25rem); letter-spacing: -0.025em; overflow-wrap: anywhere; }
   .ex-som { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); }
   .ex-notes { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; font-size: var(--text-caption); color: var(--muted); }
-  .ex-notes li { padding-left: 12px; position: relative; }
-  .ex-notes li::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 1px; background: var(--meta); }
+  .ex-notes li { padding-inline-start: 12px; position: relative; }
+  .ex-notes li::before { content: ''; position: absolute; inset-inline-start: 0; top: 7px; width: 6px; height: 1px; background: var(--meta); }
+  /* zh/fa lines are taller (tokens.css --leading-body): keep the dash as far from the middle of the first
+     line as the 7px above puts it at the Latin 1.47 leading. */
+  :global(:root:lang(zh)) .ex-notes li::before, :global(:root:lang(fa)) .ex-notes li::before { top: calc(0.5em * var(--leading-body) - 1.8px); }
 
   .two-lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 8px; }
   .list-title { font-size: var(--text-h4); font-weight: 600; margin-bottom: 12px; }
@@ -417,9 +433,9 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
 
   @media (max-width: 899px) {
     .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .tile { padding: 18px 16px 16px 0; }
-    .tile + .tile { border-left: 0; padding-left: 0; }
-    .tile:nth-child(even) { border-left: 1px solid var(--border-soft); padding-left: 16px; }
+    .tile { padding-block: 18px 16px; padding-inline: 0 16px; }
+    .tile + .tile { border-inline-start: 0; padding-inline-start: 0; }
+    .tile:nth-child(even) { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 16px; }
     .tile:nth-child(n + 3) { border-top: 1px solid var(--border-soft); }
     .tile-value { font-size: 1.5rem; }
     .cta-row { flex-direction: column; }

@@ -18,7 +18,7 @@ import { journey } from '@/i18n/journey';
 import { common } from '@/i18n/common';
 import { pagePath } from '@/i18n/routes';
 import { telegramChat } from '@/lib/site';
-import { fmtRange, fmtDate, fmtNumber } from '@/lib/format';
+import { colon, endSentence, fmtRange, fmtDate, fmtInt, fmtNumber, joinSentences, sep } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import { ROUTE_KM, ROUTE_KM_VERIFIED } from '@/data/route';
 import Icon from '@/components/ui/Icon.astro';
@@ -34,11 +34,11 @@ const days = {
   rail: fmtRange(tariffs.rail.days[0], tariffs.rail.days[1], t.daysUnit, lang),
   air: fmtRange(tariffs.air.days[0], tariffs.air.days[1], t.daysUnit, lang),
 };
-const updated = `${c.updated}: ${fmtDate(tariffs.updated, lang)}`;
+const updated = `${c.updated}${colon(lang)}${fmtDate(tariffs.updated, lang)}`;
 const kmFinal = `${fmtNumber(ROUTE_KM, lang)}${ROUTE_KM_VERIFIED ? '' : '+'}`;
 /** Mode chips; `cap` is the km caption tail shown while that chip is active ("avto, taxminan 15–25 kun"). */
 const chips = (['truck', 'rail', 'air'] as const).map((key) => ({ key, label: t.chips[key], days: days[key], cap: `${t.km.daysCaption[key]} ${days[key]}` }));
-const idx = (i: number) => String(i + 1).padStart(2, '0');
+const idx = (i: number) => fmtInt(i + 1, lang, 2);
 const markL = 'M0 -50 L-43.3 -25 L-43.3 25 L-22.3 37.1 L20 12.7 L20 -5.77 L-28.3 22.1 L-33.3 19.23 L-33.3 -19.23 L10 -44.2 Z';
 const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -22.1 L33.3 -19.23 L33.3 19.23 L-10 44.2 Z';
 ---
@@ -66,7 +66,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
 
       <nav class="journey-rail" aria-label={t.railLabel} data-j="rail">
         {t.stages.map((s, i) => (
-          <button type="button" class="jrail-btn" data-j="rail-btn" data-stage={i + 1} aria-label={`${t.stageWord} ${i + 1}: ${s.short}`}>
+          <button type="button" class="jrail-btn" data-j="rail-btn" data-stage={i + 1} aria-label={`${t.stageWord} ${fmtInt(i + 1, lang)}${colon(lang)}${s.short}`}>
             <svg viewBox="0 0 12 13" width="12" height="13" aria-hidden="true" focusable="false"><polygon points="6,0.8 11.2,3.55 11.2,9.45 6,12.2 0.8,9.45 0.8,3.55"></polygon></svg>
           </button>
         ))}
@@ -87,7 +87,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
               </p>
               <h3 class="jcard-title h3" id={`jcard-${i + 1}`}>{s.title}</h3>
               <p class="jcard-body">{s.body}</p>
-              {s.facts.length > 0 && <p class="jcard-facts tnum">{s.facts.join(' · ')}</p>}
+              {s.facts.length > 0 && <p class="jcard-facts tnum">{s.facts.join(sep(lang))}</p>}
               {i === 2 && (
                 <div class="jcard-transit">
                   <div class="jchips" role="group" aria-label={t.chipsLabel}>
@@ -98,7 +98,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
                     ))}
                   </div>
                   <p class="jkm"><span class="jkm-num tnum" data-j="km">{kmFinal}</span><span class="num-unit">{t.km.unit}</span></p>
-                  <p class="jkm-cap caption">{t.km.caption} · <span data-j="kmcap">{chips[0].cap}</span></p>
+                  <p class="jkm-cap caption">{t.km.caption}{sep(lang)}<span data-j="kmcap">{chips[0].cap}</span></p>
                 </div>
               )}
               {i === 5 && (
@@ -112,7 +112,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
         ))}
       </ol>
 
-      <p class="journey-foot caption" data-j="foot">{t.footnote} {updated}{lang === 'ru' ? '' : '.'}</p>
+      <p class="journey-foot caption" data-j="foot">{joinSentences(t.footnote, endSentence(updated, lang))}</p>
     </div>
   </div>
 </section>
@@ -165,9 +165,18 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey .journey-stage { position: relative; display: flex; flex-direction: column; max-width: calc(var(--container) + 2 * var(--gutter)); margin-inline: auto; padding: var(--section-y) var(--gutter); }
   .journey .journey-head { order: -1; }
   .journey .journey-head { max-width: 40ch; margin-bottom: clamp(24px, 3vw, 40px); }
+  /* zh: a Han character is about 1.5ch wide, so 40ch held only 8.6 of them at the display-2 size of a
+     1920px screen (52.7px) and tore the 9-character title («从中国到您 / 家门口。»). */
+  :root:lang(zh) .journey .journey-head { max-width: 50ch; }
   .journey .journey-head .eyebrow { margin-bottom: 16px; }
   .journey .journey-sub { margin-top: 12px; color: var(--muted); }
   .journey .journey-map { position: relative; aspect-ratio: 1600 / 923; }
+  /* Geography never mirrors: the map, its camera, actors and west-facing vehicles keep left-to-right
+     on an RTL page (the SVGs inside are pinned by global.css too). The pinned desktop stage below
+     stays physical as well — head, rail and footnote left, cards right — because journey.ts's camera
+     framings (CAMS fx, P_OPEN, measure().free) are tuned for cards on the right; only the text inside
+     reads right to left. */
+  [dir='rtl'] .journey .journey-map { direction: ltr; }
   .journey .cam { position: absolute; inset: 0; transform-origin: 0 0; }
   .journey .jmap { width: 100%; height: 100%; display: block; overflow: visible; font-family: var(--font-sans); --lbl: 14px; }
   .journey .sheet-handle { display: none; }
@@ -194,11 +203,11 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
   .journey .jkm { display: flex; align-items: baseline; gap: 4px; margin-top: 16px; }
   /* reserved width and a fixed line box: the counter runs 0 → 5 000+ during the scrub, and without them
      the unit beside it steps 3px vertically as digits are added */
-  .journey .jkm-num { display: inline-block; min-width: 5ch; text-align: right; font-size: clamp(2rem, 1.5vw + 1.4rem, 2.5rem); line-height: 1; letter-spacing: -0.03em; font-weight: 700; }
+  .journey .jkm-num { display: inline-block; min-width: 5ch; text-align: end; font-size: clamp(2rem, 1.5vw + 1.4rem, 2.5rem); line-height: 1; letter-spacing: -0.03em; font-weight: 700; }
   .journey .jkm-cap { margin-top: 6px; color: var(--muted); }
   .journey .jcard-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 20px; }
   .journey .jcard-tg { font-size: var(--text-small); }
-  .journey .jmark { display: inline-flex; color: var(--red-600); margin-right: 4px; }
+  .journey .jmark { display: inline-flex; color: var(--red-600); margin-inline-end: 4px; }
   .journey .jmark path { fill: currentColor; transform-box: fill-box; transform-origin: center; }
   .journey .jrail-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 44px; color: rgb(255 255 255 / 0.35); border-radius: var(--radius-sm); }
   .journey .jrail-btn svg { display: block; fill: none; stroke: currentColor; stroke-width: 1; transition: fill var(--dur) var(--ease), color var(--dur) var(--ease); }

@@ -8,7 +8,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { faqStrings, faqTpl } from '@/i18n/faq';
 import { faqTop } from '@/data/faq';
 import { pagePath } from '@/i18n/routes';
-import { fmtDate } from '@/lib/format';
+import { fmtDate, fmtDigits } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 
@@ -21,7 +21,7 @@ const priceMeta = faqTpl(t.priceMeta, { date: fmtDate(tariffs.updated, lang) });
 <section id="savol-javob" class="section faq-short below-fold" aria-labelledby="faq-short-title">
   <div class="container">
     <div class="section-head">
-      <Eyebrow>{index} — {t.home.eyebrow}</Eyebrow>
+      <Eyebrow>{fmtDigits(index, lang)} — {t.home.eyebrow}</Eyebrow>
       <h2 id="faq-short-title" class="measure-head">{t.home.h2}</h2>
       <p class="sub">{t.home.sub}</p>
     </div>

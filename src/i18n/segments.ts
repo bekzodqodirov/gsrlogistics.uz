@@ -1,5 +1,7 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
 import type { IconName } from '@/components/ui/Icon.astro';
+import { zh } from './zh/segments';
+import { fa } from './fa/segments';
 
 /**
  * Home band "Kim bilan ishlaymiz" — the four kinds of business that actually send us cargo,
@@ -74,4 +76,4 @@ const en: SegmentsStrings = {
   everyone: 'And any businessman bringing goods in from China.',
 };
 
-export const segmentsStrings: Record<Lang, SegmentsStrings> = { uz, ru, en };
+export const segmentsStrings: Localized<SegmentsStrings> = { uz, ru, en, zh, fa };

@@ -35,11 +35,14 @@ export interface LeadRequest {
   team: LeadTeam;
   /** GSR's `tag`: lowercase ASCII slug. Dropped here if it is not one. */
   topic?: string;
-  /** uz | ru | en (zh, zh-CN also accepted by GSR). Anything else is left out. */
+  /**
+   * uz | ru | en | zh (zh-CN also accepted by GSR) — lib/leads.ts → assignLang. Anything else is left
+   * out, and the Persian pages send none: GSR does not take fa, and no other language stands in for it.
+   */
   lang?: string;
-  /** The one line the manager reads on the lead. */
+  /** The one line the manager reads on the lead, in the visitor's language. */
   summary: string;
-  /** "Kod", "Код", "Code" — the word in front of the code. */
+  /** "Kod", "Код", "Code" (zh and fa keep the ASCII "Code") — the word in front of the code. */
   codeWord: string;
 }
 
@@ -104,24 +107,37 @@ export function fallbackUsername(cfg: AssignConfig, team: LeadTeam): string {
 }
 
 /**
+ * Bidi controls (LRM, RLM, ALM, embeddings, overrides, isolates). Telegram lays the message out by
+ * itself and GSR's system matches the coded first line, so none of them may travel in the text —
+ * not even one that slipped into a translated string. ZWNJ (U+200C) is Persian spelling and stays.
+ */
+const BIDI_CONTROLS = /[؜‎‏‪-‮⁦-⁩]/g;
+
+/**
  * One line, never a second code: newlines and runs of spaces collapse (GSR shows them as spaces
  * anyway), anything shaped like "GSR-…" typed by the visitor loses its hyphen, and the line is cut
- * at a word so the whole message stays near 300 characters.
+ * at a word so the whole message stays near 300 characters. A Chinese line has no spaces, so it is
+ * cut at the character; a cut never ends on a separator (" · ", fa " • ", Chinese and Persian commas).
  */
 export function oneLine(summary: string): string {
-  let s = summary.replace(/\s+/g, ' ').trim().replace(/GSR-(?=[A-Za-z0-9])/gi, 'GSR ');
+  let s = summary.replace(BIDI_CONTROLS, '').replace(/\s+/g, ' ').trim().replace(/GSR-(?=[A-Za-z0-9])/gi, 'GSR ');
   if (s.length > SUMMARY_MAX) {
     const cut = s.slice(0, SUMMARY_MAX - 1);
     const space = cut.lastIndexOf(' ');
-    s = `${(space > SUMMARY_MAX * 0.6 ? cut.slice(0, space) : cut).replace(/[\s·,;:–—-]+$/, '')}…`;
+    s = `${(space > SUMMARY_MAX * 0.6 ? cut.slice(0, space) : cut).replace(/[\s·•,;:–—\-،؛，、；：]+$/, '')}…`;
   }
   return s;
 }
 
-/** "Kod: GSR-XXXXXXXXXX" alone on the first line: a space before the code, a newline (or the end) after it. */
+/**
+ * "Kod: GSR-XXXXXXXXXX" alone on the first line: a space before the code, a newline (or the end) after
+ * it. The code word stays ASCII on zh and fa ("Code"), so the first line is plain left-to-right text
+ * whatever language the summary under it is in.
+ */
 export function composeMessage(codeWord: string, code: string, summary: string): string {
+  const word = codeWord.replace(BIDI_CONTROLS, '').trim();
   const line = oneLine(summary);
-  return line ? `${codeWord}: ${code}\n${line}` : `${codeWord}: ${code}`;
+  return line ? `${word}: ${code}\n${line}` : `${word}: ${code}`;
 }
 
 export const telegramUrl = (username: string, text: string) => 'https://t.me/' + username + '?text=' + encodeURIComponent(text);

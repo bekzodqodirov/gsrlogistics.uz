@@ -727,7 +727,9 @@ function collect(node, path, insideUz) {
   }
   if (typeof node === 'object') {
     for (const [k, v] of Object.entries(node)) {
-      if (k === 'ru' || k === 'en') continue; // other locales; not our input
+      // Other locales; not our input. zh and fa are skipped by name, not by luck: a translated
+      // branch sits beside `uz` in the same record, and the Cyrillic text is made from `uz` alone.
+      if (k === 'ru' || k === 'en' || k === 'zh' || k === 'fa') continue;
       collect(v, `${path}.${k}`, insideUz || k === 'uz');
     }
   }

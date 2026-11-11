@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/why';
+import { fa } from './fa/why';
 
 /**
  * Home "Nima uchun GSR" section — six specific reasons, each with a checkable fact.
@@ -187,7 +189,7 @@ const en: WhyStrings = {
   meta: 'Prices are estimates · Updated {date}',
 };
 
-export const whyStrings: Record<Lang, WhyStrings> = { uz, ru, en };
+export const whyStrings: Localized<WhyStrings> = { uz, ru, en, zh, fa };
 
 /** Fill {placeholders} in a dictionary string. */
 export function tpl(s: string, vars: Record<string, string | number>): string {

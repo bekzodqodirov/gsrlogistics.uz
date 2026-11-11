@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/tracking';
+import { fa } from './fa/tracking';
 
 /**
  * Strings for the tracking page (/kuzatuv/), the tracking form and the home tracking teaser.
@@ -279,4 +281,4 @@ const en: TrackingStrings = {
   },
 };
 
-export const tracking: Record<Lang, TrackingStrings> = { uz, ru, en };
+export const tracking: Localized<TrackingStrings> = { uz, ru, en, zh, fa };

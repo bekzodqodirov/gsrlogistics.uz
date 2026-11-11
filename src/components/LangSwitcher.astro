@@ -1,0 +1,133 @@
+---
+/**
+ * The language switcher, in the three places it appears:
+ *
+ *   variant="menu"  header bar — a disclosure built on <details>/<summary>, so it opens and closes
+ *                   without JavaScript: globe, the current locale's short label, chevron. It opens a
+ *                   list of the six endonyms. The script below only adds the closing a reader expects
+ *                   from a menu (Escape, a press outside, focus moving on to another control), as
+ *                   the mega menu does.
+ *   variant="grid"  mobile menu sheet — the six endonyms as a 3×2 grid.
+ *   variant="row"   footer — the six endonyms in one row that wraps.
+ *
+ * Every link goes to the SAME page in the target locale: `alternates` is the page's hreflang set,
+ * so a service page links to that service in each locale, and a locale the page does not exist in
+ * (a guide not yet translated) falls back to that locale's home. Each link carries the target's
+ * `lang`, `hreflang` and `dir`; the order is `switcherOrder` (both Uzbek scripts side by side).
+ */
+import { pick, langMeta, switcherOrder, type Locale } from '@/i18n/config';
+import { pagePath } from '@/i18n/routes';
+import { common } from '@/i18n/common';
+import Icon from './ui/Icon.astro';
+interface Props { lang: Locale; alternates: Array<{ lang: Locale; href: string }>; variant: 'menu' | 'grid' | 'row' }
+const { lang, alternates, variant } = Astro.props;
+const t = pick(lang, common);
+// Cyrillic paths come back percent-encoded from `new URL().pathname`; a visible href should read as
+// the word it is, so they are decoded back to UTF-8.
+const switchHref = (l: Locale) => { const alt = alternates.find((a) => a.lang === l); return alt ? decodeURI(new URL(alt.href).pathname) : pagePath(l, 'home'); };
+const links = switcherOrder.map((l) => ({ href: switchHref(l), meta: langMeta[l], current: l === lang }));
+const label = variant === 'row' ? t.footer.languages : t.header.langLabel;
+---
+{variant === 'menu' ? (
+  <details class="lang-menu" data-lang-menu>
+    <summary class="lang-trigger">
+      <Icon name="globe" size={18} class="lang-globe" />
+      <span class="sr-only">{t.header.langLabel}</span>
+      <span class="lang-short" aria-hidden="true">{langMeta[lang].short}</span>
+      <span class="sr-only">{langMeta[lang].label}</span>
+      <Icon name="chevron-down" size={14} class="lang-chev" />
+    </summary>
+    <ul role="list" class="lang-list">
+      {links.map(({ href, meta, current }) => (
+        <li><a href={href} hreflang={meta.htmlLang} lang={meta.htmlLang} dir={meta.dir} aria-current={current ? 'true' : undefined}><span>{meta.label}</span>{current && <Icon name="check" size={16} class="lang-check" />}</a></li>
+      ))}
+    </ul>
+  </details>
+) : (
+  <div class:list={['lang-links', variant === 'grid' ? 'lang-grid' : 'lang-row']} role="group" aria-label={label}>
+    {links.map(({ href, meta, current }) => <a href={href} hreflang={meta.htmlLang} lang={meta.htmlLang} dir={meta.dir} aria-current={current ? 'true' : undefined}>{meta.label}</a>)}
+  </div>
+)}
+
+<style>
+  /* ---- header disclosure ---- */
+  .lang-menu { position: relative; flex: none; }
+  .lang-trigger { display: flex; align-items: center; justify-content: center; gap: 4px; height: 44px; min-width: 44px; padding-inline: 8px; border-radius: var(--radius-pill); font-size: 0.875rem; font-weight: 600; color: var(--fg); white-space: nowrap; cursor: pointer; list-style: none; user-select: none; -webkit-tap-highlight-color: transparent; transition: background var(--dur) var(--ease); }
+  .lang-trigger::-webkit-details-marker { display: none; }
+  .lang-trigger:hover, .lang-menu[open] > .lang-trigger { background: color-mix(in oklab, var(--fg), transparent 93%); }
+  /* :global() — the <svg>s come from Icon.astro and never carry this file's scope attribute. */
+  .lang-trigger :global(.lang-globe) { flex: none; color: var(--fg-2); }
+  .lang-trigger :global(.lang-chev) { flex: none; color: var(--muted); transition: transform var(--dur) var(--ease); }
+  .lang-menu[open] .lang-trigger :global(.lang-chev) { transform: rotate(180deg); }
+  /* Anchored to the trigger's inline-end edge, so it grows toward the middle of the bar in either
+     direction: leftwards on an LTR page, rightwards on the RTL one. z-index above the mobile sheet
+     (99), which the header bar — and this trigger — stays on top of. */
+  .lang-list { position: absolute; top: calc(100% + 8px); inset-inline-end: 0; z-index: 101; min-width: 12rem; max-height: calc(100svh - var(--header-h) - 16px); overflow-y: auto; padding: 6px; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); animation: lang-pop var(--dur) var(--ease); }
+  @keyframes lang-pop { from { opacity: 0; transform: translateY(6px); } }
+  /* `dir` on each link states the direction of its NAME (فارسی on the LTR pages, the Latin, Cyrillic
+     and Han names on the RTL one) and isolates it; the row itself follows the list, so the six names
+     line up on one edge and the check mark sits on the other. */
+  .lang-list a { direction: inherit; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding-inline: 12px; border-radius: var(--radius); font-size: 0.9375rem; font-weight: 500; color: var(--fg); white-space: nowrap; transition: background var(--dur) var(--ease); }
+  .lang-list a:hover { background: var(--bg-2); }
+  .lang-list a[aria-current='true'] { font-weight: 600; }
+  .lang-list :global(.lang-check) { flex: none; color: var(--accent-text); }
+  :global(.site-header[data-over-dark='true']) .lang-list { background: var(--gray-900); border-color: rgb(255 255 255 / 0.08); }
+  :global(.site-header[data-over-dark='true']) .lang-list a:hover { background: rgb(255 255 255 / 0.06); }
+  :global(.site-header[data-over-dark='true']) .lang-list :global(.lang-check) { color: var(--red-300); }
+  /* Below 360px the trigger drops the globe and its own spacing: label + chevron still read as a
+     language control, and the full logo, the trigger and the menu button fit a 320px bar. */
+  @media (max-width: 359px) {
+    .lang-trigger { gap: 2px; padding-inline: 6px; }
+    .lang-trigger :global(.lang-globe) { display: none; }
+  }
+
+  /* ---- mobile sheet: 3 × 2 ---- */
+  .lang-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .lang-grid a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding-inline: 4px; border: 1px solid color-mix(in oklab, var(--fg), transparent 88%); border-radius: var(--radius-pill); font-size: 0.875rem; font-weight: 500; letter-spacing: 0; text-align: center; color: var(--muted); transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+  .lang-grid a:hover { color: var(--fg); border-color: var(--meta); }
+  .lang-grid a[aria-current='true'] { color: var(--fg); font-weight: 600; border-color: var(--fg); }
+
+  /* ---- footer row ---- */
+  .lang-row { display: flex; flex-wrap: wrap; column-gap: 16px; row-gap: 0; }
+  .lang-row a { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--text-small); color: var(--muted); transition: color var(--dur) var(--ease); }
+  .lang-row a:hover { color: var(--fg); }
+  .lang-row a[aria-current='true'] { color: var(--fg); font-weight: 600; }
+
+  /* A page must not download a webfont for one switcher label in another script. Onest's Cyrillic
+     subset (15.8 KB) is loaded on ru and uz-Cyrl pages for the page itself; elsewhere Русский and
+     Ўзбекча take the system font. Vazirmatn exists only in the fa stack, so فارسی on every other page
+     takes the system font too (never Onest's metric-adjusted Arial fallback). 中文 needs no rule: Onest
+     has no Han, nothing is downloaded, and lang="zh-Hans" picks the system's Simplified face. */
+  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) a[lang='ru'],
+  :global(html:not(:lang(ru)):not(:lang(uz-Cyrl))) a[lang='uz-Cyrl'],
+  :global(html:not(:lang(fa))) a[lang='fa'] { font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, Roboto, sans-serif; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('details[data-lang-menu]').forEach((menu) => {
+    const trigger = menu.querySelector('summary');
+    if (!trigger) return;
+    const close = () => { menu.open = false; };
+    // Escape closes the innermost layer first. A capture listener on document runs before the mobile
+    // sheet's and the mega menu's (bubbling, on document), and the event stops here while the list
+    // is open. Focus goes back to the trigger BEFORE the list hides, so it is never left on a link
+    // that just stopped rendering.
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !menu.open) return;
+      e.stopPropagation();
+      if (menu.contains(document.activeElement)) trigger.focus();
+      close();
+    }, true);
+    // pointerdown, not click: iOS Safari does not deliver a tap on a non-interactive element to a click
+    // listener on document, so a tap outside would never close the list.
+    document.addEventListener('pointerdown', (e) => { if (menu.open && !menu.contains(e.target as Node)) close(); }, true);
+    // Focus moving on to another control (Tab, Shift+Tab) closes the list. Focus moving to NOTHING
+    // (relatedTarget null) is a press inside the panel that missed a link, its padding: the list stays
+    // open, and a press outside was already handled above. Never close from that press: Chromium
+    // crashes the tab when a focusout handler closes a <details> while the mousedown that moved focus
+    // out of it is still being dispatched.
+    menu.addEventListener('focusout', (e) => { const to = e.relatedTarget as Node | null; if (menu.open && to && !menu.contains(to)) close(); });
+    // Back/forward cache: the page comes back exactly as it was left, list open included.
+    window.addEventListener('pageshow', (e) => { if (e.persisted) close(); });
+  });
+</script>

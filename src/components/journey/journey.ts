@@ -26,6 +26,8 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import { fmtNumber, toAsciiDigits } from '@/lib/format';
+import type { Locale } from '@/i18n/config';
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -144,10 +146,12 @@ export function init(root: HTMLElement): void {
     return;
   }
   const vehicleInner = vehicle.querySelector<SVGGElement>('[data-j="inner"]');
-  const lang = root.dataset.lang ?? 'uz';
-  const KM = Number(root.dataset.km) || 5000;
+  const lang = (root.dataset.lang ?? 'uz') as Locale;
+  const KM = Number(toAsciiDigits(root.dataset.km ?? '')) || 5000;
   const verified = root.dataset.kmVerified === '1';
-  const fmtKm = (v: number) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'en' ? ',' : ' ') + (v >= KM && !verified ? '+' : '');
+  // fmtNumber, as the server wrote the static figure: the counter used to group with a plain space,
+  // which ended the animation on "5 000+" next to the server's "5 000+" (and splits a figure in RTL).
+  const fmtKm = (v: number) => fmtNumber(Math.round(v), lang) + (v >= KM && !verified ? '+' : '');
   const capFor = (i: number) => chips[i]?.dataset.cap ?? '';
 
   /** Progress (0–1) along #route of the point nearest to (x, y): a coarse 1/120 scan refined to 1/600 (≈130 samples). */

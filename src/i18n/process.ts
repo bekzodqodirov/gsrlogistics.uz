@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/process';
+import { fa } from './fa/process';
 
 /**
  * Home "Jarayon" section — the company's five steps (PROJECT_BRIEF §2, DESIGN_BRIEF §3.5).
@@ -74,4 +76,4 @@ const en: ProcessStrings = {
   note: 'The first message commits you to nothing: tell us the cargo, city and deadline — we propose a price and a route.',
 };
 
-export const processStrings: Record<Lang, ProcessStrings> = { uz, ru, en };
+export const processStrings: Localized<ProcessStrings> = { uz, ru, en, zh, fa };

@@ -1,5 +1,7 @@
 // Post-build: rewrites dist/sitemap-0.xml so every URL carries xhtml:link hreflang alternates
-// (read from each page's own <link rel="alternate">), plus lastmod from the page's dateModified meta.
+// (read from each page's own <link rel="alternate">: all six locales, zh-Hans and fa included, and
+// only the ones a page really has — a guide not yet translated into zh/fa names no zh/fa twin),
+// plus lastmod from the page's dateModified meta.
 //
 // Every <loc> is the page's own <link rel="canonical">, copied byte for byte. That matters most for
 // the Cyrillic locale, whose URLs are percent-encoded (`/kirill/%D0%BD%D0%B0%D1%80%D1%85...`): a
@@ -7,7 +9,10 @@
 // page. scripts/check-kirill.mjs asserts the two are identical, entry for entry.
 import fs from 'node:fs';
 import path from 'node:path';
+import { LOCALE_CODES, homePath } from './locales.mjs';
 const dist = process.argv[2] || 'dist';
+/** Every locale's home page ('/', '/ru/', '/kirill/', '/zh/', …), from the shared locale table. */
+const HOMES = new Set(LOCALE_CODES.map(homePath));
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(d, e.name)) : e.name === 'index.html' ? [path.join(d, e.name)] : []);
 const today = new Date().toISOString().slice(0, 10);
 const entries = [];
@@ -21,7 +26,8 @@ for (const f of walk(dist)) {
   // Priority is judged on the DECODED path: the Cyrillic slugs arrive percent-encoded, so a regex
   // over the raw canonical would score every /kirill/ page 0.7 — the Cyrillic home included.
   const p = decodeURIComponent(new URL(canonical).pathname);
-  const home = p === '/' || /^\/(ru|en|kirill)\/$/.test(p);
+  const home = HOMES.has(p);
+  // zh and fa publish the English slugs, so `services` and `pricing` already cover them.
   const money = /xizmatlar|uslugi|services|хизматлар|narxlar|ceny|pricing|нархлар/.test(p);
   const pri = home ? '1.0' : money ? '0.9' : '0.7';
   entries.push({ loc: canonical, alts, mod: mod.slice(0, 10), pri });

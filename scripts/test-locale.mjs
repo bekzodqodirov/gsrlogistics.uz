@@ -1,6 +1,12 @@
-// Tests for the FOUR-LOCALE contract: src/i18n/config.ts (`pick`) and src/lib/format.ts.
+// Tests for the SIX-LOCALE contract: src/i18n/config.ts (`pick`), src/lib/format.ts, src/i18n/routes.ts
+// and the scripts' own locale table, scripts/locales.mjs.
 // Run: node scripts/test-locale.mjs
 // Node ≥ 22.18 strips types natively; on older 22.x add --experimental-strip-types.
+//
+// zh and fa are hand-written like uz/ru/en, but while a locale is PENDING (src/i18n/config.ts
+// `type PendingLang`) its branches are optional and pick() hands it the English one. The record
+// tests below are pending-aware: a missing zh/fa branch is counted and reported, never failed,
+// until the locale leaves PendingLang — and then the same test requires every branch.
 //
 // scripts/test-cyrillic.mjs proves the dictionary turns Uzbek Latin into Uzbek Cyrillic. This file
 // proves the three things the COMPONENT TREE needs on top of that, none of which the dictionary can
@@ -21,6 +27,7 @@
 //      does not need), so the literals are pinned here instead.
 
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { register } from 'node:module';
 
 const ROOT = new URL('../', import.meta.url);
@@ -51,10 +58,14 @@ register('data:text/javascript,' + encodeURIComponent(HOOK));
 
 const load = (p) => import(new URL(p, ROOT).href);
 const { toCyrillic } = await load('src/lib/cyrillic.ts');
-const { pick, locales, sourceLocales, langMeta, langPrefix, langFromPath, sourceOf } = await load('src/i18n/config.ts');
+const { pick, locales, sourceLocales, switcherOrder, langMeta, langPrefix, langFromPath, sourceOf, isLocale, pendingLocales } = await load('src/i18n/config.ts');
+const scriptLocales = await load('scripts/locales.mjs');
+const { PENDING } = scriptLocales;
 const { fmtDate, fmtSom, fmtNumber, fmtUsd, withFrom, fmtRange, daysWord } = await load('src/lib/format.ts');
 const { monthYear, pricingStrings } = await load('src/i18n/pricing.ts');
 const routes = await load('src/i18n/routes.ts');
+const servicesModule = await load('src/data/services.ts');
+const guidesModule = await load('src/data/guides.ts');
 
 /** The thousands separator src/lib/format.ts prints: U+202F, a narrow no-break space. */
 const NBSP = '\u202f';
@@ -83,6 +94,8 @@ const MODULES = [
   'src/i18n/segments.ts', 'src/i18n/services.ts', 'src/i18n/track-system.ts', 'src/i18n/tracking.ts',
   'src/i18n/why.ts', 'src/data/faq.ts', 'src/data/services.ts', 'src/data/route.ts', 'src/lib/site.ts',
 ];
+/** Modules the completeness test also covers (they carry zh/fa branches too). */
+const MORE_MODULES = ['src/i18n/lead.ts'];
 
 const isLocalized = (v) =>
   v !== null && typeof v === 'object' && !Array.isArray(v) &&
@@ -99,34 +112,66 @@ function collect(value, path, depth = 0) {
   const entries = Array.isArray(value) ? value.map((v, i) => [i, v]) : Object.entries(value);
   for (const [k, v] of entries) collect(v, `${path}.${k}`, depth + 1);
 }
-for (const m of MODULES) {
+// A module that fails to load is a FAILURE, not a skip: the zh/fa branches are imported into these
+// modules from src/i18n/{zh,fa}/, and one unparsable translation would otherwise quietly shrink
+// what every test below covers.
+const loadFailures = [];
+const moreRecords = [];
+for (const m of [...MODULES, ...MORE_MODULES]) {
   let mod;
   try {
     mod = await load(m);
   } catch (e) {
-    console.log(`  (skipped ${m}: ${e.message})`);
+    loadFailures.push(`${m}: ${e.message.split('\n')[0]}`);
     continue;
   }
-  for (const [name, value] of Object.entries(mod)) collect(value, `${m.split('/').pop()}:${name}`);
+  // The twin-rule corpus below is pinned to MODULES; the extra modules only join the branch tests.
+  const into = MODULES.includes(m) ? records : moreRecords;
+  for (const [name, value] of Object.entries(mod)) {
+    const before = records.length;
+    collect(value, `${m.split('/').pop()}:${name}`);
+    if (into === moreRecords) moreRecords.push(...records.splice(before));
+  }
 }
 
-test(`the corpus loaded (${records.length} localized records from ${MODULES.length} modules)`, () => {
+test(`the corpus loaded (${records.length} localized records from ${MODULES.length} modules, +${moreRecords.length} from ${MORE_MODULES.join(', ')})`, () => {
+  assert.deepEqual(loadFailures, [], `modules failed to load:\n    ${loadFailures.join('\n    ')}`);
   assert.ok(records.length > 25, `only ${records.length} localized records found — the walker is not seeing the content`);
 });
 
 /* ── 1. uz / ru / en must come back untouched ──────────────────────────────────────────────── */
 
-test('pick returns the hand-written branch itself for uz, ru and en — same object, not a copy', () => {
+/** Missing branches of pending locales: locale → record paths. Reported at the end, never failed. */
+const pendingGaps = Object.fromEntries([...PENDING].map((l) => [l, []]));
+
+test('pick returns the hand-written branch itself for every source locale — same object, not a copy', () => {
   const bad = [];
-  for (const { path, record } of records) {
+  for (const { path, record } of [...records, ...moreRecords]) {
     for (const l of sourceLocales) {
       const got = pick(l, record);
+      if (record[l] === undefined && PENDING.has(l)) {
+        // Still being written: pick() must hand back the fallback branch — English for zh and fa,
+        // the very object, so the page is the English page and not a mix.
+        pendingGaps[l].push(path);
+        if (!Object.is(got, record[langMeta[l].fallback])) bad.push(`${path} [${l}: missing, and pick() did not fall back to ${langMeta[l].fallback}]`);
+        continue;
+      }
       // Object.is, not deepEqual: a copy would already mean the live pages are being rebuilt from
       // something other than the file, and a transliterating copy is exactly the failure to catch.
-      if (!Object.is(got, record[l])) bad.push(`${path} [${l}]`);
+      if (!Object.is(got, record[l])) bad.push(`${path} [${l}${record[l] === undefined ? ': missing' : ''}]`);
     }
   }
   assert.deepEqual(bad, [], `pick() did not return the source branch for:\n    ${bad.join('\n    ')}`);
+});
+
+test('zh and fa fall back to English, never to Uzbek, while their branches are being written', () => {
+  for (const l of ['zh', 'fa']) {
+    assert.equal(langMeta[l].fallback, 'en', `langMeta.${l}.fallback`);
+    const rec = { uz: 'Xitoydan', ru: 'Из Китая', en: 'From China' };
+    assert.equal(pick(l, rec), 'From China', `pick('${l}') of a record without a ${l} branch`);
+    assert.equal(pick(l, { ...rec, [l]: 'OWN' }), 'OWN', `pick('${l}') of a record with a ${l} branch`);
+  }
+  for (const l of ['uz', 'ru', 'en', 'uzc']) assert.equal(langMeta[l].fallback, 'uz', `langMeta.${l}.fallback`);
 });
 
 test('pick is memoised: the uzc branch of one record is built once', () => {
@@ -290,21 +335,76 @@ test('numbers group the Uzbek way in both scripts and the English way in English
 
 /* ── 4. The locale registry itself ─────────────────────────────────────────────────────────── */
 
-test('the four locales route, tag and resolve consistently', () => {
-  assert.deepEqual([...locales], ['uz', 'ru', 'en', 'uzc']);
-  assert.deepEqual([...sourceLocales], ['uz', 'ru', 'en']);
+test('the six locales route, tag and resolve consistently', () => {
+  // zh and fa are APPENDED: the four older locales keep their order in hreflang, og:locale:alternate
+  // and the 404 payload, so their pages stay byte-identical.
+  assert.deepEqual([...locales], ['uz', 'ru', 'en', 'uzc', 'zh', 'fa']);
+  assert.deepEqual([...sourceLocales], ['uz', 'ru', 'en', 'zh', 'fa']);
+  // The switchers list both Uzbek scripts side by side.
+  assert.deepEqual([...switcherOrder], ['uz', 'uzc', 'ru', 'en', 'zh', 'fa']);
   assert.equal(langPrefix('uz'), '');
   assert.equal(langPrefix('uzc'), '/kirill');
+  assert.equal(langPrefix('zh'), '/zh');
+  assert.equal(langPrefix('fa'), '/fa');
   assert.equal(langFromPath('/kirill/нархлар/'), 'uzc');
   assert.equal(langFromPath('/kirill'), 'uzc');
   assert.equal(langFromPath('/ru/uslugi/'), 'ru');
   assert.equal(langFromPath('/narxlar/'), 'uz');
+  assert.equal(langFromPath('/zh/pricing/'), 'zh');
+  assert.equal(langFromPath('/fa/'), 'fa');
+  assert.equal(langFromPath('/fa'), 'fa');
+  assert.equal(langFromPath('/uzc/x/'), 'uz', '"uzc" is a locale key, not a URL prefix');
   assert.equal(sourceOf('uzc'), 'uz');
+  assert.equal(sourceOf('zh'), 'zh');
+  assert.equal(sourceOf('fa'), 'fa');
   // Both Uzbek locales must carry a script subtag, or a crawler treats one as a copy of the other.
   assert.equal(langMeta.uz.htmlLang, 'uz-Latn');
   assert.equal(langMeta.uzc.htmlLang, 'uz-Cyrl');
+  // Simplified Chinese: zh-Hans picks the Simplified glyph forms; one Persian text for Iran and
+  // Afghanistan: fa without a region (Dari has no ISO 639-1 code; Facebook has no fa_AF).
+  assert.equal(langMeta.zh.htmlLang, 'zh-Hans');
+  assert.equal(langMeta.zh.ogLocale, 'zh_CN');
+  assert.equal(langMeta.fa.htmlLang, 'fa');
+  assert.equal(langMeta.fa.ogLocale, 'fa_IR');
+  for (const l of locales) assert.equal(langMeta[l].dir, l === 'fa' ? 'rtl' : 'ltr', `langMeta.${l}.dir`);
+  assert.equal(langMeta.zh.label, '中文');
+  assert.equal(langMeta.fa.label, 'فارسی');
   const tags = new Set(locales.map((l) => langMeta[l].htmlLang));
   assert.equal(tags.size, locales.length, 'two locales share an hreflang tag');
+  const og = new Set(locales.map((l) => langMeta[l].ogLocale));
+  assert.equal(og.size, locales.length, 'two locales share an og:locale');
+});
+
+test('scripts/locales.mjs — the table every build script reads — equals langMeta and langPrefix', () => {
+  const { LOCALES, LOCALE_CODES, localeOfPath, homePath, parsePending } = scriptLocales;
+  assert.deepEqual(LOCALE_CODES, [...locales], 'same locales, same order');
+  for (const l of locales) {
+    const row = LOCALES[l];
+    assert.equal(row.code, l);
+    assert.equal(row.htmlLang, langMeta[l].htmlLang, `${l}.htmlLang`);
+    assert.equal(row.ogLocale, langMeta[l].ogLocale, `${l}.ogLocale`);
+    assert.equal(row.dir, langMeta[l].dir, `${l}.dir`);
+    assert.equal(row.prefix, langPrefix(l), `${l}.prefix`);
+    assert.equal(homePath(l), routes.pagePath(l, 'home'), `${l} home path`);
+  }
+  for (const p of ['/', '/narxlar/', '/ru/uslugi/', '/en/', '/kirill/нархлар/', '/kirill', '/zh/pricing/', '/fa/', '/uzc/x/', '/zhx/'])
+    assert.equal(localeOfPath(p), langFromPath(p), `localeOfPath('${p}')`);
+  // PENDING is read from the one line that also drives the compiler and pick()'s fallback.
+  const source = readFileSync(new URL('src/i18n/config.ts', ROOT), 'utf8');
+  const fromSource = parsePending(source);
+  for (const l of fromSource) {
+    assert.ok(isLocale(l) && sourceLocales.includes(l), `PendingLang names ${l}, which is not a hand-written locale`);
+    assert.notEqual(langMeta[l].fallback, l, `pending ${l} must fall back to another locale`);
+  }
+  if (process.env.GSR_PENDING_LOCALES === undefined) assert.deepEqual([...PENDING], fromSource);
+  // …and `pendingLocales`, the same fact as a value (the service loader reads it), says the same:
+  // `astro check` enforces this through `satisfies`, plain Node does not type-check.
+  assert.deepEqual(Object.keys(pendingLocales).sort(), [...sourceLocales].sort(), 'pendingLocales has one flag per hand-written locale');
+  assert.deepEqual(sourceLocales.filter((l) => pendingLocales[l] === true).sort(), [...fromSource].sort(), 'pendingLocales agrees with the PendingLang line');
+  assert.ok(Object.values(pendingLocales).every((v) => typeof v === 'boolean'), 'pendingLocales flags are booleans');
+  assert.deepEqual(parsePending("type PendingLang = 'zh' | 'fa';"), ['zh', 'fa']);
+  assert.deepEqual(parsePending('type PendingLang = never;'), []);
+  assert.throws(() => parsePending("type PendingLang = 'xx';"), /not a locale/);
 });
 
 test('subFor / itemPath resolve a Cyrillic item slug from a uz/ru/en-only map', () => {
@@ -328,6 +428,30 @@ test('itemPath is what a slug goes through — pick() would mangle it', () => {
   assert.notEqual(pick('uzc', subs), routes.subFor('uzc', 'services', subs));
 });
 
+test('zh and fa publish the English slugs, written out — pages, services and guides — and no two of the six locales collide', () => {
+  for (const [key, slugs] of Object.entries(routes.routeSlugs)) {
+    assert.equal(slugs.zh, slugs.en, `routeSlugs.${key}.zh`);
+    assert.equal(slugs.fa, slugs.en, `routeSlugs.${key}.fa`);
+  }
+  for (const l of ['zh', 'fa']) {
+    for (const k of Object.keys(routes.routeSlugs)) assert.ok(routes.pagePath(l, k).startsWith(`/${l}/`), `pagePath('${l}', '${k}')`);
+  }
+  const all = locales.flatMap((l) => Object.keys(routes.routeSlugs).map((k) => routes.pagePath(l, k)));
+  assert.equal(new Set(all).size, all.length, 'two pages of the six locales share a path');
+  const { services, serviceSubs } = servicesModule;
+  for (const s of services) {
+    assert.equal(s.slug.zh, s.slug.en, `services ${s.key} slug.zh`);
+    assert.equal(s.slug.fa, s.slug.en, `services ${s.key} slug.fa`);
+    const subs = serviceSubs(s);
+    for (const l of ['zh', 'fa']) assert.equal(routes.itemPath(l, 'services', subs), `/${l}/services/${s.slug.en}/`, `itemPath('${l}', ${s.key})`);
+  }
+  for (const [key, slugs] of Object.entries(guidesModule.guideSlugs)) {
+    assert.equal(slugs.zh, slugs.en, `guideSlugs.${key}.zh`);
+    assert.equal(slugs.fa, slugs.en, `guideSlugs.${key}.fa`);
+  }
+  assert.equal(routes.itemPath('zh', 'services', { uz: 'temir-yol-konteyner', ru: 'zhd-konteyner', en: 'rail-container', zh: 'rail-container', fa: 'rail-container' }), '/zh/services/rail-container/');
+});
+
 test('every page and item slug in routes.ts has a uzc entry, and none collide', () => {
   for (const [key, slugs] of Object.entries(routes.routeSlugs)) {
     assert.ok('uzc' in slugs, `routeSlugs.${key} has no uzc slug`);
@@ -341,8 +465,11 @@ test('every page and item slug in routes.ts has a uzc entry, and none collide', 
   }
 });
 
+for (const [l, paths] of Object.entries(pendingGaps)) {
+  if (paths.length) console.log(`  pending ${l}: ${paths.length} of ${records.length + moreRecords.length} records have no ${l} branch yet (pick() shows ${langMeta[l].fallback}) — counted, not failed`);
+}
 console.log(
-  `\n${passed} passed, ${failed} failed — ${records.length} localized records, ` +
-    `${locales.length} locales.`,
+  `\n${passed} passed, ${failed} failed — ${records.length + moreRecords.length} localized records, ` +
+    `${locales.length} locales${PENDING.size ? `, pending: ${[...PENDING].join(', ')}` : ''}.`,
 );
 process.exit(failed ? 1 : 0);

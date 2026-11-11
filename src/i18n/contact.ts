@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/contact';
+import { fa } from './fa/contact';
 
 /**
  * Strings for the contact page (/aloqa/), the lead form and the closing CTA band.
@@ -331,7 +333,7 @@ const en: ContactStrings = {
   },
 };
 
-export const contact: Record<Lang, ContactStrings> = { uz, ru, en };
+export const contact: Localized<ContactStrings> = { uz, ru, en, zh, fa };
 
 /** Tiny template helper: "{key}" → vars[key]. */
 export function fill(s: string, vars: Record<string, string | number>): string {

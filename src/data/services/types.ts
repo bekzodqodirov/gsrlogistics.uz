@@ -1,9 +1,12 @@
-import type { Lang } from '@/i18n/config';
+import type { Localized } from '@/i18n/config';
 import type { ServiceKey } from '@/data/services';
 
 /**
  * Long-form content of one service page, per language.
- * Files: src/data/services/<key>.content.ts  →  `export default content satisfies ServiceContentByLang`.
+ * Files: src/data/services/<key>.content.ts holds uz, ru and en, written together
+ * (`const content: ServiceContentSource`); src/data/services/zh/<key>.content.ts and
+ * src/data/services/fa/<key>.content.ts hold one translation each (`const content: ServiceContent`,
+ * translated from the English branch). `load.ts` merges them into one `ServiceContentByLang`.
  */
 export interface ServiceSection {
   heading: string;               // question-shaped where natural ("Yigʻma yuk qanday ishlaydi?")
@@ -29,4 +32,6 @@ export interface ServiceContent {
   cta: { title: string; text: string; draft: string }; // draft = prefilled Telegram message
   updated: string;               // ISO date
 }
-export type ServiceContentByLang = Record<Lang, ServiceContent>;
+export type ServiceContentByLang = Localized<ServiceContent>;
+/** The three source languages of one service page, written together in `<key>.content.ts`. */
+export type ServiceContentSource = Record<'uz' | 'ru' | 'en', ServiceContent>;

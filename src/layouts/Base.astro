@@ -7,6 +7,7 @@ import '@/styles/fonts.css';
 import '@/styles/global.css';
 import onestLatin from '@/assets/fonts/onest-latin.woff2?url';
 import onestCyrillic from '@/assets/fonts/onest-cyrillic.woff2?url';
+import vazirmatnArabic from '@fontsource-variable/vazirmatn/files/vazirmatn-arabic-wght-normal.woff2?url';
 import { langMeta, pick, sourceOf, type Locale } from '@/i18n/config';
 import { alternates as buildAlternates, pagePath, subFor, type PageKey } from '@/i18n/routes';
 import { site } from '@/lib/site';
@@ -50,14 +51,16 @@ const graph: Array<Record<string, unknown>> = [
   ...(breadcrumbs?.length ? [breadcrumbNode(lang, breadcrumbs)] : []),
   ...jsonLd,
 ];
-const skipLink = pick(lang, { uz: 'Asosiy kontentga oʻtish', ru: 'Перейти к содержанию', en: 'Skip to content' });
+const skipLink = pick(lang, { uz: 'Asosiy kontentga oʻtish', ru: 'Перейти к содержанию', en: 'Skip to content', zh: '跳到主要内容', fa: 'رفتن به محتوای اصلی' });
+// Each hand-written locale has its own card — /og/uz.png, ru, en, and the Chinese and Persian
+// /og/zh.png and /og/fa.png (scripts/generate-og.mjs; test-seo.mjs fails a card that is not a file).
 // There is no /og/uzc.png: the OG card is a picture of a brand, not a translated page, and
 // `sourceOf` sends the Cyrillic locale to the Latin Uzbek card rather than to a 404. Drop a real
 // uzc card into public/og/ (scripts/generate-og.mjs) and change this line to use `lang` directly.
 const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
 ---
 <!doctype html>
-<html lang={langMeta[lang].htmlLang} dir="ltr" class="no-js">
+<html lang={langMeta[lang].htmlLang} dir={langMeta[lang].dir} class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -67,6 +70,10 @@ const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
         still declared in fonts.css by unicode-range, so the switcher's two Cyrillic labels do not
         pull it down. */}
     {(lang === 'ru' || lang === 'uzc') && <link rel="preload" href={onestCyrillic} as="font" type="font/woff2" crossorigin />}
+    {/* Persian: Vazirmatn's Arabic subset (fonts.css), on fa pages only — no other page ever uses it.
+        Onest-latin above stays preloaded there too: the wordmark, phones and codes are Latin. zh has
+        no webfont (system CJK faces). */}
+    {lang === 'fa' && <link rel="preload" href={vazirmatnArabic} as="font" type="font/woff2" crossorigin />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
@@ -91,22 +98,30 @@ const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
     <ContactPicker lang={lang} />
     <script>
       // Reveal-on-scroll: adds .is-in to .reveal elements as they enter; respects reduced motion.
+      // Tag every table with its column count so a 2-column table can drop the mobile min-width
+      // instead of pushing its value column off-screen. Before the scroll hint below measures: tagged
+      // after it, the pricing tables measured 440px wide, then fitted the phone and kept a stale fade
+      // over their end-aligned prices.
+      document.querySelectorAll<HTMLTableElement>('table').forEach((t) => {
+        const row = t.querySelector('tr');
+        if (row) t.dataset.cols = String(row.children.length);
+        // Under prefers-reduced-motion global.css gives every property a 0.01ms transition: the min-width
+        // the tag just dropped would still measure 440px below. End that transition now (transitions only:
+        // finish() throws on an infinite animation, which would stop this whole script).
+        t.getAnimations?.().forEach((a) => { if ('transitionProperty' in a) a.finish(); });
+      });
       // Scroll hint: mark scrollers that overflow so global.css fades their trailing edge.
       const scrollers = Array.from(document.querySelectorAll<HTMLElement>('.table-wrap, .scroll-x'));
       const markScroll = (el: HTMLElement) => {
         const over = el.scrollWidth - el.clientWidth > 2;
         if (!over) { el.removeAttribute('data-overflow'); return; }
-        el.dataset.overflow = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? 'end' : el.scrollLeft > 2 ? 'mid' : 'start';
+        // Math.abs: in RTL scrollLeft runs from 0 at the start to NEGATIVE values toward the end.
+        const pos = Math.abs(el.scrollLeft);
+        el.dataset.overflow = pos + el.clientWidth >= el.scrollWidth - 2 ? 'end' : pos > 2 ? 'mid' : 'start';
       };
       scrollers.forEach((el) => { markScroll(el); el.addEventListener('scroll', () => markScroll(el), { passive: true }); });
       window.addEventListener('resize', () => scrollers.forEach(markScroll));
 
-      // Tag every table with its column count so a 2-column table can drop the mobile min-width
-      // instead of pushing its value column off-screen.
-      document.querySelectorAll<HTMLTableElement>('table').forEach((t) => {
-        const row = t.querySelector('tr');
-        if (row) t.dataset.cols = String(row.children.length);
-      });
       const els = document.querySelectorAll<HTMLElement>('.reveal');
       if (els.length) {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {

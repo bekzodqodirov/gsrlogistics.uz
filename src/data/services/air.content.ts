@@ -1,4 +1,4 @@
-import type { ServiceContentByLang } from './types';
+import type { ServiceContentSource } from './types';
 
 /**
  * Avia kargo — long-form page content.
@@ -8,7 +8,7 @@ import type { ServiceContentByLang } from './types';
  * Truck figures quoted for comparison: priced by volume from density, from 110 $/m³, 15–25 days; truck cargo is accepted
  * only from 1 m³ per shipment (owner, 2026-11-08), so the 48 kg / 0,2 m³ example is air-only. Keep in sync when tariffs change.
  */
-const content: ServiceContentByLang = {
+const content: ServiceContentSource = {
   uz: {
     key: 'air',
     seo: {

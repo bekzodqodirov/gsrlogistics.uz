@@ -9,7 +9,7 @@ import { hero } from '@/i18n/hero';
 import { common } from '@/i18n/common';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtNumber } from '@/lib/format';
+import { fmtDigits, fmtNumRange, sepMark } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
@@ -19,12 +19,14 @@ interface Props { lang: Locale }
 const { lang } = Astro.props;
 const t = pick(lang, hero);
 const c = pick(lang, common);
-const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)}`;
+const range = (a: number, b: number) => fmtNumRange(a, b, lang);
 const proof = [
   { value: range(tariffs.truck.days[0], tariffs.truck.days[1]), unit: t.unitDays, caption: t.proof.truck },
   { value: range(tariffs.air.days[0], tariffs.air.days[1]), unit: t.unitDays, caption: t.proof.air },
-  { value: t.proof.yiwuValue, caption: t.proof.yiwu },
-  { value: t.proof.sinceValue, caption: t.proof.since },
+  // Figures written into the strings ("3", "2018-yildan"): the same in uz, ru and en, so a translation copies
+  // them as tokens; fmtDigits gives fa its Persian digits (and changes nothing in any other locale).
+  { value: fmtDigits(t.proof.yiwuValue, lang), caption: t.proof.yiwu },
+  { value: fmtDigits(t.proof.sinceValue, lang), caption: t.proof.since },
 ];
 ---
 <section class="hero" aria-labelledby="hero-title" data-hero>
@@ -40,8 +42,8 @@ const proof = [
       <Button href={telegramChat(c.telegramDraft.general)} variant="secondary" icon="telegram" data-picker>{t.ctaSecondary}</Button>
     </div>
     <p class="meta-line">
-      <a href={phoneUrl} class="tnum phone">{site.phoneDisplay}</a>
-      <span class="dot" aria-hidden="true">·</span>
+      <a href={phoneUrl} class="tnum phone" dir="ltr">{site.phoneDisplay}</a>
+      <span class="dot" aria-hidden="true">{sepMark(lang)}</span>
       <span class="tnum">{pick(lang, site.hours)}</span>
     </p>
   </div>
@@ -84,8 +86,8 @@ const proof = [
 
   .proof-wrap { margin-top: 40px; background: var(--bg-3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
   .proof { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
-  .cell { padding: 24px 24px 24px 0; display: grid; align-content: start; gap: 8px; }
-  .cell + .cell { border-left: 1px solid var(--border-soft); padding-left: 24px; }
+  .cell { padding-block: 24px; padding-inline: 0 24px; display: grid; align-content: start; gap: 8px; }
+  .cell + .cell { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 24px; }
   .value { margin: 0; font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem); line-height: 1; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--fg); white-space: nowrap; }
   .value .num-unit { letter-spacing: 0; }
   .caption { margin: 0; max-width: 28ch; text-wrap: pretty; }
@@ -100,9 +102,9 @@ const proof = [
     .drawing-wrap { margin-top: 40px; }
     .proof-wrap { margin-top: 28px; }
     .proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .cell { padding: 20px 16px 20px 0; }
-    .cell + .cell { border-left: 0; padding-left: 0; }
-    .cell:nth-child(even) { border-left: 1px solid var(--border-soft); padding-left: 16px; }
+    .cell { padding-block: 20px; padding-inline: 0 16px; }
+    .cell + .cell { border-inline-start: 0; padding-inline-start: 0; }
+    .cell:nth-child(even) { border-inline-start: 1px solid var(--border-soft); padding-inline-start: 16px; }
     .cell:nth-child(n + 3) { border-top: 1px solid var(--border-soft); }
     .value { font-size: clamp(1.625rem, 6vw, 2rem); }
   }
@@ -110,6 +112,9 @@ const proof = [
 </style>
 
 <script>
+  import { fmtNumber, toAsciiDigits } from '@/lib/format';
+  import type { Locale } from '@/i18n/config';
+
   // Start the route drawing once fonts are ready (so the LCP text never waits), and count the km readout 0 → ROUTE_KM.
   const root = document.querySelector<HTMLElement>('[data-hero]');
   if (root) {
@@ -118,12 +123,16 @@ const proof = [
       root.classList.add('is-drawn');
       const el = root.querySelector<HTMLElement>('[data-count]');
       if (!el || reduce) return;
-      const target = Number(el.dataset.count || 0);
-      const lang = el.dataset.lang || 'uz';
-      const fmt = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'en' ? ',' : ' ');
+      // The figure is read through toAsciiDigits (a data attribute or an i18n value may carry Persian
+      // digits) and written by fmtNumber, the same formatter the server used for the static text.
+      const target = Number(toAsciiDigits(el.dataset.count || '0')) || 0;
+      const lang = (el.dataset.lang || 'uz') as Locale;
+      const fmt = (n: number) => fmtNumber(n, lang);
       const t0 = performance.now(), dur = 1100;
       const tick = (now: number) => {
-        const p = Math.min(1, (now - t0) / dur);
+        // A frame's timestamp is when that frame began, which can be a moment BEFORE t0: unclamped, the
+        // first frame read a negative progress and printed a negative figure.
+        const p = Math.max(0, Math.min(1, (now - t0) / dur));
         const e = 1 - Math.pow(1 - p, 3);
         el.textContent = fmt(Math.round(target * e));
         if (p < 1) requestAnimationFrame(tick);

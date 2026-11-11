@@ -29,6 +29,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { trackSystem } from '@/i18n/track-system';
 import { pagePath } from '@/i18n/routes';
 import { site, telegramBotUrl, telegramBotHandle } from '@/lib/site';
+import { fmtDigits, fmtInt } from '@/lib/format';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Icon from '@/components/ui/Icon.astro';
 import { Picture } from 'astro:assets';
@@ -126,7 +127,7 @@ const ticks = Array.from({ length: 24 }, (_, h) => {
 <section id={id} class:list={['section', 'dark', 'noise', 'hw', 'below-fold', className]} aria-labelledby={headId}>
   <div class="container">
     <div class="hw-head">
-      <Eyebrow>{index ? `${index} — ${t.eyebrow}` : t.eyebrow}</Eyebrow>
+      <Eyebrow>{index ? `${fmtDigits(index, lang)} — ${t.eyebrow}` : t.eyebrow}</Eyebrow>
       <h2 id={headId} class="measure-head">{t.h2}</h2>
       <p class="intro hw-intro">{t.intro}</p>
     </div>
@@ -165,7 +166,7 @@ const ticks = Array.from({ length: 24 }, (_, h) => {
       <ol class="beats" role="list">
         {t.beats.map((b, i) => (
           <li class="beat reveal" style={`--reveal-delay:${80 + i * 80}ms`}>
-            <span class="beat-n tnum" aria-hidden="true">0{i + 1}</span>
+            <span class="beat-n tnum" aria-hidden="true">{fmtInt(i + 1, lang, 2)}</span>
             <h3 class="beat-t">{b.title}</h3>
             <p class="beat-p">{b.text}</p>
           </li>
@@ -180,11 +181,11 @@ const ticks = Array.from({ length: 24 }, (_, h) => {
             <g class="dial-ticks">
               {ticks.map((k) => <path class:list={[k.staffed && 'is-staffed']} d={`M${k.x1} ${k.y1}L${k.x2} ${k.y2}`} />)}
             </g>
-            <text class="dial-num" x="40" y="44.6" text-anchor="middle">24/7</text>
+            <text class="dial-num" x="40" y="44.6" text-anchor="middle">{fmtDigits('24/7', lang)}</text>
           </svg>
           <div class="bot-name">
             <p id={`${id}-bot`} class="bot-label">{t.bot.label}</p>
-            <p class="bot-handle">{telegramBotHandle}</p>
+            <p class="bot-handle"><span dir="ltr">{telegramBotHandle}</span></p>
             <ul class="legend" role="list">
               <li><span class="dot is-bot" aria-hidden="true"></span><span>{t.bot.botHours}</span></li>
               <li><span class="dot" aria-hidden="true"></span><span>{t.bot.managerLabel} — <span class="tnum nowrap">{pick(lang, site.hours)}</span></span></li>
@@ -205,6 +206,7 @@ const ticks = Array.from({ length: 24 }, (_, h) => {
   /* Mirrored from Proof's gradient (which lifts from the top RIGHT) so two dark bands on one page
      are never the same picture. */
   .hw { padding-block: clamp(80px, 9vw, 120px); background: radial-gradient(78% 62% at 0% 0%, var(--black-2), var(--black) 68%); }
+  :global([dir='rtl']) .hw { background: radial-gradient(78% 62% at 100% 0%, var(--black-2), var(--black) 68%); }
   .hw-head { display: grid; gap: 16px; max-width: 64ch; margin-bottom: clamp(36px, 4.5vw, 56px); }
   .hw-intro { max-width: 58ch; }
 

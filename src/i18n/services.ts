@@ -1,5 +1,7 @@
-import { pick, type Lang, type Locale } from './config';
+import { pick, type Locale, type Localized } from './config';
 import type { ServiceKey } from '@/data/services';
+import { zh } from './zh/services';
+import { fa } from './fa/services';
 
 /**
  * Strings for the home Services grid, the services index page and the service page template.
@@ -458,7 +460,7 @@ const en: ServicesStrings = {
   },
 };
 
-export const servicesStrings: Record<Lang, ServicesStrings> = { uz, ru, en };
+export const servicesStrings: Localized<ServicesStrings> = { uz, ru, en, zh, fa };
 
 /** Fill `{n}` / `{name}` / `{short}` / `{date}` placeholders. */
 export function tpl(s: string, vars: Record<string, string | number>): string {
@@ -474,21 +476,27 @@ export const serviceGroups: Array<{ id: 'shipping' | 'buying' | 'paperwork' | 'v
 ];
 
 import tariffs from '@/data/tariffs.json';
-import { fmtNumber } from '@/lib/format';
+import { fmtNumber, fmtRange, sep } from '@/lib/format';
 
-/** One tabular "number line" per service card, composed only from tariffs.json values. */
+/**
+ * One tabular "number line" per service card, composed only from tariffs.json values. Every figure,
+ * the {n} of a template included, is formatted for the locale (Persian digits on fa; the % sign sits
+ * in the template, so fa writes ٪ there), and the parts join with the locale's separator.
+ */
 export function serviceNumberLine(lang: Locale, key: ServiceKey): string {
   const t = pick(lang, servicesStrings).line;
-  const range = (a: number, b: number) => `${fmtNumber(a, lang)}–${fmtNumber(b, lang)} ${t.days}`;
+  const range = (a: number, b: number) => fmtRange(a, b, t.days, lang);
+  const n = (v: number) => fmtNumber(v, lang);
+  const join = (...parts: string[]) => parts.join(sep(lang));
   switch (key) {
-    case 'truck': return `${range(tariffs.truck.days[0], tariffs.truck.days[1])} · ${tpl(t.fromM3, { n: fmtNumber(tariffs.truck.lclPerM3ByDensity[0].rate, lang) })}`;
-    case 'air': return `${range(tariffs.air.days[0], tariffs.air.days[1])} · ${tpl(t.fromKg, { n: fmtNumber(tariffs.air.minKg, lang) })}`;
-    case 'rail': return `${range(tariffs.rail.days[0], tariffs.rail.days[1])} · ${t.containers}`;
-    case 'sourcing': return tpl(t.commissionFrom, { n: tariffs.extras.sourcingCommissionPct });
-    case 'buying': return `${t.yuanPayment} · ${tpl(t.commissionFrom, { n: tariffs.extras.sourcingCommissionPct })}`;
-    case 'equipment': return `${t.containers} · ${t.turnkey}`;
+    case 'truck': return join(range(tariffs.truck.days[0], tariffs.truck.days[1]), tpl(t.fromM3, { n: n(tariffs.truck.lclPerM3ByDensity[0].rate) }));
+    case 'air': return join(range(tariffs.air.days[0], tariffs.air.days[1]), tpl(t.fromKg, { n: n(tariffs.air.minKg) }));
+    case 'rail': return join(range(tariffs.rail.days[0], tariffs.rail.days[1]), t.containers);
+    case 'sourcing': return tpl(t.commissionFrom, { n: n(tariffs.extras.sourcingCommissionPct) });
+    case 'buying': return join(t.yuanPayment, tpl(t.commissionFrom, { n: n(tariffs.extras.sourcingCommissionPct) }));
+    case 'equipment': return join(t.containers, t.turnkey);
     case 'customs': return t.customs;
-    case 'warehouse': return `${t.photoEveryReceipt} · ${tpl(t.insurance, { n: tariffs.extras.insurancePct })}`;
-    case 'cars': return `${t.toOrder} · ${t.withCustoms}`;
+    case 'warehouse': return join(t.photoEveryReceipt, tpl(t.insurance, { n: n(tariffs.extras.insurancePct) }));
+    case 'cars': return join(t.toOrder, t.withCustoms);
   }
 }

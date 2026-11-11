@@ -1,26 +1,31 @@
 /**
  * Locale registry.
  *
- * The site publishes FOUR locales but only THREE of them are written by hand:
+ * The site publishes SIX locales; FIVE of them are written by hand:
  *
  *   uz   Uzbek, Latin script  — the source of truth, at the site root
  *   ru   Russian              — /ru/
  *   en   English              — /en/
+ *   zh   Chinese, Simplified  — /zh/ (English slugs)
+ *   fa   Persian, right-to-left, one text for readers in Iran and Afghanistan — /fa/ (English slugs)
  *   uzc  Uzbek, Cyrillic      — /kirill/, GENERATED from `uz` by transliteration
  *
  * ── Why there are two language types ──────────────────────────────────────────────────────
  *
- * `SourceLang` is the set a content file must provide: uz, ru, en. Nineteen i18n modules and
- * a handful of data modules declare `Record<Lang, T> = { uz, ru, en }`, and none of them should
- * ever have to grow a fourth branch — a hand-maintained Cyrillic copy is exactly what this
- * locale exists to avoid. So `Lang` still means those three, `Localized<T>` is the type new
- * code should reach for (three required, `uzc` optional), and `Locale` is the wider set used
- * by routing, hreflang and the language switcher.
+ * `SourceLang` is the set a content file must provide: uz, ru, en, zh, fa. The i18n and data
+ * modules declare `Localized<T>`, and none of them should ever have to grow a Cyrillic branch —
+ * a hand-maintained Cyrillic copy is exactly what that locale exists to avoid. So `Lang` means the
+ * hand-written locales, `Localized<T>` is the type every record uses (the hand-written branches
+ * required, `uzc` optional), and `Locale` is the wider set used by routing, hreflang and the
+ * language switcher.
+ *
+ * The zh and fa branches live in their own files, one language per file, so a translation is never
+ * edited inside the three source languages it was made from: `src/i18n/zh/<module>.ts`,
+ * `src/i18n/fa/<module>.ts`, `src/data/services/{zh,fa}/<key>.content.ts` and
+ * `src/content/guides/{zh,fa}/`.
  *
  * TypeScript cannot have this both ways: `Record<K, T>` has no way to make one member of K
- * optional, so widening `Lang` to include 'uzc' would break all 25 of those declarations at
- * once. Keeping `Lang` at three keeps them valid, unedited, and honest — none of them provides
- * a Cyrillic branch, and none of them needs to.
+ * optional, which is why records are typed `Localized<T>` and not `Record<Locale, T>`.
  *
  * ── Where the Cyrillic text comes from ────────────────────────────────────────────────────
  *
@@ -35,27 +40,53 @@
  */
 import { toCyrillic } from '@/lib/cyrillic';
 
-/** The three hand-written locales — the only branches a content file must provide. */
-export const sourceLocales = ['uz', 'ru', 'en'] as const;
+/** The hand-written locales — the branches a content file must provide. */
+export const sourceLocales = ['uz', 'ru', 'en', 'zh', 'fa'] as const;
 export type SourceLang = (typeof sourceLocales)[number];
 
-/**
- * Historical name for {@link SourceLang}. 25 modules declare `Record<Lang, T>` and every page
- * component takes `lang: Lang`; both mean "one of the three hand-written locales".
- */
+/** Historical name for {@link SourceLang}: "one of the hand-written locales". */
 export type Lang = SourceLang;
 
-/** Every locale the site publishes, including the generated Cyrillic one. */
-export const locales = ['uz', 'ru', 'en', 'uzc'] as const;
+/**
+ * Every locale the site publishes, including the generated Cyrillic one. zh and fa are APPENDED
+ * so the four older locales keep their order in hreflang, og:locale:alternate and the switchers.
+ */
+export const locales = ['uz', 'ru', 'en', 'uzc', 'zh', 'fa'] as const;
 export type Locale = (typeof locales)[number];
+
+/** The order the language switchers list the locales in: both Uzbek scripts side by side. */
+export const switcherOrder: readonly Locale[] = ['uz', 'uzc', 'ru', 'en', 'zh', 'fa'];
 
 export const defaultLang: SourceLang = 'uz';
 
 /**
- * A value in every locale: the three hand-written ones are required, the generated Cyrillic one
- * is optional. A `Record<Lang, T>` literal satisfies this unchanged, which is the point.
+ * Hand-written locales whose branches are still being written — none: every module carries all
+ * five hand-written branches, so the compiler requires each of them everywhere, the service loader
+ * (src/data/services/load.ts) fails the build on a missing translation file, and every build and
+ * test script treats every locale as finished.
+ *
+ * The mechanism is kept for the next language. While a new locale is being translated, name it
+ * here (`type PendingLang = 'xx';`) and set its flag in `pendingLocales` below: its branch of every
+ * `Localized<T>` becomes optional, `pick` falls back to the locale's `fallback` branch, and the
+ * build and test scripts — which read this line through scripts/locales.mjs — report what the
+ * locale still lacks instead of failing. Once every module carries the branch, set both back.
  */
-export type Localized<T> = Record<SourceLang, T> & Partial<Record<'uzc', T>>;
+type PendingLang = never;
+
+/**
+ * `PendingLang` as a value, for build-time code that has to decide whether a missing translation
+ * is allowed (src/data/services/load.ts). The `satisfies` clause holds it to the type line above:
+ * `astro check` fails unless a locale is `true` here exactly when `PendingLang` names it.
+ */
+export const pendingLocales = { uz: false, ru: false, en: false, zh: false, fa: false } as const satisfies {
+  readonly [L in SourceLang]: L extends PendingLang ? true : false;
+};
+
+/**
+ * A value in every locale: the hand-written ones are required, the generated Cyrillic one is
+ * optional.
+ */
+export type Localized<T> = Record<Exclude<SourceLang, PendingLang>, T> & Partial<Record<'uzc' | PendingLang, T>>;
 
 export interface LocaleMeta {
   label: string;
@@ -63,16 +94,26 @@ export interface LocaleMeta {
   /** BCP-47, for `<html lang>`, hreflang and `lang` attributes. */
   htmlLang: string;
   ogLocale: string;
-  dir: 'ltr';
+  dir: 'ltr' | 'rtl';
   /** The hand-written locale this one is written in or generated from. */
   source: SourceLang;
+  /**
+   * The branch `pick` reads while this locale's own branch is still being written (only while the
+   * locale is listed in `PendingLang`; no locale is today).
+   */
+  fallback: 'uz' | 'en';
 }
 
 export const langMeta: Record<Locale, LocaleMeta> = {
-  uz: { label: 'Oʻzbekcha', short: 'Oʻz', htmlLang: 'uz-Latn', ogLocale: 'uz_UZ', dir: 'ltr', source: 'uz' },
-  uzc: { label: 'Ўзбекча', short: 'Ўз', htmlLang: 'uz-Cyrl', ogLocale: 'uz_Cyrl_UZ', dir: 'ltr', source: 'uz' },
-  ru: { label: 'Русский', short: 'Ру', htmlLang: 'ru', ogLocale: 'ru_RU', dir: 'ltr', source: 'ru' },
-  en: { label: 'English', short: 'En', htmlLang: 'en', ogLocale: 'en_US', dir: 'ltr', source: 'en' },
+  uz: { label: 'Oʻzbekcha', short: 'Oʻz', htmlLang: 'uz-Latn', ogLocale: 'uz_UZ', dir: 'ltr', source: 'uz', fallback: 'uz' },
+  uzc: { label: 'Ўзбекча', short: 'Ўз', htmlLang: 'uz-Cyrl', ogLocale: 'uz_Cyrl_UZ', dir: 'ltr', source: 'uz', fallback: 'uz' },
+  ru: { label: 'Русский', short: 'Ру', htmlLang: 'ru', ogLocale: 'ru_RU', dir: 'ltr', source: 'ru', fallback: 'uz' },
+  en: { label: 'English', short: 'En', htmlLang: 'en', ogLocale: 'en_US', dir: 'ltr', source: 'en', fallback: 'uz' },
+  // Simplified Chinese: `zh-Hans` makes browsers pick the Simplified glyph forms; zh_CN is the og:locale.
+  zh: { label: '中文', short: '中文', htmlLang: 'zh-Hans', ogLocale: 'zh_CN', dir: 'ltr', source: 'zh', fallback: 'en' },
+  // One Persian text for Iran and Afghanistan: `fa` without a region covers both (Dari has no
+  // ISO 639-1 code, and Facebook has no fa_AF, so the og:locale is fa_IR).
+  fa: { label: 'فارسی', short: 'فا', htmlLang: 'fa', ogLocale: 'fa_IR', dir: 'rtl', source: 'fa', fallback: 'en' },
 };
 
 export function isLocale(value: unknown): value is Locale {
@@ -88,7 +129,7 @@ export function sourceOf(locale: Locale): SourceLang {
 }
 
 /**
- * '' for the default locale, '/ru', '/en', '/kirill' otherwise.
+ * '' for the default locale, '/ru', '/en', '/zh', '/fa', '/kirill' otherwise.
  *
  * The Cyrillic prefix is ASCII on purpose: it is a routing namespace, not a keyword. The
  * keywords are the slugs that follow it, and those are Cyrillic (see `routes.ts`).
@@ -97,7 +138,7 @@ export function langPrefix(locale: Locale): string {
   return locale === defaultLang ? '' : locale === 'uzc' ? '/kirill' : `/${locale}`;
 }
 
-/** Resolve the locale from a pathname such as '/ru/uslugi/' or '/kirill/нархлар/'. */
+/** Resolve the locale from a pathname such as '/ru/uslugi/', '/fa/pricing/' or '/kirill/нархлар/'. */
 export function langFromPath(pathname: string): Locale {
   const first = pathname.split('/').filter(Boolean)[0];
   if (first === 'kirill') return 'uzc';
@@ -160,9 +201,16 @@ function deepCyrillic(uz: unknown, ru: unknown, en: unknown): unknown {
  * For uzc: the file's own `uzc` branch if it has one, otherwise the `uz` branch transliterated.
  * Nothing in the repo provides a `uzc` branch today and nothing has to — the override exists so
  * that a single stubborn sentence can be hand-corrected without forking the whole file.
+ *
+ * For every other locale: its own branch. Only a locale listed in `PendingLang` (none today) may
+ * lack one; it then gets its `fallback` branch — English for zh and fa when they were being
+ * written, since Uzbek Latin is unreadable to both audiences.
  */
 export function pick<T>(locale: Locale, record: Localized<T>): T {
-  if (locale !== 'uzc') return record[locale] ?? record[defaultLang];
+  if (locale !== 'uzc') {
+    const own = (record as Partial<Record<SourceLang, T>>)[locale];
+    return own !== undefined ? own : record[langMeta[locale].fallback];
+  }
   if (record.uzc !== undefined) return record.uzc;
   const cached = cyrillicBranch.get(record);
   if (cached !== undefined) return cached as T;

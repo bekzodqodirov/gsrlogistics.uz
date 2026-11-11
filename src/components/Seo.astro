@@ -32,20 +32,107 @@ const ogImageAbs = new URL(ogImage, siteUrl).toString();
  * and Cyrillic runs about 11% wider per character than Latin. Measured across the 29 page titles:
  * at one shared budget of 62, Uzbek Latin put 2 titles over 580px and Uzbek Cyrillic put 16. So
  * the Cyrillic locale gets its own, narrower one. uz/ru/en keep 62 exactly, by construction.
+ *
+ * Persian (fa) has the Latin rules with its own punctuation — ؟ ، ؛ — as boundaries too, but not the
+ * Latin budget: priced with scripts/test-seo.mjs's letter widths, the site's fa titles run 9.9px a
+ * character at 20px (Latin Uzbek 9.2, English 9.4), so 62 characters is ~615px and 7 of the 19 went
+ * over 580px. 58 characters is that 580px, and the brand is added only when the whole title still
+ * fits in them (≤ 42 + " — GSR Logistics").
+ *
+ * Chinese (zh) is a different animal: every Han character is a full em, about twice a Latin letter,
+ * and the text has no spaces to cut at. So zh is budgeted in EMs, with the same model test-seo.mjs
+ * measures with (Han, CJK punctuation and full-width forms 1em), and cut only at Chinese (or
+ * Latin) punctuation — never between two ideographs, which test-seo.mjs fails as a cut mid-word.
+ * A Chinese string with no boundary inside the budget is left whole rather than broken. The brand
+ * joins a Chinese title with the full-width bar, no spaces ("…价格估算｜GSR Logistics"): Chinese
+ * titles write their own dash as "——", and a Latin " — " after one showed two different dashes.
  */
-const titleBudget = lang === 'uzc' ? 56 : 62;
+/* ── Chinese budgets, in ems ─────────────────────────────────────────────────────────────────── */
+
+/** 580px of desktop title at 20px — the line Google's title link runs out of room at. */
+const ZH_TITLE_EM = 29;
+/** The zh brand join: U+FF5C FULL-WIDTH VERTICAL LINE, 1em, with no spaces around it. */
+const ZH_BRAND_JOIN = '｜';
+/** Two lines of snippet, ~1,120px at 14px: about 80 Han characters (GLOSSARY §7: 60–80). */
+const ZH_DESC_EM = 80;
+
+/** Width in ems: Han / CJK punctuation / full-width 1, half-width 0.5, format and combining marks 0, Latin by class. */
+function emWidth(s: string): number {
+  let em = 0;
+  for (const c of s) {
+    if (/[\p{Script=Han}\u{3000}-\u{303F}\u{FF01}-\u{FF60}\u{3040}-\u{30FF}]/u.test(c) || c === '—' || c === '…') em += 1;
+    else if (/[\u{FF61}-\u{FF9F}]/u.test(c)) em += 0.5;
+    else if (/[\p{Cf}\p{Mn}]/u.test(c)) em += 0;
+    else if (/[ijlIft.,:;'’|!()\s-]/.test(c)) em += 0.28;
+    else if (/[A-Z]|[mwMW%@]/.test(c)) em += 0.7;
+    else em += 0.55;
+  }
+  return em;
+}
+
+/**
+ * Cut a Chinese string to `budget` ems at a boundary. A title first tries its first natural break
+ * (？ ： —— and the Latin ? : —, as the Latin rule does); then, like a description, the last sentence
+ * end (。！？) inside the budget, kept as it is; then the last clause mark (，、；) or space, replaced
+ * by "…". Nothing inside the budget to cut at: the string stays whole.
+ */
+function zhCut(text: string, budget: number, kind: 'title' | 'description'): string {
+  if (emWidth(text) <= budget) return text;
+  const chars = [...text];
+  let em = 0;
+  const widthAt: number[] = []; // em width of chars[0..i]
+  for (const c of chars) { em += emWidth(c); widthAt.push(em); }
+  const within = (i: number, room: number) => widthAt[i] <= room;
+  if (kind === 'title') {
+    for (let i = 0; i < chars.length && within(i, budget); i++) {
+      const c = chars[i];
+      if (widthAt[i] < 8) continue;
+      const spaced = /\s/.test(chars[i + 1] ?? ' '); // the Latin ? and : only count before a space ("9:00" is not a break)
+      if (c === '？' || (c === '?' && spaced)) return chars.slice(0, i + 1).join('').trim();
+      if (c === '：' || (c === ':' && spaced) || c === '—') return chars.slice(0, i).join('').replace(/[—\s]+$/u, '').trim();
+    }
+  }
+  const room = budget - 1; // the ellipsis
+  // A space is a boundary only between two Latin words (an English gloss, a brand): the half-width
+  // spaces around digits and Latin inside Chinese ("2026 年", "GSR Logistics 的") are not.
+  const cjk = (c: string | undefined) => c !== undefined && /[\p{Script=Han}\u{3000}-\u{303F}\u{FF01}-\u{FF60}]/u.test(c);
+  let sentence = -1;
+  let clause = -1;
+  for (let i = 0; i < chars.length && within(i, room); i++) {
+    if ('。！？!?'.includes(chars[i])) sentence = i;
+    else if ('，、；,;'.includes(chars[i]) || (chars[i] === ' ' && i > 0 && !cjk(chars[i - 1]) && !cjk(chars[i + 1]))) clause = i;
+  }
+  const enough = (i: number) => i !== -1 && widthAt[i] >= budget * 0.4; // a cut that keeps too little is no title
+  if (sentence !== -1 && widthAt[sentence] >= budget * 0.55) return chars.slice(0, sentence + 1).join('').trim();
+  if (enough(clause)) return chars.slice(0, clause).join('').replace(/[\s，、；,;:：—]+$/u, '').trim() + '…';
+  if (enough(sentence)) return chars.slice(0, sentence + 1).join('').trim();
+  return text;
+}
+
+const fa = lang === 'fa';
+const titleBudget = lang === 'uzc' ? 56 : fa ? 58 : 62;
 const shortTitle = (() => {
+  if (lang === 'zh') return zhCut(title, ZH_TITLE_EM, 'title');
   if (title.length <= titleBudget) return title;
-  const m = title.match(new RegExp(`^(.{20,${titleBudget}}?[?:—])\\s`));
+  const m = title.match(new RegExp(`^(.{20,${titleBudget}}?[?:—${fa ? '؟' : ''}])\\s`));
   if (m) return m[1].replace(/[:—]$/, '').trim();
   const cut = title.slice(0, titleBudget);
+  if (fa) return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s|,:—،؛]+(?:GSR|\S{1,2})$/u, '').replace(/[,:—|،؛]$/, '').trim() + '…';
   return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s|,:—]+(?:GSR|\S{1,2})$/u, '').replace(/[,:—|]$/, '').trim() + '…';
 })();
-const fullTitle = shortTitle.includes(site.name) || shortTitle.length > 48 ? shortTitle : `${shortTitle} — ${site.name}`;
+const fullTitle =
+  lang === 'zh'
+    ? shortTitle.includes(site.name) || emWidth(`${shortTitle}${ZH_BRAND_JOIN}${site.name}`) > ZH_TITLE_EM ? shortTitle : `${shortTitle}${ZH_BRAND_JOIN}${site.name}`
+    : shortTitle.includes(site.name) || shortTitle.length > (fa ? 42 : 48) ? shortTitle : `${shortTitle} — ${site.name}`;
 // Meta description: trim to ≤160 chars at a sentence/clause boundary (the page keeps the full text in its intro).
 const metaDescription = (() => {
+  if (lang === 'zh') return zhCut(description, ZH_DESC_EM, 'description');
   if (description.length <= 160) return description;
   const cut = description.slice(0, 158);
+  if (fa) {
+    const at = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '), cut.lastIndexOf(' — '), cut.lastIndexOf(', '), cut.lastIndexOf('؛ '), cut.lastIndexOf('، '), cut.lastIndexOf('؟ '));
+    return (at > 90 ? cut.slice(0, at + 1).trim().replace(/[,;،؛]$/, '…') : cut.replace(/\s+\S*$/, '') + '…').trim();
+  }
   const at = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '), cut.lastIndexOf(' — '), cut.lastIndexOf(', '));
   return (at > 90 ? cut.slice(0, at + 1).trim().replace(/[,;]$/, '…') : cut.replace(/\s+\S*$/, '') + '…').trim();
 })();

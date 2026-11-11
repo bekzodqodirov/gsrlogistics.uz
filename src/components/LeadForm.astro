@@ -3,6 +3,15 @@
  * Lead form (DESIGN_BRIEF §7.4). Fields: name, phone (+998, light mask), service select,
  * cargo textarea, consent checkbox → privacy page, honeypot.
  *
+ * Phone, by locale. uz, uzc, ru, en: the +998 mask (prefilled on focus, forced, +998 XX XXX XX XX).
+ * zh and fa (decision of 2026-11-10): any international number — "+" prefilled on focus (zh: "+86 ",
+ * China's code, which the visitor may replace), no country forced, a leading 00 read as +, valid when
+ * the digits after the + make an E.164 number (^\+[1-9]\d{6,14}$ once the spaces are removed; on zh a
+ * +86 number also has at most 11 digits after the 86 — see the script). Every mode reads Persian, Arabic-Indic and
+ * full-width digits and keeps ASCII in the field, so the number reaches the manager dialable (from an
+ * RTL page without its spaces, which a right-to-left line would lay out in reverse order). The phone
+ * input is an LTR island (dir="ltr"); on an RTL page it sits on the start side (text-align: right).
+ *
  * Submit flow (bundled script): validate, then hand the answers to the chat flow every Telegram
  * button uses (a "gsr:lead" event → components/ContactPicker.astro). That asks GSR's system for the
  * least busy manager of the chosen service's team, shows the manager and the message — «Kod: GSR-…»
@@ -14,7 +23,7 @@
  * which t.me reads as the draft; other fields travel as harmless extra params.
  * Props: { lang, id?, dark? }.
  */
-import { pick, type Locale } from '@/i18n/config';
+import { pick, langMeta, type Locale } from '@/i18n/config';
 import { contact } from '@/i18n/contact';
 import { pagePath } from '@/i18n/routes';
 import { site, telegramChat } from '@/lib/site';
@@ -23,7 +32,24 @@ import Icon from '@/components/ui/Icon.astro';
 
 interface Props { lang: Locale; id?: string; dark?: boolean }
 const { lang, id = 'lead', dark = false } = Astro.props;
+/** The locales whose visitors leave any country's number (see the header); every other keeps the +998 mask. */
+const INTL_PHONE: readonly Locale[] = ['zh', 'fa'];
+const intlPhone = INTL_PHONE.includes(lang);
+/**
+ * The country code an empty international field is prefilled with, after the "+". zh: China's 86 — a
+ * Chinese mobile typed the way it is dialled at home ("138 0013 8000") after a bare "+" became a +1
+ * number. fa: none, the "+" alone (the visitors' numbers are Iranian, Afghan, Uzbek…).
+ */
+const phoneCc = lang === 'zh' ? '86' : undefined;
+const rtl = langMeta[lang].dir === 'rtl';
+/** On an RTL page a Latin name or a pasted list should align as typed. */
+const textDir = rtl ? 'auto' : undefined;
 const t = pick(lang, contact).form;
+/**
+ * RTL pages: the hint's example numbers become LTR islands. Inside Persian text "+98 912 345 6789" would
+ * otherwise show its digit groups in reverse ("6789 345 912 98+"). Other pages print the hint as it is.
+ */
+const phoneHintParts = rtl ? t.phoneHint.split(/(\+\d[\d\s]*\d)/) : undefined;
 const uid = (s: string) => `${id}-${s}`;
 const privacyHref = pagePath(lang, 'privacy');
 const [consentBefore, consentAfter] = t.consent.split('{link}');
@@ -45,6 +71,8 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   action={telegramChat()}
   data-lead
   data-lang={lang}
+  data-phone={intlPhone ? 'intl' : undefined}
+  data-phone-cc={phoneCc}
   data-tg={site.telegramDirect}
   data-route-team={JSON.stringify(routeTeam)}
   data-i18n={i18n}
@@ -58,14 +86,14 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   <div class="lead-fields" data-el="fields">
     <div class="field">
       <label for={uid('name')}>{t.name}</label>
-      <input class="input" id={uid('name')} name="name" type="text" autocomplete="name" placeholder={t.namePlaceholder} required maxlength="60" data-el="name" aria-describedby={uid('name-err')} />
+      <input class="input" id={uid('name')} name="name" type="text" autocomplete="name" placeholder={t.namePlaceholder} required maxlength="60" data-el="name" dir={textDir} aria-describedby={uid('name-err')} />
       <p class="err" id={uid('name-err')} data-err="name" hidden></p>
     </div>
 
     <div class="field">
       <label for={uid('phone')}>{t.phone}</label>
-      <input class="input tnum" id={uid('phone')} name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+998" required maxlength="20" data-el="phone" aria-describedby={`${uid('phone-hint')} ${uid('phone-err')}`} />
-      <p class="hint" id={uid('phone-hint')}>{t.phoneHint}</p>
+      <input class="input tnum" id={uid('phone')} name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder={intlPhone ? `+${phoneCc ?? ''}` : '+998'} required maxlength={intlPhone ? 24 : 20} data-el="phone" aria-describedby={`${uid('phone-hint')} ${uid('phone-err')}`} />
+      <p class="hint" id={uid('phone-hint')}>{phoneHintParts ? phoneHintParts.map((part, i) => (i % 2 ? <span class="tel-example" dir="ltr">{part}</span> : part)) : t.phoneHint}</p>
       <p class="err" id={uid('phone-err')} data-err="phone" hidden></p>
     </div>
 
@@ -79,7 +107,7 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
 
     <div class="field">
       <label for={uid('text')}>{t.cargo}</label>
-      <textarea class="textarea" id={uid('text')} name="text" rows="4" placeholder={t.cargoPlaceholder} required maxlength="180" data-el="text" aria-describedby={`${uid('text-hint')} ${uid('text-err')}`}></textarea>
+      <textarea class="textarea" id={uid('text')} name="text" rows="4" placeholder={t.cargoPlaceholder} required maxlength="180" data-el="text" dir={textDir} aria-describedby={`${uid('text-hint')} ${uid('text-err')}`}></textarea>
       <p class="hint" id={uid('text-hint')}>{t.cargoHint}</p>
       <p class="err" id={uid('text-err')} data-err="cargo" hidden></p>
     </div>
@@ -124,7 +152,17 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   .err { font-size: var(--text-small); color: #d93025; }
   .lead.is-dark .err { color: #ff7a7d; }
   .lead :global(.input[aria-invalid='true']), .lead :global(.textarea[aria-invalid='true']) { border-color: #d93025; }
-  .hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+  /* inset-inline-start: in RTL the far left is the scrollable side, so a physical left: -10000px gave
+     the contact page 10 000px of horizontal overflow; the start side is never scrollable. */
+  .hp { position: absolute; inset-inline-start: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+  /* The phone is an LTR island (dir="ltr"); on an RTL page it still sits on the start side, under its label. */
+  :global([dir='rtl']) .lead input[type='tel'] { text-align: right; }
+  /* dir="auto" (RTL pages) resolves an EMPTY field to ltr, which would push the Persian placeholder to
+     the left edge: until something is typed the field keeps the page direction. */
+  :global([dir='rtl']) .lead input[dir='auto']:placeholder-shown,
+  :global([dir='rtl']) .lead textarea[dir='auto']:placeholder-shown { direction: rtl; }
+  /* An example number in the phone hint (RTL pages) stays whole: one LTR island, one line. */
+  .tel-example { white-space: nowrap; }
   .checkbox { cursor: pointer; }
   .consent-link { text-decoration: underline; text-underline-offset: 3px; color: var(--fg); }
   .lead-actions { display: grid; gap: 10px; }
@@ -153,11 +191,14 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   }
   interface LeadEventDetail { team: string; topic?: string; summary: string; trigger?: HTMLElement; handled?: boolean }
 
+  import { colon, sep, toAsciiDigits } from '@/lib/format';
+  import type { Locale } from '@/i18n/config';
+
   const forms = document.querySelectorAll<HTMLFormElement>('form[data-lead]');
 
-  /** Light +998 mask: keeps digits, forces the 998 prefix, groups as +998 XX XXX XX XX. */
+  /** Light +998 mask: keeps digits (any digit set — a Persian keypad's ۹۰ is 90), forces the 998 prefix, groups as +998 XX XXX XX XX. */
   function formatPhone(raw: string): string {
-    let d = raw.replace(/\D/g, '');
+    let d = toAsciiDigits(raw).replace(/\D/g, '');
     // Strip repeated country prefixes: the field pre-fills '+998 ', so a pasted '+998 90 …' or
     // '998901234567' would otherwise leave a doubled 998 in front of the subscriber number.
     while (d.startsWith('998') && d.length > 9) d = d.slice(3);
@@ -167,6 +208,53 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
     return '+998' + (parts.length ? ' ' + parts.join(' ') : '');
   }
   const phoneOk = (v: string) => /^\+998\d{9}$/.test(v.replace(/\s/g, ''));
+
+  /**
+   * zh and fa: any international number, as typed. ASCII digits; one "+", always in front — a "+" typed
+   * anywhere (or a caret that landed before the prefilled one) still means an international number, and
+   * a leading 00, the international prefix, becomes it; spaces, brackets and dashes kept as the visitor
+   * groups them; nothing else. No country is assumed and nothing is regrouped.
+   */
+  function cleanIntl(raw: string): string {
+    let s = toAsciiDigits(raw).replace(/[^\d\s()+-]/g, '').replace(/\s+/g, ' ');
+    let plus = s.includes('+');
+    s = s.replace(/\+/g, '').replace(/^\s+/, '');
+    if (/^00\d/.test(s)) { s = s.slice(2); plus = true; } // "0098…", or "+0098…" typed after the prefilled "+"
+    return (plus ? '+' : '') + s;
+  }
+  /** E.164: a "+", a country code that does not start with 0, 7 to 15 digits in all. */
+  const intlOk = (v: string) => /^\+[1-9]\d{6,14}$/.test(cleanIntl(v).replace(/[\s()-]/g, ''));
+
+  /*
+   * zh pre-fills China's code, "+86 " (data-phone-cc="86"). Four rules keep that prefill from turning a
+   * right number into a wrong one that still passes as E.164:
+   *  · a number typed or pasted in full after the untouched prefill — its own "+" or 00 first
+   *    ("+998 90 123 45 67", "+86 138 0013 8000") — replaces the prefill instead of following it;
+   *  · digits typed in FRONT of the untouched prefill (a caret put before it) go behind it: "138+86 "
+   *    is "+86 138", not the +1 number "+13886";
+   *  · once the field is left, the code typed twice ("+86 86 138 …") and a trunk 0 ("+86 0579 …") go:
+   *    after +86 a Chinese number has at most 11 digits and never starts with 0;
+   *  · a +86 number with more digits than that is not valid ("+86 998 90 123 45 67").
+   * fa pre-fills the "+" alone, and none of this applies there.
+   */
+  const CN_NATIONAL_MAX = 11;
+  /** The visitor's own number in place of the untouched prefill, when that is what was typed or pasted. */
+  function ownNumber(raw: string, prefill: string): string {
+    const rest = raw.startsWith(prefill) ? raw.slice(prefill.length) : raw.endsWith(prefill) ? raw.slice(0, -prefill.length) : undefined;
+    return rest !== undefined && /^\s*(?:\+|00)/.test(toAsciiDigits(rest)) ? rest : raw;
+  }
+  /** The digits after +86, or undefined for a number that is not Chinese. */
+  const cnNational = (v: string) => (v.startsWith('+86') ? v.slice(3).replace(/\D/g, '') : undefined);
+  /** "+86 86 138 0013 8000" → "+86 138 0013 8000"; "+86 0579 8888 8888" → "+86 579 8888 8888"; anything else as it is. */
+  function tidyCn(v: string): string {
+    const national = cnNational(v);
+    if (national === undefined) return v;
+    let rest = v.slice(3);
+    if (national.startsWith('86') && national.length > CN_NATIONAL_MAX) rest = rest.replace(/^([\s()-]*)8[\s()-]*6[\s()-]*/, '$1');
+    rest = rest.replace(/^([\s()-]*)0(?=[\s()-]*[1-9])/, '$1');
+    return `+86${rest}`;
+  }
+  const cnOk = (v: string) => (cnNational(v)?.length ?? 0) <= CN_NATIONAL_MAX;
 
   forms.forEach((form) => {
     const i18n = JSON.parse(form.dataset.i18n || '{}') as LeadI18n;
@@ -183,12 +271,50 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
     const tgBase = form.dataset.tg || '';
     const routeTeam: Record<string, string> = (() => { try { return JSON.parse(form.dataset.routeTeam || '{}'); } catch { return {}; } })();
 
+    const lang = (form.dataset.lang || 'uz') as Locale;
+    /** zh/fa: any international number (data-phone="intl"); everywhere else the +998 mask. */
+    const intl = form.dataset.phone === 'intl';
+    /** zh: the field is prefilled with China's code, "+86 ", and the China rules above apply; fa: the "+" alone. */
+    const cc = form.dataset.phoneCc ?? '';
+    const cn = cc === '86';
+    const prefill = cc ? `+${cc} ` : '+';
+    const own = (s: string) => (cc ? ownNumber(s, prefill) : s);
+    const tidy = (s: string) => (cn ? tidyCn(s) : s);
+
     // Progressive enhancement: JS owns submission from here on; keep the GET action only as a no-JS path.
     form.setAttribute('data-enhanced', 'true');
     form.noValidate = true; // JS owns validation and its localized messages; no-JS keeps the native one
-    phone.addEventListener('focus', () => { if (!phone.value) phone.value = '+998 '; });
-    phone.addEventListener('input', () => { phone.value = formatPhone(phone.value); });
-    phone.addEventListener('blur', () => { if (phone.value.trim() === '+998') phone.value = ''; });
+    if (intl) {
+      phone.addEventListener('focus', () => {
+        if (phone.value) return;
+        phone.value = prefill;
+        // After the click or tap has placed its caret: on an RTL page the field is right-aligned, so a
+        // tap lands before the "+" — put the caret after the prefill.
+        setTimeout(() => { if (document.activeElement === phone && phone.value === prefill) phone.setSelectionRange(prefill.length, prefill.length); }, 0);
+      });
+      phone.addEventListener('input', () => {
+        const typed = phone.value;
+        let src = typed;
+        let at = phone.selectionStart ?? typed.length;
+        // zh: digits typed in front of the untouched prefill are the national number — they move behind it.
+        const lead = cc && typed.endsWith(prefill) && !typed.startsWith(prefill) ? typed.slice(0, -prefill.length) : '';
+        if (lead && !/^\s*(?:\+|00)/.test(toAsciiDigits(lead))) { src = prefill + lead; at = prefill.length + Math.min(at, lead.length); }
+        const next = cleanIntl(own(src));
+        if (next === typed) return;
+        // Keep the caret where the visitor is typing: what survives of the text before it (plus the
+        // "+" moved in front of it, when that "+" came from after the caret).
+        const before = cleanIntl(own(src.slice(0, at)));
+        const caret = before.length + (next.startsWith('+') && !before.startsWith('+') ? 1 : 0);
+        phone.value = next;
+        try { phone.setSelectionRange(caret, caret); } catch { /* the field is not focused */ }
+      });
+      // An untouched prefill ("+", zh "+86") is no number: the field goes back to empty.
+      phone.addEventListener('blur', () => { const v = tidy(cleanIntl(phone.value).trim()); phone.value = v === '+' || v === prefill.trim() ? '' : v; });
+    } else {
+      phone.addEventListener('focus', () => { if (!phone.value) phone.value = '+998 '; });
+      phone.addEventListener('input', () => { phone.value = formatPhone(phone.value); });
+      phone.addEventListener('blur', () => { if (phone.value.trim() === '+998') phone.value = ''; });
+    }
 
     const setError = (key: string, el: HTMLElement | null, msg: string) => {
       const box = form.querySelector<HTMLElement>(`[data-err="${key}"]`);
@@ -199,23 +325,36 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
       let firstBad: HTMLElement | null = null;
       const check = (ok: boolean, key: string, el: HTMLElement, msg: string) => { setError(key, el, ok ? '' : msg); if (!ok && !firstBad) firstBad = el; };
       check(name.value.trim().length >= 2, 'name', name, i18n.errors.name);
-      check(phoneOk(phone.value), 'phone', phone, i18n.errors.phone);
+      if (intl) phone.value = tidy(cleanIntl(phone.value).trim()); // an autofilled or pasted value, normalised before it is checked and sent
+      check(intl ? intlOk(phone.value) && (!cn || cnOk(phone.value)) : phoneOk(phone.value), 'phone', phone, i18n.errors.phone);
       check(text.value.trim().length >= 5, 'cargo', text, i18n.errors.cargo);
       check(consent.checked, 'consent', consent, i18n.errors.consent);
       if (firstBad) (firstBad as HTMLElement).focus();
       return !firstBad;
     };
 
-    /** The one line the manager reads on the lead: name · phone · service · cargo. */
-    const summary = () => [name.value, phone.value, route.value ? i18n.routes[route.value] ?? '' : '', text.value]
-      .map((v) => v.replace(/\s+/g, ' ').trim()).filter(Boolean).join(' · ');
-    /** The labelled message, for the one case the chat flow is missing from the page. */
+    /**
+     * The number as the manager receives it. An RTL page sends it without spaces, brackets or dashes
+     * ("+989123456789"): a right-to-left line (Telegram's, and the preview's) lays spaced digit groups
+     * out in reverse order ("6789 345 912 98+"), and one unbroken run keeps its order. No bidi mark is
+     * added; the text is sent as it is. Other pages send the field as typed.
+     */
+    const rtlPage = getComputedStyle(form).direction === 'rtl';
+    const phoneOut = () => (rtlPage ? phone.value.replace(/[\s()-]/g, '') : phone.value.trim());
+    /** The one line the manager reads on the lead: name · phone · service · cargo (fa joins with " • "). */
+    const summary = () => [name.value, phoneOut(), route.value ? i18n.routes[route.value] ?? '' : '', text.value]
+      .map((v) => v.replace(/\s+/g, ' ').trim()).filter(Boolean).join(sep(lang));
+    /**
+     * The labelled message, for the one case the chat flow is missing from the page. Labels take the
+     * locale's colon (lib/format.ts): ": ", zh "：" ("姓名：王明").
+     */
     const compose = (): string => {
       const d = i18n.draft;
-      const lines = [d.intro, `${d.name}: ${name.value.trim()}`, `${d.phone}: ${phone.value.trim()}`];
-      if (route.value) lines.push(`${d.route}: ${i18n.routes[route.value] ?? route.value}`);
-      lines.push(`${d.cargo}: ${text.value.trim()}`);
-      lines.push(`${d.page}: ${location.origin}${location.pathname}`);
+      const c = colon(lang);
+      const lines = [d.intro, `${d.name}${c}${name.value.trim()}`, `${d.phone}${c}${phoneOut()}`];
+      if (route.value) lines.push(`${d.route}${c}${i18n.routes[route.value] ?? route.value}`);
+      lines.push(`${d.cargo}${c}${text.value.trim()}`);
+      lines.push(`${d.page}${c}${location.origin}${location.pathname}`);
       return lines.join('\n');
     };
     const show = (panel: HTMLElement) => { fields.hidden = true; success.hidden = panel !== success; panel.focus?.(); };

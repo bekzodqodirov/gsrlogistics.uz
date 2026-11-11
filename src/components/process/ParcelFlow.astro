@@ -33,7 +33,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { tracking, STAGE_KEYS } from '@/i18n/tracking';
 import { parcel } from '@/i18n/parcel';
 import { pagePath } from '@/i18n/routes';
-import { fmtNumber, fmtUsd } from '@/lib/format';
+import { fmtInt, fmtNumRange, fmtUsd, unitSymbol } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 
 interface Props { lang: Locale; id?: string }
@@ -41,8 +41,9 @@ const { lang, id = 'gs' } = Astro.props;
 const tr = pick(lang, tracking);
 const t = pick(lang, parcel);
 
-/* Every number in the chips comes from the tariff sheet — edit tariffs.json and this moves with it. */
-const range = (d: number[]) => `${fmtNumber(d[0], lang)}–${fmtNumber(d[1], lang)}`;
+/* Every number in the chips comes from the tariff sheet — edit tariffs.json and this moves with it.
+   fmtNumRange: "15–25" in five locales, "۱۵ تا ۲۵" on fa, as the journey and the hero print it. */
+const range = (d: number[]) => fmtNumRange(d[0], d[1], lang);
 const vars: Record<string, string> = {
   rate: fmtUsd(tariffs.truck.lclPerM3ByDensity[0].rate, lang),
   truckDays: range(tariffs.truck.days),
@@ -79,7 +80,8 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
       '<rect x="36" y="62" width="60" height="42" rx="6"/><circle cx="66" cy="83" r="12"/><circle cx="66" cy="83" r="4.5"/>' +
       '<path d="M50 62v-8h16v8"/><path d="M66 104v72M54 176h24"/>' +
       '<g stroke="var(--gs-dim)"><path d="M102 72l16 6M102 83h17M102 94l16-6"/></g>',
-    labels: [{ x: '80%', y: '34.5%', s: 'kg' }, { x: '80%', y: '44.5%', s: 'm³' }],
+    /* unitSymbol: the Latin "kg"/"m³" in uz/uzc/ru/en/zh, Persian unit words on fa (DECISIONS §1). */
+    labels: [{ x: '80%', y: '34.5%', s: unitSymbol('kg', lang) }, { x: '80%', y: '44.5%', s: unitSymbol('m3', lang) }],
   },
   {
     /* 2 · consolidation — loaded trailer. Two ribs fence an 82-unit slot, exactly the carton's width
@@ -165,7 +167,7 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
           aria-label={tr.stages[k].short}
           aria-controls={`${id}-say-${i}`}
         />
-        <span class="gs-n tnum">0{i + 1}</span>
+        <span class="gs-n tnum">{fmtInt(i + 1, lang, 2)}</span>
         <svg class="gs-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={GLYPHS[i]} />
         <span class="gs-nm">{tr.stages[k].short}</span>
         <span class="gs-bar" aria-hidden="true"></span>
@@ -369,6 +371,8 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
      part of the tile that also reads as a tab indicator. */
   .gs-bar { position: absolute; left: 9px; right: 9px; bottom: 6px; height: 3px; border-radius: var(--radius-pill); background: var(--border); overflow: hidden; }
   .gs-bar::after { content: ''; display: block; height: 100%; border-radius: inherit; background: var(--accent); transform: scaleX(0); transform-origin: left center; transition: transform 420ms var(--ease-out-expo); }
+  /* RTL: the tiles read right to left, so the fill sweeps from the right. */
+  :global([dir='rtl']) .gs-bar::after { transform-origin: right center; }
   .gs-stop:has(~ .gs-stop :checked) .gs-bar::after { transform: scaleX(1); }
 
   /* Sibling combinators where the input can reach; :has() only for the label itself. */
@@ -402,8 +406,14 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
   /* ---------- the stage ---------- */
   .gs-frame { container-type: inline-size; position: relative; overflow: hidden; border: 1px solid var(--card-border); border-radius: var(--radius-lg); background: var(--bg-3); }
   .gs-film, .gs-sfilm { display: flex; width: 600%; transform: translateX(calc(var(--i) * -16.6666667%)); transition: transform 520ms var(--ease-out-expo); }
+  /* RTL: the strip mirrors (stage 1 is the RIGHT-most frame and the film hangs off the left), so it
+     slides the other way. With the LTR sign it slid into empty space: stages 2–6 were blank. */
+  :global([dir='rtl']) .gs-film, :global([dir='rtl']) .gs-sfilm { transform: translateX(calc(var(--i) * 16.6666667%)); }
   .gs-scene, .gs-say { flex: 0 0 16.6666667%; }
   .gs-scene { position: relative; aspect-ratio: 360 / 184; }
+  /* Each drawing itself is a scene, not reading order: the truck faces the way it faces and the
+     CN → KZ gate stays first, so a scene keeps its own left-to-right (its labels sit at physical %). */
+  :global([dir='rtl']) .gs-scene { direction: ltr; }
   .gs-scene svg { display: block; width: 100%; height: 100%; color: var(--fg); }
   /* vector-effect is NOT an inherited property, so the attribute on a <g> would be inert here. */
   .gs-scene svg :global(*) { vector-effect: non-scaling-stroke; }
@@ -418,8 +428,9 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
   /* ---------- the words ---------- */
   .gs-says { overflow: hidden; margin-top: 16px; }
   .gs-sfilm { list-style: none; margin: 0; padding: 0; }
-  .gs-say { padding-right: 8px; }
+  .gs-say { padding-inline-end: 8px; }
   .gs-say h4 { font-size: 1.125rem; font-weight: 600; line-height: 1.25; }
+  :global(:root:lang(zh)) .gs-say h4, :global(:root:lang(fa)) .gs-say h4 { line-height: var(--leading-tight); }
   /* The pane is as wide as the picture, and below 900px the picture is the whole container: cap the
      sentence so a 900px-wide tablet does not get a 90-character line. */
   .gs-say p { margin-top: 6px; max-width: 62ch; font-size: var(--text-small); line-height: 1.5; color: var(--fg-2); text-wrap: pretty; }
@@ -501,5 +512,7 @@ const SCENES: Array<{ g: string; labels?: Array<{ x: string; y: string; s: strin
     .gs-says { overflow: visible; counter-reset: gs; }
     .gs-say { flex: none; padding: 0; margin-top: 20px; }
     .gs-say h4::before { counter-increment: gs; content: '0' counter(gs) ' — '; }
+    /* Persian digits, like the tiles' fmtInt numbers (DECISIONS §1). */
+    :global(:root:lang(fa)) .gs-say h4::before { content: '۰' counter(gs, persian) ' — '; }
   }
 </style>

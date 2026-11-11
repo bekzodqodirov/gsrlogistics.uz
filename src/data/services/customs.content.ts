@@ -1,4 +1,4 @@
-import type { ServiceContentByLang } from './types';
+import type { ServiceContentSource } from './types';
 
 /**
  * Bojxona rasmiylashtiruvi — long-form page content.
@@ -9,7 +9,7 @@ import type { ServiceContentByLang } from './types';
  * Uzbek Latin-script labelling from 2024-01-01; VMQ-554 (02.09.2025) — certification list; VMQ-283 (14.05.2020) —
  * 180-day rule; PF-250 (17.12.2025) — preliminary declaration −20% fee. Never print "bojsiz" / "hujjatsiz".
  */
-const content: ServiceContentByLang = {
+const content: ServiceContentSource = {
   uz: {
     key: 'customs',
     seo: {

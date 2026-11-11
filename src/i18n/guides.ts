@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/guides';
+import { fa } from './fa/guides';
 
 export interface GuidesStrings {
   seoTitle: string; seoDescription: string; eyebrow: string; h1: string; intro: string;
@@ -34,4 +36,4 @@ const en: GuidesStrings = {
   askTitle: 'Still have a question?', askText: 'Message us on Telegram — a manager answers for your specific cargo.', author: 'Author', updated: 'Updated', published: 'Published', allGuides: 'All guides', tags: 'Topics',
   tagLabels: { truck: 'Truck', air: 'Air', rail: 'Rail', customs: 'Customs', warehouse: 'Warehouse', sourcing: 'Sourcing', buying: 'Buying', suppliers: 'Suppliers', import: 'Import', '1688': '1688', glossary: 'Glossary', lugat: 'Glossary', slovar: 'Glossary', routes: 'Routes', yonalishlar: 'Routes', marshruty: 'Routes', taqqoslash: 'Comparison', bozorlar: 'Markets' },
 };
-export const guidesStrings: Record<Lang, GuidesStrings> = { uz, ru, en };
+export const guidesStrings: Localized<GuidesStrings> = { uz, ru, en, zh, fa };

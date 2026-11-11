@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/journey';
+import { fa } from './fa/journey';
 
 /**
  * Strings for the pinned cargo-journey section (src/components/journey/Journey.astro).
@@ -122,4 +124,4 @@ const en: JourneyStrings = {
   },
 };
 
-export const journey: Record<Lang, JourneyStrings> = { uz, ru, en };
+export const journey: Localized<JourneyStrings> = { uz, ru, en, zh, fa };

@@ -1,4 +1,6 @@
-import type { Lang } from './config';
+import type { Localized } from './config';
+import { zh } from './zh/track-system';
+import { fa } from './fa/track-system';
 
 /**
  * Strings for the home "how we track" section (src/components/sections/HowWeTrack.astro).
@@ -136,4 +138,4 @@ const en: TrackSystemStrings = {
   },
 };
 
-export const trackSystem: Record<Lang, TrackSystemStrings> = { uz, ru, en };
+export const trackSystem: Localized<TrackSystemStrings> = { uz, ru, en, zh, fa };

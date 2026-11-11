@@ -1,4 +1,4 @@
-import type { ServiceContentByLang } from './types';
+import type { ServiceContentSource } from './types';
 
 /**
  * 1688 / Taobao / Pinduoduo / Alibaba buying agent (vykup) — long-form page content.
@@ -19,7 +19,7 @@ import type { ServiceContentByLang } from './types';
  * (several products and sellers combine under one GS code); never single-item, small or "test" orders. Minimums in
  * the platform table are the sellers' own, never our offer; the freight example therefore stays ≥ 1 m³.
  */
-const content: ServiceContentByLang = {
+const content: ServiceContentSource = {
   uz: {
     key: 'buying',
     seo: {
