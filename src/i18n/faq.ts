@@ -5,11 +5,15 @@ import { fa } from './fa/faq';
 /** Labels for the FAQ page (/savol-javob/) and the home FAQ section. Questions and answers live in src/data/faq.ts. */
 export interface FaqStrings {
   seoTitle: string;
-  /** Placeholder: {count} — the number of questions, filled by FaqPage exactly as in the intro. */
+  /**
+   * Placeholder: {count} — the number of questions, filled by FaqPage exactly as in the intro. Russian
+   * also writes {countNoun}, the form of «вопрос» that agrees with the count (ruQuestions in format.ts):
+   * the noun after a Russian numeral changes with the number, so it cannot be fixed text.
+   */
   seoDescription: string;
   eyebrow: string;
   h1: string;
-  /** Placeholders: {count} {truckDays} {airDays} {truckFrom} */
+  /** Placeholders: {count} {truckDays} {airDays} {truckFrom} (ru also {countNoun}, as in seoDescription) */
   intro: string;
   navLabel: string;
   navTitle: string;
@@ -36,10 +40,10 @@ const uz: FaqStrings = {
 
 const ru: FaqStrings = {
   seoTitle: 'Вопросы и ответы о карго из Китая — цены, сроки, таможня | GSR Logistics',
-  seoDescription: 'Точные ответы на {count} вопросов о доставке грузов из Китая в Узбекистан: сборный груз 15–25 дней, авиа 5–10 дней, расчёт по кг или м³, лимит 200 $, пошлины и НДС, запрещённые товары, страховка, выкуп с 1688.',
+  seoDescription: 'Точные ответы на {count} {countNoun} о доставке грузов из Китая в Узбекистан: сборный груз 15–25 дней, авиа 5–10 дней, расчёт по кг или м³, лимит 200 $, пошлины и НДС, запрещённые товары, страховка, выкуп с 1688.',
   eyebrow: 'Вопросы и ответы',
   h1: 'Карго из Китая: ответы на частые вопросы',
-  intro: 'На этой странице — короткие ответы на {count} вопроса о доставке грузов из Китая в Узбекистан: сборный груз ориентировочно {truckDays} дней, авиа {airDays} дней, цена от {truckFrom}/м³, таможенное оформление официальное, с ГТД. Не нашли ответ — напишите в Telegram, менеджер посчитает именно ваш груз.',
+  intro: 'На этой странице — короткие ответы на {count} {countNoun} о доставке грузов из Китая в Узбекистан: сборный груз ориентировочно {truckDays} дней, авиа {airDays} дней, цена от {truckFrom}/м³, таможенное оформление официальное, с ГТД. Не нашли ответ — напишите в Telegram, менеджер посчитает именно ваш груз.',
   navLabel: 'Разделы вопросов',
   navTitle: 'Разделы',
   questionsWord: 'вопр.',

@@ -89,7 +89,7 @@ export const zh: ContactStrings = {
     eyebrow: '联系我们',
     h2: '下一步，只需一条消息。',
     text: '无论货物已在中国，还是尚需寻找货源，都请给我们留言：告诉我们货物、城市和期限，我们会为您提供报价和路线方案。',
-    telegram: '通过 Telegram 联系',
+    telegram: '在 Telegram 联系我们',
     call: '致电我们',
     addressLabel: '办公室',
     hoursLabel: '工作时间',

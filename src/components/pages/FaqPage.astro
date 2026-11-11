@@ -10,7 +10,7 @@ import { faqStrings, faqTpl } from '@/i18n/faq';
 import { faq, faqItems } from '@/data/faq';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtDate, fmtInt, fmtNumRange, fmtUsd, sep } from '@/lib/format';
+import { fmtDate, fmtInt, fmtNumRange, fmtUsd, ruQuestions, sep } from '@/lib/format';
 import { faqNode } from '@/lib/schema';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
@@ -27,6 +27,9 @@ const all = faqItems(lang);
 const truckFrom = tariffs.truck.lclPerM3ByDensity[0].rate;
 const vars = {
   count: fmtInt(all.length, lang),
+  // Russian only: «вопрос» declined for the count (на 21 вопрос, 32 вопроса, 35 вопросов). The other
+  // locales write their own word into the string and never use {countNoun}.
+  countNoun: lang === 'ru' ? ruQuestions(all.length) : '',
   truckDays: fmtNumRange(tariffs.truck.days[0], tariffs.truck.days[1], lang),
   airDays: fmtNumRange(tariffs.air.days[0], tariffs.air.days[1], lang),
   truckFrom: fmtUsd(truckFrom, lang),

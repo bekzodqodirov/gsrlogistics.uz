@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { estimate, estimateAir, estimateTruck, estimateRail, volumetricKg, chargeableKg, densityKgM3, formatBreakdown, BelowMinimumVolumeError } from '../src/lib/pricing.ts';
 import {
-  fmtUsd, fmtNumber, withFrom, ruDays, fmtInt, fmtDigits, fmtNumRange, fmtRange, fmtPercent, fmtUsdNumber, fmtUsdRange,
+  fmtUsd, fmtNumber, withFrom, ruDays, ruPlural, ruQuestions, fmtInt, fmtDigits, fmtNumRange, fmtRange, fmtPercent, fmtUsdNumber, fmtUsdRange,
   usdMark, fmtSom, fmtSomRange, fromPosition, daysWord, unitWord, unitSymbol, sep, sepMark, arrow, endSentence,
   fmtDate, fmtMonthYear, readingMinutes, toAsciiDigits, parseNumber, decimalPattern,
   colon, colonMark, colonGap, paren, stopMark, joinSentences, approxLeads,
@@ -174,6 +174,31 @@ test('fmtUsd, withFrom, ruDays', () => {
   assert.equal(withFrom('6,5 $/кг', 'ru', 'от'), 'от 6,5 $/кг');
   assert.equal(withFrom('$6.50/kg', 'en', 'from'), 'from $6.50/kg');
   assert.deepEqual([1, 3, 5, 11, 14, 21, 22, 25].map(ruDays), ['день', 'дня', 'дней', 'дней', 'дней', 'день', 'дня', 'дней']);
+});
+
+// 10b. The Russian noun after a count. The ru FAQ intro and meta description say «ответы на {count}
+// {countNoun}», so the noun always agrees with the number of questions (live, the intro read «на 35 вопроса»).
+test('ruPlural, ruQuestions: the ru FAQ count agrees with its noun', () => {
+  const ns = [0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 20, 21, 22, 24, 25, 31, 32, 35, 100, 101, 102, 105, 111, 112, 114, 121, 122];
+  assert.deepEqual(ns.map(ruQuestions), [
+    'вопросов', 'вопрос', 'вопроса', 'вопроса', 'вопроса', 'вопросов', 'вопросов', 'вопросов', 'вопросов', 'вопросов',
+    'вопросов', 'вопросов', 'вопросов', 'вопрос', 'вопроса', 'вопроса', 'вопросов', 'вопрос', 'вопроса', 'вопросов',
+    'вопросов', 'вопрос', 'вопроса', 'вопросов', 'вопросов', 'вопросов', 'вопросов', 'вопрос', 'вопроса',
+  ]);
+  // ruDays is the same rule with its own three words.
+  for (let n = 0; n <= 250; n++) assert.equal(ruDays(n), ruPlural(n, 'день', 'дня', 'дней'), `ruDays(${n})`);
+  // Both ru strings decline through {countNoun} (FaqPage fills it with ruQuestions); no other locale uses it.
+  const src = readFileSync(new URL('../src/i18n/faq.ts', import.meta.url), 'utf8');
+  const block = (l) => src.slice(src.indexOf(`const ${l}: FaqStrings`), src.indexOf('};', src.indexOf(`const ${l}: FaqStrings`)));
+  const field = (l, key) => block(l).match(new RegExp(`\\n  ${key}: '([^']*)'`))[1];
+  const tpl = (s, vars) => s.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m));
+  for (const key of ['intro', 'seoDescription']) {
+    const s = field('ru', key);
+    for (const [n, want] of [[21, 'на 21 вопрос '], [32, 'на 32 вопроса '], [35, 'на 35 вопросов ']]) {
+      assert.ok(tpl(s, { count: n, countNoun: ruQuestions(n) }).includes(want), `ru ${key} with ${n} questions reads «${want.trim()}»`);
+    }
+    for (const l of ['uz', 'en']) assert.ok(!field(l, key).includes('{countNoun}'), `${l} ${key} has no {countNoun}`);
+  }
 });
 
 // 11. Dense-wholesale rule needs BOTH ≥ minKg and density ≥ minDensityKgM3

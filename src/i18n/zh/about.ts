@@ -3,7 +3,7 @@ import type { AboutStrings } from '../about';
 /** Chinese (Simplified) strings for `src/i18n/about.ts`, translated from its English branch. */
 export const zh: AboutStrings = {
   seoTitle: '关于 GSR Logistics — 2018 年起从事中乌货运',
-  seoDescription: '塔什干物流公司 GSR Logistics，2018 年起：义乌、广州、喀什收货，义乌仓库拼货经霍尔果斯汽运；空运、铁路、寻找货源、代采购、清关；客户经理通晓乌、俄、中文。',
+  seoDescription: '塔什干物流公司 GSR Logistics，2018 年起：义乌、广州、喀什收货，义乌仓库拼货经霍尔果斯汽运；空运、铁路、寻找货源、代采购、清关；客户经理通晓乌、俄、中三种语言。',
   eyebrow: '关于我们',
   h1: '在中国，您有自己人。',
   intro: 'GSR Logistics 是一家位于塔什干的物流公司。我们自 2018 年起与中国开展业务：在中国有 3 个收货地址——义乌、广州和喀什；拼货从义乌仓库经霍尔果斯运抵塔什干约需 15–25 天，空运约需 5–10 天。我们为您寻找货源、代为采购、验货并办理清关——一份合同，一位客户经理。GSR Logistics 是 Imex services LLC 旗下的品牌（在社交媒体上也称 GSR Group）；办公室位于塔什干沙伊汉塔胡尔区（Shaykhantakhur）阿利舍尔·纳沃伊街 27 号。团队在货运领域拥有 15 年经验。',
@@ -41,11 +41,11 @@ export const zh: AboutStrings = {
   },
   facts: [
     { value: '2018 年起', label: '与中国开展合作' },
-    { value: '3', label: '语言：乌兹别克语、俄语、中文' },
+    { value: '3', label: '种语言：乌兹别克语、俄语、中文' },
     { value: '15–25 天', label: '拼货运输参考时效' },
-    { value: '3', label: '中国收货地址，另有塔什干办公室 1 处' },
-    { value: '10+', label: '每月从中国发往塔什干的卡车' },
-    { value: '400+', label: '客户' },
+    { value: '3', label: '个中国收货地址，塔什干另有 1 个办公室' },
+    { value: '10+', label: '辆卡车每月从中国发往塔什干' },
+    { value: '400+', label: '位客户' },
   ],
   honesty: { heading: '我们不承诺什么', text: '我们从不说“免关税”“100% 保证”或“最快”。关税和增值税依法缴纳——我们会提前为您计算。运输时效仅供参考：边境排队、中国节假日和天气都会产生影响。因此，每个数字旁边都会注明“约”。' },
   cta: { title: '先来认识一下吧。', text: '请告诉我们货物情况、城市和期限——我们为您推荐路线并报价。' },

@@ -289,12 +289,25 @@ export function withFrom(value: string, lang: Locale, from: string): string {
   return !value || CJK_END.test(value) ? `${value}${from}` : `${value} ${from}`;
 }
 
+/**
+ * The Russian noun form after a count: `one` for 1, 21, 31, 101…; `few` for 2–4, 22–24…; `many` for
+ * 0, 5–20, 25–30, 111–114… (11–14 always take `many`). The same form follows «на» ("ответы на 21 вопрос").
+ */
+export function ruPlural(n: number, one: string, few: string, many: string): string {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+  return many;
+}
+
 /** Russian plural of "день" for a count: 1 день, 3 дня, 5 дней, 21 день, 22 дня. */
 export function ruDays(n: number): string {
-  const m10 = n % 10, m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return 'день';
-  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return 'дня';
-  return 'дней';
+  return ruPlural(n, 'день', 'дня', 'дней');
+}
+
+/** Russian plural of "вопрос" for a count: 1 вопрос, 3 вопроса, 5 вопросов, 21 вопрос (the FAQ intro and description). */
+export function ruQuestions(n: number): string {
+  return ruPlural(n, 'вопрос', 'вопроса', 'вопросов');
 }
 
 /**

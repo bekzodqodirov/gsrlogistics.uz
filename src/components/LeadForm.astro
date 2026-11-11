@@ -183,7 +183,7 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
   }
   interface LeadEventDetail { team: string; topic?: string; summary: string; trigger?: HTMLElement; handled?: boolean }
 
-  import { sep, toAsciiDigits } from '@/lib/format';
+  import { colon, sep, toAsciiDigits } from '@/lib/format';
   import type { Locale } from '@/i18n/config';
 
   const forms = document.querySelectorAll<HTMLFormElement>('form[data-lead]');
@@ -293,13 +293,17 @@ const i18n = JSON.stringify({ errors: t.errors, draft: t.draft, routes: Object.f
     /** The one line the manager reads on the lead: name · phone · service · cargo (fa joins with " • "). */
     const summary = () => [name.value, phoneOut(), route.value ? i18n.routes[route.value] ?? '' : '', text.value]
       .map((v) => v.replace(/\s+/g, ' ').trim()).filter(Boolean).join(sep(lang));
-    /** The labelled message, for the one case the chat flow is missing from the page. */
+    /**
+     * The labelled message, for the one case the chat flow is missing from the page. Labels take the
+     * locale's colon (lib/format.ts): ": ", zh "：" ("姓名：王明").
+     */
     const compose = (): string => {
       const d = i18n.draft;
-      const lines = [d.intro, `${d.name}: ${name.value.trim()}`, `${d.phone}: ${phoneOut()}`];
-      if (route.value) lines.push(`${d.route}: ${i18n.routes[route.value] ?? route.value}`);
-      lines.push(`${d.cargo}: ${text.value.trim()}`);
-      lines.push(`${d.page}: ${location.origin}${location.pathname}`);
+      const c = colon(lang);
+      const lines = [d.intro, `${d.name}${c}${name.value.trim()}`, `${d.phone}${c}${phoneOut()}`];
+      if (route.value) lines.push(`${d.route}${c}${i18n.routes[route.value] ?? route.value}`);
+      lines.push(`${d.cargo}${c}${text.value.trim()}`);
+      lines.push(`${d.page}${c}${location.origin}${location.pathname}`);
       return lines.join('\n');
     };
     const show = (panel: HTMLElement) => { fields.hidden = true; success.hidden = panel !== success; panel.focus?.(); };

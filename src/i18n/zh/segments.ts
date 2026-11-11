@@ -3,7 +3,7 @@ import type { SegmentsStrings } from '../segments';
 /** Chinese (Simplified) strings for `src/i18n/segments.ts`, translated from its English branch. */
 export const zh: SegmentsStrings = {
   eyebrow: '我们的客户',
-  h2: '谁在委托我们运货。',
+  h2: '把货物交给我们的，是这些客户。',
   intro: '拼货 {min} m³ 起收，上不封顶——从几立方米到整个集装箱。',
   listLabel: '客户类型',
   items: [
