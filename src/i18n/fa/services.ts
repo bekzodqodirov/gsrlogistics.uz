@@ -35,7 +35,7 @@ export const fa: ServicesStrings = {
     fromM3: 'از {n} دلار/متر مکعب',
     commissionFrom: 'کارمزد از {n}٪',
     yuanPayment: 'پرداخت به یوان',
-    containers: '20ft / 40ft',
+    containers: '۲۰ / ۴۰ فوت',
     turnkey: 'کلید در دست',
     customs: 'اظهارنامهٔ گمرکی • محاسبهٔ حقوق گمرکی و مالیات بر ارزش افزوده',
     photoEveryReceipt: 'گزارش تصویری هنگام هر دریافت بار',

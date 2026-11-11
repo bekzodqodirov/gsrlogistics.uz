@@ -307,13 +307,14 @@ test('format.ts: exact forms in uz, uzc, ru, en, zh, fa', () => {
 
 // 12b. Code-level punctuation around labels and sentences. uz, uzc, ru, en and fa keep the ASCII forms the
 // components printed literally before (": ", " (…)", ". "); only zh switches to full width, with no spaces.
+// The "approx" word leads its figure on zh (约 20–35 天) and fa (تقریباً ۲۰ تا ۳۵ روز); the others may trail it.
 test('format.ts: label colon, brackets, stops and the "approx" position', () => {
   const expect = {
     uz: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
     uzc: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
     ru: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
     en: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
-    fa: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
+    fa: [': ', ':', ' ', ' (Imex services LLC)', '.', true],
     zh: ['：', '：', '', '（Imex services LLC）', '。', true],
   };
   for (const [l, x] of Object.entries(expect)) {

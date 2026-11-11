@@ -5,7 +5,7 @@
  * short copy in src/data/services.ts so the build never fails.
  * Props: { lang, service, content? }.
  */
-import { pick, type Locale } from '@/i18n/config';
+import { langMeta, pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { servicesStrings, serviceNumberLine, tpl } from '@/i18n/services';
 import { pagePath, itemPath, itemUrl, subFor } from '@/i18n/routes';
@@ -105,6 +105,13 @@ const jsonLd: Array<Record<string, unknown>> = [
 /* A table cell that is a figure: ASCII or Persian digits, their separators (٫ ٬ ٪ included), then units
    in any of the site's scripts — Latin, Cyrillic, Persian (with ZWNJ: "۱۵ تا ۲۵ روز") or Chinese ("15–25 天"). */
 const isNumeric = (s: string) => /^[\s\d۰-۹.,٫٬–\-−+~≈$%٪€₽/×÷]*[\d۰-۹][\s\d۰-۹.,٫٬–\-−+~≈$%٪€₽/×÷a-zA-Zа-яА-Я³²ʻʼ؀-ۿ‌一-鿿]*$/.test(s.trim()) && s.trim().length <= 24 && DIGIT.test(s);
+/* RTL (fa) only, decided here on the server so the other locales render byte-identical:
+   - a table cell with no Persian letter ("1688.com", "Taobao / Tmall") is one left-to-right island; left to the bidi
+     algorithm, a domain that starts with a digit reads "com.1688";
+   - a 2-column table (label + value) gets .fits and stops scrolling on phones: under the 560px minimum its values,
+     end-aligned and so on the LEFT, sat off-screen behind the edge fade. */
+const rtl = langMeta[lang].dir === 'rtl';
+const ltrCell = (s: string) => rtl && /[A-Za-z]/.test(s) && !/[\u0600-\u06FF]/.test(s);
 const slugify = (_s: string, i: number) => `s-${i + 1}`;
 const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? 'check-circle' : 'info');
 ---
@@ -165,13 +172,13 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
               <figure class="tbl">
                 {sec.table.caption && <figcaption class="tbl-caption">{sec.table.caption}</figcaption>}
                 <div class="table-wrap">
-                  <table class="table">
+                  <table class:list={['table', rtl && sec.table.head.length < 3 && 'fits']}>
                     <thead>
                       <tr>{sec.table.head.map((h, hi) => <th scope="col" class:list={[hi > 0 && sec.table!.rows.every((r) => !r[hi] || isNumeric(r[hi])) && 'num']}>{h}</th>)}</tr>
                     </thead>
                     <tbody>
                       {sec.table.rows.map((r) => (
-                        <tr>{r.map((cell, ci) => ci === 0 ? <th scope="row">{cell}</th> : <td class:list={[isNumeric(cell) && 'num']}>{cell}</td>)}</tr>
+                        <tr>{r.map((cell, ci) => ci === 0 ? <th scope="row">{ltrCell(cell) ? <span dir="ltr">{cell}</span> : cell}</th> : <td class:list={[isNumeric(cell) && 'num']}>{ltrCell(cell) ? <span dir="ltr">{cell}</span> : cell}</td>)}</tr>
                       ))}
                     </tbody>
                   </table>
@@ -323,6 +330,11 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   @media (max-width: 640px) { .tbl .table { min-width: 560px; overflow: visible; /* overflow:hidden would make the table the sticky root */ } .tbl .table tbody th { position: sticky; inset-inline-start: 0; z-index: 1; background: var(--bg); padding: 12px; font-size: var(--text-small); } .tbl .table th, .tbl .table td { white-space: normal; } .tbl .table td.num { white-space: nowrap; } }
   .tbl .table tbody th { font-weight: 600; color: var(--fg); text-align: start; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
   .tbl .table tbody tr:last-child th { border-bottom: 0; }
+  /* .fits is set on fa pages only (see ltrCell above): the label + value table fits the phone instead of scrolling. */
+  @media (max-width: 640px) { .tbl .table.fits { min-width: 0; } }
+  /* fa: polish-html wraps each Chinese word in Persian prose in <span lang="zh">; Han may break between any two
+     characters, which tore "(义" / "乌)" across lines. The runs are short names, so keep each whole. */
+  :global([dir='rtl']) .page :global(span[lang|='zh']) { word-break: keep-all; }
   .tbl-meta { margin-top: 10px; }
   .callout { display: grid; grid-template-columns: 24px 1fr; gap: 12px; margin-top: 24px; padding: 16px 18px; border: 1px solid var(--border); border-radius: var(--radius); max-width: 70ch; color: var(--fg-2); }
   .callout-icon { color: var(--fg); display: inline-flex; margin-top: 1px; }

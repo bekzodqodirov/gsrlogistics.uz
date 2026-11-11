@@ -2,7 +2,7 @@ import type { PrivacyStrings } from '../privacy';
 
 /** Chinese (Simplified) strings for `src/i18n/privacy.ts`, translated from its English branch. */
 export const zh: PrivacyStrings = {
-  seoTitle: '隐私政策 — GSR Logistics',
+  seoTitle: '隐私政策｜GSR Logistics',
   seoDescription: 'GSR Logistics 网站收集哪些个人数据、用于什么目的、提供给谁、保存多久。本政策依据乌兹别克斯坦共和国《个人数据法》（ZRU-547）制定。',
   eyebrow: '隐私政策',
   h1: '隐私政策',

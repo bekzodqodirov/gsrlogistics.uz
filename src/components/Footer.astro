@@ -25,7 +25,7 @@ const modeWord = pick(lang, {
 });
 const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent', zh: '塔什干', fa: 'تاشکند' });
 const days = (d: number[]) => fmtRange(d[0], d[1], t.strings.days, lang);
-// Rail's "approx" trails the range as a note ("20–35 days · roughly"); zh 约 only ever precedes a figure ("约 20–35 天").
+// Rail's "approx" trails the range as a note ("20–35 days · roughly"); zh 约 and fa تقریباً only ever precede a figure ("约 20–35 天", "تقریباً ۲۰ تا ۳۵ روز").
 const copyright = endSentence(`© ${fmtInt(year, lang)} ${site.name}${sep(lang)}${city}${site.legalEntity ? `${sep(lang)}${site.legalEntity}` : ''}`, lang);
 // A full-width stop (zh 。) carries its own space; after any other stop the next sentence needs one.
 const copyrightLine = joinSentences(copyright, t.footer.rights);

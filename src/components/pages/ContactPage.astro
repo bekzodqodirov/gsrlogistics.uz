@@ -43,6 +43,9 @@ const socials = [
   { href: instagramUrl, icon: 'instagram', label: t.card.instagram, meta: `@${site.instagram}` },
   { href: facebookUrl, icon: 'facebook', label: t.card.facebook, meta: `facebook.com/${site.facebook}` },
 ] as const;
+/** Street and building in the map's accessible name: "Alisher Navoiy koʻchasi, 27-uy"; a Chinese address takes no comma ("阿利舍尔·纳沃伊街 27 号"), Persian its own "، ". */
+const streetJoin = pick(lang, { uz: ', ', ru: ', ', en: ', ', zh: ' ', fa: '، ' });
+const mapLabel = `${t.map.street}${streetJoin}${t.map.building}${sep(lang)}${t.map.metro}`;
 ---
 <Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="contact" breadcrumbs={breadcrumbs} jsonLd={[contactNode]} hideMobileBar>
   <article class="page">
@@ -129,7 +132,7 @@ const socials = [
         <section class="card map" aria-labelledby="map-h">
           <h2 id="map-h" class="card-h">{t.map.title}</h2>
           <!-- Static "map card": an original monoline sketch of the metro sign, the street and building 27. No embeds. -->
-          <svg class="map-svg" viewBox="0 0 480 240" role="img" aria-label={`${t.map.street}, ${t.map.building}${sep(lang)}${t.map.metro}`}>
+          <svg class="map-svg" viewBox="0 0 480 240" role="img" aria-label={mapLabel}>
             <defs>
               <pattern id="ct-grid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="currentColor" opacity=".12" /></pattern>
             </defs>

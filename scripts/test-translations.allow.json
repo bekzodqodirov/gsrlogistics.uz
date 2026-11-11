@@ -1,30 +1,88 @@
 {
-  "$comment": "Places where a zh/fa translation is allowed to carry different figures from the English source, each with the reason. Read by scripts/test-translations.mjs; `where` is the location the test prints ('*' matches anything). Structure, placeholders and identifiers can never be allowed here — only numbers.",
+  "$comment": "Reviewed exceptions for scripts/test-translations.mjs, each with its reason. `numbers`: places where a zh/fa translation may carry different figures from the English source; `where` is the location the test prints ('*' matches anything). `tokens`: a brand or unit name that is identical in uz, ru and en (so the test treats it as an identifier) but has a standard native form in zh or fa; each entry allows exactly ONE `value` in ONE `locale` at ONE `path` (the location the test prints, no wildcards), and only while the source still reads `source`. Structure and placeholders can never be allowed here, and no other identifier.",
   "numbers": [
     {
       "lang": "zh",
-      "where": "src/i18n/contact.ts:contact.zh.*phoneHint",
+      "where": "src/i18n/contact.ts:contact.zh.form.phoneHint",
       "reason": "GLOSSARY §1.4b: on zh pages the form accepts any international number, so the hint shows +86 / +998 examples instead of the Uzbek-only '+998 XX XXX XX XX'."
     },
     {
       "lang": "fa",
-      "where": "src/i18n/contact.ts:contact.fa.*phoneHint",
-      "reason": "GLOSSARY §1.4b: on fa pages the form accepts any international number, so the hint shows +98 / +998 examples instead of the Uzbek-only '+998 XX XXX XX XX'."
+      "where": "src/i18n/contact.ts:contact.fa.form.phoneHint",
+      "reason": "GLOSSARY §1.4b: on fa pages the form accepts any international number, so the hint asks for the country code with Iranian and Afghan examples (+98 / +93) instead of the Uzbek-only '+998 XX XXX XX XX'."
     },
     {
       "lang": "zh",
       "where": "src/i18n/contact.ts:contact.zh.form.errors.phone",
-      "reason": "GLOSSARY §1.4b: the zh form accepts any international number, so the error asks for the international format starting with + instead of '+998'."
+      "reason": "GLOSSARY §1.4b: the zh form accepts any international number, so the error asks for the full number with its country code instead of '+998'."
     },
     {
       "lang": "fa",
       "where": "src/i18n/contact.ts:contact.fa.form.errors.phone",
-      "reason": "GLOSSARY §1.4b: the fa form accepts any international number, so the error asks for the international format starting with + instead of '+998'."
+      "reason": "GLOSSARY §1.4b: the fa form accepts any international number, so the error asks for the full number with its country code instead of '+998'."
     },
     {
       "lang": "fa",
       "where": "src/content/guides/fa/how-to-order-from-1688.md#sources[3].title",
       "reason": "DECISIONS.md §1: Persian dates are numeric and never use month names, so the English 'Customs rules from May 1' can only be written with its year: ۲۰۲۵/۰۵/۰۱, the year of the Spot.uz article it cites (date 2025-04-23)."
+    }
+  ],
+  "tokens": [
+    {
+      "path": "src/i18n/common.ts:common.fa.bar.telegram",
+      "locale": "fa",
+      "source": "Telegram",
+      "value": "تلگرام",
+      "reason": "The messenger's standard Persian name (GLOSSARY §3: Telegram → تلگرام), the one every other fa string writes ('در تلگرام به ما پیام دهید'); the mobile bar was the last Latin 'Telegram' on fa pages."
+    },
+    {
+      "path": "src/i18n/services.ts:servicesStrings.zh.line.containers",
+      "locale": "zh",
+      "source": "20ft / 40ft",
+      "value": "20 英尺 / 40 英尺",
+      "reason": "A unit, not an identifier: Chinese writes the foot as 英尺, as the zh rail page title does (20 英尺和 40 英尺柜). Same figures."
+    },
+    {
+      "path": "src/i18n/services.ts:servicesStrings.fa.line.containers",
+      "locale": "fa",
+      "source": "20ft / 40ft",
+      "value": "۲۰ / ۴۰ فوت",
+      "reason": "A unit, not an identifier: Persian writes container sizes as ۲۰ فوت / ۴۰ فوت (Persian digits, the unit as a word, DECISIONS §1). Same figures."
+    },
+    {
+      "path": "src/data/services/zh/sourcing.content.ts:content.sections[2].table.rows[3][0]",
+      "locale": "zh",
+      "source": "Taobao / Pinduoduo",
+      "value": "淘宝 / 拼多多",
+      "reason": "The platforms' own Chinese names (GLOSSARY §3), the names Chinese readers know them by; the paragraph above the table already says 淘宝和拼多多."
+    },
+    {
+      "path": "src/data/services/zh/sourcing.content.ts:content.sections[2].table.rows[4][0]",
+      "locale": "zh",
+      "source": "Alibaba",
+      "value": "阿里巴巴",
+      "reason": "The platform's own Chinese name (GLOSSARY §3), as the zh buying page title writes it (1688、淘宝、阿里巴巴代采购)."
+    },
+    {
+      "path": "src/data/services/zh/buying.content.ts:content.sections[2].table.rows[1][0]",
+      "locale": "zh",
+      "source": "Taobao / Tmall",
+      "value": "淘宝 / 天猫",
+      "reason": "The platforms' own Chinese names (GLOSSARY §3); the same table row's note already says 天猫为官方店铺；淘宝看卖家评分和评价. The site name Alibaba.com in the row below stays Latin."
+    },
+    {
+      "path": "src/data/services/zh/buying.content.ts:content.sections[2].table.rows[2][0]",
+      "locale": "zh",
+      "source": "Pinduoduo",
+      "value": "拼多多",
+      "reason": "The platform's own Chinese name (GLOSSARY §3); the paragraph above the table already says 拼多多最便宜."
+    },
+    {
+      "path": "src/data/services/zh/cars.content.ts:content.hero.facts[1].value",
+      "locale": "zh",
+      "source": "BYD · Zeekr · Li Auto",
+      "value": "比亚迪 · 极氪 · 理想汽车",
+      "reason": "The makers' Chinese brand names, the ones Chinese buyers use; the hero intro of the same page already writes 比亚迪（BYD）、极氪（Zeekr）、理想汽车（Li Auto）."
     }
   ]
 }

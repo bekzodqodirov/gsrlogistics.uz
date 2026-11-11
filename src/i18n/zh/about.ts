@@ -2,7 +2,7 @@ import type { AboutStrings } from '../about';
 
 /** Chinese (Simplified) strings for `src/i18n/about.ts`, translated from its English branch. */
 export const zh: AboutStrings = {
-  seoTitle: '关于 GSR Logistics — 2018 年起从事中乌货运',
+  seoTitle: '关于 GSR Logistics——2018 年起从事中乌货运',
   seoDescription: '塔什干物流公司 GSR Logistics，2018 年起：义乌、广州、喀什收货，义乌仓库拼货经霍尔果斯汽运；空运、铁路、寻找货源、代采购、清关；客户经理通晓乌、俄、中三种语言。',
   eyebrow: '关于我们',
   h1: '在中国，您有自己人。',
@@ -36,7 +36,7 @@ export const zh: AboutStrings = {
     roles: [
       { title: '塔什干客户经理', text: '询价、报价、合同和货物状态通知——通过 Telegram 和电话。' },
       { title: '驻中国员工', text: '义乌仓库收货、称重、验货、照片报告、包装和装车。送到广州和喀什收货地址的货物，也由同一团队跟进。' },
-      { title: '清关专员', text: '海关编码（HS 编码，ТН ВЭД）、报关单、关税和增值税计算、单证处理。' },
+      { title: '清关专员', text: '海关编码（HS 编码）、报关单、关税和增值税计算、单证处理。' },
     ],
   },
   facts: [

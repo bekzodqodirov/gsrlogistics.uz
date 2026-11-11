@@ -43,12 +43,16 @@ const ogImageAbs = new URL(ogImage, siteUrl).toString();
  * and the text has no spaces to cut at. So zh is budgeted in EMs, with the same model test-seo.mjs
  * measures with (Han, CJK punctuation and full-width forms 1em), and cut only at Chinese (or
  * Latin) punctuation — never between two ideographs, which test-seo.mjs fails as a cut mid-word.
- * A Chinese string with no boundary inside the budget is left whole rather than broken.
+ * A Chinese string with no boundary inside the budget is left whole rather than broken. The brand
+ * joins a Chinese title with the full-width bar, no spaces ("…价格估算｜GSR Logistics"): Chinese
+ * titles write their own dash as "——", and a Latin " — " after one showed two different dashes.
  */
 /* ── Chinese budgets, in ems ─────────────────────────────────────────────────────────────────── */
 
 /** 580px of desktop title at 20px — the line Google's title link runs out of room at. */
 const ZH_TITLE_EM = 29;
+/** The zh brand join: U+FF5C FULL-WIDTH VERTICAL LINE, 1em, with no spaces around it. */
+const ZH_BRAND_JOIN = '｜';
 /** Two lines of snippet, ~1,120px at 14px: about 80 Han characters (GLOSSARY §7: 60–80). */
 const ZH_DESC_EM = 80;
 
@@ -118,7 +122,7 @@ const shortTitle = (() => {
 })();
 const fullTitle =
   lang === 'zh'
-    ? shortTitle.includes(site.name) || emWidth(`${shortTitle} — ${site.name}`) > ZH_TITLE_EM ? shortTitle : `${shortTitle} — ${site.name}`
+    ? shortTitle.includes(site.name) || emWidth(`${shortTitle}${ZH_BRAND_JOIN}${site.name}`) > ZH_TITLE_EM ? shortTitle : `${shortTitle}${ZH_BRAND_JOIN}${site.name}`
     : shortTitle.includes(site.name) || shortTitle.length > (fa ? 42 : 48) ? shortTitle : `${shortTitle} — ${site.name}`;
 // Meta description: trim to ≤160 chars at a sentence/clause boundary (the page keeps the full text in its intro).
 const metaDescription = (() => {

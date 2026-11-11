@@ -130,7 +130,9 @@ const proof = [
       const fmt = (n: number) => fmtNumber(n, lang);
       const t0 = performance.now(), dur = 1100;
       const tick = (now: number) => {
-        const p = Math.min(1, (now - t0) / dur);
+        // A frame's timestamp is when that frame began, which can be a moment BEFORE t0: unclamped, the
+        // first frame read a negative progress and printed a negative figure.
+        const p = Math.max(0, Math.min(1, (now - t0) / dur));
         const e = 1 - Math.pow(1 - p, 3);
         el.textContent = fmt(Math.round(target * e));
         if (p < 1) requestAnimationFrame(tick);

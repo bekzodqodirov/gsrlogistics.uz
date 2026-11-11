@@ -2,7 +2,7 @@ import type { ContactStrings } from '../contact';
 
 /** Chinese (Simplified) strings for `src/i18n/contact.ts`, translated from its English branch. */
 export const zh: ContactStrings = {
-  seoTitle: '联系我们 — GSR Logistics，塔什干阿利舍尔·纳沃伊街 27 号',
+  seoTitle: '联系我们——GSR Logistics，塔什干阿利舍尔·纳沃伊街 27 号',
   seoDescription: '联系 GSR Logistics：塔什干阿利舍尔·纳沃伊街 27 号（地铁站旁），周一至周六 9:00–19:00。可通过 Telegram、电话、Instagram 或在线表单咨询中国货运。',
   eyebrow: '联系我们',
   h1: '联系我们',
@@ -65,7 +65,7 @@ export const zh: ContactStrings = {
     name: '您的姓名',
     namePlaceholder: '姓名',
     phone: '电话',
-    phoneHint: '国际格式的手机号码，例如 +86 138 0013 8000 或 +998 90 123 45 67',
+    phoneHint: '号码须带国家代码，例如 +86 138 0013 8000 或 +998 90 123 45 67',
     route: '服务类型',
     routeOptions: { air: '空运', truck: '汽运（拼货）', rail: '铁路（集装箱）', sourcing: '寻找货源与代采购', other: '其他问题' },
     routePlaceholder: '请选择',
@@ -77,7 +77,7 @@ export const zh: ContactStrings = {
     submit: '通过 Telegram 发送',
     errors: {
       name: '请输入您的姓名。',
-      phone: '请以国际格式输入号码，以 + 开头。',
+      phone: '请输入带国家代码的完整号码。',
       cargo: '请简要描述您的货物。',
       consent: '请勾选同意后继续。',
     },

@@ -18,7 +18,10 @@
 //   3. identifiers — a string that is byte-identical in uz, ru and en and contains a Latin letter
 //      (a key, an icon, a brand, a code: 'truck', 'Telegram', '20GP') or is a code of four or more
 //      digits (HS 8443, 1688) is copied unchanged — fa may write its list separator " • " where the
-//      source has " · ". Fields that are data whatever they hold (key, related, guideKeys, updated,
+//      source has " · ". The one other way through: a brand or unit with a standard native form
+//      (fa تلگرام, zh 淘宝 / 拼多多, 20 英尺) listed in the `tokens` of scripts/test-translations.allow.json —
+//      that exact value, in that locale, at that exact place, while the source still reads as listed,
+//      each with its reason. Fields that are data whatever they hold (key, related, guideKeys, updated,
 //      icon, glyph, tone, slug) and ISO dates are copied unchanged whenever uz, ru and en agree on
 //      them (an 'updated' that is a translated label is not data). Guides: slug,
 //      translationKey, tags, publishDate and the sources' URLs and dates; internal links point at
@@ -72,6 +75,21 @@ const counts = { records: 0, leaves: 0, services: 0, guides: 0 };
 const allowed = JSON.parse(readFileSync(ALLOW_FILE, 'utf8'));
 const allowNumbers = (allowed.numbers ?? []).map((a) => ({ ...a, used: false, re: new RegExp(`^${a.where.split('*').map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('.*')}$`) }));
 let allowedHits = 0;
+/**
+ * Native forms of brand and unit tokens (fa تلگرام for Telegram, zh 淘宝 / 拼多多): each entry names one
+ * place exactly (no wildcards), one locale, the source token it replaces and the one value allowed, with
+ * the reason. Nothing else about the identifier rule is relaxed.
+ */
+const allowTokens = (allowed.tokens ?? []).map((a) => ({ ...a, used: false }));
+for (const [i, a] of allowTokens.entries()) {
+  const bad = ['path', 'locale', 'source', 'value', 'reason'].filter((k) => typeof a[k] !== 'string' || !a[k].trim());
+  if (bad.length) fail('load', `${ALLOW_FILE.pathname.split('/').pop()} tokens[${i}]`, `needs ${bad.join(', ')}`);
+  else if (!TARGETS.includes(a.locale)) fail('load', `${ALLOW_FILE.pathname.split('/').pop()} tokens[${i}]`, `locale "${a.locale}" is not one of ${TARGETS.join(', ')}`);
+  else if (a.path.includes('*')) fail('load', `${ALLOW_FILE.pathname.split('/').pop()} tokens[${i}]`, `path "${a.path}" has a wildcard — a token entry names one place`);
+}
+let tokenHits = 0;
+/** The allow-list entry for a token at this place in this locale, if any (used or not). */
+const tokenEntry = (where, lang) => allowTokens.find((a) => a.path === where && a.locale === lang);
 
 /* ── Numbers ────────────────────────────────────────────────────────────────────────────────── */
 
@@ -248,8 +266,12 @@ function compare(en, x, uz, ru, where, lang, dataKey) {
       return;
     }
     if (uz === en && ru === en && identifierLike(en)) {
-      const ok = x === en || (lang === 'fa' && x === en.replaceAll(' · ', ' • '));
-      if (!ok) fail('identifiers', where, `"${en}" is identical in uz, ru and en (an identifier, brand or code) — ${lang} has "${x}"`);
+      if (x === en || (lang === 'fa' && x === en.replaceAll(' · ', ' • '))) return;
+      // A listed native form: this place, this locale, this source token, this value — nothing looser.
+      const entry = tokenEntry(where, lang);
+      if (entry && entry.source === en && entry.value === x) { entry.used = true; tokenHits += 1; return; }
+      const listed = entry ? ` (scripts/test-translations.allow.json lists "${entry.value}" for the source "${entry.source}" here)` : '';
+      fail('identifiers', where, `"${en}" is identical in uz, ru and en (an identifier, brand or code) — ${lang} has "${x}"${listed}`);
       return;
     }
     const pa = placeholdersOf(en);
@@ -443,6 +465,7 @@ for (const [kind, list] of Object.entries(failures)) {
   if (list.length > 60) console.log(`  … and ${list.length - 60} more`);
 }
 for (const a of allowNumbers) if (!a.used) console.log(`  note: allow-list entry no longer needed — ${a.lang} ${a.where}`);
+for (const a of allowTokens) if (!a.used) console.log(`  note: allow-list token entry not used — ${a.locale} ${a.path} ("${a.source}" → "${a.value}")`);
 for (const lang of TARGETS) {
   if (missing[lang].length) {
     const files = missing[lang].filter((w) => w.startsWith('src/data/services/') || w.startsWith('src/content/'));
@@ -451,7 +474,7 @@ for (const lang of TARGETS) {
 }
 console.log(
   `\ntest-translations: ${total ? `${total} problem(s)` : 'ok'} — ${counts.records} localized records (${counts.leaves} leaves compared), ` +
-    `${counts.services} service pages, ${counts.guides} guides, ${allowedHits} number differences allowed by the list` +
+    `${counts.services} service pages, ${counts.guides} guides, ${allowedHits} number differences and ${tokenHits} native token forms allowed by the list` +
     `${PENDING.size ? ` · pending: ${[...PENDING].join(', ')}` : ''}`,
 );
 process.exit(total ? 1 : 0);

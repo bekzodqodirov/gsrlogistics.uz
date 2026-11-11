@@ -339,7 +339,12 @@ else {
         if (fellBack && isPending(code)) pendingNotes.push(`404.html: the ${code} copy is still the fallback text`);
         else if (fellBack) errors.push(`404.html: the ${code} copy is byte-identical to the uz or en one — the ${code} branch of common.notFound is missing`);
       }
-      if (!/documentElement\.setAttribute\('dir'|documentElement\.dir\s*=/.test(html)) errors.push('404.html: its script never sets the document direction — a Persian 404 would render left to right');
+      // The direction may go on the whole document or on the 404's own <section> (the one around the
+      // data-nf block). src/pages/404.astro sets it on the section: the header and footer stay the
+      // Uzbek LTR chrome on every locale's 404, and mirrored their Latin lines reorder ("kun 25–15").
+      const nfInSection = /<section\b[^>]*>(?:(?!<\/section>)[\s\S])*?data-nf=/.test(html);
+      const setsDir = /documentElement\.setAttribute\('dir'|documentElement\.dir\s*=/.test(html) || (nfInSection && /closest\('section'\)\.setAttribute\('dir',\s*d\.dir\)/.test(html));
+      if (!setsDir) errors.push('404.html: its script never sets the direction of the 404 copy (on its <section> or the document) — a Persian 404 would render left to right');
     }
   }
 }

@@ -6,6 +6,7 @@
  */
 import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
+import { faqStrings } from '@/i18n/faq';
 import { pricingStrings, tpl, monthYear } from '@/i18n/pricing';
 import { pagePath, pageUrl, itemUrl } from '@/i18n/routes';
 import { services } from '@/data/services';
@@ -28,6 +29,8 @@ const t = pick(lang, pricingStrings);
 const p = t.page;
 const b = t.breakdown;
 const c = pick(lang, common);
+/** The link under the FAQ: the FAQ module's own "all questions" label, the one the home FAQ section links with (FaqShort). */
+const faqAll = pick(lang, faqStrings).home.all;
 const T = tariffs as unknown as Tariffs;
 
 /* ---------- Numbers ---------- */
@@ -332,7 +335,7 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
             </details>
           ))}
         </div>
-        <p class="faq-more"><a href={pagePath(lang, 'faq')} class="link">{c.nav.find((x) => x.key === 'faq')?.label ?? c.cta.all}</a></p>
+        <p class="faq-more"><a href={pagePath(lang, 'faq')} class="link">{faqAll}</a></p>
       </div>
     </section>
 

@@ -1,6 +1,6 @@
 ---
 title: "如何在中国找到可靠的供应商或工厂？"
-description: "中国供应商的三类来源（工厂、贸易公司、1688）与四步核查方法，以及样品、起订量、议价、EXW 与 FOB、合同与预付款（180 天规则）和出货前质检。"
+description: "中国供应商的三类来源——工厂、贸易公司和 1688——以及四步核查：营业执照、出口资质、Alibaba Verified 认证状态、验厂。内容还涵盖样品、起订量（MOQ）、议价、EXW 与 FOB、合同与预付款（180 天规则）以及出货前质检。"
 lang: zh
 translationKey: find-supplier
 slug: finding-a-supplier-in-china

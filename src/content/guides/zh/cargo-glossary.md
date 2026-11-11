@@ -1,6 +1,6 @@
 ---
 title: "货运术语词典：拼货、体积重、报关单、FCL 等 43 个术语通俗解读"
-description: "从中国运货到乌兹别克斯坦常用的 43 个术语：拼货、体积重、密度、GS 客户代码、报关单、HS 编码、FCL/LCL 等，释义简明准确。截至 2026年9月。"
+description: "从中国向乌兹别克斯坦运货时会遇到的 43 个术语：货运、拼货运输、体积重、密度、GS 客户代码、集货、报关单（GTD）、海关编码（HS 编码）、FCL/LCL、CMR、Incoterms。释义简短准确，并附具体数字。截至 2026年9月。"
 lang: zh
 translationKey: glossary
 slug: cargo-glossary

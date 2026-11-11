@@ -84,8 +84,8 @@ interface LocaleFormat {
   /** Brackets around a parenthetical after a word, opening one with its space. Default [' (', ')']; zh full width ['（', '）']. */
   paren?: [string, string];
   /**
-   * The "approx" word (common.strings.approx) can only precede a figure ("约 20–35 天"); it cannot trail
-   * one as a separate annotation ("20–35 days · roughly"). zh only.
+   * The "approx" word (common.strings.approx) can only precede a figure ("约 20–35 天", "تقریباً ۲۰ تا ۳۵ روز");
+   * it cannot trail one as a separate annotation ("20–35 days · roughly"). zh and fa.
    */
   approxLeads?: boolean;
 }
@@ -166,7 +166,7 @@ const FORMATS: Record<Locale, LocaleFormat> = {
     som: (n) => `${n} سوم`, somRange: (a, b) => `${a} تا ${b} سوم`,
     span: (a, b) => `${a} تا ${b}`, fromAfter: false, percent: (n) => `${n}٪`,
     date: (y, m, d) => `${y}/${pad2(m + 1)}/${pad2(d)}`, monthYear: (y, m) => `${y}/${pad2(m + 1)}`,
-    sep: ' • ', arrow: ' ← ', stop: '.',
+    sep: ' • ', arrow: ' ← ', stop: '.', approxLeads: true,
     unit: { km: 'کیلومتر', kg: 'کیلوگرم', m3: 'متر مکعب' }, symbol: { km: 'کیلومتر', kg: 'کیلوگرم', m3: 'متر مکعب' },
   },
 };
@@ -383,7 +383,7 @@ export function paren(text: string, lang: Locale): string {
   return `${open}${text}${close}`;
 }
 
-/** Whether the "approx" word must precede the figure rather than trail it as an annotation (zh 约). */
+/** Whether the "approx" word must precede the figure rather than trail it as an annotation (zh 约, fa تقریباً). */
 export function approxLeads(lang: Locale): boolean {
   return FORMATS[lang].approxLeads === true;
 }
