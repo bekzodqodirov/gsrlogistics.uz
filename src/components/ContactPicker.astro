@@ -26,7 +26,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { leadStrings } from '@/i18n/lead';
 import { site, telegramBotUrl } from '@/lib/site';
 import { assignLang, leadAttrs, teamTopic, telegramFor } from '@/lib/leads';
-import { sep } from '@/lib/format';
+import { colon, sep } from '@/lib/format';
 import Icon from '@/components/ui/Icon.astro';
 
 interface Props { lang: Locale }
@@ -107,7 +107,7 @@ const cfg = JSON.stringify({ endpoint: site.leadAssign, company: site.telegramCo
     </div>
 
     <div class="lp-step" data-lp-step="done" hidden>
-      <p class="lp-who">{t.done.manager}: <strong class="lp-user" data-lp-user dir="ltr"></strong></p>
+      <p class="lp-who">{t.done.manager}{colon(lang)}<strong class="lp-user" data-lp-user dir="ltr"></strong></p>
       <p class="lp-msg" data-lp-msg></p>
       <div class="lp-copy-row">
         <button type="button" class="lp-copy" data-lp-copy data-copied={t.done.copied} data-copy-fail={t.done.copyFail}><Icon name="copy" size={16} />{t.done.copy}</button>

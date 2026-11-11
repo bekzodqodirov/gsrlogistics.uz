@@ -9,7 +9,7 @@
 import { pick, type Locale } from '@/i18n/config';
 import { hero } from '@/i18n/hero';
 import { routeNodes, ROUTE_KM, ROUTE_KM_VERIFIED } from '@/data/route';
-import { arrow, fmtNumber, fmtNumRange, sep, sepMark, unitWord } from '@/lib/format';
+import { arrow, colon, fmtNumber, fmtNumRange, sep, sepMark, unitWord } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 
 interface Props { lang: Locale }
@@ -38,7 +38,8 @@ const xs: Record<string, number> = { yiwu: 1480, xian: 1190, lanzhou: 1010, urum
 const nodes = routeNodes.map((n) => {
   const x = xs[n.id] ?? 800;
   const y = Math.round(yAt(x) * 10) / 10;
-  const second = n.id === 'yiwu' ? n.zh : n.id === 'khorgos' ? t.khorgosRole : n.id === 'tashkent' ? t.coords : undefined;
+  // Yiwu's second line is its Chinese name, dropped where the label already is that name (zh pages).
+  const second = n.id === 'yiwu' ? (pick(lang, n.name) !== n.zh ? n.zh : undefined) : n.id === 'khorgos' ? t.khorgosRole : n.id === 'tashkent' ? t.coords : undefined;
   return { ...n, x, y, second, mobile: ['yiwu', 'urumqi', 'khorgos', 'tashkent'].includes(n.id) };
 });
 const pct = (v: number, of: number) => `${Math.round((v / of) * 10000) / 100}%`;
@@ -49,7 +50,7 @@ const kmUnit = unitWord('km', lang); // Cyrillic unit in Russian copy, matching 
 const km = `${kmNumber}${kmSuffix} ${kmUnit}`;
 const days = fmtNumRange(tariffs.truck.days[0], tariffs.truck.days[1], lang);
 // The spoken route reads in travel order; fa joins with ← because → does not mirror in RTL text.
-const routeText = `${t.drawingLabel}: ${nodes.map((n) => pick(lang, n.name)).join(arrow(lang))}`;
+const routeText = `${t.drawingLabel}${colon(lang)}${nodes.map((n) => pick(lang, n.name)).join(arrow(lang))}`;
 ---
 <div class="drawing" role="group" aria-label={routeText}>
 <div class="band">
@@ -80,7 +81,7 @@ const routeText = `${t.drawingLabel}: ${nodes.map((n) => pick(lang, n.name)).joi
     ))}
   </ol>
 </div>
-  <p class="readout" aria-label={`${t.readoutLabel}: ${km}${sep(lang)}${days} ${t.unitDays}`}>
+  <p class="readout" aria-label={`${t.readoutLabel}${colon(lang)}${km}${sep(lang)}${days} ${t.unitDays}`}>
     <span class="km"><span class="count tnum" data-count={ROUTE_KM} data-lang={lang}>{kmNumber}</span>{kmSuffix}<span class="unit">{kmUnit}</span></span>
     <span class="sep" aria-hidden="true">{sepMark(lang)}</span>
     <span class="days"><span class="tnum">{days}</span><span class="unit">{t.unitDays}</span></span>

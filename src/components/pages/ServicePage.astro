@@ -14,7 +14,7 @@ import type { ServiceContent, ServiceSection } from '@/data/services/types';
 import { guideSlugs } from '@/data/guides';
 import { site, phoneUrl } from '@/lib/site';
 import { leadAttrs, serviceTeam, telegramFor } from '@/lib/leads';
-import { fmtDate, fmtInt, fmtNumRange, sep } from '@/lib/format';
+import { colon, fmtDate, fmtInt, fmtNumRange, sep } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
@@ -39,7 +39,7 @@ const index = services.indexOf(service) + 1;
 const indexLabel = fmtInt(index, lang, 2);
 const updatedIso = content?.updated ?? tariffs.updated;
 const updated = fmtDate(updatedIso, lang);
-const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(tariffs.updated, lang)}`;
+const estimateMeta = `${c.strings.estimateMeta}${colon(lang)}${fmtDate(tariffs.updated, lang)}`;
 
 /* ---------- Resolve page model (content or fallback) ---------- */
 const fb = t.page.fallback;
@@ -258,7 +258,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
               </ul>
             </div>
           )}
-          <p class="caption updated"><Icon name="clock" size={14} />{c.updated}: <time datetime={updatedIso}>{updated}</time></p>
+          <p class="caption updated"><Icon name="clock" size={14} />{c.updated}{colon(lang)}<time datetime={updatedIso}>{updated}</time></p>
         </div>
       </section>
     )}

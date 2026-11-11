@@ -1,6 +1,6 @@
 ---
 /** Guide article template. Props: { lang, entry } where entry is a `guides` collection entry. */
-import { pick, type Locale } from '@/i18n/config';
+import { langMeta, pick, type Locale } from '@/i18n/config';
 import { render, getCollection, type CollectionEntry } from 'astro:content';
 import { common } from '@/i18n/common';
 import { guidesStrings } from '@/i18n/guides';
@@ -8,7 +8,7 @@ import { pagePath, pageUrl, itemPath } from '@/i18n/routes';
 import { guideSlugs } from '@/data/guides';
 import { services } from '@/data/services';
 import { site, telegramChat } from '@/lib/site';
-import { fmtDate, fmtInt, readingMinutes, sep } from '@/lib/format';
+import { colon, fmtDate, fmtDigits, fmtInt, readingMinutes, sep } from '@/lib/format';
 import { articleNode, faqNode } from '@/lib/schema';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
@@ -31,6 +31,20 @@ const subs: Partial<Record<Locale, string>> = siblings.length
 const url = pageUrl(site.url, lang, 'guides', d.slug);
 const pub = d.publishDate.toISOString().slice(0, 10), upd = d.updatedDate.toISOString().slice(0, 10);
 const minutes = fmtInt(readingMinutes(entry.body ?? ''), lang);
+/* A source's date is ISO text ("2026-09-08", "2025-11") and prints as written. An RTL page writes it in
+   its own digits with slashes ("۲۰۲۶/۰۹/۰۸", the fa date form): between Persian digits a "/" keeps the
+   groups in order, while a "-" would let them run right to left ("۰۸-۰۹-۲۰۲۶"). */
+const sourceDate = (iso: string) => (langMeta[lang].dir === 'rtl' ? fmtDigits(iso.replaceAll('-', '/'), lang) : iso);
+/* Source titles. dir="auto" keeps an all-Latin title's closing ")" or "." on its own side on an RTL
+   page. A Persian title ("Norma.uz — فرمان UP-140: …") keeps the page direction instead — auto would
+   pick LTR from its Latin name and a wrapped title would read out of order — and its leading Latin
+   name before " — " is an LTR island, so "1688.com" never shows as "com.1688". */
+const ARABIC_SCRIPT = /[\u0600-\u06FF]/;
+const sources = d.sources.map((s) => {
+  const rtlTitle = langMeta[lang].dir === 'rtl' && ARABIC_SCRIPT.test(s.title);
+  const lead = rtlTitle ? s.title.match(/^([^\u0600-\u06FF]+?)( — [\s\S]*)$/) : null;
+  return { url: s.url, date: s.date, dir: rtlTitle ? undefined : ('auto' as const), lead: lead?.[1], title: lead ? lead[2] : s.title };
+});
 // TOC ids come from the rendered headings (github-slugger via Astro), so links always match the article's h2 ids.
 const toc = headings.filter((h) => h.depth === 2).map((h) => ({ text: h.text, id: h.slug }));
 const related = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft && e.id !== entry.id)).filter((e) => e.data.tags.some((tag) => d.tags.includes(tag))).slice(0, 3);
@@ -45,7 +59,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
         <Breadcrumbs lang={lang} items={[{ name: label, key: 'guides' }, { name: d.title }]} />
         <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
         <h1 class="display-2 measure-head">{d.title}</h1>
-        <p class="caption meta-row tnum">{t.updated}: {fmtDate(d.updatedDate, lang)}{sep(lang)}{minutes} {t.minutes}{sep(lang)}{t.author}: {d.author}</p>
+        <p class="caption meta-row tnum">{t.updated}{colon(lang)}{fmtDate(d.updatedDate, lang)}{sep(lang)}{minutes} {t.minutes}{sep(lang)}{t.author}{colon(lang)}{d.author}</p>
         <p class="intro answer">{d.description}</p>
       </div>
     </header>
@@ -69,7 +83,7 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
             <h2 class="h4">{t.sources}</h2>
             {/* dir="auto": a source title is often Latin; on an RTL page an all-Latin title ending in ")" or
                 "." would otherwise have that punctuation flipped to its far side. */}
-            <ol>{d.sources.map((s) => <li><a href={s.url} rel="noopener nofollow" target="_blank" dir="auto">{s.title}</a>{s.date ? <span class="muted"> — {s.date}</span> : null}</li>)}</ol>
+            <ol>{sources.map((s) => <li><a href={s.url} rel="noopener nofollow" target="_blank" dir={s.dir}>{s.lead && <bdi dir="ltr">{s.lead}</bdi>}{s.title}</a>{s.date ? <span class="muted"> — {sourceDate(s.date)}</span> : null}</li>)}</ol>
           </section>
         )}
         <section class="ask card">
@@ -133,6 +147,9 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
      Reading order, so it sits on the inline-start side (right in RTL). */
   .toc-desktop a { position: relative; padding-inline-start: 20px; transition: color var(--dur) var(--ease); }
   .toc-hex { position: absolute; inset-inline-start: -6.5px; top: 0.3em; --node-stroke: var(--border); --node-fill: var(--bg); }
+  /* zh/fa lines are taller (tokens.css --leading-body): the tick keeps its Latin distance from the middle
+     of the link's first line. */
+  :global(:root:lang(zh)) .toc-hex, :global(:root:lang(fa)) .toc-hex { top: calc(0.5em * var(--leading-body) - 6.1px); }
   .toc-desktop a.is-passed { color: var(--fg-2); }
   .toc-desktop a.is-passed .toc-hex { --node-stroke: var(--fg); --node-fill: var(--fg); }
   .toc-desktop a.is-current { color: var(--fg); border-inline-start-color: var(--fg); }

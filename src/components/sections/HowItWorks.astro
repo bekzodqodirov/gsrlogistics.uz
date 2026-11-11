@@ -12,6 +12,7 @@ import { processStrings } from '@/i18n/process';
 import { common } from '@/i18n/common';
 import { pagePath } from '@/i18n/routes';
 import { telegramChat } from '@/lib/site';
+import { fmtDigits, fmtInt } from '@/lib/format';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
 import ParcelFlow from '@/components/process/ParcelFlow.astro';
@@ -35,7 +36,7 @@ const telegramHref = telegramChat(c.telegramDraft.general);
 <section id="jarayon" class="section process below-fold" aria-labelledby="process-title">
   <div class="container">
     <div class="section-head">
-      <Eyebrow>{index} — {t.eyebrow}</Eyebrow>
+      <Eyebrow>{fmtDigits(index, lang)} — {t.eyebrow}</Eyebrow>
       <h2 id="process-title" class="measure-head">{t.h2}</h2>
       <p class="intro">{t.intro}</p>
     </div>
@@ -47,7 +48,7 @@ const telegramHref = telegramChat(c.telegramDraft.general);
           <div class="body">
             <div class="top">
               <svg class="glyph" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={glyphs[s.glyph]}></svg>
-              <span class="idx tnum"><span class="sr-only">{t.stepWord} </span>0{i + 1}</span>
+              <span class="idx tnum"><span class="sr-only">{t.stepWord} </span>{fmtInt(i + 1, lang, 2)}</span>
             </div>
             <h3 class="title">{s.title}</h3>
             <p class="text">{s.text}</p>

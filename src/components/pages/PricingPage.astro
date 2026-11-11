@@ -11,7 +11,7 @@ import { pagePath, pageUrl, itemUrl } from '@/i18n/routes';
 import { services } from '@/data/services';
 import { site, phoneUrl } from '@/lib/site';
 import { leadAttrs, telegramFor } from '@/lib/leads';
-import { fmtDate, fmtInt, fmtNumber, fmtNumRange, fmtPercent, fmtRange, fmtUsd, fmtUsdRange, fromPosition, sep, usdMark, withFrom, daysWord } from '@/lib/format';
+import { colon, colonGap, colonMark, fmtDate, fmtInt, fmtNumber, fmtNumRange, fmtPercent, fmtRange, fmtUsd, fmtUsdRange, fromPosition, sep, usdMark, withFrom, daysWord } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
 import { estimateAir, estimateTruck, formatBreakdown, type Tariffs } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
@@ -42,7 +42,7 @@ const lclFrom = lcl[0].rate;
 const truckFrom = lclFrom;
 const month = monthYear(T.updated, lang);
 const updated = fmtDate(T.updated, lang);
-const estimateMeta = `${c.strings.estimateMeta}: ${updated}`;
+const estimateMeta = `${c.strings.estimateMeta}${colon(lang)}${updated}`;
 const vars = {
   truck: usd(truckFrom), air: usd(airFrom), lcl: usd(lclFrom), month, date: updated,
   threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0),
@@ -252,7 +252,7 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
             <li class="example">
               <p class="ex-index tnum" aria-hidden="true">{fmtInt(i + 1, lang, 2)}</p>
               <h4 class="ex-title">{ex.title}</h4>
-              <p class="ex-input"><span class="ex-label">{p.examples.inputLabel}:</span> <span class="tnum">{ex.input}</span></p>
+              <p class="ex-input"><span class="ex-label">{p.examples.inputLabel}{colonMark(lang)}</span>{colonGap(lang)}<span class="tnum">{ex.input}</span></p>
               <p class="ex-rule">{ex.r.rule}</p>
               <p class="ex-total"><span class="stat">{ex.r.total}</span></p>
               <p class="ex-som tnum">{ex.r.totalSom}{sep(lang)}{c.strings.approx} {ex.r.days}</p>
@@ -404,6 +404,9 @@ const tgLead = leadAttrs('cargo', 'narx', pricingLabel);
   .ex-notes { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; font-size: var(--text-caption); color: var(--muted); }
   .ex-notes li { padding-inline-start: 12px; position: relative; }
   .ex-notes li::before { content: ''; position: absolute; inset-inline-start: 0; top: 7px; width: 6px; height: 1px; background: var(--meta); }
+  /* zh/fa lines are taller (tokens.css --leading-body): keep the dash as far from the middle of the first
+     line as the 7px above puts it at the Latin 1.47 leading. */
+  :global(:root:lang(zh)) .ex-notes li::before, :global(:root:lang(fa)) .ex-notes li::before { top: calc(0.5em * var(--leading-body) - 1.8px); }
 
   .two-lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 8px; }
   .list-title { font-size: var(--text-h4); font-weight: 600; margin-bottom: 12px; }

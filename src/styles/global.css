@@ -104,6 +104,11 @@ h4, .h4 { font-size: var(--text-h4); line-height: 1.25; font-weight: 600; }
 :root:lang(fa) .caption, :root:lang(fa) body .faq-item summary { line-height: 1.6; }
 /* Numbered lists count in Persian digits, like every other figure on a fa page. */
 :root:lang(fa) .prose ol { list-style-type: persian; }
+/* Marks set beside the FIRST line of a text (align-items: start) were placed for the Latin 1.47 leading;
+   zh/fa lines are taller, so each keeps its distance from the middle of that line: the 24px ticks of the
+   .bullets lists (margin-top 1px beside 17px text) and the form checkbox (2px beside 14px text). */
+:root:lang(zh) .bullets .tick, :root:lang(fa) .bullets .tick { margin-top: calc(0.5em * var(--leading-body) - 11.5px); }
+:root:lang(zh) .checkbox input, :root:lang(fa) .checkbox input { margin-top: calc(0.5em * var(--leading-body) - 8.3px); }
 
 /* ---------- Layout ---------- */
 .container { width: 100%; max-width: calc(var(--container) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }

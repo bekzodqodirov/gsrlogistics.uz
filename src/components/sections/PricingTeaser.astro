@@ -8,7 +8,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { pricingStrings, tpl } from '@/i18n/pricing';
 import { pagePath } from '@/i18n/routes';
-import { fmtDate, fmtNumber, fmtRange } from '@/lib/format';
+import { colon, fmtDate, fmtNumber, fmtRange } from '@/lib/format';
 import type { Tariffs } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
@@ -23,7 +23,7 @@ const c = pick(lang, common);
 const T = tariffs as unknown as Tariffs;
 const n = (v: number, f = 2) => fmtNumber(v, lang, f);
 const vars = { threshold: n(T.truck.perKgFromDensityKgM3, 0), truckDivisor: n(T.truck.volumetricDivisor, 0), airDivisor: n(T.air.volumetricDivisor, 0), minM3: n(T.truck.minM3) };
-const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(T.updated, lang)}`;
+const estimateMeta = `${c.strings.estimateMeta}${colon(lang)}${fmtDate(T.updated, lang)}`;
 const range = (a: number[]) => fmtRange(a[0], a[1], t.breakdown.units.days, lang);
 /* The tile units carry the currency and a "from" that reads after the figure in every locale
    ("$/m³ dan", "$/м³ от", "$/m³ from", "美元/m³ 起", "دلار/متر مکعب به بالا"), so the figure stays bare. */
@@ -78,6 +78,9 @@ const tiles = [
   .rules { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 12px; color: var(--fg-2); max-width: 46ch; }
   .rules li { padding-inline-start: 20px; position: relative; text-wrap: pretty; }
   .rules li::before { content: ''; position: absolute; inset-inline-start: 0; top: 11px; width: 10px; height: 1.5px; background: var(--fg); }
+  /* zh/fa lines are taller (tokens.css --leading-body): keep the dash as far from the middle of the first
+     line as the 11px above puts it at the Latin 1.47 leading. */
+  :global(:root:lang(zh)) .rules li::before, :global(:root:lang(fa)) .rules li::before { top: calc(0.5em * var(--leading-body) - 1.5px); }
   .example { font-size: var(--text-small); color: var(--muted); }
   .panel { border-radius: var(--radius-xl); padding: clamp(8px, 2vw, 24px); }
   .tiles-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-xl); padding: clamp(20px, 2.4vw, 32px); box-shadow: var(--shadow-ring); display: grid; gap: 20px; }

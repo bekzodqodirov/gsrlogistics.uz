@@ -3,7 +3,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { pagePath, itemPath } from '@/i18n/routes';
 import { common } from '@/i18n/common';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtRange } from '@/lib/format';
+import { colon, fmtRange } from '@/lib/format';
 import Logo from './ui/Logo.astro';
 import Icon from './ui/Icon.astro';
 import LangSwitcher from './LangSwitcher.astro';
@@ -12,7 +12,9 @@ import tariffs from '@/data/tariffs.json';
 interface Props { lang: Locale; alternates: Array<{ lang: Locale; href: string }>; currentPath: string }
 const { lang, alternates, currentPath } = Astro.props;
 const t = pick(lang, common);
-const isActive = (href: string) => href !== '/' && href !== '/ru/' && href !== '/en/' && currentPath.startsWith(href);
+// Any locale's home is a prefix of every path in it, so it is never "the current section".
+const home = pagePath(lang, 'home');
+const isActive = (href: string) => href !== home && currentPath.startsWith(href);
 const allServices = pick(lang, { uz: 'Barcha xizmatlar', ru: 'Все услуги', en: 'All services' });
 const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'rail' ? fmtRange(tariffs[key].days[0], tariffs[key].days[1], t.strings.days, lang) : '';
 ---
@@ -48,7 +50,7 @@ const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'ra
     </nav>
     <div class="header-actions">
       <LangSwitcher lang={lang} alternates={alternates} variant="menu" />
-      <a href={phoneUrl} class="phone" aria-label={`${t.header.phoneLabel}: ${site.phoneDisplay}`}><Icon name="phone" size={18} /><span class="tnum" dir="ltr">{site.phoneDisplay}</span></a>
+      <a href={phoneUrl} class="phone" aria-label={`${t.header.phoneLabel}${colon(lang)}${site.phoneDisplay}`}><Icon name="phone" size={18} /><span class="tnum" dir="ltr">{site.phoneDisplay}</span></a>
       <a href={telegramChat(t.telegramDraft.general)} class="btn btn-primary btn-sm header-cta" target="_blank" rel="noopener" data-picker><Icon name="telegram" size={16} />{t.cta.telegram}</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label={t.header.menu} data-menu-toggle>
         <Icon name="menu" size={22} class="icon-open" /><Icon name="x" size={22} class="icon-close" />
@@ -144,6 +146,14 @@ const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'ra
      still leaves the 30px logo mark ~6px to spare at 320px. */
   @media (max-width: 359px) { .header-actions { gap: 4px; } }
   @media (min-width: 1520px) { .phone { display: inline-flex; } }
+  /* From 1520px the bar also carries the phone number, in the same 1200px container: zh and fa then
+     overrun by ~5px and ~25px, squeezing the logo mark and the phone icon, so their nav takes ru's
+     8px padding there (28px back: zh keeps ~23px spare, fa ~3px). (The
+     uz, uz-Cyrl, ru and en bars overrun at these widths too, by 28–117px, as on the live site before
+     the switcher: that is a design decision about the phone link, not this rule's.) */
+  @media (min-width: 1520px) {
+    :global(html:lang(zh)) .nav-desktop > ul > li > a, :global(html:lang(fa)) .nav-desktop > ul > li > a { padding: 0 8px; }
+  }
   :global(body.menu-open) { overflow: hidden; }
 </style>
 
@@ -174,7 +184,12 @@ const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'ra
       megaToggle.setAttribute('aria-expanded', String(open));
     };
     megaToggle.addEventListener('click', () => { dismissed = false; pinned = !pinned; apply(); });
-    megaHost.addEventListener('pointerenter', () => { dismissed = false; hover = true; apply(); });
+    // One panel at a time: the panel that hovering Services opens would otherwise slide under an open
+    // language list (LangSwitcher.astro), overlapping it by 100–190px. Clicks and focus already close
+    // that list; hover does not, so it is closed here — unless focus is on one of its links, which
+    // closing would hide from under it (focus on the trigger is fine: the trigger stays).
+    const closeLang = () => document.querySelectorAll<HTMLDetailsElement>('details[data-lang-menu][open]').forEach((d) => { if (!d.querySelector('a:focus')) d.open = false; });
+    megaHost.addEventListener('pointerenter', () => { dismissed = false; hover = true; closeLang(); apply(); });
     megaHost.addEventListener('pointerleave', () => { hover = false; apply(); });
     megaHost.addEventListener('focusin', () => { focus = true; apply(); });
     megaHost.addEventListener('focusout', (e) => {

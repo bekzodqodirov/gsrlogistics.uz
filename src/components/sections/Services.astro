@@ -272,6 +272,9 @@ const flagshipPhoto = loadingShot as typeof loadingShot | null;
   .tail > li { border-top: 1px solid var(--border-soft); min-width: 0; }
   .tail-row { display: grid; grid-template-columns: 20px minmax(0, 1fr) 10px; align-items: start; gap: 14px; padding: 18px 0; }
   .tail-glyph { color: var(--muted); flex: none; margin-top: 2px; }
+  /* zh/fa lines are taller (tokens.css --leading-body): the glyph keeps its Latin distance from the
+     middle of the name's line. :global() because the class sits on Icon's own <svg>. */
+  :global(:root:lang(zh)) .tail-row :global(.tail-glyph), :global(:root:lang(fa)) .tail-row :global(.tail-glyph) { margin-top: calc(0.5em * var(--leading-body) - 12.5px); }
   .tail-body { display: grid; gap: 3px; min-width: 0; }
   .tail-name { font-size: var(--text-body); font-weight: 600; color: var(--fg); }
   .tail-text { font-size: var(--text-small); color: var(--muted); text-wrap: pretty; }

@@ -105,7 +105,7 @@ const socials = [
           <ol class="wh-list" role="list">
             {site.chinaWarehouses.map((w) => (
               <li class="wh">
-                <p class="wh-city">{pick(lang, w.city)}<span class="wh-zh" lang="zh" dir="ltr">{w.cityZh}</span></p>
+                <p class="wh-city">{pick(lang, w.city)}{pick(lang, w.city) !== w.cityZh && <span class="wh-zh" lang="zh" dir="ltr">{w.cityZh}</span>}</p>
                 {/* Chinese blocks are LTR islands: in an RTL paragraph the closing "）" of "（高德导航）" or
                     "周先生（小周）" would resolve right-to-left and jump to the far end. */}
                 {site.publishChinaAddresses && (

@@ -3,7 +3,7 @@ import { pick, type Locale } from '@/i18n/config';
 import { pagePath, itemPath } from '@/i18n/routes';
 import { common } from '@/i18n/common';
 import { site, phoneUrl, phone2Url, whatsappUrl, telegramUrl, telegramGroupUrl, instagramUrl, facebookUrl, telegramChat } from '@/lib/site';
-import { endSentence, fmtInt, fmtRange, sep, sepMark } from '@/lib/format';
+import { approxLeads, endSentence, fmtInt, fmtRange, joinSentences, sep, sepMark } from '@/lib/format';
 import { services } from '@/data/services';
 import tariffs from '@/data/tariffs.json';
 import Logo from './ui/Logo.astro';
@@ -23,9 +23,10 @@ const modeWord = pick(lang, {
 });
 const city = pick(lang, { uz: 'Toshkent', ru: 'Ташкент', en: 'Tashkent' });
 const days = (d: number[]) => fmtRange(d[0], d[1], t.strings.days, lang);
+// Rail's "approx" trails the range as a note ("20–35 days · roughly"); zh 约 only ever precedes a figure ("约 20–35 天").
 const copyright = endSentence(`© ${fmtInt(year, lang)} ${site.name}${sep(lang)}${city}${site.legalEntity ? `${sep(lang)}${site.legalEntity}` : ''}`, lang);
 // A full-width stop (zh 。) carries its own space; after any other stop the next sentence needs one.
-const copyrightLine = `${copyright}${/[。！？]$/.test(copyright) ? '' : ' '}${t.footer.rights}`;
+const copyrightLine = joinSentences(copyright, t.footer.rights);
 ---
 <footer class="site-footer dark" id="site-footer">
   <div class="container">
@@ -36,7 +37,7 @@ const copyrightLine = `${copyright}${/[。！？]$/.test(copyright) ? '' : ' '}$
         <ul role="list" class="fact-stack tnum">
           <li>{modeWord.truck} <strong>{days(tariffs.truck.days)}</strong></li>
           <li>{modeWord.air} <strong>{days(tariffs.air.days)}</strong></li>
-          <li>{modeWord.rail} <strong>{days(tariffs.rail.days)}</strong> <span class="meta">{sepMark(lang)} {t.strings.approx}</span></li>
+          <li>{modeWord.rail} {approxLeads(lang) ? <><span class="meta">{t.strings.approx}</span> <strong>{days(tariffs.rail.days)}</strong></> : <><strong>{days(tariffs.rail.days)}</strong> <span class="meta">{sepMark(lang)} {t.strings.approx}</span></>}</li>
         </ul>
         <div class="socials">
           <a href={telegramUrl} target="_blank" rel="noopener" aria-label={t.footer.channel}><Icon name="telegram" /></a>

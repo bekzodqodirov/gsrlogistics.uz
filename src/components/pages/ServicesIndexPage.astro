@@ -9,7 +9,7 @@ import { servicesStrings, serviceGroups, serviceNumberLine, tpl } from '@/i18n/s
 import { pagePath, itemPath, itemUrl } from '@/i18n/routes';
 import { services, serviceByKey } from '@/data/services';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
-import { fmtDate, fmtInt, fmtRange, sep } from '@/lib/format';
+import { colon, fmtDate, fmtInt, fmtRange, sep } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
@@ -23,7 +23,7 @@ const t = pick(lang, servicesStrings);
 const c = pick(lang, common);
 const range = (a: number, b: number) => fmtRange(a, b, t.line.days, lang);
 const updated = fmtDate(tariffs.updated, lang);
-const estimateMeta = `${c.strings.estimateMeta}: ${updated}`;
+const estimateMeta = `${c.strings.estimateMeta}${colon(lang)}${updated}`;
 const compareRows = [
   { key: 'truck' as const, days: range(tariffs.truck.days[0], tariffs.truck.days[1]) },
   { key: 'air' as const, days: range(tariffs.air.days[0], tariffs.air.days[1]) },

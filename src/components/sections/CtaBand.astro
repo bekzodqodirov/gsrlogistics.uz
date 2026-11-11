@@ -8,6 +8,7 @@ import { common } from '@/i18n/common';
 import { contact } from '@/i18n/contact';
 import { pagePath } from '@/i18n/routes';
 import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { fmtDigits } from '@/lib/format';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
 import Logo from '@/components/ui/Logo.astro';
@@ -16,7 +17,7 @@ interface Props { lang: Locale; number?: string; id?: string }
 const { lang, number, id = 'aloqa' } = Astro.props;
 const t = pick(lang, contact).cta;
 const c = pick(lang, common);
-const eyebrow = number ? `${number} — ${t.eyebrow}` : t.eyebrow;
+const eyebrow = number ? `${fmtDigits(number, lang)} — ${t.eyebrow}` : t.eyebrow;
 ---
 <section id={id} class="section dark noise cta below-fold" aria-labelledby={`${id}-h`}>
   <div class="container">

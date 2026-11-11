@@ -35,8 +35,9 @@ const place: Record<string, { dx: number; dy: number; anchor?: 'start' | 'middle
   shymkent: { dx: -9, dy: -8, anchor: 'end', minor: true },
   tashkent: { dx: 11, dy: 6 },
 };
+// The Chinese name follows the local one ("Yiwu · 义乌"), except where the local name IS the Chinese one (zh pages).
 const suffix: Record<string, string | undefined> = {
-  yiwu: routeNodes[0].zh ? `${joint}${routeNodes[0].zh}` : undefined,
+  yiwu: routeNodes[0].zh && pick(lang, routeNodes[0].name) !== routeNodes[0].zh ? `${joint}${routeNodes[0].zh}` : undefined,
   khorgos: `${joint}${t.map.border}`,
 };
 /** Country-name anchors (map units; 24.615 units per degree of longitude, lon 60E at x 0). Each has a

@@ -5,7 +5,8 @@
  *   variant="menu"  header bar — a disclosure built on <details>/<summary>, so it opens and closes
  *                   without JavaScript: globe, the current locale's short label, chevron. It opens a
  *                   list of the six endonyms. The script below only adds the closing a reader expects
- *                   from a menu (Escape, a tap outside, focus leaving it), as the mega menu does.
+ *                   from a menu (Escape, a press outside, focus moving on to another control), as
+ *                   the mega menu does.
  *   variant="grid"  mobile menu sheet — the six endonyms as a 3×2 grid.
  *   variant="row"   footer — the six endonyms in one row that wraps.
  *
@@ -120,7 +121,12 @@ const label = variant === 'row' ? t.footer.languages : t.header.langLabel;
     // pointerdown, not click: iOS Safari does not deliver a tap on a non-interactive element to a click
     // listener on document, so a tap outside would never close the list.
     document.addEventListener('pointerdown', (e) => { if (menu.open && !menu.contains(e.target as Node)) close(); }, true);
-    menu.addEventListener('focusout', (e) => { if (menu.open && !menu.contains(e.relatedTarget as Node | null)) close(); });
+    // Focus moving on to another control (Tab, Shift+Tab) closes the list. Focus moving to NOTHING
+    // (relatedTarget null) is a press inside the panel that missed a link, its padding: the list stays
+    // open, and a press outside was already handled above. Never close from that press: Chromium
+    // crashes the tab when a focusout handler closes a <details> while the mousedown that moved focus
+    // out of it is still being dispatched.
+    menu.addEventListener('focusout', (e) => { const to = e.relatedTarget as Node | null; if (menu.open && to && !menu.contains(to)) close(); });
     // Back/forward cache: the page comes back exactly as it was left, list open included.
     window.addEventListener('pageshow', (e) => { if (e.persisted) close(); });
   });

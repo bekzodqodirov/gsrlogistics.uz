@@ -11,7 +11,7 @@ import { pricingStrings, tpl } from '@/i18n/pricing';
 import { pagePath } from '@/i18n/routes';
 import { site } from '@/lib/site';
 import { leadAttrs } from '@/lib/leads';
-import { decimalPattern, fmtDate, fmtInt, fmtNumber, fmtUsd, sep, withFrom } from '@/lib/format';
+import { colon, colonGap, colonMark, decimalPattern, fmtDate, fmtInt, fmtNumber, fmtUsd, sep, withFrom } from '@/lib/format';
 import { CATEGORIES } from '@/lib/pricing';
 import tariffs from '@/data/tariffs.json';
 import Icon from '@/components/ui/Icon.astro';
@@ -22,7 +22,7 @@ const t = pick(lang, pricingStrings);
 const c = pick(lang, common);
 const b = t.breakdown;
 const pricingUrl = pagePath(lang, 'pricing');
-const estimateMeta = `${c.strings.estimateMeta}: ${fmtDate(tariffs.updated, lang)}`;
+const estimateMeta = `${c.strings.estimateMeta}${colon(lang)}${fmtDate(tariffs.updated, lang)}`;
 const kursNote = tpl(t.calc.kursNote, { rate: fmtNumber(tariffs.usdToSom, lang, 0) });
 /** Heads the one line the manager reads on the lead: «Kalkulyator · Avto … · 120 kg · …». */
 const calcLabel = c.nav.find((x) => x.key === 'calculator')?.label ?? t.calc.title;
@@ -164,7 +164,7 @@ const uid = (s: string) => `${id}-${s}`;
         <dl class="rows" data-el="rows"></dl>
         <ul class="notes" data-el="notes" role="list"></ul>
         <a class="btn btn-primary confirm" data-el="tg" href={site.telegramDirect} target="_blank" rel="noopener" {...leadAttrs('cargo', 'kalkulyator', calcLabel)}><Icon name="telegram" size={18} />{t.calc.confirm}</a>
-        <p class="draft caption"><span class="draft-label">{t.calc.draftPreview}:</span> <span data-el="draft"></span></p>
+        <p class="draft caption"><span class="draft-label">{t.calc.draftPreview}{colonMark(lang)}</span>{colonGap(lang)}<span data-el="draft"></span></p>
       </div>
     </div>
 
@@ -236,6 +236,9 @@ const uid = (s: string) => `${id}-${s}`;
   .notes:empty { display: none; }
   .notes :global(li) { padding-inline-start: 14px; position: relative; }
   .notes :global(li)::before { content: ''; position: absolute; inset-inline-start: 0; top: 7px; width: 6px; height: 1px; background: var(--meta); }
+  /* zh/fa lines are taller (tokens.css --leading-body): keep the dash as far from the middle of the first
+     line as the 7px above puts it at the Latin 1.47 leading. */
+  :global(:root:lang(zh)) .notes :global(li)::before, :global(:root:lang(fa)) .notes :global(li)::before { top: calc(0.5em * var(--leading-body) - 1.8px); }
   .confirm { margin-top: 8px; width: 100%; }
   .draft { overflow-wrap: anywhere; }
   .draft-label { font-weight: 600; }

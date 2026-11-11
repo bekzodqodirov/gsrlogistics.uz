@@ -7,6 +7,7 @@ import {
   fmtUsd, fmtNumber, withFrom, ruDays, fmtInt, fmtDigits, fmtNumRange, fmtRange, fmtPercent, fmtUsdNumber, fmtUsdRange,
   usdMark, fmtSom, fmtSomRange, fromPosition, daysWord, unitWord, unitSymbol, sep, sepMark, arrow, endSentence,
   fmtDate, fmtMonthYear, readingMinutes, toAsciiDigits, parseNumber, decimalPattern,
+  colon, colonMark, colonGap, paren, stopMark, joinSentences, approxLeads,
 } from '../src/lib/format.ts';
 
 const tariffs = JSON.parse(readFileSync(new URL('../src/data/tariffs.json', import.meta.url), 'utf8'));
@@ -277,6 +278,30 @@ test('format.ts: exact forms in uz, uzc, ru, en, zh, fa', () => {
   assert.ok(!/[٠-٩]/.test(fmtNumber(1234567.89, 'fa')), 'fa never prints Arabic-Indic digits');
   // The day word: ru declines it, every other locale prints the word it is given (zh 天 / fa روز do not inflect).
   assert.deepEqual([daysWord(3, 'ru', 'дней'), daysWord(3, 'zh', '天'), daysWord(21, 'fa', 'روز')], ['дня', '天', 'روز']);
+});
+
+// 12b. Code-level punctuation around labels and sentences. uz, uzc, ru, en and fa keep the ASCII forms the
+// components printed literally before (": ", " (…)", ". "); only zh switches to full width, with no spaces.
+test('format.ts: label colon, brackets, stops and the "approx" position', () => {
+  const expect = {
+    uz: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
+    uzc: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
+    ru: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
+    en: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
+    fa: [': ', ':', ' ', ' (Imex services LLC)', '.', false],
+    zh: ['：', '：', '', '（Imex services LLC）', '。', true],
+  };
+  for (const [l, x] of Object.entries(expect)) {
+    assert.deepEqual([colon(l), colonMark(l), colonGap(l), paren('Imex services LLC', l), stopMark(l), approxLeads(l)], x, `${l}: colon / colonMark / colonGap / paren / stopMark / approxLeads`);
+    assert.equal(`${colonMark(l)}${colonGap(l)}`, colon(l), `${l}: colonMark + colonGap = colon`);
+  }
+  assert.equal(joinSentences('Kashgar.', 'Updated: 2026.'), 'Kashgar. Updated: 2026.');
+  assert.equal(joinSentences('Ташкент. г.', 'x'), 'Ташкент. г. x');
+  assert.equal(joinSentences('和喀什。', '更新日期：2026年9月8日。'), '和喀什。更新日期：2026年9月8日。');
+  assert.equal(joinSentences('真的吗？', '是。'), '真的吗？是。');
+  assert.equal(joinSentences('کاشغر.', 'به‌روزرسانی'), 'کاشغر. به‌روزرسانی');
+  assert.equal(joinSentences('end.', ''), 'end. ');
+  assert.equal(joinSentences('结束。', ''), '结束。');
 });
 
 // 13. uz/uzc/ru/en: byte-identical to the formatters the table replaced (copied here verbatim, ternaries and all)

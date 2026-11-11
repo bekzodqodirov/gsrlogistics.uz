@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 import { common } from '@/i18n/common';
 import { guidesStrings } from '@/i18n/guides';
 import { pagePath } from '@/i18n/routes';
-import { fmtDate, fmtInt, readingMinutes, sep } from '@/lib/format';
+import { colon, fmtDate, fmtInt, readingMinutes, sep } from '@/lib/format';
 import Base from '@/layouts/Base.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
@@ -40,7 +40,7 @@ const minutes = (body?: string) => fmtInt(readingMinutes(body ?? ''), lang);
               <span class="g-body">
                 <span class="h4 g-title">{e.data.title}</span>
                 <span class="g-desc">{e.data.description}</span>
-                <span class="caption g-meta tnum">{t.updated}: {fmtDate(e.data.updatedDate, lang)}{sep(lang)}{minutes(e.body)} {t.minutes}{tagLine(e.data.tags)}</span>
+                <span class="caption g-meta tnum">{t.updated}{colon(lang)}{fmtDate(e.data.updatedDate, lang)}{sep(lang)}{minutes(e.body)} {t.minutes}{tagLine(e.data.tags)}</span>
               </span>
               <span class="chev" aria-hidden="true">›</span>
             </a>

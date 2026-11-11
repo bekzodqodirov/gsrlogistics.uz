@@ -18,7 +18,7 @@ import { journey } from '@/i18n/journey';
 import { common } from '@/i18n/common';
 import { pagePath } from '@/i18n/routes';
 import { telegramChat } from '@/lib/site';
-import { endSentence, fmtRange, fmtDate, fmtInt, fmtNumber, sep } from '@/lib/format';
+import { colon, endSentence, fmtRange, fmtDate, fmtInt, fmtNumber, joinSentences, sep } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import { ROUTE_KM, ROUTE_KM_VERIFIED } from '@/data/route';
 import Icon from '@/components/ui/Icon.astro';
@@ -34,7 +34,7 @@ const days = {
   rail: fmtRange(tariffs.rail.days[0], tariffs.rail.days[1], t.daysUnit, lang),
   air: fmtRange(tariffs.air.days[0], tariffs.air.days[1], t.daysUnit, lang),
 };
-const updated = `${c.updated}: ${fmtDate(tariffs.updated, lang)}`;
+const updated = `${c.updated}${colon(lang)}${fmtDate(tariffs.updated, lang)}`;
 const kmFinal = `${fmtNumber(ROUTE_KM, lang)}${ROUTE_KM_VERIFIED ? '' : '+'}`;
 /** Mode chips; `cap` is the km caption tail shown while that chip is active ("avto, taxminan 15–25 kun"). */
 const chips = (['truck', 'rail', 'air'] as const).map((key) => ({ key, label: t.chips[key], days: days[key], cap: `${t.km.daysCaption[key]} ${days[key]}` }));
@@ -66,7 +66,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
 
       <nav class="journey-rail" aria-label={t.railLabel} data-j="rail">
         {t.stages.map((s, i) => (
-          <button type="button" class="jrail-btn" data-j="rail-btn" data-stage={i + 1} aria-label={`${t.stageWord} ${fmtInt(i + 1, lang)}: ${s.short}`}>
+          <button type="button" class="jrail-btn" data-j="rail-btn" data-stage={i + 1} aria-label={`${t.stageWord} ${fmtInt(i + 1, lang)}${colon(lang)}${s.short}`}>
             <svg viewBox="0 0 12 13" width="12" height="13" aria-hidden="true" focusable="false"><polygon points="6,0.8 11.2,3.55 11.2,9.45 6,12.2 0.8,9.45 0.8,3.55"></polygon></svg>
           </button>
         ))}
@@ -112,7 +112,7 @@ const markR = 'M0 50 L43.3 25 L43.3 -25 L22.3 -37.1 L-20 -12.7 L-20 5.77 L28.3 -
         ))}
       </ol>
 
-      <p class="journey-foot caption" data-j="foot">{t.footnote} {endSentence(updated, lang)}</p>
+      <p class="journey-foot caption" data-j="foot">{joinSentences(t.footnote, endSentence(updated, lang))}</p>
     </div>
   </div>
 </section>

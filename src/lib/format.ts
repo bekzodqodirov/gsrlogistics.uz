@@ -76,6 +76,18 @@ interface LocaleFormat {
   readGroups: boolean;
   /** "/" typed as the decimal mark: Persian writers often type it for ٫ ("۲/۵" is 2.5, not 25). */
   slashDecimal?: boolean;
+  /**
+   * The label–value colon of a code-level join ("Updated: …"), with the space it carries. Default
+   * ': '. zh writes the full-width '：' with no space ("更新日期：2026年9月8日").
+   */
+  colon?: string;
+  /** Brackets around a parenthetical after a word, opening one with its space. Default [' (', ')']; zh full width ['（', '）']. */
+  paren?: [string, string];
+  /**
+   * The "approx" word (common.strings.approx) can only precede a figure ("约 20–35 天"); it cannot trail
+   * one as a separate annotation ("20–35 days · roughly"). zh only.
+   */
+  approxLeads?: boolean;
 }
 
 const NNBSP = ' '; // narrow no-break space: a CS-class separator that holds a figure together
@@ -143,7 +155,7 @@ const FORMATS: Record<Locale, LocaleFormat> = {
     som: (n) => `${n} 苏姆`, somRange: (a, b) => `${a}–${b} 苏姆`,
     span: (a, b) => `${a}–${b}`, fromAfter: true, percent: (n) => `${n}%`,
     date: (y, m, d) => `${y}年${m + 1}月${d}日`, monthYear: (y, m) => `${y}年${m + 1}月`,
-    sep: ' · ', arrow: ' → ', stop: '。',
+    sep: ' · ', arrow: ' → ', stop: '。', colon: '：', paren: ['（', '）'], approxLeads: true,
     unit: { km: '公里', kg: 'kg', m3: 'm³' }, symbol: { km: '公里', kg: 'kg', m3: 'm³' },
   },
   // Persian digits with ٬ and ٫ (CLDR fa); the currency is the word دلار after the figure (a bare "$"
@@ -321,6 +333,46 @@ export function arrow(lang: Locale): string {
 /** End a sentence the code assembles: adds the locale's full stop ("." / zh "。") unless the text already ends in one ("2026 г."). */
 export function endSentence(text: string, lang: Locale): string {
   return /[.!?。！？…]$/.test(text) ? text : `${text}${FORMATS[lang].stop}`;
+}
+
+/** The locale's full stop alone: "." (zh "。"). */
+export function stopMark(lang: Locale): string {
+  return FORMATS[lang].stop;
+}
+
+/**
+ * Two sentences the code puts side by side: a full-width stop (zh 。！？) carries its own space, any
+ * other stop needs one. "… Kashgar. Updated: …" / "…和喀什。更新日期：…".
+ */
+export function joinSentences(first: string, second: string): string {
+  return `${first}${/[。！？]$/.test(first) ? '' : ' '}${second}`;
+}
+
+/** The label–value separator of a code-level join, with its space: ": " (zh "：", full width, no space). */
+export function colon(lang: Locale): string {
+  return FORMATS[lang].colon ?? ': ';
+}
+
+/** The colon glyph alone, for markup that puts it inside the label element: ":" (zh "："). */
+export function colonMark(lang: Locale): string {
+  return colon(lang).trimEnd();
+}
+
+/** The space that follows a label element ending in colonMark: " " (zh none). */
+export function colonGap(lang: Locale): string {
+  const c = colon(lang);
+  return c.slice(c.trimEnd().length);
+}
+
+/** A parenthetical after a word: " (Imex services LLC)" (zh "（Imex services LLC）"). */
+export function paren(text: string, lang: Locale): string {
+  const [open, close] = FORMATS[lang].paren ?? [' (', ')'];
+  return `${open}${text}${close}`;
+}
+
+/** Whether the "approx" word must precede the figure rather than trail it as an annotation (zh 约). */
+export function approxLeads(lang: Locale): boolean {
+  return FORMATS[lang].approxLeads === true;
 }
 
 /* ── Dates ───────────────────────────────────────────────────────────────────────────────────── */
