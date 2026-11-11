@@ -8,7 +8,10 @@
 //     src/data/route.ts, src/data/faq.ts and src/lib/site.ts;
 //   · every service page, src/data/services/<key>.content.ts, against its translations in
 //     src/data/services/{zh,fa}/<key>.content.ts;
-//   · every guide, src/content/guides/{zh,fa}/<slug>.md, against src/content/guides/en/<slug>.md.
+//   · every guide, src/content/guides/{zh,fa}/<slug>.md, against src/content/guides/en/<slug>.md;
+//   · every works block, src/content/works/<block>/index.md: the zh/fa title, text and photo alts it has,
+//     against its English ones — numbers only (a block may leave a language out: that page then shows the
+//     block's media and date, never another language's text).
 //
 // What it compares, zh and fa each against en:
 //   1. structure — the same keys, the same array lengths (so the same bullets, steps, FAQ entries
@@ -47,6 +50,7 @@ import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 import yaml from 'js-yaml';
 import { PENDING } from './locales.mjs';
+import { readBlocks } from './works-blocks.mjs';
 
 const ROOT = new URL('../', import.meta.url);
 const ROOT_DIR = fileURLToPath(ROOT);
@@ -71,7 +75,7 @@ async function load(rel) {
 const failures = { structure: [], placeholders: [], identifiers: [], numbers: [], load: [] };
 const fail = (kind, where, msg) => failures[kind].push(`${where}: ${msg}`);
 const missing = Object.fromEntries(TARGETS.map((t) => [t, []]));
-const counts = { records: 0, leaves: 0, services: 0, guides: 0 };
+const counts = { records: 0, leaves: 0, services: 0, guides: 0, works: 0 };
 const allowed = JSON.parse(readFileSync(ALLOW_FILE, 'utf8'));
 const allowNumbers = (allowed.numbers ?? []).map((a) => ({ ...a, used: false, re: new RegExp(`^${a.where.split('*').map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('.*')}$`) }));
 let allowedHits = 0;
@@ -447,6 +451,24 @@ for (const file of readdirSync(guideDir('en')).filter((f) => f.endsWith('.md')).
   }
 }
 
+/* ── Works blocks ─────────────────────────────────────────────────────────────────────────────── */
+
+// A block's zh and fa texts keep the figures of its English ones: «yoʻl 40 soniyada» is 40 秒 and ۴۰ ثانیه, never
+// another number. Only the translations a block has are compared — a language it leaves out is allowed.
+for (const b of readBlocks()) {
+  const rel = `src/content/works/${b.id}/index.md`;
+  if (b.error) { fail('load', rel, b.error); continue; }
+  const fields = [['title', b.data.title], ['text', b.data.text], ...(b.data.photos ?? []).map((p, i) => [`photos[${i}].alt`, p?.alt])];
+  for (const [name, map] of fields) {
+    if (typeof map?.en !== 'string') continue;
+    for (const lang of TARGETS) {
+      if (typeof map[lang] !== 'string') continue;
+      counts.works += 1;
+      checkNumbers(`${rel}#${name}.${lang}`, lang, map.en, map[lang]);
+    }
+  }
+}
+
 /* ── Report ─────────────────────────────────────────────────────────────────────────────────── */
 
 const LABEL = {
@@ -474,7 +496,7 @@ for (const lang of TARGETS) {
 }
 console.log(
   `\ntest-translations: ${total ? `${total} problem(s)` : 'ok'} — ${counts.records} localized records (${counts.leaves} leaves compared), ` +
-    `${counts.services} service pages, ${counts.guides} guides, ${allowedHits} number differences and ${tokenHits} native token forms allowed by the list` +
+    `${counts.services} service pages, ${counts.guides} guides, ${counts.works} works-block texts, ${allowedHits} number differences and ${tokenHits} native token forms allowed by the list` +
     `${PENDING.size ? ` · pending: ${[...PENDING].join(', ')}` : ''}`,
 );
 process.exit(total ? 1 : 0);

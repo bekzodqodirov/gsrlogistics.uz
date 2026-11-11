@@ -7,6 +7,7 @@
  * phone (which is the WhatsApp number), the e-mail, and the three China receiving addresses.
  *
  * Owner-confirmed on 2026-09-10: the cargo-tracking Telegram bot and the four company figures.
+ * Owner, 2026-11-11: the monthly volume is 50–100 containers; it replaces the old monthly truck count.
  */
 export const site = {
   name: 'GSR Logistics',
@@ -21,7 +22,12 @@ export const site = {
    * scripts/check-content.mjs fails the build on it.
    */
   teamYears: 15, // owner, 2026-09-10: "sohada ishlayotganimga 15 yil boldi"
-  trucksPerMonth: 10, // "oyiga 10+ truck olib kelamiz" — always written with the plus
+  /**
+   * Owner, 2026-11-11: "hozirda bizda 1 oyda 50–100 ta konteyner tashiyapmiz". Always written as the
+   * range "50–100" with "containers a month" (fa: ۵۰ تا ۱۰۰); no truck count is published any more,
+   * and scripts/check-content.mjs fails the build on any other monthly figure.
+   */
+  containersPerMonth: { min: 50, max: 100 },
   clients: 400, // "400dan oshiq mijoz" — always written with the plus
   phoneDisplay: '+998 95 018 33 33', // primary number from the Telegram channel
   phoneE164: '+998950183333',

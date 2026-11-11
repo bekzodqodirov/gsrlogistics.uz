@@ -8,14 +8,16 @@
 //      against the transliterator and against the tables in src/i18n/routes.ts. A slug is
 //      permanent, so this list is a contract; a change here is a dead URL somewhere.
 //   3. Round trip — an independent Cyrillic → Latin inverse, run over every word of the site.
-//   4. The real corpus — every `uz` string in src/i18n and src/data AND every line of the ten
-//      guide articles, transliterated and checked for mangled protected tokens, surviving Latin,
+//   4. The real corpus — every `uz` string in src/i18n and src/data, every line of the ten
+//      guide articles AND the uz titles, texts and alts of the works blocks (src/content/works/),
+//      transliterated and checked for mangled protected tokens, surviving Latin,
 //      undecided acronyms, brand endings nobody ruled on, lost placeholders and empty output.
 //      This layer is the one that fails when somebody adds content the dictionary has not seen.
 
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import { register } from 'node:module';
+import { readBlocks, blockStrings } from './works-blocks.mjs';
 
 const ROOT = new URL('../', import.meta.url);
 
@@ -231,6 +233,7 @@ test('sh and ch are always the digraph — the site has no s+h or c+h boundary',
 test('brands and product names stay Latin', () => {
   expectAll({
     'GSR Logistics': 'GSR Logistics',
+    'GSR Group nomi bilan': 'GSR Group номи билан', // not GSR Гроуп
     'WhatsApp va Instagram': 'WhatsApp ва Instagram',
     'Facebook': 'Facebook',
     'Google Maps': 'Google Maps',
@@ -591,6 +594,7 @@ const PUBLISHED_SLUGS = {
     aloqa: 'алоқа',
     qollanma: 'қўлланма',
     maxfiylik: 'махфийлик',
+    ishlarimiz: 'ишларимиз',
   },
   service: {
     'avto-kargo': 'авто-карго',
@@ -786,10 +790,19 @@ for (const file of readdirSync(guideDir).filter((f) => f.endsWith('.md'))) {
   for (const line of body.split('\n')) if (line.trim()) guideProse.push({ path: `guides/${file}`, s: line });
 }
 
-/** Everything the dictionary has to answer for. */
-const allProse = [...prose, ...guideProse];
+/**
+ * ── The third corpus: the works blocks ──
+ *
+ * The /kirill/ works page and home section print each block's `uz` title, text and photo alts
+ * transliterated (src/lib/works.ts), so a partner's name or an acronym in a new block needs a decision
+ * here like any other word of the site (the first block's BARLOU and HAOMENG are brands: keepLatin).
+ */
+const worksProse = readBlocks().flatMap((b) => blockStrings(b.data, 'uz').map((s) => ({ path: `works/${b.id}`, s })));
 
-test(`the corpus loaded (${prose.length} prose strings from ${contentFiles.length - skippedModules.length} modules, plus ${guideProse.length} guide lines)`, () => {
+/** Everything the dictionary has to answer for. */
+const allProse = [...prose, ...guideProse, ...worksProse];
+
+test(`the corpus loaded (${prose.length} prose strings from ${contentFiles.length - skippedModules.length} modules, plus ${guideProse.length} guide lines and ${worksProse.length} works-block texts)`, () => {
   assert.ok(prose.length > 1500, `only ${prose.length} strings found — did the content move?`);
   assert.ok(guideProse.length > 500, `only ${guideProse.length} guide lines found — did the guides move?`);
   assert.ok(skippedModules.length <= 1, `unexpected modules failed to load:\n  ${skippedModules.join('\n  ')}`);
@@ -805,6 +818,21 @@ test('every guide line transliterates without leaving Latin behind', () => {
     bad.length,
     0,
     `${bad.length} guide lines kept Latin letters that nobody decided about.\n` +
+      `Add them to keepLatin or respell in src/lib/cyrillic.terms.ts.\n    ` +
+      bad.slice(0, 12).join('\n    '),
+  );
+});
+
+test('every works-block text transliterates without leaving Latin behind', () => {
+  const bad = [];
+  for (const { path, s } of worksProse) {
+    const leftovers = latinLeftovers(s);
+    if (leftovers.length) bad.push(`${path}: ${[...new Set(leftovers)].join(', ')}\n      ${s.slice(0, 140)}`);
+  }
+  assert.equal(
+    bad.length,
+    0,
+    `${bad.length} works-block texts kept Latin letters that nobody decided about.\n` +
       `Add them to keepLatin or respell in src/lib/cyrillic.terms.ts.\n    ` +
       bad.slice(0, 12).join('\n    '),
   );

@@ -32,6 +32,8 @@ export const routeSlugs = {
   contact: { uz: 'aloqa', ru: 'kontakty', en: 'contact', uzc: 'алоқа', zh: 'contact', fa: 'contact' },
   guides: { uz: 'qollanma', ru: 'gid', en: 'guides', uzc: 'қўлланма', zh: 'guides', fa: 'guides' },
   privacy: { uz: 'maxfiylik', ru: 'konfidencialnost', en: 'privacy', uzc: 'махфийлик', zh: 'privacy', fa: 'privacy' },
+  // "Ishlarimizdan lavhalar" — the video and photo blocks (src/content/works/). `Ishlarimiz` → `Ишларимиз`.
+  works: { uz: 'ishlarimiz', ru: 'nashi-raboty', en: 'our-work', uzc: 'ишларимиз', zh: 'our-work', fa: 'our-work' },
 } as const satisfies Record<string, Localized<string>>;
 
 export type PageKey = keyof typeof routeSlugs;

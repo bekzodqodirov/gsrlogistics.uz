@@ -1,0 +1,50 @@
+---
+/**
+ * Home "Ishlarimizdan lavhalar": the latest three published works blocks (src/content/works/) and a
+ * link to the page with all of them. It follows Proof, whose last word is the strip of the owner's
+ * photographs: the checklist says what happens, the photos show three moments, and this shows the
+ * work itself on video — "seeing is believing" in each language's own proverb.
+ *
+ * A grey band (like Segments and the pricing teaser) between Proof's dark section and the light
+ * process section, with no number in the eyebrow: the numbered spine 02–08 stays as it is (see
+ * HomePage.astro). The newest block is laid out wide, text beside the video; up to two more follow
+ * as cards. With no published block the section is not rendered at all.
+ * Props: { lang }.
+ */
+import { pick, type Locale } from '@/i18n/config';
+import { worksStrings } from '@/i18n/works';
+import { pagePath } from '@/i18n/routes';
+import { getWorks } from '@/lib/works';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import WorkBlock from '@/components/works/WorkBlock.astro';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = pick(lang, worksStrings);
+const [first, ...rest] = (await getWorks()).slice(0, 3);
+---
+{first && (
+  <section id="ishlarimiz" class="section works-teaser below-fold" aria-labelledby="works-title" data-works-home>
+    <div class="container">
+      <div class="section-head">
+        <Eyebrow>{t.home.eyebrow}</Eyebrow>
+        <h2 id="works-title" class="measure-head">{t.home.h2}</h2>
+        <p class="intro">{t.home.intro}</p>
+      </div>
+      <WorkBlock lang={lang} work={first} level={3} layout="feature" photosMax={3} />
+      {rest.length > 0 && (
+        <div class="more">
+          {rest.map((w) => <WorkBlock lang={lang} work={w} level={3} layout="card" photosMax={3} />)}
+        </div>
+      )}
+      <a class="link all" href={pagePath(lang, 'works')}>{t.home.all}</a>
+    </div>
+  </section>
+)}
+
+<style>
+  .works-teaser { background: var(--bg-2); }
+  .more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 3vw, 40px); margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(28px, 3vw, 40px); border-top: 1px solid var(--border); }
+  .all { margin-top: clamp(32px, 4vw, 48px); }
+  @media (max-width: 767px) { .more { grid-template-columns: minmax(0, 1fr); } }
+</style>

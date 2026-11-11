@@ -92,7 +92,7 @@ const MODULES = [
   'src/i18n/guides.ts', 'src/i18n/hero.ts', 'src/i18n/journey.ts', 'src/i18n/parcel.ts',
   'src/i18n/pricing.ts', 'src/i18n/privacy.ts', 'src/i18n/process.ts', 'src/i18n/proof.ts',
   'src/i18n/segments.ts', 'src/i18n/services.ts', 'src/i18n/track-system.ts', 'src/i18n/tracking.ts',
-  'src/i18n/why.ts', 'src/data/faq.ts', 'src/data/services.ts', 'src/data/route.ts', 'src/lib/site.ts',
+  'src/i18n/why.ts', 'src/i18n/works.ts', 'src/data/faq.ts', 'src/data/services.ts', 'src/data/route.ts', 'src/lib/site.ts',
 ];
 /** Modules the completeness test also covers (they carry zh/fa branches too). */
 const MORE_MODULES = ['src/i18n/lead.ts'];

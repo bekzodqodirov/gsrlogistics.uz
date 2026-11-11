@@ -1,0 +1,130 @@
+---
+/**
+ * One works block (src/content/works/<id>/): its date line, its title and text in the page's own
+ * language, and its media — a native video over its poster, and/or a grid of photos that each open
+ * the full-size image.
+ *
+ * Text: `blockText()` (src/lib/works.ts) gives the page's own language or nothing, never another
+ * language's. Without a title, the video's accessible name and the photos' alt fall back to this
+ * locale's generic label with the date ("Ishimizdan video, 2026-yil 11-noyabr"), not to a foreign title.
+ * `data-work` is what scripts/works-blocks.mjs (run by check-content.mjs) reads to prove it on every built page.
+ *
+ * The video: `controls playsinline preload="none"`, no autoplay — nothing but the poster is fetched
+ * until the visitor presses play. The poster is a WebP of the block's poster image, 1600px wide on
+ * the page and 1280px in the home section (the first block's 16:9 title card: 51 and 39 KB).
+ *
+ * Props:
+ *   level      the title's heading level: 2 on the works page, 3 in the home section
+ *   layout     'feed'    the page: text above the media, full column width
+ *              'feature' the home section's newest block: text beside the media from 900px
+ *              'card'    the home section's next blocks
+ *   photosMax  how many photos to show (the home section shows three; the page shows all)
+ */
+import { getImage, Picture } from 'astro:assets';
+import { pick, type Locale } from '@/i18n/config';
+import { worksStrings } from '@/i18n/works';
+import { blockText, localText, type Work } from '@/lib/works';
+import { fmtDate, fmtInt, sep } from '@/lib/format';
+
+interface Props { lang: Locale; work: Work; level?: 2 | 3; layout?: 'feed' | 'feature' | 'card'; photosMax?: number }
+const { lang, work, level = 2, layout = 'feed', photosMax } = Astro.props;
+const t = pick(lang, worksStrings);
+const { title, text } = blockText(work, lang);
+const date = fmtDate(work.date, lang);
+const fill = (s: string, vars: Record<string, string>) => s.replace(/\{(\w+)\}/g, (m, k: string) => vars[k] ?? m);
+const Heading = level === 3 ? 'h3' : 'h2';
+
+const v = work.video;
+const poster = v ? await getImage({ src: v.poster, width: Math.min(v.poster.width, layout === 'feed' ? 1600 : 1280), format: 'webp' }) : undefined;
+/** "0:40" / "۰:۴۰" — the length a visitor sees before pressing play (preload="none" leaves the player blank until then). */
+const duration = v?.duration ? `${fmtInt(Math.floor(v.duration / 60), lang)}:${fmtInt(v.duration % 60, lang, 2)}` : undefined;
+
+const shown = work.photos.slice(0, photosMax ?? work.photos.length);
+const photos = await Promise.all(
+  shown.map(async (p, i) => {
+    // The full-size view: the photo at its own size up to 2400px, as WebP — not the camera original.
+    const full = await getImage({ src: p.src, width: Math.min(p.src.width, 2400), format: 'webp' });
+    return { src: p.src, full: full.src, alt: localText(p.alt, lang) ?? title ?? fill(t.photoLabel, { n: fmtInt(i + 1, lang), date }) };
+  }),
+);
+const meta = [v && t.video, duration, photos.length > 0 && t.photos].filter((x): x is string => Boolean(x));
+const one = photos.length === 1;
+/** Grid columns: two or four photos make one or two even rows of two; three, or five and more, run in threes. */
+const cols = one ? 1 : photos.length === 2 || photos.length === 4 ? 2 : 3;
+---
+<article class:list={['work', `work-${layout}`, v ? 'has-video' : 'has-photos']} id={layout === 'feed' ? work.id : undefined} data-work={work.id}>
+  <div class="work-head">
+    <p class="work-meta caption"><time datetime={work.iso}>{date}</time>{meta.map((m) => <><span class="work-sep" aria-hidden="true">{sep(lang)}</span><span class="tnum">{m}</span></>)}</p>
+    {title && <Heading class="work-title">{title}</Heading>}
+    {text && <p class="work-text">{text}</p>}
+  </div>
+  <div class="work-media">
+    {v && poster && (
+      <div class="frame" style={`--ratio: ${v.poster.width} / ${v.poster.height}`}>
+        <video controls playsinline preload="none" poster={poster.src} width={v.poster.width} height={v.poster.height} style={`aspect-ratio: ${v.poster.width} / ${v.poster.height}`} aria-label={title ?? fill(t.videoLabel, { date })}>
+          <source src={v.url} type="video/mp4" />
+        </video>
+      </div>
+    )}
+    {photos.length > 0 && (
+      <ul class:list={['photos', one && 'photos-one']} role="list" data-cols={cols} data-odd={!one && photos.length % 2 === 1 ? '' : undefined}>
+        {photos.map((p) => (
+          <li>
+            {/* One photo keeps its own shape, never wider than the file or taller than most of the screen; several
+                share a 4:3 crop. Either way the link opens the whole photo. */}
+            <a class="photo" href={p.full} style={one ? `max-width: min(100%, ${p.src.width}px)` : undefined}>
+              <Picture src={p.src} formats={['avif', 'webp']} widths={one ? [640, 1280, 1920] : [400, 800]} sizes={one ? '(max-width: 1023px) 92vw, 980px' : cols === 2 ? '(max-width: 1023px) 46vw, 490px' : '(max-width: 699px) 46vw, (max-width: 1023px) 31vw, 330px'} alt={p.alt} loading="lazy" decoding="async" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</article>
+
+<style>
+  .work { display: grid; gap: 20px; min-width: 0; }
+  .work-head { display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .work-meta { display: flex; flex-wrap: wrap; align-items: baseline; color: var(--meta); }
+  .work-sep { white-space: pre; }
+  .work-title { font-size: var(--text-h3); line-height: 1.2; font-weight: 600; letter-spacing: -0.006em; color: var(--fg); text-wrap: balance; }
+  .work-text { color: var(--fg-2); max-width: 64ch; text-wrap: pretty; }
+  .work-media { display: grid; gap: 12px; min-width: 0; }
+
+  /* The player: a black plate with the site's radius, in the poster's own ratio (--ratio, width / height, inline) and
+     never taller than most of the screen. A vertical phone video (9:16) at full column width would stand 1.8 widths
+     tall with its controls below the fold, so it narrows instead (start-aligned, like a lone photo). A 16:9 film keeps
+     the full column on every phone held upright and on any screen at least ~690px tall. */
+  .frame { position: relative; overflow: hidden; max-width: min(100%, calc(min(80vh, 760px) * var(--ratio))); border-radius: var(--radius-lg); background: #000; border: 1px solid var(--card-border); box-shadow: var(--shadow-ring); }
+  .frame video { display: block; width: 100%; height: auto; background: #000; }
+
+  .photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(8px, 1.4vw, 16px); }
+  .photos[data-cols='2'] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .photos-one { grid-template-columns: minmax(0, 1fr); }
+  .photo { position: relative; display: block; overflow: hidden; aspect-ratio: 4 / 3; border-radius: var(--radius); border: 1px solid var(--card-border); background: var(--bg-2); }
+  .photo :global(picture) { display: contents; }
+  .photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+  .photo:hover :global(img) { transform: scale(1.02); }
+  .photo:focus-visible { box-shadow: var(--focus-ring); }
+  /* One photo: its own proportions, at most its own pixel width and 72% of the screen's height. The pixel cap is
+     inline on the link: with a srcset, the img's `width: auto` is the `sizes` slot (980px), so a small photo would be upscaled. */
+  .photos-one .photo { width: fit-content; max-width: 100%; aspect-ratio: auto; border-radius: var(--radius-lg); }
+  .photos-one .photo :global(img) { width: auto; height: auto; max-width: 100%; max-height: min(72vh, 720px); object-fit: contain; }
+  /* In the home section a lone photo takes the 4:3 crop as well, so the cards keep one rhythm. */
+  .work-feature .photos-one .photo, .work-card .photos-one .photo { width: auto; aspect-ratio: 4 / 3; border-radius: var(--radius); }
+  .work-feature .photos-one .photo :global(img), .work-card .photos-one .photo :global(img) { width: 100%; height: 100%; max-height: none; object-fit: cover; }
+
+  /* Home: the newest block with its text beside the media. */
+  @media (min-width: 900px) {
+    .work-feature { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 4vw, 56px); align-items: center; }
+  }
+  .work-card .work-title { font-size: var(--text-h4); }
+  .work-card .work-text { font-size: var(--text-small); }
+  @media (max-width: 699px) {
+    .photos, .photos[data-cols='2'] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .photos-one { grid-template-columns: minmax(0, 1fr); }
+    /* Two columns on a phone: an odd count leads with one wide photo instead of ending on a lone one. */
+    .photos[data-odd] > li:first-child { grid-column: 1 / -1; }
+    .photos[data-odd] > li:first-child .photo { aspect-ratio: 16 / 9; }
+  }
+</style>

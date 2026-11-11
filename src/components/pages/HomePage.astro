@@ -4,8 +4,8 @@
  *
  * Order, and why (DESIGN_BRIEF §3 plus the 2026-09-10 refocus):
  *   hero (light) → journey (dark, pinned) → services (light) → HOW WE TRACK (dark) →
- *   SEGMENTS (grey band) → what you get (dark) → process (light) → pricing (surface) →
- *   tracking (dark) → FAQ (light) → CTA (dark).
+ *   SEGMENTS (grey band) → what you get (dark) → OUR WORK (grey band) → process (light) →
+ *   pricing (surface) → tracking (dark) → FAQ (light) → CTA (dark).
  *
  * HowWeTrack sits immediately after Services because Services has just narrowed the company to
  * one business ("what do you do"), and the QR-per-carton + 24/7 bot is the answer to the question
@@ -21,6 +21,10 @@
  * The two new sections carry no number in the eyebrow, like Journey: the numbered spine (02
  * services → 03 what you get → 04 process → 05 pricing → 06 tracking → 07 FAQ → 08 contact)
  * stays intact because 05 and 06 live in i18n files this stream does not own.
+ *
+ * WorksTeaser (2026-11-11) follows Proof for the same reason Proof ends with the owner's photos:
+ * after "what you get" comes the work itself, on video and in photos (src/content/works/). It has no
+ * number either, and renders nothing while no works block is published.
  */
 import { pick, type Locale, type Localized } from '@/i18n/config';
 import Base from '@/layouts/Base.astro';
@@ -30,6 +34,7 @@ import Services from '@/components/sections/Services.astro';
 import HowWeTrack from '@/components/sections/HowWeTrack.astro';
 import Segments from '@/components/sections/Segments.astro';
 import Proof from '@/components/sections/Proof.astro';
+import WorksTeaser from '@/components/sections/WorksTeaser.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
 import PricingTeaser from '@/components/sections/PricingTeaser.astro';
 import TrackingTeaser from '@/components/sections/TrackingTeaser.astro';
@@ -90,6 +95,7 @@ const serviceGraph = services.slice(0, 3).map((s) =>
   <HowWeTrack lang={lang} />
   <Segments lang={lang} />
   <Proof lang={lang} index="03" />
+  <WorksTeaser lang={lang} />
   <HowItWorks lang={lang} index="04" />
   <PricingTeaser lang={lang} calculator />
   <TrackingTeaser lang={lang} />

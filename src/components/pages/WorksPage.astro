@@ -1,0 +1,101 @@
+---
+/**
+ * /ishlarimiz/ — "Ishlarimizdan lavhalar": every published works block (src/content/works/, one
+ * folder per block), newest first, as a feed — each block's date, title and text above its video or
+ * photos (src/components/works/WorkBlock.astro). Props: { lang }. The feed is a run of <article>s,
+ * not a list: so llms-full.txt reads each block as its heading and its paragraph, not as one list item.
+ *
+ * Structured data, one node per block in the page's own language: a VideoObject for a video (the
+ * block's own poster as the thumbnail, its MP4 as contentUrl, its length when the folder gives one)
+ * and an ImageGallery of ImageObjects for photos. A block without a title in this language is named
+ * by the locale's generic label and date, as on the page — never by another language's title.
+ */
+import { getImage } from 'astro:assets';
+import { pick, type Locale } from '@/i18n/config';
+import { common } from '@/i18n/common';
+import { worksStrings } from '@/i18n/works';
+import { pageUrl } from '@/i18n/routes';
+import { site } from '@/lib/site';
+import { getWorks, blockText, localText } from '@/lib/works';
+import { videoNode, imageGalleryNode } from '@/lib/schema';
+import { fmtDate, fmtInt } from '@/lib/format';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import WorkBlock from '@/components/works/WorkBlock.astro';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = pick(lang, worksStrings);
+const c = pick(lang, common);
+const works = await getWorks();
+const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: t.navLabel, key: 'works' as const }];
+const siteUrl = Astro.site ?? new URL(site.url);
+const SITE = site.url;
+const here = pageUrl(siteUrl, lang, 'works');
+const fill = (s: string, vars: Record<string, string>) => s.replace(/\{(\w+)\}/g, (m, k: string) => vars[k] ?? m);
+
+const jsonLd: Array<Record<string, unknown>> = [];
+for (const w of works) {
+  const { title, text } = blockText(w, lang);
+  const date = fmtDate(w.date, lang);
+  if (w.video) {
+    const name = title ?? fill(t.videoLabel, { date });
+    jsonLd.push(
+      videoNode(lang, {
+        pageUrl: here,
+        id: w.id,
+        name,
+        description: text ?? name,
+        // The poster as it was put in the folder (a JPEG title card); reading `.src` makes Astro emit it.
+        thumbnailUrl: `${SITE}${w.video.poster.src}`,
+        uploadDate: w.iso,
+        contentUrl: `${SITE}${w.video.url}`,
+        duration: w.video.duration,
+      }),
+    );
+  }
+  if (w.photos.length) {
+    const images = await Promise.all(
+      w.photos.map(async (p, i) => {
+        const full = await getImage({ src: p.src, width: Math.min(p.src.width, 2400), format: 'webp' });
+        const caption = localText(p.alt, lang) ?? title ?? fill(t.photoLabel, { n: fmtInt(i + 1, lang), date });
+        return { url: `${SITE}${full.src}`, caption, width: Number(full.attributes.width), height: Number(full.attributes.height) };
+      }),
+    );
+    jsonLd.push(imageGalleryNode(lang, { pageUrl: here, id: w.id, name: title ?? fill(t.photosLabel, { date }), description: text, datePublished: w.iso, images }));
+  }
+}
+const latest = works[0]?.iso;
+---
+<Base lang={lang} title={t.seoTitle} description={t.seoDescription} pageKey="works" breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={latest}>
+  <div class="page" data-works-page>
+    <header class="hero">
+      <div class="container">
+        <Breadcrumbs lang={lang} items={[{ name: t.navLabel }]} />
+        <Eyebrow class="eyebrow-gap">{t.eyebrow}</Eyebrow>
+        <h1 class="display-2 measure-head">{t.h1}</h1>
+        <p class="intro answer">{t.intro}</p>
+      </div>
+    </header>
+    <div class="container">
+      {works.length ? (
+        <div class="feed">
+          {works.map((w) => <div class="feed-item"><WorkBlock lang={lang} work={w} level={2} layout="feed" /></div>)}
+        </div>
+      ) : (
+        <p class="empty">{t.empty}</p>
+      )}
+    </div>
+  </div>
+</Base>
+<style>
+  .hero { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.breadcrumbs-nav) { margin-bottom: clamp(24px, 4vw, 48px); }
+  .hero :global(.eyebrow-gap) { margin-bottom: 16px; }
+  .answer { margin-top: 20px; max-width: 62ch; }
+  .feed { display: grid; max-width: var(--container-text); padding-bottom: clamp(48px, 8vw, 96px); }
+  .feed-item { padding-block: clamp(28px, 4vw, 48px); border-top: 1px solid var(--border-soft); }
+  .feed-item:first-child { padding-top: 0; border-top: 0; }
+  .empty { color: var(--muted); padding-bottom: clamp(48px, 8vw, 96px); }
+</style>

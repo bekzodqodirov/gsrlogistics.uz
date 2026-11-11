@@ -30,12 +30,12 @@ export const WEBSITE_ID = `${SITE}/#website`;
  * lists, and scripts/test-seo.mjs fails the build if it appears in one.
  */
 const descriptions: Localized<string> = {
-  uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent, 2018-yildan; oyiga 10+ fura, 400+ mijoz; Xitoyda uchta qabul punkti — Ivu, Guanchjou, Qashqar.',
-  ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент, с 2018 года; 10+ фур в месяц, 400+ клиентов; три пункта приёма в Китае — Иу, Гуанчжоу, Кашгар.',
-  en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent, since 2018; 10+ trucks a month, 400+ clients; three receiving points in China — Yiwu, Guangzhou, Kashgar.',
+  uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent, 2018-yildan; oyiga 50–100 konteyner, 400+ mijoz; Xitoyda uchta qabul punkti — Ivu, Guanchjou, Qashqar.',
+  ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент, с 2018 года; 50–100 контейнеров в месяц, 400+ клиентов; три пункта приёма в Китае — Иу, Гуанчжоу, Кашгар.',
+  en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent, since 2018; 50–100 containers a month, 400+ clients; three receiving points in China — Yiwu, Guangzhou, Kashgar.',
   // Translated from the English line above (GLOSSARY.md terms); Persian figures in Persian digits.
-  zh: 'GSR Logistics——从中国到乌兹别克斯坦的汽运拼货、空运和铁路货运，寻找货源与代采购，清关。塔什干，自 2018 年起；每月 10+ 辆卡车，400+ 客户；在中国有 3 个收货点——义乌、广州、喀什。',
-  fa: 'GSR Logistics — حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا، ترخیص گمرکی. تاشکند، از ۲۰۱۸؛ ماهانه بیش از ۱۰ کامیون، بیش از ۴۰۰ مشتری؛ سه محل تحویل بار در چین — ییوو، گوانگجو، کاشغر.',
+  zh: 'GSR Logistics——从中国到乌兹别克斯坦的汽运拼货、空运和铁路货运，寻找货源与代采购，清关。塔什干，自 2018 年起；每月 50–100 个集装箱，400+ 客户；在中国有 3 个收货点——义乌、广州、喀什。',
+  fa: 'GSR Logistics — حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا، ترخیص گمرکی. تاشکند، از ۲۰۱۸؛ ماهانه ۵۰ تا ۱۰۰ کانتینر، بیش از ۴۰۰ مشتری؛ سه محل تحویل بار در چین — ییوو، گوانگجو، کاشغر.',
 };
 
 /** How a China receiving point is labelled in structured data — never as a GSR facility. */
@@ -237,6 +237,51 @@ export function articleNode(lang: Locale, opts: { url: string; headline: string;
     publisher: { '@id': ORG_ID },
     image: opts.image ?? `${SITE}/og/default.png`,
     mainEntityOfPage: { '@id': `${opts.url}#webpage` },
+  };
+}
+
+/** A video length as an ISO 8601 duration: 40 → "PT40S", 65 → "PT1M5S", 120 → "PT2M". */
+function isoDuration(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = Math.round(seconds % 60);
+  return `PT${m ? `${m}M` : ''}${s || !m ? `${s}S` : ''}`;
+}
+
+/**
+ * One video block of the works page (src/content/works/). `@id` is the block's anchor on the page's
+ * own canonical URL, so each locale describes its own copy. `name` and `description` are the page
+ * locale's text — never another language's (src/lib/works.ts) — and `inLanguage` is the page's.
+ * `uploadDate` is the block's date as written in its folder, a date without a time.
+ */
+export function videoNode(lang: Locale, opts: { pageUrl: string; id: string; name: string; description: string; thumbnailUrl: string; uploadDate: string; contentUrl: string; duration?: number }) {
+  return {
+    '@type': 'VideoObject',
+    '@id': `${opts.pageUrl}#${opts.id}`,
+    name: opts.name,
+    description: opts.description,
+    thumbnailUrl: opts.thumbnailUrl,
+    uploadDate: opts.uploadDate,
+    contentUrl: opts.contentUrl,
+    encodingFormat: 'video/mp4',
+    ...(opts.duration ? { duration: isoDuration(opts.duration) } : {}),
+    inLanguage: langMeta[lang].htmlLang,
+    publisher: { '@id': ORG_ID },
+    isPartOf: { '@id': `${opts.pageUrl}#webpage` },
+  };
+}
+
+/** The photos of one works block, as an ImageGallery of ImageObjects (see `videoNode`). */
+export function imageGalleryNode(lang: Locale, opts: { pageUrl: string; id: string; name: string; description?: string; datePublished: string; images: Array<{ url: string; caption: string; width: number; height: number }> }) {
+  return {
+    '@type': 'ImageGallery',
+    '@id': `${opts.pageUrl}#${opts.id}-photos`,
+    name: opts.name,
+    ...(opts.description ? { description: opts.description } : {}),
+    datePublished: opts.datePublished,
+    inLanguage: langMeta[lang].htmlLang,
+    publisher: { '@id': ORG_ID },
+    isPartOf: { '@id': `${opts.pageUrl}#webpage` },
+    image: opts.images.map((i) => ({ '@type': 'ImageObject', contentUrl: i.url, url: i.url, caption: i.caption, width: i.width, height: i.height })),
   };
 }
 
