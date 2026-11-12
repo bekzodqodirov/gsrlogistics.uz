@@ -129,7 +129,7 @@ const content: ServiceContent = {
     },
     {
       q: '可以用哪种语言留言？发到哪里？',
-      a: '请在 WhatsApp（+998 90 175 78 00）或 Telegram 上给我们留言。您可以用波斯语或达里语来信，我们会借助翻译用波斯语回复。我们也用英语、俄语和乌兹别克语回复。',
+      a: '请在 WhatsApp（+998 90 175 78 00）或 Telegram 上给我们留言。您可以用波斯语或达里语来信，我们会借助翻译用波斯语回复。我们也用中文、英语、俄语和乌兹别克语回复。',
     },
   ],
   related: ['transit', 'afghanistan', 'warehouse'],

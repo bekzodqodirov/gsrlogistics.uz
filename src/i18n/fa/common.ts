@@ -13,7 +13,7 @@ export const fa: CommonStrings = {
     { key: 'contact', label: 'تماس با ما' },
   ],
   cta: { telegram: 'در تلگرام به ما پیام دهید', whatsapp: 'در واتساپ به ما پیام دهید', call: 'تماس بگیرید', quote: 'استعلام قیمت', calculate: 'محاسبهٔ قیمت', track: 'پیگیری', details: 'اطلاعات بیشتر', all: 'همه', back: 'بازگشت', readMore: 'مطالعه', contact: 'تماس با ما', sendRequest: 'ثبت درخواست', copy: 'کپی', copied: 'کپی شد' },
-  footer: { services: 'خدمات', company: 'شرکت', contacts: 'تماس', guides: 'راهنما', address: 'نشانی', hours: 'ساعات کاری', rights: 'تمامی حقوق محفوظ است.', privacy: 'سیاست حریم خصوصی', madeWith: 'ساخته‌شده در تاشکند', languages: 'زبان', channel: 'کانال تلگرام', group: 'گروه تلگرام', desc: 'حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا و ترخیص گمرکی. حمل بار به افغانستان و اسناد ترانزیت. از سال ۲۰۱۸.' },
+  footer: { services: 'خدمات', company: 'شرکت', contacts: 'تماس', guides: 'راهنما', address: 'نشانی', hours: 'ساعات کاری', rights: 'تمامی حقوق محفوظ است.', privacy: 'سیاست حریم خصوصی', madeWith: 'ساخته‌شده در تاشکند', languages: 'زبان', channel: 'کانال تلگرام', group: 'گروه تلگرام', desc: 'حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا و ترخیص گمرکی. اکنون به افغانستان هم بار می‌بریم و اسناد ترانزیت آماده می‌کنیم. از سال ۲۰۱۸.' },
   header: { menu: 'منو', close: 'بستن', langLabel: 'انتخاب زبان', phoneLabel: 'تلفن', navLabel: 'منوی اصلی', breadcrumbLabel: 'مسیر صفحه', quickActions: 'دسترسی سریع' },
   breadcrumbHome: 'صفحهٔ اصلی',
   updated: 'آخرین به‌روزرسانی',

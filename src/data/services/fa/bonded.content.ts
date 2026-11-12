@@ -5,13 +5,14 @@ import type { ServiceContent } from '../types';
  * control in Tashkent (and transshipment) service page, translated from the English branch of ../bonded.content.ts.
  * On its first mention in the running text a word that differs in Afghanistan carries the Afghan word in brackets, once:
  * انبار (گدام), کامیون (موتر باربری). The warehouse is a partner's — «انبار همکار ما» — and is never called our own.
+ * The messengers are written «واتساپ» and «تلگرام», as the buttons beside the text write them.
  */
 const content: ServiceContent = {
   key: 'bonded',
   seo: {
     title: 'انبار تحت نظارت گمرک در تاشکند و جابه‌جایی بار',
     description:
-      'اختصاص جا در انبار همکار ما در تاشکند، تحت نظارت گمرک، و جابه‌جایی بار از کامیون به کامیون یا از راه انبار. قیمت با استعلام.',
+      'اختصاص جا در انبار (گدام) همکار ما در تاشکند، تحت نظارت گمرک، و جابه‌جایی بار از کامیون به کامیون یا از راه انبار. قیمت با استعلام.',
   },
   hero: {
     eyebrow: 'خدمت ۱۲ — انبار',
@@ -101,7 +102,7 @@ const content: ServiceContent = {
     {
       heading: 'چگونه شروع کنم؟',
       body: [
-        'در WhatsApp یا Telegram به ما پیام دهید — کار از همین‌جا شروع می‌شود.',
+        'در واتساپ یا تلگرام به ما پیام دهید — کار از همین‌جا شروع می‌شود.',
       ],
       steps: [
         { title: 'به ما پیام می‌دهید', text: 'بنویسید بار چیست، حجم یا وزن آن چقدر است، از کجا می‌آید و به کجا می‌رود و چه اسنادی دارد.' },
@@ -134,14 +135,14 @@ const content: ServiceContent = {
     },
     {
       q: 'به چه زبانی و کجا می‌توانم بنویسم؟',
-      a: 'در WhatsApp (+998 90 175 78 00) یا Telegram بنویسید. اگر به فارسی یا دری بنویسید، با کمک مترجم به فارسی پاسخ می‌دهیم. به انگلیسی، روسی و ازبکی هم پاسخ می‌دهیم.',
+      a: 'در واتساپ (+998 90 175 78 00) یا تلگرام بنویسید. اگر به فارسی یا دری بنویسید، با کمک مترجم به فارسی پاسخ می‌دهیم. به انگلیسی، روسی و ازبکی هم پاسخ می‌دهیم.',
     },
   ],
   related: ['transit', 'afghanistan', 'warehouse'],
   guideKeys: [],
   cta: {
     title: 'در تاشکند جا در انبار یا جابه‌جایی بار لازم دارید؟ به ما بنویسید.',
-    text: 'در WhatsApp یا Telegram بنویسید بار چیست، حجم یا وزن آن چقدر است، از کجا می‌آید و به کجا می‌رود و چه مدت باید بماند. کارشناس ما شرایط و قیمت را اعلام می‌کند.',
+    text: 'در واتساپ یا تلگرام بنویسید بار چیست، حجم یا وزن آن چقدر است، از کجا می‌آید و به کجا می‌رود و چه مدت باید بماند. کارشناس ما شرایط و قیمت را اعلام می‌کند.',
     draft: 'سلام! دربارهٔ انبار تحت نظارت گمرک و جابه‌جایی بار در تاشکند سؤالی دارم. بار: … حجم یا وزن: … مسیر: …',
   },
   updated: '2026-11-12',
