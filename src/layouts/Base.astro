@@ -36,8 +36,16 @@ interface Props {
   dateModified?: string;
   bodyClass?: string;
   hideMobileBar?: boolean;
+  /** A wa.me link with a draft: the phone bar then shows WhatsApp in the price calculator's place (on-request service pages). */
+  mobileBarWhatsapp?: string;
+  /**
+   * The page's own lead: team, topic and summary line (on-request service pages). Written on <body>; there every
+   * GENERAL Telegram button (header, menu, footer, phone bar) becomes this page's button — ContactPicker.astro skips
+   * its questions, which are about China → Tashkent cargo ("under 1 m³ — air only").
+   */
+  pageLead?: { team: string; topic: string; summary: string };
 }
-const { lang, title, description, pageKey, subs, ogImage, ogType, noindex, jsonLd = [], breadcrumbs, datePublished, dateModified, bodyClass, hideMobileBar = false } = Astro.props;
+const { lang, title, description, pageKey, subs, ogImage, ogType, noindex, jsonLd = [], breadcrumbs, datePublished, dateModified, bodyClass, hideMobileBar = false, mobileBarWhatsapp, pageLead } = Astro.props;
 const siteUrl = Astro.site ?? new URL(site.url);
 const alternates = buildAlternates(siteUrl, pageKey, subs);
 // `subFor`, not `subs?.[lang]`: most `subs` maps come from content and carry only uz/ru/en, so
@@ -86,7 +94,7 @@ const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
     <JsonLd data={graph} />
     <slot name="head" />
   </head>
-  <body class:list={[bodyClass, !hideMobileBar && 'has-mobile-bar']}>
+  <body class:list={[bodyClass, !hideMobileBar && 'has-mobile-bar']} data-page-team={pageLead?.team} data-page-topic={pageLead?.topic} data-page-summary={pageLead?.summary}>
     <a href="#main" class="skip-link">{skipLink}</a>
     <Header lang={lang} alternates={alternates} currentPath={currentPath} />
     <main id="main" tabindex="-1" class="page-main">
@@ -94,7 +102,7 @@ const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
       <slot />
     </main>
     <Footer lang={lang} alternates={alternates} />
-    {!hideMobileBar && <MobileBar lang={lang} />}
+    {!hideMobileBar && <MobileBar lang={lang} whatsapp={mobileBarWhatsapp} />}
     <ContactPicker lang={lang} />
     <script>
       // Reveal-on-scroll: adds .is-in to .reveal elements as they enter; respects reduced motion.

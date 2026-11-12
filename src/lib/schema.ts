@@ -1,6 +1,7 @@
 import { langMeta, pick, type Locale, type Localized } from '@/i18n/config';
 import { pagePath, pageUrl, type PageKey } from '@/i18n/routes';
 import { hero } from '@/i18n/hero';
+import type { ServiceArea } from '@/data/services';
 import { site, telegramUrl, telegramGroupUrl, telegramBotUrl, telegramBotHandle, instagramUrl, facebookUrl, whatsappUrl } from './site';
 import ivuShot from '@/assets/photos/ivu-qabul-punkti.jpg';
 import loadingShot from '@/assets/photos/yuklash-fura.jpg';
@@ -29,13 +30,15 @@ export const WEBSITE_ID = `${SITE}/#website`;
  * Persian page is not evidence that anybody at GSR answers in Persian, so 'fa' is in none of these
  * lists, and scripts/test-seo.mjs fails the build if it appears in one.
  */
+/* The last sentence of each (2026-11-12) is the home hero's: cargo to Afghanistan by truck and transit documents in
+   Uzbekistan are new directions, said as "now also" — never with a figure, a year or a volume. */
 const descriptions: Localized<string> = {
-  uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent, 2018-yildan; oyiga 50–100 konteyner, 400+ mijoz; Xitoyda uchta qabul punkti — Ivu, Guanchjou, Qashqar.',
-  ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент, с 2018 года; 50–100 контейнеров в месяц, 400+ клиентов; три пункта приёма в Китае — Иу, Гуанчжоу, Кашгар.',
-  en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent, since 2018; 50–100 containers a month, 400+ clients; three receiving points in China — Yiwu, Guangzhou, Kashgar.',
+  uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent, 2018-yildan; oyiga 50–100 konteyner, 400+ mijoz; Xitoyda uchta qabul punkti — Ivu, Guanchjou, Qashqar. Endi Afgʻonistonga ham fura bilan yuk tashiymiz va Oʻzbekiston orqali tranzit hujjatlarini rasmiylashtiramiz.',
+  ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент, с 2018 года; 50–100 контейнеров в месяц, 400+ клиентов; три пункта приёма в Китае — Иу, Гуанчжоу, Кашгар. Теперь возим грузы фурами и в Афганистан и оформляем транзитные документы в Узбекистане.',
+  en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent, since 2018; 50–100 containers a month, 400+ clients; three receiving points in China — Yiwu, Guangzhou, Kashgar. We now also carry truck cargo to Afghanistan and handle transit documents in Uzbekistan.',
   // Translated from the English line above (GLOSSARY.md terms); Persian figures in Persian digits.
-  zh: 'GSR Logistics——从中国到乌兹别克斯坦的汽运拼货、空运和铁路货运，寻找货源与代采购，清关。塔什干，自 2018 年起；每月 50–100 个集装箱，400+ 客户；在中国有 3 个收货点——义乌、广州、喀什。',
-  fa: 'GSR Logistics — حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا، ترخیص گمرکی. تاشکند، از ۲۰۱۸؛ ماهانه ۵۰ تا ۱۰۰ کانتینر، بیش از ۴۰۰ مشتری؛ سه محل تحویل بار در چین — ییوو، گوانگجو، کاشغر.',
+  zh: 'GSR Logistics——从中国到乌兹别克斯坦的汽运拼货、空运和铁路货运，寻找货源与代采购，清关。塔什干，自 2018 年起；每月 50–100 个集装箱，400+ 客户；在中国有 3 个收货点——义乌、广州、喀什。现在也承接发往阿富汗的汽运货物，并办理乌兹别克斯坦过境单证。',
+  fa: 'GSR Logistics — حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا، ترخیص گمرکی. تاشکند، از ۲۰۱۸؛ ماهانه ۵۰ تا ۱۰۰ کانتینر، بیش از ۴۰۰ مشتری؛ سه محل تحویل بار در چین — ییوو، گوانگجو، کاشغر. اکنون با کامیون به افغانستان هم بار می‌بریم و اسناد ترانزیت در ازبکستان را آماده می‌کنیم.',
 };
 
 /** How a China receiving point is labelled in structured data — never as a GSR facility. */
@@ -75,17 +78,24 @@ export function organizationNode(lang: Locale) {
     openingHoursSpecification: site.openingHoursSpec.map((s) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: s.days, opens: s.opens, closes: s.closes })),
     priceRange: '$$',
     currenciesAccepted: 'UZS, USD',
+    // Afghanistan since 2026-11-12 (truck cargo to Hairatan and Mazar-i-Sharif). No other country is named on the site.
     areaServed: [
       { '@type': 'Country', name: 'Uzbekistan' },
       { '@type': 'Country', name: 'China' },
+      { '@type': 'Country', name: 'Afghanistan' },
     ],
+    // Serving Afghanistan and publishing Persian pages adds no language here: nobody at GSR speaks Persian or
+    // Dari (a Persian message is answered through a translator), and scripts/test-seo.mjs fails the build on it.
     knowsLanguage: ['uz', 'ru', 'en', 'zh'],
-    knowsAbout: ['freight forwarding', 'China to Uzbekistan cargo', 'consolidated cargo', 'customs clearance Uzbekistan', 'product sourcing in China', '1688 buying agent'],
+    knowsAbout: [
+      'freight forwarding', 'China to Uzbekistan cargo', 'consolidated cargo', 'customs clearance Uzbekistan', 'product sourcing in China', '1688 buying agent',
+      'truck cargo to Afghanistan', 'customs transit in Uzbekistan', 'transit declaration', 'warehouse under customs control in Tashkent', 'transshipment',
+    ],
     // Every profile that is the company's own: an assistant checking "is this the same GSR" matches on these.
     sameAs: [telegramUrl, telegramGroupUrl, instagramUrl, facebookUrl, site.yandexMapsUrl, site.googleMapsUrl].filter(Boolean),
     contactPoint: [
       { '@type': 'ContactPoint', telephone: site.phoneE164, contactType: 'sales', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: site.telegramDirect },
-      { '@type': 'ContactPoint', name: 'WhatsApp', telephone: site.phone2E164, contactType: 'customer support', availableLanguage: ['uz', 'ru'], url: whatsappUrl },
+      { '@type': 'ContactPoint', name: 'WhatsApp', telephone: site.phone2E164, contactType: 'customer support', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: whatsappUrl },
       // The cargo-tracking bot is a real contact channel and the only one that is open at 3am: it
       // answers without a person, which is what makes the 24/7 hours below true.
       {
@@ -187,7 +197,16 @@ export interface ServiceOffer {
   description?: string;
 }
 
-export function serviceNode(lang: Locale, opts: { name: string; description: string; url: string; serviceType: string; offers?: ServiceOffer[] }) {
+/** schema.org country names of the markets a service can declare (`ServiceMeta.area` in src/data/services.ts). */
+const COUNTRY: Record<ServiceArea, string> = { UZ: 'Uzbekistan', CN: 'China', AF: 'Afghanistan' };
+
+/**
+ * `areaServed` is the service's own market (`ServiceMeta.area`); without it the node says Uzbekistan and China,
+ * as every China → Tashkent service does. `availableLanguage` is the same for all: it lists what a human at GSR
+ * answers in, so a service sold in Afghanistan still does not claim Persian.
+ */
+export function serviceNode(lang: Locale, opts: { name: string; description: string; url: string; serviceType: string; offers?: ServiceOffer[]; areaServed?: readonly ServiceArea[] }) {
+  const area: readonly ServiceArea[] = opts.areaServed?.length ? opts.areaServed : ['UZ', 'CN'];
   return {
     '@type': 'Service',
     '@id': `${opts.url}#service`,
@@ -196,7 +215,7 @@ export function serviceNode(lang: Locale, opts: { name: string; description: str
     url: opts.url,
     serviceType: opts.serviceType,
     provider: { '@id': ORG_ID },
-    areaServed: [{ '@type': 'Country', name: 'Uzbekistan' }, { '@type': 'Country', name: 'China' }],
+    areaServed: area.map((a) => ({ '@type': 'Country', name: COUNTRY[a] })),
     availableLanguage: ['uz', 'ru', 'en'],
     ...(opts.offers?.length
       ? {

@@ -6,7 +6,9 @@ import type { IconName } from '@/components/ui/Icon.astro';
  * Long-form page content lives in src/data/services/<key>.ts (owned by the content agents);
  * this file holds only routing + short labels used by header/footer/cards.
  */
-export type ServiceKey = 'truck' | 'air' | 'rail' | 'sourcing' | 'buying' | 'equipment' | 'customs' | 'warehouse' | 'cars';
+export type ServiceKey = 'truck' | 'air' | 'rail' | 'sourcing' | 'buying' | 'equipment' | 'customs' | 'warehouse' | 'cars' | 'afghanistan' | 'transit' | 'bonded';
+/** A country a service is sold in: Uzbekistan, China, Afghanistan (ISO 3166-1 alpha-2). */
+export type ServiceArea = 'UZ' | 'CN' | 'AF';
 export interface ServiceMeta {
   key: ServiceKey;
   /** Item slugs; zh and fa use the English slug, written out (a slug is permanent, never computed). */
@@ -15,6 +17,14 @@ export interface ServiceMeta {
   short: Localized<string>;
   icon: IconName;
   flagship?: boolean;
+  /**
+   * 'request' = no published tariff and no calculator: the page offers WhatsApp and Telegram and says
+   * "price and timing on request" instead of the China → Tashkent calculator and price captions
+   * (owner, 2026-11-11: prices, transit times and the smallest lot on the new directions are on request).
+   */
+  quote?: 'request';
+  /** Countries the service is sold in (JSON-LD areaServed). Absent = Uzbekistan and China. */
+  area?: ServiceArea[];
 }
 export const services: ServiceMeta[] = [
   { key: 'truck', flagship: true, icon: 'truck', slug: { uz: 'avto-kargo', ru: 'avto-kargo', en: 'truck-cargo', zh: 'truck-cargo', fa: 'truck-cargo' },
@@ -44,6 +54,21 @@ export const services: ServiceMeta[] = [
   { key: 'cars', icon: 'car', slug: { uz: 'avtomobil-importi', ru: 'avto-iz-kitaya', en: 'car-import', zh: 'car-import', fa: 'car-import' },
     name: { uz: 'Avtomobil va elektromobil', ru: 'Авто и электромобили', en: 'Cars & EVs from China', zh: '汽车和电动车进口', fa: 'خودرو و خودروی برقی از چین' },
     short: { uz: 'Xitoydan avtomobil va elektromobillarni buyurtma asosida olib kelamiz.', ru: 'Привозим автомобили и электромобили из Китая под заказ.', en: 'Cars and electric vehicles from China, made to order.', zh: '按订单从中国进口汽车和电动车。', fa: 'خودرو و خودروی برقی را بر اساس سفارش از چین می‌آوریم.' } },
+  /* Services 10–12 (owner, 2026-11-11): a NEW direction and the paperwork and storage around it. All three are
+     `quote: 'request'` — no price, transit time or minimum is published for them. Afghanistan is served by truck
+     only, to Hairatan and Mazar-i-Sharif; no other country and no other Afghan place is claimed anywhere. */
+  { key: 'afghanistan', quote: 'request', area: ['UZ', 'CN', 'AF'], icon: 'route', slug: { uz: 'afgonistonga-yuk-tashish', ru: 'gruzy-v-afganistan', en: 'cargo-to-afghanistan', zh: 'cargo-to-afghanistan', fa: 'cargo-to-afghanistan' },
+    name: { uz: 'Afgʻonistonga yuk tashish', ru: 'Грузы в Афганистан', en: 'Cargo to Afghanistan', zh: '阿富汗货运', fa: 'حمل بار به افغانستان' },
+    short: { uz: 'Xitoydan va Oʻzbekistondan fura bilan — Hayraton va Mozori Sharifgacha.', ru: 'Из Китая и из Узбекистана фурой — до Хайратона и Мазари-Шарифа.', en: 'By truck from China and from Uzbekistan, to Hairatan and Mazar-i-Sharif.', zh: '从中国和乌兹别克斯坦汽运发货，送至海拉顿和马扎里沙里夫。', fa: 'با کامیون از چین و از ازبکستان، تا حیرتان و مزار شریف.' } },
+  { key: 'transit', quote: 'request', area: ['UZ'], icon: 'file-check', slug: { uz: 'tranzit-hujjatlari', ru: 'tranzitnye-dokumenty', en: 'transit-documents', zh: 'transit-documents', fa: 'transit-documents' },
+    name: { uz: 'Oʻzbekiston orqali tranzit hujjatlari', ru: 'Транзитные документы в Узбекистане', en: 'Transit documents in Uzbekistan', zh: '乌兹别克斯坦过境单证', fa: 'اسناد ترانزیت در ازبکستان' },
+    short: { uz: 'Tranzit deklaratsiyasi, CMR va TIR hujjatlari, ruxsatnoma, chegarada kutib olish.', ru: 'Транзитная декларация, документы CMR и TIR, разрешения, встреча на границе.', en: 'Transit declaration, CMR and TIR documents, permits, meeting the truck at the border.', zh: '过境申报、CMR 和 TIR 单证、行车许可证、口岸接车。', fa: 'اظهارنامهٔ ترانزیت، اسناد CMR و TIR، مجوز تردد و استقبال از کامیون در مرز.' } },
+  /* "Warehouse under customs control", not "customs warehouse", in names and prose: the owner confirmed that the
+     cargo is stored under customs control in a PARTNER's warehouse, not which legal regime it is. The slug may use
+     the everyday search term. Never "our warehouse", never a storage time limit. */
+  { key: 'bonded', quote: 'request', area: ['UZ'], icon: 'container', slug: { uz: 'bojxona-ombori', ru: 'tamozhennyj-sklad', en: 'customs-warehouse-tashkent', zh: 'customs-warehouse-tashkent', fa: 'customs-warehouse-tashkent' },
+    name: { uz: 'Toshkentda bojxona nazoratidagi ombor', ru: 'Склад под таможенным контролем в Ташкенте', en: 'Warehouse under customs control in Tashkent', zh: '塔什干海关监管仓库', fa: 'انبار تحت نظارت گمرک در تاشکند' },
+    short: { uz: 'Hamkor omboridan joy ajratamiz; yukni furadan furaga yoki ombor orqali qayta yuklaymiz.', ru: 'Выделяем место на складе партнёра; перегружаем груз из фуры в фуру или через склад.', en: 'Space in a partner’s warehouse; transshipment truck to truck or through the warehouse.', zh: '在合作方的监管仓库安排仓位；可车对车换装，或经仓库换装。', fa: 'در انبار همکار ما جا اختصاص می‌دهیم؛ بار را از کامیون به کامیون یا از راه انبار جابه‌جا می‌کنیم.' } },
 ];
 export const serviceByKey = (key: ServiceKey) => services.find((s) => s.key === key)!;
 export const serviceBySlug = (lang: Lang, slug: string) => services.find((s) => s.slug[lang] === slug);

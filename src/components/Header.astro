@@ -94,7 +94,10 @@ const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'ra
      one. Services always follows the 170px logo, so its inline-start edge sits ~214px from the
      viewport edge (gutter + logo + 20px). `100vw - 232px` keeps the panel's far edge a gutter inside
      the viewport below 952px, where a 720px panel would overrun it by up to ~26px; 720px from there up. */
-  .mega { position: absolute; top: calc(100% + 8px); inset-inline-start: -8px; width: min(720px, calc(100vw - 232px)); padding: 12px; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur); z-index: 5; }
+  .mega { position: absolute; top: calc(100% + 8px); inset-inline-start: -8px; width: min(720px, calc(100vw - 232px)); padding: 12px; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur); z-index: 5;
+    /* Twelve services make the panel 600–660px tall: on a laptop whose viewport is shorter, the last row and the
+       "all services" link were cut off and out of reach. It now scrolls inside itself instead. */
+    max-height: calc(100vh - var(--header-h) - 24px); max-height: calc(100dvh - var(--header-h) - 24px); overflow-y: auto; overscroll-behavior: contain; }
   /* Without JS the panel opens on hover and focus alone. Once the script boots it adds .mega-js and
      takes over, so Escape can actually close a panel the pointer or focus is still inside. */
   .has-mega.is-open .mega, .has-mega:not(.mega-js):hover .mega, .has-mega:not(.mega-js):focus-within .mega { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }

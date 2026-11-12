@@ -59,7 +59,7 @@ const JOINER = new Set([...'和与或及并从在至到经往向自对']);
 /** Final particles: they may close a unit that is already CAP long. */
 const PARTICLE = new Set([...'的了吗呢吧啊']);
 /** Words the dictionary splits into mixed pieces. */
-const KEEP = ['乌兹别克斯坦', '汽运', '哈萨克斯坦', '吉尔吉斯斯坦', '塔吉克斯坦', '阿拉木图', '阿拉山口', '比亚迪', '乌兹别克语', '人民币', '拼多多', '笔记本电脑', '充电宝', '个体工商户', '起订量', '起运量', '税费', '卖家', '发往'];
+const KEEP = ['乌兹别克斯坦', '汽运', '哈萨克斯坦', '吉尔吉斯斯坦', '塔吉克斯坦', '阿拉木图', '阿拉山口', '比亚迪', '乌兹别克语', '人民币', '拼多多', '笔记本电脑', '充电宝', '个体工商户', '起订量', '起运量', '税费', '卖家', '发往', '阿富汗', '海拉顿', '马扎里沙里夫', '铁尔梅兹', '行车许可证', '海关监管仓库'];
 /** The longest unit (in ideographs) that joining pieces may build. */
 export const CAP = 6;
 /** A clause stop: a break may follow it (never precede it). */
@@ -214,7 +214,7 @@ export function zhBreaksHtml(text, clauseMax = 0) {
 
 /** Display text: these elements, and anything inside an element with one of the CLASSES. */
 const TAGS = new Set(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'summary', 'th', 'td', 'caption', 'figcaption']);
-const CLASSES = ['fact-label', 'callout-title', 'side-hint', 'rel-short', 'guides-intro', 'g-title', 'toc', 'rel-list', 'guide-link'];
+const CLASSES = ['fact-label', 'callout-title', 'side-hint', 'rel-short', 'guides-intro', 'g-title', 'toc', 'rel-list', 'guide-link', 'tail-text', 'row-short'];
 /** Never inside these: not prose, not HTML text (SVG), or text-only content models. */
 const OPAQUE = new Set(['script', 'style', 'pre', 'code', 'kbd', 'samp', 'textarea', 'title', 'svg', 'math', 'template', 'noscript', 'select', 'option', 'optgroup', 'datalist', 'iframe', 'object']);
 /** Text for screen readers only: it never wraps on screen. */

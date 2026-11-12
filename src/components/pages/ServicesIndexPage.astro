@@ -1,6 +1,6 @@
 ---
 /**
- * /xizmatlar/ — index of the nine services grouped by job, a mode comparison table and a CTA band.
+ * /xizmatlar/ — index of the services grouped by job (`serviceGroups`), a mode comparison table and a CTA band.
  * Props: { lang }.
  */
 import { pick, type Locale } from '@/i18n/config';
@@ -8,7 +8,7 @@ import { common } from '@/i18n/common';
 import { servicesStrings, serviceGroups, serviceNumberLine, tpl } from '@/i18n/services';
 import { pagePath, itemPath, itemUrl } from '@/i18n/routes';
 import { services, serviceByKey } from '@/data/services';
-import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { site, phoneUrl, telegramChat, hubsUpdated, laterDate } from '@/lib/site';
 import { colon, fmtDate, fmtInt, fmtRange, sep } from '@/lib/format';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
@@ -41,7 +41,7 @@ const itemList = {
   itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: pick(lang, s.name), url: itemUrl(site.url, lang, 'services', s.slug) })),
 };
 ---
-<Base lang={lang} title={t.index.seoTitle} description={t.index.seoDescription} pageKey="services" breadcrumbs={breadcrumbs} jsonLd={[itemList]} dateModified={tariffs.updated}>
+<Base lang={lang} title={t.index.seoTitle} description={t.index.seoDescription} pageKey="services" breadcrumbs={breadcrumbs} jsonLd={[itemList]} dateModified={laterDate(tariffs.updated, hubsUpdated)}>
   <article class="page">
     <header class="hero">
       <div class="container">

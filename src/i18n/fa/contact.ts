@@ -12,7 +12,7 @@ export const fa: ContactStrings = {
     addressLabel: 'نشانی',
     phoneLabel: 'تلفن',
     phone2Label: 'تلفن دوم',
-    phone2Note: 'واتس‌اپ با همین شماره',
+    phone2Note: 'واتساپ با همین شماره',
     hoursLabel: 'ساعات کاری',
     emailLabel: 'ایمیل',
     whatsappLabel: 'WhatsApp',

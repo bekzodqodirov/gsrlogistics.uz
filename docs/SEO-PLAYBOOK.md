@@ -51,3 +51,26 @@ Har mijozdan yuk topshirilgach Google, Yandex va 2GIS'da sharh soʻrang (Telegra
 ## 7. Sayt tomonidan tayyor
 
 `robots.txt` (barcha AI-kraulerlar: OAI-SearchBot, GPTBot, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, YandexAdditionalBot…), `sitemap-index.xml` (hreflang bilan), `llms.txt` + `llms-full.txt`, JSON-LD (Organization/LocalBusiness, WebSite, WebPage, BreadcrumbList, Service + Offer, FAQPage, Article), har sahifada savol shaklidagi sarlavhalar va birinchi jumlada raqamli javob, uch tilda hreflang, OG rasmlar, IndexNow.
+
+## 8. Afgʻoniston, tranzit va ombor: saytdan tashqaridagi qadamlar (2026-yil noyabr)
+
+Saytda uchta yangi xizmat sahifasi bor, har biri olti tilda: «Afgʻonistonga yuk tashish» (`/xizmatlar/afgonistonga-yuk-tashish/`), «Oʻzbekiston orqali tranzit hujjatlari» (`/xizmatlar/tranzit-hujjatlari/`), «Toshkentda bojxona nazoratidagi ombor» (`/xizmatlar/bojxona-ombori/`). Forscha manzillari: `/fa/services/cargo-to-afghanistan/`, `/fa/services/transit-documents/`, `/fa/services/customs-warehouse-tashkent/`. Sayt oʻz ishini qildi; quyidagilar — sizning ishingiz. Yangi roʻyxatdan oʻtish shart emas: hammasi mavjud raqam va sahifalarda bajariladi.
+
+Afgʻonistonlik savdogar qayerdan qidiradi (tadqiqot, 2026-yil noyabr; raqamlar ochiq manbalardan, taxminiy):
+- **WhatsApp** — Afgʻoniston bilan ishlaydigan deyarli har bir ekspeditor aloqa uchun aynan WhatsApp raqamini koʻrsatadi. Bizda bu `+998 90 175 78 00`.
+- **Facebook** — mamlakatdagi asosiy ijtimoiy tarmoq: taxminan 5 mln foydalanuvchi, Messenger — 2,3 mln, Instagram — 1,85 mln (DataReportal, «Digital 2026: Afghanistan»; WhatsApp va Telegram boʻyicha bu hisobotda raqam yoʻq).
+- **Termiz** — Oʻzbekistonning oʻzida: Termizdagi xalqaro savdo markazi va Surxondaryodagi afgʻon tadbirkorlari. Afgʻoniston savdo va investitsiya palatasi (ACCI) — rasmiy muloqot joyi.
+
+Qadamlar:
+1. **WhatsApp Business** (`+998 90 175 78 00`). Profilga nom (`GSR Logistics`), manzil, ish vaqti va sayt havolasini (`https://gsrlogistics.uz/fa/services/cargo-to-afghanistan/`) kiriting. «Katalog»ga uchta xizmatni saytdagi nomi va bir jumlalik tavsifi bilan qoʻshing — narxsiz, «narx va muddat — soʻrov boʻyicha» deb. Salomlashuv xabariga saytdagi tayyor jumlani qoʻying: «اگر به فارسی یا دری بنویسید، با کمک مترجم به فارسی پاسخ می‌دهیم.» (fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz) va mijozdan uch narsani soʻrang: yuk nima, hajmi yoki vazni, qayerdan qayerga.
+2. **Google Business Profile, Yandex Business, 2GIS.** Xizmatlar roʻyxatiga uchta yangi xizmatni saytdagi nomi bilan qoʻshing (oʻzbek, rus, ingliz tillarida), narx yozmang. Manzil oʻzgarmaydi: ofis faqat Toshkentda.
+3. **Facebook sahifasi** (`facebook.com/gsrlogistics`). Sahifaga WhatsApp tugmasini ulang. Dari tilida (tarjimon tekshirgan) qisqa postlar yozing: nima tashiymiz, qayergacha (Hayraton, Mozori Sharif), qanday yozish kerak (WhatsApp), forscha sahifaga havola. Afgʻoniston matbuotida tijorat yuki «اموال تجارتی» deb ataladi; uchraydigan iboralar: «انتقال کالاهای تجارتی از چین به افغانستان», «کارگو و حمل بار از چین به افغانستان». Har bir postni ona tilida soʻzlashuvchi oʻqib chiqsin.
+4. **Telegram kanal** (@gsrlogistics): yangi yoʻnalish haqida bitta post — oʻzbek va rus tillarida, uchta sahifaga havola bilan.
+5. **Har oylik AI-test jadvaliga** (5-boʻlim) qoʻshing: «Xitoydan Afgʻonistonga yuk tashish», «Toshkentdan Afgʻonistonga fura», «грузы в Афганистан из Ташкента», «транзитная декларация Узбекистан таможенный брокер», «cargo from China to Afghanistan via Uzbekistan», «transit declaration Uzbekistan», «حمل بار از چین به افغانستان از راه ازبکستان».
+
+Bu yoʻnalish haqida hech qayerda yozilmaydigan narsalar (saytdagi qoidalar bilan bir xil; `README.md` → «Matn tekshiruvi»):
+- narx, kun soni, minimal hajm, reys jadvali yoki tajriba yillari — bu yoʻnalishda hammasi soʻrov boʻyicha, yoʻnalish yangi;
+- Hayraton va Mozori Sharifdan boshqa manzil; Afgʻonistondan yuk olib kelish; temir yoʻl yoki avia;
+- Afgʻonistonda ofis, vakil yoki hamkor borligi; xodimlarning fors yoki dari tilini bilishi — bu tillardagi xabarga tarjimon yordamida javob beriladi;
+- «bizning omborimiz» — Toshkentdagi bojxona nazoratidagi ombor hamkorniki, biz undan joy ajratamiz;
+- boshqa mamlakatlarga yetkazish haqida vaʼda.
