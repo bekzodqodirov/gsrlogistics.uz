@@ -4,7 +4,7 @@ import type { ServiceContent } from '../types';
  * Persian (one text for Afghanistan and Iran; on this page the Afghan reader comes first) content of the cargo to Afghanistan
  * service page, translated from the English branch of ../afghanistan.content.ts.
  * On its first mention in the running text a word that differs in Afghanistan carries the Afghan word in brackets, once:
- * کامیون (موتر باربری), انبار (گدام), گذرگاه مرزی حیرتان (بندر حیرتان), قطعات یدکی (پرزه‌جات).
+ * کامیون (موتر باربری), انبار (گدام), گذرگاه مرزی حیرتان (بندر حیرتان), قطعات یدکی (پرزه‌جات), بار (اموال تجارتی).
  * The messengers are written «واتساپ» and «تلگرام», as the buttons beside the text write them.
  */
 const content: ServiceContent = {
@@ -70,7 +70,7 @@ const content: ServiceContent = {
     {
       heading: 'چه بارهایی حمل می‌کنیم؟',
       body: [
-        'عمدتاً سه گروه بار را حمل می‌کنیم: کالاهای مصرفی (پوشاک، لوازم خانه، لوازم الکترونیکی و کالاهای تجاری مشابه)؛ مواد ساختمانی و مواد نازک‌کاری و تزئینات ساختمان؛ تجهیزات و قطعات یدکی (پرزه‌جات).',
+        'عمدتاً سه گروه بار (اموال تجارتی) را حمل می‌کنیم: کالاهای مصرفی (پوشاک، لوازم خانه، لوازم الکترونیکی و کالاهای تجاری مشابه)؛ مواد ساختمانی و مواد نازک‌کاری و تزئینات ساختمان؛ تجهیزات و قطعات یدکی (پرزه‌جات).',
       ],
       callout: {
         title: 'اگر بار شما چیز دیگری است',

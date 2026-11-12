@@ -139,7 +139,7 @@ const content: ServiceContent = {
     { q: '海关税费由谁缴纳、何时缴纳？', a: '由进口商缴纳：包裹——由您凭快递收据缴纳；GSR 的合同——由我们缴纳，金额已含在价格中；您自己的合同——由您的公司在放行前凭报关单（GTD）缴纳。我们都会在货物发运前为您算好金额。' },
     { q: '拼货运价包含清关吗？', a: '包含，汽运拼货运价已包含以我司单证办理的清关。如以您自己的合同进口，关税和增值税另行计算——可以提前通过运费计算器或向客户经理了解。' },
   ],
-  related: ['truck', 'warehouse', 'equipment'],
+  related: ['truck', 'transit', 'equipment'],
   guideKeys: ['customs-2026', 'prohibited-goods', 'shipping-from-china', 'glossary'],
   cta: {
     title: '发货前为您算好关税和增值税。',

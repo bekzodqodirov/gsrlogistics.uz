@@ -148,7 +148,7 @@ const content: ServiceContentSource = {
       { q: 'Bojxona toʻlovlarini kim va qachon toʻlaydi?', a: 'Import qiluvchi toʻlaydi: posilkada — siz, kuryer kvitansiyasi boʻyicha; GSR shartnomasida — biz, summa narxga kiradi; oʻz shartnomangizda — firmangiz, GTD boʻyicha yuk chiqarilishidan oldin. Summani har doim yuk joʻnatilishidan oldin hisoblab beramiz.' },
       { q: 'Yigʻma yuk narxiga bojxona kiradimi?', a: 'Ha, avto kargo tarifi kompaniya hujjatlari bilan rasmiylashtiruvni oʻz ichiga oladi. Oʻz shartnomangiz bilan import qilsangiz, boj va QQS alohida hisoblanadi — kalkulyator yoki menejer orqali oldindan bilib olasiz.' },
     ],
-    related: ['truck', 'warehouse', 'equipment'],
+    related: ['truck', 'transit', 'equipment'],
     guideKeys: ['customs-2026', 'prohibited-goods', 'shipping-from-china', 'glossary'],
     cta: {
       title: 'Boj va QQSni oldindan hisoblab beramiz.',
@@ -296,7 +296,7 @@ const content: ServiceContentSource = {
       { q: 'Кто и когда платит таможенные платежи?', a: 'Платит импортёр: при посылке — вы по квитанции курьера; по контракту GSR — мы, сумма входит в цену; по вашему контракту — ваша компания до выпуска груза по ГТД. Сумму мы всегда считаем до отправки груза.' },
       { q: 'Входит ли таможня в цену сборного груза?', a: 'Да, тариф авто карго включает оформление по документам компании. Если вы импортируете по собственному контракту, пошлина и НДС считаются отдельно — узнать их заранее можно в калькуляторе или у менеджера.' },
     ],
-    related: ['truck', 'warehouse', 'equipment'],
+    related: ['truck', 'transit', 'equipment'],
     guideKeys: ['customs-2026', 'prohibited-goods', 'shipping-from-china', 'glossary'],
     cta: {
       title: 'Посчитаем пошлину и НДС заранее.',
@@ -444,7 +444,7 @@ const content: ServiceContentSource = {
       { q: 'Who pays the customs payments, and when?', a: 'The importer of record: for a parcel — you, against the courier’s receipt; under GSR’s contract — we do, and the amount is built into the price; under your own contract — your company, before release against the GTD. We always calculate the amount before the cargo ships.' },
       { q: 'Is customs included in the consolidated-cargo price?', a: 'Yes, the truck-cargo rate includes clearance under the company’s documents. If you import under your own contract, duty and VAT are calculated separately — you can find them out in advance in the calculator or from your manager.' },
     ],
-    related: ['truck', 'warehouse', 'equipment'],
+    related: ['truck', 'transit', 'equipment'],
     guideKeys: ['customs-2026', 'prohibited-goods', 'shipping-from-china', 'glossary'],
     cta: {
       title: 'We calculate duty and VAT before you ship.',

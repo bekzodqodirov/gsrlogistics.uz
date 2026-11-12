@@ -16,7 +16,7 @@
  *     in the calculator's place (`mobileBarWhatsapp`), so it stays where it is on every page — after the footer,
  *     outside <main>.
  */
-import { langMeta, pick, type Locale } from '@/i18n/config';
+import { langMeta, pick, sourceOf, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
 import { servicesStrings, serviceNumberLine, tpl } from '@/i18n/services';
 import { pagePath, itemPath, itemUrl, subFor } from '@/i18n/routes';
@@ -169,7 +169,7 @@ const numCol = (rows: string[][], ci: number) => ci > 0 && rows.every((r) => !r[
 const slugify = (_s: string, i: number) => `s-${i + 1}`;
 const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? 'check-circle' : 'info');
 ---
-<Base lang={lang} title={seoTitle} description={seoDescription} pageKey="services" subs={subs} breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={updatedIso} mobileBarWhatsapp={onRequest ? waHref : undefined}>
+<Base lang={lang} title={seoTitle} description={seoDescription} pageKey="services" subs={subs} breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={updatedIso} ogImage={onRequest ? `/og/request-${sourceOf(lang)}.png` : undefined} mobileBarWhatsapp={onRequest ? waHref : undefined} pageLead={onRequest ? { team, topic: service.slug.uz, summary: name } : undefined}>
   <article class="page">
     <header class="hero">
       <div class="container">

@@ -30,7 +30,7 @@ const content: ServiceContentSource = {
   uz: {
     key: 'transit',
     seo: {
-      title: 'Oʻzbekiston orqali tranzit hujjatlari: deklaratsiya, CMR, TIR',
+      title: 'Oʻzbekistonda tranzit hujjatlari: deklaratsiya, CMR, TIR',
       description:
         'Oʻzbekiston orqali tranzit hujjatlari: deklaratsiyani oʻz bojxona brokerimiz topshiradi. CMR, TIR, ruxsatnoma, chegarada kutib olish.',
     },

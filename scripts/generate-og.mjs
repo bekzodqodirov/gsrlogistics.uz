@@ -4,7 +4,7 @@
 // default, uz, ru, en — sharp (librsvg). Fonts: Onest if installed in the system (see README),
 // otherwise DejaVu Sans.
 //
-// zh, fa — headless Chromium, from the same drawing. librsvg takes its fonts from whatever fontconfig
+// zh, fa, request-uz … request-fa — headless Chromium, from the same drawing. librsvg takes its fonts from whatever fontconfig
 // finds, which for Han is tofu on a minimal machine and for Persian a fallback face, so these two
 // cards are drawn with PINNED font files embedded in the page: Onest (this repo's own dependency)
 // for Latin and digits, Noto Sans SC Variable for Han, Vazirmatn Variable for Persian. Persian is
@@ -46,6 +46,19 @@ const browserVariants = {
     line1: 'حمل بار از چین به تاشکند.', line2: 'هر کیلوگرم، هر روز — حساب\u{200C}شده.',
     meta: 'بار تجمیعی ۱۵ تا ۲۵ روز • هوایی ۵ تا ۱۰ روز • تاشکند • از ۲۰۱۸',
   },
+  /*
+   * request-* — the card of the three on-request service pages (cargo to Afghanistan, transit documents, the
+   * warehouse under customs control). The general card says "Cargo from China to Tashkent · 15–25 days · Air ·
+   * since 2018": shared in WhatsApp or on Facebook it put another destination, a day count, air and a year above
+   * "Cargo to Afghanistan by truck". These carry approved strings only — the name of the services group
+   * (index.groups.regional), the pages' own "price and timing — on request" (page.requestLabel) and the city —
+   * and no figure. All five are drawn by Chromium, so that they share one set of pinned fonts.
+   */
+  'request-uz': { lang: 'uz', dir: 'ltr', fonts: ['onest'], family: "'Onest', sans-serif", line1: 'Afgʻoniston, tranzit va ombor', line2: 'Narx va muddat — soʻrov boʻyicha', meta: 'Toshkent' },
+  'request-ru': { lang: 'ru', dir: 'ltr', fonts: ['onest'], family: "'Onest', sans-serif", line1: 'Афганистан, транзит и склад', line2: 'Цена и срок — по запросу', meta: 'Ташкент' },
+  'request-en': { lang: 'en', dir: 'ltr', fonts: ['onest'], family: "'Onest', sans-serif", line1: 'Afghanistan, transit and warehouse', line2: 'Price and timing — on request', meta: 'Tashkent' },
+  'request-zh': { lang: 'zh-Hans', dir: 'ltr', fonts: ['onest', 'sc'], family: "'Onest', 'Noto Sans SC', sans-serif", line1: '阿富汗、过境与仓储', line2: '价格和时效——按需报价', meta: '塔什干' },
+  'request-fa': { lang: 'fa', dir: 'rtl', fonts: ['fa', 'onest'], family: "'Vazirmatn', 'Onest', sans-serif", line1: 'افغانستان، ترانزیت و انبار', line2: 'قیمت و زمان — با استعلام', meta: 'تاشکند' },
 };
 const wanted = process.argv.slice(2);
 for (const k of wanted) if (!(k in variants) && !(k in browserVariants)) throw new Error(`unknown OG variant "${k}"`);
@@ -143,7 +156,7 @@ if (browserKeys.length && !process.env.OG_CHROMIUM && !wanted.length) {
         }
         if (cur) lines.push(cur);
         return lines.map((l) => l.trim());
-      }, { text, size, weight, family: v.family, cjk: key === 'zh' });
+      }, { text, size, weight, family: v.family, cjk: v.lang.startsWith('zh') });
       const l1 = await wrapIn(v.line1, 60, 700);
       const l2 = await wrapIn(v.line2, 44, 500);
       const rtl = v.dir === 'rtl';
