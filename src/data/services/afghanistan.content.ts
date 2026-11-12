@@ -15,6 +15,8 @@ import type { ServiceContentSource } from './types';
  *     NOT confirmed — the page says the manager explains it;
  *   - the warehouse under customs control in Tashkent is a PARTNER's; GSR allocates space there;
  *   - contact: WhatsApp and Telegram; Persian or Dari is answered in Persian through a translator.
+ * The hero fact «Hayraton · Mozori Sharif» carries a no-break space before its dot (\u00A0): on a 360px phone the
+ * Cyrillic lines otherwise began with the dot.
  * Never add: cargo from Afghanistan, rail / sea / air, a schedule, years of experience, an office or a partner
  * in Afghanistan, tracking, payment terms. uz, ru and en keep the same structure (zh and fa are translated
  * from en): key, related, guideKeys, updated and callout tones must stay byte-identical in all three.
@@ -35,7 +37,7 @@ const content: ServiceContentSource = {
       facts: [
         { label: 'Qayerdan', value: 'Xitoy · Oʻzbekiston' },
         { label: 'Transport', value: 'Fura' },
-        { label: 'Qayerga', value: 'Hayraton · Mozori Sharif' },
+        { label: 'Qayerga', value: 'Hayraton\u00A0· Mozori Sharif' },
         { label: 'Narx va muddat', value: 'Soʻrov boʻyicha' },
       ],
     },
@@ -185,7 +187,7 @@ const content: ServiceContentSource = {
       facts: [
         { label: 'Откуда', value: 'Китай · Узбекистан' },
         { label: 'Транспорт', value: 'Фура' },
-        { label: 'Куда', value: 'Хайратон · Мазари-Шариф' },
+        { label: 'Куда', value: 'Хайратон\u00A0· Мазари-Шариф' },
         { label: 'Цена и срок', value: 'По запросу' },
       ],
     },
@@ -335,7 +337,7 @@ const content: ServiceContentSource = {
       facts: [
         { label: 'From', value: 'China · Uzbekistan' },
         { label: 'Transport', value: 'Truck' },
-        { label: 'To', value: 'Hairatan · Mazar-i-Sharif' },
+        { label: 'To', value: 'Hairatan\u00A0· Mazar-i-Sharif' },
         { label: 'Price and timing', value: 'On request' },
       ],
     },

@@ -5,11 +5,11 @@ import { common } from '@/i18n/common';
 import { phoneUrl, telegramChat } from '@/lib/site';
 import Icon from './ui/Icon.astro';
 /**
- * The phone bar: Telegram, call, price. Base.astro renders it on every page with `lang` alone.
+ * The phone bar: Telegram, call, price. Base.astro renders it on every page, after the footer.
  *
  * `whatsapp` (a wa.me link with a draft) is given by an on-request service page only — cargo to Afghanistan,
- * transit documents, the warehouse under customs control (ServicePage.astro, which hides Base's bar and renders
- * this one). There the third item is WhatsApp instead of the price calculator: the calculator prices China →
+ * transit documents, the warehouse under customs control (ServicePage.astro hands it to the layout as
+ * `mobileBarWhatsapp`). There the third item is WhatsApp instead of the price calculator: the calculator prices China →
  * Tashkent, no price is published for those services, and their clients are told to write on WhatsApp or
  * Telegram. The label is `bar.whatsapp`: the brand name, written «واتساپ» in Persian beside «تلگرام».
  */

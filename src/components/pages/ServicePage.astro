@@ -12,9 +12,9 @@
  *     customs control): no price or transit time is published for it, and the calculator prices China →
  *     Tashkent only, so the page links to no calculator and prints no estimate caption. Its buttons are
  *     Telegram and WhatsApp, the two channels these clients are told to use. See `onRequest` below.
- *     The phone bar follows: Base.astro's bar (Telegram · call · price calculator) is switched off with the
- *     layout's own `hideMobileBar`, and the page renders the bar itself with WhatsApp in the calculator's place
- *     (`bodyClass` keeps the body's bottom padding for it).
+ *     The phone bar follows: the layout's own bar (Telegram · call · price calculator) is told to show WhatsApp
+ *     in the calculator's place (`mobileBarWhatsapp`), so it stays where it is on every page — after the footer,
+ *     outside <main>.
  */
 import { langMeta, pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
@@ -23,7 +23,7 @@ import { pagePath, itemPath, itemUrl, subFor } from '@/i18n/routes';
 import { services, serviceByKey, serviceSubs, type ServiceMeta } from '@/data/services';
 import type { ServiceContent, ServiceSection } from '@/data/services/types';
 import { guideSlugs } from '@/data/guides';
-import { site, phoneUrl, whatsappChat } from '@/lib/site';
+import { site, phoneUrl, phone2Url, whatsappChat } from '@/lib/site';
 import { BIDI_CONTROLS, leadAttrs, serviceTeam, telegramFor } from '@/lib/leads';
 import { colon, fmtDate, fmtInt, fmtNumRange, sep } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
@@ -33,7 +33,6 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
-import MobileBar from '@/components/MobileBar.astro';
 
 /**
  * `content` arrives ALREADY RESOLVED to one locale — the page reads `getServiceContent(key)` and
@@ -86,6 +85,10 @@ const tgLead = leadAttrs(team, service.slug.uz, name);
  * message (see lib/leads.ts); the ZWNJ of Persian words is not one of them and stays.
  */
 const waHref = whatsappChat(cta.draft.replace(BIDI_CONTROLS, '').trim());
+/* The number printed under the buttons. On an on-request page it is the WhatsApp number the page's own text gives —
+   a trader saves the number he sees under the WhatsApp button, and the main line is not on WhatsApp. Elsewhere the
+   main line, as before. */
+const shownPhone = onRequest ? { url: phone2Url, display: site.phone2Display } : { url: phoneUrl, display: site.phoneDisplay };
 const daysFor: Partial<Record<string, [number, number]>> = { truck: tariffs.truck.days as [number, number], air: tariffs.air.days as [number, number], rail: tariffs.rail.days as [number, number] };
 const days = daysFor[service.key];
 /** A figure in ASCII or Persian digits (a fa fact reads "۱۵ تا ۲۵"). */
@@ -164,7 +167,7 @@ const numCol = (rows: string[][], ci: number) => ci > 0 && rows.every((r) => !r[
 const slugify = (_s: string, i: number) => `s-${i + 1}`;
 const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? 'check-circle' : 'info');
 ---
-<Base lang={lang} title={seoTitle} description={seoDescription} pageKey="services" subs={subs} breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={updatedIso} hideMobileBar={onRequest} bodyClass={onRequest ? 'has-mobile-bar' : undefined}>
+<Base lang={lang} title={seoTitle} description={seoDescription} pageKey="services" subs={subs} breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={updatedIso} mobileBarWhatsapp={onRequest ? waHref : undefined}>
   <article class="page">
     <header class="hero">
       <div class="container">
@@ -284,7 +287,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
           </div>
           <p class="side-hint">{t.page.stickyHint}</p>
           {/* The number is the LTR island; the icon stays outside it, at the inline start. */}
-          <p class="side-phone"><a href={phoneUrl} class="tnum"><Icon name="phone" size={16} /><span dir="ltr">{site.phoneDisplay}</span></a></p>
+          <p class="side-phone"><a href={shownPhone.url} class="tnum"><Icon name="phone" size={16} /><span dir="ltr">{shownPhone.display}</span></a></p>
           <p class="caption side-hours tnum">{pick(lang, site.hours)}</p>
         </div>
       </aside>
@@ -336,11 +339,10 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
             ? <Button href={waHref} variant="secondary" icon="whatsapp">{c.cta.whatsapp}</Button>
             : <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>}
         </div>
-        <p class="caption cta-meta"><a href={phoneUrl} class="tnum" dir="ltr">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
+        <p class="caption cta-meta"><a href={shownPhone.url} class="tnum" dir="ltr">{shownPhone.display}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>
-  {onRequest && <MobileBar lang={lang} whatsapp={waHref} />}
 </Base>
 
 <style>
@@ -373,7 +375,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   .para { color: var(--fg-2); max-width: 70ch; text-wrap: pretty; }
   .para + .para { margin-top: 0.9em; }
   .bullets { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; max-width: 70ch; }
-  .bullets li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; color: var(--fg-2); }
+  .bullets li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; color: var(--fg-2); text-wrap: pretty; }
   .tick { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-2); color: var(--fg); margin-top: 1px; }
   .steps { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 0; max-width: 70ch; position: relative; }
   /* Threads the numbered circles, which are the inline-start column (right in RTL). */
@@ -396,7 +398,8 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   /* fa: polish-html wraps each Chinese word in Persian prose in <span lang="zh">; Han may break between any two
      characters, which tore "(义" / "乌)" across lines. The runs are short names, so keep each whole. */
   :global([dir='rtl']) .page :global(span[lang|='zh']) { word-break: keep-all; }
-  .tbl-meta { margin-top: 10px; }
+  .tbl-meta { margin-top: 10px; text-wrap: pretty; }
+  .faq-body p { text-wrap: pretty; }
   .callout { display: grid; grid-template-columns: 24px 1fr; gap: 12px; margin-top: 24px; padding: 16px 18px; border: 1px solid var(--border); border-radius: var(--radius); max-width: 70ch; color: var(--fg-2); }
   .callout-icon { color: var(--fg); display: inline-flex; margin-top: 1px; }
   .callout-title { font-weight: 600; color: var(--fg); margin-bottom: 4px; }
@@ -410,7 +413,10 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   .side-stat .stat { font-size: clamp(2rem, 2vw + 1rem, 2.5rem); line-height: 1.05; letter-spacing: -0.025em; overflow-wrap: anywhere; }
   .side-fact { margin-top: -4px; }
   .side-line { font-size: var(--text-small); font-weight: 600; color: var(--fg-2); padding-top: 8px; border-top: 1px solid var(--border-soft); }
-  .side-actions { display: grid; gap: 8px; margin-top: 8px; }
+  /* One column that cannot grow past the card (a nowrap button used to widen the track: «Message us on WhatsApp»
+     pushed the card's content 13px into its padding), and tighter side padding so the longest label fits 250px. */
+  .side-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 8px; }
+  .side-actions :global(.btn) { padding-inline: 12px; }
   .side-hint { font-size: var(--text-caption); color: var(--meta); line-height: 1.4; }
   .side-phone a { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--fg); min-height: 32px; }
   .side-phone a:hover { text-decoration: underline; text-underline-offset: 3px; }

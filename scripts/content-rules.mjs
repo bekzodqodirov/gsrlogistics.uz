@@ -1095,23 +1095,33 @@ export const CLAIM_RULES = [
     re: new RegExp(`${UZ_SCHEDULE}|${UZC_SCHEDULE}`, 'iu'),
     bad: ['Afgʻonistonga haftasiga ikki marta fura joʻnatamiz', 'Har hafta Hayratonga fura chiqadi', 'Afgʻonistonga muntazam reyslar', 'Mozori Sharifga haftalik fura',
       'Афғонистонга ҳафтасига икки марта фура жўнатамиз', 'Ҳар ҳафта Ҳайратонга фура чиқади'],
-    good: ['Afgʻoniston — biz uchun yangi yoʻnalish.', 'Afgʻonistonga muntazam reys yoʻq: fura yuk yigʻilganda joʻnaydi', 'Afgʻonistonga har hafta fura joʻnatasizmi?', 'Fura qachon joʻnashini menejer aytadi', 'Афғонистон — биз учун янги йўналиш.'] },
+    good: ['Afgʻoniston — biz uchun yangi yoʻnalish.', 'Afgʻonistonga muntazam reys yoʻq: fura yuk yigʻilganda joʻnaydi', 'Afgʻonistonga har hafta fura joʻnatasizmi?', 'Fura qachon joʻnashini menejer aytadi', 'Афғонистон — биз учун янги йўналиш.',
+      // printed on the site (2026-11-12): every rule must let these through
+      '2018-yildan beri. Endi Afgʻonistonga ham yuk tashiymiz va tranzit hujjatlarini rasmiylashtiramiz.', '2018-йилдан бери. Энди Афғонистонга ҳам юк ташиймиз ва транзит ҳужжатларини расмийлаштирамиз.'] },
   { id: 'ru.afghanSchedule', block: true, msg: SCHEDULE_MSG('ru'),
     re: new RegExp(RU_SCHEDULE, 'iu'),
     bad: ['Еженедельные отправки в Афганистан', 'Каждую неделю фура уходит в Хайратон', 'В Афганистан два раза в неделю', 'Регулярные рейсы до Мазари-Шарифа', 'в Афганистан по расписанию'],
-    good: ['Афганистан — новое для нас направление.', 'Регулярных рейсов в Афганистан нет: фура уходит по мере набора груза', 'Отправляете ли вы фуры в Афганистан каждую неделю?', 'Когда уходит фура, скажет менеджер'] },
+    good: ['Афганистан — новое для нас направление.', 'Регулярных рейсов в Афганистан нет: фура уходит по мере набора груза', 'Отправляете ли вы фуры в Афганистан каждую неделю?', 'Когда уходит фура, скажет менеджер',
+      // printed on the site (2026-11-12): every rule must let these through
+      'С 2018 года. Теперь возим грузы и в Афганистан и оформляем транзитные документы.'] },
   { id: 'en.afghanSchedule', block: true, msg: SCHEDULE_MSG('en'),
     re: new RegExp(EN_SCHEDULE, 'iu'),
     bad: ['Weekly departures to Afghanistan', 'A truck leaves for Hairatan every week', 'Twice a week to Mazar-i-Sharif', 'Regular departures to Afghanistan', 'daily trucks to Hairatan'],
-    good: ['Afghanistan is a new direction for us.', 'There are no weekly departures to Afghanistan: the truck leaves when the cargo is collected', 'Do you send trucks to Afghanistan every week?', 'The manager tells you when the truck leaves'] },
+    good: ['Afghanistan is a new direction for us.', 'There are no weekly departures to Afghanistan: the truck leaves when the cargo is collected', 'Do you send trucks to Afghanistan every week?', 'The manager tells you when the truck leaves',
+      // printed on the site (2026-11-12): every rule must let these through
+      'Since 2018. We now also carry cargo to Afghanistan and handle transit documents.'] },
   { id: 'zh.afghanSchedule', block: true, msg: SCHEDULE_MSG('zh'),
     re: new RegExp(ZH_SCHEDULE, 'iu'),
     bad: ['每周发车前往阿富汗', '发往阿富汗的货物每周发运', '海拉顿方向定期发车', '每天都有车发往马扎里沙里夫'],
-    good: ['阿富汗对我们来说是新方向。', '发往阿富汗没有固定班期，货物集齐后发车', '发往阿富汗每周都发车吗？', '发车时间由客户经理告知'] },
+    good: ['阿富汗对我们来说是新方向。', '发往阿富汗没有固定班期，货物集齐后发车', '发往阿富汗每周都发车吗？', '发车时间由客户经理告知',
+      // printed on the site (2026-11-12): every rule must let these through
+      '新方向：承接发往阿富汗的汽运货物，办理乌兹别克斯坦过境单证，并在塔什干的海关监管仓库安排仓位。', '我们也用中文、英语、俄语和乌兹别克语回复。', '始于 2018 年。现在也承接阿富汗货运，并办理过境单证。', '协助外籍卡车办理行车许可证'] },
   { id: 'fa.afghanSchedule', block: true, msg: SCHEDULE_MSG('fa'),
     re: new RegExp(FA_SCHEDULE, 'iu'),
     bad: ['هر هفته به افغانستان کامیون می‌فرستیم', 'حرکت هفتگی به حیرتان', 'روزانه به مزار شریف بار می‌بریم', 'حمل منظم بار به افغانستان'],
-    good: ['افغانستان برای ما مسیر تازه‌ای است.', 'به افغانستان حرکت هفتگی نداریم: کامیون پس از جمع شدن بار راه می‌افتد', 'آیا هر هفته به افغانستان کامیون می‌فرستید؟', 'زمان حرکت کامیون را کارشناس ما اعلام می‌کند'] },
+    good: ['افغانستان برای ما مسیر تازه‌ای است.', 'به افغانستان حرکت هفتگی نداریم: کامیون پس از جمع شدن بار راه می‌افتد', 'آیا هر هفته به افغانستان کامیون می‌فرستید؟', 'زمان حرکت کامیون را کارشناس ما اعلام می‌کند',
+      // printed on the site (2026-11-12): every rule must let these through
+      'در واتساپ (+998 00 000 00 00) یا تلگرام بنویسید: بار چیست، حجم یا وزن آن چقدر است، اکنون کجاست و باید به کجا برود — حیرتان یا مزار شریف.', 'حمل بار (کارگو) با کامیون از چین و ازبکستان به افغانستان', 'حمل بار از چین و ازبکستان به افغانستان با کامیون', 'از سال ۲۰۱۸. اکنون به افغانستان هم بار می‌بریم و اسناد ترانزیت آماده می‌کنیم.'] },
 ];
 /** The name this list had while it held the Chinese and Persian rules only; tools written against it read the whole list. */
 export const ZH_FA_FORBIDDEN = CLAIM_RULES;

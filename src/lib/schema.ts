@@ -78,7 +78,7 @@ export function organizationNode(lang: Locale) {
     openingHoursSpecification: site.openingHoursSpec.map((s) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: s.days, opens: s.opens, closes: s.closes })),
     priceRange: '$$',
     currenciesAccepted: 'UZS, USD',
-    // Afghanistan since 2026-11-12 (truck cargo to Hairatan and Mazar-i-Sharif). No other country is served.
+    // Afghanistan since 2026-11-12 (truck cargo to Hairatan and Mazar-i-Sharif). No other country is named on the site.
     areaServed: [
       { '@type': 'Country', name: 'Uzbekistan' },
       { '@type': 'Country', name: 'China' },
@@ -95,7 +95,7 @@ export function organizationNode(lang: Locale) {
     sameAs: [telegramUrl, telegramGroupUrl, instagramUrl, facebookUrl, site.yandexMapsUrl, site.googleMapsUrl].filter(Boolean),
     contactPoint: [
       { '@type': 'ContactPoint', telephone: site.phoneE164, contactType: 'sales', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: site.telegramDirect },
-      { '@type': 'ContactPoint', name: 'WhatsApp', telephone: site.phone2E164, contactType: 'customer support', availableLanguage: ['uz', 'ru'], url: whatsappUrl },
+      { '@type': 'ContactPoint', name: 'WhatsApp', telephone: site.phone2E164, contactType: 'customer support', availableLanguage: ['uz', 'ru', 'en', 'zh'], url: whatsappUrl },
       // The cargo-tracking bot is a real contact channel and the only one that is open at 3am: it
       // answers without a person, which is what makes the 24/7 hours below true.
       {

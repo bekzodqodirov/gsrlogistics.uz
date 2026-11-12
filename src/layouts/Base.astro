@@ -36,8 +36,10 @@ interface Props {
   dateModified?: string;
   bodyClass?: string;
   hideMobileBar?: boolean;
+  /** A wa.me link with a draft: the phone bar then shows WhatsApp in the price calculator's place (on-request service pages). */
+  mobileBarWhatsapp?: string;
 }
-const { lang, title, description, pageKey, subs, ogImage, ogType, noindex, jsonLd = [], breadcrumbs, datePublished, dateModified, bodyClass, hideMobileBar = false } = Astro.props;
+const { lang, title, description, pageKey, subs, ogImage, ogType, noindex, jsonLd = [], breadcrumbs, datePublished, dateModified, bodyClass, hideMobileBar = false, mobileBarWhatsapp } = Astro.props;
 const siteUrl = Astro.site ?? new URL(site.url);
 const alternates = buildAlternates(siteUrl, pageKey, subs);
 // `subFor`, not `subs?.[lang]`: most `subs` maps come from content and carry only uz/ru/en, so
@@ -94,7 +96,7 @@ const localeOg = ogImage ?? `/og/${sourceOf(lang)}.png`;
       <slot />
     </main>
     <Footer lang={lang} alternates={alternates} />
-    {!hideMobileBar && <MobileBar lang={lang} />}
+    {!hideMobileBar && <MobileBar lang={lang} whatsapp={mobileBarWhatsapp} />}
     <ContactPicker lang={lang} />
     <script>
       // Reveal-on-scroll: adds .is-in to .reveal elements as they enter; respects reduced motion.
