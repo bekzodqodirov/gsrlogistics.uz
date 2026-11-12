@@ -92,7 +92,7 @@ const FA_VOLUME = new RegExp(`(?<![\\d+])(?:\\+\\s?\\d{1,5}|\\d{1,5}\\s?\\+)\\s?
  *
  * These rules exist in all five written languages and in Uzbek Cyrillic (the /kirill/ pages are the Uzbek text
  * transliterated, so every Uzbek rule carries its Cyrillic twin). The place names are kept in the three tables
- * below (ON_ROUTE, ELSEWHERE — its five cities are listed first, as TOWNS — and SERVED), one row per place and one column per language — uz, uzc, ru, en, zh, fa — so that the six lists cannot
+ * below (ON_ROUTE, ELSEWHERE — its cities are listed first, as TOWNS — and SERVED), one row per place and one column per language — uz, uzc, ru, en, zh, fa — so that the six lists cannot
  * drift apart: a place is added, or leaves when the owner confirms it, in ONE row. A cell holds the spellings of
  * the name as plain text, separated by " / ":
  *
@@ -118,8 +118,9 @@ const ON_ROUTE = [
   ['Qirgʻiziston', 'Қирғизистон', 'в Кыргызстан / до Кыргызстана / в Киргизию / до Киргизии / Киргизия', 'Kyrgyzstan', '吉尔吉斯斯坦', 'قرقیزستان / قرغیزستان / قرغزستان'],
 ];
 /**
- * The five cities among the places GSR does not deliver to: the Afghan ones other than Hairatan and
- * Mazar-i-Sharif, and Tehran and Mashhad. The site has no other business with them, so their NAME is a claim
+ * The cities among the places GSR does not deliver to: Afghan ones other than Hairatan and Mazar-i-Sharif (Kabul,
+ * Herat, Kandahar, and Kunduz, Pul-e-Khumri and Sheberghan next to Mazar-i-Sharif), and Tehran, Mashhad, Isfahan and
+ * the port of Bandar Abbas. The site has no other business with them, so their NAME is a claim
  * wherever it stands — a third delivery point in a list ("Hairatan · Mazar-i-Sharif · Kabul"), an answer without
  * a verb ("to one of two points: Tehran or Mashhad") — unless the sentence denies it or asks.
  */
@@ -406,7 +407,7 @@ const FA_DEST =
   // the whole string is the name: a value of the structured data
   `|^\\s*(?:${FA_UNSERVED_NAME})\\s*$` +
   `|←\\s?(?:${FA_ELSEWHERE})(?!\\p{Script=Arabic})(?![^${FA_STOP}]{0,60}←)`;
-const DEST_MSG = (lang) => `names a country or city GSR does not serve as a destination (${lang}) — it delivers in Uzbekistan and, in Afghanistan, to Hairatan and Mazar-i-Sharif only (owner, 2026-11-11); Kabul, Herat, Kandahar, Tehran and Mashhad may be named only in a denial or a question`;
+const DEST_MSG = (lang) => `names a country or city GSR does not serve as a destination (${lang}) — it delivers in Uzbekistan and, in Afghanistan, to Hairatan and Mazar-i-Sharif only (owner, 2026-11-11); the cities of the TOWNS table (Kabul, Herat, Kandahar, Kunduz, Pul-e-Khumri, Sheberghan, Tehran, Mashhad, Isfahan, Bandar Abbas) may be named only in a denial or a question`;
 
 /*
  * 2. Persian-speaking staff. A claim is staff who "speak / answer in / know" Persian or Dari, "we answer in
@@ -627,17 +628,17 @@ const SCHEDULE_MSG = (lang) => `claims regular or scheduled departures to Afghan
  *   afghanAnywhere  "all / any / other cities of Afghanistan", "across Afghanistan": two points only.
  *   any.iranian     the adjective, in every language: nothing about Iran is published.
  */
-const UZ_ONES = `bir|ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz|o${AP}?n|yarim|bir\\s+necha`;
-const UZC_ONES = 'бир|икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз|ўн|ярим|бир\\s+неча';
+const UZ_ONES = `bir|ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz|o${AP}?n|yigirma|o${AP}?ttiz|qirq|ellik|yarim|bir\\s+necha`;
+const UZC_ONES = 'бир|икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз|ўн|йигирма|ўттиз|қирқ|эллик|ярим|бир\\s+неча';
 const UZ_WORDFIG = `(?<![a-zʻʼ])(?:(?:${UZ_ONES})(?:[\\s–-]+(?:${UZ_ONES}))?\\s+(?:ish\\s+)?(?:kun|sutka|hafta|oy|soat)(?:da|dan|ga|gacha|lik|ni|i|ida)?|(?:ikkinchi|uchinchi|to${AP}?rtinchi|beshinchi|ertasi)\\s+kun[a-zʻʼ]*|(?:yuz|ming|million)\\s+(?:AQSH\\s+)?(?:dollar|so${AP}?m|yuan|yevro)[a-zʻʼ]*)(?![a-zʻʼ])`;
 const UZC_WORDFIG = `(?<![а-яёўқғҳ])(?:(?:${UZC_ONES})(?:[\\s–-]+(?:${UZC_ONES}))?\\s+(?:иш\\s+)?(?:кун|сутка|ҳафта|ой|соат)(?:да|дан|га|гача|лик|ни|и|ида)?|(?:иккинчи|учинчи|тўртинчи|бешинчи|эртаси)\\s+кун[а-яёўқғҳ]*|(?:юз|минг|миллион)\\s+(?:АҚШ\\s+)?(?:доллар|сўм|юан|евро)[а-яёўқғҳ]*)(?![а-яёўқғҳ])`;
-const RU_ONES = 'один|одн[аоуи]|дв[ае]|двух|три|тр[её]х|четыр[её]х?|пят[ьи]|шест[ьи]|сем[ьи]|восем[ьи]|девят[ьи]|десят[ьи]|нескольк[оих]{1,2}|пар[ау]|полтор[аы]';
+const RU_ONES = 'один|одн[аоуи]|дв[ае]|двух|три|тр[её]х|четыр[её]х?|пят[ьи]|шест[ьи]|сем[ьи]|восем[ьи]|девят[ьи]|десят[ьи]|(?:один|две|три|четыр|пят|шест|сем|восем|девят)надцат[ьи]|двадцат[ьи]|тридцат[ьи]|сорока?|нескольк[оих]{1,2}|пар[ау]|полтор[аы]';
 const RU_WORDFIG = `(?<![а-яё])(?:(?:${RU_ONES})(?:[\\s–-]+(?:${RU_ONES}))?\\s+(?:рабоч[а-яё]+\\s+)?(?:дн(?:ей|я|ям|ях)|день|суток|сутки|недел[ьюией]|месяц(?:а|ев)?|час(?:а|ов)?)|за\\s+(?:день|сутки|неделю|месяц)|на\\s+(?:второй|третий|четв[её]ртый|пятый|следующий)\\s+день|около\\s+(?:недели|месяца)|(?:тысяч[аиу]?|сот(?:ен|ни|ня)?|миллион(?:а|ов)?)\\s+(?:долларов|доллар[аы]?|сум(?:ов)?|евро|юаней))(?![а-яё])`;
-const EN_ONES = 'two|three|four|five|six|seven|eight|nine|ten';
+const EN_ONES = 'two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|(?:thir|four|fif|six|seven|eigh|nine)teen|twenty|thirty|forty|fifty|sixty|ninety|a\\s+dozen';
 const EN_WORDFIG = `\\b(?:(?:${EN_ONES}|a\\s+few|few|several|a\\s+couple\\s+of)(?:\\s+(?:to|or)\\s+(?:${EN_ONES}))?\\s+(?:working\\s+|business\\s+)?(?:days?|weeks?|months?|hours?)|(?:in|within|about|around|roughly|after|takes?)\\s+(?:a|one)\\s+(?:day|week|month|fortnight)|(?:a|one)\\s+(?:day|week|month|fortnight)\\s+(?:after|later)|(?:second|third|fourth|fifth|next|same)\\s+day|overnight|(?:hundred|thousand|million)\\s+(?:US\\s+)?(?:dollars?|soums?|sums?|yuan|euros?))\\b`;
 const ZH_ONES = '[一二两三四五六七八九十数半]'; // not 几: 几天 is also "how many days?"
 const ZH_WORDFIG = `(?:${ZH_ONES}{1,3}(?:[到至~～-]${ZH_ONES}{1,2})?\\s?(?:个?工作日|天(?!津)|周(?![一二三四五六日末年期边围])|个?星期|个月|个?小时)|第[二三四五六七八九十]天|当天|次日|隔天|${ZH_ONES}{1,3}[千百万]\\s?(?:美元|美金|元|人民币))`;
-const FA_ONES = 'یک|دو|سه|چهار|پنج|شش|هفت|هشت|ده|نیم'; // not چند («چند روز؟» asks) and not نه (nine, and "no")
+const FA_ONES = 'یک|دو|سه|چهار|پنج|شش|هفت|هشت|ده|یازده|دوازده|سیزده|چهارده|پانزده|شانزده|هفده|هجده|نوزده|بیست|سی|چهل|پنجاه|نیم'; // not چند («چند روز؟» asks) and not نه (nine, and "no")
 const FA_WORDFIG = `(?<!\\p{Script=Arabic})(?:(?:${FA_ONES})(?:\\s(?:تا|الی|یا)\\s(?:${FA_ONES}))?\\s(?:روزه?|هفته|ماه|ساعته?)|روز\\s(?:دوم|سوم|چهارم|پنجم|بعد)|(?:هزار|صد|میلیون)\\s(?:دلار|سوم|یوان|یورو|تومان))(?!\\p{Script=Arabic})`;
 const either = (a, b) => `(?:${a}|${b})`;
 
@@ -1096,7 +1097,7 @@ export const CLAIM_RULES = [
        or table row at a time) — */
   { id: 'uz.afghanFigure', block: true, msg: FIGURE_MSG('uz'),
     re: new RegExp(`${beside(AFGHAN[0], either(UZ_FIGURE, UZ_WORDFIG), '.!?;')}|${beside(AFGHAN[1], either(UZC_FIGURE, UZC_WORDFIG), '.!?;')}`, 'iu'),
-    bad: ['Afgʻonistonga yetkazish Toshkentga yetkazishdan atigi 20% qimmat.', 'Afgʻonistonga yuk bir haftada yetib boradi.', 'Hayratongacha ikki-uch kunda yetkazamiz.', 'Toshkentdan chiqqan fura Mozori Sharifga uchinchi kuni yetib boradi.', 'Xitoydan Hayratongacha — taxminan bir oy.', 'Afgʻonistonga fura narxi uch ming dollardan boshlanadi.', 'Афғонистонга юк бир ҳафтада етиб боради.',
+    bad: ['Hayratongacha yoʻl yigirma kun davom etadi.', 'Ҳайратонгача йўл йигирма кун давом этади.', 'Afgʻonistonga yetkazish Toshkentga yetkazishdan atigi 20% qimmat.', 'Afgʻonistonga yuk bir haftada yetib boradi.', 'Hayratongacha ikki-uch kunda yetkazamiz.', 'Toshkentdan chiqqan fura Mozori Sharifga uchinchi kuni yetib boradi.', 'Xitoydan Hayratongacha — taxminan bir oy.', 'Afgʻonistonga fura narxi uch ming dollardan boshlanadi.', 'Афғонистонга юк бир ҳафтада етиб боради.',
       'Afgʻonistonga 10–12 kunda yetkazamiz', 'Hayratongacha 5–7 kun', 'Mozori Sharifgacha yetkazish — 1 200 $ dan', 'Toshkentdan Hayratonga 3 kun, narxi 900 dollar', '2 hafta ichida Afgʻonistonga', '12 000 000 soʻm — Mozori Sharifgacha', 'Hayratonda 2–3 soat kutiladi',
       'Афғонистонга 10–12 кунда етказамиз', 'Ҳайратонгача 5–7 кун', 'Мозори Шарифгача 1 200 $ дан'],
     good: ['Xitoydan Toshkentga yigʻma yuk 15–25 kunda keladi; Afgʻoniston boʻyicha muddatni menejer hisoblaydi.', 'Ikki yoʻnalishda: Xitoydan Afgʻonistonga va Oʻzbekistondan Afgʻonistonga.', 'Bugungi kunda yetkazish nuqtalari shu ikkita: Hayraton va Mozori Sharif.',
@@ -1107,7 +1108,7 @@ export const CLAIM_RULES = [
       'Хитойдан Тошкентга 15–25 кун', 'Хизмат 10 — Афғонистон'] },
   { id: 'ru.afghanFigure', block: true, msg: FIGURE_MSG('ru'),
     re: new RegExp(beside(AFGHAN[2], either(RU_FIGURE, RU_WORDFIG), '.!?;'), 'iu'),
-    bad: ['До Хайратона груз доходит примерно за десять дней.', 'Доставка в Афганистан всего на 20% дороже, чем в Ташкент.', 'До Хайратона довозим за неделю.', 'В Мазари-Шариф фура приходит на третий день.', 'Из Китая до Хайратона — около месяца.', 'Доставка в Афганистан занимает две-три недели.', 'Фура в Афганистан стоит от трёх тысяч долларов.',
+    bad: ['До Хайратона груз идёт двенадцать дней.', 'До Хайратона груз доходит примерно за десять дней.', 'Доставка в Афганистан всего на 20% дороже, чем в Ташкент.', 'До Хайратона довозим за неделю.', 'В Мазари-Шариф фура приходит на третий день.', 'Из Китая до Хайратона — около месяца.', 'Доставка в Афганистан занимает две-три недели.', 'Фура в Афганистан стоит от трёх тысяч долларов.',
       'В Афганистан — 10–14 дней', 'До Хайратона 5–7 дней', 'Доставка до Мазари-Шарифа от 1 200 $', 'за 3 дня до Хайратона', 'от 5 до 7 дней до Мазари-Шарифа', 'В Афганистан за 2 недели', 'до Хайратона — за 2 суток'],
     good: ['Сборный груз из Китая в Ташкент идёт 15–25 дней; по Афганистану срок считает менеджер.', 'Два направления: из Китая в Афганистан и из Узбекистана в Афганистан.',
       'Из Китая в Ташкент 15–25 дней', 'Тарифы, калькулятор и сроки на сайте относятся только к направлению Китай → Ташкент.', 'Цена и срок — по запросу: менеджер считает их под ваш груз.', 'Услуга 10 — Афганистан',
@@ -1115,7 +1116,7 @@ export const CLAIM_RULES = [
       'Минимум 1 м³, указанный на сайте, относится к сборному грузу из Китая в Ташкент.'] },
   { id: 'en.afghanFigure', block: true, msg: FIGURE_MSG('en'),
     re: new RegExp(beside(AFGHAN[3], either(EN_FIGURE, EN_WORDFIG), '.!?;'), 'iu'),
-    bad: ['Expect your goods in Mazar-i-Sharif a fortnight after loading.', 'Shipping to Afghanistan is only 20% more expensive than to Tashkent.', 'Cargo reaches Hairatan within a week.', 'The truck arrives in Mazar-i-Sharif on the third day.', 'From China to Hairatan in about a month.', 'Delivery to Afghanistan takes two to three weeks.', 'A truck to Afghanistan starts at three thousand dollars.',
+    bad: ['Delivery to Mazar-i-Sharif takes about twelve days.', 'Expect your goods in Mazar-i-Sharif a fortnight after loading.', 'Shipping to Afghanistan is only 20% more expensive than to Tashkent.', 'Cargo reaches Hairatan within a week.', 'The truck arrives in Mazar-i-Sharif on the third day.', 'From China to Hairatan in about a month.', 'Delivery to Afghanistan takes two to three weeks.', 'A truck to Afghanistan starts at three thousand dollars.',
       'Cargo to Afghanistan in 10–14 days', 'To Hairatan in 5–7 days', 'from $1,200 to Mazar-i-Sharif', 'Delivery to Mazar-i-Sharif takes 3 days', '2 weeks to Hairatan', 'Afghanistan: from 900 USD per truck', 'The truck reaches Hairatan within 48 hours'],
     good: ['Consolidated cargo from China to Tashkent takes 15–25 days; for Afghanistan the manager calculates the time.', 'Two: from China to Afghanistan and from Uzbekistan to Afghanistan.', 'Today these are the two delivery points: Hairatan and Mazar-i-Sharif.',
       'From China to Tashkent in 15–25 days', 'The tariffs, the calculator and the transit times on this site apply to the China → Tashkent direction only.', 'Price and timing are on request: the manager calculates them for your cargo.', 'Service 10 — Afghanistan',
@@ -1132,7 +1133,7 @@ export const CLAIM_RULES = [
       '更新日期：2026年11月12日 阿富汗货运', '周一至周六 9:00–19:00 周日休息 阿富汗货运', '根据2022年12月31日第737号决议办理发往阿富汗的过境手续', '本网站公布的 1 m³ 最低起运量，适用于从中国发往塔什干的拼货。'] },
   { id: 'fa.afghanFigure', block: true, msg: FIGURE_MSG('fa'),
     re: new RegExp(beside(AFGHAN[5], either(FA_FIGURE, FA_WORDFIG), `${FA_STOP}؛;`), 'iu'),
-    bad: ['حمل به افغانستان فقط ۲۰٪ گران‌تر از تاشکند است.', 'بار ظرف یک هفته به حیرتان می‌رسد.', 'کامیون روز سوم به مزار شریف می‌رسد.', 'از چین تا حیرتان حدود یک ماه.', 'حمل به افغانستان دو تا سه هفته طول می‌کشد.', 'کرایهٔ کامیون به افغانستان از سه هزار دلار شروع می‌شود.',
+    bad: ['بار دوازده روزه به حیرتان می‌رسد.', 'حمل به افغانستان فقط ۲۰٪ گران‌تر از تاشکند است.', 'بار ظرف یک هفته به حیرتان می‌رسد.', 'کامیون روز سوم به مزار شریف می‌رسد.', 'از چین تا حیرتان حدود یک ماه.', 'حمل به افغانستان دو تا سه هفته طول می‌کشد.', 'کرایهٔ کامیون به افغانستان از سه هزار دلار شروع می‌شود.',
       'حمل بار به افغانستان در ۱۰ تا ۱۴ روز', 'تا حیرتان ۵ تا ۷ روز', 'تا مزار شریف از ۱٬۲۰۰ دلار', '۳ روز تا حیرتان', 'به افغانستان در ۲ هفته', 'تحویل ۱۰ روزه تا حیرتان'],
     good: ['بار تجمیعی از چین تا تاشکند ۱۵ تا ۲۵ روز در راه است؛ زمان حمل به افغانستان را کارشناس ما محاسبه می‌کند.', 'در دو مسیر: از چین به افغانستان و از ازبکستان به افغانستان.',
       'از چین تا تاشکند ۱۵ تا ۲۵ روز', 'تعرفه‌ها، ماشین‌حساب و زمان‌های حمل در این سایت فقط مربوط به مسیر چین ← تاشکند است.', 'قیمت و زمان با استعلام اعلام می‌شود: کارشناس ما آن‌ها را برای بار شما محاسبه می‌کند.', 'خدمت ۱۰ — افغانستان',
@@ -1379,7 +1380,7 @@ export const ZH_FA_FORBIDDEN = CLAIM_RULES;
 /** The rule families that exist in all five written languages (selfTest() fails when one of the five is missing). */
 const RULE_FAMILIES = ['persianStaff', 'destination', 'afghanFigure', 'afghanMode', 'afghanVolume', 'afghanPresence', 'afghanSchedule', 'afghanRecord', 'afghanOrigin', 'afghanAnywhere', 'afghanCustoms'];
 /** The number of bad + good sentences the claim rules carried when this floor was last raised: a guard against quietly deleted fixtures. */
-const FIXTURE_FLOOR = 1594;
+const FIXTURE_FLOOR = 1599;
 
 
 /* ── Orthography, per page language (raw text) ──────────────────────────────────────────────── */
@@ -1653,7 +1654,7 @@ export function selfTest() {
       });
     }
   }
-  // The five cities: the name alone, as a third point in a list, is stopped. (Persian «کابل» is also a cable.)
+  // The cities of TOWNS: the name alone, as a third point in a list, is stopped. (Persian «کابل» is also a cable.)
   for (const row of TOWNS) {
     PLACE_LANGS.forEach((lang, i) => {
       const rule = destination[lang === 'uzc' ? 'uz' : lang];

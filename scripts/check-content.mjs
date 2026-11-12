@@ -62,6 +62,12 @@ const blocks = (html) => blocksOf(mainMarkup(html));
  */
 const chromeMarkup = (html) => [...html.matchAll(/<(header|footer)\b[^>]*\bid="site-(?:header|footer)"[\s\S]*?<\/\1>/g)].map((m) => m[0]).join('\n')
   .replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ').replace(/<svg[\s\S]*?<\/svg>/g, ' ');
+/**
+ * The words an attribute shows or reads aloud: an image's `alt`, an `aria-label`, a `title`, a `placeholder`. strip() and
+ * blocksOf() drop them with their tags, so «Our warehouse in Tashkent» as the alt of a photo was read by no rule. Each
+ * value is one block of its own.
+ */
+const attributeTexts = (markup) => [...new Set([...markup.matchAll(/\s(?:alt|aria-label|title|placeholder)="([^"]+)"/g)].map((m) => entities(m[1]).replace(/\s+/g, ' ').trim()).filter(Boolean))];
 /** The sentences of a block: a full stop, a question or exclamation mark, a semicolon, in any script of the site. */
 const sentences = (block) => block.split(/(?<=[.!?;؟؛])\s+|(?<=[。！？；])/u).map((s) => s.trim()).filter(Boolean);
 /** llms.txt one paragraph or list item at a time: its lines are hard-wrapped, so a line is not a statement — and a list item is. */
@@ -408,7 +414,7 @@ const metaStrings = (html) => [decodeEntities((html.match(/<title>([\s\S]*?)<\/t
 /** One page-scoped rule on one text unit (normalised): the figure rule lets a sentence of the China → Tashkent route through. */
 const pageHit = (r, unit) => (r.re.test(unit) && !(r.ok && r.ok.test(unit)) ? unit.match(r.re)[0] : null);
 /** The units a page-scoped rule reads: the blocks of <main> — the cards of the related services included — or their sentences. */
-const pageUnits = (html, units) => { const list = blocksOf(mainMarkup(html)).map(normalize); return units === 'sentences' ? list.flatMap(sentences) : list; };
+const pageUnits = (html, units) => { const list = [...blocksOf(mainMarkup(html)), ...attributeTexts(mainMarkup(html))].map(normalize); return units === 'sentences' ? list.flatMap(sentences) : list; };
 /**
  * A question and its answer are two blocks: «How long does delivery to Afghanistan take?» — «Usually 5–7 days.» has
  * no name beside the figure, and on the FAQ page or the home page no page-scoped rule reads it. So wherever a
@@ -539,6 +545,8 @@ for (const file of walk(dist)) {
   const warnBefore = warn.length;
   for (const [re, msg] of FORBIDDEN) if (re.test(text) || re.test(norm)) errors.push(`${url}: ${msg}`);
   for (const msg of claimHits(norm, blocks(html).map(normalize))) errors.push(`${url}: ${msg}`);
+  // … and on the alt, aria-label and title texts of <main>, each a block of its own
+  for (const words of attributeTexts(mainMarkup(html))) for (const msg of claims(words, normalize(words))) if (!errors.includes(`${url}: ${msg}`)) errors.push(`${url}: ${msg}`);
   for (const r of PAGE_CLAIMS) {
     if (!r.pages.test(url)) continue;
     const head = [...new Set(metaStrings(html))].map(normalize); // the title and the descriptions; the JSON-LD repeats the page
@@ -554,7 +562,7 @@ for (const file of walk(dist)) {
   const chrome = chromeMarkup(html);
   if (chrome) {
     const chromeText = entities(chrome.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ');
-    for (const msg of claims(chromeText, normalize(chromeText), blocksOf(chrome).map(normalize))) {
+    for (const msg of [...claims(chromeText, normalize(chromeText), blocksOf(chrome).map(normalize)), ...attributeTexts(chrome).flatMap((words) => claims(words, normalize(words)))]) {
       const key = `${code}|${msg}`;
       if (!chromeSeen.has(key)) { chromeSeen.add(key); errors.push(`${url} (header / footer — the same on every ${code} page): ${msg}`); }
     }
