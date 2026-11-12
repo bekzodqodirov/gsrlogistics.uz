@@ -3,11 +3,14 @@
 // language leaks between the six locale trees. Keeps the site honest as content changes.
 //
 // What runs where — the page's locale comes from scripts/locales.mjs, the table every script shares:
-//   · FORBIDDEN (uz/ru/en claims) and ZH_FA_FORBIDDEN (the same business rules in Chinese and
-//     Persian, scripts/content-rules.mjs) run on EVERY page: on the <main> text, raw and
-//     normalised (Persian/Arabic-Indic/full-width digits, bidi marks, Arabic ي/ك, spaces between
-//     CJK characters — see normalize()), and on the <title>, the meta/OG/Twitter descriptions and
-//     every JSON-LD string; then once on dist/llms.txt.
+//   · FORBIDDEN (uz/ru/en claims) and CLAIM_RULES (scripts/content-rules.mjs: the same business
+//     rules in Chinese and Persian, and the rules written for all five languages and Uzbek Cyrillic
+//     at once — where GSR delivers, who answers in Persian, the Afghanistan direction) run on EVERY
+//     page: on the <main> text, raw and normalised (Persian/Arabic-Indic/full-width digits, bidi
+//     marks, Arabic ي/ك, spaces between CJK characters — see normalize()), and on the <title>, the
+//     meta/OG/Twitter descriptions and every JSON-LD string; then once on dist/llms.txt. A rule
+//     marked `block` reads the same text one block at a time (blocks(), paragraphs()): a paragraph,
+//     a heading, a list item, a table row — its window must not reach from one card into the next.
 //   · The Uzbek style rules run on uz and uzc pages only; the "Uzbek word in ru/en copy" rule on
 //     ru and en. Chinese and Persian pages get their own orthography rules instead (PAGE_RULES)
 //     and an untranslated-text check: English, Uzbek or Russian prose on a zh/fa page is an ERROR
@@ -19,20 +22,40 @@
 //     is untranslated text like any other.
 //   · Every new rule carries the sentences it must catch and the ones it must let through, and
 //     they are asserted before any page is read: a rule that misfires on its own fixtures fails
-//     the build.
+//     the build. A sentence a rule lets through is one the site may say, so it must pass every
+//     other rule as well — the uz/ru/en FORBIDDEN list included.
 import fs from 'node:fs';
 import path from 'node:path';
 import { LOCALES, LOCALE_CODES, isPending, localeOfPath, unprefixed } from './locales.mjs';
-import { ZH_FA_FORBIDDEN, PAGE_RULES, normalize, leakRuns, quotedForeign, selfTest } from './content-rules.mjs';
+import { CLAIM_RULES, PAGE_RULES, normalize, leakRuns, quotedForeign, selfTest } from './content-rules.mjs';
 import { checkWorks } from './works-blocks.mjs';
 const dist = process.argv[2] || 'dist';
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(d, e.name)) : e.name === 'index.html' ? [path.join(d, e.name)] : []);
-const strip = (html) => {
-  const main = (html.match(/<main[\s\S]*?<\/main>/) || [''])[0]
-    .replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ')
-    .replace(/<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ');
-  return main.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ');
-};
+/** The <main> element without what nobody reads: scripts, styles, inline SVG. */
+const mainMarkup = (html) => (html.match(/<main[\s\S]*?<\/main>/) || [''])[0]
+  .replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ').replace(/<svg[\s\S]*?<\/svg>/g, ' ');
+const entities = (text) => text.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ');
+const strip = (html) => entities(mainMarkup(html).replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ');
+/**
+ * Elements that do not end a statement: phrasing content, the cells of one table row ("China → Afghanistan | by
+ * truck") and the value of a term ("Truck cargo | from … /m³": <dt> starts the statement, and neither </dt> nor
+ * <dd> ends it).
+ */
+const INLINE = new Set(['a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'data', 'dd', 'del', 'dfn', 'em', 'i', 'ins', 'kbd', 'mark', 'q', 's', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'td', 'th', 'time', 'u', 'var', 'wbr']);
+/**
+ * The text of strip(), one block at a time: a paragraph, a heading, a list item, a table row, a term with its
+ * value, a caption. The rules marked `block` in content-rules.mjs read these instead of the joined text. A
+ * window of 60 characters around "Afghanistan" would otherwise reach from one card into the next: on the home
+ * page «20–35 kun» of the rail card stands right before the heading «Yangi yoʻnalish: Afgʻoniston…», and a rule
+ * that fails the build on that is a rule that gets deleted. (Two blocks are never read together: a figure in
+ * one paragraph and the place in the next pass. BLOCK_FIXTURES below pins what is one statement.)
+ */
+const blocks = (html) => entities(mainMarkup(html)
+  .replace(/<(\/?)([a-zA-Z][a-zA-Z0-9-]*)[^>]*>/g, (_, closing, name) => (INLINE.has(name.toLowerCase()) || (closing && name.toLowerCase() === 'dt') ? ' ' : '\n'))
+  .replace(/<[^>]+>/g, ' '))
+  .split('\n').map((block) => block.replace(/\s+/g, ' ').trim()).filter(Boolean);
+/** llms.txt one paragraph or list item at a time: its lines are hard-wrapped, so a line is not a statement — and a list item is. */
+const paragraphs = (txt) => txt.split(/\n\s*\n|\n(?=\s*(?:[-*#>]|\d+\.)\s)/).map((p) => p.replace(/\s+/g, ' ').trim()).filter(Boolean);
 const decodeEntities = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, '\xA0').replace(/&amp;/g, '&');
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
 const UNSEEN = new Set(['script', 'style', 'svg', 'template', 'title']);
@@ -250,24 +273,76 @@ const FORBIDDEN = [
   [/uzel(ini|i)\b/i, 'Russian loan "uzel" → "tugun"'],
   [/powerbank/i, 'powerbank → power bank'],
 ];
-// The new rules prove themselves before they judge a page. A good volume sentence must pass every rule
-// that reads a page (the zh/fa ones run on every page too).
-const volumeMisfires = [
-  ...VOLUME_FIXTURES.bad.filter((s) => !VOLUME_RULES.some(([re]) => re.test(s) || re.test(normalize(s)))).map((s) => `the volume rules miss their bad sentence: ${s}`),
-  ...VOLUME_FIXTURES.good.flatMap((s) => [
-    ...FORBIDDEN.filter(([re]) => re.test(s) || re.test(normalize(s))).map(([, msg]) => msg),
-    ...ZH_FA_FORBIDDEN.filter((r) => r.re.test(normalize(s))).map((r) => r.msg),
-  ].map((msg) => `«${msg}» fires on the good volume sentence: ${s}`)),
+/*
+ * "Our warehouse". The two rules above are as they were. Since 2026-11-11 GSR also allocates space in a warehouse
+ * under customs control in Tashkent, and that warehouse is a PARTNER's (owner) — so it is never "our warehouse"
+ * either, and «omborimiz» / «наш склад» stay banned wherever the warehouse stands. What the pages say instead is
+ * pinned here (the Chinese and Persian twins are fixtures of zh.ourWarehouse and fa.ourWarehouse).
+ */
+const WAREHOUSE_RULES = FORBIDDEN.filter(([, msg]) => msg.includes('China receiving point'));
+const WAREHOUSE_FIXTURES = {
+  bad: ['Ivudagi omborimiz', 'Toshkentdagi omborimizdan joy ajratamiz', 'наш склад в Иу', 'место на нашем складе в Ташкенте', 'our Yiwu warehouse', 'GSR Logistics’ Yiwu warehouse', 'склад GSR Logistics в Иу'],
+  good: [
+    'Toshkentdagi ombordan joy ajratamiz', 'Hamkor omboridan joy ajratamiz; yukni furadan furaga yoki ombor orqali qayta yuklaymiz.', 'hamkorimizning ombori',
+    'Ombor hamkorimizga tegishli; yuk u yerda bojxona nazorati ostida saqlanadi.', 'Ivu ombori', 'Toshkent ombori',
+    'Выделяем место на складе в Ташкенте', 'Выделяем место на складе партнёра; перегружаем груз из фуры в фуру или через склад.', 'склад партнёра',
+    'Склад принадлежит нашему партнёру; груз хранится там под таможенным контролем.',
+    'We allocate warehouse space in Tashkent', 'Space in a partner’s warehouse; transshipment truck to truck or through the warehouse.', 'a partner’s warehouse',
+    'The warehouse belongs to our partner; cargo is stored there under customs control.',
+  ],
+};
+// The new rules prove themselves before they judge a page. A sentence a rule must let through is one the site
+// may say, so it has to pass EVERY rule that reads a page: this list and the claim rules of content-rules.mjs
+// (selfTest() has checked those against one another). stoppedBy() names every rule that would stop a sentence.
+const stoppedBy = (s, norm = normalize(s)) => [
+  ...FORBIDDEN.filter(([re]) => re.test(s) || re.test(norm)).map(([, msg]) => msg),
+  ...CLAIM_RULES.filter((r) => r.re.test(norm)).map((r) => r.msg),
 ];
-const misfires = [...selfTest(), ...volumeMisfires];
+/**
+ * The claim rules of content-rules.mjs on one normalised text. A `block` rule reads `parts` — the same text one
+ * block at a time — and its excerpt is longer: what it found is two things up to 60 characters apart.
+ */
+const claimHits = (norm, parts = [norm]) => CLAIM_RULES.flatMap((r) => {
+  let found = null;
+  for (const text of r.block ? parts : [norm]) if ((found = text.match(r.re))) break;
+  return found ? [`${r.msg} — «${found[0].trim().slice(0, r.block ? 96 : 48)}»`] : [];
+});
+/*
+ * blocks() and the `block` rules together, on markup: what is one statement and what is two. Without them the
+ * first good fixture — the home page's rail card and the heading after it — fails the build on every locale.
+ */
+const BLOCK_FIXTURES = {
+  good: [
+    '<li><h3>Temir yoʻl va konteyner</h3><p>20–35 kun</p></li></ul><h3>Yangi yoʻnalish: Afgʻoniston, tranzit va ombor</h3>',
+    '<p>Rail and containers: 20–35 days</p><h3>A new direction: Afghanistan, transit and warehouse</h3>',
+    '<p class="side-line">Hairatan · Mazar-i-Sharif</p><p class="side-phone">+998 00 000 00 00</p><p>Mon–Sat 9:00–19:00</p><h3>Customs clearance</h3><p>1–3 days</p>',
+  ],
+  bad: [
+    '<table><tr><th>China → Afghanistan</th><td>by truck</td><td>12–15 days</td></tr></table>',
+    '<dl><dt>To Hairatan</dt><dd>5–7 days</dd></dl>',
+    '<p>To <strong>Mazar-i-Sharif</strong> in <span>5–7 days</span></p>',
+    '<li><span>Hayratongacha</span> <span>5–7 kun</span></li>',
+  ],
+};
+const markupHits = (html) => claimHits(normalize(strip(`<main>${html}</main>`)), blocks(`<main>${html}</main>`).map(normalize));
+const fixtureMisfires = [
+  ...VOLUME_FIXTURES.bad.filter((s) => !VOLUME_RULES.some(([re]) => re.test(s) || re.test(normalize(s)))).map((s) => `the volume rules miss their bad sentence: ${s}`),
+  ...VOLUME_FIXTURES.good.flatMap((s) => stoppedBy(s).map((msg) => `«${msg}» fires on the good volume sentence: ${s}`)),
+  ...WAREHOUSE_FIXTURES.bad.filter((s) => !WAREHOUSE_RULES.some(([re]) => re.test(s) || re.test(normalize(s)))).map((s) => `the "our warehouse" rules miss their bad sentence: ${s}`),
+  ...WAREHOUSE_FIXTURES.good.flatMap((s) => stoppedBy(s).map((msg) => `«${msg}» fires on the good warehouse sentence: ${s}`)),
+  ...CLAIM_RULES.flatMap((r) => r.good.flatMap((s) => FORBIDDEN.filter(([re]) => re.test(s) || re.test(normalize(s))).map(([, msg]) => `«${msg}» fires on the good sentence of ${r.id}: ${s}`))),
+  ...BLOCK_FIXTURES.good.flatMap((html) => markupHits(html).map((msg) => `a block rule reads two blocks as one — «${msg}» on: ${html}`)),
+  ...BLOCK_FIXTURES.bad.filter((html) => !markupHits(html).length).map((html) => `the block rules miss one block: ${html}`),
+];
+const misfires = [...selfTest(), ...fixtureMisfires];
 if (misfires.length) {
-  console.error(`check-content: ${misfires.length} guard rule(s) fail their own fixtures (scripts/content-rules.mjs, VOLUME_FIXTURES in scripts/check-content.mjs):\n  ${misfires.join('\n  ')}`);
+  console.error(`check-content: ${misfires.length} guard rule(s) fail their own fixtures (scripts/content-rules.mjs; VOLUME_FIXTURES, WAREHOUSE_FIXTURES and BLOCK_FIXTURES in scripts/check-content.mjs):\n  ${misfires.join('\n  ')}`);
   process.exit(1);
 }
-/** Old rules on the raw text OR its normalised copy (strictly more than before); new rules on the normalised copy. */
-const claims = (raw, norm = normalize(raw)) => [
+/** Old rules on the raw text OR its normalised copy (strictly more than before); the claim rules on the normalised copy. */
+const claims = (raw, norm = normalize(raw), parts = [norm]) => [
   ...FORBIDDEN.filter(([re]) => re.test(raw) || re.test(norm)).map(([, msg]) => msg),
-  ...ZH_FA_FORBIDDEN.filter((r) => r.re.test(norm)).map((r) => `${r.msg} — «${norm.match(r.re)[0].trim().slice(0, 48)}»`),
+  ...claimHits(norm, parts),
 ];
 /** The retired second phone, however it is spaced or hyphenated. */
 const retiredPhone = (norm) => /998973333933/.test(norm.replace(/[\s\-–.()\xA0\u{202F}]/gu, ''));
@@ -292,7 +367,7 @@ for (const file of walk(dist)) {
   const errorsBefore = errors.length;
   const warnBefore = warn.length;
   for (const [re, msg] of FORBIDDEN) if (re.test(text) || re.test(norm)) errors.push(`${url}: ${msg}`);
-  for (const r of ZH_FA_FORBIDDEN) if (r.re.test(norm)) errors.push(`${url}: ${r.msg} — «${norm.match(r.re)[0].trim().slice(0, 48)}»`);
+  for (const msg of claimHits(norm, blocks(html).map(normalize))) errors.push(`${url}: ${msg}`);
   if (retiredPhone(norm) && !errors.slice(errorsBefore).some((e) => e.endsWith('retired second phone number'))) errors.push(`${url}: retired second phone number`);
   // One bot, one username, everywhere — visible text, hrefs and JSON-LD alike (so this reads the
   // raw HTML, not the stripped copy). A single wrong character hands a client to a stranger's bot.
@@ -358,8 +433,9 @@ for (const w of works.warnings) warn.push(`works: ${w}`);
 const llmsFile = path.join(dist, 'llms.txt');
 if (fs.existsSync(llmsFile)) {
   const txt = fs.readFileSync(llmsFile, 'utf8');
-  for (const msg of claims(txt)) errors.push(`llms.txt: ${msg}`);
-  if (retiredPhone(normalize(txt)) && !claims(txt).includes('retired second phone number')) errors.push('llms.txt: retired second phone number');
+  const found = claims(txt, normalize(txt), paragraphs(txt).map(normalize));
+  for (const msg of found) errors.push(`llms.txt: ${msg}`);
+  if (retiredPhone(normalize(txt)) && !found.includes('retired second phone number')) errors.push('llms.txt: retired second phone number');
 }
 /** How many lines to print per list (CHECK_MAX=… shows more, as in check-kirill.mjs, when one component breaks a whole locale). */
 const SHOW = Number(process.env.CHECK_MAX ?? 40);
@@ -374,5 +450,5 @@ if (pending.length) {
   if (pending.length > 40) console.log(`  … and ${pending.length - 40} more pages`);
 }
 const byLocale = LOCALE_CODES.map((c) => `${c} ${perLocale[c].errors}/${perLocale[c].warnings}`).join(' · ');
-console.log(`\nchecked ${walk(dist).length} pages · ${errors.length} errors · ${warn.length} warnings (errors/warnings per locale: ${byLocale}) · ${ZH_FA_FORBIDDEN.length} zh/fa claim rules passed their fixtures${pending.length ? ` · ${pending.length} pending-locale pages with untranslated text` : ''}\n${works.summary}`);
+console.log(`\nchecked ${walk(dist).length} pages · ${errors.length} errors · ${warn.length} warnings (errors/warnings per locale: ${byLocale}) · ${CLAIM_RULES.length} claim rules passed their fixtures${pending.length ? ` · ${pending.length} pending-locale pages with untranslated text` : ''}\n${works.summary}`);
 process.exit(errors.length ? 1 : 0);

@@ -4,6 +4,17 @@
  * src/data/services/<key>.content.ts; when that file is missing it falls back to the
  * short copy in src/data/services.ts so the build never fails.
  * Props: { lang, service, content? }.
+ *
+ * Two kinds of page, decided by the registry (`ServiceMeta.quote`):
+ *   · a tariff page (the nine China → Tashkent services): calculator button, "Estimate · Updated" captions,
+ *     the "Price and time" sticky card with its headline figure, Telegram + phone in the closing band;
+ *   · an on-request page (`quote: 'request'` — cargo to Afghanistan, transit documents, the warehouse under
+ *     customs control): no price or transit time is published for it, and the calculator prices China →
+ *     Tashkent only, so the page links to no calculator and prints no estimate caption. Its buttons are
+ *     Telegram and WhatsApp, the two channels these clients are told to use. See `onRequest` below.
+ *     The phone bar follows: Base.astro's bar (Telegram · call · price calculator) is switched off with the
+ *     layout's own `hideMobileBar`, and the page renders the bar itself with WhatsApp in the calculator's place
+ *     (`bodyClass` keeps the body's bottom padding for it).
  */
 import { langMeta, pick, type Locale } from '@/i18n/config';
 import { common } from '@/i18n/common';
@@ -12,8 +23,8 @@ import { pagePath, itemPath, itemUrl, subFor } from '@/i18n/routes';
 import { services, serviceByKey, serviceSubs, type ServiceMeta } from '@/data/services';
 import type { ServiceContent, ServiceSection } from '@/data/services/types';
 import { guideSlugs } from '@/data/guides';
-import { site, phoneUrl } from '@/lib/site';
-import { leadAttrs, serviceTeam, telegramFor } from '@/lib/leads';
+import { site, phoneUrl, whatsappChat } from '@/lib/site';
+import { BIDI_CONTROLS, leadAttrs, serviceTeam, telegramFor } from '@/lib/leads';
 import { colon, fmtDate, fmtInt, fmtNumRange, sep } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
 import tariffs from '@/data/tariffs.json';
@@ -22,6 +33,7 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Eyebrow from '@/components/ui/Eyebrow.astro';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
+import MobileBar from '@/components/MobileBar.astro';
 
 /**
  * `content` arrives ALREADY RESOLVED to one locale — the page reads `getServiceContent(key)` and
@@ -40,6 +52,14 @@ const indexLabel = fmtInt(index, lang, 2);
 const updatedIso = content?.updated ?? tariffs.updated;
 const updated = fmtDate(updatedIso, lang);
 const estimateMeta = `${c.strings.estimateMeta}${colon(lang)}${fmtDate(tariffs.updated, lang)}`;
+/**
+ * No tariff is published for this service (owner, 2026-11-11: price, transit time and the smallest lot are on
+ * request). Everything below that would print a price caption, a headline figure or a calculator link asks this
+ * first. A tariff page must render exactly as it did before this switch existed — which is why each button in the
+ * markup is its own `onRequest ? … : …` expression, standing where its element stood: wrapping a pair of buttons
+ * in a fragment changed the white space between them on the nine tariff pages.
+ */
+const onRequest = service.quote === 'request';
 
 /* ---------- Resolve page model (content or fallback) ---------- */
 const fb = t.page.fallback;
@@ -60,14 +80,24 @@ const team = serviceTeam[service.key];
 const tgHref = telegramFor(team, cta.draft, Astro.url.pathname);
 /** With JavaScript: GSR's system picks the team's manager, filed under the service's Uzbek slug. */
 const tgLead = leadAttrs(team, service.slug.uz, name);
+/**
+ * On-request pages: WhatsApp with the page's own draft (`cta.draft`), opened in a new tab by Button like every
+ * external link. A plain link — no team, topic or code goes with it. Bidi controls never leave the site in a
+ * message (see lib/leads.ts); the ZWNJ of Persian words is not one of them and stays.
+ */
+const waHref = whatsappChat(cta.draft.replace(BIDI_CONTROLS, '').trim());
 const daysFor: Partial<Record<string, [number, number]>> = { truck: tariffs.truck.days as [number, number], air: tariffs.air.days as [number, number], rail: tariffs.rail.days as [number, number] };
 const days = daysFor[service.key];
 /** A figure in ASCII or Persian digits (a fa fact reads "۱۵ تا ۲۵"). */
 const DIGIT = /[0-9۰-۹]/;
 const digitFact = facts.find((f) => DIGIT.test(f.value));
-const stickyStat = days
+/* An on-request page has no headline figure, whatever its facts say: a digit in a fact there is not a price or a
+   transit time, and the card's label already reads "price and timing — on request". */
+const stickyStat = onRequest ? undefined : days
   ? { value: fmtNumRange(days[0], days[1], lang), unit: t.line.days, label: t.page.stickyDays }
   : digitFact ? { value: digitFact.value, unit: '', label: digitFact.label } : undefined;
+/* Under a table: its own note, else the "Estimate · Updated" caption — which an on-request page never prints. */
+const tableNote = (note?: string) => note ?? (onRequest ? undefined : estimateMeta);
 const numberLine = serviceNumberLine(lang, service.key);
 const subs = serviceSubs(service);
 const pageAbs = itemUrl(site.url, lang, 'services', service.slug);
@@ -97,7 +127,7 @@ const offers = service.key === 'truck'
         ? [{ price: site.sourcingCommissionPct, percent: true, unitText: '% of the order value', validThrough: tariffs.validThrough, description: 'buying-agent commission, from' }]
         : undefined;
 const jsonLd: Array<Record<string, unknown>> = [
-  serviceNode(lang, { name, description: seoDescription, url: pageAbs, serviceType: service.name.en, offers }),
+  serviceNode(lang, { name, description: seoDescription, url: pageAbs, serviceType: service.name.en, offers, areaServed: service.area }),
   ...(faq.length ? [faqNode(faq)] : []),
 ];
 
@@ -115,6 +145,11 @@ const isNumeric = (s: string) => /^[\s\d۰-۹.,٫٬–\-−+~≈$%٪€₽/×÷]
 const rtl = langMeta[lang].dir === 'rtl';
 const ltrCell = (s: string) => rtl && /[A-Za-z]/.test(s) && !/[\u0600-\u06FF]/.test(s);
 const fitsTable = (head: string[]) => head.length < 3;
+/* On phones global.css end-aligns the value column of every 2-column table: right for a price ("1 $/kg"), ragged
+   for a sentence. An on-request page has no price tables — its 2-column tables are a term and its description — so
+   there the value cell reads from the start. Inline on the cell, and absent on a tariff page, so the stylesheet
+   shared with the nine tariff pages stays the same file. */
+const proseCell = (head: string[]) => (onRequest && fitsTable(head) ? 'text-align:start' : undefined);
 /* zh (decided here too, so the other locales render byte-identical):
    - a fact value is "long" by its width, a Han character counting as two Latin ones: «110 美元/m³ 起» (11 characters)
      stayed at 36px, wrapped and tore «美 / 元»;
@@ -129,7 +164,7 @@ const numCol = (rows: string[][], ci: number) => ci > 0 && rows.every((r) => !r[
 const slugify = (_s: string, i: number) => `s-${i + 1}`;
 const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? 'check-circle' : 'info');
 ---
-<Base lang={lang} title={seoTitle} description={seoDescription} pageKey="services" subs={subs} breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={updatedIso}>
+<Base lang={lang} title={seoTitle} description={seoDescription} pageKey="services" subs={subs} breadcrumbs={breadcrumbs} jsonLd={jsonLd} dateModified={updatedIso} hideMobileBar={onRequest} bodyClass={onRequest ? 'has-mobile-bar' : undefined}>
   <article class="page">
     <header class="hero">
       <div class="container">
@@ -138,8 +173,12 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
         <h1 class="display-2 measure-head">{h1}</h1>
         <p class="intro answer">{intro}</p>
         <div class="cta-row">
-          <Button href={pagePath(lang, 'calculator')} variant="primary">{c.cta.calculate}</Button>
-          <Button href={tgHref} variant="secondary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
+          {onRequest
+            ? <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
+            : <Button href={pagePath(lang, 'calculator')} variant="primary">{c.cta.calculate}</Button>}
+          {onRequest
+            ? <Button href={waHref} variant="secondary" icon="whatsapp">{c.cta.whatsapp}</Button>
+            : <Button href={tgHref} variant="secondary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>}
         </div>
       </div>
     </header>
@@ -154,7 +193,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
             </li>
           ))}
         </ul>
-        <p class="caption facts-meta">{estimateMeta}</p>
+        <p class="caption facts-meta">{onRequest ? t.page.requestMeta : estimateMeta}</p>
       </div>
     </div>
 
@@ -192,12 +231,12 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
                     </thead>
                     <tbody>
                       {sec.table.rows.map((r) => (
-                        <tr>{r.map((cell, ci) => ci === 0 ? <th scope="row">{ltrCell(cell) ? <span dir="ltr">{cell}</span> : cell}</th> : <td class:list={[(zh ? numCol(sec.table!.rows, ci) : isNumeric(cell)) && 'num', zh && isNumeric(cell) && 'fig']}>{ltrCell(cell) ? <span dir="ltr">{cell}</span> : cell}</td>)}</tr>
+                        <tr>{r.map((cell, ci) => ci === 0 ? <th scope="row">{ltrCell(cell) ? <span dir="ltr">{cell}</span> : cell}</th> : <td class:list={[(zh ? numCol(sec.table!.rows, ci) : isNumeric(cell)) && 'num', zh && isNumeric(cell) && 'fig']} style={proseCell(sec.table!.head)}>{ltrCell(cell) ? <span dir="ltr">{cell}</span> : cell}</td>)}</tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-                <p class="caption tbl-meta">{sec.table.note ?? estimateMeta}</p>
+                {tableNote(sec.table.note) && <p class="caption tbl-meta">{tableNote(sec.table.note)}</p>}
               </figure>
             ) : null}
             {sec.callout ? (
@@ -233,13 +272,15 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
 
       <aside class="side">
         <div class="card side-card">
-          <p class="caption side-label">{t.page.stickyLabel}</p>
+          <p class="caption side-label">{onRequest ? t.page.requestLabel : t.page.stickyLabel}</p>
           {stickyStat && <p class="side-stat"><span class="stat">{stickyStat.value}</span>{stickyStat.unit && <span class="num-unit">{stickyStat.unit}</span>}</p>}
           {stickyStat && <p class="caption side-fact">{stickyStat.label}</p>}
           <p class="side-line tnum">{numberLine}</p>
           <div class="side-actions">
             <Button href={tgHref} variant="primary" icon="telegram" block {...tgLead}>{c.cta.telegram}</Button>
-            <Button href={pagePath(lang, 'calculator')} variant="secondary" block>{c.cta.calculate}</Button>
+            {onRequest
+              ? <Button href={waHref} variant="secondary" icon="whatsapp" block>{c.cta.whatsapp}</Button>
+              : <Button href={pagePath(lang, 'calculator')} variant="secondary" block>{c.cta.calculate}</Button>}
           </div>
           <p class="side-hint">{t.page.stickyHint}</p>
           {/* The number is the LTR island; the icon stays outside it, at the inline start. */}
@@ -291,12 +332,15 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
         <p class="intro cta-text">{cta.text}</p>
         <div class="cta-row">
           <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
-          <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>
+          {onRequest
+            ? <Button href={waHref} variant="secondary" icon="whatsapp">{c.cta.whatsapp}</Button>
+            : <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>}
         </div>
         <p class="caption cta-meta"><a href={phoneUrl} class="tnum" dir="ltr">{site.phoneDisplay}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
       </div>
     </section>
   </article>
+  {onRequest && <MobileBar lang={lang} whatsapp={waHref} />}
 </Base>
 
 <style>

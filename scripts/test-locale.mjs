@@ -212,6 +212,10 @@ const RESCUED = [
   // process.steps[].glyph, why.reasons[].glyph, segments.items[].icon — an IconName
   'box', 'calendar', 'camera', 'cart', 'chat', 'container', 'contract', 'document', 'exchange',
   'factory', 'languages', 'parcel', 'pin', 'scale',
+  // faq[].id of the FAQ group "Afghanistan, transit and warehouse" (src/data/faq.ts) — the group's anchor
+  // (#regional) and the id FaqPage.astro hangs its heading on; the one group id that is the same word in
+  // uz, ru and en (the older groups are named per language: narxlar / ceny / prices)
+  'regional',
 ];
 
 test('the "identical in all three languages" rule rescues only identifiers nobody wants transliterated', () => {

@@ -233,6 +233,10 @@ const codes: KeepLatin[] = [
   { latin: 'Incoterms', suffixable: true }, // the standard itself; its codes are above
   { latin: 'ICC' },  // International Chamber of Commerce, which publishes Incoterms
   { latin: 'CMR' },  // road consignment note
+  // TIR Carnet / the TIR Convention (transit pages, 2026-11-12). Always Latin — it is what is printed on the
+  // carnet and on the blue plate of the truck, and the site's Russian pages write TIR too. The rules would
+  // give «ТИР», which in Uzbek and Russian reads as the word for a shooting range. Never glued to a suffix.
+  { latin: 'TIR', exactCase: true },
   { latin: 'SMGS' }, // rail consignment note
   { latin: 'AWB' },  // air waybill
   { latin: 'MFN' },  // most-favoured-nation tariff
@@ -244,6 +248,10 @@ const codes: KeepLatin[] = [
 
   // Documents and systems whose names are issued in Latin.
   { latin: 'E-Contract' }, // the Uzbek foreign-trade contract registry, branded in Latin
+  // The customs information system a transit declaration is filed through (transit page). Branded in Latin:
+  // the regulation itself writes “E-Tranzit” inside Uzbek text and this site's Russian page keeps it Latin
+  // inside Cyrillic. The rules would give «Э-Транзит», a name the system does not carry.
+  { latin: 'E-Tranzit' },
   { latin: 'EEISVO', suffixable: true }, // its Uzbek acronym, used alongside E-Contract
   { latin: 'PINFL' },      // printed in Latin on the Uzbek ID card
   { latin: 'VIN', exactCase: true },
@@ -547,7 +555,7 @@ export const respell: Respell[] = [
  * `toCyrillicSlug` looks the key up before it transliterates anything. The comment on each line
  * is the word, with the letters the URL threw away.
  *
- * The full published slug list — 10 page slugs, 9 service slugs, 10 guide slugs — is asserted in
+ * The full published slug list — 10 page slugs, 12 service slugs, 10 guide slugs — is asserted in
  * `scripts/test-cyrillic.mjs` against both this table and the hand-written tables in
  * `src/i18n/routes.ts`, so neither side can change a live URL without the other noticing.
  *
@@ -562,6 +570,7 @@ export const slugWords: Record<string, string> = {
   tolovlari: 'тўловлари',     // toʻlovlari — customs charges
   // gʻ — same story.
   lugati: 'луғати',           // lugʻati — "Kargo lugʻati", the glossary
+  afgonistonga: 'афғонистонга', // Afgʻonistonga — "Afgʻonistonga yuk tashish"; the bare fold gives афгонистонга
   // Chinese names romanised from pinyin in the slug but written in Uzbek in the copy: the page
   // is titled "Ivu va Guanchjou bozorlari", so the Cyrillic URL follows the page, not the pinyin.
   yiwu: 'иву',                // Ivu (义乌)

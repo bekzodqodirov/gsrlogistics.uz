@@ -184,6 +184,26 @@ function uz(): FaqGroup[] {
           a: `Ivu, Guanchjou va Qashqardagi manzillar — yukingiz qabul qilinadigan qabul punktlari. Qaysi biriga joʻnatishni menejer aytadi. Har qabulda yuk suratga olinadi, sanaladi, tortiladi va oʻlchanadi, har bir qutiga QR kod yopishtiriladi — foto-hisobot Telegramga keladi.` },
       ],
     },
+    {
+      // Afghanistan, transit documents and the warehouse under customs control in Tashkent (new, 2026-11-12).
+      // Quoted on request (owner, 2026-11-11): no price and no number of days here, and no `top` item — the
+      // home page's short FAQ stays as it is. The warehouse is a partner's; Persian is answered through a translator.
+      id: 'regional', group: 'Afgʻoniston, tranzit va ombor',
+      items: [
+        { q: 'Afgʻonistonga yuk tashiysizmi va qayergacha yetkazasiz?',
+          a: `Ha, endi Afgʻonistonga ham fura bilan yuk tashiymiz — Hayraton chegara postigacha yoki Mozori Sharifgacha. Yuk Xitoydan (Oʻzbekiston orqali tranzit tartibida) yoki Oʻzbekistondan joʻnatiladi. Butun fura ham, yigʻma yuk ham olamiz. Bugungi kunda yetkazish nuqtalari shu ikkita.` },
+        { q: 'Afgʻonistonga yuk tashish qancha turadi va qancha vaqt oladi?',
+          a: `Narx va muddat — soʻrov boʻyicha: menejer ularni yukingiz boʻyicha hisoblab beradi. Buning uchun yuk nomini, hajmi yoki ogʻirligini, qayerdan va qayerga ekanini yozing. Saytdagi tariflar, kalkulyator va muddatlar faqat Xitoy → Toshkent yoʻnalishiga tegishli.` },
+        { q: 'Oʻzbekiston orqali tranzit yuk uchun qaysi hujjatlarni rasmiylashtirasiz?',
+          a: `Toʻrt ishni qilamiz: tranzit deklaratsiyasini topshiramiz, CMR va TIR hujjatlarini tayyorlab tekshiramiz, xorijiy furalarga ruxsatnoma olishda yordam beramiz va tranzit yuki uchun bojxona toʻlovlari taʼminotini (kafolatni) rasmiylashtirishda yordam beramiz. Deklaratsiyani bojxonaga oʻz bojxona brokerimiz topshiradi. Furani chegarada kutib olamiz va kuzatib qoʻyamiz. Narx — soʻrov boʻyicha.` },
+        { q: 'Toshkentda yukni saqlash yoki boshqa furaga qayta yuklash mumkinmi?',
+          a: `Ha: Toshkentda bojxona nazoratidagi ombordan mijozlarimizga joy ajratamiz va yukni qayta yuklaymiz — furadan furaga yoki ombor orqali. Ombor hamkorimizga tegishli; yuk u yerda bojxona nazorati ostida saqlanadi. Saqlash muddati va narxini menejer yukingiz boʻyicha aytadi.` },
+        { q: 'Fors yoki dari tilida yozsam boʻladimi va qayerga yozaman?',
+          a: `Ha. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz. WhatsApp (+998 90 175 78 00) yoki Telegramga yozing.` },
+        { q: 'Afgʻonistonlik tadbirkor uchun Xitoydan tovar topib, sotib olib berasizmi?',
+          a: `Ha. Xitoyda tovar topish va sotib olish xizmati afgʻonistonlik tadbirkorlar uchun ham ishlaydi: tovarni topamiz, sotib olamiz va fura bilan Hayraton yoki Mozori Sharifgacha yetkazamiz. Shartlarni menejer buyurtmadan oldin aytadi.` },
+      ],
+    },
   ];
 }
 
@@ -296,6 +316,23 @@ function ru(): FaqGroup[] {
           a: `Адреса в Иу, Гуанчжоу и Кашгаре — пункты приёма, куда поступает ваш груз. Какой из них использовать, скажет менеджер. При каждой приёмке груз фотографируют, пересчитывают, взвешивают и обмеряют, на каждую коробку клеится QR-код — фотоотчёт приходит в Telegram.` },
       ],
     },
+    {
+      id: 'regional', group: 'Афганистан, транзит и склад',
+      items: [
+        { q: 'Возите ли вы грузы в Афганистан и до какого пункта?',
+          a: `Да, теперь возим грузы фурами и в Афганистан — до пограничного перехода Хайратон или до Мазари-Шарифа. Груз отправляется из Китая (транзитом через Узбекистан) или из Узбекистана. Берём и целую фуру, и сборный груз. Сегодня точек доставки две.` },
+        { q: 'Сколько стоит перевозка в Афганистан и сколько времени она занимает?',
+          a: `Цена и срок — по запросу: менеджер считает их под ваш груз. Для расчёта напишите, что за груз, его объём или вес, откуда и куда его везти. Тарифы, калькулятор и сроки на сайте относятся только к направлению Китай → Ташкент.` },
+        { q: 'Какие документы для транзита через Узбекистан вы оформляете?',
+          a: `Четыре вещи: подаём транзитную декларацию, готовим и проверяем документы CMR и TIR, помогаем получить разрешения для иностранных фур и помогаем оформить обеспечение уплаты таможенных платежей (гарантию) для транзитного груза. Декларацию подаёт в таможню наш собственный таможенный брокер. Фуру встречаем на границе и провожаем. Цена — по запросу.` },
+        { q: 'Можно ли в Ташкенте оставить груз на хранение или перегрузить его в другую фуру?',
+          a: `Да: в Ташкенте мы выделяем клиентам место на складе под таможенным контролем и перегружаем груз — из фуры в фуру или через склад. Склад принадлежит нашему партнёру; груз хранится там под таможенным контролем. Срок и цену хранения менеджер называет под ваш груз.` },
+        { q: 'Можно ли писать на фарси или дари и куда писать?',
+          a: `Да. Если напишете на фарси или дари, ответим на фарси с помощью переводчика. Отвечаем также на английском, русском и узбекском. Пишите в WhatsApp (+998 90 175 78 00) или в Telegram.` },
+        { q: 'Найдёте и выкупите ли вы товар в Китае для предпринимателя из Афганистана?',
+          a: `Да. Поиск и выкуп товаров в Китае доступны и предпринимателям из Афганистана: находим товар, выкупаем и доставляем фурой до Хайратона или Мазари-Шарифа. Условия менеджер называет до заказа.` },
+      ],
+    },
   ];
 }
 
@@ -406,6 +443,23 @@ function en(): FaqGroup[] {
           a: `We have worked with China since 2018; the team has 15 years of experience in freight. 50–100 containers a month arrive from China in Tashkent, and we have served 400+ clients. The legal entity is Imex services LLC; on social media we are also known as GSR Group.` },
         { q: 'Are the receiving addresses in China your own warehouses?',
           a: `The addresses in Yiwu, Guangzhou and Kashgar are receiving points where your cargo is accepted. Your manager tells you which one to use. At every intake the cargo is photographed, counted, weighed and measured, and a QR code goes on every carton — the photo report lands in your Telegram.` },
+      ],
+    },
+    {
+      id: 'regional', group: 'Afghanistan, transit and warehouse',
+      items: [
+        { q: 'Do you carry cargo to Afghanistan, and how far?',
+          a: `Yes, we now also carry cargo to Afghanistan by truck — to the Hairatan border crossing or to Mazar-i-Sharif. The cargo starts in China (and crosses Uzbekistan in transit) or in Uzbekistan. We take a full truck or consolidated cargo. Today these are the two delivery points.` },
+        { q: 'What does cargo to Afghanistan cost, and how long does it take?',
+          a: `Price and timing are on request: the manager calculates them for your cargo. For the calculation, tell us what the cargo is, its volume or weight, and from where to where. The tariffs, the calculator and the transit times on this site apply to the China → Tashkent direction only.` },
+        { q: 'Which documents do you handle for transit through Uzbekistan?',
+          a: `Four things: we file the transit declaration, prepare and check the CMR and TIR documents, help foreign trucks obtain permits, and help arrange security for customs payments (a guarantee) for transit cargo. The declaration is filed at customs by our own customs broker. We meet the truck at the border and see it off. The price is on request.` },
+        { q: 'Can I store cargo in Tashkent or reload it onto another truck?',
+          a: `Yes: in Tashkent we allocate space for our clients in a warehouse under customs control and reload cargo — truck to truck or through the warehouse. The warehouse belongs to our partner; cargo is stored there under customs control. The manager names the storage time and the price for your cargo.` },
+        { q: 'Can I write in Persian or Dari, and where?',
+          a: `Yes. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek. Message us on WhatsApp (+998 90 175 78 00) or Telegram.` },
+        { q: 'Can you find and buy goods in China for an Afghan business?',
+          a: `Yes. Our sourcing and buying service in China is open to Afghan businesspeople too: we find the goods, buy them and deliver them by truck to Hairatan or Mazar-i-Sharif. The manager states the terms before the order.` },
       ],
     },
   ];
@@ -521,6 +575,23 @@ function zh(): FaqGroup[] {
           a: `义乌、广州和喀什的地址是接收您货物的收货点。具体使用哪一个，由客户经理告知。每次收货时，货物都会被拍照、清点、称重和测量，每箱都贴上二维码——照片报告会发到您的 Telegram。` },
       ],
     },
+    {
+      id: 'regional', group: '阿富汗、过境与仓储',
+      items: [
+        { q: '你们承运发往阿富汗的货物吗？能送到哪里？',
+          a: `承运，我们现在也承接发往阿富汗的汽运货物——送至海拉顿口岸或马扎里沙里夫。货物从中国起运（经乌兹别克斯坦过境），或从乌兹别克斯坦起运。整车、拼货均可承接。目前交货地点只有这两个。` },
+        { q: '发往阿富汗的运费是多少？需要多长时间？',
+          a: `价格和时效按需报价：由客户经理按您的货物核算。核算时，请告知货物品名、体积或重量，以及起运地和目的地。本网站上的运价、运费计算器和时效仅适用于中国 → 塔什干方向。` },
+        { q: '经乌兹别克斯坦过境，你们办理哪些单证？',
+          a: `四项工作：提交过境报关单，制作并审核 CMR 和 TIR 单证，协助外籍卡车办理通行许可，协助为过境货物办理海关税费担保（海关担保）。过境报关单由我们自有的报关行向海关申报。我们在口岸接车、送车。价格按需报价。` },
+        { q: '货物可以在塔什干存放，或换装到另一辆卡车上吗？',
+          a: `可以：在塔什干，我们在海关监管仓库为客户安排仓位，并办理货物换装——车对车换装，或经仓库换装。该仓库属于我们的合作方；货物在那里存放，并处于海关监管之下。存放时间和价格由客户经理根据您的货物情况告知。` },
+        { q: '可以用波斯语、达里语留言吗？发到哪里？',
+          a: `可以。您可以用波斯语或达里语来信，我们会借助翻译用波斯语回复。我们也用英语、俄语和乌兹别克语回复。请在 WhatsApp（+998 90 175 78 00）或 Telegram 上给我们留言。` },
+        { q: '你们能为阿富汗企业在中国找货并代采购吗？',
+          a: `可以。我们在中国的寻找货源和代采购服务同样面向阿富汗客商：我们找货、采购，并用卡车运至海拉顿或马扎里沙里夫。具体条件由客户经理在下单前说明。` },
+      ],
+    },
   ];
 }
 
@@ -632,6 +703,26 @@ function fa(): FaqGroup[] {
           a: `از سال ۲۰۱۸ با چین کار می‌کنیم؛ تیم ما ۱۵ سال تجربه در حمل بار دارد. ماهانه ۵۰ تا ۱۰۰ کانتینر از چین به تاشکند می‌رسد و تاکنون به بیش از ۴۰۰ مشتری خدمت داده‌ایم. شرکت ما با نام Imex services LLC ثبت شده است؛ در شبکه‌های اجتماعی با نام GSR Group هم شناخته می‌شویم.` },
         { q: 'آیا نشانی‌های تحویل در چین انبارهای خود شماست؟',
           a: `نشانی‌های ییوو، گوانگجو و کاشغر محل‌های تحویل بار هستند که بار شما در آن‌ها پذیرفته می‌شود. کارشناس شما می‌گوید از کدام‌یک استفاده کنید. در هر نوبت دریافت، از بار عکس گرفته می‌شود، شمارش، وزن‌کشی و اندازه‌گیری می‌شود و روی هر کارتن کد QR چسبانده می‌شود — گزارش تصویری به تلگرام شما می‌رسد.` },
+      ],
+    },
+    {
+      // Afghanistan, transit documents and the warehouse under customs control in Tashkent (new, 2026-11-12), translated
+      // item by item from the `regional` group of en(). This group is read first by Afghan readers, so the Afghan word
+      // stands in brackets once: کامیون (موتر باربری), انبار (گدام). The warehouse is a partner's («انبار همکار ما»), never our own.
+      id: 'regional', group: 'افغانستان، ترانزیت و انبار',
+      items: [
+        { q: 'آیا به افغانستان بار می‌برید و تا کجا؟',
+          a: `بله، اکنون با کامیون (موتر باربری) به افغانستان هم بار می‌بریم — تا گذرگاه مرزی حیرتان یا تا مزار شریف. بار از چین (به‌صورت ترانزیت از خاک ازبکستان) یا از ازبکستان فرستاده می‌شود. هم کامیون دربست داریم و هم بار تجمیعی. امروز نقاط تحویل همین دو جاست.` },
+        { q: 'هزینهٔ حمل بار به افغانستان چقدر است و چقدر طول می‌کشد؟',
+          a: `قیمت و زمان با استعلام اعلام می‌شود: کارشناس ما آن‌ها را برای بار شما محاسبه می‌کند. برای محاسبه بنویسید بار چیست، حجم یا وزن آن چقدر است و از کجا به کجا می‌رود. تعرفه‌ها، ماشین‌حساب و زمان‌های حمل در این سایت فقط مربوط به مسیر چین ← تاشکند است.` },
+        { q: 'برای ترانزیت از خاک ازبکستان چه اسنادی را آماده می‌کنید؟',
+          a: `چهار کار: اظهارنامهٔ ترانزیت را ثبت می‌کنیم، اسناد CMR و TIR را تهیه و بررسی می‌کنیم، در گرفتن مجوز تردد برای کامیون‌های خارجی کمک می‌کنیم و در فراهم کردن تضمین پرداخت‌های گمرکی (ضمانت) برای بار ترانزیتی کمک می‌کنیم. اظهارنامه را کارگزار گمرکی خودمان در گمرک ثبت می‌کند. در مرز به استقبال کامیون می‌رویم و آن را راهی می‌کنیم. قیمت با استعلام است.` },
+        { q: 'آیا می‌توانم بار را در تاشکند نگه دارم یا به کامیون دیگری منتقل کنم؟',
+          a: `بله: در تاشکند در انباری (گدام) تحت نظارت گمرک برای مشتریانمان جا اختصاص می‌دهیم و بار را جابه‌جا می‌کنیم — از کامیون به کامیون یا از راه انبار. این انبار متعلق به همکار ماست؛ بار در آنجا تحت نظارت گمرک نگهداری می‌شود. مدت نگهداری و قیمت را کارشناس ما برای بار شما اعلام می‌کند.` },
+        { q: 'آیا می‌توانم به فارسی یا دری بنویسم، و کجا؟',
+          a: `بله. اگر به فارسی یا دری بنویسید، با کمک مترجم به فارسی پاسخ می‌دهیم. به انگلیسی، روسی و ازبکی هم پاسخ می‌دهیم. در WhatsApp (+998 90 175 78 00) یا Telegram به ما پیام دهید.` },
+        { q: 'آیا برای تاجری از افغانستان در چین کالا پیدا می‌کنید و می‌خرید؟',
+          a: `بله. خدمت یافتن و خرید کالا در چین برای تاجران افغانستان هم ارائه می‌شود: کالا را پیدا می‌کنیم، می‌خریم و با کامیون تا حیرتان یا مزار شریف می‌رسانیم. شرایط را کارشناس ما پیش از سفارش اعلام می‌کند.` },
       ],
     },
   ];

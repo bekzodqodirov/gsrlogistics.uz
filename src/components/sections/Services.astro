@@ -13,10 +13,16 @@
  *      list on hairlines, no card, no glyph tile.
  * Nothing is removed: every service still links to its own page.
  *
+ * Since 2026-11-12 a fourth group sits between tiers 2 and 3: the new direction — cargo to Afghanistan,
+ * transit documents in Uzbekistan, the warehouse under customs control in Tashkent. It is the only group
+ * here that is not the China → Tashkent business, so it has its own sub-head (which says "price and timing
+ * on request") and its three services leave the long tail, whose sub-head reads "the rest of the work
+ * around your cargo". Same quiet row markup as the tail: it is a list of three links, not three cards.
+ *
  * The flagship carries the owner's own loading photograph — see `flagshipPhoto`. Props: { lang }.
  */
 import { pick, type Locale } from '@/i18n/config';
-import { servicesStrings, serviceNumberLine, tpl } from '@/i18n/services';
+import { servicesStrings, serviceGroups, serviceNumberLine, tpl } from '@/i18n/services';
 import { itemPath } from '@/i18n/routes';
 import { services, type ServiceMeta } from '@/data/services';
 import { fmtDate, fmtNumber } from '@/lib/format';
@@ -35,8 +41,10 @@ const href = (s: ServiceMeta) => itemPath(lang, 'services', s.slug);
 const flagship = services.find((s) => s.flagship) ?? services[0];
 const modeKeys = ['air', 'rail'] as const;
 const modes = modeKeys.map((k) => services.find((s) => s.key === k)).filter((s): s is ServiceMeta => !!s);
+/* The new direction: the same three services, in the same order, as the services index's `regional` group. */
+const regional = (serviceGroups.find((g) => g.id === 'regional')?.keys ?? []).map((k) => services.find((s) => s.key === k)).filter((s): s is ServiceMeta => !!s);
 /* Everything that is not moving the cargo itself, in registry order. */
-const tail = services.filter((s) => s !== flagship && !modes.includes(s));
+const tail = services.filter((s) => s !== flagship && !modes.includes(s) && !regional.includes(s));
 
 const compare = [
   { key: 'truck', icon: 'truck', name: pick(lang, services.find((s) => s.key === 'truck')!.name), days: range(tariffs.truck.days[0], tariffs.truck.days[1]), fit: t.home.compare.truck },
@@ -144,6 +152,30 @@ const flagshipPhoto = loadingShot as typeof loadingShot | null;
         </ul>
       </div>
     </div>
+
+    {/* Between the two: the new direction (Afghanistan, transit documents, the warehouse under customs control). */}
+    {regional.length > 0 && (
+      <div class="group">
+        <div class="group-head">
+          <h3 class="group-title">{t.home.regional.title}</h3>
+          <p class="group-text">{t.home.regional.text}</p>
+        </div>
+        <ul class="tail" role="list" aria-label={t.home.regional.listLabel}>
+          {regional.map((s) => (
+            <li>
+              <a href={href(s)} class="tail-row">
+                <Icon name={s.icon} size={20} class="tail-glyph" />
+                <span class="tail-body">
+                  <span class="tail-name">{pick(lang, s.name)}</span>
+                  <span class="tail-text">{pick(lang, s.short)}</span>
+                </span>
+                <span class="chev" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
 
     <!-- 3 — the long tail, as a list rather than six more cards -->
     <div class="group">

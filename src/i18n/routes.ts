@@ -40,8 +40,9 @@ export type PageKey = keyof typeof routeSlugs;
 
 /**
  * Cyrillic slugs of the SERVICE pages, keyed by the Uzbek Latin slug in `src/data/services.ts`.
- * Checked by eye: `temir-yol-konteyner` is `Temir yoʻl konteyner` → `темир-йўл-контейнер`, and
- * `avtomobil-importi` is `Avtomobil importi` → `автомобиль-импорти` (soft sign, as in the word).
+ * Checked by eye: `temir-yol-konteyner` is `Temir yoʻl konteyner` → `темир-йўл-контейнер`,
+ * `avtomobil-importi` is `Avtomobil importi` → `автомобиль-импорти` (soft sign, as in the word), and
+ * `afgonistonga-yuk-tashish` is `Afgʻonistonga yuk tashish` → `афғонистонга-юк-ташиш` (ғ: the URL dropped the ʻ).
  */
 export const serviceSlugsUzc: Record<string, string> = {
   'avto-kargo': 'авто-карго',
@@ -53,6 +54,9 @@ export const serviceSlugsUzc: Record<string, string> = {
   bojxona: 'божхона',
   'ombor-sifat-nazorati': 'омбор-сифат-назорати',
   'avtomobil-importi': 'автомобиль-импорти',
+  'afgonistonga-yuk-tashish': 'афғонистонга-юк-ташиш',
+  'tranzit-hujjatlari': 'транзит-ҳужжатлари',
+  'bojxona-ombori': 'божхона-омбори',
 };
 
 /**

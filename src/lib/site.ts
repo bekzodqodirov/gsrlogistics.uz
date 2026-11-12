@@ -171,5 +171,13 @@ export const telegramChat = (text?: string) => text ? `${site.telegramDirect}?te
 export const facebookUrl = `https://facebook.com/${site.facebook}`;
 export const phone2Url = `tel:${site.phone2E164}`;
 export const whatsappUrl = `https://wa.me/${site.whatsapp}`;
+/**
+ * WhatsApp chat with a prefilled draft — the twin of `telegramChat`, for the on-request service pages
+ * (cargo to Afghanistan, transit documents, the warehouse under customs control), whose clients are told to
+ * write on WhatsApp or Telegram. User-initiated like every chat link: WhatsApp opens with the text and the
+ * visitor presses send; the site sends and stores nothing. No team, topic or code travels with it — GSR's
+ * lead system (lib/lead-client.ts) builds Telegram links only.
+ */
+export const whatsappChat = (text?: string) => text ? `${whatsappUrl}?text=${encodeURIComponent(text)}` : whatsappUrl;
 export const phoneUrl = `tel:${site.phoneE164}`;
 export const instagramUrl = `https://instagram.com/${site.instagram}`;

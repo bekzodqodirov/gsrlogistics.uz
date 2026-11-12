@@ -1,16 +1,22 @@
 /**
- * The Chinese and Persian content guards of scripts/check-content.mjs, with the sentences that prove
- * each one works. check-content.mjs runs `selfTest()` before it reads a single page and fails the
- * build if any rule misfires on its own fixtures — nobody can eyeball a Persian or Chinese regex,
- * so every rule carries the sentences it must catch (`bad`) and the ones it must let through
- * (`good`), the denial wording of the claim among them ("this is not a real-time position").
+ * The content guards of scripts/check-content.mjs that carry the sentences proving each one works.
+ * check-content.mjs runs `selfTest()` before it reads a single page and fails the build if any rule
+ * misfires on its own fixtures — nobody can eyeball a Persian or Chinese regex, so every rule carries
+ * the sentences it must catch (`bad`) and the ones it must let through (`good`), the denial wording of
+ * the claim among them ("this is not a real-time position"). A `good` sentence is one the site may
+ * say, so it has to pass EVERY rule, not only its own.
  *
- *   ZH_FA_FORBIDDEN  business claims (GLOSSARY.md §1.4 and the owner's rules behind the uz/ru/en
- *                    FORBIDDEN list): run on EVERY page, on normalised text — Chinese and Persian
- *                    text can appear anywhere (the China addresses are on every locale).
- *   PAGE_RULES       orthography of one language: run on that language's pages only, on the RAW
- *                    text (normalising would hide exactly what they look for).
- *   leakRuns()       untranslated English / Uzbek / Russian prose on a zh or fa page.
+ *   CLAIM_RULES   business claims: run on EVERY page, on normalised text — any language can appear on
+ *                 any page (the China addresses are on every locale). Most are the Chinese and Persian
+ *                 twins of the uz/ru/en FORBIDDEN list in check-content.mjs (GLOSSARY.md §1.4 and the
+ *                 owner's rules behind that list; ids zh.* and fa.*). The rules written since
+ *                 2026-11-12 exist in all five languages and in Uzbek Cyrillic at once (ids uz.*, ru.*,
+ *                 en.*, zh.*, fa.*): where GSR delivers, who answers in Persian, and what may be said
+ *                 about the Afghanistan direction. A rule marked `block` reads one block of a page at a
+ *                 time (a paragraph, a heading, a list item, a table row) instead of the joined text.
+ *   PAGE_RULES    orthography of one language: run on that language's pages only, on the RAW text
+ *                 (normalising would hide exactly what they look for).
+ *   leakRuns()    untranslated English / Uzbek / Russian prose on a zh or fa page.
  *
  * All new expressions use the `u` flag and Unicode property escapes. Code points are written
  * \u{…}; Persian and Chinese letters are written as themselves.
@@ -76,12 +82,476 @@ const FA_COUNT = `(?!50${FA_TO}100(?![\\d+]))(?<![\\d.,+]|\\d${FA_TO})\\d{1,5}(?
 const FA_WORDNUM = '(?:ده[\\s\\p{Cf}]?ها|صدها|هزاران)\\s';
 const FA_VOLUME = new RegExp(`(?<![\\d+])(?:\\+\\s?\\d{1,5}|\\d{1,5}\\s?\\+)\\s?${FA_BOX}|(?:صدها|هزاران)\\s${FA_BOX}|${FA_MONTH}[^.؟!?]{0,20}?(?:${FA_COUNT}|${FA_WORDNUM})${FA_BOX}|(?:${FA_COUNT}|${FA_WORDNUM})${FA_BOX}[^.؟!?]{0,20}?${FA_MONTH}`, 'iu');
 
+/* ── Where GSR delivers; who answers in Persian; the Afghanistan direction ────────────────────── */
+
+/*
+ * What the site may say since 2026-11-12 (the owner's answers of 2026-11-11): GSR delivers in Uzbekistan and — by
+ * truck only, price and time on request — to two points in Afghanistan, Hairatan and Mazar-i-Sharif. No other
+ * country is served — not Iran, not Kazakhstan, not Russia — and no other Afghan city. Nobody at GSR speaks
+ * Persian or Dari: a Persian message is answered in Persian with the help of a translator.
+ *
+ * These rules exist in all five written languages and in Uzbek Cyrillic (the /kirill/ pages are the Uzbek text
+ * transliterated, so every Uzbek rule carries its Cyrillic twin). The place names are kept in the three tables
+ * below (ON_ROUTE, ELSEWHERE — its five cities are listed first, as TOWNS — and SERVED), one row per place and one column per language — uz, uzc, ru, en, zh, fa — so that the six lists cannot
+ * drift apart: a place is added, or leaves when the owner confirms it, in ONE row. A cell holds the spellings of
+ * the name as plain text, separated by " / ":
+ *
+ *   uz   the bare name; the rule adds the ending (-ga, -gacha). ʻ stands for any apostrophe or none
+ *        (Qozogʻiston, Qozog'iston, Qozogiston).
+ *   uzc  what src/lib/cyrillic.ts prints for each uz spelling (checked with toCyrillic).
+ *   ru   each spelling with its preposition — «в Иран», «до Ирана» — because the case decides: «доставка в Россию»
+ *        names a destination, «перевозки в России» (in Russia) does not. A bare spelling (Россия) is the form after
+ *        an arrow, where it differs.
+ *
+ * A row that is a column short stops the build. selfTest() then tries every spelling of every row in the plainest
+ * claim of its language ("We deliver to …"): the rule must reach each one — its ending, its word boundary, a
+ * name of two words — or that language is free to make the claim.
+ */
+const AP = "[ʻʼ'’‘`]";
 /**
+ * The two countries a China → Tashkent route crosses. Route copy names them all the time — "across Kazakhstan",
+ * "the China–Kazakhstan border", "from China into Kazakhstan" — so for them only a statement that GSR SENDS
+ * cargo there is a claim ("we deliver to Kazakhstan", "cargo to Kyrgyzstan").
+ */
+const ON_ROUTE = [
+  ['Qozogʻiston', 'Қозоғистон', 'в Казахстан / до Казахстана', 'Kazakhstan', '哈萨克斯坦', 'قزاقستان'],
+  ['Qirgʻiziston', 'Қирғизистон', 'в Кыргызстан / до Кыргызстана / в Киргизию / до Киргизии / Киргизия', 'Kyrgyzstan', '吉尔吉斯斯坦', 'قرقیزستان / قرغیزستان / قرغزستان'],
+];
+/**
+ * The five cities among the places GSR does not deliver to: the Afghan ones other than Hairatan and
+ * Mazar-i-Sharif, and Tehran and Mashhad. The site has no other business with them, so their NAME is a claim
+ * wherever it stands — a third delivery point in a list ("Hairatan · Mazar-i-Sharif · Kabul"), an answer without
+ * a verb ("to one of two points: Tehran or Mashhad") — unless the sentence denies it or asks.
+ */
+const TOWNS = [
+  ['Kobul / Qobul', 'Кобул / Қобул', 'в Кабул / до Кабула', 'Kabul', '喀布尔', 'کابل'],
+  ['Hirot / Herot', 'Ҳирот / Ҳерот', 'в Герат / до Герата', 'Herat', '赫拉特', 'هرات'],
+  ['Qandahor / Kandagar', 'Қандаҳор / Кандагар', 'в Кандагар / до Кандагара', 'Kandahar / Qandahar', '坎大哈', 'قندهار / کندهار'],
+  ['Tehron / Tegeran', 'Теҳрон / Тегеран', 'в Тегеран / до Тегерана', 'Tehran / Teheran', '德黑兰', 'تهران'],
+  ['Mashhad / Meshxed', 'Машҳад / Мешхед', 'в Мешхед / до Мешхеда / в Машхад / до Машхада', 'Mashhad / Meshed', '马什哈德', 'مشهد'],
+];
+/**
+ * Everywhere else GSR does not deliver: Iran first (a country like any other here: not served), the neighbours
+ * and trade partners a wider offer invites, and the cities — the Afghan ones other than Hairatan and
+ * Mazar-i-Sharif, and Tehran and Mashhad. No route of GSR's goes near any of them, so "from China to …" and
+ * "China → …" are claims as well. A deny-list is never complete; it names what the copy is likely to say.
+ */
+const ELSEWHERE = [
+  ['Eron / Iran', 'Эрон / Иран', 'в Иран / до Ирана', 'Iran', '伊朗', 'ایران'],
+  ['Tojikiston', 'Тожикистон', 'в Таджикистан / до Таджикистана', 'Tajikistan', '塔吉克斯坦', 'تاجیکستان / تاجکستان'],
+  ['Turkmaniston', 'Туркманистон', 'в Туркменистан / до Туркменистана / в Туркмению / до Туркмении / Туркмения', 'Turkmenistan', '土库曼斯坦', 'ترکمنستان'],
+  ['Pokiston', 'Покистон', 'в Пакистан / до Пакистана', 'Pakistan', '巴基斯坦', 'پاکستان'],
+  ['Rossiya', 'Россия', 'в Россию / до России / Россия', 'Russia', '俄罗斯', 'روسیه'],
+  ['Belarus / Belorussiya', 'Беларус / Белоруссия', 'в Беларусь / до Беларуси / в Белоруссию / до Белоруссии / Белоруссия', 'Belarus', '白俄罗斯', 'بلاروس'],
+  ['Ozarbayjon', 'Озарбайжон', 'в Азербайджан / до Азербайджана', 'Azerbaijan', '阿塞拜疆', 'آذربایجان'],
+  ['Gruziya', 'Грузия', 'в Грузию / до Грузии / Грузия', 'Georgia', '格鲁吉亚', 'گرجستان'],
+  ['Armaniston', 'Арманистон', 'в Армению / до Армении / Армения', 'Armenia', '亚美尼亚', 'ارمنستان'],
+  ['Turkiya', 'Туркия', 'в Турцию / до Турции / Турция', 'Turkey / Türkiye', '土耳其', 'ترکیه'],
+  ['Iroq', 'Ироқ', 'в Ирак / до Ирака', 'Iraq', '伊拉克', 'عراق'],
+  ['BAA / Birlashgan Arab Amirliklari', 'БАА / Бирлашган Араб Амирликлари', 'в ОАЭ / до ОАЭ / в Эмираты / до Эмиратов', 'the UAE / UAE / the Emirates', '阿联酋', 'امارات'],
+  ['Dubay', 'Дубай', 'в Дубай / до Дубая', 'Dubai', '迪拜', 'دبی'],
+  ['Hindiston', 'Ҳиндистон', 'в Индию / до Индии / Индия', 'India', '印度', 'هند / هندوستان'],
+  ['Moʻgʻuliston / Mongoliya', 'Мўғулистон / Монголия', 'в Монголию / до Монголии / Монголия', 'Mongolia', '蒙古', 'مغولستان'],
+  ['Yevropa / Evropa / Yevropa Ittifoqi / Evropa Ittifoqi', 'Европа / Эвропа / Европа Иттифоқи / Эвропа Иттифоқи', 'в Европу / до Европы / Европа / в Евросоюз / до Евросоюза / в ЕС / до ЕС', 'Europe / the EU / the European Union', '欧洲 / 欧盟', 'اروپا'],
+  ...TOWNS,
+];
+/** What GSR does deliver to (with Tashkent and Termez), as it stands beside a not-served place in a list: "to Afghanistan and Iran". */
+const SERVED = [
+  ['Afgʻoniston', 'Афғонистон', 'в Афганистан / до Афганистана', 'Afghanistan', '阿富汗', 'افغانستان'],
+  ['Oʻzbekiston', 'Ўзбекистон', 'в Узбекистан / до Узбекистана', 'Uzbekistan', '乌兹别克斯坦', 'ازبکستان'],
+  ['Hayraton', 'Ҳайратон', 'в Хайратон / до Хайратона', 'Hairatan / Hayratan / Hairaton', '海拉顿', 'حیرتان'],
+  ['Mozori Sharif / Mozori-Sharif', 'Мозори Шариф / Мозори-Шариф', 'в Мазари-Шариф / до Мазари-Шарифа', 'Mazar-i-Sharif / Mazar-e-Sharif / Mazar-i Sharif / Mazar-e Sharif', '马扎里沙里夫', 'مزار شریف / مزارشریف'],
+  ['Toshkent', 'Тошкент', 'в Ташкент / до Ташкента', 'Tashkent', '塔什干', 'تاشکند'],
+  ['Termiz', 'Термиз', 'в Термез / до Термеза', 'Termez', '铁尔梅兹', 'ترمذ'],
+];
+const PLACE_TABLES = { ON_ROUTE, ELSEWHERE, SERVED };
+const PLACE_LANGS = ['uz', 'uzc', 'ru', 'en', 'zh', 'fa'];
+for (const [table, rows] of Object.entries(PLACE_TABLES)) {
+  for (const row of rows) {
+    // A row that is one column short would leave that language free to make the claim.
+    if (row.length !== PLACE_LANGS.length || row.some((cell) => typeof cell !== 'string' || !cell.trim())) {
+      throw new Error(`scripts/content-rules.mjs: the ${table} row «${row[0]}» must name its place in six columns (${PLACE_LANGS.join(', ')})`);
+    }
+  }
+}
+const spellings = (cell) => cell.split(' / ');
+/** A Russian spelling without its preposition: «в Иран» → «Иран». */
+const ruName = (spelling) => spelling.replace(/^(?:в|до) /, '');
+/** A spelling as an expression: ʻ is any apostrophe or none, a space any white space or a ZWNJ (مزار‌شریف). */
+const spelled = (name) => name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ʻ/g, `${AP}?`).replace(/ /g, '[\\s\\p{Cf}]+');
+const alternation = (names) => `(?:${[...new Set(names)].sort((a, b) => b.length - a.length).map(spelled).join('|')})`;
+/** Every spelling of one language in a table, the longest first (Yevropa Ittifoqi before Yevropa, هندوستان before هند); Russian in any case form. */
+const column = (rows, i) => alternation(rows.flatMap((row) => spellings(row[i])).map((s) => (PLACE_LANGS[i] === 'ru' ? ruName(s) : s)));
+/** The Russian spellings of a table that stand after one preposition: «в» (Иран, Россию) or «до» (Ирана, России). */
+const ruAfter = (rows, prep) => alternation(rows.flatMap((row) => spellings(row[2])).filter((s) => s.startsWith(`${prep} `)).map(ruName));
+const [UZ_UNSERVED, UZC_UNSERVED, RU_UNSERVED, EN_UNSERVED, ZH_UNSERVED, FA_UNSERVED] = PLACE_LANGS.map((_, i) => column([...ON_ROUTE, ...ELSEWHERE], i));
+const [UZ_ELSEWHERE, UZC_ELSEWHERE, RU_ELSEWHERE, EN_ELSEWHERE, ZH_ELSEWHERE, FA_ELSEWHERE] = PLACE_LANGS.map((_, i) => column(ELSEWHERE, i));
+const [UZ_SERVED, UZC_SERVED, RU_SERVED, EN_SERVED, ZH_SERVED, FA_SERVED] = PLACE_LANGS.map((_, i) => column(SERVED, i));
+// The cities by name. Russian: the form after «в» is the nominative too (Кабул, Мешхед). Persian leaves Kabul to the
+// rules that read «به / تا» before it: «کابل» is also a cable.
+const [UZ_TOWNS, UZC_TOWNS, , EN_TOWNS, ZH_TOWNS] = PLACE_LANGS.map((_, i) => column(TOWNS, i));
+const RU_TOWNS = ruAfter(TOWNS, 'в');
+const NOT_A_CABLE = (row) => row[3] !== 'Kabul';
+const FA_TOWNS = column(TOWNS.filter(NOT_A_CABLE), 5);
+const FA_UNSERVED_NAME = column([...ON_ROUTE, ...ELSEWHERE].filter(NOT_A_CABLE), 5);
+/**
+ * The Afghan names a figure or a rail / air word may not stand beside, as stems (Afgʻonistonga, афганский,
+ * Afghan) — expressions, not spellings: uz, uzc, ru, en, zh, fa.
+ */
+const AFGHAN = [`(?:Afg${AP}?on|Hayraton|Mozori)`, '(?:Афғон|Ҳайратон|Мозори)', '(?:Афган|Хайратон|Мазари)', '(?:Afghan|Ha[iy]rat[ao]n|Mazar)', '(?:阿富汗|海拉顿|马扎里沙里夫)', '(?:افغان|حیرتان|مزار[\\s\\p{Cf}]?شریف)'];
+
+/*
+ * 1. Destinations. A claim is (a) a sending verb or a cargo noun with a not-served place as its goal — "we
+ * deliver to Kazakhstan", "Eronga ham fura bilan yuk tashiymiz", «Грузы в Иран», 发往伊朗, «حمل بار به ایران»,
+ * also as the second name of a list ("to Afghanistan and Iran", «Eron va Afgʻonistonga») — or (b), for the
+ * places of ELSEWHERE only, a bare route or a direction of its own: "from China to Iran", "China → Iran", "our
+ * Iran route", «Eron yoʻnalishi», «направление Иран», 伊朗方向, «مسیر ایران» — or (c) the name of one of the five
+ * cities of TOWNS, or (d) a string that is nothing but the name of a not-served place (a value of the structured
+ * data: areaServed). The denial and the question pass
+ * ("we do not deliver to Kazakhstan", "Do you ship to Russia?"), and so does a route THROUGH a country ("via
+ * Kazakhstan", "across", "the Kazakhstan border", "→ Kazakhstan railway → Saryagash"). What a third party does
+ * is not GSR's claim either, so the verbs are those of carrying, never "exports to" (a factory exports to Europe).
+ * In a list, the last name stands after "and / or": a bare comma before it starts the next clause («в Ташкент,
+ * Казахстан мы проезжаем транзитом»).
+ */
+/** Uzbek, in either script: the place stands in the dative ("Eronga", "Tehrongacha") before the verb. */
+const uzbekDestination = (o) => {
+  const B = `(?<!${o.letter})`;
+  const E = `(?!${o.letter})`;
+  const W = `(?:${o.letter}|[\\d'’‘\`-])+`;
+  // "Eronga", "Tehron shahrigacha"; each place with its own ending — "Eronga ham, Afgʻonistonga ham"; or a list
+  // that takes one ending at its end — "Eron va Afgʻonistonga", "Eron va boshqa mamlakatlarga".
+  const dative = `${B}(?:${o.any})(?:(?:\\s+${o.city})?${o.to}(?:\\s+${o.too})?(?:${o.and}(?:${o.served}|${o.any})${o.to}(?:\\s+${o.too})?){0,3}` +
+    `|(?:${o.and}(?:${o.served}|${o.any})){0,2}${o.and}(?:${o.served}|${o.other}\\s+${W}?)${o.to})${E}`;
+  const later = `(?![^.!?]{0,60}(?:\\?|${B}(?:${o.no})${E}))`;
+  return (
+    `${dative}(?:` +
+    // a sending verb, up to five words on (never another word in -ga / -gacha: that is the next leg of a route) …
+    `(?:\\s+(?!${W}?${o.leg}${E})${W}){0,5}?\\s+(?:${o.verb})(?!${o.notVerb})` +
+    // … or the cargo itself: "Eronga yuk", "Eronga fura bilan yigʻma yuk", "Eronga ketayotgan yukni", "Eronga ikki yoʻnalish"
+    `|(?:\\s+(?:${o.withCargo})){0,3}\\s+(?:${o.cargo})(?:${o.cargoEnd})?${E}(?![^.!?]{0,40}(?:${o.denied}))` +
+    `)${later}` +
+    // "Xitoydan Eronga": from … to the place
+    `|${B}${W}?${o.from}\\s+${B}(?:${o.far})${o.to}${E}(?![^.!?]{0,60}(?:\\?|${o.denied}|${B}(?:${o.no})${E}))` +
+    // "Xitoy → Eron" (not the middle of a route)
+    `|→\\s*(?:${o.far})${E}(?![^.!?]{0,80}→)` +
+    // "Eron yoʻnalishi", "Eron yoʻnalishida yuk tashiymiz": a direction of its own
+    `|${B}(?:${o.far})\\s+(?:${o.route})${o.letter}*(?![^.!?]{0,60}(?:\\?|${o.denied}|${B}(?:${o.no})${E}))` +
+    // "Yangi yoʻnalish: Eron, tranzit va ombor"
+    `|${B}(?:${o.route})${o.letter}*\\s*[:—–-]\\s*(?:${o.far})${E}(?![^.!?]{0,60}(?:\\?|${o.denied}|${B}(?:${o.no})${E}))` +
+    // a city GSR does not deliver to, wherever it is named — unless the sentence denies or asks
+    `|${B}(?:${o.towns})${o.letter}*${o.nameOk}` +
+    // the whole string is the name: a value of the structured data
+    `|^\\s*(?:${o.any})\\s*$`
+  );
+};
+// "…maymiz, …maydi, …magan": a verb that denies, anywhere after a noun ("Eronga yuk tashimaymiz").
+const UZ_DENIED = '[a-zʻʼ]+ma(?:y(?:miz|di|siz|man|dilar)|ydigan|gan|sdan)(?![a-zʻʼ])';
+const UZC_DENIED = '[а-яёўқғҳ]+ма(?:й(?:миз|ди|сиз|ман|дилар)|йдиган|ган|сдан)(?![а-яёўқғҳ])';
+// A city of TOWNS by its name alone. Its spelling can be the same in two languages of one script — Mashhad in Uzbek
+// and English, Кандагар in Uzbek Cyrillic and Russian — and every rule reads every page, so the denial and the
+// question of BOTH languages let the name through: "We do not deliver to Mashhad", «Mashhadga yetkazmaymiz».
+const LATIN_NAME_OK = `(?<!(?:\\b(?:no|not|never|without|cannot|except|beyond)\\b|n[’']t\\b)[^.!?]{0,90})` +
+  `(?![^.!?]{0,80}(?:\\?|\\b(?:not|no|never)\\b|n[’']t\\b|${UZ_DENIED}|(?<![a-zʻʼ])(?:yo${AP}?q|emas)(?![a-zʻʼ])))`;
+const CYRILLIC_NAME_OK = '(?<!(?<![а-яёўқғҳ])(?:не|нет|ни|кроме|без)(?![а-яёўқғҳ])[^.!?]{0,90})' +
+  `(?![^.!?]{0,80}(?:\\?|(?<![а-яёўқғҳ])(?:не|нет|йўқ|эмас)(?![а-яёўқғҳ])|${UZC_DENIED}))`;
+const UZ_DEST = uzbekDestination({
+  letter: '[a-zʻʼ]', any: UZ_UNSERVED, far: UZ_ELSEWHERE, towns: UZ_TOWNS, nameOk: LATIN_NAME_OK, served: UZ_SERVED, city: 'shahri', other: 'boshqa', too: 'ham',
+  to: '(?:ga|gacha|ka|kacha|qa|qacha)', leg: '(?:ga|gacha)', from: 'dan', and: '(?:\\s*,\\s*|\\s+(?:va|hamda|yoki)\\s+)',
+  verb: `yetkaz|jo${AP}?nat|yubor|tashi|olib\\s+bor|elt|eksport\\s+qil(?=amiz|yapmiz)`,
+  // the denial ("yetkazmaymiz", "yetkazilmaydi", "yetkazib bermaymiz") and the question ("yetkazasizmi"); "tashimalar" is a noun
+  notVerb: '(?:il)?ma(?:y|s|d|g|ng)|ib\\s+ber(?:il)?ma(?:y|s|d|g|ng)|[a-zʻʼ]*mi(?![a-zʻʼ])',
+  cargo: `yuk|kargo|yo${AP}?nalish`, cargoEnd: 'ni|ning|lar|larni|ingiz|ingizni',
+  withCargo: `ham|fura\\s+bilan|yig${AP}?ma|butun|ikki|yangi|ketayotgan|boradigan|jo${AP}?natiladigan|yuboriladigan`,
+  denied: UZ_DENIED, no: `yo${AP}?q|emas`, route: `yo${AP}?nalish`,
+});
+const UZC_DEST = uzbekDestination({
+  letter: '[а-яёўқғҳ]', any: UZC_UNSERVED, far: UZC_ELSEWHERE, towns: UZC_TOWNS, nameOk: CYRILLIC_NAME_OK, served: UZC_SERVED, city: 'шаҳри', other: 'бошқа', too: 'ҳам',
+  to: '(?:га|гача|ка|кача|қа|қача)', leg: '(?:га|гача)', from: 'дан', and: '(?:\\s*,\\s*|\\s+(?:ва|ҳамда|ёки)\\s+)',
+  verb: 'етказ|жўнат|юбор|таши|олиб\\s+бор|элт|экспорт\\s+қил(?=амиз|япмиз)',
+  notVerb: '(?:ил)?ма(?:й|с|д|г|нг)|иб\\s+бер(?:ил)?ма(?:й|с|д|г|нг)|[а-яёўқғҳ]*ми(?![а-яёўқғҳ])',
+  cargo: 'юк|карго|йўналиш', cargoEnd: 'ни|нинг|лар|ларни|ингиз|ингизни',
+  withCargo: 'ҳам|фура\\s+билан|йиғма|бутун|икки|янги|кетаётган|борадиган|жўнатиладиган|юбориладиган',
+  denied: UZC_DENIED, no: 'йўқ|эмас', route: 'йўналиш',
+});
+
+const RU_E = '(?![а-яё])';
+const RU_B = '(?<![а-яё])';
+const RU_W = '[а-яё-]+';
+const RU_VERB = '(?:достав(?:им|ляем|ляет|ляется|ляются|ить|лять)|довез[ёе]м|довоз(?:им|ит)|вез[ёе]м|вез[ёе]т|везти|возим|возит|возить|привез[ёе]м|привозим|отправ(?:им|ляем|ляет|ляется|ить|лять)|перевоз(?:им|ит|ить)|перевез[ёе]м|экспортируем)';
+const RU_NOUN = '(?:доставк[аиуе]|доставкой|отправк[аиуе]|[а-яё]*перевоз(?:к[аиуе]|кой|ок)|карго|грузы?|груза|грузов|направлени[еяй])';
+const RU_ITEM = `(?:${RU_SERVED}|${RU_UNSERVED})`;
+// «в Иран», «до Тегерана» — the case its preposition takes, so not «в России» (in Russia); and the last name of a
+// list: «в Афганистан и Иран», «до Хайратона, Мазари-Шарифа и Мешхеда», «в Хайратон или в Тегеран»
+const ruTo = (rows) => {
+  const acc = ruAfter(rows, 'в');
+  const gen = ruAfter(rows, 'до');
+  const one = `(?:(?:в|во|на)\\s+${acc}|до\\s+${gen})`;
+  const list = `(?:${RU_ITEM}(?:\\s*,\\s*|\\s+(?:и|или)\\s+)(?:(?:в|во|до|на)\\s+)?){0,2}${RU_ITEM}\\s*,?\\s+(?:и|или)\\s+`;
+  return `(?:${one}|(?:в|во|на)\\s+${list}(?:${one}|${acc})|до\\s+${list}(?:${one}|${gen}))${RU_E}`;
+};
+const RU_TO_UNSERVED = ruTo([...ON_ROUTE, ...ELSEWHERE]);
+const RU_TO_ELSEWHERE = ruTo(ELSEWHERE);
+// Stands right after the verb or the noun: «не возим грузы в …», «не планируем доставку в …».
+const RU_NOT = `(?<!${RU_B}(?:не|нет)\\s(?:${RU_W}\\s){0,3}${RU_W})`;
+const RU_NOT_AFTER = `(?![^.!?]{0,40}(?:\\?|${RU_B}(?:нет|не)${RU_E}))`;
+const RU_DEST =
+  // «возим грузы фурами и в Иран», «куда его везти — в Тегеран»: a sending verb, up to six words on (never «через …»)
+  `${RU_B}${RU_VERB}${RU_E}${RU_NOT}(?:\\s+(?!(?:через|из|по|от|транзитом|не)${RU_E})${RU_W}){0,6}?\\s+(?:[—–:-]\\s+)?${RU_TO_UNSERVED}${RU_NOT_AFTER}` +
+  // «Грузы в Иран», «Доставка грузов фурой из Китая в Иран»: the noun, and only cargo words between
+  `|${RU_B}${RU_NOUN}${RU_E}${RU_NOT}(?:\\s+(?:грузы?|груза|грузов|товары?|товара|товаров|фурой|фурами|и|также|тоже|из\\s+${RU_W}(?:\\s+и(?:\\s+из)?\\s+${RU_W})?)){0,4}\\s+${RU_TO_UNSERVED}${RU_NOT_AFTER}` +
+  // «в Иран возим фурами», «до Тегерана доставляем»
+  `|${RU_B}${RU_TO_UNSERVED}(?:\\s+(?!не${RU_E})${RU_W}){0,3}?\\s+${RU_VERB}${RU_E}${RU_NOT_AFTER}` +
+  // «из Китая в Иран»
+  `|${RU_B}из${RU_NOT}\\s+${RU_W}\\s+${RU_TO_ELSEWHERE}${RU_NOT_AFTER}` +
+  // «груз, который идёт в Иран»: cargo on its way to a place no route of GSR's leads to
+  `|${RU_B}(?:ид[её]т|идут|следу[её]т|следуют|едет|едут|уходит|уходят)${RU_E}${RU_NOT}\\s+${RU_TO_ELSEWHERE}${RU_NOT_AFTER}` +
+  // «направление Иран», «по направлению Китай — Иран»
+  `|${RU_B}направлени(?:е|я|ю|и|ем)${RU_E}${RU_NOT}\\s*[:—–-]?\\s*(?:${RU_W}\\s*[—–-]\\s*)?(?:${RU_ELSEWHERE})${RU_E}${RU_NOT_AFTER}` +
+  // «Тегеран · Мешхед»: a city GSR does not deliver to, wherever it is named — unless the sentence denies or asks
+  `|${RU_B}(?:${RU_TOWNS})[а-яё]{0,3}${RU_E}${CYRILLIC_NAME_OK}` +
+  // the whole string is the name: a value of the structured data
+  `|^\\s*(?:${RU_UNSERVED})\\s*$` +
+  `|→\\s*(?:${RU_ELSEWHERE})${RU_E}(?![^.!?]{0,80}→)`;
+
+const EN_VERB = '(?:deliver(?:s|ed|ing)?|ship(?:s|ped|ping)?|send(?:s|ing)?|sent|carry|carries|carried|carrying|forward(?:s|ed|ing)?|transport(?:s|ed|ing)?|haul(?:s|ed|ing)?|dispatch(?:es|ed|ing)?|trucking)';
+const EN_NOUN = '(?:deliver(?:y|ies)|shipments?|cargo|freight|carriage|haulage|trucks?|services?|directions?)';
+const EN_ITEM = `(?:the\\s+)?(?:${EN_SERVED}|${EN_UNSERVED})(?:\\s+border(?:\\s+crossing)?)?`;
+// "to Iran", "to Afghanistan and Iran", "to the Hairatan border crossing, to Mazar-i-Sharif or to Tehran" — not "to the Kazakhstan border"
+const enTo = (P) => `(?:to|into)\\s+(?:(?:${EN_ITEM}(?:\\s*,\\s*|\\s+(?:and|or)\\s+)(?:to\\s+)?){0,2}${EN_ITEM}\\s*,?\\s+(?:and|or)\\s+(?:to\\s+)?)?(?:${P})\\b(?!\\s+(?:border|side)|[’']s\\s+border)`;
+// Stands right after the verb or the noun: "we do not deliver …", "there is no cargo service …".
+const EN_NOT = `(?<!\\b(?:not|never|no|don[’']t|doesn[’']t|cannot|can[’']t|won[’']t)\\s(?:[a-z’']+\\s){0,4}[a-z’']+)`;
+const EN_ASKS = '(?![^.!?]{0,40}\\?)';
+// "cargo to Iran is not accepted"
+const EN_NOT_AFTER = `(?![^.!?]{0,30}\\b(?:(?:is|are)\\s+not|(?:is|are)n[’']t|not)\\s+(?:accepted|offered|available|possible|served|handled|carried|delivered)\\b)`;
+const EN_DEST =
+  // "we now also carry cargo to Iran": a sending verb, up to six words on (never "via …": that is a route)
+  `\\b${EN_VERB}${EN_NOT}\\s+(?:(?!(?:via|through|across)\\b)[a-z’']+\\s+){0,6}?${enTo(EN_UNSERVED)}${EN_ASKS}` +
+  // "Cargo to Iran", "freight from China to Kyrgyzstan", "the truck service to Iran": the noun, and only cargo words between
+  `|\\b${EN_NOUN}${EN_NOT}(?:\\s+(?:cargo|freight|goods|loads?|services?|by\\s+truck|going|bound|headed|destined|from\\s+[a-z’'-]+(?:\\s+and\\s+(?:from\\s+)?[a-z’'-]+)?)){0,3}\\s+${enTo(EN_UNSERVED)}${EN_ASKS}${EN_NOT_AFTER}` +
+  // "cargo bound for Iran", "from China to Iran"
+  `|\\b(?:bound|destined|headed)${EN_NOT}\\s+for\\s+(?:${EN_ELSEWHERE})\\b${EN_ASKS}${EN_NOT_AFTER}` +
+  // "Iran-bound cargo", "our Iran route", "we serve Iran"
+  `|\\b(?:${EN_ELSEWHERE})(?:-bound\\b|\\s+(?:routes?|directions?|lanes?|corridors?|services?)\\b)${EN_NOT}${EN_ASKS}${EN_NOT_AFTER}` +
+  `|\\b(?:serve[sd]?|serving)${EN_NOT}\\s+(?:${EN_ITEM}(?:\\s*,\\s*|\\s+(?:and|or)\\s+)){0,2}(?:${EN_ELSEWHERE})\\b${EN_ASKS}` +
+  `|\\bfrom${EN_NOT}\\s+[a-z’'-]+\\s+${enTo(EN_ELSEWHERE)}${EN_ASKS}` +
+  // "A new direction: Iran, transit and warehouse"
+  `|\\b(?:directions?|routes?)${EN_NOT}\\s*[:—–-]\\s*(?:the\\s+)?(?:${EN_ELSEWHERE})\\b${EN_ASKS}` +
+  // "Tehran · Mashhad": a city GSR does not deliver to, wherever it is named — unless the sentence denies or asks
+  `|\\b(?:${EN_TOWNS})\\b${LATIN_NAME_OK}` +
+  // the whole string is the name: a value of the structured data
+  `|^\\s*(?:${EN_UNSERVED})\\s*$` +
+  `|→\\s*(?:${EN_ELSEWHERE})\\b(?![^.!?]{0,80}→)`;
+
+const ZH_STOP = '。！？!?；;';
+const ZH_VERB = '(?:运往|运到|运至|运抵|运送到|运送至|运输到|运输至|送到|送往|送至|送达|发往|发到|发至|发运到|发运至|发货到|发货至|送货到|送货至|直达|寄往|寄到|转运到|转运至|配送到|配送至|派送到|派送至)';
+const ZH_FREIGHT = '(?:货运|运输|物流|拼货|空运|陆运|汽运|铁路运输|专线|货物)';
+// Stands right after the verb or the place, and reads back over it: 我们不运往…, 目前没有发往…的线路.
+const zhNot = (n) => `(?<![不非没无未][^${ZH_STOP}]{0,${n}})`;
+const ZH_ASKS = `(?![^${ZH_STOP}]{0,12}(?:吗|？|\\?))`;
+// 运到哈萨克斯坦边境, 运抵哈萨克斯坦一侧的口岸: a point on the route, not a destination
+const ZH_ON_THE_WAY = '(?!边境|边界|口岸|过境|境内|一侧|段)';
+const ZH_DEST =
+  // 发往伊朗, 送至海拉顿、马扎里沙里夫和德黑兰
+  `${ZH_VERB}${zhNot(11)}\\s?(?:(?:${ZH_SERVED}|${ZH_UNSERVED})(?:口岸)?(?:和|、|及|与|或者|或|以及)){0,3}(?:${ZH_UNSERVED})${ZH_ON_THE_WAY}${ZH_ASKS}` +
+  // 伊朗货运, 伊朗专线 (蒙古专线, not 内蒙古专线); 至伊朗汽运, 到俄罗斯的拼货
+  `|(?<!内)(?:${ZH_UNSERVED})${zhNot(13)}(?:货运|专线)(?!公司|代理|企业|市场|行业)${ZH_ASKS}` +
+  `|(?:至|到|往)${zhNot(9)}\\s?(?:${ZH_UNSERVED})的?${ZH_FREIGHT}${ZH_ASKS}` +
+  // 伊朗物流专线, 伊朗运输服务, 伊朗方向的货物; 可发伊朗
+  `|(?<!内)(?:${ZH_ELSEWHERE})${zhNot(13)}(?:(?:物流|运输|货运|汽运|陆运)(?:专线|服务|线路)|方向|线路)${ZH_ASKS}` +
+  `|(?:可发|可运|可送)${zhNot(6)}(?:${ZH_ELSEWHERE})${ZH_ON_THE_WAY}${ZH_ASKS}` +
+  // 中国至伊朗
+  `|(?:中国|乌兹别克斯坦|塔什干)(?:至|到)${zhNot(14)}(?:${ZH_ELSEWHERE})${ZH_ON_THE_WAY}${ZH_ASKS}` +
+  // 新方向：伊朗、过境与仓储
+  `|(?:方向|线路)${zhNot(8)}\\s?[:：—–-]\\s?(?:${ZH_ELSEWHERE})${ZH_ASKS}` +
+  // 德黑兰 · 马什哈德: a city GSR does not deliver to, wherever it is named — unless the sentence denies or asks
+  `|(?:${ZH_TOWNS})(?<![不非没无未][^${ZH_STOP}]{0,40})(?![^${ZH_STOP}]{0,30}(?:[不没无未]|吗|？|\\?))` +
+  // the whole string is the name: a value of the structured data
+  `|^\\s*(?:${ZH_UNSERVED})\\s*$` +
+  `|→\\s?(?:${ZH_ELSEWHERE})(?![^${ZH_STOP}]{0,40}→)`;
+
+const FA_STOP = '.؟!?';
+const FA_NOT_INSIDE = '(?<!\\p{Script=Arabic})'; // the start of a word: به, not the end of جعبه
+const FA_ITEM = `(?:${FA_SERVED}|${FA_UNSERVED})`;
+// «به ایران», «تا تهران», «به افغانستان و ایران», «تا حیرتان، مزار شریف یا تهران» — هند, not هندسه
+const faTo = (P) => `${FA_NOT_INSIDE}(?:به|تا)\\s(?:(?:${FA_ITEM}(?:\\s?،\\s?|\\s(?:و|یا)\\s)(?:(?:به|تا)\\s)?){0,2}${FA_ITEM}\\s?،?\\s(?:و|یا)\\s(?:(?:به|تا)\\s)?)?(?:${P})(?!\\p{Script=Arabic})`;
+const FA_MI = '(?<!ن)می[\\s\\p{Cf}]?';
+// "we carry / send / deliver": a claim for every place …
+const FA_WE = `(?:${FA_MI}(?:رسانیم|فرستیم|آوریم|بریم)|(?:حمل|ارسال|ترانزیت|صادر|منتقل)\\s?${FA_MI}کنیم|تحویل\\s?${FA_MI}دهیم)`;
+// … "(GSR) carries", "(the cargo) is carried": for the places of ELSEWHERE only — «کامیون بار را به قزاقستان می‌برد» is a route.
+// The question «آیا به ایران هم بار می‌برید؟» has another ending and passes.
+const FA_IT = `(?:${FA_MI}(?:رساند|فرستد|برد)|(?:حمل|ارسال|ترانزیت|صادر|منتقل)\\s?${FA_MI}(?:کند|شود)|تحویل\\s?${FA_MI}(?:دهد|شود)|(?:رسانده|فرستاده|برده)\\s?${FA_MI}شود)(?!\\p{Script=Arabic})`;
+const FA_NOT_AFTER = `(?![^${FA_STOP}]{0,25}(?:نمی|ندار|نیست|؟))`;
+const FA_DEST =
+  `${faTo(FA_UNSERVED)}[^${FA_STOP}]{0,25}?${FA_WE}(?![^${FA_STOP}]{0,12}؟)` +
+  `|${faTo(FA_ELSEWHERE)}[^${FA_STOP}]{0,25}?${FA_IT}(?![^${FA_STOP}]{0,12}؟)` +
+  // «حمل بار به ایران», «حمل بار با کامیون از چین به ایران»
+  `|${FA_NOT_INSIDE}(?:حمل(?:[\\s\\p{Cf}]?و[\\s\\p{Cf}]?نقل)?|ارسال|ترانزیت|کارگو|باربری|ترابری|انتقال(?=\\s(?:بار|کالا|محموله)))(?:\\s(?:بار|کالا|محموله))?(?:\\sبا\\sکامیون)?(?:\\sاز\\s[^${FA_STOP}،]{1,20})?\\s${faTo(FA_UNSERVED)}${FA_NOT_AFTER}` +
+  // «از چین به ایران»; «باری که مقصدش ایران است»
+  `|${FA_NOT_INSIDE}از\\s(?:چین|ازبکستان|تاشکند)\\s${faTo(FA_ELSEWHERE)}${FA_NOT_AFTER}` +
+  `|${FA_NOT_INSIDE}مقصد(?:ش|\\sآن)?\\s(?:${FA_ELSEWHERE})(?!\\p{Script=Arabic})${FA_NOT_AFTER}` +
+  // «مسیر ایران», «مسیر چین–ایران»
+  `|${FA_NOT_INSIDE}مسیر\\s(?:به\\s)?(?:(?:چین|ازبکستان|تاشکند)\\s?[–—-]\\s?)?(?:${FA_ELSEWHERE})(?!\\p{Script=Arabic})${FA_NOT_AFTER}` +
+  // «مسیر تازه: ایران، ترانزیت و انبار»
+  `|${FA_NOT_INSIDE}مسیر(?:\\s[\\p{Script=Arabic}\\p{Cf}]+)?\\s?[:：—–-]\\s?(?:${FA_ELSEWHERE})(?!\\p{Script=Arabic})${FA_NOT_AFTER}` +
+  // «تهران • مشهد»: a city GSR does not deliver to, wherever it is named — unless the sentence denies or asks
+  `|${FA_NOT_INSIDE}(?:${FA_TOWNS})(?!\\p{Script=Arabic})(?![^${FA_STOP}]{0,80}(?:نمی|ندار|نیست|نشد|؟))` +
+  // the whole string is the name: a value of the structured data
+  `|^\\s*(?:${FA_UNSERVED_NAME})\\s*$` +
+  `|←\\s?(?:${FA_ELSEWHERE})(?!\\p{Script=Arabic})(?![^${FA_STOP}]{0,60}←)`;
+const DEST_MSG = (lang) => `names a country or city GSR does not serve as a destination (${lang}) — it delivers in Uzbekistan and, in Afghanistan, to Hairatan and Mazar-i-Sharif only (owner, 2026-11-11); Kabul, Herat, Kandahar, Tehran and Mashhad may be named only in a denial or a question`;
+
+/*
+ * 2. Persian-speaking staff. A claim is staff who "speak / answer in / know" Persian or Dari, "we answer in
+ * Persian", "Persian-speaking staff", "support in Persian". The site says instead, in every language: write in
+ * Persian or Dari and we answer in Persian WITH THE HELP OF A TRANSLATOR — so a sentence that names the
+ * translator passes, wherever in the sentence it does. "The site is published in Persian", "Persian-speaking
+ * readers", a question and the denial — "our managers do not speak Persian", "there is no support in Persian" —
+ * pass too: the site has to be able to say what is true. (scripts/test-seo.mjs guards the structured data: no
+ * Persian in knowsLanguage / availableLanguage.)
+ */
+// …maydi, …maymiz, …magan: the verb denies. Unlike UZ_DENIED it may begin at «ma» — the rule has already read the verb's stem (gaplash|maydi).
+const UZ_NOT_VERB = '[a-zʻʼ]*ma(?:y(?:miz|di|siz|man|dilar)|ydigan|gan|sdan)(?![a-zʻʼ])';
+const UZC_NOT_VERB = '[а-яёўқғҳ]*ма(?:й(?:миз|ди|сиз|ман|дилар)|йдиган|ган|сдан)(?![а-яёўқғҳ])';
+const uzbekStaff = (o) => {
+  const B = `(?<!${o.letter})`;
+  const E = `(?!${o.letter})`;
+  const lang = `${B}(?:${o.persian})(?:${o.cha}${E}|\\s+${o.til}${E})`; // forscha, fors tilida, forsiy tilda, dari tillarini
+  return `(?:${B}(?:${o.staff})${o.letter}*[^.!?;]{0,60}?${lang}` + // «Menejerlar … fors tillarida»
+    `|${lang}\\s+(?:${o.too}\\s+)?(?:${o.speak}|(?:${o.knowing})[^.!?;]{0,20}?${B}(?:${o.staff})))` + // «forscha javob beramiz», «fors tilini biladigan menejer»
+    `(?<!${o.translator}[^.!?;]{0,160})(?![^.!?;]{0,40}(?:\\?|${o.neg}|${o.translator}))`;
+};
+const UZ_STAFF = uzbekStaff({
+  letter: '[a-zʻʼ]', persian: 'fors(?:iy)?|dariy?', cha: 'cha', til: 'til(?:i|ida|ini|da|ni|lari|larida|larini|larda|larni)', too: 'ham',
+  staff: 'menejer|xodim|mutaxassis|operator|maslahatchi|jamoa', knowing: 'biladigan|bilguvchi',
+  speak: `gaplash|so${AP}?zlash|gapir|javob\\s+ber|muloqot\\s+qil|maslahat\\s+ber|xizmat\\s+ko${AP}?rsat|qo${AP}?llab[-\\s]quvvatla|bil(?:adi(?!gan)|amiz|ishadi)`,
+  neg: `(?<![a-zʻʼ])(?:emas|yo${AP}?q)(?![a-zʻʼ])|${UZ_NOT_VERB}`, translator: 'tarjimon',
+});
+const UZC_STAFF = uzbekStaff({
+  letter: '[а-яёўқғҳ]', persian: 'форс(?:ий)?|дарий?', cha: 'ча', til: 'тил(?:и|ида|ини|да|ни|лари|ларида|ларини|ларда|ларни)', too: 'ҳам',
+  staff: 'менежер|ходим|мутахассис|оператор|маслаҳатчи|жамоа', knowing: 'биладиган|билгувчи',
+  speak: 'гаплаш|сўзлаш|гапир|жавоб\\s+бер|мулоқот\\s+қил|маслаҳат\\s+бер|хизмат\\s+кўрсат|қўллаб[-\\s]қувватла|бил(?:ади(?!ган)|амиз|ишади)',
+  neg: `(?<![а-яёўқғҳ])(?:эмас|йўқ)(?![а-яёўқғҳ])|${UZC_NOT_VERB}`, translator: 'таржимон',
+});
+const RU_PERSIAN = '(?:фарси|персидск[а-яё]+|дари)(?![а-яё])';
+const RU_WHO = '(?:менеджер|сотрудник|специалист|оператор|консультант|команд|персонал)';
+const RU_VERB_NOT = `(?<!${RU_B}(?:не|ни)\\s[а-яё]+)`; // right after the verb: «не говорят»
+// «на узбекском, русском и фарси»: the languages before the Persian one
+const RU_IN = `(?:на\\s+)?(?:[а-яё-]+(?:\\s*,\\s*|\\s*,?\\s+(?:и|или)\\s+)){0,4}(?:на\\s+)?(?:языке\\s+)?${RU_PERSIAN}`;
+const RU_STAFF =
+  '(?:' +
+  // «менеджеры говорят на узбекском, русском и фарси»
+  `${RU_B}${RU_WHO}[а-яё]*[^.!?;]{0,60}?${RU_B}(?:говор|отвеча|ответ|владе|общаю|общае|пиш|разговарива)[а-яё]*${RU_VERB_NOT}[^.!?;]{0,40}?${RU_B}${RU_PERSIAN}` +
+  // «знают дари», «консультируем на русском и фарси» — the language right after the verb
+  `|${RU_B}(?:зна(?:ет|ют|ем)|понима(?:ет|ют|ем)|консультиру(?:ет|ют|ем)|обслужива(?:ет|ют|ем))${RU_VERB_NOT}\\s+${RU_IN}` +
+  // «отвечаем на фарси», «говорим по-персидски»
+  `|${RU_B}(?:говорим|отвечаем|ответим|общаемся|владеем|пишем|разговариваем)${RU_VERB_NOT}\\s+(?:(?:и|также|тоже)\\s+)?(?:${RU_IN}|по-персидски${RU_E})` +
+  // «поддержка на фарси», «менеджер со знанием дари», «фарсиязычные менеджеры» — unless the clause denies it
+  `|(?:${RU_B}(?:поддержк[аиуе]|поддержкой|консультаци[яию]|обслуживание|помощь)\\s+на\\s+(?:языке\\s+)?${RU_PERSIAN}` +
+  `|${RU_B}со\\s+знанием\\s+(?:языка\\s+)?${RU_PERSIAN}` +
+  `|${RU_B}(?:фарси|персо|дари)язычн[а-яё]*\\s+(?:${RU_WHO}|поддержк)[а-яё]*)` +
+  `(?<!${RU_B}(?:не|нет|без|ни|никто|никого)${RU_E}[^.!?;:—–]{0,70})(?![^.!?;:—–]{0,30}${RU_B}(?:не|нет)${RU_E})` +
+  ')(?<!переводчик[а-яё]*[^.!?;]{0,160})(?![^.!?;]{0,40}переводчик)(?![^.!?]{0,60}\\?)';
+const EN_PERSIAN = '(?:Persian|Farsi|Dari)';
+const EN_WHO = '(?:managers?|staff|team|specialists?|operators?|employees?|consultants?|agents?|representatives?|colleagues?)';
+const EN_VERB_NOT = `(?<!\\b(?:not|no|never|cannot)\\s[a-z]+|n[’']t\\s[a-z]+)`; // right after the verb: "do not speak"
+const EN_NOBODY = '(?<!\\b(?:nobody|no\\s?one|none|no|neither|nor)\\b[^.!?;:—–]{0,45})'; // right after the subject: "nobody on our team"
+const EN_STAFF =
+  '(?:' +
+  // "our managers speak Uzbek, Russian and Persian", "we answer in Dari"
+  `\\b(?:${EN_WHO}|we)\\b${EN_NOBODY}[^.!?;]{0,60}?\\b(?:speaks?|answers?|repl(?:y|ies)|writes?|fluent)\\b${EN_VERB_NOT}[^.!?;]{0,40}?\\b${EN_PERSIAN}\\b` +
+  // "our managers know Dari", "we understand Farsi" — the language right after the verb
+  `|\\b(?:${EN_WHO}|we)\\b${EN_NOBODY}[^.!?;]{0,30}?\\b(?:knows?|understands?)\\b${EN_VERB_NOT}\\s+(?:[a-z]+(?:\\s*,\\s*|\\s*,?\\s+(?:and|or)\\s+)){0,4}${EN_PERSIAN}\\b` +
+  // "Persian-speaking staff", "support in Dari", "Farsi support", "Dari speakers on our team" — unless the clause denies it
+  `|(?:\\b${EN_PERSIAN}[-\\s]speaking\\s+(?:${EN_WHO}|support)\\b` +
+  `|\\b(?:support|customer\\s+service|assistance|consultations?|help(?:line)?)\\s+in\\s+${EN_PERSIAN}\\b` +
+  `|\\b${EN_PERSIAN}(?:[-\\s]language)?\\s+(?:support|helpline|hotline|customer\\s+service|assistance)\\b` +
+  `|\\b${EN_PERSIAN}\\s+speakers?\\b[^.!?;]{0,20}?\\bon\\s+(?:our\\s+|the\\s+)?(?:staff|team)\\b)` +
+  `(?<!(?:\\b(?:no|not|never|without|cannot|nobody|none|neither|nor)\\b|n[’']t\\b)[^.!?;:—–]{0,70})(?![^.!?;:—–]{0,30}(?:\\b(?:not|never|no\\s+longer)\\b|n[’']t\\b))` +
+  ')(?<!\\b(?:translator|interpreter)\\b[^.!?;]{0,160})(?![^.!?;]{0,60}\\b(?:translator|interpreter)\\b)(?![^.!?]{0,60}\\?)';
+const ZH_PERSIAN = '(?:波斯语|达里语|法尔西语)';
+const ZH_WHO = '(?:客户经理|经理|员工|工作人员|团队|同事|客服|我们)';
+const ZH_STAFF =
+  '(?:' +
+  `${ZH_WHO}[^${ZH_STOP}]{0,20}?(?:会说|会讲|可用|使用|通晓|精通|懂|讲)${zhNot(8)}[^${ZH_STOP}]{0,20}?${ZH_PERSIAN}` +
+  // 用中文、俄语和波斯语回复
+  `|(?:用|以)(?:[\\p{Script=Han}A-Za-z]{1,6}[、，,和及或与]){0,4}${ZH_PERSIAN}${zhNot(24)}(?:[、和及或与]${ZH_PERSIAN})?[^${ZH_STOP}，,]{0,4}?(?:回复|答复|沟通|交流|接待|服务|联系)` +
+  // 波斯语客服, 会波斯语的客户经理 — not 没有波斯语客服
+  `|${ZH_PERSIAN}${zhNot(12)}(?:客服|服务|支持|沟通|接待|咨询)(?![^${ZH_STOP}]{0,8}[不没无未])` +
+  `|(?:会说?|会讲|懂|通晓|精通|讲)${ZH_PERSIAN}${zhNot(12)}(?:[、和及或与]${ZH_PERSIAN})?的${ZH_WHO}(?![^${ZH_STOP}]{0,8}[不没无未])` +
+  `)(?<!翻译[^${ZH_STOP}]{0,60})(?![^${ZH_STOP}]{0,12}翻译)${ZH_ASKS}`;
+const FA_NAME = '(?:فارسی|پارسی|دری)';
+const FA_PERSIAN = `${FA_NAME}(?!\\p{Script=Arabic})`; // دری, not دریافت or دریایی
+const FA_NOT_SOON = `(?![^${FA_STOP}؛;]{0,12}(?:نمی|ندار|نیست|نشد))`; // the verb that follows denies: پاسخ نمی‌دهیم, نداریم
+const FA_STAFF =
+  '(?:' +
+  `(?:(?:مدیر|کارشناس|مشاور|همکار|کارمند)(?:ان)?|کارکنان)(?:\\sما)?[^${FA_STOP}؛;]{0,40}?${FA_PERSIAN}\\s?(?:صحبت|پاسخ|${FA_MI}(?:دانند|داند)|بلدند|بلد\\sاست|مسلط)${FA_NOT_SOON}` +
+  `|(?:پشتیبانی|مشاوره|خدمات|پاسخ[\\s\\p{Cf}]?گویی)\\s(?:به\\s)?(?:زبان\\s)?${FA_PERSIAN}${FA_NOT_SOON}` +
+  `|(?:به\\s)?زبان\\s${FA_PERSIAN}\\sپاسخ${FA_NOT_SOON}` +
+  // «به فارسی پاسخ می‌دهیم», «فارسی هم صحبت می‌کنیم»
+  `|${FA_PERSIAN}\\s(?:هم\\s)?(?:(?:پاسخ|جواب)\\s?${FA_MI}(?:دهیم|گوییم)|صحبت\\s?${FA_MI}کنیم)` +
+  // «کارمند مسلط به فارسی»
+  `|مسلط\\sبه\\s(?:زبان\\s)?${FA_PERSIAN}(?![^${FA_STOP}؛;]{0,25}(?:ندار|نیست))` +
+  // «کارمند فارسی‌زبان», «کارشناس دری‌زبان» — not «مشتریان فارسی‌زبان»
+  `|(?:(?:مدیر|کارشناس|مشاور|همکار|کارمند|پشتیبان|اپراتور)(?:ان|[\\s\\p{Cf}]?های?)?|کارکنان|تیم)(?:\\p{Mn}|ی)?\\s${FA_NAME}[\\s\\p{Cf}]?زبان(?![^${FA_STOP}؛;]{0,25}(?:ندار|نیست))` +
+  `)(?<!مترجم[^${FA_STOP}؛;]{0,160})(?![^${FA_STOP}؛;]{0,40}مترجم)(?![^${FA_STOP}]{0,60}؟)`;
+const STAFF_MSG = (lang) => `claims Persian- or Dari-speaking staff (${lang}) — nobody at GSR speaks Persian: a Persian message is answered with the help of a translator (say so in the same sentence)`;
+
+/*
+ * 3. The Afghanistan direction, a new one (owner, 2026-11-11): no price and no number of days is published for
+ * it, and it is carried by truck only. Both rules are BLOCK rules (`block: true`): they read one block of a page
+ * at a time — a paragraph, a heading, a list item, a table row — because their windows would otherwise reach
+ * from one card into the next: on the home page «20–35 kun» of the rail card stands right before the heading
+ * «Yangi yoʻnalish: Afgʻoniston…».
+ *
+ *   afghanFigure  a number of days, weeks or hours, or a price, within 60 characters of Afghanistan, Hairatan or
+ *                 Mazar-i-Sharif in one sentence. No exception for a denial: "15–25 days is China → Tashkent"
+ *                 goes into a sentence of its own.
+ *   afghanMode    a rail, wagon or air word within 30 characters of such a name in one sentence — unless the
+ *                 sentence denies it ("not by rail", "by truck only") or asks. "…by air and rail, and to
+ *                 Afghanistan by truck" is the contrast, not the claim: a truck word right after the name passes.
+ */
+const NUM = '\\d{1,4}(?:[.,]\\d{1,3})*';
+// "5–7 kun", "от 5 до 7 дней", "3 days", "1,200 USD", "$900" — never the tail of a longer number or of a phone
+const figure = (range, time, money) => `(?<![\\d.,+])(?:${NUM}(?:\\s?(?:[–—-]|${range})\\s?${NUM})?\\s?-?\\s?(?:${time}|${money})|[$€¥]\\s?\\d)`;
+const beside = (name, fig, stop) => `${name}[^${stop}]{0,60}?${fig}|${fig}[^${stop}]{0,60}?${name}`;
+const UZ_FIGURE = figure('dan', '(?:ish\\s+)?kun|sutka|hafta|soat', `\\$|USD|dollar|AQSH\\s+dollari|so${AP}?m|UZS|yuan|€|EUR`);
+const UZC_FIGURE = figure('дан', '(?:иш\\s+)?кун|сутка|ҳафта|соат', '\\$|USD|доллар|АҚШ\\s+доллари|сўм|UZS|юан|€|EUR');
+const RU_FIGURE = figure('до', '(?:рабоч[а-яё]+\\s+)?(?:дн[еяй]|день|суток|сутки)|недел[ьюией]|час(?:а|ов)?(?![а-яё])', '\\$|USD|доллар|сум(?![а-яё])|сумов|UZS|юан|€|EUR|евро');
+const EN_FIGURE = figure('to', '(?:working\\s+|business\\s+)?days?\\b|weeks?\\b|hours?\\b', '\\$|USD|US\\s?dollars?|dollars?\\b|UZS|soums?\\b|sums?\\b|yuan|CNY|€|EUR|euros?\\b');
+// 日 only as a duration (3 日内送达), not the day of a date (11月12日); 周 is a week, not 周一 or 周末; 天, not 天津
+const ZH_FIGURE = figure('至|到|~|～', '个?工作日|天(?!津)|日(?=内|之内|左右|以内|可达|送达|到达|抵达|运抵)|周(?![一二三四五六日末年期边围])|个?星期|个?小时', '\\$|USD|美元|美金|元|人民币|苏姆|UZS|€|欧元');
+const FA_FIGURE = figure('تا|الی', '(?:روزه?|هفته|ساعته?)(?!\\p{Script=Arabic})', '\\$|USD|دلار|سوم(?!\\p{Script=Arabic})|یوان|تومان|ریال|€|یورو');
+const FIGURE_MSG = (lang) => `a number of days or a price beside Afghanistan, Hairatan or Mazar-i-Sharif (${lang}) — on this direction price and time are on request; the site's figures are China → Tashkent only (say so in a sentence of its own)`;
+const mode = (o) => {
+  const stop = o.stop ?? '.!?;';
+  return `(?:(?:${o.mode})[^${stop}]{0,30}?${o.name}(?![^${stop}]{0,30}(?:${o.truck}))|${o.name}[^${stop}]{0,30}?(?:${o.mode}))` +
+    `(?<!(?:${o.no})[^${stop}]{0,90})(?![^${stop}]{0,40}(?:${o.no}|${o.asks}))`;
+};
+// Look-alikes kept out: goods that carry the word (air conditioners, воздушные фильтры, вагонка, 钢铁运输), «поездка» (a trip),
+// "we train our drivers", «تریلی» (a trailer truck — it holds «ریلی») and «آب و هوایی» (the weather).
+const EN_AIR_GOODS = '\\s*-?\\s*(?:condition|compress|purif|fry|filter|cool|dry|pump|mattress|bag|duct|curtain|gun|tool|freshener|quality)';
+const UZ_MODE = mode({ name: AFGHAN[0], mode: `temir[\\s-]*yo${AP}?l|poyezd(?!ka)|vagon(?!ka)|avia|samolyot|uchoq|havo\\s+yo${AP}?l`, truck: 'fura|avto|yuk\\s+mashina', asks: '\\?',
+  no: `${UZ_DENIED}|(?<![a-zʻʼ])(?:yo${AP}?q|emas)(?![a-zʻʼ])|(?<![a-zʻʼ])faqat\\s+fura` });
+const UZC_MODE = mode({ name: AFGHAN[1], mode: 'темир[\\s-]*йўл|поезд(?!ка)|вагон(?!ка)|авиа|самолёт|учоқ|ҳаво\\s+йўл', truck: 'фура|авто|юк\\s+машина', asks: '\\?',
+  no: `${UZC_DENIED}|(?<![а-яёўқғҳ])(?:йўқ|эмас)(?![а-яёўқғҳ])|(?<![а-яёўқғҳ])фақат\\s+фура` });
+const RU_MODE = mode({ name: AFGHAN[2], mode: 'железн[а-яё]+\\s+дорог|железнодорожн|ж/д|ж\\.-?\\s?д\\.|(?<![а-яё])жд(?![а-яё])|поезд(?!к)|вагон(?!к)|авиа|самол[её]т|воздушн[а-яё]+\\s+(?:транспорт|перевоз|сообщени|пут|достав|лини|судн|мост|коридор)', truck: 'фур|автомобил|автотранспорт', asks: '\\?',
+  no: '(?<![а-яё])(?:не|нет|ни)(?![а-яё])|только\\s+фур' });
+const EN_MODE = mode({ name: AFGHAN[3], mode: `\\brail(?:way|road|car|freight)?s?\\b|\\btrains?\\b(?!\\s+(?:our|their|its|your|all|new|drivers?|staff)\\b)|\\bwagons?\\b|\\bair\\b(?!${EN_AIR_GOODS})|\\bair(?:freight|craft|lift|planes?|lines?)\\b|\\bplanes?\\b|\\bflights?\\b|\\bfl(?:y|ies|ew|own|ying)\\b`, truck: '\\btrucks?\\b|\\blorr(?:y|ies)\\b', asks: '\\?',
+  no: `\\b(?:not|no|never|without)\\b|n[’']t\\b|\\bonly\\s+by\\s+truck\\b|\\btruck\\s+only\\b` });
+const ZH_MODE = mode({ name: AFGHAN[4], mode: '铁路|(?<!钢)铁运|火车|班列|专列|列车|车皮|空运|空派|航空|航班|飞机|直飞|飞往', truck: '汽运|卡车|货车|公路', stop: ZH_STOP, asks: '吗|？|\\?',
+  no: '[不没无未]|只走汽运|仅走汽运|只有汽运|仅限汽运' });
+const FA_MODE = mode({ name: AFGHAN[5], mode: '(?<!ت)ریلی|(?<!\\p{Script=Arabic})ریل(?!\\p{Script=Arabic})|(?:راه|خط)[\\s\\p{Cf}]?آهن|قطار|واگن|(?<!آب[\\s\\p{Cf}]?و[\\s\\p{Cf}]?)هوایی|هواپیما|طیاره', truck: 'کامیون|تریلی|لاری|موتر', stop: `${FA_STOP}؛;`, asks: '؟',
+  no: 'نمی|ندار|نیست|نشده|بدون|فقط\\sبا\\sکامیون' });
+const MODE_MSG = (lang) => `offers rail, wagon or air carriage to Afghanistan (${lang}) — that direction is by truck only (a denial passes; a contrast goes into two sentences)`;
+
+/**
+ * Each rule: `{ id, msg, re, bad, good }`, and `block: true` where it reads one block of a page at a time.
  * In the Persian patterns `[\s\p{Cf}]` is "a space or a ZWNJ" (نیم‌فاصله), `(?<!ن)می` keeps the
  * negative نمی… (the denial) out, and `\p{Mn}` is the kasra/hamza of an ezafe. In the Chinese ones
  * `(?<![不非没无未]…)` is the negation the denial wording puts in front of the claim.
  */
-export const ZH_FA_FORBIDDEN = [
+export const CLAIM_RULES = [
   /* — customs and documents (the uz/ru "bojsiz / без пошлин" rules) — */
   { id: 'zh.dutyFree', msg: 'promises duty-free shipping (zh)',
     // 个人免税进口限额 is the statutory allowance (Cabinet Resolution No. 244), not a promise — as in
@@ -252,11 +722,15 @@ export const ZH_FA_FORBIDDEN = [
     bad: ['我们的义乌仓库', '我们的仓库工作人员', 'GSR的义乌仓库', 'GSR Logistics 义乌仓库', '我们在义乌的仓库', '我们的收货点', 'GSR自己的仓库', 'GSR 的收货点'],
     // The contact page lists facebook.com/gsrlogistics right above its "中国收货点" heading: a handle
     // or URL is not the company's name.
-    good: ['我们在义乌仓库为您验货', '义乌收货点', '仓库工作人员在每个环节扫描二维码', '我们在义乌的员工', '提交报关单（GTD）后运抵 GSR 仓库。', '货物运抵 GSR 的仓库', 'Facebook facebook.com/gsrlogistics 中国收货点', '频道 t.me/gsrlogistics 中国收货点'] },
+    good: ['我们在义乌仓库为您验货', '义乌收货点', '仓库工作人员在每个环节扫描二维码', '我们在义乌的员工', '提交报关单（GTD）后运抵 GSR 仓库。', '货物运抵 GSR 的仓库', 'Facebook facebook.com/gsrlogistics 中国收货点', '频道 t.me/gsrlogistics 中国收货点',
+      // The warehouse under customs control in Tashkent is a PARTNER's (owner, 2026-11-11): GSR allocates space in it.
+      '在塔什干仓库为客户分配仓位', '合作方的仓库', '在合作方的监管仓库安排仓位；可车对车换装，或经仓库换装。', '仓库属于我们的合作方；货物在那里处于海关监管之下。'] },
   { id: 'fa.ourWarehouse', msg: 'claims a China receiving point as our own (fa)',
     re: /انبار(?:\p{Cf}?(?:های|ها))?(?:\p{Mn}|ی)?\s?(?:ما|خودمان|خود\sما)(?!\p{Script=Arabic})|انبار(?:\p{Cf}?(?:های|ها))?مان(?!\p{Script=Arabic})|انبار(?:\p{Mn}|ی)?\s?(?:GSR|جی[\s\p{Cf}]?اس[\s\p{Cf}]?آر)[^.؟!?،]{0,14}(?:ییوو|گوانگ[\s\p{Cf}]?(?:ژو|جو)|کاشغر|چین)|انبار(?:\p{Mn}|ی)?\s?(?:ییوو|گوانگ[\s\p{Cf}]?(?:ژو|جو)|کاشغر)(?:\p{Mn}|ی)?\s?(?:GSR|جی[\s\p{Cf}]?اس[\s\p{Cf}]?آر)|(?:محل|نقطه|نشانی|مرکز)(?:\p{Mn}|ی)?\s(?:تحویل|دریافت)(?:\sبار)?(?:\p{Mn}|ی)?\s(?:ما|خودمان|GSR|جی[\s\p{Cf}]?اس[\s\p{Cf}]?آر)(?!\p{Script=Arabic})/iu,
     bad: ['انبار ما در ییوو', 'انبارمان', 'انبار GSR در ییوو', 'انبار ییووی GSR', 'انبار GSR در چین', 'محل تحویل بار ما در ییوو', 'محل تحویل بار GSR'],
-    good: ['انبار ییوو', 'نقطه دریافت ییوو', 'انبار ماشین‌آلات', 'کارکنان ما در ییوو', 'نشانی ما در تاشکند', 'بار وارد انبار نگهداری موقت می‌شود، اظهارنامهٔ گمرکی (GTD) ثبت می‌شود و کالا به انبار GSR می‌رسد.', 'انبار GSR در تاشکند'] },
+    good: ['انبار ییوو', 'نقطه دریافت ییوو', 'انبار ماشین‌آلات', 'کارکنان ما در ییوو', 'نشانی ما در تاشکند', 'بار وارد انبار نگهداری موقت می‌شود، اظهارنامهٔ گمرکی (GTD) ثبت می‌شود و کالا به انبار GSR می‌رسد.', 'انبار GSR در تاشکند',
+      // As in zh: the warehouse under customs control in Tashkent is a partner's.
+      'در انبار تاشکند فضا اختصاص می‌دهیم', 'انبار همکار ما', 'در انبار همکار ما جا اختصاص می‌دهیم؛ بار را از کامیون به کامیون یا از راه انبار جابه‌جا می‌کنیم.', 'انبار متعلق به همکار ماست؛ بار در آنجا تحت نظارت گمرک نگهداری می‌شود.'] },
   { id: 'zh.partners', msg: 'stale "through partners" claim for Guangzhou (zh)',
     re: /广州[^。！？!?；;]{0,40}(?:通过|经由)(?:合作伙伴|合作方)|(?:通过|经由)(?:合作伙伴|合作方)[^。！？!?；;]{0,40}广州/iu,
     bad: ['广州的货物通过合作伙伴接收'],
@@ -322,24 +796,205 @@ export const ZH_FA_FORBIDDEN = [
     bad: ['فوراً پاسخ می‌دهیم', 'سریع‌ترین راه تماس'],
     good: ['در ساعات کاری پاسخ می‌دهیم', 'ظرف ۱۰ روز کاری پاسخ می‌دهیم'] },
 
-  /* — what the Chinese and Persian sites invite a reader to assume, and nothing confirms — */
+  /* — what the Chinese site invites a reader to assume, and nothing confirms — */
   { id: 'zh.wechat', msg: 'offers a WeChat/QQ contact (zh) — GSR has no such account; the channels are Telegram, WhatsApp, phone and e-mail',
     re: /(?:添加|加)(?:我们的?)?\s?(?:微信|WeChat|QQ)|(?:微信|WeChat|QQ)\s?(?:号|联系|咨询|客服|二维码)|联系(?:我们)?(?:的)?(?:方式)?\s?[：:]?\s?(?:微信|WeChat|QQ)(?!支付|Pay)/iu,
     bad: ['添加我们的微信', '请通过微信联系我们', '联系我们：微信'],
     good: ['绝不要付款到个人微信或银行卡', '通过支付宝或微信支付向卖家付款'] },
-  { id: 'fa.persianStaff', msg: 'claims Persian-speaking staff (fa) — the managers speak Uzbek, Russian and Chinese',
-    re: /(?:مدیران|کارشناسان|مشاوران|همکاران)(?:\sما)?[^.؟!?]{0,40}(?:فارسی|دری)\s?(?:صحبت|پاسخ|می[\s\p{Cf}]?دانند|بلدند)|پشتیبانی\s(?:به\s)?(?:زبان\s)?(?:فارسی|دری)|(?:به\s)?زبان\s(?:فارسی|دری)\sپاسخ/iu,
-    bad: ['مدیران ما به فارسی پاسخ می‌دهند', 'مدیران ما فارسی صحبت می‌کنند', 'پشتیبانی به زبان فارسی'],
-    good: ['کارشناسان ما به ازبکی، روسی و چینی پاسخ می‌دهند'] },
-  { id: 'zh.destination', msg: 'claims delivery beyond Uzbekistan (zh) — GSR ships China → Uzbekistan',
-    re: /(?:运往|运到|运至|送到|送往|发往|直达|寄往|寄到)\s?(?:阿富汗|伊朗|喀布尔|德黑兰|马扎里沙里夫|赫拉特|哈萨克斯坦|吉尔吉斯斯坦|塔吉克斯坦|土库曼斯坦|俄罗斯)(?!边境|边界|口岸|过境|境内|一侧|段)/iu,
-    bad: ['我们也可以运往阿富汗', '直达伊朗'],
-    good: ['经哈萨克斯坦运到塔什干', '从义乌经霍尔果斯直达塔什干', '货物运到哈萨克斯坦边境'] },
-  { id: 'fa.destination', msg: 'claims delivery beyond Uzbekistan (fa) — GSR ships China → Uzbekistan',
-    re: /(?:به|تا)\s(?:افغانستان|ایران|کابل|هرات|مزار[\s\p{Cf}]?شریف|قندهار|تهران|مشهد|قزاقستان|قرقیزستان|تاجیکستان|ترکمنستان|روسیه)[^.؟!?]{0,20}(?:(?<!ن)می[\s\p{Cf}]?(?:رسانیم|فرستیم|آوریم|بریم)|حمل\s?(?<!ن)می[\s\p{Cf}]?کنیم|ارسال\s?(?<!ن)می[\s\p{Cf}]?کنیم|تحویل\s?(?<!ن)می[\s\p{Cf}]?دهیم)/iu,
-    bad: ['بار را به کابل هم می‌رسانیم', 'به افغانستان ارسال می‌کنیم'],
-    good: ['از طریق قزاقستان به تاشکند می‌رسد', 'به افغانستان ارسال نمی‌کنیم'] },
+
+  /* — who answers in Persian: nobody at GSR speaks it; a translator helps (owner, 2026-11-11). The first good
+       sentence of each rule is the one the site prints — it must always pass — */
+  { id: 'uz.persianStaff', msg: STAFF_MSG('uz'),
+    re: new RegExp(`${UZ_STAFF}|${UZC_STAFF}`, 'iu'),
+    bad: ['Menejerlar oʻzbek, rus, xitoy va fors tillarida gaplashadi', 'Menejerlarimiz forscha javob beradi', 'Xodimlarimiz dari tilida gaplashadi', 'Fors tilida ham gaplashamiz', 'Forscha javob beramiz',
+      'Менежерлар ўзбек, рус, хитой ва форс тилларида гаплашади', 'Менежерларимиз форсча жавоб беради', 'Форсча жавоб берамиз',
+      'Fors tilini biladigan menejerimiz bor', 'Forscha gapiradigan xodimlarimiz bor', 'Forsiy tilda ham gaplashamiz', 'Fors tilida maslahat beramiz', 'Fors tilida qoʻllab-quvvatlash', 'Fors tilini bilamiz',
+      'Rus, ingliz va fors tillarida javob beramiz', 'Fors tilida gaplashamiz va maslahat beramiz', 'Форс тилини биладиган менежеримиз бор', 'Форс тилида қўллаб-қувватлаш'],
+    good: ['Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz', 'Fors yoki dari tilida yozsam boʻladimi va qayerga yozaman?', 'Menejerlar oʻzbek, rus va xitoy tillarida gaplashadi', 'Menejerlar fors tilida gaplashmaydi',
+      'Menejerlar oʻzbek va rus tillarida gaplashadi; sayt fors tilida ham bor.', 'Sayt fors tilida ham bor', 'Ingliz, rus va oʻzbek tillarida ham javob beramiz', 'Fors-major holatlari shartnomada yozilgan',
+      'Форс ёки дари тилида ёзсангиз, таржимон ёрдамида форсча жавоб берамиз', 'Менежерлар ўзбек, рус ва хитой тилларида гаплашади', 'Менежерлар форс тилида гаплашмайди',
+      'Fors tilida gaplashmaymiz', 'Forscha javob bermaymiz', 'Menejerlar fors va dari tillarini bilmaydi', 'Fors tilida qoʻllab-quvvatlash yoʻq', 'Fors tilini biladigan xodimimiz yoʻq', 'Fors tilida gaplashasizmi?',
+      'Fors koʻrfazi portlari orqali yuk tashimaymiz', 'Mijozlar fors tilida yozishi mumkin', 'Форс тилини биладиган ходимимиз йўқ'] },
+  { id: 'ru.persianStaff', msg: STAFF_MSG('ru'),
+    re: new RegExp(RU_STAFF, 'iu'),
+    bad: ['Менеджеры говорят на узбекском, русском, китайском и фарси', 'поддержка на персидском', 'Наши сотрудники владеют дари', 'Отвечаем на фарси', 'Говорим на персидском и дари',
+      'Фарсиязычные менеджеры', 'Говорим по-персидски', 'Менеджер со знанием фарси', 'Отвечаем на языке дари', 'Консультируем на фарси', 'Наши менеджеры знают узбекский, русский и дари', 'Отвечаем на русском, узбекском и фарси'],
+    good: ['Если напишете на фарси или дари, ответим на фарси с помощью переводчика', 'Можно ли писать на фарси или дари и куда писать?', 'Менеджеры говорят на узбекском, русском и китайском', 'Менеджеры не говорят на фарси',
+      'Менеджеры говорят на узбекском и русском; сайт есть и на фарси.', 'Сайт доступен на фарси', 'Отвечаем также на английском, русском и узбекском', 'Форс-мажор оговаривается в договоре', 'Мы подарим вам образец',
+      'На фарси не говорим', 'Менеджеры не знают фарси и дари', 'Поддержки на фарси нет', 'Консультации на фарси не проводим', 'Менеджеров со знанием фарси нет', 'Фарсиязычных менеджеров у нас нет',
+      'Говорите ли вы на фарси?', 'через порты Персидского залива', 'Клиенты могут писать на фарси', 'Менеджеры знают рынок и требования таможни'] },
+  { id: 'en.persianStaff', msg: STAFF_MSG('en'),
+    re: new RegExp(EN_STAFF, 'iu'),
+    bad: ['Our managers speak Uzbek, Russian, Chinese and Persian', 'Farsi-speaking staff', 'support in Dari', 'We answer in Persian', 'Our team replies in Dari and Persian', 'Our managers also answer in Dari',
+      'Farsi support', 'Customer service in Persian', 'We have native Persian speakers on our team', 'Persian-language support', 'Our managers know Dari', 'We understand Farsi', 'Persian-speaking consultants',
+      'We answer in English, Russian and Persian'],
+    good: ['Write to us in Persian or Dari — we answer in Persian with the help of a translator', 'Write to us in Persian or Dari — we answer in Persian with the help of a translator; we also answer in English, Russian and Uzbek.',
+      'Can I write in Persian or Dari, and where?', 'managers who speak Uzbek, Russian and Chinese', 'Our managers do not speak Persian', 'Managers speak Uzbek and Russian; the site is also in Persian.',
+      'The team answers in English, Russian and Uzbek; Persian messages go through a translator', 'The site is also published in Persian under /fa/', 'Chinese (Simplified, /zh/) and Persian (/fa/)',
+      'We also answer in English, Russian and Uzbek', 'for Persian-speaking readers in Afghanistan',
+      'We do not speak Persian', 'There is no support in Persian', 'We have no Persian-speaking staff', 'Nobody on our team speaks Persian or Dari', 'No Farsi support is offered', 'We cannot offer customer service in Persian',
+      'There are no Persian speakers on our team', 'Do you speak Persian?', 'Is there support in Dari?', 'Persian Gulf ports', 'Customers can write to us in Persian'] },
+  { id: 'zh.persianStaff', msg: STAFF_MSG('zh'),
+    re: new RegExp(ZH_STAFF, 'iu'),
+    bad: ['客户经理会说乌兹别克语、俄语、中文和波斯语', '波斯语客服', '我们用波斯语回复', '我们的团队通晓达里语', '会波斯语的客户经理', '我们用中文、俄语和波斯语回复', '我们提供波斯语服务', '支持波斯语沟通',
+      '客户经理懂乌兹别克语、俄语和达里语'],
+    good: ['您可以用波斯语或达里语来信，我们会借助翻译用波斯语回复', '可以用波斯语、达里语留言吗？发到哪里？', '客户经理可用乌兹别克语、俄语和中文沟通', '客户经理不会说波斯语', '客户经理说乌兹别克语和俄语；本网站也有波斯语版本。', '本网站也有波斯语版本', '我们也用英语、俄语和乌兹别克语回复',
+      '我们没有波斯语客服', '我们不提供波斯语服务', '没有会波斯语的客户经理', '我们不用波斯语回复', '团队里没有人会说达里语', '你们会说波斯语吗？', '波斯湾港口', '客户可以用波斯语来信'] },
+  { id: 'fa.persianStaff', msg: STAFF_MSG('fa'),
+    re: new RegExp(FA_STAFF, 'iu'),
+    bad: ['مدیران ما به فارسی پاسخ می‌دهند', 'مدیران ما فارسی صحبت می‌کنند', 'پشتیبانی به زبان فارسی', 'کارمند فارسی‌زبان داریم', 'کارشناس دری‌زبان', 'کارشناس ما فارسی صحبت می‌کند', 'کارشناسان ما دری می‌دانند', 'به فارسی پاسخ می‌دهیم', 'فارسی هم صحبت می‌کنیم',
+      'کارمندان ما به فارسی مسلط هستند', 'کارمندان مسلط به فارسی', 'پارسی صحبت می‌کنیم', 'مشاوره به زبان فارسی', 'خدمات به زبان فارسی', 'پاسخگویی به زبان دری', 'به انگلیسی، روسی و فارسی پاسخ می‌دهیم'],
+    good: ['اگر به فارسی یا دری بنویسید، با کمک مترجم به فارسی پاسخ می‌دهیم', 'آیا می‌توانم به فارسی یا دری بنویسم، و کجا؟', 'کارشناسان ما به ازبکی، روسی و چینی پاسخ می‌دهند', 'کارشناسان ما فارسی نمی‌دانند', 'کارمند فارسی‌زبان نداریم',
+      'این صفحه به فارسی نوشته شده است', 'کارشناسان ما با کمک مترجم به فارسی پاسخ می‌دهند', 'کارشناسان ما پیام‌های فارسی را با کمک مترجم پاسخ می‌دهند', 'برای مشتریان فارسی‌زبان در افغانستان',
+      'پشتیبانی به زبان فارسی نداریم', 'به زبان فارسی پاسخ نمی‌دهیم', 'کارشناسان ما به فارسی پاسخ نمی‌دهند', 'کارشناسان ما فارسی صحبت نمی‌کنند', 'کارمند مسلط به فارسی نداریم', 'همکاران ما به دری مسلط نیستند',
+      'آیا کارشناس فارسی‌زبان دارید؟', 'آیا به فارسی پاسخ می‌دهید؟', 'پشتیبانی دریافت بار در چین', 'پشتیبانی دریایی', 'بنادر خلیج فارس', 'مشتریان می‌توانند به فارسی بنویسند'] },
+
+  /* — where GSR delivers: Uzbekistan, and Hairatan and Mazar-i-Sharif in Afghanistan. Not Iran, not Kabul, Herat
+       or Kandahar, not any other country — */
+  { id: 'uz.destination', msg: DEST_MSG('uz'),
+    re: new RegExp(`${UZ_DEST}|${UZC_DEST}`, 'iu'),
+    bad: ['Eronga ham fura bilan yuk tashiymiz', 'Eron va Afgʻonistonga yuk tashiymiz', 'Eron, Afgʻonistonga yuk tashiymiz', 'Afgʻoniston va Eronga yuk tashishni boshladik', 'Eronga yuk tashish: Xitoydan va Oʻzbekistondan, fura bilan',
+      'GSR Logistics kompaniyasi endi Eronga ham fura bilan yuk tashiydi', 'Yukni Eron chegarasigacha yoki Tehrongacha yetkazamiz', 'Tehron va Mashhadga yetkazib beramiz', 'Yukni Tehron shahriga yetkazamiz', 'Xitoydan Eronga va Oʻzbekistondan Eronga', 'Eronga ikki yoʻnalish', 'Xitoy → Eron',
+      'Eronga ketayotgan yukni ham shu yerda qayta yuklash mumkin', 'Eronga ham, Afgʻonistonga ham yuk tashiymiz', 'Eron va boshqa mamlakatlarga yuk joʻnatamiz', 'Yangi yoʻnalish: Eronga fura bilan yuk, Oʻzbekiston orqali tranzit hujjatlari',
+      'Kobulgacha olib boramiz', 'Hirot va Qandahorga ham yetkazamiz', 'Qozogistonga ham yetkazamiz', 'Eronga qisqa muddatda yetkazamiz', 'Eronga 20 tonna yuk tashiymiz', 'Tegeranga yuk tashimalari',
+      'Qozogʻistonga ham yetkazamiz', 'Rossiyaga yuk tashiymiz', 'Qirgʻizistonga yuk joʻnatamiz', 'Pokistonga yuk tashish', 'Iroqqa yuk yuboramiz', 'Yevropa Ittifoqiga eksport qilamiz',
+      'Эронга ҳам фура билан юк ташиймиз', 'Эрон ва Афғонистонга юк ташиймиз', 'Теҳрон шаҳрига етказамиз', 'Хитойдан Эронга', 'Хитой → Эрон', 'Қозоғистонга ҳам етказамиз', 'Россияга юк ташиймиз', 'Кобулгача олиб борамиз', 'Машҳад, Ҳирот ва Қандаҳорга етказамиз', 'Юкни Теҳрон ёки Машҳадгача етказамиз',
+      'Eron yoʻnalishida yuk tashiymiz', 'Eron yoʻnalishi boʻyicha yuk tashish', 'Эрон йўналишида юк ташиймиз',
+      'Hayraton · Mozori Sharif · Kobul', 'Ikki nuqtadan birigacha: Tehrongacha yoki Mashhadgacha.', 'Mashhad — yukni shahargacha yetkazamiz.', 'Yangi yoʻnalish: Eron, tranzit va ombor', 'Eron', 'Qozogʻiston',
+      'Теҳрон · Машҳад', 'Янги йўналиш: Эрон, транзит ва омбор'],
+    good: ['Endi Afgʻonistonga ham fura bilan yuk tashiymiz', 'Afgʻonistonga yuk tashish: Xitoydan va Oʻzbekistondan, fura bilan', 'Yukni Hayraton chegara postigacha yoki Mozori Sharifgacha yetkazamiz', 'Xitoy → Afgʻoniston',
+      'tovarni topamiz, sotib olamiz va fura bilan Hayraton yoki Mozori Sharifgacha yetkazamiz', 'Afgonistonga ham fura bilan yuk tashiymiz', 'Termizgacha, soʻng Hayratonga yetkazamiz',
+      'Xorgos va Qozogʻiston orqali Toshkentga yoʻl', 'Qozogʻiston boʻylab 1 000 km', 'chegara stansiyalari → Qozogʻiston temir yoʻli → Saryagash → Toshkent', 'Hozir barcha temir yoʻl yuklari Qozogʻiston orqali keladi',
+      'Yuk Xitoydan Qozogʻistonga oʻtadi, soʻng Toshkentga keladi', 'Yuk Qozogʻistonga kirgach, Toshkentga yetkaziladi', 'Qozogʻistonga kirayotgan yuk Nur Joʻli postida tekshiriladi', 'Xorgos: Xitoy → Qozogʻiston',
+      'Eronga yuk tashimaymiz', 'Eronga yuk tashish xizmatimiz yoʻq', 'Qozogʻistonga yetkazmaymiz', 'Qozogʻistonga yetkazib bermaymiz', 'Rossiyaga yuk tashimaymiz', 'Qozogʻistonga ham yetkazasizmi?', 'Eronga yuk tashiysizmi?',
+      'Энди Афғонистонга ҳам фура билан юк ташиймиз', 'Юкни Ҳайратон чегара постигача ёки Мозори Шарифгача етказамиз', 'Қозоғистонга етказмаймиз', 'Эронга юк ташимаймиз', 'Хоргос ва Қозоғистон орқали Тошкентга йўл',
+      'Eron yoʻnalishi yoʻq', 'Eron yoʻnalishida ishlamaymiz', 'Afgʻoniston yoʻnalishi', 'Yangi yoʻnalish: Afgʻoniston, tranzit va ombor', 'Qirgʻiziston yoʻnalishi orqali ham yuk keladi',
+      'Kobul, Hirot va Qandahorga yetkazmaymiz', 'Tehron va Mashhad shaharlariga yetkazmaymiz', 'Теҳрон ва Кандагарга етказмаймиз', 'Kobulgacha yetkazasizmi?', 'Hayraton · Mozori Sharif', 'Afgʻoniston', 'Oʻzbekiston', 'Qabul punkti — Ivu', 'Ҳайратон · Мозори Шариф'] },
+  { id: 'ru.destination', msg: DEST_MSG('ru'),
+    re: new RegExp(RU_DEST, 'iu'),
+    bad: ['Теперь возим грузы фурами и в Иран', 'GSR Logistics теперь возит грузы фурами и в Иран', 'Возим грузы в Иран и Афганистан', 'возим грузы в Афганистан и Иран', 'возим грузы в Афганистан, Иран и Пакистан', 'Грузы в Иран: из Китая и из Узбекистана, фурой', 'Доставка грузов в Иран фурой из Китая и Узбекистана',
+      'груз доставляется до границы или до Тегерана', 'В обоих случаях груз доставляется до пограничного перехода Хайратон или до Мешхеда', 'доставляем до Хайратона, Мазари-Шарифа и Мешхеда', 'куда его везти — в Тегеран или в Мешхед', 'мы довозим его до Тегерана', 'из Китая в Иран и из Узбекистана в Иран',
+      'Два направления в Иран', 'Китай → Иран', 'В Иран возим фурами', 'У меня вопрос по перевозке груза в Иран',
+      'Доставляем в Казахстан', 'возим грузы в Россию', 'Доставка до России', 'Китай → Россия', 'доставка в Кыргызстан', 'перевозка до Кабула', 'карго в Пакистан', 'отправим груз в Турцию', 'грузоперевозки в Европу', 'везём груз в Дубай', 'Доставляем в Герат и Кандагар', 'довозим груз до Кандагара', 'Доставка до Герата', 'Автоперевозки в Иран', 'Работаем по направлению Иран', 'Направление: Иран', 'направление Китай — Иран',
+      'Хайратон · Мазари-Шариф · Кабул', 'В одну из двух точек: в Тегеран или в Мешхед.', 'Мешхед — довозим груз до города.', 'Новое направление: Иран, транзит и склад', 'Груз, который идёт в Иран, тоже можно перегрузить здесь.',
+      'Иран', 'Казахстан'],
+    good: ['Да, теперь возим грузы фурами и в Афганистан — до пограничного перехода Хайратон или до Мазари-Шарифа', 'Грузы в Афганистан: из Китая и из Узбекистана, фурой', 'доставляем фурой до Хайратона или Мазари-Шарифа', 'доставляем в Хайратон и в Мазари-Шариф', 'Китай → Афганистан',
+      'путь через Хоргос и Казахстан в Ташкент', 'транзит по Казахстану', 'Доставка в Ташкент, Казахстан мы проезжаем транзитом', 'Груз из Китая идёт через Узбекистан транзитом', 'Груз идёт транзитом через Казахстан и Кыргызстан в Ташкент',
+      'Доставляем из Китая в Ташкент через Казахстан', 'Груз въезжает из Китая в Казахстан через Хоргос', 'Груз следует до границы Казахстана', 'Хоргос: Китай → Казахстан',
+      'Правила перевозки в России и Турции другие', 'Грузы в Киргизии перегружают в Оше',
+      'не доставляем в Казахстан', 'В Иран грузы не возим', 'Доставки в Иран нет', 'Мы не возим грузы в Иран', 'Есть ли доставка в Россию?', 'Возите ли вы грузы в Иран?', 'Направления Иран у нас нет', 'Нет доставки в Иран', 'Направление: Афганистан', 'Новое направление: Афганистан, транзит и склад',
+      'В Кабул, Герат и Кандагар не возим', 'Другие города Афганистана — Кабул, Герат, Кандагар — не обслуживаем', 'Возите ли вы до Кабула?', 'Хайратон · Мазари-Шариф', 'Афганистан', 'Узбекистан',
+      'Груз идёт в Казахстан, затем в Ташкент'] },
+  { id: 'en.destination', msg: DEST_MSG('en'),
+    re: new RegExp(EN_DEST, 'iu'),
+    bad: ['We now also carry cargo to Iran by truck', 'GSR Logistics now also carries cargo to Iran by truck', 'We deliver to Iran and Afghanistan', 'We carry cargo to Afghanistan and Iran', 'We carry cargo to Afghanistan, Iran and Pakistan', 'Cargo is delivered to Mashhad',
+      'Cargo to Iran: from China and from Uzbekistan, by truck', 'Truck cargo to Iran from China and from Uzbekistan', 'We deliver to the Hairatan border crossing, to Mazar-i-Sharif or to Tehran', 'we find the goods, buy them and deliver them by truck to Hairatan or Mashhad',
+      'Two: from China to Iran and from Uzbekistan to Iran', 'Two directions to Iran', 'China → Iran', 'cargo going to Iran can be reloaded here', 'Cargo bound for Iran can be reloaded here as well', 'the new truck service to Iran', 'I have a question about cargo to Iran',
+      'We also deliver to Kazakhstan', 'cargo to Russia', 'freight from China to Kyrgyzstan', 'We ship to Kabul', 'trucking to Kandahar', 'We deliver to Teheran and to the UAE', 'delivery to Herat', 'shipments to the UAE', 'Iran-bound cargo is accepted', 'Our Iran route', 'We serve Iran', 'serving Afghanistan and Iran',
+      'Hairatan · Mazar-i-Sharif · Kabul', 'To one of two points: Tehran or Mashhad.', 'Mashhad — we deliver the cargo to the city.', 'A new direction: Iran, transit and warehouse', 'Iran', 'Kazakhstan'],
+    good: ['We now also carry cargo to Afghanistan by truck — to the Hairatan border crossing or to Mazar-i-Sharif', 'Cargo to Afghanistan: from China and from Uzbekistan, by truck', 'we deliver them by truck to Hairatan or Mazar-i-Sharif', 'We deliver to Hairatan and to Mazar-i-Sharif', 'China → Afghanistan',
+      'the road via Khorgos and Kazakhstan to Tashkent', 'cargo reaches the Kazakhstan border', 'freight goes via Khorgos to Kazakhstan and on to Tashkent', 'a transit declaration on the Kazakh side', 'Delivery by truck from China through Kazakhstan to Tashkent',
+      'Khorgos (Kazakhstan border) → Almaty → Shymkent → Yallama crossing → Tashkent', 'The truck crosses from China to Kazakhstan at Khorgos', 'Cargo crosses into Kazakhstan at Khorgos', 'Khorgos: China → Kazakhstan',
+      'We deliver to Tashkent, Kazakhstan is only crossed in transit', 'Factories that export to Europe usually keep better records', 'One Persian text for readers in Iran and Afghanistan',
+      'We do not deliver to Kazakhstan', 'We do not carry cargo to Iran', 'There is no cargo service to Iran', 'Do you ship to Russia?', 'Do you carry cargo to Iran?',
+      'Cargo to Iran is not accepted', 'We have no Iran route', 'Our Afghanistan route', 'A new direction: Afghanistan, transit and warehouse', 'We serve Afghanistan',
+      'We do not deliver to Kabul, Herat or Kandahar', 'We do not deliver to Tehran or Mashhad', 'Other Afghan cities — Kabul, Herat, Kandahar — are not served', 'Do you deliver to Kabul?', 'Hairatan · Mazar-i-Sharif', 'Afghanistan', 'Uzbekistan', 'China'] },
+  { id: 'zh.destination', msg: DEST_MSG('zh'),
+    re: new RegExp(ZH_DEST, 'iu'),
+    bad: ['现在也承接发往伊朗的汽运货物', '我们也可以运往伊朗', '直达伊朗', '货物送至海拉顿、马扎里沙里夫和德黑兰', '两个方向的货物均送至德黑兰口岸或马什哈德', '发往阿富汗和伊朗', '我们承接发往阿富汗、伊朗的货物', '伊朗货运：从中国和乌兹别克斯坦汽运发货', '伊朗专线', '中国至伊朗汽运', '两个方向：中国至伊朗，以及乌兹别克斯坦至伊朗', '中国 → 伊朗',
+      '我们也可以运往哈萨克斯坦', '直达俄罗斯', '我们也可以运往喀布尔', '直达德黑兰', '货物可发往巴基斯坦', '运往土耳其', '哈萨克斯坦专线', '俄罗斯货运专线', '货物运抵俄罗斯', '我们也可以运往坎大哈', '中国至哈萨克斯坦货运', '到俄罗斯的拼货', '运往马什哈德', '送至赫拉特', '伊朗物流专线', '提供伊朗运输服务', '我们发货到伊朗', '送货到土库曼斯坦', '伊朗方向的货物', '可发伊朗',
+      '海拉顿 · 马扎里沙里夫 · 喀布尔', '送到以下两个地点之一：德黑兰或马什哈德。', '新方向：伊朗、过境与仓储', '伊朗', '哈萨克斯坦'],
+    good: ['现在也承接发往阿富汗的汽运货物', '我们也可以运往阿富汗', '货物送至海拉顿口岸或马扎里沙里夫', '阿富汗货运：从中国和乌兹别克斯坦汽运发货', '中国至阿富汗汽运', '中国 → 阿富汗', '从乌兹别克斯坦发往阿富汗',
+      '经哈萨克斯坦运到塔什干', '从义乌经霍尔果斯直达塔什干', '货物运到哈萨克斯坦边境', '经哈萨克斯坦过境', '货物运抵哈萨克斯坦一侧的努尔饶勒口岸', '到哈萨克斯坦边境的运输', '边境站 → 哈萨克斯坦铁路 → 萨雷阿加什 → 塔什干', '客户经理会建议改走多斯特克或吉尔吉斯斯坦线路',
+      '霍尔果斯：中国 → 哈萨克斯坦', '车辆从中国到哈萨克斯坦后办理过境手续', '该工厂的产品出口到欧洲和俄罗斯',
+      '我们不运往哈萨克斯坦', '我们不承接发往伊朗的货物', '目前没有发往巴基斯坦的线路', '你们运往俄罗斯吗？', '有到俄罗斯的货运吗？', '你们承运发往伊朗的货物吗？', '没有伊朗方向的线路', '阿富汗方向', '新方向：汽运货物发往阿富汗', '我们不发货到伊朗',
+      '我们不送喀布尔、赫拉特和坎大哈', '喀布尔、赫拉特和坎大哈暂不送达', '可以送到喀布尔吗？', '海拉顿 · 马扎里沙里夫', '阿富汗', '乌兹别克斯坦'] },
+  { id: 'fa.destination', msg: DEST_MSG('fa'),
+    re: new RegExp(FA_DEST, 'iu'),
+    bad: ['اکنون با کامیون به ایران هم بار می‌بریم', 'GSR با کامیون به ایران هم بار می‌برد', 'به افغانستان و ایران بار می‌بریم', 'بار را به افغانستان، ایران و پاکستان می‌بریم', 'حمل بار به ایران', 'حمل بار با کامیون به ایران از چین و از ازبکستان', 'بار را تا حیرتان، مزار شریف یا تهران می‌رسانیم', 'تا مشهد می‌رسانیم',
+      'کالا را می‌خریم و تا تهران می‌رسانیم', 'در دو مسیر: از چین به ایران و از ازبکستان به ایران', 'چین ← ایران', 'بار تا تهران رسانده می‌شود', 'ترانزیت به ایران از راه ترکمنستان', 'باری که مقصدش ایران است نیز می‌تواند همین‌جا جابه‌جا شود',
+      'بار را به قزاقستان هم می‌رسانیم', 'به روسیه ارسال می‌کنیم', 'بار را به کابل هم می‌رسانیم', 'تا هرات حمل می‌کنیم', 'حمل بار به قزاقستان', 'ارسال کالا از چین به پاکستان', 'ترانزیت به ترکمنستان', 'به تاجکستان حمل می‌کنیم', 'کارگو به روسیه', 'بار را به ترکیه ترانزیت می‌کنیم', 'تا کندهار می‌رسانیم', 'باربری به ایران', 'ترابری به ایران', 'حمل و نقل به ترکمنستان', 'مسیر ایران', 'انتقال بار به ایران',
+      'حیرتان • مزار شریف • هرات', 'تا یکی از این دو نقطه: تهران یا مشهد.', 'مشهد — بار را تا خود شهر می‌رسانیم.', 'مسیر تازه: ایران، ترانزیت و انبار', 'دو مسیر به ایران', 'ایران', 'قزاقستان'],
+    good: ['اکنون با کامیون به افغانستان هم بار می‌بریم', 'شرکت لجستیک GSR Logistics در تاشکند اکنون با کامیون به افغانستان هم بار می‌برد', 'حمل بار به افغانستان', 'حمل بار با کامیون به افغانستان از چین و از ازبکستان', 'تا مزار شریف می‌رسانیم', 'تا حیرتان و مزار شریف می‌رسانیم', 'بار را تا خود شهر می‌رسانیم', 'چین ← افغانستان', 'حمل بار از ازبکستان به افغانستان',
+      'از طریق قزاقستان به تاشکند می‌رسد', 'با راه‌آهن قزاقستان به تاشکند می‌آوریم', 'تا مرز ترکمنستان می‌رسانیم', 'ترانزیت قزاقستان ۱ تا ۳ روز طول می‌کشد', 'اظهارنامهٔ ترانزیت در سمت قزاقستان', 'کابل شارژ را به تاشکند می‌فرستیم', 'خورگوس (مرز قزاقستان) ← آلماتی ← شیمکنت ← تاشکند',
+      'کامیون از چین به قزاقستان وارد می‌شود', 'کامیون بار را به قزاقستان می‌برد و از آنجا به تاشکند می‌آید', 'خورگوس: چین ← قزاقستان', 'ممنوعیت ارسال واگن‌های مسطح خالی به دوستیک و آلتین‌کول', 'کارخانه‌هایی که صادرات به اروپا دارند',
+      'به قزاقستان ارسال نمی‌کنیم', 'به ایران بار نمی‌بریم', 'حمل بار به قزاقستان نداریم', 'حمل بار به هندوستان انجام نمی‌شود', 'آیا حمل بار به روسیه هم دارید؟', 'آیا به ایران هم بار می‌برید؟',
+      'مسیر ایران نداریم', 'مسیر افغانستان', 'مسیر تازه: حمل بار با کامیون به افغانستان', 'انتقال پول به چین', 'حمل و نقل به افغانستان',
+      'به کابل، هرات و قندهار بار نمی‌بریم', 'آیا تا هرات هم می‌رسانید؟', 'حیرتان • مزار شریف', 'افغانستان', 'ازبکستان', 'جواهرات و اشیای عتیقه', 'کابل شارژ و چراغ LED'] },
+
+  /* — the Afghanistan direction: no number of days and no price (block rules: one paragraph, heading, list item
+       or table row at a time) — */
+  { id: 'uz.afghanFigure', block: true, msg: FIGURE_MSG('uz'),
+    re: new RegExp(`${beside(AFGHAN[0], UZ_FIGURE, '.!?')}|${beside(AFGHAN[1], UZC_FIGURE, '.!?')}`, 'iu'),
+    bad: ['Afgʻonistonga 10–12 kunda yetkazamiz', 'Hayratongacha 5–7 kun', 'Mozori Sharifgacha yetkazish — 1 200 $ dan', 'Toshkentdan Hayratonga 3 kun, narxi 900 dollar', '2 hafta ichida Afgʻonistonga', '12 000 000 soʻm — Mozori Sharifgacha', 'Hayratonda 2–3 soat kutiladi',
+      'Афғонистонга 10–12 кунда етказамиз', 'Ҳайратонгача 5–7 кун', 'Мозори Шарифгача 1 200 $ дан'],
+    good: ['Xitoydan Toshkentga 15–25 kun', 'Saytdagi tariflar, kalkulyator va muddatlar faqat Xitoy → Toshkent yoʻnalishiga tegishli.', 'Narx va muddat — soʻrov boʻyicha: menejer ularni yukingiz boʻyicha hisoblab beradi.',
+      'Xizmat 10 — Afgʻoniston', 'WhatsApp (+998 00 000 00 00) yoki Telegramga yozing: yuk nima, hajmi yoki ogʻirligi qancha, hozir qayerda va qayerga borishi kerak — Hayratongami yoki Mozori Sharifgami.',
+      'Yigʻma yuk 15–25 kun. Afgʻonistonga yuk — narx va muddat soʻrov boʻyicha.', 'Afgʻonistonga yuk tashishni 2026-yilda boshladik.',
+      'Saytdagi 1 m³ minimum Xitoydan Toshkentga keladigan yigʻma yukka tegishli.',
+      'Хитойдан Тошкентга 15–25 кун', 'Хизмат 10 — Афғонистон'] },
+  { id: 'ru.afghanFigure', block: true, msg: FIGURE_MSG('ru'),
+    re: new RegExp(beside(AFGHAN[2], RU_FIGURE, '.!?'), 'iu'),
+    bad: ['В Афганистан — 10–14 дней', 'До Хайратона 5–7 дней', 'Доставка до Мазари-Шарифа от 1 200 $', 'за 3 дня до Хайратона', 'от 5 до 7 дней до Мазари-Шарифа', 'В Афганистан за 2 недели', 'до Хайратона — за 2 суток'],
+    good: ['Из Китая в Ташкент 15–25 дней', 'Тарифы, калькулятор и сроки на сайте относятся только к направлению Китай → Ташкент.', 'Цена и срок — по запросу: менеджер считает их под ваш груз.', 'Услуга 10 — Афганистан',
+      'Напишите в WhatsApp (+998 00 000 00 00) или в Telegram: что за груз, какой у него объём или вес, где он сейчас и куда его везти — в Хайратон или в Мазари-Шариф.', 'Сборный груз 15–25 дней. Грузы в Афганистан — цена и срок по запросу.',
+      'Минимум 1 м³, указанный на сайте, относится к сборному грузу из Китая в Ташкент.'] },
+  { id: 'en.afghanFigure', block: true, msg: FIGURE_MSG('en'),
+    re: new RegExp(beside(AFGHAN[3], EN_FIGURE, '.!?'), 'iu'),
+    bad: ['Cargo to Afghanistan in 10–14 days', 'To Hairatan in 5–7 days', 'from $1,200 to Mazar-i-Sharif', 'Delivery to Mazar-i-Sharif takes 3 days', '2 weeks to Hairatan', 'Afghanistan: from 900 USD per truck', 'The truck reaches Hairatan within 48 hours'],
+    good: ['From China to Tashkent in 15–25 days', 'The tariffs, the calculator and the transit times on this site apply to the China → Tashkent direction only.', 'Price and timing are on request: the manager calculates them for your cargo.', 'Service 10 — Afghanistan',
+      'Message us on WhatsApp (+998 00 000 00 00) or Telegram: what the cargo is, its volume or weight, where it is now and where it has to go — Hairatan or Mazar-i-Sharif.',
+      'Consolidated truck cargo takes 15–25 days. Cargo to Afghanistan is quoted on request.', 'The 1 m³ minimum published on this site applies to consolidated cargo from China to Tashkent.',
+      'Regulation No. 737 of 31 December 2022 applies to transit to Afghanistan'] },
+  { id: 'zh.afghanFigure', block: true, msg: FIGURE_MSG('zh'),
+    re: new RegExp(beside(AFGHAN[4], ZH_FIGURE, ZH_STOP), 'iu'),
+    bad: ['发往阿富汗约 10–14 天', '到海拉顿 5–7 天', '送至马扎里沙里夫 1,200 美元起', '3 天到海拉顿', '发往阿富汗 2 周内送达', '海拉顿口岸 48 小时内放行'],
+    good: ['中国到塔什干 15–25 天', '本网站上的运价、运费计算器和时效仅适用于中国 → 塔什干方向。', '价格和时效按需报价：由客户经理按您的货物核算。', '服务 10 — 阿富汗',
+      '通过 WhatsApp（+998 00 000 00 00）或 Telegram 告诉我们：货物品名、体积或重量、货物目前在哪里、要送到哪里——海拉顿还是马扎里沙里夫。', '汽运拼货约 15–25 天。发往阿富汗的货物按需报价。',
+      '更新日期：2026年11月12日 阿富汗货运', '周一至周六 9:00–19:00 周日休息 阿富汗货运', '根据2022年12月31日第737号决议办理发往阿富汗的过境手续', '本网站公布的 1 m³ 最低起运量，适用于从中国发往塔什干的拼货。'] },
+  { id: 'fa.afghanFigure', block: true, msg: FIGURE_MSG('fa'),
+    re: new RegExp(beside(AFGHAN[5], FA_FIGURE, FA_STOP), 'iu'),
+    bad: ['حمل بار به افغانستان در ۱۰ تا ۱۴ روز', 'تا حیرتان ۵ تا ۷ روز', 'تا مزار شریف از ۱٬۲۰۰ دلار', '۳ روز تا حیرتان', 'به افغانستان در ۲ هفته', 'تحویل ۱۰ روزه تا حیرتان'],
+    good: ['از چین تا تاشکند ۱۵ تا ۲۵ روز', 'تعرفه‌ها، ماشین‌حساب و زمان‌های حمل در این سایت فقط مربوط به مسیر چین ← تاشکند است.', 'قیمت و زمان با استعلام اعلام می‌شود: کارشناس ما آن‌ها را برای بار شما محاسبه می‌کند.', 'خدمت ۱۰ — افغانستان',
+      'در WhatsApp (+998 00 000 00 00) یا Telegram بنویسید: بار چیست، حجم یا وزن آن چقدر است، اکنون کجاست و باید به کجا برود — حیرتان یا مزار شریف.', 'بار تجمیعی ۱۵ تا ۲۵ روز. حمل بار به افغانستان با استعلام است.', 'حداقل ۱ متر مکعب که در این سایت آمده، مربوط به بار تجمیعی از چین به تاشکند است.'] },
+
+  /* — the Afghanistan direction: by truck only (block rules too) — */
+  { id: 'uz.afghanMode', block: true, msg: MODE_MSG('uz'),
+    re: new RegExp(`${UZ_MODE}|${UZC_MODE}`, 'iu'),
+    bad: ['Afgʻonistonga temir yoʻl orqali ham yuk tashiymiz', 'Hayratonga vagonda yetkazamiz', 'Afgʻonistonga avia yuk', 'Temir yoʻlda Afgʻonistonga yuk tashish', 'Mozori Sharifgacha samolyot bilan', 'Afgʻonistonga fura, temir yoʻl va avia orqali yuk tashiymiz', 'Afgʻonistonga temiryoʻl orqali yuk tashiymiz', 'Hayratonga konteyner poyezdi', 'Afgʻonistonga uchoqda yetkazamiz',
+      'Афғонистонга темир йўл орқали ҳам юк ташиймиз', 'Ҳайратонга вагонда етказамиз', 'Афғонистонга авиа юк', 'Афғонистонга темирйўл орқали юк ташиймиз'],
+    good: ['Ikkala holda ham yuk faqat fura bilan tashiladi.', 'Afgʻonistonga ham fura bilan yuk tashiymiz', 'Afgʻonistonga temir yoʻl yoki avia orqali yuk tashimaymiz', 'Afgʻonistonga faqat fura bilan; temir yoʻl va avia yoʻq',
+      'Afgʻonistonga faqat fura bilan tashiymiz: temir yoʻl va avia bu yoʻnalishda yoʻq', 'Afgʻonistonga temir yoʻl orqali ham tashiysizmi?', 'Avia, temir yoʻl va fura — Xitoydan Toshkentga; Afgʻonistonga — fura bilan',
+      'Xitoydan Oʻzbekistonga avia va temir yoʻl, Afgʻonistonga esa fura bilan yuk tashiymiz', 'Afgʻonistonga konditsioner va mebel ham tashiymiz', 'Afgʻonistonga temiryoʻl orqali tashimaymiz',
+      'Афғонистонга ҳам фура билан юк ташиймиз', 'Афғонистонга темир йўл ёки авиа орқали юк ташимаймиз'] },
+  { id: 'ru.afghanMode', block: true, msg: MODE_MSG('ru'),
+    re: new RegExp(RU_MODE, 'iu'),
+    bad: ['В Афганистан возим и по железной дороге', 'Вагонами до Хайратона', 'Авиадоставка в Афганистан', 'ж/д перевозки в Мазари-Шариф', 'в Афганистан самолётом', 'в Афганистан фурой, по железной дороге и авиа', 'Железнодорожные перевозки в Афганистан', 'Доставка в Афганистан железнодорожным транспортом', 'контейнерные поезда до Хайратона',
+      'Авиаперевозки в Афганистан', 'воздушным транспортом в Мазари-Шариф'],
+    good: ['В обоих случаях груз едет только фурой.', 'теперь возим грузы фурами и в Афганистан', 'В Афганистан не возим по железной дороге и авиа', 'В Афганистан — только фурой; железной дороги и авиа нет',
+      'В Афганистан — только фурой; ж/д и авиа — для Китая', 'Возите ли вы в Афганистан по железной дороге?', 'Авиа, ж/д и фура — из Китая в Ташкент; в Афганистан — фурой', 'Из Китая в Узбекистан авиа и ж/д, а в Афганистан возим фурой',
+      'Железнодорожных и авиаперевозок в Афганистан нет', 'За одну поездку в Афганистан фура везёт до 22 тонн', 'Фура делает поездку до Мазари-Шарифа', 'Воздушные фильтры и вагонку везём в Афганистан фурой'] },
+  { id: 'en.afghanMode', block: true, msg: MODE_MSG('en'),
+    re: new RegExp(EN_MODE, 'iu'),
+    bad: ['We also carry cargo to Afghanistan by rail', 'Rail freight to Hairatan', 'Air cargo to Afghanistan', 'wagons to Hairatan', 'to Mazar-i-Sharif by air', 'Afghanistan: rail and air on request', 'to Afghanistan by truck, rail or air', 'railcars to Hairatan', 'Container trains to Hairatan', 'Cargo is flown to Mazar-i-Sharif', 'aircraft charter to Afghanistan'],
+    good: ['In both cases the cargo travels by truck only.', 'We now also carry cargo to Afghanistan by truck', 'We do not carry cargo to Afghanistan by rail or by air', 'Cargo to Afghanistan goes by truck only; there is no rail or air service',
+      'We carry cargo to Afghanistan by truck — rail and air are not offered on this direction', 'Unlike air or rail, cargo to Afghanistan goes by truck', 'Do you carry cargo to Afghanistan by rail?',
+      'Air, rail and truck from China to Tashkent; truck cargo to Afghanistan', 'air cargo and rail containers from China to Uzbekistan, and now truck cargo to Afghanistan',
+      'Cargo to Afghanistan: air conditioners, tiles, furniture', 'air compressors for Afghanistan', 'We train our drivers for the Afghanistan route'] },
+  { id: 'zh.afghanMode', block: true, msg: MODE_MSG('zh'),
+    re: new RegExp(ZH_MODE, 'iu'),
+    bad: ['铁路运往阿富汗', '发往阿富汗的空运货物', '经铁路至海拉顿', '阿富汗空运', '班列直达马扎里沙里夫', '货运列车直达海拉顿', '专列发往阿富汗', '发往阿富汗的铁运货物', '航班直飞马扎里沙里夫'],
+    good: ['两个方向的货物都只走汽运。', '现在也承接发往阿富汗的汽运货物', '发往阿富汗的货物不走铁路和空运', '发往阿富汗只走汽运，没有铁路和空运', '阿富汗方向只走汽运，铁路和空运仅用于中国至塔什干', '发往阿富汗可以走铁路吗？',
+      '中国到塔什干有空运、铁路和汽运；发往阿富汗走汽运', '发往阿富汗的空调和家具', '钢铁运输到阿富汗走汽运', '发往阿富汗不走列车'] },
+  { id: 'fa.afghanMode', block: true, msg: MODE_MSG('fa'),
+    re: new RegExp(FA_MODE, 'iu'),
+    bad: ['حمل ریلی به افغانستان', 'با قطار تا حیرتان', 'حمل هوایی به افغانستان', 'به مزار شریف با هواپیما', 'واگن به حیرتان', 'از طریق خط آهن تا حیرتان', 'با ریل تا حیرتان', 'با طیاره به مزار شریف'],
+    good: ['در هر دو مسیر بار فقط با کامیون حمل می‌شود.', 'اکنون با کامیون به افغانستان هم بار می‌بریم', 'به افغانستان حمل ریلی و هوایی نداریم', 'به افغانستان فقط با کامیون؛ حمل ریلی و هوایی نداریم', 'آیا به افغانستان حمل ریلی هم دارید؟',
+      'حمل هوایی، ریلی و زمینی از چین به تاشکند؛ به افغانستان با کامیون', 'با تریلی تا حیرتان می‌رسانیم', 'بار را با تریلی به افغانستان می‌بریم', 'شرایط آب و هوایی افغانستان', 'به افغانستان از طریق خط آهن بار نمی‌بریم'] },
 ];
+/** The name this list had while it held the Chinese and Persian rules only; tools written against it read the whole list. */
+export const ZH_FA_FORBIDDEN = CLAIM_RULES;
+
 
 /* ── Orthography, per page language (raw text) ──────────────────────────────────────────────── */
 
@@ -545,12 +1200,76 @@ const ADDRESS_FIXTURES = {
 
 /* ── The self-test ──────────────────────────────────────────────────────────────────────────── */
 
+/** The plainest claim of each language, for the place tables: "We deliver to <place>". Uzbek adds its ending to the name (-qa after q). */
+const PLAIN_CLAIM = {
+  uz: (place) => `${place}${/q$/.test(place) ? 'qa' : 'ga'} yuk tashiymiz`,
+  uzc: (place) => `${place}${/қ$/.test(place) ? 'қа' : 'га'} юк ташиймиз`,
+  ru: (place) => `Доставка ${place}`, // the cell spells the preposition: «в Иран», «до Ирана»
+  en: (place) => `We deliver to ${place}`,
+  zh: (place) => `运往${place}`,
+  fa: (place) => `به ${place} ارسال می‌کنیم`,
+};
+/** …and the bare route: "China → <place>". */
+const PLAIN_ROUTE = {
+  uz: (place) => `Xitoy → ${place}`,
+  uzc: (place) => `Хитой → ${place}`,
+  ru: (place) => `Китай → ${ruName(place)}`,
+  en: (place) => `China → ${place}`,
+  zh: (place) => `中国 → ${place}`,
+  fa: (place) => `چین ← ${place}`,
+};
+
 /** Every rule against its own sentences. Returns the list of misfires (empty when all is well). */
 export function selfTest() {
   const bad = [];
-  for (const r of ZH_FA_FORBIDDEN) {
+  for (const r of CLAIM_RULES) {
     for (const s of r.bad) if (!r.re.test(normalize(s))) bad.push(`${r.id} misses its bad sentence: ${s}`);
     for (const s of r.good) if (r.re.test(normalize(s))) bad.push(`${r.id} fires on its good sentence: ${s}`);
+  }
+  // A good sentence is one the site may say, so no OTHER rule may stop it either: the translator sentence has to
+  // pass the destination rules, an Afghanistan sentence the figure rules, and so on. (check-content.mjs asserts
+  // the same against its uz/ru/en FORBIDDEN list.)
+  for (const owner of CLAIM_RULES) {
+    for (const s of owner.good) {
+      const n = normalize(s);
+      for (const r of CLAIM_RULES) if (r !== owner && r.re.test(n)) bad.push(`${r.id} fires on the good sentence of ${owner.id}: ${s}`);
+    }
+  }
+  const ids = CLAIM_RULES.map((r) => r.id);
+  for (const id of new Set(ids.filter((x, i) => ids.indexOf(x) !== i))) bad.push(`two rules are called ${id}`);
+  // The place tables, spelling by spelling. In the plainest claim of its language ("We deliver to …") a place GSR
+  // does not serve must be stopped by that language's rule, and a place it serves must pass every rule. After an
+  // arrow ("China → …") a place of ELSEWHERE must be stopped, and a country a route crosses (ON_ROUTE) must pass.
+  const destination = Object.fromEntries(CLAIM_RULES.filter((r) => r.id.endsWith('.destination')).map((r) => [r.id.split('.')[0], r]));
+  for (const [table, rows] of Object.entries(PLACE_TABLES)) {
+    for (const row of rows) {
+      PLACE_LANGS.forEach((lang, i) => {
+        const rule = destination[lang === 'uzc' ? 'uz' : lang];
+        for (const place of spellings(row[i])) {
+          const claim = normalize(PLAIN_CLAIM[lang](place));
+          const route = normalize(PLAIN_ROUTE[lang](place));
+          if (table === 'SERVED') {
+            for (const r of CLAIM_RULES) for (const s of [claim, route]) if (r.re.test(s)) bad.push(`${r.id} fires on a place GSR serves: ${s}`);
+          } else {
+            // (a bare Russian spelling — «Россия» — is the form after an arrow only)
+            if (!(lang === 'ru' && place === ruName(place)) && !rule.re.test(claim)) bad.push(`${rule.id} misses a place of ${table} in ${lang}: ${claim}`);
+            if (rule.re.test(route) !== (table === 'ELSEWHERE')) bad.push(`${rule.id} ${table === 'ELSEWHERE' ? 'misses' : 'fires on'} the route form of a place of ${table} in ${lang}: ${route}`);
+          }
+        }
+      });
+    }
+  }
+  // The five cities: the name alone, as a third point in a list, is stopped. (Persian «کابل» is also a cable.)
+  for (const row of TOWNS) {
+    PLACE_LANGS.forEach((lang, i) => {
+      const rule = destination[lang === 'uzc' ? 'uz' : lang];
+      for (const place of spellings(row[i])) {
+        if (lang === 'ru' && !place.startsWith('в ')) continue; // the nominative is the form after «в»
+        if (lang === 'fa' && !NOT_A_CABLE(row)) continue;
+        const label = normalize(`· ${lang === 'ru' ? ruName(place) : place} ·`);
+        if (!rule.re.test(label)) bad.push(`${rule.id} lets the name of a city pass in ${lang}: ${label}`);
+      }
+    });
   }
   for (const rules of Object.values(PAGE_RULES)) {
     for (const r of rules) {

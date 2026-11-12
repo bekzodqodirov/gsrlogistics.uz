@@ -580,8 +580,9 @@ test('toCyrillicSlug produces a Cyrillic path segment', () => {
  *
  * Each one was read against the WORD, not the ASCII slug: `qollanma` is `qoʻllanma` → `қўлланма`,
  * `lugati` is `lugʻati` → `луғати`, `yol` is `yoʻl` → `йўл`, `tolovlari` is `toʻlovlari`,
- * `yonalishlar` is `yoʻnalishlar`; `kalkulyator` and `avtomobil` keep the soft sign the Latin
- * alphabet cannot write; `yiwu`/`guangzhou` follow the Uzbek copy (Ivu, Guanchjou), not pinyin.
+ * `yonalishlar` is `yoʻnalishlar`, `afgonistonga` is `Afgʻonistonga` → `афғонистонга`; `kalkulyator` and
+ * `avtomobil` keep the soft sign the Latin alphabet cannot write; `yiwu`/`guangzhou` follow the Uzbek copy
+ * (Ivu, Guanchjou), not pinyin.
  */
 const PUBLISHED_SLUGS = {
   page: {
@@ -606,6 +607,9 @@ const PUBLISHED_SLUGS = {
     bojxona: 'божхона',
     'ombor-sifat-nazorati': 'омбор-сифат-назорати',
     'avtomobil-importi': 'автомобиль-импорти',
+    'afgonistonga-yuk-tashish': 'афғонистонга-юк-ташиш',
+    'tranzit-hujjatlari': 'транзит-ҳужжатлари',
+    'bojxona-ombori': 'божхона-омбори',
   },
   guide: {
     '1688-orqali-buyurtma-berish': '1688-орқали-буюртма-бериш',
@@ -971,6 +975,7 @@ test('every slugWords entry still answers for a slug the site publishes', () => 
   assert.equal(toCyrillic('lugʻati'), slugWords.lugati);
   assert.equal(toCyrillic('toʻlovlari'), slugWords.tolovlari);
   assert.equal(toCyrillic('yoʻnalishlar'), slugWords.yonalishlar);
+  assert.equal(toCyrillic('Afgʻonistonga').toLowerCase(), slugWords.afgonistonga);
   assert.equal(toCyrillic('Ivu').toLowerCase(), slugWords.yiwu);
   assert.equal(toCyrillic('Guanchjou').toLowerCase(), slugWords.guangzhou);
 });
