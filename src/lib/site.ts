@@ -172,6 +172,14 @@ export const facebookUrl = `https://facebook.com/${site.facebook}`;
 export const phone2Url = `tel:${site.phone2E164}`;
 export const whatsappUrl = `https://wa.me/${site.whatsapp}`;
 /**
+ * The day the hub pages (home, services index, FAQ) last changed in substance: their dateModified, modified-time meta
+ * and sitemap lastmod. It is NOT the tariff date (tariffs.json `updated`, the one the price captions print) — a new
+ * service group or FAQ group changes these pages without changing a tariff. Bump it with such a change.
+ */
+export const hubsUpdated = '2026-11-12';
+/** The later of two ISO dates. */
+export const laterDate = (a: string, b: string) => (a > b ? a : b);
+/**
  * WhatsApp chat with a prefilled draft — the twin of `telegramChat`, for the on-request service pages
  * (cargo to Afghanistan, transit documents, the warehouse under customs control), whose clients are told to
  * write on WhatsApp or Telegram. User-initiated like every chat link: WhatsApp opens with the text and the

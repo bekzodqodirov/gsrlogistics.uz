@@ -9,7 +9,7 @@ import { common } from '@/i18n/common';
 import { faqStrings, faqTpl } from '@/i18n/faq';
 import { faq, faqItems } from '@/data/faq';
 import { pagePath } from '@/i18n/routes';
-import { site, phoneUrl, telegramChat } from '@/lib/site';
+import { site, phoneUrl, telegramChat, hubsUpdated, laterDate } from '@/lib/site';
 import { fmtDate, fmtInt, fmtNumRange, fmtUsd, ruQuestions, sep } from '@/lib/format';
 import { faqNode } from '@/lib/schema';
 import tariffs from '@/data/tariffs.json';
@@ -54,7 +54,7 @@ const glyphs = [
 ];
 let n = 0;
 ---
-<Base lang={lang} title={t.seoTitle} description={description} pageKey="faq" breadcrumbs={breadcrumbs} jsonLd={[faqNode(all)]} dateModified={tariffs.updated}>
+<Base lang={lang} title={t.seoTitle} description={description} pageKey="faq" breadcrumbs={breadcrumbs} jsonLd={[faqNode(all)]} dateModified={laterDate(tariffs.updated, hubsUpdated)}>
   <article class="page">
     <header class="hero">
       <div class="container">

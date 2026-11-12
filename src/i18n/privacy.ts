@@ -9,7 +9,7 @@ export interface PrivacyStrings { seoTitle: string; seoDescription: string; eyeb
 const uz: PrivacyStrings = {
   seoTitle: 'Maxfiylik siyosati — GSR Logistics',
   seoDescription: 'GSR Logistics saytida shaxsga doir maʼlumotlar qanday yigʻiladi, nima maqsadda ishlatiladi, kimga uzatiladi va qancha saqlanadi. Oʻzbekiston Respublikasining «Shaxsga doir maʼlumotlar toʻgʻrisida»gi qonuniga (OʻRQ-547) muvofiq.',
-  eyebrow: 'Maxfiylik', h1: 'Maxfiylik siyosati', effective: 'Amal qilish sanasi: 2026-yil 26-sentabr',
+  eyebrow: 'Maxfiylik', h1: 'Maxfiylik siyosati', effective: 'Amal qilish sanasi: 2026-yil 12-noyabr',
   intro: 'Bu sahifa gsrlogistics.uz sayti orqali biz bilan bogʻlanganingizda qanday maʼlumotlar yigʻilishi, ular nima uchun kerakligi va kimga uzatilishini tushuntiradi. Sayt cookie-banner ishlatmaydi va reklama trekerlarini yuklamaydi.',
   operatorLabel: 'Operator', operatorFallback: 'GSR Logistics',
   sections: [
@@ -28,7 +28,7 @@ const uz: PrivacyStrings = {
 const ru: PrivacyStrings = {
   seoTitle: 'Политика конфиденциальности — GSR Logistics',
   seoDescription: 'Какие персональные данные собирает сайт GSR Logistics, зачем, кому передаются и сколько хранятся. В соответствии с Законом Республики Узбекистан «О персональных данных» (ЗРУ-547).',
-  eyebrow: 'Конфиденциальность', h1: 'Политика конфиденциальности', effective: 'Дата вступления в силу: 26 сентября 2026 г.',
+  eyebrow: 'Конфиденциальность', h1: 'Политика конфиденциальности', effective: 'Дата вступления в силу: 12 ноября 2026 г.',
   intro: 'На этой странице объясняется, какие данные собираются, когда вы связываетесь с нами через сайт gsrlogistics.uz, зачем они нужны и кому передаются. Сайт не использует cookie-баннер и не загружает рекламные трекеры.',
   operatorLabel: 'Оператор', operatorFallback: 'GSR Logistics',
   sections: [
@@ -47,7 +47,7 @@ const ru: PrivacyStrings = {
 const en: PrivacyStrings = {
   seoTitle: 'Privacy policy — GSR Logistics',
   seoDescription: 'What personal data the GSR Logistics website collects, why, who receives it and how long it is kept. In line with the Law of the Republic of Uzbekistan “On Personal Data” (ZRU-547).',
-  eyebrow: 'Privacy', h1: 'Privacy policy', effective: 'Effective date: September 26, 2026',
+  eyebrow: 'Privacy', h1: 'Privacy policy', effective: 'Effective date: November 12, 2026',
   intro: 'This page explains what data is collected when you contact us through gsrlogistics.uz, why it is needed and who receives it. The site uses no cookie banner and loads no advertising trackers.',
   operatorLabel: 'Data controller', operatorFallback: 'GSR Logistics',
   sections: [

@@ -100,6 +100,8 @@ const stickyStat = onRequest ? undefined : days
   ? { value: fmtNumRange(days[0], days[1], lang), unit: t.line.days, label: t.page.stickyDays }
   : digitFact ? { value: digitFact.value, unit: '', label: digitFact.label } : undefined;
 /* Under a table: its own note, else the "Estimate · Updated" caption — which an on-request page never prints. */
+/* The related cards below: an on-request page prints no price figure, so there the number line of a related TARIFF
+   service ("commission from 3%", "insurance 1%") is left out; a related on-request service keeps its line. */
 const tableNote = (note?: string) => note ?? (onRequest ? undefined : estimateMeta);
 const numberLine = serviceNumberLine(lang, service.key);
 const subs = serviceSubs(service);
@@ -304,7 +306,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
                   <span class="rel-glyph"><Icon name={r.icon} size={24} /></span>
                   <h3 class="rel-name">{pick(lang, r.name)}</h3>
                   <p class="rel-short">{pick(lang, r.short)}</p>
-                  <p class="rel-num tnum">{serviceNumberLine(lang, r.key)}</p>
+                  {(!onRequest || r.quote === 'request') && <p class="rel-num tnum">{serviceNumberLine(lang, r.key)}</p>}
                   <span class="link">{c.cta.details}</span>
                 </a>
               </li>

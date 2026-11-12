@@ -6,7 +6,7 @@ export const zh: PrivacyStrings = {
   seoDescription: 'GSR Logistics 网站收集哪些个人数据、用于什么目的、提供给谁、保存多久。本政策依据乌兹别克斯坦共和国《个人数据法》（ZRU-547）制定。',
   eyebrow: '隐私政策',
   h1: '隐私政策',
-  effective: '生效日期：2026年9月26日',
+  effective: '生效日期：2026年11月12日',
   intro: '本页说明您通过 gsrlogistics.uz 网站联系我们时会收集哪些数据、为什么需要这些数据，以及数据会提供给谁。本网站不使用 cookie 弹窗，也不加载广告追踪器。',
   operatorLabel: '数据控制者',
   operatorFallback: 'GSR Logistics',

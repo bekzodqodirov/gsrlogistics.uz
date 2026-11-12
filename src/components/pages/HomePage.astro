@@ -42,7 +42,7 @@ import FaqShort from '@/components/sections/FaqShort.astro';
 import CtaBand from '@/components/sections/CtaBand.astro';
 import { serviceNode } from '@/lib/schema';
 import { itemUrl } from '@/i18n/routes';
-import { site } from '@/lib/site';
+import { site, hubsUpdated, laterDate } from '@/lib/site';
 import { services } from '@/data/services';
 import tariffs from '@/data/tariffs.json';
 import { fmtUsd } from '@/lib/format';
@@ -88,7 +88,7 @@ const serviceGraph = services.slice(0, 3).map((s) =>
   }),
 );
 ---
-<Base lang={lang} title={pick(lang, seo).title} description={pick(lang, seo).description} pageKey="home" jsonLd={serviceGraph} dateModified={tariffs.updated}>
+<Base lang={lang} title={pick(lang, seo).title} description={pick(lang, seo).description} pageKey="home" jsonLd={serviceGraph} dateModified={laterDate(tariffs.updated, hubsUpdated)}>
   <Hero lang={lang} />
   <Journey lang={lang} />
   <Services lang={lang} />
