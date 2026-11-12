@@ -545,6 +545,54 @@ const FA_MODE = mode({ name: AFGHAN[5], mode: '(?<!ت)ریلی|(?<!\\p{Script=Ar
   no: 'نمی|ندار|نیست|نشده|بدون|فقط\\sبا\\sکامیون' });
 const MODE_MSG = (lang) => `offers rail, wagon or air carriage to Afghanistan (${lang}) — that direction is by truck only (a denial passes; a contrast goes into two sentences)`;
 
+/*
+ * 4. Three more things the Afghanistan direction never says (owner, 2026-11-11: the smallest lot is on request, the
+ * direction is new, and GSR has no office, representative or partner there). An audit of 2026-11-12 found that
+ * nothing stopped them. Block rules too; each reads one sentence.
+ *
+ *   afghanVolume    a volume figure (m³, cubic metres) within 60 characters of Afghanistan, Hairatan or
+ *                   Mazar-i-Sharif. The 1 m³ minimum is China → Tashkent's: say so in a sentence of its own.
+ *   afghanPresence  an office, a branch or a representative IN Afghanistan, Hairatan or Mazar-i-Sharif.
+ *   afghanSchedule  weekly, daily or "regular" departures within 40 characters of such a name.
+ * A denial ("we have no office in Afghanistan", "no weekly departures") or a question passes the last two.
+ */
+const cbm = (unit) => `(?<![\\d.,+])${NUM}(?:\\s?[–—-]\\s?${NUM})?\\s?(?:${unit})`;
+const UZ_CBM = cbm('m[³3]|kub|metr\\s+kub');
+const UZC_CBM = cbm('м[³3]|куб|метр\\s+куб');
+const RU_CBM = cbm('м[³3]|куб');
+const EN_CBM = cbm('m[³3]|cbm\\b|cubic\\s+met(?:er|re)s?\\b');
+const ZH_CBM = cbm('m[³3]|立方|方(?![面向案式法便形])|cbm');
+const FA_CBM = cbm('متر[\\s\\p{Cf}]?مکعب|m[³3]');
+const VOLUME_MSG = (lang) => `a volume figure beside Afghanistan, Hairatan or Mazar-i-Sharif (${lang}) — the smallest lot on this direction is agreed with the manager; the 1 m³ minimum is China → Tashkent's (say so in a sentence of its own)`;
+// `words` within `span` characters of `name`, in one sentence — unless the sentence denies it or asks (as mode() does)
+const nearName = (o) => {
+  const stop = o.stop ?? '.!?;';
+  const span = o.span ?? 40;
+  return `(?:(?:${o.words})[^${stop}]{0,${span}}?${o.name}|${o.name}[^${stop}]{0,${span}}?(?:${o.words}))` +
+    `(?<!(?:${o.no})[^${stop}]{0,90})(?![^${stop}]{0,40}(?:${o.no}|${o.asks}))`;
+};
+const UZ_NO = `${UZ_DENIED}|(?<![a-zʻʼ])(?:yo${AP}?q|emas)(?![a-zʻʼ])`;
+const UZC_NO = `${UZC_DENIED}|(?<![а-яёўқғҳ])(?:йўқ|эмас)(?![а-яёўқғҳ])`;
+const RU_NO = '(?<![а-яё])(?:не|нет|ни)(?![а-яё])';
+const EN_NO = `\\b(?:not|no|never|without)\\b|n[’']t\\b`;
+const ZH_NO = '[不没无未]';
+const FA_NO = 'نمی|ندار|نیست|نشده|بدون';
+// "IN Afghanistan": the locative, so that «Ofisimiz Toshkentda; Afgʻonistonga fura bilan…» and «в Афганистан возим» pass
+const UZ_PRESENCE = nearName({ name: `(?:Afg${AP}?oniston|Hayraton|Mozori\\s+Sharif)(?:da|dagi)(?![a-zʻʼ])`, words: 'ofis|filial|vakolatxona|vakil', no: UZ_NO, asks: '\\?' });
+const UZC_PRESENCE = nearName({ name: '(?:Афғонистон|Ҳайратон|Мозори\\s+Шариф)(?:да|даги)(?![а-яёўқғҳ])', words: 'офис|филиал|ваколатхона|вакил', no: UZC_NO, asks: '\\?' });
+const RU_PRESENCE = nearName({ name: '(?<![а-яё])в\\s+(?:Афганистане|Хайратоне|Мазари[\\s-]*Шарифе)', words: 'офис|филиал|представительств|(?<![а-яё])представител', no: RU_NO, asks: '\\?' });
+const EN_PRESENCE = nearName({ name: `\\b(?:in|at)\\s+(?:Afghanistan|Ha[iy]rat[ao]n|Mazar[\\s-]*[ie][\\s-]*Sharif)`, words: '(?<!customs\\s)\\boffices?\\b|\\bbranch(?:es)?\\b|\\brepresentatives?\\b', no: EN_NO, asks: '\\?' });
+const ZH_PRESENCE = nearName({ name: '(?:阿富汗|海拉顿|马扎里沙里夫)', words: '办事处|分公司|代表处|办公室|分支机构', span: 10, stop: `${ZH_STOP}，,、`, no: ZH_NO, asks: '吗|？|\\?' });
+const FA_PRESENCE = nearName({ name: 'در\\s(?:افغانستان|حیرتان|مزار[\\s\\p{Cf}]?شریف)', words: 'دفتر(?!چه)|نمایندگی|نماینده|شعبه', stop: `${FA_STOP}؛;`, no: FA_NO, asks: '؟' });
+const PRESENCE_MSG = (lang) => `claims an office, a branch or a representative in Afghanistan (${lang}) — GSR has none there (a denial passes)`;
+const UZ_SCHEDULE = nearName({ name: AFGHAN[0], words: `har\\s+(?:hafta|kuni?)(?![a-zʻʼ])|haftasiga|haftalik|kuniga|muntazam\\s+(?:reys|qatnov|jo${AP}?nat|ravishda)|jadval\\s+bo${AP}?yicha`, no: UZ_NO, asks: '\\?' });
+const UZC_SCHEDULE = nearName({ name: AFGHAN[1], words: 'ҳар\\s+(?:ҳафта|куни?)(?![а-яёўқғҳ])|ҳафтасига|ҳафталик|кунига|мунтазам\\s+(?:рейс|қатнов|жўнат|равишда)|жадвал\\s+бўйича', no: UZC_NO, asks: '\\?' });
+const RU_SCHEDULE = nearName({ name: AFGHAN[2], words: 'еженедельн|ежедневн|кажд(?:ую|ый|ые)\\s+(?:неделю|день)|раза?\\s+в\\s+(?:неделю|месяц)|регулярн[а-яё]+\\s+(?:рейс|отправ|отгруз|сообщени)|по\\s+расписани', no: RU_NO, asks: '\\?' });
+const EN_SCHEDULE = nearName({ name: AFGHAN[3], words: '\\bweekly\\b|\\bdaily\\b|\\bevery\\s+(?:week|day|month|(?:mon|tues|wednes|thurs|fri|satur|sun)day)\\b|\\b(?:once|twice|\\d+\\s+times)\\s+a\\s+(?:week|month)\\b|\\bregular\\s+(?:departures?|trucks?|services?|runs?|schedules?|shipments?)\\b|\\bscheduled\\s+departures?\\b', no: EN_NO, asks: '\\?' });
+const ZH_SCHEDULE = nearName({ name: AFGHAN[4], words: '每周|每天|每日|定期发|定期班|固定班期|固定发车|周[一二三四五六日]发', stop: ZH_STOP, no: ZH_NO, asks: '吗|？|\\?' });
+const FA_SCHEDULE = nearName({ name: AFGHAN[5], words: 'هر\\s(?:هفته|روز)(?!\\p{Script=Arabic})|هفتگی|روزانه|منظم', stop: `${FA_STOP}؛;`, no: FA_NO, asks: '؟' });
+const SCHEDULE_MSG = (lang) => `claims regular or scheduled departures to Afghanistan (${lang}) — the direction is new and no schedule is confirmed (a denial passes)`;
+
 /**
  * Each rule: `{ id, msg, re, bad, good }`, and `block: true` where it reads one block of a page at a time.
  * In the Persian patterns `[\s\p{Cf}]` is "a space or a ZWNJ" (نیم‌فاصله), `(?<!ن)می` keeps the
@@ -991,6 +1039,79 @@ export const CLAIM_RULES = [
     bad: ['حمل ریلی به افغانستان', 'با قطار تا حیرتان', 'حمل هوایی به افغانستان', 'به مزار شریف با هواپیما', 'واگن به حیرتان', 'از طریق خط آهن تا حیرتان', 'با ریل تا حیرتان', 'با طیاره به مزار شریف'],
     good: ['در هر دو مسیر بار فقط با کامیون حمل می‌شود.', 'اکنون با کامیون به افغانستان هم بار می‌بریم', 'به افغانستان حمل ریلی و هوایی نداریم', 'به افغانستان فقط با کامیون؛ حمل ریلی و هوایی نداریم', 'آیا به افغانستان حمل ریلی هم دارید؟',
       'حمل هوایی، ریلی و زمینی از چین به تاشکند؛ به افغانستان با کامیون', 'با تریلی تا حیرتان می‌رسانیم', 'بار را با تریلی به افغانستان می‌بریم', 'شرایط آب و هوایی افغانستان', 'به افغانستان از طریق خط آهن بار نمی‌بریم'] },
+
+  /* — the Afghanistan direction: no volume figure (the 1 m³ minimum is China → Tashkent's) — */
+  { id: 'uz.afghanVolume', block: true, msg: VOLUME_MSG('uz'),
+    re: new RegExp(`${beside(AFGHAN[0], UZ_CBM, '.!?')}|${beside(AFGHAN[1], UZC_CBM, '.!?')}`, 'iu'),
+    bad: ['Afgʻonistonga yigʻma yuk 1 m³ dan qabul qilinadi', 'Afgʻonistonga minimal hajm 1 m³', 'Hayratongacha kamida 5 kub yuk olamiz', 'Mozori Sharifga 10 m3 dan', '2 kubdan boshlab Afgʻonistonga',
+      'Афғонистонга йиғма юк 1 м³ дан қабул қилинади', 'Ҳайратонгача камида 5 куб'],
+    good: ['Saytdagi 1 m³ minimum Xitoydan Toshkentga keladigan yigʻma yukka tegishli.', 'Eng kichik partiya hajmi menejer bilan kelishiladi — bu sahifada son koʻrsatilmagan.', 'Yigʻma yuk 1 m³ dan. Afgʻonistonga yuk — soʻrov boʻyicha.',
+      'Xitoydan Toshkentga yigʻma yuk kamida 1 m³ dan qabul qilinadi', 'Сайтдаги 1 м³ минимум Хитойдан Тошкентга келадиган йиғма юкка тегишли.'] },
+  { id: 'ru.afghanVolume', block: true, msg: VOLUME_MSG('ru'),
+    re: new RegExp(beside(AFGHAN[2], RU_CBM, '.!?'), 'iu'),
+    bad: ['В Афганистан сборный груз от 1 м³', 'Минимальный объём в Афганистан — 1 м³', 'до Хайратона от 5 кубов', 'В Мазари-Шариф принимаем от 2 куб. м', 'в Афганистан от 3 кубометров'],
+    good: ['Минимум 1 м³, указанный на сайте, относится к сборному грузу из Китая в Ташкент.', 'Минимальный размер партии согласуется с менеджером — на этой странице цифры нет.', 'Сборный груз — от 1 м³. Грузы в Афганистан — по запросу.',
+      'Сборный груз из Китая в Ташкент принимаем от 1 м³'] },
+  { id: 'en.afghanVolume', block: true, msg: VOLUME_MSG('en'),
+    re: new RegExp(beside(AFGHAN[3], EN_CBM, '.!?'), 'iu'),
+    bad: ['Consolidated cargo to Afghanistan from 1 m³', 'Minimum volume to Afghanistan: 1 m³', 'from 5 cbm to Hairatan', 'to Mazar-i-Sharif from 2 cubic metres', 'Afghanistan: lots from 3 m3'],
+    good: ['The 1 m³ minimum published on this site applies to consolidated cargo from China to Tashkent.', 'The smallest lot is agreed with the manager — this page gives no figure.', 'Consolidated cargo is accepted from 1 m³. Cargo to Afghanistan is quoted on request.',
+      'Consolidated truck cargo from China to Tashkent is accepted from 1 m³ per shipment'] },
+  { id: 'zh.afghanVolume', block: true, msg: VOLUME_MSG('zh'),
+    re: new RegExp(beside(AFGHAN[4], ZH_CBM, ZH_STOP), 'iu'),
+    bad: ['发往阿富汗的拼货 1 m³ 起运', '阿富汗方向最低起运量 1 立方米', '到海拉顿 5 方起', '送至马扎里沙里夫 2 立方起'],
+    good: ['本网站公布的 1 m³ 最低起运量，适用于从中国发往塔什干的拼货。', '最小起运量由客户经理与您商定——本页不列具体数字。', '拼货 1 m³ 起运。发往阿富汗的货物按需报价。', '中国到塔什干的拼货 1 m³ 起运'] },
+  { id: 'fa.afghanVolume', block: true, msg: VOLUME_MSG('fa'),
+    re: new RegExp(beside(AFGHAN[5], FA_CBM, FA_STOP), 'iu'),
+    bad: ['بار تجمیعی به افغانستان از ۱ متر مکعب', 'حداقل حجم برای افغانستان ۱ متر مکعب است', 'تا حیرتان از ۵ متر مکعب', 'به مزار شریف از ۲ مترمکعب'],
+    good: ['حداقل ۱ متر مکعب که در این سایت آمده، مربوط به بار تجمیعی از چین به تاشکند است.', 'حداقل حجم محموله با کارشناس ما توافق می‌شود — در این صفحه رقمی نیامده است.', 'بار تجمیعی از ۱ متر مکعب. حمل بار به افغانستان با استعلام است.',
+      'بار تجمیعی از چین به تاشکند از ۱ متر مکعب پذیرفته می‌شود'] },
+
+  /* — the Afghanistan direction: no office, branch or representative there — */
+  { id: 'uz.afghanPresence', block: true, msg: PRESENCE_MSG('uz'),
+    re: new RegExp(`${UZ_PRESENCE}|${UZC_PRESENCE}`, 'iu'),
+    bad: ['Mozori Sharifda ofisimiz bor', 'Afgʻonistonda vakilimiz ishlaydi', 'Hayratondagi filialimiz yukni qabul qiladi', 'Ofisimiz Mozori Sharifda joylashgan',
+      'Афғонистонда офисимиз бор', 'Мозори Шарифдаги вакилимиз'],
+    good: ['Afgʻonistonda ofisimiz yoʻq', 'Ofisimiz Toshkentda; Afgʻonistonga fura bilan yuk tashiymiz', 'Afgʻonistonda ofisingiz bormi?', 'Ofis faqat Toshkentda', 'Афғонистонда офисимиз йўқ'] },
+  { id: 'ru.afghanPresence', block: true, msg: PRESENCE_MSG('ru'),
+    re: new RegExp(RU_PRESENCE, 'iu'),
+    bad: ['Наш офис в Мазари-Шарифе', 'В Афганистане работает наш представитель', 'филиал в Хайратоне принимает грузы', 'В Афганистане у нас есть представительство'],
+    good: ['Офиса в Афганистане у нас нет', 'Офис — в Ташкенте; в Афганистан возим фурой', 'Есть ли у вас офис в Афганистане?', 'Представителя в Афганистане нет'] },
+  { id: 'en.afghanPresence', block: true, msg: PRESENCE_MSG('en'),
+    re: new RegExp(EN_PRESENCE, 'iu'),
+    bad: ['Our office in Mazar-i-Sharif', 'We have a representative in Afghanistan', 'our branch at Hairatan receives the cargo', 'In Afghanistan our office helps with customs'],
+    good: ['We have no office in Afghanistan', 'Our office is in Tashkent; cargo to Afghanistan goes by truck', 'Do you have an office in Afghanistan?', 'the customs office in Hairatan', 'We do not have a representative in Afghanistan'] },
+  { id: 'zh.afghanPresence', block: true, msg: PRESENCE_MSG('zh'),
+    re: new RegExp(ZH_PRESENCE, 'iu'),
+    bad: ['我们在阿富汗设有办事处', '马扎里沙里夫办事处', '在海拉顿设有分公司', '办事处设在马扎里沙里夫'],
+    good: ['我们在阿富汗没有办事处', '办事处设在塔什干，发往阿富汗的货物走汽运', '你们在阿富汗有办事处吗？', '公司在阿富汗未设代表处'] },
+  { id: 'fa.afghanPresence', block: true, msg: PRESENCE_MSG('fa'),
+    re: new RegExp(FA_PRESENCE, 'iu'),
+    bad: ['دفتر ما در مزار شریف', 'در افغانستان نماینده داریم', 'شعبهٔ ما در حیرتان بار را تحویل می‌گیرد', 'نمایندگی ما در افغانستان'],
+    good: ['در افغانستان دفتر نداریم', 'دفتر ما در تاشکند است؛ به افغانستان با کامیون بار می‌بریم', 'آیا در افغانستان دفتر دارید؟', 'در افغانستان نماینده‌ای نداریم'] },
+
+  /* — the Afghanistan direction: no schedule and no "regular" departures — */
+  { id: 'uz.afghanSchedule', block: true, msg: SCHEDULE_MSG('uz'),
+    re: new RegExp(`${UZ_SCHEDULE}|${UZC_SCHEDULE}`, 'iu'),
+    bad: ['Afgʻonistonga haftasiga ikki marta fura joʻnatamiz', 'Har hafta Hayratonga fura chiqadi', 'Afgʻonistonga muntazam reyslar', 'Mozori Sharifga haftalik fura',
+      'Афғонистонга ҳафтасига икки марта фура жўнатамиз', 'Ҳар ҳафта Ҳайратонга фура чиқади'],
+    good: ['Afgʻoniston — biz uchun yangi yoʻnalish.', 'Afgʻonistonga muntazam reys yoʻq: fura yuk yigʻilganda joʻnaydi', 'Afgʻonistonga har hafta fura joʻnatasizmi?', 'Fura qachon joʻnashini menejer aytadi', 'Афғонистон — биз учун янги йўналиш.'] },
+  { id: 'ru.afghanSchedule', block: true, msg: SCHEDULE_MSG('ru'),
+    re: new RegExp(RU_SCHEDULE, 'iu'),
+    bad: ['Еженедельные отправки в Афганистан', 'Каждую неделю фура уходит в Хайратон', 'В Афганистан два раза в неделю', 'Регулярные рейсы до Мазари-Шарифа', 'в Афганистан по расписанию'],
+    good: ['Афганистан — новое для нас направление.', 'Регулярных рейсов в Афганистан нет: фура уходит по мере набора груза', 'Отправляете ли вы фуры в Афганистан каждую неделю?', 'Когда уходит фура, скажет менеджер'] },
+  { id: 'en.afghanSchedule', block: true, msg: SCHEDULE_MSG('en'),
+    re: new RegExp(EN_SCHEDULE, 'iu'),
+    bad: ['Weekly departures to Afghanistan', 'A truck leaves for Hairatan every week', 'Twice a week to Mazar-i-Sharif', 'Regular departures to Afghanistan', 'daily trucks to Hairatan'],
+    good: ['Afghanistan is a new direction for us.', 'There are no weekly departures to Afghanistan: the truck leaves when the cargo is collected', 'Do you send trucks to Afghanistan every week?', 'The manager tells you when the truck leaves'] },
+  { id: 'zh.afghanSchedule', block: true, msg: SCHEDULE_MSG('zh'),
+    re: new RegExp(ZH_SCHEDULE, 'iu'),
+    bad: ['每周发车前往阿富汗', '发往阿富汗的货物每周发运', '海拉顿方向定期发车', '每天都有车发往马扎里沙里夫'],
+    good: ['阿富汗对我们来说是新方向。', '发往阿富汗没有固定班期，货物集齐后发车', '发往阿富汗每周都发车吗？', '发车时间由客户经理告知'] },
+  { id: 'fa.afghanSchedule', block: true, msg: SCHEDULE_MSG('fa'),
+    re: new RegExp(FA_SCHEDULE, 'iu'),
+    bad: ['هر هفته به افغانستان کامیون می‌فرستیم', 'حرکت هفتگی به حیرتان', 'روزانه به مزار شریف بار می‌بریم', 'حمل منظم بار به افغانستان'],
+    good: ['افغانستان برای ما مسیر تازه‌ای است.', 'به افغانستان حرکت هفتگی نداریم: کامیون پس از جمع شدن بار راه می‌افتد', 'آیا هر هفته به افغانستان کامیون می‌فرستید؟', 'زمان حرکت کامیون را کارشناس ما اعلام می‌کند'] },
 ];
 /** The name this list had while it held the Chinese and Persian rules only; tools written against it read the whole list. */
 export const ZH_FA_FORBIDDEN = CLAIM_RULES;

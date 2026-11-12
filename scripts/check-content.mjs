@@ -291,6 +291,18 @@ const WAREHOUSE_FIXTURES = {
     'The warehouse belongs to our partner; cargo is stored there under customs control.',
   ],
 };
+/*
+ * English, Chinese and Persian may say "our warehouse" of the warehouse where cargo from China is handed over, so
+ * for them the partner's warehouse is protected on its own pages: on the six pages of the `bonded` service nothing
+ * may call a warehouse "ours" (uz and ru never may, anywhere — the two rules above).
+ */
+const PARTNER_WAREHOUSE_PAGE = /\/(?:bojxona-ombori|божхона-омбори|tamozhennyj-sklad|customs-warehouse-tashkent)\/$/;
+const OUR_WAREHOUSE = /\bour\s+(?:own\s+)?(?:customs\s+|bonded\s+)?warehouse|\bGSR(?:\s+Logistics)?[’']s?\s+(?:own\s+)?warehouse|我们(?:自己)?的(?:海关监管|监管|保税)?仓库|我方仓库|自有仓库|انبار(?:[\s\p{Cf}]?مان|\sما(?!\p{Script=Arabic})|\sخودمان)/iu;
+const PARTNER_WAREHOUSE_FIXTURES = {
+  bad: ['our warehouse in Tashkent', 'Our own customs warehouse', 'GSR’s warehouse under customs control', '我们的仓库', '我们的海关监管仓库', '自有仓库', 'انبار ما در تاشکند', 'انبارمان', 'انبار خودمان'],
+  good: ['a partner’s warehouse', 'The warehouse belongs to our partner; cargo is stored there under customs control.', 'We allocate space for our clients in a warehouse under customs control',
+    '合作方的仓库', '该仓库属于我们的合作方', '我们在合作方的监管仓库安排仓位', 'انبار همکار ما', 'این انبار متعلق به همکار ماست', 'انبار ماشین‌آلات'],
+};
 // The new rules prove themselves before they judge a page. A sentence a rule must let through is one the site
 // may say, so it has to pass EVERY rule that reads a page: this list and the claim rules of content-rules.mjs
 // (selfTest() has checked those against one another). stoppedBy() names every rule that would stop a sentence.
@@ -330,6 +342,8 @@ const fixtureMisfires = [
   ...VOLUME_FIXTURES.good.flatMap((s) => stoppedBy(s).map((msg) => `«${msg}» fires on the good volume sentence: ${s}`)),
   ...WAREHOUSE_FIXTURES.bad.filter((s) => !WAREHOUSE_RULES.some(([re]) => re.test(s) || re.test(normalize(s)))).map((s) => `the "our warehouse" rules miss their bad sentence: ${s}`),
   ...WAREHOUSE_FIXTURES.good.flatMap((s) => stoppedBy(s).map((msg) => `«${msg}» fires on the good warehouse sentence: ${s}`)),
+  ...PARTNER_WAREHOUSE_FIXTURES.bad.filter((s) => !OUR_WAREHOUSE.test(normalize(s))).map((s) => `the partner's-warehouse rule misses its bad sentence: ${s}`),
+  ...PARTNER_WAREHOUSE_FIXTURES.good.filter((s) => OUR_WAREHOUSE.test(normalize(s))).map((s) => `the partner's-warehouse rule fires on its good sentence: ${s}`),
   ...CLAIM_RULES.flatMap((r) => r.good.flatMap((s) => FORBIDDEN.filter(([re]) => re.test(s) || re.test(normalize(s))).map(([, msg]) => `«${msg}» fires on the good sentence of ${r.id}: ${s}`))),
   ...BLOCK_FIXTURES.good.flatMap((html) => markupHits(html).map((msg) => `a block rule reads two blocks as one — «${msg}» on: ${html}`)),
   ...BLOCK_FIXTURES.bad.filter((html) => !markupHits(html).length).map((html) => `the block rules miss one block: ${html}`),
@@ -368,6 +382,7 @@ for (const file of walk(dist)) {
   const warnBefore = warn.length;
   for (const [re, msg] of FORBIDDEN) if (re.test(text) || re.test(norm)) errors.push(`${url}: ${msg}`);
   for (const msg of claimHits(norm, blocks(html).map(normalize))) errors.push(`${url}: ${msg}`);
+  if (PARTNER_WAREHOUSE_PAGE.test(url) && OUR_WAREHOUSE.test(norm)) errors.push(`${url}: calls a warehouse "ours" on a page of the warehouse under customs control — that warehouse is a partner's`);
   if (retiredPhone(norm) && !errors.slice(errorsBefore).some((e) => e.endsWith('retired second phone number'))) errors.push(`${url}: retired second phone number`);
   // One bot, one username, everywhere — visible text, hrefs and JSON-LD alike (so this reads the
   // raw HTML, not the stripped copy). A single wrong character hands a client to a stranger's bot.

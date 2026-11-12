@@ -103,8 +103,9 @@ Egasi 2026-11-11 da tasdiqlagan uch xizmat: `afghanistan` — Afgʻonistonga yuk
 
 - **Qayerga:** Afgʻonistonda ikki nuqtagacha — Hayraton (chegara, mijoz yukni shu yerda oladi) va Mozori Sharif. Afgʻonistonning boshqa shaharlari ham, boshqa mamlakatlar ham (Eron, Qozogʻiston, Rossiya va h.k.) yetkazish manzili sifatida yozilmaydi: ularga yuk tashilmaydi.
 - **Qayerdan va nimada:** Xitoydan (Oʻzbekiston orqali tranzit tartibida) va Oʻzbekistondan; faqat fura bilan — butun fura yoki yigʻma yuk. Bu yoʻnalishda temir yoʻl, vagon va avia taklif qilinmaydi.
-- **Narx va muddat:** soʻrov boʻyicha. Kun soni, narx, eng kichik hajm, reyslar jadvali yozilmaydi; saytdagi raqamlar Xitoy → Toshkent yoʻnalishiniki ekani alohida jumlada aytiladi.
-- **Ombor:** bojxona nazoratidagi ombor hamkorniki, kompaniya undan mijozlariga joy ajratadi. «Bizning omborimiz» deyilmaydi, saqlash muddati yozilmaydi.
+- **Narx va muddat:** soʻrov boʻyicha. Kun soni, narx, eng kichik hajm (m³), reyslar jadvali yozilmaydi; «har hafta», «muntazam reys» kabi vaʼdalar ham. Saytdagi raqamlar Xitoy → Toshkent yoʻnalishiniki ekani alohida jumlada aytiladi.
+- **Ofis:** Afgʻonistonda ofis, filial yoki vakil yoʻq — bor deb yozilsa, build toʻxtaydi (inkor jumlasi va savol oʻtadi).
+- **Ombor:** bojxona nazoratidagi ombor hamkorniki, kompaniya undan mijozlariga joy ajratadi. «Bizning omborimiz» deyilmaydi (ombor sahifalarida bu ingliz, xitoy va fors tillarida ham tekshiriladi), saqlash muddati yozilmaydi.
 - **Til:** menejerlar fors va dari tilida gaplashmaydi. Sayt shunday yozadi: fors yoki dari tilida yozgan mijozga tarjimon yordamida forscha javob beriladi; ingliz, rus va oʻzbek tillarida ham javob beriladi. «Tarjimon yordamida» soʻzlari tushib qolsa, build toʻxtaydi.
 - **Joy nomlari:** oʻzbekcha — Afgʻoniston, Hayraton, Mozori Sharif, Termiz; ruscha — Афганистан, Хайратон, Мазари-Шариф, Термез; inglizcha — Afghanistan, Hairatan, Mazar-i-Sharif, Termez; xitoycha — 阿富汗, 海拉顿, 马扎里沙里夫, 铁尔梅兹; forscha — افغانستان، حیرتان، مزار شریف، ترمذ.
 
