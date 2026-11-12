@@ -520,14 +520,15 @@ export function tpl(s: string, vars: Record<string, string | number>): string {
 /**
  * Which service pages group together on the index page. Every service must sit in exactly one group: the index
  * renders these groups and nothing else, so a key left out would vanish from the page while its ItemList still
- * counted it. `regional` (2026-11-12) holds the three on-request services, after the paperwork of the China route.
+ * counted it. `regional` (2026-11-12) holds the three on-request services. It comes last: the cards carry the
+ * services' numbers (01–12, registry order), and with this group anywhere else the page read 08, 10, 11, 12, 09.
  */
 export const serviceGroups: Array<{ id: 'shipping' | 'buying' | 'paperwork' | 'regional' | 'vehicles'; keys: ServiceKey[] }> = [
   { id: 'shipping', keys: ['truck', 'air', 'rail'] },
   { id: 'buying', keys: ['sourcing', 'buying', 'equipment'] },
   { id: 'paperwork', keys: ['customs', 'warehouse'] },
-  { id: 'regional', keys: ['afghanistan', 'transit', 'bonded'] },
   { id: 'vehicles', keys: ['cars'] },
+  { id: 'regional', keys: ['afghanistan', 'transit', 'bonded'] },
 ];
 
 import tariffs from '@/data/tariffs.json';
