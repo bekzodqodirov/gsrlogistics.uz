@@ -36,6 +36,13 @@
       "reason": "The messenger's standard Persian name (GLOSSARY §3: Telegram → تلگرام), the one every other fa string writes ('در تلگرام به ما پیام دهید'); the mobile bar was the last Latin 'Telegram' on fa pages."
     },
     {
+      "path": "src/i18n/common.ts:common.fa.bar.whatsapp",
+      "locale": "fa",
+      "source": "WhatsApp",
+      "value": "واتساپ",
+      "reason": "The messenger's standard Persian name, as every other fa string writes it ('در واتساپ به ما پیام دهید'); it stands in the phone bar beside 'تلگرام', which is already listed here."
+    },
+    {
       "path": "src/i18n/services.ts:servicesStrings.zh.line.containers",
       "locale": "zh",
       "source": "20ft / 40ft",

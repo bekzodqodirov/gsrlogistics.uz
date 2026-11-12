@@ -27,6 +27,6 @@ export const zh: CommonStrings = {
     track: '您好！货物代码：',
   },
   notFound: { title: '页面找不到了，但您的货物找得到。', text: '该网址不存在或已迁移。请返回首页，或通过 Telegram 联系我们。', home: '返回首页' },
-  bar: { telegram: 'Telegram', call: '致电', price: '价格' },
+  bar: { telegram: 'Telegram', call: '致电', price: '价格', whatsapp: 'WhatsApp' },
   strings: { confirmTelegram: '在 Telegram 中确认', enterCode: '请输入货物代码', track: '查询', formSuccess: '咨询已收到。我们将在工作时间内回复。', sample: '示例', managerTip: '客户经理提示', viewOnMap: '在地图上查看', allRates: '全部运价', contents: '目录', estimateMeta: '参考价 · 更新日期', approx: '约', from: '起', days: '天', kg: 'kg', m3: 'm³', perKg: '美元/kg', perM3: '美元/m³' },
 };
