@@ -91,6 +91,7 @@ export const fa: ServicesStrings = {
     relatedTitle: 'خدمات مرتبط',
     guidesTitle: 'در راهنماها بخوانید',
     guidesIntro: 'مقاله‌های مفصل دربارهٔ همین موضوع — قواعد قیمت‌گذاری، گمرک و مسیرها.',
+    guidesIntroRequest: 'مقاله‌های مفصل دربارهٔ همین موضوع — مسیر، اسناد و ترانزیت گمرکی.',
     ctaEyebrow: 'تماس',
     fallback: {
       seoTitle: '{name} — از چین به ازبکستان',
@@ -125,5 +126,7 @@ export const fa: ServicesStrings = {
     'prohibited-goods': 'کالاهای ممنوع',
     'glossary': 'واژه‌نامهٔ کارگو',
     'routes': 'مسیرهای حمل از چین به تاشکند',
+    'china-afghanistan': 'حمل بار از چین به افغانستان از طریق ازبکستان',
+    'uzbekistan-transit': 'ترانزیت از خاک ازبکستان: اسناد و روند کار',
   },
 };

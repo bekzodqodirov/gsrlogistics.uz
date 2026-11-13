@@ -36,10 +36,10 @@ interface Props {
   dateModified?: string;
   bodyClass?: string;
   hideMobileBar?: boolean;
-  /** A wa.me link with a draft: the phone bar then shows WhatsApp in the price calculator's place (on-request service pages). */
+  /** A wa.me link with a draft: the phone bar then shows WhatsApp in the price calculator's place (on-request service pages and the guides that belong to them). */
   mobileBarWhatsapp?: string;
   /**
-   * The page's own lead: team, topic and summary line (on-request service pages). Written on <body>; there every
+   * The page's own lead: team, topic and summary line (on-request service pages and their guides). Written on <body>; there every
    * GENERAL Telegram button (header, menu, footer, phone bar) becomes this page's button — ContactPicker.astro skips
    * its questions, which are about China → Tashkent cargo ("under 1 m³ — air only").
    */

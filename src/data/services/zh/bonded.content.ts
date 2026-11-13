@@ -133,12 +133,12 @@ const content: ServiceContent = {
     },
   ],
   related: ['transit', 'afghanistan', 'warehouse'],
-  guideKeys: [],
+  guideKeys: ['uzbekistan-transit', 'china-afghanistan'],
   cta: {
     title: '需要在塔什干安排仓位或换装？请给我们留言。',
     text: '请通过 WhatsApp 或 Telegram 告诉我们货物品名、体积或重量、起运地和目的地，以及需要存放多久。客户经理会告知条件和价格。',
     draft: '您好！我想咨询塔什干海关监管仓库和换装服务。货物：… 体积或重量：… 线路：…',
   },
-  updated: '2026-11-12',
+  updated: '2026-11-13',
 };
 export default content;

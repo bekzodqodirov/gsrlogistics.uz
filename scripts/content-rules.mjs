@@ -205,7 +205,7 @@ const FA_UNSERVED_NAME = column([...ON_ROUTE, ...ELSEWHERE].filter(NOT_A_CABLE),
  * Afghan) — expressions, not spellings: uz, uzc, ru, en, zh, fa.
  */
 /** The Afghan names in the six languages as one expression: check-content.mjs reads the answer to a question that names one. */
-export const AFGHAN_NAME = new RegExp(`Afg${AP}?on|Hayraton|Mozori|Афғон|Ҳайратон|Афган|Хайратон|Мазари|Afghan|Ha[iy]rat[ao]n|Mazar|阿富汗|海拉顿|马扎里沙里夫|افغان|حیرتان|مزار[\\s\\p{Cf}]?شریف`, 'iu');
+export const AFGHAN_NAME = new RegExp(`Afg${AP}?on|Hayraton|Mozori|Афғон|Ҳайратон|Мозори|Афган|Хайратон|Мазари|Afghan|Ha[iy]rat[ao]n|Mazar|阿富汗|海拉顿|马扎里沙里夫|افغان|حیرتان|مزار[\\s\\p{Cf}]?شریف`, 'iu');
 const AFGHAN = [`(?:Afg${AP}?on|Hayraton|Mozori)`, '(?:Афғон|Ҳайратон|Мозори)', '(?:Афган|Хайратон|Мазари)', '(?:Afghan|Ha[iy]rat[ao]n|Mazar)', '(?:阿富汗|海拉顿|马扎里沙里夫)', '(?:افغان|حیرتان|مزار[\\s\\p{Cf}]?شریف)'];
 
 /*
@@ -260,7 +260,7 @@ const UZC_DENIED = '[а-яёўқғҳ]+ма(?:й(?:миз|ди|сиз|ман|ди
 // and English, Кандагар in Uzbek Cyrillic and Russian — and every rule reads every page, so the denial and the
 // question of BOTH languages let the name through: "We do not deliver to Mashhad", «Mashhadga yetkazmaymiz».
 const LATIN_NAME_OK = `(?<!(?:\\b(?:no|not|never|without|cannot|except|beyond)\\b|n[’']t\\b)[^.!?]{0,90})` +
-  `(?![^.!?]{0,80}(?:\\?|\\b(?:not|no|never)\\b|n[’']t\\b|${UZ_DENIED}|(?<![a-zʻʼ])(?:yo${AP}?q|emas)(?![a-zʻʼ])))`;
+  `(?![^.!?]{0,80}(?:\\?|\\b(?:not|never)\\b|\\bno\\b(?!\\s+(?:extra|additional|hidden|delays?|waiting|queues?|hassle|paperwork)\\b)|n[’']t\\b|${UZ_DENIED}|(?<![a-zʻʼ])(?:yo${AP}?q|emas)(?![a-zʻʼ])))`;
 const CYRILLIC_NAME_OK = '(?<!(?<![а-яёўқғҳ])(?:не|нет|ни|кроме|без)(?![а-яёўқғҳ])[^.!?]{0,90})' +
   `(?![^.!?]{0,80}(?:\\?|(?<![а-яёўқғҳ])(?:не|нет|йўқ|эмас)(?![а-яёўқғҳ])|${UZC_DENIED}))`;
 const UZ_DEST = uzbekDestination({
@@ -406,7 +406,9 @@ const FA_DEST =
   `|${FA_NOT_INSIDE}(?:${FA_TOWNS})(?!\\p{Script=Arabic})(?![^${FA_STOP}]{0,80}(?:نمی|ندار|نیست|نشد|؟))` +
   // the whole string is the name: a value of the structured data
   `|^\\s*(?:${FA_UNSERVED_NAME})\\s*$` +
-  `|←\\s?(?:${FA_ELSEWHERE})(?!\\p{Script=Arabic})(?![^${FA_STOP}]{0,60}←)`;
+  `|←\\s?(?:${FA_ELSEWHERE})(?!\\p{Script=Arabic})(?![^${FA_STOP}]{0,60}←)` +
+  // «در کابل» is the city, not a cable: «ما در کابل هم بار تحویل می‌دهیم», «شرکای ما در کابل هم ترخیص …»
+  `|(?<!\\p{Script=Arabic})در\\sکابل(?!\\p{Script=Arabic})(?!\\s(?:برق|مسی|شبکه|فیبر))(?<!(?:نمی|ندار|نیست|نشد|بدون)[^${FA_STOP}]{0,60})(?![^${FA_STOP}]{0,80}(?:نمی|ندار|نیست|نشد|؟))`;
 const DEST_MSG = (lang) => `names a country or city GSR does not serve as a destination (${lang}) — it delivers in Uzbekistan and, in Afghanistan, to Hairatan and Mazar-i-Sharif only (owner, 2026-11-11); the cities of the TOWNS table (Kabul, Herat, Kandahar, Kunduz, Pul-e-Khumri, Sheberghan, Tehran, Mashhad, Isfahan, Bandar Abbas) may be named only in a denial or a question`;
 
 /*
@@ -534,12 +536,16 @@ const NUM = '\\d{1,4}(?:[.,]\\d{1,3})*';
 // "5–7 kun", "от 5 до 7 дней", "3 days", "1,200 USD", "$900" — never the tail of a longer number or of a phone
 const figure = (range, time, money) => `(?<![\\d.,+])(?:${NUM}(?:\\s?(?:[–—-]|${range})\\s?${NUM})?\\s?-?\\s?(?:${time}|${money})|[$€¥]\\s?\\d|${NUM}\\s?%)`;
 const beside = (name, fig, stop) => `${name}[^${stop}]{0,60}?${fig}|${fig}[^${stop}]{0,60}?${name}`;
-const UZ_FIGURE = figure('dan', '(?:ish\\s+)?kun|sutka|hafta|soat', `\\$|USD|dollar|AQSH\\s+dollari|so${AP}?m|UZS|yuan|€|EUR`);
-const UZC_FIGURE = figure('дан', '(?:иш\\s+)?кун|сутка|ҳафта|соат', '\\$|USD|доллар|АҚШ\\s+доллари|сўм|UZS|юан|€|EUR');
-const RU_FIGURE = figure('до', '(?:рабоч[а-яё]+\\s+)?(?:дн[еяй]|день|суток|сутки)|недел[ьюией]|час(?:а|ов)?(?![а-яё])', '\\$|USD|доллар|сум(?![а-яё])|сумов|UZS|юан|€|EUR|евро');
-const EN_FIGURE = figure('to', '(?:working\\s+|business\\s+)?days?\\b|weeks?\\b|hours?\\b', '\\$|USD|US\\s?dollars?|dollars?\\b|UZS|soums?\\b|sums?\\b|yuan|CNY|€|EUR|euros?\\b');
+// "calendar" may stand between the number and the day, as "working" may: "10 calendar days", «10 kalendar kun»,
+// «10 календарь кун» (the spelling of the generated Cyrillic twin), «10 календарных дней», 10 个日历日 / 10 个自然日 —
+// the house vocabulary of the guides since 2026-11 (premerge review, 2026-11-13). Persian puts the adjective after
+// the day («۱۰ روز تقویمی»), so روز was always read.
+const UZ_FIGURE = figure('dan', '(?:(?:ish|kalendar)\\s+)?kun|sutka|hafta|soat', `\\$|USD|dollar|AQSH\\s+dollari|so${AP}?m|UZS|yuan|€|EUR`);
+const UZC_FIGURE = figure('дан', '(?:(?:иш|календарь?)\\s+)?кун|сутка|ҳафта|соат', '\\$|USD|доллар|АҚШ\\s+доллари|сўм|UZS|юан|€|EUR');
+const RU_FIGURE = figure('до', '(?:(?:рабоч|календарн)[а-яё]+\\s+)?(?:дн[еяй]|день|суток|сутки)|недел[ьюией]|час(?:а|ов)?(?![а-яё])', '\\$|USD|доллар|сум(?![а-яё])|сумов|UZS|юан|€|EUR|евро');
+const EN_FIGURE = figure('to', '(?:working\\s+|business\\s+|calendar\\s+)?days?\\b|weeks?\\b|hours?\\b', '\\$|USD|US\\s?dollars?|dollars?\\b|UZS|soums?\\b|sums?\\b|yuan|CNY|€|EUR|euros?\\b');
 // 日 only as a duration (3 日内送达), not the day of a date (11月12日); 周 is a week, not 周一 or 周末; 天, not 天津
-const ZH_FIGURE = figure('至|到|~|～', '个?工作日|天(?!津)|日(?=内|之内|左右|以内|可达|送达|到达|抵达|运抵)|周(?![一二三四五六日末年期边围])|个?星期|个?小时', '\\$|USD|美元|美金|元|人民币|苏姆|UZS|€|欧元');
+const ZH_FIGURE = figure('至|到|~|～', '个?工作日|个?(?:日历|自然)日|天(?!津)|日(?=内|之内|左右|以内|可达|送达|到达|抵达|运抵)|周(?![一二三四五六日末年期边围])|个?星期|个?小时', '\\$|USD|美元|美金|元|人民币|苏姆|UZS|€|欧元');
 const FA_FIGURE = figure('تا|الی', '(?:روزه?|هفته|ساعته?)(?!\\p{Script=Arabic})', '\\$|USD|دلار|سوم(?!\\p{Script=Arabic})|یوان|تومان|ریال|€|یورو');
 const FIGURE_MSG = (lang) => `a number of days or a price beside Afghanistan, Hairatan or Mazar-i-Sharif (${lang}) — on this direction price and time are on request; the site's figures are China → Tashkent only (say so in a sentence of its own)`;
 const mode = (o) => {
@@ -567,12 +573,18 @@ const MODE_MSG = (lang) => `offers rail, wagon or air carriage to Afghanistan ($
 
 /*
  * 4. Three more things the Afghanistan direction never says (owner, 2026-11-11: the smallest lot is on request, the
- * direction is new, and GSR has no office, representative or partner there). An audit of 2026-11-12 found that
- * nothing stopped them. Block rules too; each reads one sentence.
+ * direction is new, and GSR has no office or representative there; owner, 2026-11-12: its partners there are customs
+ * agents (declarants) — §4a below). An audit of 2026-11-12 found that nothing stopped them. Block rules too; each
+ * reads one sentence.
  *
  *   afghanVolume    a volume figure (m³, cubic metres) within 60 characters of Afghanistan, Hairatan or
  *                   Mazar-i-Sharif. The 1 m³ minimum is China → Tashkent's: say so in a sentence of its own.
- *   afghanPresence  an office, a branch or a representative IN Afghanistan, Hairatan or Mazar-i-Sharif.
+ *   afghanPresence  an office, a branch, a representative, an employee, "our man", a terminal or a pick-up point IN
+ *                   Afghanistan, Hairatan or Mazar-i-Sharif (always; also as "we have staff / a warehouse there",
+ *                   «у нас есть склад», «omborimiz bor», 我们在…有仓库, «انبار داریم»), and partners, agents or brokers there — unless
+ *                   the sentence names them as customs agents (declarants) and gives them nothing to do with the
+ *                   cargo (§4a). A sentence that names the partner customs agents and has them receive, store,
+ *                   deliver or hand over the cargo is stopped wherever the Afghan name stands in it.
  *   afghanSchedule  weekly, daily or "regular" departures within 40 characters of such a name.
  * A denial ("we have no office in Afghanistan", "no weekly departures") or a question passes the last two.
  */
@@ -594,19 +606,209 @@ const nearName = (o) => {
 const UZ_NO = `${UZ_DENIED}|(?<![a-zʻʼ])(?:yo${AP}?q|emas)(?![a-zʻʼ])`;
 const UZC_NO = `${UZC_DENIED}|(?<![а-яёўқғҳ])(?:йўқ|эмас)(?![а-яёўқғҳ])`;
 const RU_NO = '(?<![а-яё])(?:не|нет|ни)(?![а-яё])';
-const EN_NO = `\\b(?:not|no|never|without)\\b|n[’']t\\b`;
-const ZH_NO = '[不没无未]';
-const FA_NO = 'نمی|ندار|نیست|نشده|بدون';
-// "IN Afghanistan": the locative, so that «Ofisimiz Toshkentda; Afgʻonistonga fura bilan…» and «в Афганистан возим» pass
-const UZ_PRESENCE = nearName({ name: `(?:Afg${AP}?oniston|Hayraton|Mozori\\s+Sharif)(?:da|dagi)(?![a-zʻʼ])`, words: 'ofis|filial|vakolatxona|vakil|hamkor(?:lar)?imiz|agent|xodim(?:lar)?imiz|odam(?:lar)?imiz|hamkasb(?:lar)?imiz|punktimiz|terminal', no: UZ_NO, asks: '\\?' });
-const UZC_PRESENCE = nearName({ name: '(?:Афғонистон|Ҳайратон|Мозори\\s+Шариф)(?:да|даги)(?![а-яёўқғҳ])', words: 'офис|филиал|ваколатхона|вакил|ҳамкор(?:лар)?имиз|агент|ходим(?:лар)?имиз|одам(?:лар)?имиз|ҳамкасб(?:лар)?имиз|пунктимиз|терминал', no: UZC_NO, asks: '\\?' });
-const RU_PRESENCE = nearName({ name: '(?<![а-яё])в\\s+(?:Афганистане|Хайратоне|Мазари[\\s-]*Шарифе)', words: 'офис|филиал|представительств|(?<![а-яё])представител|(?<![а-яё])наш[а-яё]{0,3}\\s+(?:партн[её]р|сотрудник|человек|люди|коллег|контакт)[а-яё]*|(?<![а-яё])агент|(?<![а-яё])терминал|пункт[а-яё]{0,2}\\s+выдачи', no: RU_NO, asks: '\\?' });
-const EN_PRESENCE = nearName({ name: `\\b(?:in|at)\\s+(?:Afghanistan|Ha[iy]rat[ao]n|Mazar[\\s-]*[ie][\\s-]*Sharif)`, words: '(?<!customs\\s)\\boffices?\\b|\\bbranch(?:es)?\\b|\\brepresentatives?\\b|\\bour\\s+(?:own\\s+|local\\s+)?(?:partners?|agents?|employees?|staff|people|team|man|person|contact|colleagues?|warehouse|depot|terminal|pick-?up\\s+point)\\b|\\b(?:an|a\\s+local|local)\\s+agents?\\b', no: EN_NO, asks: '\\?' }) +
-  `|\\bour\\s+Afghan\\s+(?:offices?|branch(?:es)?|partners?|agents?|team|staff|warehouse|representatives?)\\b(?![^.!?;]{0,40}(?:${EN_NO}|\\?))`;
-const ZH_PRESENCE = nearName({ name: '(?:阿富汗|海拉顿|马扎里沙里夫)', words: '办事处|分公司|代表处|办公室|分支机构|合作伙伴|代理|员工|站点|提货点|网点', span: 10, stop: `${ZH_STOP}，,、`, no: ZH_NO, asks: '吗|？|\\?' }) +
-  `|我(?:们|司)在${AFGHAN[4]}的(?:人员|同事|联系人|团队|仓库)`;
-const FA_PRESENCE = nearName({ name: 'در\\s(?:افغانستان|حیرتان|مزار[\\s\\p{Cf}]?شریف)', words: 'دفتر(?!چه)|نمایندگی|نماینده|شعبه|(?:(?:همکار|کارمند)(?:ان)?|نفر|نیرو|ترمینال|گدام|انبار)(?:\\p{Mn}|ی)?\\s(?:ما|خودمان)(?!\\p{Script=Arabic})|عامل(?!\\p{Script=Arabic})', stop: `${FA_STOP}؛;`, no: FA_NO, asks: '؟' });
-const PRESENCE_MSG = (lang) => `claims an office, a branch or a representative in Afghanistan (${lang}) — GSR has none there (a denial passes)`;
+const EN_NO = `\\b(?:not|never)\\b|\\bno\\b(?!\\s+(?:extra|additional|hidden|delays?|waiting|queues?|hassle|paperwork)\\b)|\\bwithout\\b(?!\\s+(?:delays?|waiting|extra|additional|hassle|queues?)\\b)|n[’']t\\b`;
+const ZH_NO = '(?!(?:无需|不必|不用)(?:您|亲自|到|前往|跑|额外|另外|另行|付费|付款))[不没无未]';
+const FA_NO = 'نمی|ندار|نیست|نشده|بدون(?!\\s(?:معطلی|تأخیر|تاخیر|دردسر|هزینه))';
+/*
+ * 4a. GSR's partners on the Afghan side (owner, 2026-11-12, FACTS §12.1: «partnerlar bor deklarant agentlar»): customs
+ * on the Afghan side is cleared by GSR's PARTNERS, who are customs agents (declarants). A sentence may say so when it
+ * names them AS such — a partner word AND a customs-agent / declarant word in the same sentence, either order, within
+ * about 40 characters of each other (row 82: "On the Afghan side, customs clearance is done by our partners — customs agents
+ * (declarants)."). afghanPresence and afghanCustoms let that sentence through, unless the same sentence also
+ *   · has the cargo handled — received, taken or handed over, delivered, stored, unloaded, collected, picked up or met:
+ *     the partners are customs agents only, never "our partners receive / store / hand over the cargo";
+ *   · says "ourselves", or names GSR's own customs broker (he files the transit declaration in Uzbekistan): the two
+ *     sides of the border go into two sentences;
+ *   · names the consignee (the consignee's agent is not confirmed);
+ *   · says who pays the Afghan duties, or that they are included — DDP, "duties included", «boj va soliq … narxga
+ *     kiradi», «пошлины включены», 包税 / 含关税, «عوارض گمرکی در قیمت»: who pays them is not confirmed.
+ * Never let through, partners or not: an office, a branch, a representative, an employee, staff, "our man", a warehouse,
+ * a depot, a terminal or a pick-up point in Afghanistan (afghanPresence), and an Incoterm or a payment of the duties
+ * (afghanCustoms). And a sentence that names the partner customs agents together with one of the words above is stopped
+ * wherever in it the Afghan name stands — an apposition («— customs agents (declarants) —») is longer than the 40
+ * characters the families read around the name. (The partners' names are never printed either, FACTS §12.1; no rule
+ * can know them.)
+ * A sentence ends at . ! ? ; (zh 。！？；, fa ؟ ؛ as well) — never at a comma or a dash.
+ */
+/** The partner customs agents in one sentence: a partner word and an agent word, either order, at most 40 characters apart. */
+const partnerAgents = (o) => `(?:(?:${o.partner})[^${o.stop}]{0,40}?(?:${o.agent})|(?:${o.agent})[^${o.stop}]{0,40}?(?:${o.partner}))`;
+/**
+ * The start of the sentence that holds the current position, inside a look-behind: a look-behind is matched right to
+ * left, so `(?<=^|[stop])` — written last, read first — keeps the look-aheads before it from being tried at every
+ * other position of the sentence while `[^stop]*` gives characters back.
+ */
+const sentenceStart = (stop) => `(?<=^|[${stop}])[^${stop}]*`;
+/**
+ * Written right after a hit: the hit is let through when the sentence that holds it — from the sentence end before it
+ * to the next one — names the partner customs agents and none of the words that cancel the exemption (`o.cancel`).
+ */
+const partnersOk = (o) => `(?<!(?=[^${o.stop}]*?${partnerAgents(o)})(?![^${o.stop}]*?(?:${o.cancel}))${sentenceStart(o.stop)})`;
+/**
+ * One sentence that names the Afghan side, the partner customs agents and one of `words`, at any distance — unless it
+ * denies or asks. The match starts at the Afghan name (rare: the sentence is read only where one stands) and runs to
+ * the end of the sentence. A denial counts only within 25 characters of the word (guard verification, 2026-11-13):
+ * "they do not receive the cargo" is one, "… receive the cargo with no extra paperwork" is not.
+ */
+const partnerSentence = (o, words, asks = o.asks) => `(?:${o.name})(?<=(?=[^${o.stop}]*?${partnerAgents(o)})(?=[^${o.stop}]*?(?<!(?:${o.no})[^${o.stop}]{0,25})(?![^${o.stop}]{0,25}?(?:${o.no}))(?:${words}))(?![^${o.stop}]*?(?:${asks}))${sentenceStart(o.stop)})[^${o.stop}]*`;
+/**
+ * The words that cancel the exemption, in one expression: the cargo handled (`handling` — received, handed over,
+ * delivered, stored, unloaded, collected, met; also carried, escorted, "everything else"), "ourselves" or GSR's own
+ * broker, the consignee, and who pays the duties (`incl`). `afghanDuties` is the Afghan duties named as included or paid
+ * in so many words («Afgʻoniston boji narxga kiradi», "the price includes the Afghan duties") — a claim of its own,
+ * however far from a place name.
+ */
+const partnerWords = (o) => ({ ...o, cancel: [o.handling, o.ourselves, o.consignee, o.incl].join('|') });
+// Duties paid or included (never let through, §4a). Not «bojxona toʻlovlari taʼminoti», «обеспечение уплаты таможенных
+// платежей», 海关税费担保, «تضمین پرداخت‌های گمرکی»: the security for customs payments of a transit is GSR's service in Uzbekistan.
+const UZ_INCL = `(?<![a-z])DDP(?![a-z])|(?<![a-zʻʼ])boj\\s+va\\s+soliq(?![a-zʻʼ]*siz)|(?<![a-zʻʼ])(?:boj(?:lar)?|soliq(?:lar)?|yig${AP}?im(?:lar)?)(?:i|ni|ini|lari|larini|ning)?\\s+(?:ham\\s+)?(?:to${AP}?la|narx)|(?<![a-zʻʼ])bojxona\\s+to${AP}?lov[a-zʻʼ]*\\s+(?:ham\\s+)?to${AP}?la|(?<![a-zʻʼ])(?:boj|soliq|to${AP}?lov|yig${AP}?im)[a-zʻʼ]*[^.!?;]{0,30}?narx(?:i|ga|imiz(?:ga)?|ingiz(?:ga)?)?\\s+(?:ham\\s+)?(?:ichida|kir|qo${AP}?sh)|(?<![a-zʻʼ])(?:boj|soliq)(?:lar)?(?:ni|ini|larni)?\\s+(?:siz|biz|mijoz|hamkor|importyor|yuk\\s+oluvchi)[a-zʻʼ]*\\s+(?:o${AP}?zi\\s+)?to${AP}?la|(?<![a-zʻʼ])eshikdan\\s+eshikka|(?<![a-zʻʼ])(?:hisobimizdan|(?:mijoz|importyor|yuk\\s+oluvchi)(?:ning)?\\s+hisobidan|o${AP}?z\\s+hisobingizdan|qo${AP}?shimcha\\s+to${AP}?lovsiz)(?![a-zʻʼ])|(?<![a-zʻʼ])narx(?:i|ga|imiz(?:ga)?|ingiz(?:ga)?)\\s+(?:ham\\s+)?(?:kiradi|kiritilgan|qo${AP}?shilgan)`;
+const UZC_INCL = '(?<![a-zа-яёўқғҳ])(?:DDP|ДДП)(?![a-zа-яёўқғҳ])|(?<![а-яёўқғҳ])бож\\s+ва\\s+солиқ(?![а-яёўқғҳ]*сиз)|(?<![а-яёўқғҳ])(?:бож(?:лар)?|солиқ(?:лар)?|йиғим(?:лар)?)(?:и|ни|ини|лари|ларини|нинг)?\\s+(?:ҳам\\s+)?(?:тўла|нарх)|(?<![а-яёўқғҳ])божхона\\s+тўлов[а-яёўқғҳ]*\\s+(?:ҳам\\s+)?тўла|(?<![а-яёўқғҳ])(?:бож|солиқ|тўлов|йиғим)[а-яёўқғҳ]*[^.!?;]{0,30}?нарх(?:и|га|имиз(?:га)?|ингиз(?:га)?)?\\s+(?:ҳам\\s+)?(?:ичида|кир|қўш)|(?<![а-яёўқғҳ])(?:бож|солиқ)(?:лар)?(?:ни|ини|ларни)?\\s+(?:сиз|биз|мижоз|ҳамкор|импорт[её]р|юк\\s+олувчи)[а-яёўқғҳ]*\\s+(?:ўзи\\s+)?тўла|(?<![а-яёўқғҳ])эшикдан\\s+эшикка|(?<![а-яёўқғҳ])(?:ҳисобимиздан|(?:мижоз|импорт[её]р|юк\\s+олувчи)(?:нинг)?\\s+ҳисобидан|ўз\\s+ҳисобингиздан|қўшимча\\s+тўловсиз)(?![а-яёўқғҳ])|(?<![а-яёўқғҳ])нарх(?:и|га|имиз(?:га)?|ингиз(?:га)?)\\s+(?:ҳам\\s+)?(?:киради|киритилган|қўшилган)';
+const RU_INCL = '(?<![a-z])DDP(?![a-z])|пошлин[а-яё]*\\s+(?:и\\s+налог[а-яё]*\\s+)?(?:уже\\s+)?(?:включен|оплачен|входят|учт[её]н)|(?<!(?:обеспечени|гаранти)[а-яё]*\\s)(?<!без\\s)(?<![а-яё])(?:оплат|уплат|оплач|уплач|заплат|плат(?:ят|ит|им|ить))[а-яё]*\\s+(?:[а-яё]+\\s+){0,2}?(?:таможенн[а-яё]*\\s+)?(?:пошлин|налог|платеж|сбор)|в\\s+(?:цену|стоимость)\\s+(?:[а-яё]+\\s+){0,2}?(?:пошлин|налог)|(?<![а-яё])(?:пошлин|налог)[а-яё]*[^.!?;]{0,25}?в\\s+(?:цен|стоимост)|(?<![а-яё])под\\s+ключ|(?<![а-яё])(?:включа|включ[её]н|с\\s+уч[её]том)[а-яё]*\\s+(?:[а-яё]+\\s+){0,2}?(?:пошлин|налог)|(?<![а-яё])(?:пошлин|налог)[а-яё]*\\s+(?:[а-яё]+\\s+)?(?:оплачива|плат[яи]т|уплачива|заплат)[а-яё]*|(?:от\\s+двери\\s+до\\s+двери|дверь[\\s-]+в[\\s-]+дверь)[^.!?;]{0,60}?(?:таможн|растамож)|(?<![а-яё])за\\s+(?:наш|ваш|св[оа]й)[а-яё]*\\s+сч[её]т|(?<![а-яё])за\\s+сч[её]т\\s+(?:клиент|получател|покупател|импорт[её]р|заказчик)|(?<![а-яё])без\\s+(?:доплат|дополнительн[а-яё]*\\s+(?:оплат|плат))|(?<![а-яё])(?:входит|входят|включен[а-яё]*)\\s+в\\s+(?:цену|стоимость|тариф)';
+const EN_INCL = '\\bDDP\\b|\\bduty[\\s-]paid\\b|\\b(?:customs\\s+)?(?:duties|duty|taxes)\\b(?:\\s+and\\s+taxes)?\\s+(?:are\\s+|is\\s+|were\\s+)?(?:already\\s+)?(?:included|paid|covered|prepaid)\\b|\\b(?:duties|duty|taxes)\\b[^.!?;]{0,25}?\\b(?:included|in\\s+the\\s+(?:price|rate|quote))\\b|\\b(?:pay|pays|paid|paying|cover|covers|covered|covering)\\s+(?:for\\s+)?(?:(?:the|all|your|any)\\s+){0,2}(?:Afghan\\s+)?(?:customs\\s+)?(?:duties|duty|taxes|fees|charges)\\b|\\bdoor[\\s-]to[\\s-]door\\b[^.!?;]{0,60}?\\b(?:customs|clearance)\\b|\\b(?:customs|clearance)\\b[^.!?;]{0,60}?\\bdoor[\\s-]to[\\s-]door\\b|\\ball[\\s-]inclusive\\b|\\bclearance\\s+(?:is\\s+)?included\\b|\\binclud(?:e|es|ed|ing)\\s+(?:(?:the|all|any)\\s+)?(?:Afghan\\s+)?(?:customs\\s+)?(?:import\\s+)?(?:duties|duty|taxes)\\b|\\b(?:take|takes|taking|took)\\s+care\\s+of\\s+(?:(?:the|all|your|any)\\s+){0,2}(?:Afghan\\s+)?(?:customs\\s+)?(?:duties|duty|taxes)\\b|\\b(?:duties|duty|taxes)\\b[^.!?;]{0,40}?\\b(?:responsibility|paid\\s+by|borne\\s+by|one\\s+price|on\\s+us)\\b|\\bat\\s+(?:our|your|the\\s+(?:client|importer|buyer|consignee)[’\']s)\\s+(?:own\\s+)?(?:expense|cost)\\b|\\bat\\s+no\\s+(?:extra\\s+|additional\\s+)?(?:charge|cost)\\b|\\bfree\\s+of\\s+charge\\b|\\bincluded\\s+in\\s+(?:the|our|your)\\s+(?:price|rate|quote|freight)\\b';
+const ZH_INCL = `含关?税|包税|双清|DDP|(?:关税|税费|进口税|税款)[^${ZH_STOP}]{0,8}?(?:已含|包含在|含在|全包|包干|由(?:我们|我方|合作伙伴|合作方|客户|收货人|进口商|您)(?:自行|自己)?(?:承担|支付|缴纳|负担|自付|付))|(?:代缴|代付|代垫|缴纳|支付|承担|垫付|负担|包括|包含)(?:阿富汗的?)?(?:关税|税费|进口税|税款|规费|手续费)|门到门(?:清关|含税|包税)|包清关|含清关|清关由我们(?:负责|办理|代办)|由我们(?:负责|办理|代办)清关|承担(?:全部|所有|相关)?费用|(?:清关|报关)?费用[^${ZH_STOP}]{0,6}?(?:已含|已包含|包含在|含在)|(?:无需|不用|不必)(?:额外|另外|另行)(?:付费|付款|收费|支付)|不另(?:外)?收费`;
+const FA_INCL = `DDP|عوارض\\sگمرکی\\sدر\\sقیمت|(?<!\\p{Script=Arabic})(?:حقوق|عوارض|مالیات|هزینه(?:\\p{Mn}|[\\s\\p{Cf}]?(?:ی|های|ها))?\\sگمرکی)(?!\\p{Script=Arabic})[^${FA_STOP}؛;]{0,25}?(?:در\\s(?:قیمت|نرخ|هزینه)|شامل|${FA_MI}پرداز|پرداخت\\s?(?:${FA_MI}(?:کنیم|کنند|کند|شود)|شده)|بر\\sعهده)|(?<!\\p{Script=Arabic})(?:پرداخت|تسویه)\\s(?:حقوق|عوارض|مالیات)|شامل\\s(?:[\\p{Script=Arabic}\\p{Cf}]+\\s){0,2}?(?:حقوق|عوارض)|درب\\sبه\\sدرب|(?:همراه\\s)?با\\sترخیص(?:\\sگمرکی)?\\sو\\s(?:عوارض|حقوق)|همراه\\sبا\\sترخیص|(?<!\\p{Script=Arabic})هزینه(?:[\\s\\p{Cf}]?(?:اش|ها|های))?\\sبا\\s(?:ما|شما|مشتری)|بدون\\sهزینه`;
+// The partner customs agents and what cancels the exemption, per language. «hujjatlarni topshiradi» (hands in the
+// documents), «передают документы», "receive your documents" are a customs agent's work, not cargo handling.
+const UZ_DOCS = `(?:hujjat|deklaratsiya|ariza|ma${AP}?lumot|invoys)[a-zʻʼ]*\\s+(?:[a-zʻʼ]+\\s+){0,2}`;
+const UZ_PARTNERS = partnerWords({
+  stop: '.!?;', name: AFGHAN[0], no: UZ_NO, asks: '\\?',
+  partner: '(?<![a-zʻʼ])(?:hamkor|partn(?:y?o|e)r)', agent: '(?<![a-zʻʼ])(?:deklarant|bojxona\\s+(?:agent|broker))',
+  handling: `(?<![a-zʻʼ])(?<!${UZ_DOCS})(?:qabul\\s+qil|topshir|yubor|uzat)|(?<![a-zʻʼ])(?:yetkaz|saqla|tushir|kutib\\s+ol|olib\\s+(?:ket|bor|kel)|(?:qayta\\s+)?yukla(?!r)|ombor)` +
+    `|(?<![a-zʻʼ])yuk(?:ni|ingizni|lar(?:ni)?|laringizni)\\s+(?:[a-zʻʼ]+\\s+){0,3}?(?:tashi|jo${AP}?nat|(?<!ib\\s)ber)|(?<![a-zʻʼ])fura(?:ni|lar(?:ni)?)\\s+(?:[a-zʻʼ]+\\s+){0,3}?kuzatib` +
+    '|(?<![a-zʻʼ])(?:hammasini|barchasini|qolganini|(?:qolgan|boshqa|hamma|barcha)\\s+ishlar)|(?<![a-zʻʼ])ort(?:adi|amiz|iladi|ilgan|ishadi|ish)(?![a-zʻʼ])',
+  ourselves: `(?<![a-zʻʼ])(?:o${AP}?zimiz|o${AP}?z\\s+kuchimiz|o${AP}?z\\s+(?:bojxona\\s+)?(?:broker|agent|deklarant)|bojxona\\s+brokerimiz|(?<!${UZ_DOCS})rasmiylashtiramiz(?![a-zʻʼ]))`,
+  consignee: '(?<![a-zʻʼ])(?:(?:yuk\\s+)?oluvchi|(?:importyor|xaridor|mijoz)(?:ning|ingiz)\\s+(?:bojxona\\s+)?(?:agent|broker|deklarant))|(?<![a-zʻʼ])siz(?:ning)?\\s+(?:tanla|bojxona\\s+(?:agent|broker)|deklarant)', incl: UZ_INCL,
+  afghanDuties: `(?<![a-zʻʼ])Afg${AP}?oniston(?:dagi|\\s+tomonidagi)?\\s+(?:bojxona\\s+)?(?:boj|soliq)[a-zʻʼ]*[^.!?;]{0,40}?(?:narx[a-zʻʼ]*\\s+(?:ichida|ga\\s+kir|ga\\s+qo${AP}?sh)|to${AP}?la|kiradi)`,
+});
+const UZC_DOCS = '(?:ҳужжат|декларация|ариза|маълумот|инвойс)[а-яёўқғҳ]*\\s+(?:[а-яёўқғҳ]+\\s+){0,2}';
+const UZC_PARTNERS = partnerWords({
+  stop: '.!?;', name: AFGHAN[1], no: UZC_NO, asks: '\\?',
+  partner: '(?<![а-яёўқғҳ])(?:ҳамкор|партн[её]р)', agent: '(?<![а-яёўқғҳ])(?:декларант|божхона\\s+(?:агент|брокер))',
+  handling: `(?<![а-яёўқғҳ])(?<!${UZC_DOCS})(?:қабул\\s+қил|топшир|юбор|узат)|(?<![а-яёўқғҳ])(?:етказ|сақла|тушир|кутиб\\s+ол|олиб\\s+(?:кет|бор|кел)|(?:қайта\\s+)?юкла(?!р)|омбор)` +
+    '|(?<![а-яёўқғҳ])юк(?:ни|ингизни|лар(?:ни)?|ларингизни)\\s+(?:[а-яёўқғҳ]+\\s+){0,3}?(?:таши|жўнат|(?<!иб\\s)бер)|(?<![а-яёўқғҳ])фура(?:ни|лар(?:ни)?)\\s+(?:[а-яёўқғҳ]+\\s+){0,3}?кузатиб' +
+    '|(?<![а-яёўқғҳ])(?:ҳаммасини|барчасини|қолганини|(?:қолган|бошқа|ҳамма|барча)\\s+ишлар)|(?<![а-яёўқғҳ])орт(?:ади|амиз|илади|илган|ишади|иш)(?![а-яёўқғҳ])',
+  ourselves: '(?<![а-яёўқғҳ])(?:ўзимиз|ўз\\s+кучимиз|ўз\\s+(?:божхона\\s+)?(?:брокер|агент|декларант)|божхона\\s+брокеримиз|(?<!(?:ҳужжат|декларация|ариза|маълумот|инвойс)[а-яёўқғҳ]*\\s+(?:[а-яёўқғҳ]+\\s+){0,2})расмийлаштирамиз(?![а-яёўқғҳ]))',
+  consignee: '(?<![а-яёўқғҳ])(?:(?:юк\\s+)?олувчи|(?:импорт[её]р|харидор|мижоз)(?:нинг|ингиз)\\s+(?:божхона\\s+)?(?:агент|брокер|декларант))|(?<![а-яёўқғҳ])сиз(?:нинг)?\\s+(?:танла|божхона\\s+(?:агент|брокер)|декларант)', incl: UZC_INCL,
+  afghanDuties: '(?<![а-яёўқғҳ])Афғонистон(?:даги|\\s+томонидаги)?\\s+(?:божхона\\s+)?(?:бож|солиқ)[а-яёўқғҳ]*[^.!?;]{0,40}?(?:нарх[а-яёўқғҳ]*\\s+(?:ичида|га\\s+кир|га\\s+қўш)|тўла|киради)',
+});
+const RU_PARTNERS = partnerWords({
+  stop: '.!?;', name: AFGHAN[2], no: RU_NO, asks: '\\?',
+  partner: '(?<![а-яё])партн[её]р', agent: '(?<![а-яё])(?:таможенн[а-яё]*\\s+(?:агент|брокер|представител)|декларант|агент[а-яё]*\\s+по\\s+таможенн)',
+  handling: '(?<![а-яё])(?:приним|прим[уеё]т|приня|переда|достав|выгру[жз]|встре[тч]|выда[ёеюв]|выдач|забира|забер[уеёя]|отгру[жз]|погру[жз]|перегру[жз]|складир)[а-яё]*(?![а-яё])(?!\\s+(?:[а-яё]+\\s+)?(?:документ|деклараци|бумаг|сведени|инвойс))|хран|(?<![а-яё])склад|(?<![а-яё])получ(?:а[а-яё]*|ат|ит|ил[а-яё]*)\\s+(?:[а-яё]+\\s+){0,2}?груз' +
+    '|(?<![а-яё])(?:везут|везёт|везет|возят|возит|довоз[а-яё]*|перевоз(?:ят|ит|или|ил)|отвоз[а-яё]*|сопровожд[а-яё]*|сопроводят)(?![а-яё])' +
+    '|(?<![а-яё])(?:вс[её]\\s+остальн[а-яё]*|вс[её]\\s+за\\s+вас|все\\s+вопросы)' +
+    '|(?<![а-яё])(?:отда|вруч|отправля|отправ[ия]т|довез|отвез|перевез|привез)[а-яё]*(?![а-яё])(?!\\s+(?:[а-яё]+\\s+)?(?:документ|деклараци|бумаг|сведени|инвойс))|(?<![а-яё])получ(?:а[а-яё]*|ат|ит|ил[а-яё]*)\\s+(?:[а-яё]+\\s+){0,2}?товар|(?<![а-яё])дальнейш[а-яё]*\\s+(?:перевозк|доставк|отправк)',
+  ourselves: '(?<![а-яё])(?:сами|самостоятельно)(?![а-яё])|(?:своими|собственными)\\s+силами|(?<![а-яё])(?:собственн|сво|наш)[а-яё]*\\s+(?:собственн[а-яё]*\\s+)?(?:таможенн[а-яё]*\\s+)?брокер|(?<![а-яё])(?:растаможиваем|растаможим)(?![а-яё])|(?:таможенн[а-яё]*\\s+(?:оформлени|очистк|формальност)[а-яё]*|растаможк[а-яё]*)[^.!?;]{0,30}?(?<![а-яё])(?:(?:оформля|провод|выполня|осуществля|организу)ем|(?:оформ|провод|провед|организу)им)(?![а-яё])|(?<![а-яё])(?:оформля|провод|выполня|осуществля|организу)ем\\s+(?:[а-яё]+\\s+){0,2}?(?:таможенн|растаможк)|(?<![а-яё])(?:оформ|провод|провед|организу)им\\s+(?:[а-яё]+\\s+){0,2}?(?:таможенн|растаможк)|(?<![а-яё])бер[её]м\\s+на\\s+себя|(?<![а-яё])(?:собственн|сво)[а-яё]*\\s+(?:таможенн[а-яё]*\\s+)?(?:агент|декларант)',
+  consignee: 'получател|(?:агент|брокер|декларант|представител)[а-яё]*\\s+(?:[а-яё]+\\s+)?(?:импорт[её]р|покупател)|(?<![а-яё])ваш[а-яё]*\\s+(?:собственн[а-яё]*\\s+)?(?:таможенн[а-яё]*\\s+)?(?:агент|брокер|декларант)|(?:агент|брокер|декларант)[а-яё]*\\s+(?:клиент|заказчик)|(?<![а-яё])(?:выбер|выбира|назнач)[а-яё]*\\s+вы(?![а-яё])|(?<![а-яё])вы\\s+(?:выбер|выбира|назнач)', incl: RU_INCL,
+  afghanDuties: '(?<![а-яё])афганск[а-яё]+\\s+(?:таможенн[а-яё]+\\s+)?(?:пошлин|налог)[а-яё]*[^.!?;]{0,40}?(?:включен|оплач|входят|учт[её]н|в\\s+цен|в\\s+стоимост)|(?<![а-яё])(?:включа[а-яё]*|включен[а-яё]*|оплачива[а-яё]+|оплатим|платим|уплачива[а-яё]+|входят)\\s+(?:[а-яё]+\\s+){0,2}?афганск[а-яё]+\\s+(?:таможенн[а-яё]+\\s+)?(?:пошлин|налог)|(?<![а-яё])(?:пошлин|налог)[а-яё]*\\s+(?:в\\s+)?Афганистан[ае]?(?![а-яё])[^.!?;]{0,40}?(?:включен|оплач|входят|в\\s+цен|в\\s+стоимост)',
+});
+const EN_PARTNERS = partnerWords({
+  stop: '.!?;', name: AFGHAN[3], no: EN_NO, asks: '\\?',
+  partner: '\\bpartner', agent: '\\b(?:customs[\\s-]+(?:clearing[\\s-]+|clearance[\\s-]+)?(?:agents?|brokers?)|declarants?|clearing[\\s-]+agents?)\\b',
+  handling: `\\b(?:receiv(?:e|es|ed|ing)|accept(?:s|ed|ing)?|(?:take|takes|taking|took|taken)\\s+(?:[a-z’']+\\s+){0,3}?over|hand(?:s|ed|ing)?\\s+(?:[a-z’']+\\s+){0,3}?over|handover|deliver(?:s|ed|ing|y|ies)?|stor(?:e|es|ed|ing|age)|warehous(?:e|es|ed|ing)|(?:un|re)?load(?:s|ed|ing)?|collect(?:s|ed|ing|ion)?|pick(?:s|ed|ing)?[\\s-]+(?:[a-z’']+\\s+){0,3}?up|meet(?:s|ing)?|met|releas(?:e|es|ed|ing))\\b(?!\\s+(?:the\\s+|your\\s+|all\\s+|its\\s+|their\\s+)?(?:documents?|papers?|paperwork|declarations?|invoices?|packing\\s+lists?)\\b)` +
+    '|\\b(?:take|takes|taking|took|taken|transport(?:s|ed|ing)?|carr(?:y|ies|ied|ying)|bring(?:s|ing)?|brought|haul(?:s|ed|ing)?|mov(?:e|es|ed|ing)|forward(?:s|ed|ing)?|ship(?:s|ped|ping)?|escort(?:s|ed|ing)?|accompan(?:y|ies|ied|ying))\\s+(?:the\\s+|your\\s+|all\\s+|this\\s+|their\\s+)?(?:cargo|goods|shipments?|consignments?|loads?|trucks?|lorr(?:y|ies))\\b' +
+    '|\\b(?:take|takes|taking|took|taken|bring|brings|bringing|brought|carr(?:y|ies|ied|ying))\\s+(?:it|them)\\s+(?:on\\s+)?to\\b|\\blook(?:s|ed|ing)?\\s+after\\s+(?:the\\s+|your\\s+)?(?:cargo|goods|trucks?)\\b|\\b(?:onward\\s+)?(?:trucking|transportation|haulage)\\b' +
+    '|\\b(?:everything|(?:all\\s+)?the\\s+rest(?!\\s+of\\b)|all\\s+else|anything\\s+else)\\b' +
+    '|\\b(?:give|gives|giving|gave|given|pass(?:es|ed|ing)?|send(?:s|ing)?|sent|keep(?:s|ing)?|kept|hold(?:s|ing)?|held|dispatch(?:es|ed|ing)?|hand(?:s|ed|ing)?)\\s+(?:(?:you|it|them)\\s+)?(?:the\\s+|your\\s+|all\\s+|this\\s+|their\\s+)?(?:cargo|goods|shipments?|consignments?|loads?|trucks?)\\b|\\b(?:take|takes|taking|took)\\s+care\\s+of\\s+(?:the\\s+|your\\s+)?(?:cargo|goods|shipments?|trucks?)\\b|\\b(?:terminals?|depots?|yards?)\\b|\\bhanded\\s+(?:to|over)\\b|\\bonward\\s+(?:trucks?|carriage|delivery|transport)\\b',
+  ourselves: '\\b(?:ourselves|on\\s+our\\s+own|in-house)\\b|\\bour\\s+own\\s+(?:customs\\s+)?(?:brokers?|agents?|declarants?|staff|people|team|specialists?|employees?)\\b|\\bour\\s+customs\\s+brokers?\\b|\\bwe\\s+(?:(?:also|then|can|will|now)\\s+)?(?:clear(?!\\s+(?:the\\s+|your\\s+)?(?:documents?|papers?|paperwork)\\b)|(?:handle|arrange|manage|do|organi[sz]e|process|take\\s+care\\s+of)\\s+(?:(?:the|all|any)\\s+)?(?:Afghan\\s+)?(?:customs|clearance|formalities))\\b',
+  consignee: '\\b(?:consignees?|recipients?|receivers?|buyers?)\\b|\\bimporter[’\']?s?[’\']?\\s+(?:own\\s+)?(?:customs\\s+)?(?:agents?|brokers?|declarants?)\\b|\\b(?:agents?|brokers?|declarants?)\\s+(?:of|for)\\s+the\\s+importer\\b|\\byour\\s+(?:own\\s+)?(?:customs\\s+)?(?:agents?|brokers?|declarants?)\\b|\\b(?:you|the\\s+client)\\s+(?:choose|chooses|chose|select|selects|pick|picks|appoint|appoints|hire|hires)\\b', incl: EN_INCL,
+  afghanDuties: '\\bAfghan\\s+(?:import\\s+)?(?:customs\\s+)?(?:duties|duty|taxes)\\b[^.!?;]{0,40}?\\b(?:included|paid|covered|prepaid|in\\s+the\\s+(?:price|rate|quote))\\b|\\b(?:includes?|including|included|covers?|covering|pay|pays|paid|paying|takes?\\s+care\\s+of|took\\s+care\\s+of|taking\\s+care\\s+of)\\s+(?:for\\s+)?(?:(?:the|all|any)\\s+){0,2}Afghan\\s+(?:import\\s+)?(?:customs\\s+)?(?:duties|duty|taxes)\\b|\\b(?:duties|duty|taxes)\\s+(?:in|of)\\s+Afghanistan\\b[^.!?;]{0,40}?\\b(?:included|paid|covered|in\\s+the\\s+(?:price|rate|quote)|responsibility|borne\\s+by)\\b',
+});
+const ZH_PARTNERS = partnerWords({
+  stop: ZH_STOP, name: AFGHAN[4], no: ZH_NO, asks: '吗|？|\\?',
+  partner: '合作伙伴|合作方|合作的|伙伴', agent: '报关代理|报关企业|报关行|报关员|申报人|清关代理',
+  handling: '接货|交货|提货|送货|仓储|仓库|卸货|交接|收货|存放|保管|装卸|派送|配送|交付|移交|转交|送至|送到|送达|代收|(?:将|把)(?:您的)?货物?(?:运|送|转|带|交)|运送货物|运输货物|承运货物|押运|护送|一切|其余|全部手续|所有手续|货物?交给|交给(?:您|客户|收货人)|(?<!塔什干[^。！？!?；;，,]{0,4})(?:转运|中转)|领取|取货|存储|储存|暂存|装(?:上|车|到|载)|堆场|货场',
+  ourselves: '自己|自行|亲自|自有|我们(?:借助|通过|依靠|会同|联合)[^。！？!?；;，,]{0,8}?(?:合作伙伴|合作方|伙伴|报关代理|申报人)|我们的报关(?:行|员)|我方报关(?:行|员)', consignee: '收件人|买方|买家|(?:进口商|客户|您)(?:自己)?的(?:报关代理|报关行|报关员|申报人|代理)|您(?:选择|指定|委托)的', incl: ZH_INCL,
+  afghanDuties: `阿富汗(?:的)?(?:进口)?(?:关税|税费|进口税)[^${ZH_STOP}]{0,10}?(?:已含|包含|含在|全包|包干|已付|由(?:我们|我方|合作伙伴|合作方|客户|收货人|您)(?:承担|支付|缴纳|负担))|(?:包含|包括|含|代缴|代付|代垫|缴纳|支付|承担|垫付|负担)阿富汗(?:的)?(?:进口)?(?:关税|税费|进口税)`,
+});
+const FA_PARTNERS = partnerWords({
+  stop: `${FA_STOP}؛;`, name: AFGHAN[5], no: FA_NO, asks: '؟',
+  partner: '(?<!\\p{Script=Arabic})(?:شریک|شرکا|همکار)', agent: '(?<!\\p{Script=Arabic})(?:کارگزار|اظهار[\\s\\p{Cf}]?کنند(?:ه|گان)|حق[\\s\\p{Cf}]?العمل[\\s\\p{Cf}]?کار|نمایند(?:ه(?:\\p{Mn}|\\p{Cf}?ی)?|ۀ|گان)\\sگمرکی)',
+  handling: 'تحویل|نگهداری|تخلیه|(?<!اطلاع[\\s\\p{Cf}]?)رسان|انبار|گدام|بارگیری|بارگذاری|(?<!(?:اسناد|مدارک|سند|اظهارنامه)(?:\\s(?:را|شما|بار|کالا|محموله))*\\s)(?:دریافت|ارسال)(?!\\s(?:اسناد|مدارک|سند|اظهارنامه))|سپار|سپرد|نگه[\\s\\p{Cf}]?(?:می[\\s\\p{Cf}]?)?دار|منتقل|ذخیره' +
+    `|(?<!\\p{Script=Arabic})بار(?!\\p{Script=Arabic})(?:\\s(?:شما|را))*\\s(?:[^\\s${FA_STOP}؛;]+\\s){0,5}?(?:${FA_MI}(?:برند|برد|آورند|آورد)|حمل\\s?${FA_MI}(?:کنند|کند))|(?:کامیون|موتر)[^${FA_STOP}؛;]{0,20}?همراهی` +
+    '|همه[\\s\\p{Cf}]?چیز|(?:همهٔ|همه‌ی|بقیهٔ|بقیه‌ی|سایر)\\sکارها' + `|ترمینال|(?<!\\p{Script=Arabic})بار\\s${FA_MI}زن`,
+  ourselves: `خودمان|(?<!\\p{Script=Arabic})خود\\sما(?!\\p{Script=Arabic})|ترخیص\\s?${FA_MI}کنیم|ترخیص[^${FA_STOP}؛;،]{0,120}?انجام\\s?${FA_MI}دهیم|(?<!\\p{Script=Arabic})کارگزار(?:\\p{Mn}|ی)?\\sگمرکی(?:\\p{Mn}|ی)?\\sما(?!\\p{Script=Arabic})`, consignee: 'گیرنده|خریدار|(?:کارگزار|اظهار[\\s\\p{Cf}]?کننده)(?:\\p{Mn}|ی)?(?:\\sگمرکی(?:\\p{Mn}|ی)?)?\\s(?:شما(?!\\p{Script=Arabic})|وارد[\\s\\p{Cf}]?کننده)|انتخاب\\s(?:شما|خودتان)', incl: FA_INCL,
+  afghanDuties: `(?<!\\p{Script=Arabic})(?:حقوق|عوارض|مالیات|هزینه)(?:\\p{Mn}|ی|[\\s\\p{Cf}]?(?:های|ها))?(?:\\s(?:و|گمرکی|گمرک|حقوق|عوارض|مالیات)(?:\\p{Mn}|ی)?)*\\s(?:در\\s)?افغانستان(?!\\p{Script=Arabic})[^${FA_STOP}؛;]{0,30}?(?:در\\s(?:قیمت|نرخ|هزینه)|شامل|${FA_MI}پرداز|پرداخت\\s?(?:${FA_MI}(?:کنیم|کنند|کند|شود)|شده)|بر\\sعهده)`,
+});
+// "IN Afghanistan": the locative, so that «Ofisimiz Toshkentda; Afgʻonistonga fura bilan…» and «в Афганистан возим» pass.
+// Two kinds of word (§4a): what would be GSR's own there (`own` — never let through), and a partner, an agent or a
+// broker there (`partners` — let through when the sentence names the partner customs agents); and the partner
+// customs agents with the cargo in their hands, anywhere in the sentence. Since the guard verification (2026-11-13) an
+// `own` word anywhere in that sentence stops it too ("our representative works with our partners — customs agents"), and
+// "on the Afghan side" is a place of presence like "in Afghanistan".
+const presence = (o) => `(?:${nearName({ ...o, words: o.own })})|(?:${nearName({ ...o, words: o.partners })}${partnersOk(o.ok)})|(?:${partnerSentence(o.ok, [o.ok.handling, o.own].join('|'))})`;
+/*
+ * "We have …" (guard hardening, 2026-11-13): a have form beside the locative name, with a place of presence or people,
+ * is GSR's own (`own`: never let through) — "We have an employee in Afghanistan", "In Afghanistan we have staff who meet
+ * the truck", "There is a warehouse of ours in Hairatan", «В Мазари-Шарифе у нас есть склад», «У нас в Хайратоне работает
+ * команда», «Mozori Sharifda omborimiz bor», 我们在马扎里沙里夫有仓库, 我们在海拉顿设有堆场, «در مزار شریف انبار داریم». Places and
+ * people only: a partner, an agent or a broker stays with the partners' exemption ("We have partners — customs agents
+ * (declarants) — …"), and a partner's warehouse is not GSR's ("a warehouse partner", «склад партнёра», 合作方的仓库,
+ * «انبار شریک»). A denial or a question passes, as before.
+ */
+const EN_SITE = `(?:employees?|staff|personnel|people|teams?|workers?|m[ae]n|persons?|someone|somebody|contact(?:\\s+persons?)?(?!s)|colleagues?|warehouses?|depots?|terminals?|yards?|storage|pick-?up\\s+points?)\\b(?![\\s-]+partners?\\b|\\s+of\\s+(?:a|an|our|the|its|their)\\s+(?:[a-z’'-]+\\s+)?partner)`;
+// … not when the site is placed somewhere else ("We have a team in Tashkent, and in Afghanistan …": two facts) — unless the
+// list goes on to an Afghan place ("staff in Tashkent and in Hairatan").
+const EN_SITE_AWAY = `(?!\\s+(?:(?:is|are)\\s+)?(?:based\\s+|located\\s+)?(?:in|at)\\s+(?:Tashkent|Uzbekistan|Termez|China|Yiwu|Guangzhou|Kashgar|Kazakhstan)\\b(?!\\s+(?:and|or)\\s+(?:(?:in|at)\\s+)?(?:Afghanistan|Ha[iy]rat[ao]n|Mazar)))`;
+const EN_HAVE = `\\b(?:we(?:[’']ve|\\s+(?:(?:also|now|already|still|even|currently|do)\\s+)?(?:have|had|own|run|operate|maintain|keep|employ|rent|lease))|(?:GSR(?:\\s+Logistics)?|our\\s+company)\\s+(?:(?:also|now|already|still)\\s+)?(?:has|had|owns|runs|operates|maintains|keeps|employs|rents|leases))\\b(?:\\s+got\\b)?\\s+(?:(?!(?:to|in|at|on|for|with|from|into|by|of|and|or|but|that|which|who|where|no|not|any|never)\\b)[a-z’'-]+\\s+){0,3}?${EN_SITE}${EN_SITE_AWAY}|\\b${EN_SITE}\\s+of\\s+(?:ours|our\\s+own)\\b${EN_SITE_AWAY}`;
+const RU_SITE = '(?:склад(?!ск)[а-яё]*(?![а-яё]*\\s+(?:[а-яё]+\\s+)?партн[её]р)|сотрудник[а-яё]*|работник[а-яё]*|персонал[а-яё]*|команд(?:а|ы|у|ой|е)|люд(?:и|ей|ьми|ям)|человек[а-яё]*|терминал[а-яё]*|площадк[а-яё]*|стоянк[а-яё]*|ангар[а-яё]*|депо|офис[а-яё]*|филиал[а-яё]*|представител[а-яё]*)(?![а-яё])';
+const RU_HAVE_WORD = '(?<![а-яё])(?:у\\s+(?:нас|GSR)|(?:мы\\s+)?(?:име(?:ем|ли)|располага(?:ем|ли)|держ(?:им|али)|содерж(?:им|али)|арендуем|арендовали|открыли|открываем))(?![а-яё])';
+// «у нас (есть / тоже есть / работает …) склад» — not «у нас в Ташкенте команда» (no «в / на» between) — and «склад у нас …»;
+// not «команда в Ташкенте» (two facts) unless the list goes on to an Afghan place («в Ташкенте и в Хайратоне»).
+const RU_SITE_AWAY = '(?!\\s+(?:в|на)\\s+(?:Ташкент|Узбекистан|Термез|Кита|Иу|Гуанчжоу|Кашгар|Казахстан)[а-яё]*(?![а-яё])(?!\\s+и\\s+(?:в\\s+|на\\s+)?(?:Афганистан|Хайратон|Мазари)))';
+const RU_HAVE = `${RU_HAVE_WORD}\\s+(?:(?!(?:не|нет|ни|в|во|на)(?![а-яё]))[а-яё]+\\s+){0,2}?${RU_SITE}${RU_SITE_AWAY}|${RU_SITE}\\s+(?:[а-яё]+\\s+)?у\\s+нас(?![а-яё])${RU_SITE_AWAY}`;
+// Uzbek: the possessive is the have form («omborimiz bor»); «bizda / bizning» + a site noun. Not «bazamiz» ("our database").
+const UZ_SITE = '(?:ombor|sklad|depo|xodim|odam|jamoa|hamkasb|ishchi|xizmatchi|terminal|punkt|ofis|filial|vakil)';
+const UZC_SITE = '(?:омбор|склад|депо|ходим|одам|жамоа|ҳамкасб|ишчи|хизматчи|терминал|пункт|офис|филиал|вакил)';
+// (not «Bizda Toshkentda jamoa bor, Afgʻonistonda esa …»: two facts — unless the list goes on, «Toshkentda va Hayratonda»)
+const UZ_SITE_AWAY = `(?:Toshkent|O${AP}?zbekiston|Termiz|Xitoy|Ivu|Guanchjou|Qashqar|Qozog${AP}?iston)`;
+const UZC_SITE_AWAY = '(?:Тошкент|Ўзбекистон|Термиз|Хитой|Иву|Гуанчжоу|Қашқар|Қозоғистон)';
+const UZ_HAVE = `ombor(?:xona)?(?:lar)?i?miz|sklad(?:lar)?imiz|depo(?:larimiz|miz)|(?<![a-zʻʼ])biz(?:da|ning)\\s+(?:(?!(?:yo${AP}?q|emas)(?![a-zʻʼ])|${UZ_SITE_AWAY})[a-zʻʼ]+\\s+){0,2}?${UZ_SITE}(?![a-zʻʼ]*\\s+${UZ_SITE_AWAY}[a-zʻʼ]*(?![a-zʻʼ])(?!\\s+(?:va|yoki)\\s+(?:Afg${AP}?oniston|Hayraton|Mozori)))`;
+const UZC_HAVE = `омбор(?:хона)?(?:лар)?и?миз|склад(?:лар)?имиз|депо(?:ларимиз|миз)|(?<![а-яёўқғҳ])биз(?:да|нинг)\\s+(?:(?!(?:йўқ|эмас)(?![а-яёўқғҳ])|${UZC_SITE_AWAY})[а-яёўқғҳ]+\\s+){0,2}?${UZC_SITE}(?![а-яёўқғҳ]*\\s+${UZC_SITE_AWAY}[а-яёўқғҳ]*(?![а-яёўқғҳ])(?!\\s+(?:ва|ёки)\\s+(?:Афғонистон|Ҳайратон|Мозори)))`;
+// Chinese: a have verb with 我们 / 我司 / 本公司 / 我方 before it (海拉顿口岸设有… names no owner), closed modifiers only (so not
+// 有合作方的仓库), then a place or people.
+const ZH_HAVE = '(?:有|设有|拥有|建有|开设|设立|自建|自营|租用|租有|配备|驻有|派驻|雇有|雇用|聘用|聘有)(?:了|着)?(?:自己的|自有的?|我们的|专属的?|当地的?|本地的?|常驻的?|固定的?|一个|一座|一处|一家|一支|一批|多个|几个|若干|两个|多名|几名|一名|小型|大型)*';
+const ZH_SITE = '(?:仓库|货仓|库房|仓储(?:中心|设施|点)?|堆场|货场|场站|场地|停车场|中转站|货站|转运站|人员|职员|雇员|工作人员|团队|同事|人手|员工)';
+// 我们 … 有: not with another place between them (我们在塔什干有团队，在阿富汗一侧… is two facts) — unless an Afghan one is there too
+const ZH_SITE_AWAY = '塔什干|乌兹别克斯坦|铁尔梅兹|中国|义乌|广州|喀什|哈萨克斯坦';
+// (the look-ahead first: the look-behind is then tried only where a have verb starts — without it, at every character)
+const ZH_WE_HAVE = `(?=[有设拥建开自租配驻派雇聘])(?<=(?:我们|我司|本公司|我方)(?:[^${ZH_STOP}]{0,12}?${AFGHAN[4]}[^${ZH_STOP}]{0,12}?|(?:(?!${ZH_SITE_AWAY})[^${ZH_STOP}]){0,12}))${ZH_HAVE}${ZH_SITE}`;
+// Persian: a site noun (not شریک / شرکا / همکار between it and the verb) + «داریم / داشتیم / داشته‌ایم / خواهیم داشت» — «نداریم»
+// is never read, a space stands before the verb — and the possessive suffix («انبارمان», «کارمندانمان»).
+const FA_SITE = '(?<!\\p{Script=Arabic})(?:انبار|گدام|کارمند|کارکن|پرسنل|نیرو|نفر|تیم|ترمینال|پایانه|کارگر)(?:ان|[\\s\\p{Cf}]?(?:ها|های))?';
+// (not «در تاشکند تیم داریم و در افغانستان …»: the site placed somewhere else, two facts — unless an Afghan place comes
+// first in the same list: «در حیرتان و در تاشکند انبار داریم»)
+const FA_SITE_AWAY = 'تاشکند|ازبکستان|ترمذ|چین|ییوو|کاشغر|گوانگ[\\s\\p{Cf}]?(?:ژو|جو)|قزاقستان';
+const FA_HAVE = `(?<!(?<!(?:حیرتان|افغانستان|مزار[\\s\\p{Cf}]?شریف)[^${FA_STOP}؛;،]{0,20})(?:${FA_SITE_AWAY})[\\s\\p{Cf}](?:یک[\\s\\p{Cf}])?)${FA_SITE}(?:\\p{Mn}|ی|یی)?(?:\\s(?!(?:شریک|شرکا|همکار|${FA_SITE_AWAY}))[^\\s${FA_STOP}؛;]+){0,2}?\\s(?:هم\\s|نیز\\s)?(?:داریم|داشتیم|داشته[\\s\\p{Cf}]?ایم|خواهیم\\sداشت)(?!\\p{Script=Arabic})|${FA_SITE}\\p{Cf}?مان(?!\\p{Script=Arabic})`;
+/** The have form with the place inside it — «У нас в Хайратоне работает команда», «Bizda Hayratonda ombor bor» — unless the sentence denies it or asks. */
+const haveAround = (o) => `(?:${o.have})\\s+(?:[^\\s.!?;]+\\s+){0,2}?(?:${o.name})\\s+(?:[^\\s.!?;]+\\s+){0,2}?(?:${o.site})(?<!(?:${o.no})[^.!?;]{0,90})(?![^.!?;]{0,40}(?:${o.no}|${o.asks}))`;
+/** …and the site first, the place in the middle, the have word last — «کارمند در حیرتان داریم», «Склад в Хайратоне у нас есть», «Ombor Hayratonda bizda bor». */
+const haveAfter = (o, stop = '.!?;', gap = 2) => `(?:${o.site})(?:\\s+[^\\s${stop}]+){0,${gap}}?\\s+(?:${o.name})(?:\\s+[^\\s${stop}]+){0,2}?\\s+(?:${o.have})(?<!(?:${o.no})[^${stop}]{0,90})(?![^${stop}]{0,40}(?:${o.no}|${o.asks}))`;
+const UZ_AT = `(?:(?:Afg${AP}?oniston|Hayraton|Mozori\\s+Sharif)(?:da|dagi)|Afg${AP}?oniston\\s+tomoni(?:da|dagi))(?![a-zʻʼ])`;
+const UZC_AT = '(?:(?:Афғонистон|Ҳайратон|Мозори\\s+Шариф)(?:да|даги)|Афғонистон\\s+томони(?:да|даги))(?![а-яёўқғҳ])';
+const RU_AT = '(?<![а-яё])(?:в\\s+(?:Афганистане|Хайратоне|Мазари[\\s-]*Шарифе)|на\\s+афганской\\s+стороне)';
+const UZ_PRESENCE = presence({ name: UZ_AT, own: `ofis|filial|vakolatxona|vakil|xodim(?:lar)?imiz|odam(?:lar)?imiz|hamkasb(?:lar)?imiz|punktimiz|jamoamiz|terminal|${UZ_HAVE}|(?<![a-zʻʼ])${UZ_SITE}[a-zʻʼ]*\\s+(?:ham\\s+)?biz(?:da|ning)(?![a-zʻʼ])`, partners: '(?<![a-zʻʼ])(?:hamkor|partn(?:y?o|e)r)|agent|broker|deklarant', no: UZ_NO, asks: '\\?', ok: UZ_PARTNERS }) +
+  `|${haveAround({ have: '(?<![a-zʻʼ])biz(?:da|ning)(?![a-zʻʼ])', name: UZ_AT, site: UZ_SITE, no: UZ_NO, asks: '\\?' })}` +
+  `|${haveAfter({ site: `(?<![a-zʻʼ])${UZ_SITE}[a-zʻʼ]*`, name: UZ_AT, have: '(?:ham\\s+)?biz(?:da|ning)(?![a-zʻʼ])', no: UZ_NO, asks: '\\?' })}`;
+const UZC_PRESENCE = presence({ name: UZC_AT, own: `офис|филиал|ваколатхона|вакил|ходим(?:лар)?имиз|одам(?:лар)?имиз|ҳамкасб(?:лар)?имиз|пунктимиз|жамоамиз|терминал|${UZC_HAVE}|(?<![а-яёўқғҳ])${UZC_SITE}[а-яёўқғҳ]*\\s+(?:ҳам\\s+)?биз(?:да|нинг)(?![а-яёўқғҳ])`, partners: '(?<![а-яёўқғҳ])(?:ҳамкор|партн[её]р)|агент|брокер|декларант', no: UZC_NO, asks: '\\?', ok: UZC_PARTNERS }) +
+  `|${haveAround({ have: '(?<![а-яёўқғҳ])биз(?:да|нинг)(?![а-яёўқғҳ])', name: UZC_AT, site: UZC_SITE, no: UZC_NO, asks: '\\?' })}` +
+  `|${haveAfter({ site: `(?<![а-яёўқғҳ])${UZC_SITE}[а-яёўқғҳ]*`, name: UZC_AT, have: '(?:ҳам\\s+)?биз(?:да|нинг)(?![а-яёўқғҳ])', no: UZC_NO, asks: '\\?' })}`;
+const RU_PRESENCE = presence({ name: RU_AT, own: `офис|филиал|представительств|(?<![а-яё])представител|(?<![а-яё])наш[а-яё]{0,3}\\s+(?:сотрудник|человек|люди|коллег|контакт|команд|склад(?!ск)|терминал|площадк|стоянк|персонал|работник)[а-яё]*|(?<![а-яё])терминал|пункт[а-яё]{0,2}\\s+выдачи|${RU_HAVE}`, partners: '(?<![а-яё])(?:партн[её]р|агент|брокер|декларант)', no: RU_NO, asks: '\\?', ok: RU_PARTNERS }) +
+  `|${haveAround({ have: RU_HAVE_WORD, name: RU_AT, site: RU_SITE, no: RU_NO, asks: '\\?' })}` +
+  `|${haveAfter({ site: `(?<![а-яё])${RU_SITE}`, name: RU_AT, have: RU_HAVE_WORD, no: RU_NO, asks: '\\?' })}`;
+const EN_PRESENCE = presence({ name: `\\b(?:(?:in|at)\\s+(?:Afghanistan|Ha[iy]rat[ao]n|Mazar[\\s-]*[ie][\\s-]*Sharif)|on\\s+the\\s+Afghan\\s+side)`,
+  own: `(?<!customs\\s)\\boffices?\\b|\\bbranch(?:es)?\\b|\\brepresentatives?\\b|\\bour\\s+(?:own\\s+|local\\s+)?(?:employees?|staff|people|team|man|person|contact|colleagues?|warehouse|depot|terminal|pick-?up\\s+point)\\b|${EN_HAVE}`,
+  partners: '\\bpartners?\\b|\\bour\\s+(?:own\\s+|local\\s+)?(?:customs\\s+)?(?:agents?|brokers?|declarants?)\\b|\\b(?:an|a\\s+local|local)\\s+(?:customs\\s+)?agents?\\b', no: EN_NO, asks: '\\?', ok: EN_PARTNERS }) +
+  `|\\bour\\s+Afghan\\s+(?:offices?|branch(?:es)?|team|staff|warehouse|representatives?)\\b(?![^.!?;]{0,40}(?:${EN_NO}|\\?))` +
+  `|\\bour\\s+Afghan\\s+(?:partners?|agents?|brokers?)\\b(?![^.!?;]{0,40}(?:${EN_NO}|\\?))${partnersOk(EN_PARTNERS)}`;
+const ZH_PRESENCE = presence({ name: '(?:阿富汗|海拉顿|马扎里沙里夫)', own: `办事处|分公司|代表处|办公室|分支机构|员工|站点|提货点|网点|我们的代表|(?:有|设有|派驻)(?:常驻)?代表(?!处)|(?:设有|派驻)(?:常驻)?(?:联络人|联系人)|(?:自己|我们)的(?:团队|人员|员工|同事|仓库|货仓|库房|堆场|货场|场站)|${ZH_WE_HAVE}`, partners: '合作伙伴|合作方|伙伴|代理|报关行|报关员|申报人', span: 10, stop: `${ZH_STOP}，,、`, no: ZH_NO, asks: '吗|？|\\?', ok: ZH_PARTNERS }) +
+  `|我(?:们|司)在${AFGHAN[4]}的(?:人员|同事|联系人|团队|仓库)` +
+  // 在阿富汗，我们设有仓库 / 在阿富汗，我们的员工… — the comma after a fronted place, which the window above stops at
+  `|在${AFGHAN[4]}[，,]\\s?(?:(?:我们|我司|本公司|我方)(?:也|还|都|已经?|目前|现在|另外|同样)?${ZH_HAVE}(?:${ZH_SITE}|办事处|分公司|代表处|办公室|分支机构|站点|提货点|网点|代表(?!处)|联络人|联系人)|我(?:们|司)(?:自己)?的(?:员工|团队|人员|同事|代表|联络人|联系人|仓库|货仓|库房|堆场|货场|场站|办事处|办公室))(?<!(?:${ZH_NO})[^${ZH_STOP}]{0,90})(?![^${ZH_STOP}]{0,40}(?:${ZH_NO}|吗|？|\\?))` +
+  // 仓库我们在海拉顿也有 — the site first
+  `|${ZH_SITE}[，,]?\\s?(?:我们|我司|本公司|我方)(?:也|还|都)?在${AFGHAN[4]}(?:也|还|都|已经?)?(?:有|设有|拥有|建有|配备)(?<!(?:${ZH_NO})[^${ZH_STOP}]{0,90})(?![^${ZH_STOP}]{0,40}(?:${ZH_NO}|吗|？|\\?))`;
+const FA_PRESENCE = presence({ name: '(?:در\\s(?:سمت\\s)?افغانستان|سمت\\sافغانستان|در\\s(?:حیرتان|مزار[\\s\\p{Cf}]?شریف))', own: `دفتر(?!چه)|نمایندگی|نماینده|نمایندگان\\s(?:ما|خودمان)(?!\\p{Script=Arabic})|شعبه|(?:کارمند(?:ان)?|نفر|نیرو|تیم|ترمینال|گدام|انبار)(?:\\p{Mn}|ی)?\\s(?:ما|خودمان)(?!\\p{Script=Arabic})|${FA_HAVE}`, partners: '(?:همکار(?:ان)?)(?:\\p{Mn}|ی)?\\s(?:ما|خودمان)(?!\\p{Script=Arabic})|عامل(?!\\p{Script=Arabic})|(?<!\\p{Script=Arabic})(?:شریک|شرکا|کارگزار)', stop: `${FA_STOP}؛;`, no: FA_NO, asks: '؟', ok: FA_PARTNERS }) +
+  `|${haveAfter({ site: `${FA_SITE}(?:\\p{Mn}|ی|یی)?`, name: '(?:در\\s(?:سمت\\s)?افغانستان|سمت\\sافغانستان|در\\s(?:حیرتان|مزار[\\s\\p{Cf}]?شریف))', have: '(?:هم\\s|نیز\\s)?(?:داریم|داشتیم|داشته[\\s\\p{Cf}]?ایم|خواهیم\\sداشت)(?!\\p{Script=Arabic})', no: FA_NO, asks: '؟' }, `${FA_STOP}؛;`, 3)}`;
+const PRESENCE_MSG = (lang) => `claims an office, a branch, a representative, an employee or a terminal in Afghanistan, or partners, agents or brokers there who are not named as customs agents (declarants) or who handle the cargo (${lang}) — owner, 2026-11-12: GSR's partners on the Afghan side are customs agents (declarants), named as such in the same sentence, and they only clear customs; GSR still has no office, branch, representative, employee or warehouse there, and who pays the Afghan duties is not confirmed: no DDP, no "duties included" (a denial passes)`;
 const UZ_SCHEDULE = nearName({ name: AFGHAN[0], words: `har\\s+(?:hafta|kuni?)(?![a-zʻʼ])|haftasiga|haftalik|kuniga|muntazam\\s+(?:reys|qatnov|jo${AP}?nat|ravishda)|jadval\\s+bo${AP}?yicha|har\\s+(?:dushanba|seshanba|chorshanba|payshanba|juma|shanba|yakshanba)|oyiga\\s+[a-zʻʼ]+\\s+marta|doimiy\\s+(?:ravishda\\s+)?qatn|reyslar\\s+jadvali`, no: UZ_NO, asks: '\\?' });
 const UZC_SCHEDULE = nearName({ name: AFGHAN[1], words: 'ҳар\\s+(?:ҳафта|куни?)(?![а-яёўқғҳ])|ҳафтасига|ҳафталик|кунига|мунтазам\\s+(?:рейс|қатнов|жўнат|равишда)|жадвал\\s+бўйича|ҳар\\s+(?:душанба|сешанба|чоршанба|пайшанба|жума|шанба|якшанба)|ойига\\s+[а-яёўқғҳ]+\\s+марта|доимий\\s+(?:равишда\\s+)?қатн|рейслар\\s+жадвали', no: UZC_NO, asks: '\\?' });
 const RU_SCHEDULE = nearName({ name: AFGHAN[2], words: 'еженедельн|ежедневн|кажд(?:ую|ый|ые|ое)\\s+(?:неделю|день|месяц|понедельник|вторник|среду|четверг|пятницу|субботу|воскресенье)|(?:раза?|дважды|трижды)\\s+в\\s+(?:неделю|месяц)|ежемесячн|регулярн[а-яё]+\\s+(?:рейс|отправ|отгруз|сообщени)|по\\s+расписани|по\\s+(?:понедельникам|вторникам|средам|четвергам|пятницам|субботам|воскресеньям)|(?:ходят|уходят|отправляются)\\s+постоянно|(?:стабильн|постоянн)[а-яё]+\\s+(?:рейс|отправ)|[а-яё]+\\s+фур[ыа]?\\s+в\\s+(?:месяц|неделю)', no: RU_NO, asks: '\\?' });
@@ -630,26 +832,26 @@ const SCHEDULE_MSG = (lang) => `claims regular or scheduled departures to Afghan
  */
 const UZ_ONES = `bir|ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz|o${AP}?n|yigirma|o${AP}?ttiz|qirq|ellik|yarim|bir\\s+necha`;
 const UZC_ONES = 'бир|икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз|ўн|йигирма|ўттиз|қирқ|эллик|ярим|бир\\s+неча';
-const UZ_WORDFIG = `(?<![a-zʻʼ])(?:(?:${UZ_ONES})(?:[\\s–-]+(?:${UZ_ONES}))?\\s+(?:ish\\s+)?(?:kun|sutka|hafta|oy|soat)(?:da|dan|ga|gacha|lik|ni|i|ida)?|(?:ikkinchi|uchinchi|to${AP}?rtinchi|beshinchi|ertasi)\\s+kun[a-zʻʼ]*|(?:yuz|ming|million)\\s+(?:AQSH\\s+)?(?:dollar|so${AP}?m|yuan|yevro)[a-zʻʼ]*)(?![a-zʻʼ])`;
-const UZC_WORDFIG = `(?<![а-яёўқғҳ])(?:(?:${UZC_ONES})(?:[\\s–-]+(?:${UZC_ONES}))?\\s+(?:иш\\s+)?(?:кун|сутка|ҳафта|ой|соат)(?:да|дан|га|гача|лик|ни|и|ида)?|(?:иккинчи|учинчи|тўртинчи|бешинчи|эртаси)\\s+кун[а-яёўқғҳ]*|(?:юз|минг|миллион)\\s+(?:АҚШ\\s+)?(?:доллар|сўм|юан|евро)[а-яёўқғҳ]*)(?![а-яёўқғҳ])`;
+const UZ_WORDFIG = `(?<![a-zʻʼ])(?:(?:${UZ_ONES})(?:[\\s–-]+(?:${UZ_ONES}))?\\s+(?:(?:ish|kalendar)\\s+)?(?:kun|sutka|hafta|oy|soat)(?:da|dan|ga|gacha|lik|ni|i|ida)?|(?:ikkinchi|uchinchi|to${AP}?rtinchi|beshinchi|ertasi)\\s+kun[a-zʻʼ]*|(?:yuz|ming|million)\\s+(?:AQSH\\s+)?(?:dollar|so${AP}?m|yuan|yevro)[a-zʻʼ]*)(?![a-zʻʼ])`;
+const UZC_WORDFIG = `(?<![а-яёўқғҳ])(?:(?:${UZC_ONES})(?:[\\s–-]+(?:${UZC_ONES}))?\\s+(?:(?:иш|календарь?)\\s+)?(?:кун|сутка|ҳафта|ой|соат)(?:да|дан|га|гача|лик|ни|и|ида)?|(?:иккинчи|учинчи|тўртинчи|бешинчи|эртаси)\\s+кун[а-яёўқғҳ]*|(?:юз|минг|миллион)\\s+(?:АҚШ\\s+)?(?:доллар|сўм|юан|евро)[а-яёўқғҳ]*)(?![а-яёўқғҳ])`;
 const RU_ONES = 'один|одн[аоуи]|дв[ае]|двух|три|тр[её]х|четыр[её]х?|пят[ьи]|шест[ьи]|сем[ьи]|восем[ьи]|девят[ьи]|десят[ьи]|(?:один|две|три|четыр|пят|шест|сем|восем|девят)надцат[ьи]|двадцат[ьи]|тридцат[ьи]|сорока?|нескольк[оих]{1,2}|пар[ау]|полтор[аы]';
-const RU_WORDFIG = `(?<![а-яё])(?:(?:${RU_ONES})(?:[\\s–-]+(?:${RU_ONES}))?\\s+(?:рабоч[а-яё]+\\s+)?(?:дн(?:ей|я|ям|ях)|день|суток|сутки|недел[ьюией]|месяц(?:а|ев)?|час(?:а|ов)?)|за\\s+(?:день|сутки|неделю|месяц)|на\\s+(?:второй|третий|четв[её]ртый|пятый|следующий)\\s+день|около\\s+(?:недели|месяца)|(?:тысяч[аиу]?|сот(?:ен|ни|ня)?|миллион(?:а|ов)?)\\s+(?:долларов|доллар[аы]?|сум(?:ов)?|евро|юаней))(?![а-яё])`;
+const RU_WORDFIG = `(?<![а-яё])(?:(?:${RU_ONES})(?:[\\s–-]+(?:${RU_ONES}))?\\s+(?:(?:рабоч|календарн)[а-яё]+\\s+)?(?:дн(?:ей|я|ям|ях)|день|суток|сутки|недел[ьюией]|месяц(?:а|ев)?|час(?:а|ов)?)|за\\s+(?:день|сутки|неделю|месяц)|на\\s+(?:второй|третий|четв[её]ртый|пятый|следующий)\\s+день|около\\s+(?:недели|месяца)|(?:тысяч[аиу]?|сот(?:ен|ни|ня)?|миллион(?:а|ов)?)\\s+(?:долларов|доллар[аы]?|сум(?:ов)?|евро|юаней))(?![а-яё])`;
 const EN_ONES = 'two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|(?:thir|four|fif|six|seven|eigh|nine)teen|twenty|thirty|forty|fifty|sixty|ninety|a\\s+dozen';
-const EN_WORDFIG = `\\b(?:(?:${EN_ONES}|a\\s+few|few|several|a\\s+couple\\s+of)(?:\\s+(?:to|or)\\s+(?:${EN_ONES}))?\\s+(?:working\\s+|business\\s+)?(?:days?|weeks?|months?|hours?)|(?:in|within|about|around|roughly|after|takes?)\\s+(?:a|one)\\s+(?:day|week|month|fortnight)|(?:a|one)\\s+(?:day|week|month|fortnight)\\s+(?:after|later)|(?:second|third|fourth|fifth|next|same)\\s+day|overnight|(?:hundred|thousand|million)\\s+(?:US\\s+)?(?:dollars?|soums?|sums?|yuan|euros?))\\b`;
+const EN_WORDFIG = `\\b(?:(?:${EN_ONES}|a\\s+few|few|several|a\\s+couple\\s+of)(?:\\s+(?:to|or)\\s+(?:${EN_ONES}))?\\s+(?:working\\s+|business\\s+|calendar\\s+)?(?:days?|weeks?|months?|hours?)|(?:in|within|about|around|roughly|after|takes?)\\s+(?:a|one)\\s+(?:day|week|month|fortnight)|(?:a|one)\\s+(?:day|week|month|fortnight)\\s+(?:after|later)|(?:second|third|fourth|fifth|next|same)\\s+day|overnight|(?:hundred|thousand|million)\\s+(?:US\\s+)?(?:dollars?|soums?|sums?|yuan|euros?))\\b`;
 const ZH_ONES = '[一二两三四五六七八九十数半]'; // not 几: 几天 is also "how many days?"
-const ZH_WORDFIG = `(?:${ZH_ONES}{1,3}(?:[到至~～-]${ZH_ONES}{1,2})?\\s?(?:个?工作日|天(?!津)|周(?![一二三四五六日末年期边围])|个?星期|个月|个?小时)|第[二三四五六七八九十]天|当天|次日|隔天|${ZH_ONES}{1,3}[千百万]\\s?(?:美元|美金|元|人民币))`;
+const ZH_WORDFIG = `(?:${ZH_ONES}{1,3}(?:[到至~～-]${ZH_ONES}{1,2})?\\s?(?:个?工作日|个?(?:日历|自然)日|天(?!津)|周(?![一二三四五六日末年期边围])|个?星期|个月|个?小时)|第[二三四五六七八九十]天|当天|次日|隔天|${ZH_ONES}{1,3}[千百万]\\s?(?:美元|美金|元|人民币))`;
 const FA_ONES = 'یک|دو|سه|چهار|پنج|شش|هفت|هشت|ده|یازده|دوازده|سیزده|چهارده|پانزده|شانزده|هفده|هجده|نوزده|بیست|سی|چهل|پنجاه|نیم'; // not چند («چند روز؟» asks) and not نه (nine, and "no")
 const FA_WORDFIG = `(?<!\\p{Script=Arabic})(?:(?:${FA_ONES})(?:\\s(?:تا|الی|یا)\\s(?:${FA_ONES}))?\\s(?:روزه?|هفته|ماه|ساعته?)|روز\\s(?:دوم|سوم|چهارم|پنجم|بعد)|(?:هزار|صد|میلیون)\\s(?:دلار|سوم|یوان|یورو|تومان))(?!\\p{Script=Arabic})`;
 const either = (a, b) => `(?:${a}|${b})`;
 
 // years of work, counts of trucks / clients, "experience" — within 40 characters of an Afghan name, unless denied or asked
-const UZ_RECORD = nearName({ name: AFGHAN[0], words: `(?<![\\d.,+-])\\d{1,2}\\s?yil(?:dan|lik|dir|da)?(?![a-zʻʼ])|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:ta\\s+|(?:ta)?dan\\s+(?:ortiq|ziyod|ko${AP}?p)\\s+)?(?:fura|mijoz|konteyner|reys|yuk\\s+mashina)|tajriba`, no: UZ_NO, asks: '\\?' });
-const UZC_RECORD = nearName({ name: AFGHAN[1], words: '(?<![\\d.,+-])\\d{1,2}\\s?йил(?:дан|лик|дир|да)?(?![а-яёўқғҳ])|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:та\\s+|(?:та)?дан\\s+(?:ортиқ|зиёд|кўп)\\s+)?(?:фура|мижоз|контейнер|рейс|юк\\s+машина)|тажриба', no: UZC_NO, asks: '\\?' });
-const RU_RECORD = nearName({ name: AFGHAN[2], words: '(?<![\\d.,+])\\d{1,2}\\s?(?:лет|года?)(?![а-яё])|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:фур|клиент|контейнер|рейс|машин)|(?<![а-яё])опыт', no: RU_NO, asks: '\\?' });
-const EN_RECORD = nearName({ name: AFGHAN[3], words: '(?<![\\d.,+])\\d{1,2}\\s?(?:\\+\\s?)?years?\\b|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:trucks?|clients?|customers?|containers?|shipments?|departures?)\\b|\\bexperienced?\\b|\\btrack\\s+record\\b', no: EN_NO, asks: '\\?' });
-const ZH_RECORD = nearName({ name: AFGHAN[4], words: '(?<![\\d.,+])\\d{1,2}\\s?多?年(?![\\d月])|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+|多|余)?\\s?(?:辆|车|趟|位|家|名)|经验', stop: ZH_STOP, no: ZH_NO, asks: '吗|？|\\?' });
-const FA_RECORD = nearName({ name: AFGHAN[5], words: '(?<![\\d.,+])\\d{1,2}\\s?سال(?!\\p{Script=Arabic})|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:کامیون|مشتری|کانتینر|محموله)|تجربه', stop: `${FA_STOP}؛;`, no: FA_NO, asks: '؟' });
-const RECORD_MSG = (lang) => `years of work, a count of trucks or clients, or "experience" beside Afghanistan (${lang}) — the direction is new (owner, 2026-11-11): no figure, no experience claim (a denial passes)`;
+const UZ_RECORD = nearName({ name: AFGHAN[0], words: `(?<![\\d.,+-])\\d{1,2}\\s?yil(?:dan|lik|dir|da)?(?![a-zʻʼ])|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:ta\\s+|(?:ta)?dan\\s+(?:ortiq|ziyod|ko${AP}?p)\\s+)?(?:fura|mijoz|konteyner|reys|yuk\\s+mashina)|tajriba|(?<![a-zʻʼ])(?:tez(?:da|kor|roq)?|zudlik\\s+bilan|navbatsiz)(?![a-zʻʼ])`, no: UZ_NO, asks: '\\?' });
+const UZC_RECORD = nearName({ name: AFGHAN[1], words: '(?<![\\d.,+-])\\d{1,2}\\s?йил(?:дан|лик|дир|да)?(?![а-яёўқғҳ])|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:та\\s+|(?:та)?дан\\s+(?:ортиқ|зиёд|кўп)\\s+)?(?:фура|мижоз|контейнер|рейс|юк\\s+машина)|тажриба|(?<![а-яёўқғҳ])(?:тез(?:да|кор|роқ)?|зудлик\\s+билан|навбатсиз)(?![а-яёўқғҳ])', no: UZC_NO, asks: '\\?' });
+const RU_RECORD = nearName({ name: AFGHAN[2], words: '(?<![\\d.,+])\\d{1,2}\\s?(?:лет|года?)(?![а-яё])|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:фур|клиент|контейнер|рейс|машин)|(?<![а-яё])опыт|(?<![а-яё])(?:быстр|оперативн|срочн)[а-яё]*|(?<![а-яё])без\\s+(?:очередей|задержек|простоев)', no: RU_NO, asks: '\\?' });
+const EN_RECORD = nearName({ name: AFGHAN[3], words: '(?<![\\d.,+])\\d{1,2}\\s?(?:\\+\\s?)?years?\\b|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:trucks?|clients?|customers?|containers?|shipments?|departures?)\\b|\\bexperienced?\\b|\\btrack\\s+record\\b|\\b(?:fast(?:er|est)?|quick(?:ly|er|est)?|rapid(?:ly)?|swift(?:ly)?|speedy|express)\\b|\\b(?:without|no)\\s+(?:delays?|queues?|waiting)\\b', no: EN_NO, asks: '\\?' });
+const ZH_RECORD = nearName({ name: AFGHAN[4], words: '(?<![\\d.,+])\\d{1,2}\\s?多?年(?![\\d月])|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+|多|余)?\\s?(?:辆|车|趟|位|家|名)|经验|快速|快捷|迅速|尽快|极速|加急|免排队', stop: ZH_STOP, no: ZH_NO, asks: '吗|？|\\?' });
+const FA_RECORD = nearName({ name: AFGHAN[5], words: '(?<![\\d.,+])\\d{1,2}\\s?سال(?!\\p{Script=Arabic})|(?<![\\d.,+])\\d{1,5}\\s?(?:\\+\\s?)?(?:کامیون|مشتری|کانتینر|محموله)|تجربه|(?<!\\p{Script=Arabic})(?:سریع|فوری|بدون\\s(?:معطلی|تأخیر|تاخیر))', stop: `${FA_STOP}؛;`, no: FA_NO, asks: '؟' });
+const RECORD_MSG = (lang) => `years of work, a count of trucks or clients, "experience", or speed ("fast", "quickly", "without queues") beside Afghanistan (${lang}) — the direction is new (owner, 2026-11-11) and price and timing are on request: no figure, no experience or speed claim (a denial passes)`;
 
 // a claim, unless the sentence denies it or asks (as mode() and nearName() do)
 const unlessDenied = (claim, o) => { const stop = o.stop ?? '.!?;'; return `(?:${claim})(?<!(?:${o.no})[^${stop}]{0,90})(?![^${stop}]{0,40}(?:${o.no}|${o.asks}))`; };
@@ -700,16 +902,58 @@ export const REQUEST_FIGURE = new RegExp([UZ_FIGURE, UZC_FIGURE, RU_FIGURE, EN_F
 const CHINA = '(?:Xitoy|Хитой|Кита[йяею]|China|中国|چین)';
 const TASHKENT = '(?:Toshkent|Тошкент|Ташкент|Tashkent|塔什干|تاشکند)';
 export const REQUEST_FIGURE_OK = new RegExp(`${CHINA}[\\s\\S]*${TASHKENT}|${TASHKENT}[\\s\\S]*${CHINA}`, 'iu');
+/**
+ * A sentence that names its SOURCE OF LAW, in any language of the site: an article with its number and its act, a
+ * named code, a numbered resolution or decree, a named convention, a Regulation "approved by …", "the same
+ * Regulation" — never "the law" alone. For the two guides about the on-request services
+ * (check-content.mjs → PAGE_CLAIMS, guide.figure): a guide prints the figures of the law — the 10 calendar days of
+ * Article 218 of the Customs Code, the 30 days of the Regulation — which a service page never does. On a guide a
+ * time, price, volume or area figure passes only in a sentence that says whose figure it is: this, or the China →
+ * Tashkent route (REQUEST_FIGURE_OK). A figure of the company has no article to name. «modda» and «ماده» are also
+ * "a substance" and count with their number only; "Code" with its name only (an HS code is not a law); «qarori»
+ * with its possessive ending («737-son qarori» — not «qaror qildik», we decided) or, in any other case form, after
+ * the number of the document («737-son qarorning 3-1-bandi»; «2-sonli terminal» names no document). The Cyrillic
+ * «конвенсия» is what the transliterator printed for «konvensiya» before src/lib/cyrillic.terms.ts respelled it
+ * (2026-11-13); both spellings are still accepted.
+ */
+// A NAMED or NUMBERED instrument, not a keyword: «положение» is also a situation, «qarori» a manager's decision, «nizom» a
+// company's charter, 条例 and مقررات a company's rules, 第 2 条 a route, "Article 5" a contract's, "the law" anything.
+const LAW_SOURCE = new RegExp([
+  // uz: «737-son qarori», «400-son Qonun», «Bojxona kodeksi», «kodeksining 218-moddasi», «CMR konvensiyasi», «shu Nizom»
+  String.raw`\d\s?-\s?son(?:li)?\s+(?:qaror|qonun|farmon|buyruq)|(?<![a-zʻʼ])(?:bojxona|soliq|fuqarolik|jinoyat)\s+kodeks|(?:kodeks|qonun|konvensiya|nizom|qaror)[a-zʻʼ]*\s+\d+(?:[.-]\d+)*\s?-\s?modda|(?<![a-zʻʼ])(?:TIR|CMR)\s+konvensiya|(?<![a-zʻʼ])(?:shu|ushbu|mazkur|o[ʻ'’‘]sha)\s+(?:nizom|qaror|kodeks|qonun|konvensiya|modda)|(?<![a-zʻʼ])nizom(?:ga|da|ning)\s+(?:ko[ʻ'’‘]ra|\d)`,
+  String.raw`\d\s?-\s?сон(?:ли)?\s+(?:қарор|қонун|фармон|буйруқ)|(?<![а-яёўқғҳ])(?:божхона|солиқ|фуқаролик|жиноят)\s+кодекс|(?:кодекс|қонун|конвен[цс]ия|низом|қарор)[а-яёўқғҳ]*\s+\d+(?:[.-]\d+)*\s?-\s?модда|(?:TIR|CMR)\s+конвен[цс]ия|(?<![а-яёўқғҳ])(?:шу|ушбу|мазкур|ўша)\s+(?:низом|қарор|кодекс|қонун|конвен[цс]ия|модда)|(?<![а-яёўқғҳ])низом(?:га|да|нинг)\s+(?:кўра|\d)`,
+  // ru: «Таможенный кодекс», «Кодекс … об административной …», «постановлением № 737», «Указ … УП-174», «Конвенция МДП»,
+  // «статья 218 Таможенного кодекса», «п. 12 Положения», «Положение, утверждённое …», «по тому же Положению»
+  String.raw`(?<![а-яё])(?:таможенн|налогов|гражданск|уголовн)[а-яё]*\s+кодекс|кодекс[а-яё]*\s+(?:[а-яё]+\s+){0,3}?об\s+административн|(?<![а-яё])(?:постановлени|указ|закон|положени)[а-яё]*[^!?;]{0,60}?№\s?(?:[А-ЯЁA-Z]{1,4}-)?\d|(?<![а-яё])(?:указ|закон)[а-яё]*\s+[^!?;]{0,40}?(?:УП|ПП|ПФ|ЗРУ)-\d|конвенци[а-яё]*\s+(?:МДП|TIR|CMR|КДПГ|о\s+договоре|о\s+международн)|(?<![а-яё])(?:стать[яиеюёй]|ст\.|пункт[а-яё]*|п\.)\s?\d+[^.!?;]{0,40}?(?:кодекс|закон|конвенци|положени|постановлени)|(?<![а-яё])положени[а-яё]*,?\s+утвержд[её]нн|(?<![а-яё])(?:т(?:ого|ому|ем|ой|ом)\s+же|эт(?:ого|ому|им|ой|ом)|данн(?:ого|ому|ым|ой|ом)|указанн(?:ого|ому|ым|ой|ом))\s+(?:положени|постановлени|кодекс|закон|конвенци|стать)`,
+  // en: "Customs Code", "Resolution No. 737", "Decree No. UP-174", "TIR Convention", "Article 218 of the Customs Code",
+  // "the Regulation approved by", "the same Regulation"
+  String.raw`\b(?:customs|tax|civil|criminal|administrative(?:\s+liability)?)\s+code\b|\b(?:resolution|decree|law|regulation)\s+No\.?\s?(?:[A-Z]{1,4}-)?\d|\b(?:TIR|CMR)\s+convention\b|\bconvention\s+on\s+the\s+(?:contract|international)\b|\b(?:articles?|art\.)\s?\d+[\w()-]*\s+of\s+the\s+(?:[\w-]+\s+){0,4}?(?:code|convention|law|regulation|resolution|decree)\b|\bregulation\s+approved\s+by\b|\b(?:the\s+same|this|that)\s+(?:regulation|resolution|code|convention|law|decree|article)\b`,
+  // zh: 《海关法典》, 第 737 号决议, TIR 公约, 该条例
+  String.raw`《[^》]{1,30}(?:法典|法|公约|条例|决议|规定)》|第\s?\d+\s?号(?:决议|总统令|令|法)|(?:TIR|CMR)\s?公约|(?:该|同一|上述|此)(?:条例|决议|法典|公约|法律|条)`,
+  // fa: «مادهٔ ۲۱۸ قانون گمرک», «قانون گمرک», «مصوبهٔ شمارهٔ ۷۳۷», «کنوانسیون TIR», «همین مقررات»
+  String.raw`ماده(?:\p{Mn}|ی|\p{Cf}ی)?\s\d+\s(?:[\p{Script=Arabic}\p{Cf}\p{Mn}]+\s){0,2}?(?:قانون|کنوانسیون|مقررات|آیین[\s\p{Cf}]?نامه|مصوبه)|قانون\s(?:گمرک|مالیات|مدنی|مجازات)|مصوبه(?:\p{Mn}|ی)?\s(?:شماره(?:\p{Mn}|ی)?\s)?\d|کنوانسیون\s(?:TIR|CMR|تیر)|(?<!\p{Script=Arabic})(?:همین|این|آن)\s(?:مقررات|مصوبه|قانون|آیین[\s\p{Cf}]?نامه|کنوانسیون|ماده)(?!\p{Script=Arabic})`,
+].join('|'), 'iu');
+/** What lets a figure through on a guide page: its source of law in the same sentence, or the China → Tashkent route. */
+export const GUIDE_FIGURE_OK = { test: (s) => REQUEST_FIGURE_OK.test(s) || LAW_SOURCE.test(s) };
 
-// Who clears customs on the Afghan side is not confirmed (owner, 2026-11-11): the pages say that the manager explains
-// it. A clearance word or an Incoterm that includes clearance (DDP), beside "in Afghanistan / on the Afghan side".
-const UZ_CUSTOMS = nearName({ name: `(?<![a-zʻʼ])(?:Afg${AP}?oniston(?:da|dagi|\\s+tomon[a-zʻʼ]*|\\s+bojxona[a-zʻʼ]*)|(?:Hayraton|Mozori\\s+Sharif)(?:da|dagi|gacha))(?![a-zʻʼ])`, words: `bojxona(?:ni|sini)?\\s+(?:ham\\s+)?(?:rasmiylashtir|o${AP}?zimiz)|bojxona\\s+rasmiylashtiruv[a-zʻʼ]*|rastamojka|(?<![a-z])DDP(?![a-z])|boj\\s+va\\s+soliq`, no: UZ_NO, asks: '\\?' });
-const UZC_CUSTOMS = nearName({ name: '(?<![а-яёўқғҳ])(?:Афғонистон(?:да|даги|\\s+томон[а-яёўқғҳ]*|\\s+божхона[а-яёўқғҳ]*)|(?:Ҳайратон|Мозори\\s+Шариф)(?:да|даги|гача))(?![а-яёўқғҳ])', words: 'божхона(?:ни|сини)?\\s+(?:ҳам\\s+)?(?:расмийлаштир|ўзимиз)|божхона\\s+расмийлаштирув[а-яёўқғҳ]*|растаможка|(?<![a-z])DDP(?![a-z])|бож\\s+ва\\s+солиқ', no: UZC_NO, asks: '\\?' });
-const RU_CUSTOMS = nearName({ name: '(?<![а-яё])(?:в\\s+Афганистане|на\\s+афганской\\s+стороне|афганск[а-яё]+\\s+таможн[а-яё]+|до\\s+(?:Хайратона|Мазари[\\s-]*Шарифа))', words: 'растамож[а-яё]+|таможенн[а-яё]+\\s+(?:оформлени|очистк)[а-яё]*|оформ(?:им|ляем|ление)\\s+таможн[а-яё]+|(?<![a-z])DDP(?![a-z])|пошлин[а-яё]*\\s+включен', no: RU_NO, asks: '\\?' });
-const EN_CUSTOMS = nearName({ name: '\\b(?:in\\s+Afghanistan|on\\s+the\\s+Afghan\\s+side|Afghan\\s+customs|(?:to|at|in)\\s+(?:Ha[iy]rat[ao]n|Mazar[\\s-]*[ie][\\s-]*Sharif))\\b', words: '\\bcustoms\\s+clearance\\b|\\bclear(?:s|ed|ing)?\\s+(?:the\\s+)?(?:cargo\\s+through\\s+)?customs\\b|\\bDDP\\b|\\bduties\\s+(?:and\\s+taxes\\s+)?(?:included|paid)\\b', no: EN_NO, asks: '\\?' });
-const ZH_CUSTOMS = nearName({ name: '(?:阿富汗(?:一侧|境内|方面|海关)|在阿富汗|(?:至|到)(?:海拉顿|马扎里沙里夫))', words: '清关|报关|通关|含关税|包税|DDP', span: 14, stop: ZH_STOP, no: ZH_NO, asks: '吗|？|\\?|说明|告知' });
-const FA_CUSTOMS = nearName({ name: '(?<!\\p{Script=Arabic})(?:در\\s(?:سمت\\s)?افغانستان|سمت\\sافغانستان|گمرک\\sافغانستان|در\\s(?:حیرتان|مزار[\\s\\p{Cf}]?شریف))', words: 'ترخیص|طی\\sمراحل\\sگمرکی|DDP|عوارض\\sگمرکی\\sدر\\sقیمت', stop: `${FA_STOP}؛;`, no: FA_NO, asks: '؟' });
-const CUSTOMS_MSG = (lang) => `customs clearance in Afghanistan, or a DDP delivery there (${lang}) — who clears customs on the Afghan side is not confirmed: the page may only say that the manager explains it (a denial passes)`;
+// Who clears customs on the Afghan side (owner, 2026-11-12, FACTS §12.1): GSR's partners, customs agents (declarants).
+// A clearance word beside "in Afghanistan / on the Afghan side" passes only in a sentence that names them as such and
+// gives them nothing more to do (§4a: no cargo handled, not "ourselves", not the consignee's agent, nobody paying the
+// duties); an Incoterm or a payment of the duties (DDP, "duties included", «boj va soliq … narxga kiradi», 包税 / 含关税,
+// «عوارض گمرکی در قیمت») never does — who pays the Afghan duties is not confirmed. The manager still explains which
+// procedure and which documents apply there (row 76), in a sentence of its own or beside the partner sentence.
+// Since the guard verification (2026-11-13) the Incoterm / duties words are read beside the Afghan name in ANY case form
+// («Afgʻonistonga DDP shartida», "to Afghanistan on DDP terms"), and in a partner sentence across ";" as well: a table row
+// "…our partners — customs agents (declarants); duties included." is the same claim (the other cancel words keep ";").
+const customs = (o) => `(?:${nearName({ ...o, words: o.clear })}${partnersOk(o.ok)})|(?:${nearName({ ...o, name: o.ok.name, words: o.ok.incl })})|(?:${unlessDenied(o.ok.afghanDuties, { stop: o.ok.stop, no: o.ok.no, asks: o.asks })})` +
+  `|(?:${partnerSentence(o.ok, [o.ok.ourselves, o.ok.consignee].join('|'), o.asks)})|(?:${partnerSentence({ ...o.ok, stop: o.ok.stop.replace(/[;؛；]/g, '') }, o.ok.incl, o.asks)})`;
+const UZ_CUSTOMS = customs({ name: `(?<![a-zʻʼ])(?:Afg${AP}?oniston(?:da|dagi|\\s+tomon[a-zʻʼ]*|\\s+bojxona[a-zʻʼ]*)|(?:Hayraton|Mozori\\s+Sharif)(?:da|dagi|gacha))(?![a-zʻʼ])`, clear: `bojxona(?:ni|sini|dan|da)?\\s+(?:ham\\s+)?(?:rasmiylashtir|o${AP}?zimiz|o${AP}?tkaz)|bojxona\\s+rasmiylashtiruv[a-zʻʼ]*|rastamojka|(?<![a-zʻʼ])(?<!${UZ_DOCS})rasmiylashtiramiz(?![a-zʻʼ])`, no: UZ_NO, asks: '\\?', ok: UZ_PARTNERS });
+const UZC_CUSTOMS = customs({ name: '(?<![а-яёўқғҳ])(?:Афғонистон(?:да|даги|\\s+томон[а-яёўқғҳ]*|\\s+божхона[а-яёўқғҳ]*)|(?:Ҳайратон|Мозори\\s+Шариф)(?:да|даги|гача))(?![а-яёўқғҳ])', clear: 'божхона(?:ни|сини|дан|да)?\\s+(?:ҳам\\s+)?(?:расмийлаштир|ўзимиз|ўтказ)|божхона\\s+расмийлаштирув[а-яёўқғҳ]*|растаможка|(?<![а-яёўқғҳ])(?<!(?:ҳужжат|декларация|ариза|маълумот|инвойс)[а-яёўқғҳ]*\\s+(?:[а-яёўқғҳ]+\\s+){0,2})расмийлаштирамиз(?![а-яёўқғҳ])', no: UZC_NO, asks: '\\?', ok: UZC_PARTNERS });
+const RU_CUSTOMS = customs({ name: '(?<![а-яё])(?:в\\s+(?:Афганистане|Хайратоне|Мазари[\\s-]*Шарифе)|на\\s+афганской\\s+(?:стороне|границе)|афганск[а-яё]+\\s+(?:таможн|границ)[а-яё]+|до\\s+(?:Хайратона|Мазари[\\s-]*Шарифа))', clear: 'растамож[а-яё]+|таможенн[а-яё]+\\s+(?:оформлени|очистк|формальност)[а-яё]*|(?<![а-яё])оформ(?:им|ит|ят|ляем|ляет|ляют|ление|лением|ления|лять|ить)\\s+(?:[а-яё]+\\s+){0,3}?(?:на\\s+|через\\s+)?таможн[а-яё]*|(?<![а-яё])таможн(?:ю|е)\\s+(?:[а-яё]+\\s+){0,2}?оформ[а-яё]*', no: RU_NO, asks: '\\?', ok: RU_PARTNERS });
+const EN_CUSTOMS = customs({ name: '\\b(?:in\\s+Afghanistan|on\\s+the\\s+Afghan\\s+side|Afghan\\s+(?:customs|border|frontier)|(?:to|at|in)\\s+(?:Ha[iy]rat[ao]n|Mazar[\\s-]*[ie][\\s-]*Sharif))\\b', clear: '\\b(?:customs\\s+)?clearance\\b|\\bclear(?:s|ed|ing)?\\s+(?:the\\s+|your\\s+|all\\s+)?(?:(?:cargo|goods|shipments?|consignments?|trucks?|loads?)\\s+(?:through\\s+|at\\s+|with\\s+)?)?customs\\b|\\bclear(?:s|ed|ing)?\\s+(?:the\\s+|your\\s+)?(?:cargo|goods|shipments?|consignments?)\\b|\\b(?:handle[sd]?|handling|arrange[sd]?|arranging|manage[sd]?|managing|take\\s+care\\s+of|takes\\s+care\\s+of|took\\s+care\\s+of)\\s+(?:the\\s+|all\\s+)?customs\\b|\\bcustoms\\s+(?:formalities|paperwork|brokerage)\\b|\\bdeclar(?:e|es|ed|ing)\\s+(?:the\\s+|your\\s+)?(?:cargo|goods)\\b', no: EN_NO, asks: '\\?', ok: EN_PARTNERS });
+const ZH_CUSTOMS = customs({ name: '(?:阿富汗(?:一侧|境内|方面|海关|边境)|在阿富汗|(?:至|到|在)(?:海拉顿|马扎里沙里夫))', clear: '清关|报关|通关|海关手续', span: 14, stop: ZH_STOP, no: ZH_NO, asks: '吗|？|\\?|说明|告知', ok: ZH_PARTNERS });
+const FA_CUSTOMS = customs({ name: '(?<!\\p{Script=Arabic})(?:در\\s(?:سمت\\s)?افغانستان|سمت\\sافغانستان|گمرک\\sافغانستان|در\\s(?:حیرتان|مزار[\\s\\p{Cf}]?شریف))', clear: 'ترخیص|طی\\sمراحل\\sگمرکی|تشریفات\\sگمرکی', stop: `${FA_STOP}؛;`, no: FA_NO, asks: '؟', ok: FA_PARTNERS });
+const CUSTOMS_MSG = (lang) => `customs clearance in Afghanistan not by GSR's partners named as customs agents (declarants) — or with the cargo handled, "ourselves", GSR's own broker or the consignee in the sentence — or a DDP / "duties included" / who-pays claim (${lang}) — owner, 2026-11-12: on the Afghan side customs is cleared by GSR's partners, customs agents (declarants), named as such in the same sentence; still no office, branch, representative, employee or warehouse there; who pays the Afghan duties is not confirmed: no DDP, no "duties included" (a denial passes)`;
 
 /**
  * Each rule: `{ id, msg, re, bad, good }`, and `block: true` where it reads one block of a page at a time.
@@ -790,7 +1034,8 @@ export const CLAIM_RULES = [
     bad: ['کد QR را اسکن کنید', 'شما QR را اسکن می‌کنید'],
     good: ['لازم نیست شما چیزی را اسکن کنید', 'آیا خودم باید QR را اسکن کنم؟ نه.', 'کارکنان انبار در هر مرحله QR را اسکن می‌کنند', 'لازم نیست خودتان اسکن کنید'] },
 
-  /* — tracking is stage-by-stage QR scanning: never real-time, never GPS — */
+  /* — tracking is stage-by-stage QR scanning: never real-time, never GPS (the GPS word and the tracking word up to 30 zh /
+   *   60 fa characters apart, either order — guard hardening, 2026-11-13) — */
   { id: 'zh.realTime', msg: 'says real-time (zh) — tracking is stage-by-stage QR scanning',
     re: /(?<![不非没无未][^。！？!?；;]{0,10})实时|即时(?:追踪|跟踪|定位|位置|查询|更新|监控|动态)/iu,
     bad: ['提供实时追踪', '即时追踪您的货物'],
@@ -800,9 +1045,13 @@ export const CLAIM_RULES = [
     bad: ['在线查看货车位置'],
     good: ['这不是车辆的实时位置', '仓库位置在义乌', '在线地图上查看仓库位置', '官方在线平台'] },
   { id: 'zh.gps', msg: 'implies live GPS position (zh) — tracking is stage-by-stage QR scanning',
-    re: /(?<![不非没无未][^。！？!?；;]{0,10})(?:GPS|北斗|卫星)(?!\s?(?:追踪器|跟踪器|定位器|tracker))\s?(?:定位|追踪|跟踪|监控|实时)|(?<![不非没无未][^。！？!?；;]{0,10})(?:追踪|跟踪|定位|查询)[^。！？!?；;]{0,20}GPS(?!\s?(?:追踪器|跟踪器|定位器|tracker))/iu,
-    bad: ['GPS定位追踪您的货物', '卫星定位'],
-    good: ['无人机、GPS 追踪器、带 SIM 卡的智能手表', '这不是 GPS 定位'] },
+    re: /(?<![不非没无未][^。！？!?；;]{0,10})(?:GPS|北斗|卫星)(?!\s?(?:追踪器|跟踪器|定位器|tracker))(?:\s?(?:定位|追踪|跟踪|监控|实时)|(?![^。！？!?；;]{0,2}(?:不(?!断|间断|仅|同)|没|无(?!论)|未|非(?!常)))[^。！？!?；;]{0,30}?(?:定位(?!器|设备|装置|仪)|追踪(?!器)|跟踪(?!器)|监控(?!器|摄像|设备)|实时))|(?<![不非没无未][^。！？!?；;]{0,10})(?:追踪|跟踪|定位|查询)[^。！？!?；;]{0,30}(?<!(?:不(?!断|间断|仅|同)|没|无(?!论)|未|非(?!常))[^。！？!?；;]{0,2})GPS(?!\s?(?:追踪器|跟踪器|定位器|tracker))/iu,
+    bad: ['GPS定位追踪您的货物', '卫星定位',
+      // guard hardening (2026-11-13): GPS and the tracking word up to 30 characters apart, either order; a denial at the GPS word passes
+      '您可以通过GPS，在我们的ERP系统和Telegram中跟踪货物。', '通过GPS经由我们在Telegram中的ERP系统追踪货物。'],
+    good: ['无人机、GPS 追踪器、带 SIM 卡的智能手表', '这不是 GPS 定位',
+      // guard hardening (2026-11-13): GPS and the tracking word up to 30 characters apart, either order; a denial at the GPS word passes
+      'GPS不用于跟踪货物：您通过我们的ERP系统在Telegram中跟踪货物。', '跟踪货物不靠GPS，而是通过我们的ERP系统。'] },
   { id: 'fa.realTime', msg: 'says real-time (fa) — tracking is stage-by-stage QR scanning',
     re: /(?<!(?:نه|نیست)[^.؟!?]{0,20})(?:بلادرنگ|ریل[\s\p{Cf}]?تایم|real[\s-]?time|به[\s\p{Cf}]?صورت\s(?:زنده|لحظه[\s\p{Cf}]?ای|آنی)|لحظه[\s\p{Cf}]?به[\s\p{Cf}]?لحظه|لحظه[\s\p{Cf}]?ای(?!\p{Script=Arabic}))(?![^.؟!?]{0,30}(?:نیست|نمی[\s\p{Cf}]?(?:دهد|کند|شود|بینید)|ندارد))/iu,
     bad: ['ردیابی بلادرنگ', 'اطلاعات لحظه‌ای بار'],
@@ -812,9 +1061,13 @@ export const CLAIM_RULES = [
     bad: ['موقعیت زنده کامیون را ببینید', 'ردیابی لحظه‌ای محموله', 'پیگیری آنلاین بار'],
     good: ['این موقعیت زنده‌ی خودرو نیست.', 'حیوانات زنده و گیاهان', 'پلتفرم آنلاین رسمی بازار'] },
   { id: 'fa.gps', msg: 'implies live GPS position (fa) — tracking is stage-by-stage QR scanning',
-    re: /(?<!(?:نه|نیست|بدون)[^.؟!?]{0,15})(?:GPS|جی[\s\p{Cf}]?پی[\s\p{Cf}]?اس|ماهواره(?:ای)?)(?![\s\p{Cf}]?(?:tracker|ترکر))[^.؟!?]{0,30}(?:ردیابی|رهگیری|پیگیری|موقعیت[\s\p{Cf}]?یابی)|(?:ردیابی|رهگیری|پیگیری)[^.؟!?]{0,30}(?:GPS|جی[\s\p{Cf}]?پی[\s\p{Cf}]?اس)/iu,
-    bad: ['ردیابی با GPS', 'پیگیری با جی‌پی‌اس'],
-    good: ['پهپادها، ردیاب‌های GPS، ساعت‌های هوشمند'] },
+    re: /(?<!(?:نه|نیست|بدون)[^.؟!?]{0,15})(?:GPS|جی[\s\p{Cf}]?پی[\s\p{Cf}]?اس|ماهواره(?:ای)?)(?![\s\p{Cf}]?(?:tracker|ترکر))[^.؟!?]{0,60}(?:ردیابی|رهگیری|پیگیری|موقعیت[\s\p{Cf}]?یابی)|(?:ردیابی|رهگیری|پیگیری)[^.؟!?]{0,60}(?<!(?<!\p{Script=Arabic})(?:نه|بدون)[\s\p{Cf}](?:(?:با|از|به|از\sطریق|به\sکمک|با\sکمک|استفاده\sاز)[\s\p{Cf}])?)(?:GPS|جی[\s\p{Cf}]?پی[\s\p{Cf}]?اس)/iu,
+    bad: ['ردیابی با GPS', 'پیگیری با جی‌پی‌اس',
+      // guard hardening (2026-11-13): GPS and the tracking word up to 60 characters apart, either order; «نه با GPS», «بدون GPS» pass
+      'بار را با GPS از طریق سیستم ERP ما در تلگرام پیگیری می‌کنید.', 'ردیابی کامیون از طریق سیستم ERP ما در تلگرام با جی‌پی‌اس است.'],
+    good: ['پهپادها، ردیاب‌های GPS، ساعت‌های هوشمند',
+      // guard hardening (2026-11-13): GPS and the tracking word up to 60 characters apart, either order; «نه با GPS», «بدون GPS» pass
+      'پیگیری بار از طریق سیستم ERP ما در تلگرام است، نه با GPS.', 'پیگیری بار بدون GPS و از طریق سیستم ERP ما در تلگرام است.'] },
 
   /* — the owner-confirmed figures: 400+ clients, 50–100 containers a month (2026-11-11; no truck count any
        more), GSR 8+ years (2018), the TEAM 15 years — */
@@ -1062,7 +1315,10 @@ export const CLAIM_RULES = [
       'Cargo to Iran: from China and from Uzbekistan, by truck', 'Truck cargo to Iran from China and from Uzbekistan', 'We deliver to the Hairatan border crossing, to Mazar-i-Sharif or to Tehran', 'we find the goods, buy them and deliver them by truck to Hairatan or Mashhad',
       'Two: from China to Iran and from Uzbekistan to Iran', 'Two directions to Iran', 'China → Iran', 'cargo going to Iran can be reloaded here', 'Cargo bound for Iran can be reloaded here as well', 'the new truck service to Iran', 'I have a question about cargo to Iran',
       'We also deliver to Kazakhstan', 'cargo to Russia', 'freight from China to Kyrgyzstan', 'We ship to Kabul', 'trucking to Kandahar', 'We deliver to Teheran and to the UAE', 'delivery to Herat', 'shipments to the UAE', 'Iran-bound cargo is accepted', 'Our Iran route', 'We serve Iran', 'serving Afghanistan and Iran',
-      'Hairatan · Mazar-i-Sharif · Kabul', 'To one of two points: Tehran or Mashhad.', 'Mashhad — we deliver the cargo to the city.', 'A new direction: Iran, transit and warehouse', 'Iran', 'Kazakhstan'],
+      'Hairatan · Mazar-i-Sharif · Kabul', 'To one of two points: Tehran or Mashhad.', 'Mashhad — we deliver the cargo to the city.', 'A new direction: Iran, transit and warehouse', 'Iran', 'Kazakhstan',
+      // guard-verify H5 (2026-11-13): a negation word used as a quantifier ("no extra …", «вам не нужно …», 您无需…) is not a denial
+      'Our partners — customs agents (declarants) — clear cargo for Kabul too, with no delays.',
+      'Our partners — customs agents (declarants) — clear customs in Kabul as well, with no extra cost to you.'],
     good: ['We now also carry cargo to Afghanistan by truck — to the Hairatan border crossing or to Mazar-i-Sharif', 'Cargo to Afghanistan: from China and from Uzbekistan, by truck', 'we deliver them by truck to Hairatan or Mazar-i-Sharif', 'We deliver to Hairatan and to Mazar-i-Sharif', 'China → Afghanistan',
       'the road via Khorgos and Kazakhstan to Tashkent', 'cargo reaches the Kazakhstan border', 'freight goes via Khorgos to Kazakhstan and on to Tashkent', 'a transit declaration on the Kazakh side', 'Delivery by truck from China through Kazakhstan to Tashkent',
       'Khorgos (Kazakhstan border) → Almaty → Shymkent → Yallama crossing → Tashkent', 'The truck crosses from China to Kazakhstan at Khorgos', 'Cargo crosses into Kazakhstan at Khorgos', 'Khorgos: China → Kazakhstan',
@@ -1085,13 +1341,18 @@ export const CLAIM_RULES = [
     bad: ['اکنون با کامیون به ایران هم بار می‌بریم', 'GSR با کامیون به ایران هم بار می‌برد', 'به افغانستان و ایران بار می‌بریم', 'بار را به افغانستان، ایران و پاکستان می‌بریم', 'حمل بار به ایران', 'حمل بار با کامیون به ایران از چین و از ازبکستان', 'بار را تا حیرتان، مزار شریف یا تهران می‌رسانیم', 'تا مشهد می‌رسانیم',
       'کالا را می‌خریم و تا تهران می‌رسانیم', 'در دو مسیر: از چین به ایران و از ازبکستان به ایران', 'چین ← ایران', 'بار تا تهران رسانده می‌شود', 'ترانزیت به ایران از راه ترکمنستان', 'باری که مقصدش ایران است نیز می‌تواند همین‌جا جابه‌جا شود',
       'بار را به قزاقستان هم می‌رسانیم', 'به روسیه ارسال می‌کنیم', 'بار را به کابل هم می‌رسانیم', 'تا هرات حمل می‌کنیم', 'حمل بار به قزاقستان', 'ارسال کالا از چین به پاکستان', 'ترانزیت به ترکمنستان', 'به تاجکستان حمل می‌کنیم', 'کارگو به روسیه', 'بار را به ترکیه ترانزیت می‌کنیم', 'تا کندهار می‌رسانیم', 'باربری به ایران', 'ترابری به ایران', 'حمل و نقل به ترکمنستان', 'مسیر ایران', 'انتقال بار به ایران',
-      'حیرتان • مزار شریف • هرات', 'تا یکی از این دو نقطه: تهران یا مشهد.', 'مشهد — بار را تا خود شهر می‌رسانیم.', 'مسیر تازه: ایران، ترانزیت و انبار', 'دو مسیر به ایران', 'ایران', 'قزاقستان'],
+      'حیرتان • مزار شریف • هرات', 'تا یکی از این دو نقطه: تهران یا مشهد.', 'مشهد — بار را تا خود شهر می‌رسانیم.', 'مسیر تازه: ایران، ترانزیت و انبار', 'دو مسیر به ایران', 'ایران', 'قزاقستان',
+      // guard-verify H10 (2026-11-13): Persian «در کابل» (in Kabul) — not a cable
+      'شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — در کابل هم ترخیص گمرکی را انجام می‌دهند.', 'از طریق شرکای ما — کارگزاران گمرکی — بار در کابل هم ترخیص و تحویل می‌شود.',
+      'شرکای ما در کابل هم بار شما را تحویل می‌گیرند.', 'ما در کابل هم بار تحویل می‌دهیم.'],
     good: ['اکنون با کامیون به افغانستان هم بار می‌بریم', 'شرکت لجستیک GSR Logistics در تاشکند اکنون با کامیون به افغانستان هم بار می‌برد', 'حمل بار به افغانستان', 'حمل بار با کامیون به افغانستان از چین و از ازبکستان', 'تا مزار شریف می‌رسانیم', 'تا حیرتان و مزار شریف می‌رسانیم', 'بار را تا خود شهر می‌رسانیم', 'چین ← افغانستان', 'حمل بار از ازبکستان به افغانستان',
       'از طریق قزاقستان به تاشکند می‌رسد', 'با راه‌آهن قزاقستان به تاشکند می‌آوریم', 'تا مرز ترکمنستان می‌رسانیم', 'ترانزیت قزاقستان ۱ تا ۳ روز طول می‌کشد', 'اظهارنامهٔ ترانزیت در سمت قزاقستان', 'کابل شارژ را به تاشکند می‌فرستیم', 'خورگوس (مرز قزاقستان) ← آلماتی ← شیمکنت ← تاشکند',
       'کامیون از چین به قزاقستان وارد می‌شود', 'کامیون بار را به قزاقستان می‌برد و از آنجا به تاشکند می‌آید', 'خورگوس: چین ← قزاقستان', 'ممنوعیت ارسال واگن‌های مسطح خالی به دوستیک و آلتین‌کول', 'کارخانه‌هایی که صادرات به اروپا دارند',
       'به قزاقستان ارسال نمی‌کنیم', 'به ایران بار نمی‌بریم', 'حمل بار به قزاقستان نداریم', 'حمل بار به هندوستان انجام نمی‌شود', 'آیا حمل بار به روسیه هم دارید؟', 'آیا به ایران هم بار می‌برید؟',
       'مسیر ایران نداریم', 'مسیر افغانستان', 'مسیر تازه: حمل بار با کامیون به افغانستان', 'انتقال پول به چین', 'حمل و نقل به افغانستان',
-      'به کابل، هرات و قندهار بار نمی‌بریم', 'آیا تا هرات هم می‌رسانید؟', 'حیرتان • مزار شریف', 'افغانستان', 'ازبکستان', 'جواهرات و اشیای عتیقه', 'کابل شارژ و چراغ LED'] },
+      'به کابل، هرات و قندهار بار نمی‌بریم', 'آیا تا هرات هم می‌رسانید؟', 'حیرتان • مزار شریف', 'افغانستان', 'ازبکستان', 'جواهرات و اشیای عتیقه', 'کابل شارژ و چراغ LED',
+      // guard-verify true2 (2026-11-13): true sentences next to what these fixes read: LV b8 «без уплаты» / «soliqsiz» / 无需缴纳 / «بدون پرداخت», "since 2026", possessives, «کابل شارژ»
+      'کابل شارژ، هدفون و لوازم برقی از کالاهای رایج بار به افغانستان است.'] },
 
   /* — the Afghanistan direction: no number of days and no price (block rules: one paragraph, heading, list item
        or table row at a time) — */
@@ -1099,45 +1360,65 @@ export const CLAIM_RULES = [
     re: new RegExp(`${beside(AFGHAN[0], either(UZ_FIGURE, UZ_WORDFIG), '.!?;')}|${beside(AFGHAN[1], either(UZC_FIGURE, UZC_WORDFIG), '.!?;')}`, 'iu'),
     bad: ['Hayratongacha yoʻl yigirma kun davom etadi.', 'Ҳайратонгача йўл йигирма кун давом этади.', 'Afgʻonistonga yetkazish Toshkentga yetkazishdan atigi 20% qimmat.', 'Afgʻonistonga yuk bir haftada yetib boradi.', 'Hayratongacha ikki-uch kunda yetkazamiz.', 'Toshkentdan chiqqan fura Mozori Sharifga uchinchi kuni yetib boradi.', 'Xitoydan Hayratongacha — taxminan bir oy.', 'Afgʻonistonga fura narxi uch ming dollardan boshlanadi.', 'Афғонистонга юк бир ҳафтада етиб боради.',
       'Afgʻonistonga 10–12 kunda yetkazamiz', 'Hayratongacha 5–7 kun', 'Mozori Sharifgacha yetkazish — 1 200 $ dan', 'Toshkentdan Hayratonga 3 kun, narxi 900 dollar', '2 hafta ichida Afgʻonistonga', '12 000 000 soʻm — Mozori Sharifgacha', 'Hayratonda 2–3 soat kutiladi',
-      'Афғонистонга 10–12 кунда етказамиз', 'Ҳайратонгача 5–7 кун', 'Мозори Шарифгача 1 200 $ дан'],
+      'Афғонистонга 10–12 кунда етказамиз', 'Ҳайратонгача 5–7 кун', 'Мозори Шарифгача 1 200 $ дан',
+      // "calendar" between the number and the day (premerge review, 2026-11-13)
+      'Hayratonga yetkazish 10 kalendar kun davom etadi.', 'Yuk Hayratonga oʻn kalendar kunda yetadi.', 'Ҳайратонга етказиш 10 календарь кун давом этади.', 'Юк Ҳайратонга ўн календарь кунда етади.'],
     good: ['Xitoydan Toshkentga yigʻma yuk 15–25 kunda keladi; Afgʻoniston boʻyicha muddatni menejer hisoblaydi.', 'Ikki yoʻnalishda: Xitoydan Afgʻonistonga va Oʻzbekistondan Afgʻonistonga.', 'Bugungi kunda yetkazish nuqtalari shu ikkita: Hayraton va Mozori Sharif.',
       'Xitoydan Toshkentga 15–25 kun', 'Saytdagi tariflar, kalkulyator va muddatlar faqat Xitoy → Toshkent yoʻnalishiga tegishli.', 'Narx va muddat — soʻrov boʻyicha: menejer ularni yukingiz boʻyicha hisoblab beradi.',
       'Xizmat 10 — Afgʻoniston', 'WhatsApp (+998 00 000 00 00) yoki Telegramga yozing: yuk nima, hajmi yoki ogʻirligi qancha, hozir qayerda va qayerga borishi kerak — Hayratongami yoki Mozori Sharifgami.',
       'Yigʻma yuk 15–25 kun. Afgʻonistonga yuk — narx va muddat soʻrov boʻyicha.', 'Afgʻonistonga yuk tashishni 2026-yilda boshladik.',
       'Saytdagi 1 m³ minimum Xitoydan Toshkentga keladigan yigʻma yukka tegishli.',
-      'Хитойдан Тошкентга 15–25 кун', 'Хизмат 10 — Афғонистон'] },
+      'Хитойдан Тошкентга 15–25 кун', 'Хизмат 10 — Афғонистон',
+      // printed by the guides (2026-11): every rule must let these through
+      'Soʻng fura Termizga boradi va Hayratonga oʻtadi. Bojxona kodeksining 218-moddasiga koʻra, bojxona nazorati ostida avtotransportda tashilayotgan tovarlar 10 kalendar kun ichida yetkazilishi kerak.', 'Mozori Sharif Hayratondan taxminan 80 km uzoqlikda joylashgan.', 'Сўнг фура Термизга боради ва Ҳайратонга ўтади. Божхона кодексининг 218-моддасига кўра, божхона назорати остида автотранспортда ташилаётган товарлар 10 календарь кун ичида етказилиши керак.', 'Мозори Шариф Ҳайратондан тахминан 80 км узоқликда жойлашган.'] },
   { id: 'ru.afghanFigure', block: true, msg: FIGURE_MSG('ru'),
     re: new RegExp(beside(AFGHAN[2], either(RU_FIGURE, RU_WORDFIG), '.!?;'), 'iu'),
     bad: ['До Хайратона груз идёт двенадцать дней.', 'До Хайратона груз доходит примерно за десять дней.', 'Доставка в Афганистан всего на 20% дороже, чем в Ташкент.', 'До Хайратона довозим за неделю.', 'В Мазари-Шариф фура приходит на третий день.', 'Из Китая до Хайратона — около месяца.', 'Доставка в Афганистан занимает две-три недели.', 'Фура в Афганистан стоит от трёх тысяч долларов.',
-      'В Афганистан — 10–14 дней', 'До Хайратона 5–7 дней', 'Доставка до Мазари-Шарифа от 1 200 $', 'за 3 дня до Хайратона', 'от 5 до 7 дней до Мазари-Шарифа', 'В Афганистан за 2 недели', 'до Хайратона — за 2 суток'],
+      'В Афганистан — 10–14 дней', 'До Хайратона 5–7 дней', 'Доставка до Мазари-Шарифа от 1 200 $', 'за 3 дня до Хайратона', 'от 5 до 7 дней до Мазари-Шарифа', 'В Афганистан за 2 недели', 'до Хайратона — за 2 суток',
+      // "calendar" between the number and the day (premerge review, 2026-11-13)
+      'Доставка в Хайратон занимает 10 календарных дней.', 'Груз доходит до Хайратона за десять календарных дней.'],
     good: ['Сборный груз из Китая в Ташкент идёт 15–25 дней; по Афганистану срок считает менеджер.', 'Два направления: из Китая в Афганистан и из Узбекистана в Афганистан.',
       'Из Китая в Ташкент 15–25 дней', 'Тарифы, калькулятор и сроки на сайте относятся только к направлению Китай → Ташкент.', 'Цена и срок — по запросу: менеджер считает их под ваш груз.', 'Услуга 10 — Афганистан',
       'Напишите в WhatsApp (+998 00 000 00 00) или в Telegram: что за груз, какой у него объём или вес, где он сейчас и куда его везти — в Хайратон или в Мазари-Шариф.', 'Сборный груз 15–25 дней. Грузы в Афганистан — цена и срок по запросу.',
-      'Минимум 1 м³, указанный на сайте, относится к сборному грузу из Китая в Ташкент.'] },
+      'Минимум 1 м³, указанный на сайте, относится к сборному грузу из Китая в Ташкент.',
+      // printed by the guides (2026-11): every rule must let these through
+      'Затем фура едет в Термез и переезжает в Хайратон. По статье 218 Таможенного кодекса товары, перевозимые автотранспортом под таможенным контролем, должны быть доставлены в течение 10 календарных дней.', 'От Хайратона до Мазари-Шарифа около 80 км.'] },
   { id: 'en.afghanFigure', block: true, msg: FIGURE_MSG('en'),
     re: new RegExp(beside(AFGHAN[3], either(EN_FIGURE, EN_WORDFIG), '.!?;'), 'iu'),
     bad: ['Delivery to Mazar-i-Sharif takes about twelve days.', 'Expect your goods in Mazar-i-Sharif a fortnight after loading.', 'Shipping to Afghanistan is only 20% more expensive than to Tashkent.', 'Cargo reaches Hairatan within a week.', 'The truck arrives in Mazar-i-Sharif on the third day.', 'From China to Hairatan in about a month.', 'Delivery to Afghanistan takes two to three weeks.', 'A truck to Afghanistan starts at three thousand dollars.',
-      'Cargo to Afghanistan in 10–14 days', 'To Hairatan in 5–7 days', 'from $1,200 to Mazar-i-Sharif', 'Delivery to Mazar-i-Sharif takes 3 days', '2 weeks to Hairatan', 'Afghanistan: from 900 USD per truck', 'The truck reaches Hairatan within 48 hours'],
+      'Cargo to Afghanistan in 10–14 days', 'To Hairatan in 5–7 days', 'from $1,200 to Mazar-i-Sharif', 'Delivery to Mazar-i-Sharif takes 3 days', '2 weeks to Hairatan', 'Afghanistan: from 900 USD per truck', 'The truck reaches Hairatan within 48 hours',
+      // "calendar" between the number and the day (premerge review, 2026-11-13)
+      'Delivery to Hairatan takes 10 calendar days.', 'The truck reaches Hairatan in ten calendar days.'],
     good: ['Consolidated cargo from China to Tashkent takes 15–25 days; for Afghanistan the manager calculates the time.', 'Two: from China to Afghanistan and from Uzbekistan to Afghanistan.', 'Today these are the two delivery points: Hairatan and Mazar-i-Sharif.',
       'From China to Tashkent in 15–25 days', 'The tariffs, the calculator and the transit times on this site apply to the China → Tashkent direction only.', 'Price and timing are on request: the manager calculates them for your cargo.', 'Service 10 — Afghanistan',
       'Message us on WhatsApp (+998 00 000 00 00) or Telegram: what the cargo is, its volume or weight, where it is now and where it has to go — Hairatan or Mazar-i-Sharif.',
       'Consolidated truck cargo takes 15–25 days. Cargo to Afghanistan is quoted on request.', 'The 1 m³ minimum published on this site applies to consolidated cargo from China to Tashkent.',
-      'Regulation No. 737 of 31 December 2022 applies to transit to Afghanistan'] },
+      'Regulation No. 737 of 31 December 2022 applies to transit to Afghanistan',
+      // printed by the guides (2026-11): every rule must let these through
+      'The truck then drives to Termez and crosses to Hairatan. Under Article 218 of the Customs Code, goods carried by road under customs control must be delivered within 10 calendar days.', 'Mazar-i-Sharif is about 80 km from Hairatan.'] },
   { id: 'zh.afghanFigure', block: true, msg: FIGURE_MSG('zh'),
     re: new RegExp(beside(AFGHAN[4], either(ZH_FIGURE, ZH_WORDFIG), ZH_STOP), 'iu'),
     bad: ['发往阿富汗只比发往塔什干贵 20%。', '货物一周内到达海拉顿。', '卡车第三天抵达马扎里沙里夫。', '从中国到海拉顿大约一个月。', '发往阿富汗需要两到三周。', '发往阿富汗的整车运费三千美元起。',
-      '发往阿富汗约 10–14 天', '到海拉顿 5–7 天', '送至马扎里沙里夫 1,200 美元起', '3 天到海拉顿', '发往阿富汗 2 周内送达', '海拉顿口岸 48 小时内放行'],
+      '发往阿富汗约 10–14 天', '到海拉顿 5–7 天', '送至马扎里沙里夫 1,200 美元起', '3 天到海拉顿', '发往阿富汗 2 周内送达', '海拉顿口岸 48 小时内放行',
+      // calendar days (premerge review, 2026-11-13)
+      '运往海拉顿需要 10 个日历日。', '货物十个自然日内运抵马扎里沙里夫。'],
     good: ['两个方向：中国至阿富汗，以及乌兹别克斯坦至阿富汗。', '目前交货地点只有这两个：海拉顿和马扎里沙里夫。',
       '中国到塔什干 15–25 天', '本网站上的运价、运费计算器和时效仅适用于中国 → 塔什干方向。', '价格和时效按需报价：由客户经理按您的货物核算。', '服务 10 — 阿富汗',
       '通过 WhatsApp（+998 00 000 00 00）或 Telegram 告诉我们：货物品名、体积或重量、货物目前在哪里、要送到哪里——海拉顿还是马扎里沙里夫。', '汽运拼货约 15–25 天。发往阿富汗的货物按需报价。',
-      '更新日期：2026年11月12日 阿富汗货运', '周一至周六 9:00–19:00 周日休息 阿富汗货运', '根据2022年12月31日第737号决议办理发往阿富汗的过境手续', '本网站公布的 1 m³ 最低起运量，适用于从中国发往塔什干的拼货。'] },
+      '更新日期：2026年11月12日 阿富汗货运', '周一至周六 9:00–19:00 周日休息 阿富汗货运', '根据2022年12月31日第737号决议办理发往阿富汗的过境手续', '本网站公布的 1 m³ 最低起运量，适用于从中国发往塔什干的拼货。',
+      // printed by the guides (2026-11): every rule must let these through
+      '随后卡车开往铁尔梅兹，过境进入海拉顿。根据《海关法典》第 218 条，在海关监管下经公路运输的货物须在 10 个日历日内运抵。', '马扎里沙里夫距海拉顿约 80 公里。'] },
   { id: 'fa.afghanFigure', block: true, msg: FIGURE_MSG('fa'),
     re: new RegExp(beside(AFGHAN[5], either(FA_FIGURE, FA_WORDFIG), `${FA_STOP}؛;`), 'iu'),
     bad: ['بار دوازده روزه به حیرتان می‌رسد.', 'حمل به افغانستان فقط ۲۰٪ گران‌تر از تاشکند است.', 'بار ظرف یک هفته به حیرتان می‌رسد.', 'کامیون روز سوم به مزار شریف می‌رسد.', 'از چین تا حیرتان حدود یک ماه.', 'حمل به افغانستان دو تا سه هفته طول می‌کشد.', 'کرایهٔ کامیون به افغانستان از سه هزار دلار شروع می‌شود.',
-      'حمل بار به افغانستان در ۱۰ تا ۱۴ روز', 'تا حیرتان ۵ تا ۷ روز', 'تا مزار شریف از ۱٬۲۰۰ دلار', '۳ روز تا حیرتان', 'به افغانستان در ۲ هفته', 'تحویل ۱۰ روزه تا حیرتان'],
+      'حمل بار به افغانستان در ۱۰ تا ۱۴ روز', 'تا حیرتان ۵ تا ۷ روز', 'تا مزار شریف از ۱٬۲۰۰ دلار', '۳ روز تا حیرتان', 'به افغانستان در ۲ هفته', 'تحویل ۱۰ روزه تا حیرتان',
+      // calendar days: «روز تقویمی» — the day first, so it was always read; kept so that it stays so (premerge review, 2026-11-13)
+      'رسیدن بار به حیرتان ۱۰ روز تقویمی طول می‌کشد.'],
     good: ['بار تجمیعی از چین تا تاشکند ۱۵ تا ۲۵ روز در راه است؛ زمان حمل به افغانستان را کارشناس ما محاسبه می‌کند.', 'در دو مسیر: از چین به افغانستان و از ازبکستان به افغانستان.',
       'از چین تا تاشکند ۱۵ تا ۲۵ روز', 'تعرفه‌ها، ماشین‌حساب و زمان‌های حمل در این سایت فقط مربوط به مسیر چین ← تاشکند است.', 'قیمت و زمان با استعلام اعلام می‌شود: کارشناس ما آن‌ها را برای بار شما محاسبه می‌کند.', 'خدمت ۱۰ — افغانستان',
-      'در WhatsApp (+998 00 000 00 00) یا Telegram بنویسید: بار چیست، حجم یا وزن آن چقدر است، اکنون کجاست و باید به کجا برود — حیرتان یا مزار شریف.', 'بار تجمیعی ۱۵ تا ۲۵ روز. حمل بار به افغانستان با استعلام است.', 'حداقل ۱ متر مکعب که در این سایت آمده، مربوط به بار تجمیعی از چین به تاشکند است.'] },
+      'در WhatsApp (+998 00 000 00 00) یا Telegram بنویسید: بار چیست، حجم یا وزن آن چقدر است، اکنون کجاست و باید به کجا برود — حیرتان یا مزار شریف.', 'بار تجمیعی ۱۵ تا ۲۵ روز. حمل بار به افغانستان با استعلام است.', 'حداقل ۱ متر مکعب که در این سایت آمده، مربوط به بار تجمیعی از چین به تاشکند است.',
+      // printed by the guides (2026-11): every rule must let these through
+      'سپس کامیون به ترمذ می‌رود و از مرز به حیرتان می‌گذرد. طبق مادهٔ ۲۱۸ قانون گمرک، کالایی که تحت نظارت گمرک با حمل‌ونقل جاده‌ای برده می‌شود باید ظرف ۱۰ روز تقویمی تحویل شود.', 'مزار شریف حدود ۸۰ کیلومتر با حیرتان فاصله دارد.'] },
 
   /* — the Afghanistan direction: by truck only (block rules too) — */
   { id: 'uz.afghanMode', block: true, msg: MODE_MSG('uz'),
@@ -1148,7 +1429,9 @@ export const CLAIM_RULES = [
     good: ['Ikkala holda ham yuk faqat fura bilan tashiladi.', 'Afgʻonistonga ham fura bilan yuk tashiymiz', 'Afgʻonistonga temir yoʻl yoki avia orqali yuk tashimaymiz', 'Afgʻonistonga faqat fura bilan; temir yoʻl va avia yoʻq',
       'Afgʻonistonga faqat fura bilan tashiymiz: temir yoʻl va avia bu yoʻnalishda yoʻq', 'Afgʻonistonga temir yoʻl orqali ham tashiysizmi?', 'Avia, temir yoʻl va fura — Xitoydan Toshkentga; Afgʻonistonga — fura bilan',
       'Xitoydan Oʻzbekistonga avia va temir yoʻl, Afgʻonistonga esa fura bilan yuk tashiymiz', 'Afgʻonistonga konditsioner va mebel ham tashiymiz', 'Afgʻonistonga temiryoʻl orqali tashimaymiz',
-      'Афғонистонга ҳам фура билан юк ташиймиз', 'Афғонистонга темир йўл ёки авиа орқали юк ташимаймиз'] },
+      'Афғонистонга ҳам фура билан юк ташиймиз', 'Афғонистонга темир йўл ёки авиа орқали юк ташимаймиз',
+      // printed by the guides (2026-11): every rule must let these through
+      'Xitoydan Hayratonga konteyner poyezdlari ham qatnaydi, lekin biz ularda tashimaymiz: faqat fura bilan.', 'Хитойдан Ҳайратонга контейнер поездлари ҳам қатнайди, лекин биз уларда ташимаймиз: фақат фура билан.'] },
   { id: 'ru.afghanMode', block: true, msg: MODE_MSG('ru'),
     re: new RegExp(RU_MODE, 'iu'),
     bad: ['Груз в афганском направлении до Термеза идёт по железной дороге, затем перегружается на фуру.', 'В Афганистан доставим и по воздуху.', 'Срочные грузы в Мазари-Шариф отправляем чартерным бортом.', 'В Афганистан — мультимодально: морем и автотранспортом.', 'До Хайратона груз идёт по рельсам, дальше — фурой.', 'В Афганистан отправляем и морем через порт Карачи.',
@@ -1156,7 +1439,9 @@ export const CLAIM_RULES = [
       'Авиаперевозки в Афганистан', 'воздушным транспортом в Мазари-Шариф'],
     good: ['В обоих случаях груз едет только фурой.', 'теперь возим грузы фурами и в Афганистан', 'В Афганистан не возим по железной дороге и авиа', 'В Афганистан — только фурой; железной дороги и авиа нет',
       'В Афганистан — только фурой; ж/д и авиа — для Китая', 'Возите ли вы в Афганистан по железной дороге?', 'Авиа, ж/д и фура — из Китая в Ташкент; в Афганистан — фурой', 'Из Китая в Узбекистан авиа и ж/д, а в Афганистан возим фурой',
-      'Железнодорожных и авиаперевозок в Афганистан нет', 'За одну поездку в Афганистан фура везёт до 22 тонн', 'Фура делает поездку до Мазари-Шарифа', 'Воздушные фильтры и вагонку везём в Афганистан фурой'] },
+      'Железнодорожных и авиаперевозок в Афганистан нет', 'За одну поездку в Афганистан фура везёт до 22 тонн', 'Фура делает поездку до Мазари-Шарифа', 'Воздушные фильтры и вагонку везём в Афганистан фурой',
+      // printed by the guides (2026-11): every rule must let these through
+      'Контейнерные поезда из Китая в Хайратон ходят, но мы ими не возим: только фурой.'] },
   { id: 'en.afghanMode', block: true, msg: MODE_MSG('en'),
     re: new RegExp(EN_MODE, 'iu'),
     bad: ['Cargo for the Afghanistan direction travels to Termez by rail and is then reloaded onto a truck.', 'Urgent parcels go to Mazar-i-Sharif by express courier, by plane.', 'For Afghanistan we also offer sea freight via Karachi.', 'Multimodal delivery to Afghanistan: ocean and truck.', 'Charter flights to the Mazar-i-Sharif airport.',
@@ -1164,19 +1449,25 @@ export const CLAIM_RULES = [
     good: ['In both cases the cargo travels by truck only.', 'We now also carry cargo to Afghanistan by truck', 'We do not carry cargo to Afghanistan by rail or by air', 'Cargo to Afghanistan goes by truck only; there is no rail or air service',
       'We carry cargo to Afghanistan by truck — rail and air are not offered on this direction', 'Unlike air or rail, cargo to Afghanistan goes by truck', 'Do you carry cargo to Afghanistan by rail?',
       'Air, rail and truck from China to Tashkent; truck cargo to Afghanistan', 'air cargo and rail containers from China to Uzbekistan, and now truck cargo to Afghanistan',
-      'Cargo to Afghanistan: air conditioners, tiles, furniture', 'air compressors for Afghanistan', 'We train our drivers for the Afghanistan route'] },
+      'Cargo to Afghanistan: air conditioners, tiles, furniture', 'air compressors for Afghanistan', 'We train our drivers for the Afghanistan route',
+      // printed by the guides (2026-11): every rule must let these through
+      'Container trains from China also run to Hairatan, but we do not carry cargo by rail on this direction: our service is by truck only.'] },
   { id: 'zh.afghanMode', block: true, msg: MODE_MSG('zh'),
     re: new RegExp(ZH_MODE, 'iu'),
     bad: ['阿富汗方向可提供经卡拉奇的海运。', '多式联运至阿富汗：海运加汽运。', '发往阿富汗的急件可走包机。',
       '铁路运往阿富汗', '发往阿富汗的空运货物', '经铁路至海拉顿', '阿富汗空运', '班列直达马扎里沙里夫', '货运列车直达海拉顿', '专列发往阿富汗', '发往阿富汗的铁运货物', '航班直飞马扎里沙里夫'],
     good: ['两个方向的货物都只走汽运。', '现在也承接发往阿富汗的汽运货物', '发往阿富汗的货物不走铁路和空运', '发往阿富汗只走汽运，没有铁路和空运', '阿富汗方向只走汽运，铁路和空运仅用于中国至塔什干', '发往阿富汗可以走铁路吗？',
-      '中国到塔什干有空运、铁路和汽运；发往阿富汗走汽运', '发往阿富汗的空调和家具', '钢铁运输到阿富汗走汽运', '发往阿富汗不走列车'] },
+      '中国到塔什干有空运、铁路和汽运；发往阿富汗走汽运', '发往阿富汗的空调和家具', '钢铁运输到阿富汗走汽运', '发往阿富汗不走列车',
+      // printed by the guides (2026-11): every rule must let these through
+      '从中国也有集装箱班列开往海拉顿，但这个方向我们不承运铁路货物：只走汽运。'] },
   { id: 'fa.afghanMode', block: true, msg: MODE_MSG('fa'),
     re: new RegExp(FA_MODE, 'iu'),
     bad: ['حمل چندوجهی به افغانستان: دریا و کامیون.', 'برای افغانستان حمل دریایی از راه کراچی هم داریم.', 'حمل چندوجهی به افغانستان از راه دریا.', 'بارهای فوری با پرواز چارتر به مزار شریف می‌رسد.', 'بار را با کشتی تا کراچی و از آنجا به افغانستان می‌فرستیم.',
       'حمل ریلی به افغانستان', 'با قطار تا حیرتان', 'حمل هوایی به افغانستان', 'به مزار شریف با هواپیما', 'واگن به حیرتان', 'از طریق خط آهن تا حیرتان', 'با ریل تا حیرتان', 'با طیاره به مزار شریف'],
     good: ['در هر دو مسیر بار فقط با کامیون حمل می‌شود.', 'اکنون با کامیون به افغانستان هم بار می‌بریم', 'به افغانستان حمل ریلی و هوایی نداریم', 'به افغانستان فقط با کامیون؛ حمل ریلی و هوایی نداریم', 'آیا به افغانستان حمل ریلی هم دارید؟',
-      'حمل هوایی، ریلی و زمینی از چین به تاشکند؛ به افغانستان با کامیون', 'با تریلی تا حیرتان می‌رسانیم', 'بار را با تریلی به افغانستان می‌بریم', 'شرایط آب و هوایی افغانستان', 'به افغانستان از طریق خط آهن بار نمی‌بریم'] },
+      'حمل هوایی، ریلی و زمینی از چین به تاشکند؛ به افغانستان با کامیون', 'با تریلی تا حیرتان می‌رسانیم', 'بار را با تریلی به افغانستان می‌بریم', 'شرایط آب و هوایی افغانستان', 'به افغانستان از طریق خط آهن بار نمی‌بریم',
+      // printed by the guides (2026-11): every rule must let these through
+      'قطارهای کانتینری از چین تا حیرتان هم می‌آیند، اما ما با قطار بار نمی‌بریم: فقط با کامیون.'] },
 
   /* — the Afghanistan direction: no volume figure (the 1 m³ minimum is China → Tashkent's) — */
   { id: 'uz.afghanVolume', block: true, msg: VOLUME_MSG('uz'),
@@ -1210,28 +1501,173 @@ export const CLAIM_RULES = [
     re: new RegExp(`${UZ_PRESENCE}|${UZC_PRESENCE}`, 'iu'),
     bad: ['Hayratondagi odamimiz yukni qabul qiluvchiga topshiradi.', 'Afgʻonistondagi hamkorlarimiz yukni Mozori Sharifda qabul qilib oladi.', 'Hayratonda oʻz xodimimiz yukni kutib oladi.', 'Mozori Sharifda yukni topshirish punktimiz ishlaydi.', 'Afgʻonistonda agentimiz bor.', 'Mozori Sharifdagi terminalimizdan yukni olib ketasiz.', 'Афғонистонда агентимиз бор.',
       'Mozori Sharifda ofisimiz bor', 'Afgʻonistonda vakilimiz ishlaydi', 'Hayratondagi filialimiz yukni qabul qiladi', 'Ofisimiz Mozori Sharifda joylashgan',
-      'Афғонистонда офисимиз бор', 'Мозори Шарифдаги вакилимиз'],
-    good: ['Afgʻonistonda ofisimiz, vakilimiz yoki hamkorimiz yoʻq.', 'Hayraton — Afgʻoniston tomonidagi chegara shaharchasi: yukni shu yerda oʻzingiz qabul qilib olasiz', 'Afgʻonistonda ofisimiz yoʻq', 'Ofisimiz Toshkentda; Afgʻonistonga fura bilan yuk tashiymiz', 'Afgʻonistonda ofisingiz bormi?', 'Ofis faqat Toshkentda', 'Афғонистонда офисимиз йўқ'] },
+      'Афғонистонда офисимиз бор', 'Мозори Шарифдаги вакилимиз',
+      // partners on the Afghan side (owner, 2026-11-12) are customs agents only: not with the cargo in their hands, not
+      // without the agent word, never beside an office
+      'Afgʻonistondagi hamkorlarimiz — bojxona agentlari — yukni Mozori Sharifda topshiradi.', 'Hayratondagi hamkor agentlarimiz yukni saqlaydi.', 'Afgʻonistonda ofisimiz ham, hamkorlarimiz — bojxona agentlari ham bor.',
+      'Afgʻoniston tomonida hamkorlarimiz — deklarant agentlar — yukni qabul qilib, bojxonadan oʻtkazadi.', 'Afgʻonistonda hamkorlarimiz bor, ular yukni Hayratonda qabul qilib oladi.',
+      'Афғонистондаги ҳамкорларимиз — божхона агентлари — юкни Мозори Шарифда топширади.', 'Ҳайратондаги ҳамкор агентларимиз юкни сақлайди.', 'Афғонистонда офисимиз ҳам, ҳамкорларимиз — божхона агентлари ҳам бор.',
+      'Афғонистон томонида ҳамкорларимиз — декларант агентлар — юкни қабул қилиб, божхонадан ўтказади.', 'Афғонистонда ҳамкорларимиз бор, улар юкни Ҳайратонда қабул қилиб олади.',
+      'Afgʻonistonda hamkorlarimiz — deklarant agentlar — siz uchun hammasini bajaradi.', 'Afgʻonistondagi hamkorlarimiz — deklarant agentlar — yukni Mozori Sharifgacha tashiydi.',
+      'Афғонистонда ҳамкорларимиз — декларант агентлар — сиз учун ҳаммасини бажаради.', 'Афғонистондаги ҳамкорларимиз — декларант агентлар — юкни Мозори Шарифгача ташийди.',
+      // guard-verify H4 (2026-11-13): the partner customs agents handle the cargo (hand over, send, keep, collect, store …)
+      'Hamkorlarimiz — deklarant agentlar — Afgʻoniston tomonida bojxonani rasmiylashtiradi va Mozori Sharifda yukni sizga beradi.',
+      'Afgʻonistonda hamkorlarimiz — deklarant agentlar — yukni Mozori Sharifga yuboradi.', 'Hamkorlarimiz — deklarant agentlar — yukingizni Hayratonda sizga uzatadi.',
+      'Ҳамкорларимиз — декларант агентлар — Афғонистон томонида божхонани расмийлаштиради ва Мозори Шарифда юкни сизга беради.',
+      'Афғонистонда ҳамкорларимиз — декларант агентлар — юкни Мозори Шарифга юборади.', 'Ҳамкорларимиз — декларант агентлар — юкингизни Ҳайратонда сизга узатади.',
+      'Афғонистонда партнерларимиз — декларант агентлар — юкни Мозори Шарифга юборади.',
+      // guard-verify H5 (2026-11-13): a negation word used as a quantifier ("no extra …", «вам не нужно …», 您无需…) is not a denial
+      'Hamkorlarimiz — deklarant agentlar — Hayratonda yukni qabul qiladi, siz chegaraga bormaysiz.',
+      'Ҳамкорларимиз — декларант агентлар — Ҳайратонда юкни қабул қилади, сиз чегарага бормайсиз.',
+      // guard-verify H6 (2026-11-13): an office, a representative or own declarants beside the partners, or "on the Afghan side"
+      'Mozori Sharifda hamkorlarimiz — deklarant agentlar bilan umumiy ofisimiz bor.', 'Afgʻonistonda oʻz deklarantlarimiz bor.',
+      'Afgʻoniston tomonida vakilimiz hamkorlarimiz — deklarant agentlar bilan ishlaydi.', 'Afgʻoniston tomonida vakilimiz bor.', 'Afgʻoniston tomonida ofisimiz bor.',
+      'Мозори Шарифда ҳамкорларимиз — декларант агентлар билан умумий офисимиз бор.', 'Афғонистонда ўз декларантларимиз бор.',
+      'Афғонистон томонида вакилимиз ҳамкорларимиз — декларант агентлар билан ишлайди.', 'Ҳайратонда ҳамкорларимиз — декларант агентлар билан бирга ишлайдиган вакилимиз бор.',
+      'Афғонистон томонида вакилимиз бор.', 'Афғонистон томонида офисимиз бор.',
+      // guard-verify H17 (2026-11-13): the partners carry the cargo on, hand it over or reload it
+      'Hamkorlarimiz — deklarant agentlar — Hayratonda yukni boshqa furaga ortadi.', 'Ҳамкорларимиз — декларант агентлар — Ҳайратонда юкни бошқа фурага ортади.',
+      // guard-verify H18 (2026-11-13): "our team" in Afghanistan
+      'Afgʻonistondagi jamoamiz hamkorlarimiz — deklarant agentlar bilan ishlaydi.', 'Афғонистондаги жамоамиз ҳамкорларимиз — декларант агентлар билан ишлайди.',
+      // guard hardening (2026-11-13): a have form with a place or people in Afghanistan — the possessive («omborimiz bor»), «bizda / bizning …»; a denial passes; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      'Mozori Sharifda omborimiz bor.', 'Hayratonda omborxonamiz ishlaydi.', 'Afgʻonistonda jamoamiz bor.', 'Мозори Шарифда омборимиз бор.', 'Ҳайратонда омборхонамиз ишлайди.', 'Афғонистонда жамоамиз бор.', 'Bizda Hayratonda ombor bor.', 'Бизда Ҳайратонда омбор бор.', 'Mozori Sharifda bizda xodimlar bor.', 'Мозори Шарифда бизда ходимлар бор.', 'Bizda xodimlar Toshkentda va Hayratonda bor.', 'Бизда ходимлар Тошкентда ва Ҳайратонда бор.', 'Ombor Hayratonda bizda bor.', 'Омбор Ҳайратонда бизда бор.', 'Hayratonda ombor bizda bor.', 'Ҳайратонда омбор бизда бор.'],
+    good: ['Afgʻonistonda ofisimiz yoki vakilimiz yoʻq.', 'Hayraton — Afgʻoniston tomonidagi chegara shaharchasi: yukni shu yerda oʻzingiz qabul qilib olasiz', 'Afgʻonistonda ofisimiz yoʻq', 'Ofisimiz Toshkentda; Afgʻonistonga fura bilan yuk tashiymiz', 'Afgʻonistonda ofisingiz bormi?', 'Ofis faqat Toshkentda', 'Афғонистонда офисимиз йўқ',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      'Afgʻoniston tomonida bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bajaradi.', 'Afgʻonistondagi hamkorlarimiz — deklarant agentlar — yukni u yerda bojxonadan oʻtkazadi.', 'Termiz–Hayraton: yuk Oʻzbekistondan chiqadi va bojxona tranziti tugaydi; Afgʻoniston tomonida bojxonani hamkorlarimiz — deklarant agentlar rasmiylashtiradi.',
+      'Афғонистон томонида божхона расмийлаштирувини ҳамкорларимиз — декларант агентлар бажаради.', 'Афғонистондаги ҳамкорларимиз — декларант агентлар — юкни у ерда божхонадан ўтказади.', 'Термиз–Ҳайратон: юк Ўзбекистондан чиқади ва божхона транзити тугайди; Афғонистон томонида божхонани ҳамкорларимиз — декларант агентлар расмийлаштиради.',
+      // guard hardening (2026-11-13): a have form with a place or people in Afghanistan — the possessive («omborimiz bor»), «bizda / bizning …»; a denial passes; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      'Afgʻonistonda omborimiz yoʻq.', 'Hayraton va Mozori Sharifda xodimlarimiz yoʻq.', 'Bizda Afgʻonistonda ombor yoʻq.', 'Афғонистонда омборимиз йўқ.', 'Ҳайратон ва Мозори Шарифда ходимларимиз йўқ.', 'Бизда Афғонистонда омбор йўқ.', 'Bizning menejerimiz Afgʻoniston tomonida qaysi tartib va hujjatlar qoʻllanishini tushuntiradi.', 'Бизнинг менежеримиз Афғонистон томонида қайси тартиб ва ҳужжатлар қўлланишини тушунтиради.', 'Bizda Toshkentda jamoa bor, Hayratonda esa yukni oʻzingiz qabul qilib olasiz.', 'Бизда Тошкентда жамоа бор, Ҳайратонда эса юкни ўзингиз қабул қилиб оласиз.', 'Ombor Hayratonda bizda yoʻq.', 'Омбор Ҳайратонда бизда йўқ.'] },
   { id: 'ru.afghanPresence', block: true, msg: PRESENCE_MSG('ru'),
     re: new RegExp(RU_PRESENCE, 'iu'),
     bad: ['Наш человек в Хайратоне передаст груз получателю.', 'Наши партнёры в Афганистане принимают груз в Мазари-Шарифе.', 'В Хайратоне груз встречает наш сотрудник.', 'У нас есть агент в Афганистане.', 'Пункт выдачи в Мазари-Шарифе открыт для клиентов.', 'Груз выдаём с нашего терминала в Мазари-Шарифе.',
-      'Наш офис в Мазари-Шарифе', 'В Афганистане работает наш представитель', 'филиал в Хайратоне принимает грузы', 'В Афганистане у нас есть представительство'],
-    good: ['Офиса, представителя и партнёра в Афганистане у нас нет.', 'Хайратон — приграничный город на афганской стороне: здесь вы принимаете груз сами.', 'Офиса в Афганистане у нас нет', 'Офис — в Ташкенте; в Афганистан возим фурой', 'Есть ли у вас офис в Афганистане?', 'Представителя в Афганистане нет'] },
+      'Наш офис в Мазари-Шарифе', 'В Афганистане работает наш представитель', 'филиал в Хайратоне принимает грузы', 'В Афганистане у нас есть представительство',
+      // partners on the Afghan side (owner, 2026-11-12) are customs agents only: not with the cargo in their hands, not
+      // without the agent word, never beside an office
+      'Наши партнёры в Афганистане — таможенные агенты — передают груз в Мазари-Шарифе.', 'Наши партнёры-агенты в Хайратоне хранят груз.', 'У нас есть офис в Афганистане и партнёры там — таможенные агенты.',
+      'На афганской стороне наши партнёры — таможенные агенты (декларанты) — принимают груз и оформляют его на таможне.', 'В Афганистане у нас есть партнёры, которые принимают груз в Хайратоне.',
+      'В Афганистане наши партнёры — таможенные агенты (декларанты) — берут на себя всё остальное.', 'Наши партнёры в Афганистане — таможенные агенты (декларанты) — перевозят груз в Мазари-Шариф.',
+      // guard-verify H4 (2026-11-13): the partner customs agents handle the cargo (hand over, send, keep, collect, store …)
+      'Наши партнёры — таможенные агенты (декларанты) — проводят таможенное оформление на афганской стороне и отдают вам груз в Мазари-Шарифе.',
+      'Наши партнёры — таможенные агенты (декларанты) — оформляют груз в Хайратоне и отправляют его дальше в Мазари-Шариф.',
+      'Наши партнёры — таможенные агенты (декларанты) — довезут груз до Мазари-Шарифа.',
+      'В Мазари-Шарифе наши партнёры — таможенные агенты (декларанты) — вручают вам груз после оформления.',
+      'Наши партнёры — таможенные агенты (декларанты) — получают ваши товары в Хайратоне.',
+      'На афганской стороне наши партнеры — таможенные агенты (декларанты) — сделают все за вас.',
+      // guard-verify H5 (2026-11-13): a negation word used as a quantifier ("no extra …", «вам не нужно …», 您无需…) is not a denial
+      'На афганской стороне наши партнёры — таможенные агенты (декларанты) — принимают груз в Хайратоне, и вам не нужно ехать на границу.',
+      // guard-verify H6 (2026-11-13): an office, a representative or own declarants beside the partners, or "on the Afghan side"
+      'Наши партнёры — таможенные агенты (декларанты) — и наш представитель работают на афганской стороне.', 'У нас есть свои декларанты в Афганистане.',
+      'На афганской стороне у нас есть представитель.', 'Наш сотрудник на афганской стороне встречает фуру.',
+      'В Хайратоне наши партнёры — таможенные агенты (декларанты) — располагают собственным терминалом.',
+      // guard-verify H17 (2026-11-13): the partners carry the cargo on, hand it over or reload it
+      'Наши партнёры — таможенные агенты (декларанты) — в Хайратоне организуют дальнейшую перевозку до Мазари-Шарифа.',
+      // guard-verify H18 (2026-11-13): "our team" in Afghanistan
+      'Наша команда в Афганистане работает с партнёрами — таможенными агентами (декларантами).',
+      // guard hardening (2026-11-13): «у нас (есть / имеется / работает …)», «имеем …», «склад у нас …», «наш склад» with a place or people in Afghanistan; a denial passes, a partner is not a place; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      'В Мазари-Шарифе у нас есть склад.', 'В Афганистане у нас есть сотрудник.', 'У нас в Хайратоне работает команда.', 'В Афганистане у нас имеется офис.', 'Мы имеем в Хайратоне склад.', 'Склад у нас есть в Хайратоне.', 'В Хайратоне располагается наш склад.', 'У нас есть сотрудники в Ташкенте и в Хайратоне.', 'Склад в Хайратоне у нас есть.'],
+    good: ['Офиса и представителя в Афганистане у нас нет.','Хайратон — приграничный город на афганской стороне: здесь вы принимаете груз сами.', 'Офиса в Афганистане у нас нет', 'Офис — в Ташкенте; в Афганистан возим фурой', 'Есть ли у вас офис в Афганистане?', 'Представителя в Афганистане нет',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      'На афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты).', 'Наши партнёры в Афганистане — таможенные агенты (декларанты) — проводят там таможенное оформление груза.',
+      'Термез — Хайратон: груз выходит из Узбекистана, и таможенный транзит завершается; на афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты).',
+      // guard hardening (2026-11-13): «у нас (есть / имеется / работает …)», «имеем …», «склад у нас …», «наш склад» with a place or people in Afghanistan; a denial passes, a partner is not a place; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      'В Афганистане у нас нет ни офиса, ни склада, ни сотрудников.', 'Склада и сотрудников в Хайратоне и Мазари-Шарифе у нас нет.', 'Своего склада у нас нет — ни в Хайратоне, ни в Мазари-Шарифе.', 'На афганской стороне у нас есть партнёры — таможенные агенты (декларанты).', 'У нас в Ташкенте работает команда, а в Хайратоне груз вы забираете сами.', 'Менеджер у нас объясняет, какие процедуры и документы нужны на афганской стороне.', 'У нас есть команда в Ташкенте, а в Хайратоне груз вы забираете сами.', 'Склада в Хайратоне у нас нет.'] },
   { id: 'en.afghanPresence', block: true, msg: PRESENCE_MSG('en'),
     re: new RegExp(EN_PRESENCE, 'iu'),
     bad: ['Our man in Hairatan hands the cargo over to the consignee.', 'Our partners in Afghanistan receive the cargo in Mazar-i-Sharif.', 'Our employee meets the cargo in Hairatan.', 'We have an agent in Afghanistan.', 'Our warehouse in Mazar-i-Sharif hands the cargo over.', 'Our Afghan office helps with paperwork.', 'Collect your cargo from our terminal in Mazar-i-Sharif.',
-      'Our office in Mazar-i-Sharif', 'We have a representative in Afghanistan', 'our branch at Hairatan receives the cargo', 'In Afghanistan our office helps with customs'],
-    good: ['We have no office, representative or partner in Afghanistan.', 'Hairatan — the border town on the Afghan side: you collect the cargo there yourself.', 'We have no office in Afghanistan', 'Our office is in Tashkent; cargo to Afghanistan goes by truck', 'Do you have an office in Afghanistan?', 'the customs office in Hairatan', 'We do not have a representative in Afghanistan'] },
+      'Our office in Mazar-i-Sharif', 'We have a representative in Afghanistan', 'our branch at Hairatan receives the cargo', 'In Afghanistan our office helps with customs',
+      // partners on the Afghan side (owner, 2026-11-12) are customs agents only: not with the cargo in their hands, not
+      // without the agent word, never beside an office
+      'Our partners in Afghanistan — customs agents — hand the cargo over in Mazar-i-Sharif.', 'Our partner agents in Hairatan store the cargo.', 'We have an office in Afghanistan and partners there — customs agents.',
+      'On the Afghan side, our partners — customs agents (declarants) — receive the cargo and clear it through customs.', 'We have partners in Afghanistan who take the cargo over at Hairatan.',
+      'In Afghanistan, our partners — customs agents (declarants) — handle everything for you.', 'Our partners in Afghanistan — customs agents (declarants) — transport the cargo to Mazar-i-Sharif.',
+      // guard-verify H4 (2026-11-13): the partner customs agents handle the cargo (hand over, send, keep, collect, store …)
+      'Our partners — customs agents (declarants) — clear customs on the Afghan side and hand the cargo to you in Mazar-i-Sharif.',
+      'Our partners — customs agents (declarants) — clear customs in Hairatan and send the cargo on to Mazar-i-Sharif.',
+      'Our partners — customs agents (declarants) — keep the cargo at their yard in Hairatan until it is cleared.',
+      'In Mazar-i-Sharif our partners — customs agents (declarants) — give you the cargo after clearance.',
+      'At Hairatan, our partners — customs agents (declarants) — take care of the cargo for you.',
+      // guard-verify H5 (2026-11-13): a negation word used as a quantifier ("no extra …", «вам не нужно …», 您无需…) is not a denial
+      'On the Afghan side, our partners — customs agents (declarants) — receive the cargo at Hairatan with no extra paperwork.',
+      'Our partners in Afghanistan store the cargo at no extra cost.', 'Our partners — customs agents (declarants) — meet your truck in Hairatan, so you do not have to.',
+      // guard-verify H6 (2026-11-13): an office, a representative or own declarants beside the partners, or "on the Afghan side"
+      'In Hairatan you will find our partners — customs agents (declarants) — and our local office.',
+      'On the Afghan side we have a representative who works with our partners — customs agents (declarants).', 'Our representative on the Afghan side meets the truck.',
+      'On the Afghan side we have our own office.',
+      // guard-verify H15 (2026-11-13): the partners' terminal, depot or yard
+      'Our partners — customs agents (declarants) — run a terminal in Hairatan.', 'Our partners — customs agents (declarants) — have a depot in Mazar-i-Sharif.',
+      'Your goods are cleared by our partners — customs agents (declarants) — and wait for you at their yard in Hairatan.',
+      // guard-verify H17 (2026-11-13): the partners carry the cargo on, hand it over or reload it
+      'Our partner customs agents (declarants) in Hairatan also arrange the onward truck to Mazar-i-Sharif.',
+      'With our partners — customs agents (declarants) — the cargo is cleared in Hairatan and handed to you there.',
+      // guard hardening (2026-11-13): "we have / we've got / own / run / operate …", "GSR has …", "… of ours" with a place or people in Afghanistan; a denial passes, a partner or a manager is not a place; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      'We have an employee in Afghanistan.', 'We have a terminal in Mazar-i-Sharif.', 'In Afghanistan we have staff who meet the truck.', 'There is a warehouse of ours in Hairatan.', 'We have people in Hairatan who hand over the cargo.', 'We\'ve got staff in Hairatan.', 'GSR has a warehouse in Mazar-i-Sharif.', 'We operate a terminal at Hairatan.', 'We have staff in Tashkent and in Hairatan.'],
+    good: ['We have no office or representative in Afghanistan.', 'Hairatan — the border town on the Afghan side: you collect the cargo there yourself.', 'We have no office in Afghanistan', 'Our office is in Tashkent; cargo to Afghanistan goes by truck', 'Do you have an office in Afghanistan?', 'the customs office in Hairatan', 'We do not have a representative in Afghanistan',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      'On the Afghan side, customs clearance is done by our partners — customs agents (declarants).', 'Our partners in Afghanistan — customs agents (declarants) — clear the cargo through customs there.',
+      'Termez–Hairatan: the cargo leaves Uzbekistan and the transit regime ends; on the Afghan side our partners — customs agents (declarants) — clear customs.',
+      // guard hardening (2026-11-13): "we have / we've got / own / run / operate …", "GSR has …", "… of ours" with a place or people in Afghanistan; a denial passes, a partner or a manager is not a place; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      'We have no office or employee in Afghanistan.', 'We have no warehouse, terminal or staff in Hairatan or Mazar-i-Sharif.', 'We do not have a warehouse in Afghanistan.', 'We have partners on the Afghan side — customs agents (declarants) — who clear customs there.', 'We have a manager who explains which procedure and which documents apply on the Afghan side for your cargo.', 'We have a team in Tashkent, and at Hairatan you collect the cargo yourself.'] },
   { id: 'zh.afghanPresence', block: true, msg: PRESENCE_MSG('zh'),
     re: new RegExp(ZH_PRESENCE, 'iu'),
     bad: ['我们在海拉顿的人员负责交接货物。', '我们在阿富汗的合作伙伴在马扎里沙里夫接货。', '我们的员工在海拉顿接货。', '我们在阿富汗有代理。', '马扎里沙里夫设有提货点。', '请到我们在马扎里沙里夫的站点提货。',
-      '我们在阿富汗设有办事处', '马扎里沙里夫办事处', '在海拉顿设有分公司', '办事处设在马扎里沙里夫'],
-    good: ['我们在阿富汗没有办事处、代表或合作方。', '海拉顿——阿富汗一侧的边境城镇：您在当地自行提货。', '我们在阿富汗没有办事处', '办事处设在塔什干，发往阿富汗的货物走汽运', '你们在阿富汗有办事处吗？', '公司在阿富汗未设代表处'] },
+      '我们在阿富汗设有办事处', '马扎里沙里夫办事处', '在海拉顿设有分公司', '办事处设在马扎里沙里夫',
+      // partners on the Afghan side (owner, 2026-11-12) are customs agents only: not with the cargo in their hands, not
+      // without the agent word, never beside an office
+      '我们在阿富汗的合作伙伴——报关代理——在马扎里沙里夫交货。', '我们在海拉顿的合作代理负责货物仓储。', '我们在阿富汗设有办事处，当地还有合作伙伴——报关代理。',
+      '在阿富汗一侧，我们的合作伙伴——报关代理（申报人）——接货并办理清关。', '我们在阿富汗有合作伙伴，他们在海拉顿接货。',
+      '在阿富汗，我们的合作伙伴——报关代理（申报人）——为您办理一切。', '我们在阿富汗的合作伙伴——报关代理（申报人）——将货物运至马扎里沙里夫。',
+      // guard-verify H4 (2026-11-13): the partner customs agents handle the cargo (hand over, send, keep, collect, store …)
+      '在阿富汗一侧，我们的合作伙伴——报关代理（申报人）——办理清关后在马扎里沙里夫将货物交给您。', '在海拉顿，我们的合作伙伴——报关代理（申报人）——负责转运。', '在阿富汗，我们的合作伙伴——报关代理（申报人）——为您领取货物。', '我们在马扎里沙里夫的合作伙伴——报关代理（申报人）——存储您的货物。',
+      // guard-verify H5 (2026-11-13): a negation word used as a quantifier ("no extra …", «вам не нужно …», 您无需…) is not a denial
+      '在海拉顿，我们的合作伙伴——报关代理（申报人）——接货，您无需亲自到边境。',
+      // guard-verify H6 (2026-11-13): an office, a representative or own declarants beside the partners, or "on the Afghan side"
+      '在马扎里沙里夫，我们与合作伙伴——报关代理（申报人）——共用办公室。', '我们在阿富汗有自己的申报人。', '我们在阿富汗有代表。', '我们在马扎里沙里夫有自己的团队。',
+      // guard-verify H13 (2026-11-13): an own liaison set up in Afghanistan (MAY fix F13)
+      '我们在阿富汗设有联络人，并与合作伙伴——报关代理（申报人）——合作。',
+      // guard-verify H15 (2026-11-13): the partners' terminal, depot or yard
+      '我们的合作伙伴——报关代理（申报人）——在海拉顿经营堆场。',
+      // guard-verify H17 (2026-11-13): the partners carry the cargo on, hand it over or reload it
+      '我们的合作伙伴——报关代理（申报人）——在海拉顿把货物装上当地卡车。',
+      // guard hardening (2026-11-13): 我们 / 我司 + 有 / 设有 / 拥有 / 建有 … + a place or people in Afghanistan, 我们的仓库, and 在…，我们有…; a denial passes, 合作方的仓库 is not ours; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      '我们在马扎里沙里夫有仓库。', '我们在海拉顿设有堆场。', '在阿富汗我们有员工接车。', '在阿富汗，我们设有仓库。', '海拉顿有我们的仓库。', '我司在马扎里沙里夫建有货场。', '我们在塔什干和海拉顿都有仓库。', '在阿富汗，我们的员工负责接货。', '仓库我们在海拉顿也有。'],
+    good: ['我们在阿富汗没有办事处或代表。', '海拉顿——阿富汗一侧的边境城镇：您在当地自行提货。', '我们在阿富汗没有办事处', '办事处设在塔什干，发往阿富汗的货物走汽运', '你们在阿富汗有办事处吗？', '公司在阿富汗未设代表处',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      '在阿富汗一侧，清关由我们的合作伙伴——报关代理（申报人）——办理。', '我们在阿富汗的合作伙伴——报关代理（申报人）——在当地为货物办理清关。',
+      '铁尔梅兹—海拉顿：货物离开乌兹别克斯坦，海关过境结束；在阿富汗一侧，由我们的合作伙伴——报关代理（申报人）——办理清关。',
+      // guard hardening (2026-11-13): 我们 / 我司 + 有 / 设有 / 拥有 / 建有 … + a place or people in Afghanistan, 我们的仓库, and 在…，我们有…; a denial passes, 合作方的仓库 is not ours; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      '我们在阿富汗没有仓库或员工。', '我们在海拉顿和马扎里沙里夫没有办事处、仓库或堆场。', '在阿富汗，我们没有仓库，也没有员工。', '我们在塔什干有合作方的仓库，货物从那里发往海拉顿。', '我们在阿富汗有合作伙伴——报关代理（申报人）。', '我们在塔什干有团队，在海拉顿由您自行提货。', '在海拉顿，我们的客户自行提货。', '仓库我们在海拉顿没有。'] },
   { id: 'fa.afghanPresence', block: true, msg: PRESENCE_MSG('fa'),
     re: new RegExp(FA_PRESENCE, 'iu'),
     bad: ['نفر ما در حیرتان بار را به گیرنده تحویل می‌دهد.', 'همکاران ما در افغانستان بار را در مزار شریف تحویل می‌گیرند.', 'کارمند ما در حیرتان بار را تحویل می‌گیرد.', 'در افغانستان عامل داریم.', 'گدام ما در حیرتان بار را تحویل می‌دهد.', 'بار را از ترمینال ما در مزار شریف تحویل بگیرید.',
-      'دفتر ما در مزار شریف', 'در افغانستان نماینده داریم', 'شعبهٔ ما در حیرتان بار را تحویل می‌گیرد', 'نمایندگی ما در افغانستان'],
-    good: ['در افغانستان دفتر، نماینده یا همکار نداریم.', 'حیرتان — شهرک مرزی در سمت افغانستان: بار را همان‌جا خودتان تحویل می‌گیرید.', 'در افغانستان دفتر نداریم', 'دفتر ما در تاشکند است؛ به افغانستان با کامیون بار می‌بریم', 'آیا در افغانستان دفتر دارید؟', 'در افغانستان نماینده‌ای نداریم'] },
+      'دفتر ما در مزار شریف', 'در افغانستان نماینده داریم', 'شعبهٔ ما در حیرتان بار را تحویل می‌گیرد', 'نمایندگی ما در افغانستان',
+      // partners on the Afghan side (owner, 2026-11-12) are customs agents only: not with the cargo in their hands, not
+      // without the agent word, never beside an office
+      'شرکای ما در افغانستان — کارگزاران گمرکی — بار را در مزار شریف تحویل می‌دهند.', 'کارگزاران شریک ما در حیرتان بار را نگهداری می‌کنند.', 'در افغانستان دفتر داریم و شرکایی هم آنجا داریم — کارگزاران گمرکی.',
+      'در سمت افغانستان، شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — بار را تحویل می‌گیرند و ترخیص می‌کنند.', 'در افغانستان شرکایی داریم که بار را در حیرتان تحویل می‌گیرند.',
+      'در افغانستان، شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — همه‌چیز را برای شما انجام می‌دهند.', 'شرکای ما در افغانستان — کارگزاران گمرکی (اظهارکنندگان) — بار را با کامیون تا مزار شریف حمل می‌کنند.',
+      // guard-verify H4 (2026-11-13): the partner customs agents handle the cargo (hand over, send, keep, collect, store …)
+      'در سمت افغانستان، شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — بار را در حیرتان دریافت می‌کنند.', 'شرکای ما — کارگزاران گمرکی — بار را در مزار شریف به شما می‌سپارند.',
+      'شرکای ما در افغانستان — کارگزاران گمرکی (اظهارکنندگان) — بار را به مزار شریف ارسال می‌کنند.', 'شرکای ما — کارگزاران گمرکی — کالای شما را در حیرتان نگه می‌دارند.',
+      'شرکای ما در افغانستان — کارگزاران گمرکی — کالا را تا مزار شریف منتقل می‌کنند.',
+      // guard-verify H5 (2026-11-13): a negation word used as a quantifier ("no extra …", «вам не нужно …», 您无需…) is not a denial
+      'شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — بار را بدون معطلی در حیرتان تحویل می‌گیرند.',
+      // guard-verify H6 (2026-11-13): an office, a representative or own declarants beside the partners, or "on the Afghan side"
+      'در مزار شریف ما و شرکایمان — کارگزاران گمرکی (اظهارکنندگان) — در یک دفتر کار می‌کنیم.', 'در سمت افغانستان نمایندهٔ ما با شرکای ما — کارگزاران گمرکی — کار می‌کند.',
+      'در سمت افغانستان نماینده داریم.', 'نمایندگان ما در افغانستان بار را تحویل می‌گیرند.', 'در سمت افغانستان دفتر خودمان را داریم.',
+      // guard-verify H15 (2026-11-13): the partners' terminal, depot or yard
+      'شرکای ما — کارگزاران گمرکی — در حیرتان ترمینال دارند.',
+      // guard-verify H17 (2026-11-13): the partners carry the cargo on, hand it over or reload it
+      'شرکای ما — کارگزاران گمرکی — بار را در حیرتان به کامیون دیگری بار می‌زنند.',
+      // guard-verify H18 (2026-11-13): "our team" in Afghanistan
+      'تیم ما در افغانستان با شرکای ما — کارگزاران گمرکی — کار می‌کند.',
+      // guard hardening (2026-11-13): a place or people + «داریم / داشته‌ایم …» in Afghanistan, and «…مان» («کارمندانمان»); «نداریم» passes, a partner is not a place; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      'در مزار شریف انبار داریم.', 'در حیرتان کارمند داریم.', 'در افغانستان گدام داریم.', 'در حیرتان کارمندانمان بار را تحویل می‌گیرند.', 'انبار داریم در مزار شریف.', 'در مزار شریف ترمینال داشته‌ایم.', 'در حیرتان و در تاشکند انبار داریم.', 'کارمند در حیرتان داریم.', 'ما کارمندانی در افغانستان داریم.', 'کارمند در تاشکند و در حیرتان داریم.'],
+    good: ['در افغانستان دفتر یا نماینده نداریم.', 'حیرتان — شهرک مرزی در سمت افغانستان: بار را همان‌جا خودتان تحویل می‌گیرید.', 'در افغانستان دفتر نداریم', 'دفتر ما در تاشکند است؛ به افغانستان با کامیون بار می‌بریم', 'آیا در افغانستان دفتر دارید؟', 'در افغانستان نماینده‌ای نداریم',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      'در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند.', 'شرکای ما در افغانستان — کارگزاران گمرکی (اظهارکنندگان) — ترخیص گمرکی بار را در آنجا انجام می‌دهند.',
+      'ترمذ–حیرتان: بار از ازبکستان خارج می‌شود و ترانزیت گمرکی پایان می‌یابد؛ در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند.',
+      // guard hardening (2026-11-13): a place or people + «داریم / داشته‌ایم …» in Afghanistan, and «…مان» («کارمندانمان»); «نداریم» passes, a partner is not a place; the same site placed in Tashkent etc. is two facts (passes) unless the list goes on to an Afghan place
+      'در افغانستان انبار یا کارمند نداریم.', 'در حیرتان و مزار شریف دفتر، گدام یا کارمند نداریم.', 'در سمت افغانستان شریک داریم: کارگزاران گمرکی (اظهارکنندگان).', 'ما در تاشکند تیم داریم و در حیرتان بار را خودتان تحویل می‌گیرید.', 'کارمند در حیرتان نداریم.', 'کارمند در تاشکند داریم و در حیرتان بار را خودتان تحویل می‌گیرید.'] },
 
   /* — the Afghanistan direction: no schedule and no "regular" departures — */
   { id: 'uz.afghanSchedule', block: true, msg: SCHEDULE_MSG('uz'),
@@ -1275,24 +1711,36 @@ export const CLAIM_RULES = [
   { id: 'uz.afghanRecord', block: true, msg: RECORD_MSG('uz'),
     re: new RegExp(`${UZ_RECORD}|${UZC_RECORD}`, 'iu'),
     bad: ['Afgʻonistonga 5 yildan beri yuk tashiymiz.', 'Afgʻonistonga 200 dan ortiq fura joʻnatdik.', 'Afgʻonistonlik 50 dan ortiq mijozimiz bor.', 'Afgʻoniston yoʻnalishida katta tajribamiz bor.',
-      'Афғонистонга 5 йилдан бери юк ташиймиз.', 'Афғонистон йўналишида катта тажрибамиз бор.'],
+      'Афғонистонга 5 йилдан бери юк ташиймиз.', 'Афғонистон йўналишида катта тажрибамиз бор.',
+      // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
+      'Mozori Sharifga yukni tez yetkazamiz.', 'Мозори Шарифга юкни тез етказамиз.', 'Hamkorlarimiz — deklarant agentlar — Hayratonda navbatsiz rasmiylashtiradi.',
+      'Ҳамкорларимиз — декларант агентлар — Ҳайратонда навбатсиз расмийлаштиради.'],
     good: ['Afgʻoniston — biz uchun yangi yoʻnalish.', 'Afgʻonistonga yuk tashishni 2026-yilda boshladik.', 'Afgʻoniston yoʻnalishini 2026-yilda ochdik.', 'Xizmat 10 — Afgʻoniston', 'Afgʻoniston yoʻnalishida tajribamiz hali yoʻq — bu yangi yoʻnalish.',
       'Афғонистон — биз учун янги йўналиш.'] },
   { id: 'ru.afghanRecord', block: true, msg: RECORD_MSG('ru'),
     re: new RegExp(RU_RECORD, 'iu'),
-    bad: ['Возим грузы в Афганистан уже 5 лет.', 'Отправили в Афганистан более 200 фур.', 'У нас более 50 клиентов из Афганистана.', 'Большой опыт перевозок в Афганистан.'],
+    bad: ['Возим грузы в Афганистан уже 5 лет.', 'Отправили в Афганистан более 200 фур.', 'У нас более 50 клиентов из Афганистана.', 'Большой опыт перевозок в Афганистан.',
+      // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
+      'Наши партнёры — таможенные агенты (декларанты) — быстро проводят таможенное оформление в Афганистане.'],
     good: ['Афганистан — новое для нас направление.', 'Направление Афганистан мы открыли в 2026 году.', 'Услуга 10 — Афганистан', 'Обновлено: 12 ноября 2026 г. Грузы в Афганистан'] },
   { id: 'en.afghanRecord', block: true, msg: RECORD_MSG('en'),
     re: new RegExp(EN_RECORD, 'iu'),
-    bad: ['We have carried cargo to Afghanistan for 5 years.', 'More than 200 trucks sent to Afghanistan.', 'Over 50 clients from Afghanistan trust us.', 'Extensive experience on the Afghanistan route.'],
+    bad: ['We have carried cargo to Afghanistan for 5 years.', 'More than 200 trucks sent to Afghanistan.', 'Over 50 clients from Afghanistan trust us.', 'Extensive experience on the Afghanistan route.',
+      // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
+      'Our partners — customs agents (declarants) — clear customs in Afghanistan quickly.',
+      'Our partners — customs agents (declarants) — clear customs at Hairatan without queues.', 'We deliver to Mazar-i-Sharif fast.'],
     good: ['Afghanistan is a new direction for us.', 'We started the Afghanistan direction in 2026.', 'Service 10 — Afghanistan', 'Regulation No. 737 of 31 December 2022 applies to transit to Afghanistan'] },
   { id: 'zh.afghanRecord', block: true, msg: RECORD_MSG('zh'),
     re: new RegExp(ZH_RECORD, 'iu'),
-    bad: ['我们承运阿富汗货物已有 5 年。', '已向阿富汗发运 200 多车货物。', '我们有 50 多位阿富汗客户。', '在阿富汗线路上经验丰富。'],
+    bad: ['我们承运阿富汗货物已有 5 年。', '已向阿富汗发运 200 多车货物。', '我们有 50 多位阿富汗客户。', '在阿富汗线路上经验丰富。',
+      // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
+      '我们快速把货物运到马扎里沙里夫。', '在海拉顿，我们的合作伙伴——报关代理（申报人）——快速办理清关。'],
     good: ['阿富汗对我们来说是新方向。', '阿富汗方向是我们 2026 年新开的。', '服务 10 — 阿富汗', '更新日期：2026年11月12日 阿富汗货运'] },
   { id: 'fa.afghanRecord', block: true, msg: RECORD_MSG('fa'),
     re: new RegExp(FA_RECORD, 'iu'),
-    bad: ['۵ سال است که به افغانستان بار می‌بریم.', 'بیش از ۲۰۰ کامیون به افغانستان فرستاده‌ایم.', 'در مسیر افغانستان تجربهٔ فراوان داریم.'],
+    bad: ['۵ سال است که به افغانستان بار می‌بریم.', 'بیش از ۲۰۰ کامیون به افغانستان فرستاده‌ایم.', 'در مسیر افغانستان تجربهٔ فراوان داریم.',
+      // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
+      'بار را سریع به مزار شریف می‌رسانیم.', 'شرکای ما — کارگزاران گمرکی — در حیرتان بدون معطلی ترخیص می‌کنند.'],
     good: ['افغانستان برای ما مسیر تازه‌ای است.', 'مسیر افغانستان را در سال ۲۰۲۶ آغاز کردیم.', 'خدمت ۱۰ — افغانستان'] },
 
   /* — cargo FROM Afghanistan is not confirmed — */
@@ -1352,35 +1800,273 @@ export const CLAIM_RULES = [
       'We offer partnership to Iranian transport companies.', 'Sourcing and buying in China for Iranian and Afghan businesspeople.', '我们向伊朗运输公司提供合作。', '为伊朗卡车寻找回程货。', '为伊朗和阿富汗客商在中国找货并代采购。', 'به شرکت‌های حمل‌ونقل ایرانی پیشنهاد همکاری می‌دهیم.', 'برای کامیون‌های ایرانی بار برگشتی پیدا می‌کنیم.'],
     good: ['One Persian text for readers in Iran and Afghanistan', 'afgʻonistonlik tadbirkorlar uchun ham', 'предпринимателям из Афганистана', 'for Afghan businesspeople too', '同样面向阿富汗客商', 'برای تاجران افغانستان هم', 'Fevral uchun zaxirani dekabrda buyurtma qiling.'] },
 
-  /* — who clears customs on the Afghan side is not confirmed — */
+  /* — who clears customs on the Afghan side: GSR's partners, customs agents (declarants), named as such (owner, 2026-11-12) — */
   { id: 'uz.afghanCustoms', block: true, msg: CUSTOMS_MSG('uz'),
     re: new RegExp(`${UZ_CUSTOMS}|${UZC_CUSTOMS}`, 'iu'),
-    bad: ['Afgʻoniston tomonidagi bojxona rasmiylashtiruvini ham oʻzimiz qilamiz.', 'Mozori Sharifgacha DDP shartida yetkazamiz: boj va soliqlar narxga kiradi.', 'Afgʻonistonda bojxonani ham rasmiylashtiramiz.', 'Афғонистонда божхонани ҳам расмийлаштирамиз.'],
-    good: ['Afgʻoniston tomonida qanday tartib va qaysi hujjatlar kerakligini menejer yukingiz boʻyicha tushuntiradi.', 'Afgʻoniston tomonidagi bojxonani biz rasmiylashtirmaymiz; buni kim qilishini menejer tushuntiradi.', 'Oʻzbekistonda tranzit hujjatlarini rasmiylashtiramiz.', 'Afgʻoniston tomoni va eksport',
-      'Афғонистон томонида қандай тартиб ва қайси ҳужжатлар кераклигини менежер юкингиз бўйича тушунтиради.'] },
+    bad: ['Afgʻoniston tomonidagi bojxona rasmiylashtiruvini ham oʻzimiz qilamiz.', 'Mozori Sharifgacha DDP shartida yetkazamiz: boj va soliqlar narxga kiradi.', 'Afgʻonistonda bojxonani ham rasmiylashtiramiz.', 'Афғонистонда божхонани ҳам расмийлаштирамиз.',
+      // a guide may not say it either (2026-11)
+      'Afgʻonistondagi bojxona rasmiylashtiruvini yuk oluvchi yoki uning bojxona agenti bajaradi.', 'Афғонистондаги божхона расмийлаштирувини юк олувчи ёки унинг божхона агенти бажаради.',
+      // partners who are not named as customs agents, the consignee's agent, "ourselves", our own broker, who pays (2026-11-12)
+      'Hamkorlarimiz — bojxona agentlari — Afgʻonistonda bojxonani rasmiylashtiradi, boj va soliqlar esa narxga kiradi.', 'Afgʻonistonda bojxonani oʻzimiz rasmiylashtiramiz.', 'Afgʻonistondagi hamkorlarimiz u yerda bojxonani rasmiylashtiradi.',
+      'Afgʻoniston tomonida bojxona rasmiylashtiruvini yuk oluvchining bojxona agenti — hamkorimiz bajaradi.', 'Afgʻoniston tomonida hamkorlarimiz — deklarant agentlar — bojxonani rasmiylashtiradi va siz uchun bojni toʻlaydi.',
+      'Afgʻonistonda bojxonani oʻz bojxona brokerimiz hamkorlarimiz — deklarant agentlar bilan birga rasmiylashtiradi.',
+      'Ҳамкорларимиз — божхона агентлари — Афғонистонда божхонани расмийлаштиради, бож ва солиқлар эса нархга киради.', 'Афғонистонда божхонани ўзимиз расмийлаштирамиз.', 'Афғонистондаги ҳамкорларимиз у ерда божхонани расмийлаштиради.',
+      'Афғонистон томонида божхона расмийлаштирувини юк олувчининг божхона агенти — ҳамкоримиз бажаради.', 'Афғонистон томонида ҳамкорларимиз — декларант агентлар — божхонани расмийлаштиради ва сиз учун божни тўлайди.',
+      'Афғонистонда божхонани ўз божхона брокеримиз ҳамкорларимиз — декларант агентлар билан бирга расмийлаштиради.',
+      'Hamkorlarimiz — deklarant agentlar — Afgʻonistonda bojxonani rasmiylashtiradi; Afgʻoniston boji narxga kiradi.', 'Ҳамкорларимиз — декларант агентлар — Афғонистонда божхонани расмийлаштиради; Афғонистон божи нархга киради.',
+      // guard-verify H1 (2026-11-13): DDP / "duties included" / door to door beside ANY form of the name (the dative / destination case)
+      'Afgʻonistonga DDP shartida yetkazamiz.', 'Mozori Sharifga DDP shartida yetkazamiz.', 'Афғонистонга ДДП шартида етказамиз.', 'Мозори Шарифга ДДП шартида етказамиз.',
+      'Афғонистонга DDP шартида етказамиз.', 'Afgʻonistonga eshikdan eshikkacha, bojxona rasmiylashtiruvi bilan yetkazamiz.',
+      'Афғонистонга эшикдан эшиккача, божхона расмийлаштируви билан етказамиз.', 'Afgʻonistonga boj va soliqlar toʻlangan holda yetkazamiz.',
+      'Афғонистонга бож ва солиқлар тўланган ҳолда етказамиз.',
+      // guard-verify H2 (2026-11-13): who pays the Afghan duties, or "included", in other words (the uz «narxga kiradi» form among them)
+      'Afgʻonistondagi bojxona toʻlovlari narxga kiritilgan.', 'Afgʻonistonda bojni siz toʻlaysiz.', 'Афғонистондаги божхона тўловлари нархга киритилган.',
+      'Афғонистонда божни сиз тўлайсиз.', 'Афғонистонда божни мижоз тўлайди.', 'Afg\'onistonda bojxona to\'lovlari ham narxga kiradi.',
+      // guard-verify H3 (2026-11-13): "…; duties included": a semicolon does not split the claim off the partner sentence
+      'Afgʻoniston tomonida bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bajaradi; boj va soliqlar narxga kiradi.',
+      'Афғонистон томонида божхона расмийлаштирувини ҳамкорларимиз — декларант агентлар бажаради; бож ва солиқлар нархга киради.',
+      // guard-verify H7 (2026-11-13): "we clear customs (with our partners' help)", "our customs broker" without "own"
+      'Afgʻonistonda bojxonani hamkorlarimiz — deklarant agentlar yordamida rasmiylashtiramiz.',
+      'Bojxona brokerimiz hamkorlarimiz — deklarant agentlar bilan birga Afgʻonistonda bojxonani rasmiylashtiradi.',
+      'Афғонистонда божхонани ҳамкорларимиз — декларант агентлар ёрдамида расмийлаштирамиз.',
+      'Божхона брокеримиз ҳамкорларимиз — декларант агентлар билан бирга Афғонистонда божхонани расмийлаштиради.',
+      'Афғонистон томонида божхонани ҳамкорларимиз — божхона брокерлари орқали расмийлаштирамиз.',
+      // guard-verify H8 (2026-11-13): a third party's customs agent (the importer's, the client's, "yours", "one you choose")
+      'Afgʻonistonda bojxona rasmiylashtiruvini importyorning bojxona agenti — hamkorimiz bajaradi.',
+      'Afgʻonistonda bojxona rasmiylashtiruvini mijozning bojxona agenti — hamkorimiz bajaradi.',
+      'Afgʻonistonda bojxona rasmiylashtiruvini siz tanlagan deklarant yoki hamkorimiz bajaradi.',
+      'Афғонистонда божхона расмийлаштирувини импортёрнинг божхона агенти — ҳамкоримиз бажаради.',
+      'Афғонистонда божхона расмийлаштирувини мижознинг божхона агенти — ҳамкоримиз бажаради.',
+      'Афғонистонда божхона расмийлаштирувини сиз танлаган декларант ёки ҳамкоримиз бажаради.',
+      // guard-verify H9 (2026-11-13): customs at Hairatan, Mazar-i-Sharif or the Afghan border; «bojxonada … oʻzimiz»
+      'Afgʻonistonda yukni bojxonada oʻzimiz rasmiylashtiramiz.', 'Afgʻoniston bojxonasida yukni oʻzimiz rasmiylashtiramiz.',
+      'Афғонистонда юкни божхонада ўзимиз расмийлаштирамиз.', 'Афғонистон божхонасида юкни ўзимиз расмийлаштирамиз.',
+      // guard-verify H14 (2026-11-13): our own customs agents / declarants beside the partners
+      'Afgʻonistonda oʻz bojxona agentlarimiz va hamkorlarimiz ishlaydi.', 'Афғонистонда ўз божхона агентларимиз ва ҳамкорларимиз ишлайди.',
+      // guard-verify H16 (2026-11-13): "at our expense", "at no extra charge", "included in our price" …
+      'Bojxona rasmiylashtiruvi Afgʻoniston tomonida ham narxga kiradi: uni hamkorlarimiz — deklarant agentlar bajaradi.',
+      'Божхона расмийлаштируви Афғонистон томонида ҳам нархга киради: уни ҳамкорларимиз — декларант агентлар бажаради.',
+      'Afgʻoniston tomonidagi bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bizning hisobimizdan bajaradi.',
+      'Афғонистон томонидаги божхона расмийлаштирувини ҳамкорларимиз — декларант агентлар бизнинг ҳисобимиздан бажаради.'],
+    good: ['Afgʻoniston tomonida qanday tartib va qaysi hujjatlar kerakligini menejer yukingiz boʻyicha tushuntiradi.', 'Oʻzbekistonda tranzit hujjatlarini rasmiylashtiramiz.', 'Afgʻoniston tomoni va eksport',
+      'Афғонистон томонида қандай тартиб ва қайси ҳужжатлар кераклигини менежер юкингиз бўйича тушунтиради.',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      'Afgʻoniston tomonida bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bajaradi.', 'Afgʻonistondagi hamkorlarimiz — deklarant agentlar — yukni u yerda bojxonadan oʻtkazadi.', 'Termiz–Hayraton: yuk Oʻzbekistondan chiqadi va bojxona tranziti tugaydi; Afgʻoniston tomonida bojxonani hamkorlarimiz — deklarant agentlar rasmiylashtiradi.',
+      'Афғонистон томонида божхона расмийлаштирувини ҳамкорларимиз — декларант агентлар бажаради.', 'Афғонистондаги ҳамкорларимиз — декларант агентлар — юкни у ерда божхонадан ўтказади.', 'Термиз–Ҳайратон: юк Ўзбекистондан чиқади ва божхона транзити тугайди; Афғонистон томонида божхонани ҳамкорларимиз — декларант агентлар расмийлаштиради.',
+      // guard-verify true3 (2026-11-13): two facts in one sentence, true (GSR's own work beside the partner sentence): pins the narrowing of the new cancel words
+      'Hujjatlarni Oʻzbekistonda biz tayyorlaymiz, Afgʻoniston tomonida esa bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bajaradi.',
+      'Ҳужжатларни Ўзбекистонда биз тайёрлаймиз, Афғонистон томонида эса божхона расмийлаштирувини ҳамкорларимиз — декларант агентлар бажаради.',
+      'Tashishni biz tashkil qilamiz, Afgʻoniston tomonida esa bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bajaradi.',
+      'Ташишни биз ташкил қиламиз, Афғонистон томонида эса божхона расмийлаштирувини ҳамкорларимиз — декларант агентлар бажаради.',
+      'Yukni Hayratonga yoki Mozori Sharifga biz olib boramiz; Afgʻoniston tomonida bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bajaradi.',
+      'Юкни Ҳайратонга ёки Мозори Шарифга биз олиб борамиз; Афғонистон томонида божхона расмийлаштирувини ҳамкорларимиз — декларант агентлар бажаради.',
+      // guard-verify deny (2026-11-13): denials pass: a denial next to the claim still lets it through
+      'Afgʻonistonga DDP shartida yetkazmaymiz.', 'Афғонистонга ДДП шартида етказмаймиз.',
+      'Hamkorlarimiz — deklarant agentlar — yukni qabul qilmaydi va saqlamaydi: ular Afgʻoniston tomonida faqat bojxona rasmiylashtiruvini bajaradi.',
+      'Ҳамкорларимиз — декларант агентлар — юкни қабул қилмайди ва сақламайди: улар Афғонистон томонида фақат божхона расмийлаштирувини бажаради.',
+      // guard-verify true2 (2026-11-13): true sentences next to what these fixes read: LV b8 «без уплаты» / «soliqsiz» / 无需缴纳 / «بدون پرداخت», "since 2026", possessives, «کابل شارژ»
+      'Afgʻon importyorlari Afgʻoniston tomonida bojxonani kim rasmiylashtirishini soʻraydi: hamkorlarimiz — deklarant agentlar.',
+      'Afgʻoniston tomonida hamkorlarimiz — deklarant agentlar yukni bojxonadan oʻtkazib beradi.',
+      'Bojxona tranziti rejimida Afgʻonistonga boradigan yuk uchun Oʻzbekistonda boj va soliqlar toʻlanmaydi (Bojxona kodeksi).',
+      'Ofisimiz Toshkentda; Afgʻoniston tomonida bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bajaradi.',
+      '2026-yildan Afgʻonistonga ham fura bilan yuk tashiymiz.', 'Invoys va qadoqlash roʻyxatini fura Afgʻonistonga yoʻlga chiqishidan oldin yuboring.',
+      'Afgʻonistonga boradigan yuk Oʻzbekistondan tranzit rejimida boj va soliqsiz oʻtadi (Bojxona kodeksi).',
+      'Афғон импортёрлари Афғонистон томонида божхонани ким расмийлаштиришини сўрайди: ҳамкорларимиз — декларант агентлар.',
+      'Афғонистон томонида ҳамкорларимиз — декларант агентлар юкни божхонадан ўтказиб беради.',
+      'Божхона транзити режимида Афғонистонга борадиган юк учун Ўзбекистонда бож ва солиқлар тўланмайди (Божхона кодекси).',
+      'Офисимиз Тошкентда; Афғонистон томонида божхона расмийлаштирувини ҳамкорларимиз — декларант агентлар бажаради.', '2026-йилдан Афғонистонга ҳам фура билан юк ташиймиз.',
+      'Инвойс ва қадоқлаш рўйхатини фура Афғонистонга йўлга чиқишидан олдин юборинг.',
+      'Афғонистонга борадиган юк Ўзбекистондан транзит режимида бож ва солиқсиз ўтади (Божхона кодекси).'] },
   { id: 'ru.afghanCustoms', block: true, msg: CUSTOMS_MSG('ru'),
     re: new RegExp(RU_CUSTOMS, 'iu'),
-    bad: ['Растаможку в Афганистане берём на себя.', 'Доставка до Мазари-Шарифа на условиях DDP: пошлины включены.', 'Таможенное оформление на афганской стороне — наше.'],
-    good: ['Какой порядок и какие документы нужны на афганской стороне, менеджер объясняет под ваш груз.', 'Таможню на афганской стороне мы не оформляем; кто это делает, объяснит менеджер.', 'Афганская сторона и экспорт', 'Таможенное оформление в Ташкенте'] },
+    bad: ['Растаможку в Афганистане берём на себя.', 'Доставка до Мазари-Шарифа на условиях DDP: пошлины включены.', 'Таможенное оформление на афганской стороне — наше.',
+      // a guide may not say it either (2026-11)
+      'Таможенное оформление в Афганистане делает получатель или его таможенный агент.',
+      // partners who are not named as customs agents, the consignee's agent, "ourselves", our own broker, who pays (2026-11-12)
+      'Наши партнёры — таможенные агенты — проводят таможенное оформление в Афганистане, а пошлины уже включены в цену.', 'Таможенное оформление в Афганистане мы проводим сами.', 'Наши партнёры проводят таможенное оформление в Афганистане.',
+      'Таможенное оформление в Афганистане проводит таможенный агент получателя — наш партнёр.', 'На афганской стороне наши партнёры — таможенные агенты (декларанты) — проводят таможенное оформление и платят за вас пошлины.',
+      'Таможенное оформление в Афганистане проводит наш собственный таможенный брокер вместе с партнёрами — таможенными агентами (декларантами).',
+      'Наши партнёры — таможенные агенты (декларанты) — проводят таможенное оформление в Афганистане; афганские пошлины уже включены в цену.',
+      // guard-verify H1 (2026-11-13): DDP / "duties included" / door to door beside ANY form of the name (the dative / destination case)
+      'Доставка в Афганистан под ключ, с растаможкой.', 'Доставим груз в Мазари-Шариф с уплаченными афганскими пошлинами.', 'Доставляем в Афганистан на условиях DDP.',
+      // guard-verify H2 (2026-11-13): who pays the Afghan duties, or "included", in other words (the uz «narxga kiradi» form among them)
+      'Наша цена включает таможенные пошлины в Афганистане.', 'В Афганистане пошлины платит клиент.',
+      // guard-verify H3 (2026-11-13): "…; duties included": a semicolon does not split the claim off the partner sentence
+      'На афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты); пошлины уже включены.',
+      // guard-verify H7 (2026-11-13): "we clear customs (with our partners' help)", "our customs broker" without "own"
+      'Таможенное оформление в Афганистане мы проводим с помощью наших партнёров — таможенных агентов (декларантов).',
+      'Наш таможенный брокер вместе с партнёрами — таможенными агентами (декларантами) — проводит таможенное оформление в Афганистане.',
+      'Через наших партнёров — таможенных агентов (декларантов) — мы растаможиваем груз в Хайратоне.',
+      // guard-verify H8 (2026-11-13): a third party's customs agent (the importer's, the client's, "yours", "one you choose")
+      'Таможенное оформление в Афганистане проводит таможенный агент импортёра — наш партнёр.',
+      'Таможенное оформление в Афганистане проводит таможенный агент покупателя — наш партнёр.',
+      'Таможенное оформление в Афганистане проводит декларант, которого выберете вы, или наш партнёр.',
+      // guard-verify H9 (2026-11-13): customs at Hairatan, Mazar-i-Sharif or the Afghan border; «bojxonada … oʻzimiz»
+      'Растаможку в Хайратоне берём на себя.', 'Таможенное оформление на афганской границе проводим сами.', 'Таможенное оформление в Мазари-Шарифе проводим сами.',
+      // guard-verify H14 (2026-11-13): our own customs agents / declarants beside the partners
+      'В Афганистане работают наши собственные таможенные агенты и партнёры.',
+      // guard-verify H16 (2026-11-13): "at our expense", "at no extra charge", "included in our price" …
+      'Таможенное оформление в Афганистане проводят наши партнёры — таможенные агенты (декларанты), за наш счёт.',
+      'Растаможка в Афганистане входит в стоимость: её проводят наши партнёры — таможенные агенты (декларанты).',
+      'Таможенное оформление на афганской стороне проводят наши партнёры — таможенные агенты (декларанты) — без доплат.'],
+    good: ['Какой порядок и какие документы нужны на афганской стороне, менеджер объясняет под ваш груз.', 'Афганская сторона и экспорт', 'Таможенное оформление в Ташкенте',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      'На афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты).', 'Наши партнёры в Афганистане — таможенные агенты (декларанты) — проводят там таможенное оформление груза.',
+      'Термез — Хайратон: груз выходит из Узбекистана, и таможенный транзит завершается; на афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты).',
+      // guard-verify true3 (2026-11-13): two facts in one sentence, true (GSR's own work beside the partner sentence): pins the narrowing of the new cancel words
+      'Мы организуем перевозку до Хайратона, а на афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты).',
+      'Документы в Узбекистане оформляем мы, а на афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты).',
+      'Груз мы доставляем до Хайратона или Мазари-Шарифа; таможенное оформление на афганской стороне проводят наши партнёры — таможенные агенты (декларанты).',
+      // guard-verify deny (2026-11-13): denials pass: a denial next to the claim still lets it through
+      'Доставку в Афганистан на условиях DDP мы не предлагаем.',
+      'Наши партнёры — таможенные агенты (декларанты) — не принимают и не хранят груз: они проводят таможенное оформление на афганской стороне.',
+      // guard-verify true2 (2026-11-13): true sentences next to what these fixes read: LV b8 «без уплаты» / «soliqsiz» / 无需缴纳 / «بدون پرداخت», "since 2026", possessives, «کابل شارژ»
+      'Афганские импортёры часто спрашивают, кто проводит таможенное оформление на афганской стороне: наши партнёры — таможенные агенты (декларанты).',
+      'В режиме таможенного транзита груз для Афганистана проходит через Узбекистан без уплаты таможенных пошлин и налогов (Таможенный кодекс, статьи 116 и 289).',
+      'Офис компании — в Ташкенте; на афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты).',
+      'С 2026 года мы возим грузы фурой и в Афганистан.',
+      'В Хайратоне вы принимаете груз сами; таможенное оформление на афганской стороне проводят наши партнёры — таможенные агенты (декларанты).',
+      'Отправьте нам инвойс и упаковочный лист до того, как фура выйдет в Афганистан.',
+      'Груз для Мазари-Шарифа проходит Узбекистан в режиме транзита без уплаты пошлин и налогов (Таможенный кодекс, статья 116).'] },
   { id: 'en.afghanCustoms', block: true, msg: CUSTOMS_MSG('en'),
     re: new RegExp(EN_CUSTOMS, 'iu'),
-    bad: ['We handle customs clearance in Afghanistan for you.', 'Delivery to Mazar-i-Sharif on DDP terms, duties included.', 'We clear customs on the Afghan side as well.'],
-    good: ['The manager explains which procedure and which documents apply on the Afghan side for your cargo.', 'We do not clear customs on the Afghan side; the manager explains who does.', 'The Afghan side, and export', 'Customs clearance in Tashkent'] },
+    bad: ['We handle customs clearance in Afghanistan for you.', 'Delivery to Mazar-i-Sharif on DDP terms, duties included.', 'We clear customs on the Afghan side as well.',
+      // a guide may not say it either (2026-11)
+      'Customs clearance in Afghanistan is done by the consignee or the consignee’s customs agent.',
+      // partners who are not named as customs agents, the consignee's agent, "ourselves", our own broker, who pays (2026-11-12)
+      'Our partners — customs agents — clear customs in Afghanistan, and the duties are included in the price.', 'We clear customs in Afghanistan ourselves.', 'Our partners clear customs in Afghanistan.',
+      'Customs clearance in Afghanistan is done by the consignee’s customs agent, one of our partners.', 'On the Afghan side, our partners — customs agents (declarants) — clear customs and pay the duties for you.',
+      'Our own customs broker clears customs in Afghanistan together with our partners — customs agents (declarants).',
+      'Our partners — customs agents (declarants) — clear customs in Afghanistan; the price includes the Afghan duties.',
+      // guard-verify H1 (2026-11-13): DDP / "duties included" / door to door beside ANY form of the name (the dative / destination case)
+      'We deliver to Afghanistan on DDP terms.', 'Door-to-door delivery to Afghanistan, customs clearance included.', 'We deliver to Afghanistan duty paid.',
+      // guard-verify H2 (2026-11-13): who pays the Afghan duties, or "included", in other words (the uz «narxga kiradi» form among them)
+      'Our price includes customs duties in Afghanistan.', 'We take care of the Afghan duties and taxes.', 'The duties in Afghanistan are the importer’s responsibility.',
+      'With our partners — customs agents (declarants) — the Afghan customs clearance and the duties come in one price.',
+      'Customs in Afghanistan is cleared by our partners — customs agents (declarants) — and the Afghan duties are on us.',
+      // guard-verify H3 (2026-11-13): "…; duties included": a semicolon does not split the claim off the partner sentence
+      'Customs clearance in Afghanistan: our partners — customs agents (declarants); duties included.',
+      'Our partners — customs agents (declarants) — clear customs in Afghanistan; the duties are paid by you.',
+      // guard-verify H7 (2026-11-13): "we clear customs (with our partners' help)", "our customs broker" without "own"
+      'We clear customs in Afghanistan with the help of our partners — customs agents (declarants).',
+      'Our customs broker, together with our partners — customs agents (declarants) — clears customs in Afghanistan.',
+      // guard-verify H8 (2026-11-13): a third party's customs agent (the importer's, the client's, "yours", "one you choose")
+      'Customs clearance in Afghanistan is done by the importer’s customs agent, one of our partners.',
+      'Customs clearance in Afghanistan is done by a declarant you choose or by one of our partners.',
+      // guard-verify H9 (2026-11-13): customs at Hairatan, Mazar-i-Sharif or the Afghan border; «bojxonada … oʻzimiz»
+      'We clear the cargo through customs at the Afghan border.',
+      // guard-verify H14 (2026-11-13): our own customs agents / declarants beside the partners
+      'In Afghanistan, our own customs agents work together with our partners.',
+      // guard-verify H16 (2026-11-13): "at our expense", "at no extra charge", "included in our price" …
+      'Customs clearance in Afghanistan is done by our partners — customs agents (declarants) — at our expense.',
+      'Customs clearance in Afghanistan is done by our partners — customs agents (declarants) — at no extra charge.',
+      'Customs clearance on the Afghan side is included in our price: our partners — customs agents (declarants) — do it.'],
+    good: ['The manager explains which procedure and which documents apply on the Afghan side for your cargo.', 'The Afghan side, and export', 'Customs clearance in Tashkent',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      'On the Afghan side, customs clearance is done by our partners — customs agents (declarants).', 'Our partners in Afghanistan — customs agents (declarants) — clear the cargo through customs there.',
+      'Termez–Hairatan: the cargo leaves Uzbekistan and the transit regime ends; on the Afghan side our partners — customs agents (declarants) — clear customs.',
+      // guard-verify true3 (2026-11-13): two facts in one sentence, true (GSR's own work beside the partner sentence): pins the narrowing of the new cancel words
+      'We arrange the carriage to Hairatan, and on the Afghan side customs clearance is done by our partners — customs agents (declarants).',
+      'We handle the documents in Uzbekistan, and on the Afghan side customs clearance is done by our partners — customs agents (declarants).',
+      'On the Afghan side, customs clearance is done by our partners — customs agents (declarants) — and the manager explains which documents apply for your cargo.',
+      'GSR Logistics carries the cargo to Hairatan or Mazar-i-Sharif; customs clearance on the Afghan side is done by its partners — customs agents (declarants).',
+      'We do the paperwork in Uzbekistan; in Afghanistan, our partners — customs agents (declarants) — clear customs.',
+      // guard-verify deny (2026-11-13): denials pass: a denial next to the claim still lets it through
+      'We do not deliver to Afghanistan on DDP terms.', 'The Afghan duties are not included in our price.',
+      // guard-verify true2 (2026-11-13): true sentences next to what these fixes read: LV b8 «без уплаты» / «soliqsiz» / 无需缴纳 / «بدون پرداخت», "since 2026", possessives, «کابل شارژ»
+      'Afghan importers often ask who clears customs on the Afghan side: our partners — customs agents (declarants).',
+      'For Afghan importers: on the Afghan side, customs clearance is done by our partners — customs agents (declarants).',
+      'Cargo for Afghanistan crosses Uzbekistan without payment of customs duties and taxes (Customs Code, Articles 116 and 289).',
+      'Our office is in Tashkent; on the Afghan side, customs clearance is done by our partners — customs agents (declarants).',
+      'GSR Logistics has carried cargo from China to Uzbekistan since 2018 and now also carries cargo to Afghanistan by truck.',
+      'Since 2026 we also carry cargo to Afghanistan by truck.',
+      'You do not need to come to the border: on the Afghan side, customs clearance is done by our partners — customs agents (declarants).',
+      'In Hairatan, customs clearance on the Afghan side is done by our partners — customs agents (declarants).',
+      'Send us the invoice and the packing list before the truck leaves for Afghanistan.',
+      'At Hairatan you collect the cargo yourself; to Mazar-i-Sharif we deliver it to the city.',
+      'The manager explains which procedure and which documents apply on the Afghan side for your cargo, and our partners — customs agents (declarants) — clear customs there.'] },
   { id: 'zh.afghanCustoms', block: true, msg: CUSTOMS_MSG('zh'),
     re: new RegExp(ZH_CUSTOMS, 'iu'),
-    bad: ['阿富汗一侧的清关由我们代办。', '按 DDP 条款送至马扎里沙里夫，含关税。', '我们在阿富汗也可代办报关。'],
-    good: ['阿富汗一侧适用哪些手续、需要哪些单证，由客户经理根据您的货物情况说明。', '阿富汗一侧的清关不由我们办理；由谁办理，客户经理会说明。', '阿富汗一侧的手续与出口', '在塔什干办理清关'] },
+    bad: ['阿富汗一侧的清关由我们代办。', '按 DDP 条款送至马扎里沙里夫，含关税。', '我们在阿富汗也可代办报关。',
+      // partners who are not named as customs agents, the consignee's agent, "ourselves", our own broker, who pays (2026-11-12)
+      '我们的合作伙伴——报关代理——在阿富汗办理清关，关税已含在价格中。', '我们在阿富汗自行办理清关。', '我们在阿富汗的合作伙伴负责清关。',
+      '在阿富汗，清关由收货人的报关代理办理，该代理是我们的合作伙伴。', '在阿富汗一侧，我们的合作伙伴——报关代理（申报人）——办理清关并为您缴纳关税。',
+      '在阿富汗，清关由我们自有的报关行与合作伙伴——报关代理（申报人）——共同办理。',
+      '我们的合作伙伴——报关代理（申报人）——在阿富汗办理清关；价格已包含阿富汗关税。',
+      // guard-verify H1 (2026-11-13): DDP / "duties included" / door to door beside ANY form of the name (the dative / destination case)
+      '发往阿富汗的货物按DDP条款交付。', '发往阿富汗，门到门包清关。', '到阿富汗的货物，清关由我们负责。', '我们按DDP条款把货物运到阿富汗。',
+      // guard-verify H2 (2026-11-13): who pays the Afghan duties, or "included", in other words (the uz «narxga kiradi» form among them)
+      '价格包括阿富汗的关税。', '阿富汗一侧的清关由我们的合作伙伴——报关代理（申报人）——办理，关税由客户自付。',
+      // guard-verify H3 (2026-11-13): "…; duties included": a semicolon does not split the claim off the partner sentence
+      '阿富汗一侧：清关由我们的合作伙伴——报关代理（申报人）——办理；关税已含在运费中。',
+      // guard-verify H7 (2026-11-13): "we clear customs (with our partners' help)", "our customs broker" without "own"
+      '我们借助合作伙伴——报关代理（申报人）——在阿富汗办理清关。', '我们的报关行与合作伙伴——报关代理（申报人）——在阿富汗共同办理清关。',
+      // guard-verify H8 (2026-11-13): a third party's customs agent (the importer's, the client's, "yours", "one you choose")
+      '在阿富汗，清关由进口商的报关代理办理，该代理是我们的合作伙伴。', '在阿富汗，清关由客户的报关代理或我们的合作伙伴办理。',
+      // guard-verify H9 (2026-11-13): customs at Hairatan, Mazar-i-Sharif or the Afghan border; «bojxonada … oʻzimiz»
+      '我们在海拉顿办理清关。',
+      // guard-verify H16 (2026-11-13): "at our expense", "at no extra charge", "included in our price" …
+      '阿富汗一侧的清关费用已包含在运费中，由我们的合作伙伴——报关代理（申报人）——办理。', '我们的合作伙伴——报关代理（申报人）——在阿富汗为您清关并承担费用。', '阿富汗清关由我们的合作伙伴——报关代理（申报人）——办理，无需额外付费。'],
+    good: ['阿富汗一侧适用哪些手续、需要哪些单证，由客户经理根据您的货物情况说明。', '阿富汗一侧的手续与出口', '在塔什干办理清关',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      '在阿富汗一侧，清关由我们的合作伙伴——报关代理（申报人）——办理。', '我们在阿富汗的合作伙伴——报关代理（申报人）——在当地为货物办理清关。',
+      '铁尔梅兹—海拉顿：货物离开乌兹别克斯坦，海关过境结束；在阿富汗一侧，由我们的合作伙伴——报关代理（申报人）——办理清关。',
+      // guard-verify true3 (2026-11-13): two facts in one sentence, true (GSR's own work beside the partner sentence): pins the narrowing of the new cancel words
+      '货物可在塔什干转运，阿富汗一侧的清关由我们的合作伙伴——报关代理（申报人）——办理。', '我们负责运输到海拉顿，阿富汗一侧的清关由我们的合作伙伴——报关代理（申报人）——办理。',
+      // guard-verify deny (2026-11-13): denials pass: a denial next to the claim still lets it through
+      '我们不按DDP条款向阿富汗交货。',
+      // guard-verify true2 (2026-11-13): true sentences next to what these fixes read: LV b8 «без уплаты» / «soliqsiz» / 无需缴纳 / «بدون پرداخت», "since 2026", possessives, «کابل شارژ»
+      '阿富汗进口商常问，阿富汗一侧由谁清关：由我们的合作伙伴——报关代理（申报人）——办理。', '在海关过境制度下，阿富汗过境货物在乌兹别克斯坦无需缴纳关税和税款。', '办事处设在塔什干；在阿富汗一侧，清关由我们的合作伙伴——报关代理（申报人）——办理。', '自2026年起，我们也承运发往阿富汗的货物。',
+      '在海拉顿，您自行提货；阿富汗一侧的清关由我们的合作伙伴——报关代理（申报人）——办理。', '卡车出发前往阿富汗之前，请把发票和装箱单发给我们。'] },
   { id: 'fa.afghanCustoms', block: true, msg: CUSTOMS_MSG('fa'),
     re: new RegExp(FA_CUSTOMS, 'iu'),
-    bad: ['ترخیص گمرکی در افغانستان را هم خودمان انجام می‌دهیم.', 'تحویل در مزار شریف با شرایط DDP؛ عوارض گمرکی در قیمت است.', 'ترخیص در سمت افغانستان با ماست.'],
-    good: ['اینکه در سمت افغانستان چه مراحلی باید طی شود و چه اسنادی لازم است، کارشناس ما برای بار شما توضیح می‌دهد.', 'ترخیص در سمت افغانستان را ما انجام نمی‌دهیم؛ کارشناس ما توضیح می‌دهد چه کسی آن را انجام می‌دهد.', 'سمت افغانستان و صادرات', 'ترخیص گمرکی در تاشکند'] },
+    bad: ['ترخیص گمرکی در افغانستان را هم خودمان انجام می‌دهیم.', 'تحویل در مزار شریف با شرایط DDP؛ عوارض گمرکی در قیمت است.', 'ترخیص در سمت افغانستان با ماست.',
+      // a guide may not say it either (2026-11)
+      'ترخیص گمرکی در افغانستان را گیرندهٔ بار یا کارگزار گمرکی او انجام می‌دهد.',
+      // partners who are not named as customs agents, the consignee's agent, "ourselves", our own broker, who pays (2026-11-12)
+      'شرکای ما — کارگزاران گمرکی — ترخیص گمرکی را در افغانستان انجام می‌دهند و عوارض گمرکی در قیمت است.', 'ترخیص گمرکی در افغانستان را خودمان انجام می‌دهیم.', 'شرکای ما در افغانستان ترخیص گمرکی را انجام می‌دهند.',
+      'در افغانستان، ترخیص گمرکی را کارگزار گمرکی گیرندهٔ بار، یکی از شرکای ما، انجام می‌دهد.', 'در سمت افغانستان، شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — ترخیص گمرکی را انجام می‌دهند و عوارض را به جای شما می‌پردازند.',
+      'ترخیص گمرکی در افغانستان را کارگزار گمرکی خودمان همراه با شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهد.',
+      'شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — ترخیص گمرکی را در افغانستان انجام می‌دهند؛ عوارض گمرکی افغانستان در قیمت است.',
+      // guard-verify H1 (2026-11-13): DDP / "duties included" / door to door beside ANY form of the name (the dative / destination case)
+      'حمل بار به افغانستان با شرایط DDP.', 'حمل درب به درب به افغانستان همراه با ترخیص گمرکی.', 'ارسال بار به مزار شریف با ترخیص و عوارض گمرکی.',
+      'بار را با شرایط DDP به افغانستان می‌رسانیم.',
+      // guard-verify H2 (2026-11-13): who pays the Afghan duties, or "included", in other words (the uz «narxga kiradi» form among them)
+      'هزینهٔ گمرکی در افغانستان در قیمت ما شامل است.', 'در افغانستان، عوارض گمرکی را مشتری پرداخت می‌کند.',
+      'در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی — انجام می‌دهند و هزینه‌ی گمرکی در قیمت است.', 'حقوقِ گمرکیِ افغانستان در قیمت ما شامل است.',
+      // guard-verify H3 (2026-11-13): "…; duties included": a semicolon does not split the claim off the partner sentence
+      'در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند؛ عوارض گمرکی در قیمت است.',
+      // guard-verify H7 (2026-11-13): "we clear customs (with our partners' help)", "our customs broker" without "own"
+      'ترخیص گمرکی در افغانستان را با کمک شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهیم.',
+      'کارگزار گمرکی ما همراه با شرکای ما — کارگزاران گمرکی — ترخیص را در افغانستان انجام می‌دهد.',
+      // guard-verify H8 (2026-11-13): a third party's customs agent (the importer's, the client's, "yours", "one you choose")
+      'در افغانستان، ترخیص گمرکی را کارگزار گمرکی واردکننده، که از شرکای ماست، انجام می‌دهد.', 'در افغانستان، ترخیص گمرکی را کارگزار گمرکی شما یا یکی از شرکای ما انجام می‌دهد.',
+      // guard-verify H16 (2026-11-13): "at our expense", "at no extra charge", "included in our price" …
+      'ترخیص گمرکی در افغانستان را شرکای ما — کارگزاران گمرکی — انجام می‌دهند و هزینه‌اش با ماست.'],
+    good: ['اینکه در سمت افغانستان چه مراحلی باید طی شود و چه اسنادی لازم است، کارشناس ما برای بار شما توضیح می‌دهد.', 'سمت افغانستان و صادرات', 'ترخیص گمرکی در تاشکند',
+      // the partner customs agents named as such (owner, 2026-11-12; DESIGN-GUIDES row 82): every rule must let these through
+      'در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند.', 'شرکای ما در افغانستان — کارگزاران گمرکی (اظهارکنندگان) — ترخیص گمرکی بار را در آنجا انجام می‌دهند.',
+      'ترمذ–حیرتان: بار از ازبکستان خارج می‌شود و ترانزیت گمرکی پایان می‌یابد؛ در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند.',
+      // guard-verify true3 (2026-11-13): two facts in one sentence, true (GSR's own work beside the partner sentence): pins the narrowing of the new cancel words
+      'ما بار را تا حیرتان می‌بریم و در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند.',
+      'بار در تاشکند جابه‌جا می‌شود؛ در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند.',
+      // guard-verify deny (2026-11-13): denials pass: a denial next to the claim still lets it through
+      'بار را با شرایط DDP به افغانستان نمی‌رسانیم.',
+      // guard-verify true2 (2026-11-13): true sentences next to what these fixes read: LV b8 «без уплаты» / «soliqsiz» / 无需缴纳 / «بدون پرداخت», "since 2026", possessives, «کابل شارژ»
+      'واردکنندگان افغان معمولاً می‌پرسند ترخیص گمرکی در سمت افغانستان را چه کسی انجام می‌دهد: شرکای ما — کارگزاران گمرکی (اظهارکنندگان).',
+      'در رژیم ترانزیت گمرکی، برای بار ترانزیتی به مقصد افغانستان در ازبکستان حقوق و عوارض گمرکی پرداخت نمی‌شود.',
+      'دفتر ما در تاشکند است؛ در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند.',
+      'از سال ۲۰۲۶ به افغانستان هم با کامیون بار حمل می‌کنیم.',
+      'لازم نیست به مرز بیایید: در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند.',
+      'پیش از حرکت کامیون به افغانستان، فاکتور و فهرست بسته‌بندی را برای ما ارسال کنید.',
+      'بار ترانزیتی به مقصد افغانستان بدون پرداخت حقوق و عوارض گمرکی از ازبکستان عبور می‌کند.'] },
 ];
 /** The name this list had while it held the Chinese and Persian rules only; tools written against it read the whole list. */
 export const ZH_FA_FORBIDDEN = CLAIM_RULES;
 /** The rule families that exist in all five written languages (selfTest() fails when one of the five is missing). */
 const RULE_FAMILIES = ['persianStaff', 'destination', 'afghanFigure', 'afghanMode', 'afghanVolume', 'afghanPresence', 'afghanSchedule', 'afghanRecord', 'afghanOrigin', 'afghanAnywhere', 'afghanCustoms'];
 /** The number of bad + good sentences the claim rules carried when this floor was last raised: a guard against quietly deleted fixtures. */
-const FIXTURE_FLOOR = 1599;
+const FIXTURE_FLOOR = 2127;
 
 
 /* ── Orthography, per page language (raw text) ──────────────────────────────────────────────── */
@@ -1630,7 +2316,7 @@ export function selfTest() {
   // … and so do the Chinese and Persian twins of the older rules.
   for (const id of ids) { const m = /^(zh|fa)\.(.+)$/.exec(id); if (m && !RULE_FAMILIES.includes(m[2]) && m[2] !== 'wechat' && !ids.includes(`${m[1] === 'zh' ? 'fa' : 'zh'}.${m[2]}`)) bad.push(`the rule ${id} has no ${m[1] === 'zh' ? 'fa' : 'zh'} twin`); }
   const sentences = CLAIM_RULES.reduce((n, r) => n + r.bad.length + r.good.length, 0);
-  if (sentences < FIXTURE_FLOOR) bad.push(`the claim rules carry ${sentences} sentences, fewer than the ${FIXTURE_FLOOR} they had on 2026-11-12 — fixtures were deleted (lower FIXTURE_FLOOR in the same commit if that is meant)`);
+  if (sentences < FIXTURE_FLOOR) bad.push(`the claim rules carry ${sentences} sentences, fewer than the ${FIXTURE_FLOOR} they had when the floor was last raised — fixtures were deleted (lower FIXTURE_FLOOR in the same commit if that is meant)`);
   for (const id of new Set(ids.filter((x, i) => ids.indexOf(x) !== i))) bad.push(`two rules are called ${id}`);
   // The place tables, spelling by spelling. In the plainest claim of its language ("We deliver to …") a place GSR
   // does not serve must be stopped by that language's rule, and a place it serves must pass every rule. After an

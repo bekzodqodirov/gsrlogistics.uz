@@ -155,13 +155,13 @@ const content: ServiceContentSource = {
       },
     ],
     related: ['transit', 'afghanistan', 'warehouse'],
-    guideKeys: [],
+    guideKeys: ['uzbekistan-transit', 'china-afghanistan'],
     cta: {
       title: 'Toshkentda joy yoki qayta yuklash kerakmi? Yozing.',
       text: 'Yuk nima ekanini, hajmi yoki ogʻirligini, qayerdan kelib qayerga ketishini va qancha vaqt turishi kerakligini WhatsApp yoki Telegramga yozing. Menejer shartlar va narxni aytadi.',
       draft: 'Salom! Toshkentda bojxona nazoratidagi ombor va qayta yuklash boʻyicha savolim bor. Yuk: … Hajmi yoki ogʻirligi: … Yoʻnalish: …',
     },
-    updated: '2026-11-12',
+    updated: '2026-11-13',
   },
 
   ru: {
@@ -296,13 +296,13 @@ const content: ServiceContentSource = {
       },
     ],
     related: ['transit', 'afghanistan', 'warehouse'],
-    guideKeys: [],
+    guideKeys: ['uzbekistan-transit', 'china-afghanistan'],
     cta: {
       title: 'Нужно место или перегрузка в Ташкенте? Напишите нам.',
       text: 'Напишите в WhatsApp или Telegram, что за груз, его объём или вес, откуда он идёт и куда, сколько ему нужно простоять. Менеджер назовёт условия и цену.',
       draft: 'Здравствуйте! У меня вопрос по складу под таможенным контролем и перегрузке в Ташкенте. Груз: … Объём или вес: … Маршрут: …',
     },
-    updated: '2026-11-12',
+    updated: '2026-11-13',
   },
 
   en: {
@@ -437,13 +437,13 @@ const content: ServiceContentSource = {
       },
     ],
     related: ['transit', 'afghanistan', 'warehouse'],
-    guideKeys: [],
+    guideKeys: ['uzbekistan-transit', 'china-afghanistan'],
     cta: {
       title: 'Need space or transshipment in Tashkent? Write to us.',
       text: 'Tell us on WhatsApp or Telegram what the cargo is, its volume or weight, where it comes from and where it is going, and how long it needs to stay. The manager will tell you the terms and the price.',
       draft: 'Hello! I have a question about the warehouse under customs control and transshipment in Tashkent. Cargo: … Volume or weight: … Route: …',
     },
-    updated: '2026-11-12',
+    updated: '2026-11-13',
   },
 };
 

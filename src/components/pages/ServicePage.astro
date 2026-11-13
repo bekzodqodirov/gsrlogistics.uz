@@ -316,7 +316,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
             <div class="guides">
               <div class="guides-head">
                 <h2 class="guides-title">{t.page.guidesTitle}</h2>
-                <p class="guides-intro">{t.page.guidesIntro}</p>
+                <p class="guides-intro">{onRequest ? t.page.guidesIntroRequest : t.page.guidesIntro}</p>
               </div>
               <ul class="guides-list" role="list">
                 {guides.map((g) => (

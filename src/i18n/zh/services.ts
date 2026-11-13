@@ -91,6 +91,7 @@ export const zh: ServicesStrings = {
     relatedTitle: '相关服务',
     guidesTitle: '阅读相关指南',
     guidesIntro: '与本主题相关的详细文章——计价规则、清关、线路。',
+    guidesIntroRequest: '与本主题相关的详细文章——线路、单证、海关过境。',
     ctaEyebrow: '联系我们',
     fallback: {
       seoTitle: '{name}——从中国到乌兹别克斯坦',
@@ -125,5 +126,7 @@ export const zh: ServicesStrings = {
     'prohibited-goods': '禁运物品',
     'glossary': '货运术语词典',
     'routes': '中国至塔什干线路',
+    'china-afghanistan': '中国货物经乌兹别克斯坦运往阿富汗',
+    'uzbekistan-transit': '乌兹别克斯坦公路过境：单证与流程',
   },
 };

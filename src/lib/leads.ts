@@ -7,7 +7,8 @@
  * lib/lead-client.ts does the asking, components/ContactPicker.astro shows the result. This file is
  * the build-time half: which team a page belongs to, what the code travels with, and the plain links
  * that work without JavaScript. Three ways in:
- *   1. a service page knows its service, so its buttons go straight to that service's team;
+ *   1. a service page knows its service, so its buttons go straight to that service's team — and so does a guide
+ *      whose tags name an on-request service (GuidePage.astro);
  *   2. every general button (header, hero, footer, mobile bar …) opens a one-question picker first
  *      and the answer picks the team;
  *   3. without JavaScript, every button is a plain link to the company account with a draft.

@@ -8,7 +8,7 @@
 //      against the transliterator and against the tables in src/i18n/routes.ts. A slug is
 //      permanent, so this list is a contract; a change here is a dead URL somewhere.
 //   3. Round trip — an independent Cyrillic → Latin inverse, run over every word of the site.
-//   4. The real corpus — every `uz` string in src/i18n and src/data, every line of the ten
+//   4. The real corpus — every `uz` string in src/i18n and src/data, every line of the twelve
 //      guide articles AND the uz titles, texts and alts of the works blocks (src/content/works/),
 //      transliterated and checked for mangled protected tokens, surviving Latin,
 //      undecided acronyms, brand endings nobody ruled on, lost placeholders and empty output.
@@ -580,7 +580,7 @@ test('toCyrillicSlug produces a Cyrillic path segment', () => {
  *
  * Each one was read against the WORD, not the ASCII slug: `qollanma` is `qoʻllanma` → `қўлланма`,
  * `lugati` is `lugʻati` → `луғати`, `yol` is `yoʻl` → `йўл`, `tolovlari` is `toʻlovlari`,
- * `yonalishlar` is `yoʻnalishlar`, `afgonistonga` is `Afgʻonistonga` → `афғонистонга`; `kalkulyator` and
+ * `yonalishlar` is `yoʻnalishlar`, `ozbekiston` is `Oʻzbekiston` → `ўзбекистон`, `afgonistonga` is `Afgʻonistonga` → `афғонистонга`; `kalkulyator` and
  * `avtomobil` keep the soft sign the Latin alphabet cannot write; `yiwu`/`guangzhou` follow the Uzbek copy
  * (Ivu, Guanchjou), not pinyin.
  */
@@ -622,6 +622,8 @@ const PUBLISHED_SLUGS = {
     'xitoydan-toshkentga-yonalishlar': 'хитойдан-тошкентга-йўналишлар',
     'xitoydan-yuk-olib-kelish': 'хитойдан-юк-олиб-келиш',
     'yiwu-va-guangzhou-bozorlari': 'иву-ва-гуанчжоу-бозорлари',
+    'xitoydan-afgonistonga-yuk': 'хитойдан-афғонистонга-юк',
+    'ozbekiston-orqali-tranzit': 'ўзбекистон-орқали-транзит',
   },
 };
 const allPublished = Object.values(PUBLISHED_SLUGS).flatMap((group) => Object.entries(group));
@@ -975,6 +977,7 @@ test('every slugWords entry still answers for a slug the site publishes', () => 
   assert.equal(toCyrillic('lugʻati'), slugWords.lugati);
   assert.equal(toCyrillic('toʻlovlari'), slugWords.tolovlari);
   assert.equal(toCyrillic('yoʻnalishlar'), slugWords.yonalishlar);
+  assert.equal(toCyrillic('Oʻzbekiston').toLowerCase(), slugWords.ozbekiston);
   assert.equal(toCyrillic('Afgʻonistonga').toLowerCase(), slugWords.afgonistonga);
   assert.equal(toCyrillic('Ivu').toLowerCase(), slugWords.yiwu);
   assert.equal(toCyrillic('Guanchjou').toLowerCase(), slugWords.guangzhou);

@@ -7,7 +7,7 @@ import { fa } from './fa/common';
 export interface CommonStrings {
   siteTagline: string;
   nav: Array<{ key: PageKey; label: string }>;
-  /** `whatsapp` is the second button of an on-request service page (ServicePage.astro); every other page keeps Telegram + phone. */
+  /** `whatsapp` is the second button of an on-request service page (ServicePage.astro) and of the ask card of its guides (GuidePage.astro); every other page keeps Telegram + phone. */
   cta: { telegram: string; whatsapp: string; call: string; quote: string; calculate: string; track: string; details: string; all: string; back: string; readMore: string; contact: string; sendRequest: string; copy: string; copied: string; };
   footer: { services: string; company: string; contacts: string; guides: string; address: string; hours: string; rights: string; privacy: string; madeWith: string; languages: string; channel: string; group: string; desc: string; };
   header: { menu: string; close: string; langLabel: string; phoneLabel: string; navLabel: string; breadcrumbLabel: string; quickActions: string };
@@ -19,7 +19,7 @@ export interface CommonStrings {
   estimate: string;
   telegramDraft: { general: string; quote: string; track: string };
   notFound: { title: string; text: string; home: string };
-  /** `whatsapp` replaces `price` in the phone bar of an on-request service page (MobileBar.astro). */
+  /** `whatsapp` replaces `price` in the phone bar of an on-request service page and of its guides (MobileBar.astro). */
   bar: { telegram: string; call: string; price: string; whatsapp: string };
   strings: { confirmTelegram: string; enterCode: string; track: string; formSuccess: string; sample: string; managerTip: string; viewOnMap: string; allRates: string; contents: string; estimateMeta: string; approx: string; from: string; days: string; kg: string; m3: string; perKg: string; perM3: string; };
 }

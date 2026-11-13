@@ -62,7 +62,8 @@ export const serviceSlugsUzc: Record<string, string> = {
 /**
  * Cyrillic slugs of the GUIDE pages, keyed by the Uzbek Latin slug in `src/data/guides.ts`.
  * Checked by eye against each article's own title: `tolovlari` is `toʻlovlari` → `тўловлари`,
- * `yonalishlar` is `yoʻnalishlar` → `йўналишлар`, and the Yiwu/Guangzhou article is called
+ * `yonalishlar` is `yoʻnalishlar` → `йўналишлар`, `ozbekiston` is `Oʻzbekiston` → `ўзбекистон`,
+ * `afgonistonga` is `Afgʻonistonga` → `афғонистонга`, and the Yiwu/Guangzhou article is called
  * "Ivu va Guanchjou bozorlari" on the site, so the slug follows the page, not the English names.
  */
 export const guideSlugsUzc: Record<string, string> = {
@@ -76,6 +77,8 @@ export const guideSlugsUzc: Record<string, string> = {
   'xitoydan-toshkentga-yonalishlar': 'хитойдан-тошкентга-йўналишлар',
   'xitoydan-yuk-olib-kelish': 'хитойдан-юк-олиб-келиш',
   'yiwu-va-guangzhou-bozorlari': 'иву-ва-гуанчжоу-бозорлари',
+  'xitoydan-afgonistonga-yuk': 'хитойдан-афғонистонга-юк',
+  'ozbekiston-orqali-tranzit': 'ўзбекистон-орқали-транзит',
 };
 
 /**
