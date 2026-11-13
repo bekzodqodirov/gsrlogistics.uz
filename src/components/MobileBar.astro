@@ -7,7 +7,8 @@ import Icon from './ui/Icon.astro';
 /**
  * The phone bar: Telegram, call, price. Base.astro renders it on every page, after the footer.
  *
- * `whatsapp` (a wa.me link with a draft) is given by an on-request service page only — cargo to Afghanistan,
+ * `whatsapp` (a wa.me link with a draft) is given by an on-request service page, or by a guide that belongs to one
+ * (GuidePage.astro), only — cargo to Afghanistan,
  * transit documents, the warehouse under customs control (ServicePage.astro hands it to the layout as
  * `mobileBarWhatsapp`). There the third item is WhatsApp instead of the price calculator: the calculator prices China →
  * Tashkent, no price is published for those services, and their clients are told to write on WhatsApp or

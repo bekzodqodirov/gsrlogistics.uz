@@ -18,7 +18,7 @@ import type { ServiceContentSource } from './types';
  * transit goods under an intermediate customs office), art. 222 (security for customs payments is one of the
  * measures for foreign goods carried under customs control); Cabinet of Ministers resolution No. 737 of
  * 31.12.2022 as amended on 20.07.2026 — point 2 and Regulation points 2, 3, 6, 7, 8, 13 (electronic filing in
- * "E-Tranzit" or "us-uz.gov.uz", before or at the crossing; who files; the documents for road transit; a TIR
+ * "E-Tranzit", before or at the crossing; who files; the documents for road transit; a TIR
  * Carnet with advance information is accepted as the transit declaration). Never print the time limits, fees
  * or escort rules of those texts.
  * Never add: a country or a destination the owner has not confirmed; a named border crossing; a claim of
@@ -70,7 +70,7 @@ const content: ServiceContentSource = {
         body: [
           'Tranzit deklaratsiyasi — Oʻzbekiston orqali tranzit tartibida oʻtadigan yuk uchun bojxona organiga topshiriladigan hujjat. Unda tovar va transport vositasi haqidagi maʼlumotlar koʻrsatiladi. Bojxona shu hujjat asosida yukni joʻnatuvchi bojxona organidan tovar kelib tushadigan bojxona organigacha nazorat qiladi.',
           'Vazirlar Mahkamasining 2022-yil 31-dekabrdagi 737-son qaroriga koʻra, deklaratsiyani deklarantning oʻzi yoki bojxona rasmiylashtiruvi boʻyicha mutaxassis topshiradi. Bunday mutaxassis deklarantning yoki u bilan shartnoma tuzgan bojxona brokerining xodimi boʻladi. GSRning oʻz bojxona brokeri bor — tranzit deklaratsiyasini oʻzimiz topshiramiz.',
-          'Deklaratsiya elektron shaklda topshiriladi — bojxonaning «E-Tranzit» axborot tizimi yoki us-uz.gov.uz tizimi orqali, elektron raqamli imzo bilan. U yuk bojxona chegarasini kesib oʻtgunga qadar yoki kesib oʻtayotgan vaqtda topshiriladi. Bu tartib ham shu qaror bilan belgilangan.',
+          'Deklaratsiya elektron shaklda topshiriladi — bojxonaning «E-Tranzit» axborot tizimi orqali, elektron raqamli imzo bilan. U yuk bojxona chegarasini kesib oʻtgunga qadar yoki kesib oʻtayotgan vaqtda topshiriladi. Bu tartib ham shu qaror bilan belgilangan.',
         ],
         callout: {
           title: 'Oldindan yozing',
@@ -163,13 +163,13 @@ const content: ServiceContentSource = {
       },
     ],
     related: ['bonded', 'afghanistan', 'customs'],
-    guideKeys: [],
+    guideKeys: ['uzbekistan-transit', 'china-afghanistan'],
     cta: {
       title: 'Yukingiz Oʻzbekiston orqali oʻtadimi? Yozing.',
       text: 'Yuk nima ekanini, qayerdan qayerga ketayotganini, fura qaysi chegara postidan kirishini va qoʻlingizda qaysi hujjatlar borligini WhatsApp yoki Telegramga yozing. Menejer kerakli hujjatlar va narxni aytadi.',
       draft: 'Salom! Oʻzbekiston orqali tranzit hujjatlari boʻyicha savolim bor. Yuk: … Yoʻnalish: … Chegara posti: …',
     },
-    updated: '2026-11-12',
+    updated: '2026-11-13',
   },
 
   ru: {
@@ -215,7 +215,7 @@ const content: ServiceContentSource = {
         body: [
           'Транзитная декларация — документ, который подаётся в таможенный орган на груз, идущий через Узбекистан транзитом. В ней указываются сведения о товаре и о транспортном средстве. По этому документу таможня контролирует груз от таможенного органа отправления до таможенного органа назначения.',
           'По постановлению Кабинета Министров № 737 от 31 декабря 2022 г. декларацию подаёт сам декларант или специалист по таможенному оформлению. Такой специалист работает у декларанта или у таможенного брокера, с которым декларант заключил договор. У GSR есть свой таможенный брокер — транзитную декларацию мы подаём сами.',
-          'Декларация подаётся в электронном виде — через информационную систему таможни «E-Tranzit» или систему us-uz.gov.uz, с электронной цифровой подписью. Её подают до пересечения таможенной границы или в момент пересечения. Этот порядок установлен тем же постановлением.',
+          'Декларация подаётся в электронном виде — через информационную систему таможни «E-Tranzit», с электронной цифровой подписью. Её подают до пересечения таможенной границы или в момент пересечения. Этот порядок установлен тем же постановлением.',
         ],
         callout: {
           title: 'Пишите заранее',
@@ -308,13 +308,13 @@ const content: ServiceContentSource = {
       },
     ],
     related: ['bonded', 'afghanistan', 'customs'],
-    guideKeys: [],
+    guideKeys: ['uzbekistan-transit', 'china-afghanistan'],
     cta: {
       title: 'Ваш груз идёт через Узбекистан? Напишите нам.',
       text: 'Напишите в WhatsApp или Telegram, что за груз, откуда и куда он идёт, через какой пограничный переход въезжает фура и какие документы уже есть. Менеджер назовёт нужные документы и цену.',
       draft: 'Здравствуйте! У меня вопрос по транзитным документам в Узбекистане. Груз: … Маршрут: … Пограничный переход: …',
     },
-    updated: '2026-11-12',
+    updated: '2026-11-13',
   },
 
   en: {
@@ -360,7 +360,7 @@ const content: ServiceContentSource = {
         body: [
           'A transit declaration is the document filed with customs for cargo that crosses Uzbekistan in transit. It states the details of the goods and of the vehicle. Customs uses it to control the cargo from the customs office of departure to the customs office of destination.',
           'Under Cabinet of Ministers Resolution No. 737 of December 31, 2022, the declaration is filed by the declarant or by a customs clearance specialist. The specialist works for the declarant or for a customs broker that has a contract with the declarant. GSR has its own customs broker, so we file the transit declaration ourselves.',
-          'The declaration is filed electronically, through the customs information system E-Tranzit or the us-uz.gov.uz system, with an electronic digital signature. It is filed before the cargo crosses the customs border or at the moment of crossing. This procedure is set by the same resolution.',
+          'The declaration is filed electronically, through the customs information system E-Tranzit, with an electronic digital signature. It is filed before the cargo crosses the customs border or at the moment of crossing. This procedure is set by the same resolution.',
         ],
         callout: {
           title: 'Write ahead of time',
@@ -453,13 +453,13 @@ const content: ServiceContentSource = {
       },
     ],
     related: ['bonded', 'afghanistan', 'customs'],
-    guideKeys: [],
+    guideKeys: ['uzbekistan-transit', 'china-afghanistan'],
     cta: {
       title: 'Is your cargo crossing Uzbekistan? Write to us.',
       text: 'Tell us on WhatsApp or Telegram what the cargo is, where it is going from and to, at which border crossing the truck enters and which documents you already have. The manager will name the documents needed and the price.',
       draft: 'Hello! I have a question about transit documents in Uzbekistan. Cargo: … Route: … Border crossing: …',
     },
-    updated: '2026-11-12',
+    updated: '2026-11-13',
   },
 };
 

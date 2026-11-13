@@ -139,13 +139,13 @@ const content: ServiceContent = {
     },
   ],
   related: ['transit', 'afghanistan', 'warehouse'],
-  guideKeys: [],
+  guideKeys: ['uzbekistan-transit', 'china-afghanistan'],
   cta: {
     title: 'در تاشکند جا در انبار یا جابه‌جایی بار لازم دارید؟ به ما بنویسید.',
     text: 'در واتساپ یا تلگرام بنویسید بار چیست، حجم یا وزن آن چقدر است، از کجا می‌آید و به کجا می‌رود و چه مدت باید بماند. کارشناس ما شرایط و قیمت را اعلام می‌کند.',
     draft: 'سلام! دربارهٔ انبار تحت نظارت گمرک و جابه‌جایی بار در تاشکند سؤالی دارم. بار: … حجم یا وزن: … مسیر: …',
   },
-  updated: '2026-11-12',
+  updated: '2026-11-13',
 };
 
 export default content;

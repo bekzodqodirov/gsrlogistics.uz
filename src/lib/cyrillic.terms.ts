@@ -252,11 +252,22 @@ const codes: KeepLatin[] = [
   // the regulation itself writes “E-Tranzit” inside Uzbek text and this site's Russian page keeps it Latin
   // inside Cyrillic. The rules would give «Э-Транзит», a name the system does not carry.
   { latin: 'E-Tranzit' },
+  // The two other systems the transit guide names (2026-11-13), for the same reason: Resolution No. 737 and the
+  // customs regulation No. 3382 write “E-arxiv” (the interactive service the documents are attached through), and
+  // Resolution No. 114 writes “E-avto ruxsatnoma” (the Ministry of Transport's permit system), in Latin inside Uzbek
+  // text; the site's Russian guide keeps both Latin inside Cyrillic. The rules would give «Э-архив» and
+  // «Э-авто рухсатнома», names the systems do not carry.
+  { latin: 'E-arxiv' },
+  { latin: 'E-avto ruxsatnoma' },
+  { latin: 'ERP' },  // the company's ERP system, where the client follows Afghanistan cargo in Telegram (owner, 2026-11-12); not «ЭРП»
   { latin: 'EEISVO', suffixable: true }, // its Uzbek acronym, used alongside E-Contract
   { latin: 'PINFL' },      // printed in Latin on the Uzbek ID card
   { latin: 'VIN', exactCase: true },
   { latin: 'QR', suffixable: true },
   { latin: 'E-mail' },
+  // Oliy Majlis resolutions No. 131-I and No. 132-I of 31.08.1995 (accession to the TIR and CMR Conventions,
+  // cited by the transit guide). lex.uz prints the Roman numeral in Latin inside Cyrillic text: «131-I-сон».
+  { latin: '131-I' }, { latin: '132-I' },
 
   // Technical.
   // `exactCase` on the short ones: "sim" is the Uzbek word for wire, and two-letter codes are
@@ -495,6 +506,9 @@ const tseLoanwords: Respell[] = [
   { latin: 'inspeksiya', cyrillic: 'инспекция' },
   { latin: 'kanselyariya', cyrillic: 'канцелярия' },
   { latin: 'aksiya', cyrillic: 'акция' }, // "aksincha", "aksi" are native and keep с — not matched
+  // The CMR and TIR Conventions (the two guides of 2026-11-13). The Latin writes konvensiya, the rule gives
+  // «конвенсия»; the site's Russian copy and the Uzbek Cyrillic texts on lex.uz write конвенция.
+  { latin: 'konvensiya', cyrillic: 'конвенция' },
 ];
 
 const uzbekUnits: Respell[] = [
@@ -555,7 +569,7 @@ export const respell: Respell[] = [
  * `toCyrillicSlug` looks the key up before it transliterates anything. The comment on each line
  * is the word, with the letters the URL threw away.
  *
- * The full published slug list — 10 page slugs, 12 service slugs, 10 guide slugs — is asserted in
+ * The full published slug list — 10 page slugs, 12 service slugs, 12 guide slugs — is asserted in
  * `scripts/test-cyrillic.mjs` against both this table and the hand-written tables in
  * `src/i18n/routes.ts`, so neither side can change a live URL without the other noticing.
  *
@@ -563,11 +577,12 @@ export const respell: Respell[] = [
  * the same entry answers for `qollanma` and for `Qoʻllanma`.
  */
 export const slugWords: Record<string, string> = {
-  // oʻ — the digraph the URL dropped. Four of the site's slugs turn on it.
+  // oʻ — the digraph the URL dropped. Five of the site's slugs turn on it.
   qollanma: 'қўлланма',       // qoʻllanma — guide index
   yol: 'йўл',                 // yoʻl — "temir yoʻl", in two slugs
   yonalishlar: 'йўналишлар',  // yoʻnalishlar — routes
   tolovlari: 'тўловлари',     // toʻlovlari — customs charges
+  ozbekiston: 'ўзбекистон',   // Oʻzbekiston — "Oʻzbekiston orqali tranzit", the transit guide; the bare fold gives озбекистон
   // gʻ — same story.
   lugati: 'луғати',           // lugʻati — "Kargo lugʻati", the glossary
   afgonistonga: 'афғонистонга', // Afgʻonistonga — "Afgʻonistonga yuk tashish"; the bare fold gives афгонистонга

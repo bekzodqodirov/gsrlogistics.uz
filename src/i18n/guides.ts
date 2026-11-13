@@ -5,35 +5,38 @@ import { fa } from './fa/guides';
 export interface GuidesStrings {
   seoTitle: string; seoDescription: string; eyebrow: string; h1: string; intro: string;
   readMore: string; minutes: string; toc: string; sources: string; faq: string; related: string; relatedServices: string;
-  askTitle: string; askText: string; author: string; updated: string; published: string; allGuides: string; tags: string;
+  askTitle: string; askText: string;
+  /** The ask card of a guide that belongs to an on-request service (GuidePage.astro): WhatsApp stands beside Telegram there. */
+  askTextRequest: string;
+  author: string; updated: string; published: string; allGuides: string; tags: string;
   /** Localized names for the frontmatter tag keys (guide cards). Keys missing here are not shown. */
   tagLabels: Record<string, string>;
 }
 const uz: GuidesStrings = {
   seoTitle: 'Qoʻllanma: Xitoydan yuk, narxlar, bojxona, 1688',
-  seoDescription: 'Xitoydan Oʻzbekistonga yuk olib kelish boʻyicha amaliy qoʻllanmalar: kargo narxi qanday hisoblanadi, avia/avto/temir yoʻl taqqoslash, 1688 orqali buyurtma, 2026-yil bojxona toʻlovlari, ishlab chiqaruvchi topish, Ivu va Guanchjou bozorlari, taqiqlangan tovarlar, lugʻat, yoʻnalishlar.',
+  seoDescription: 'Xitoydan Oʻzbekistonga yuk olib kelish boʻyicha amaliy qoʻllanmalar: kargo narxi qanday hisoblanadi, avia/avto/temir yoʻl taqqoslash, 1688 orqali buyurtma, 2026-yil bojxona toʻlovlari, ishlab chiqaruvchi topish, Ivu va Guanchjou bozorlari, taqiqlangan tovarlar, lugʻat, yoʻnalishlar. Yangi: Xitoydan Afgʻonistonga yuk va Oʻzbekiston orqali tranzit hujjatlari.',
   eyebrow: 'Qoʻllanma', h1: 'Xitoydan yuk olib kelish: qoʻllanmalar',
-  intro: 'Bu yerda Xitoydan Oʻzbekistonga yuk olib kelishning har bir bosqichi raqamlar bilan tushuntirilgan: narx qanday hisoblanadi, qaysi yoʻnalish qachon mos, bojxonada nima boʻladi, 1688-dan qanday buyurtma beriladi. Maqolalar 2026-yil sentabr holatiga yangilangan.',
+  intro: 'Bu yerda Xitoydan Oʻzbekistonga yuk olib kelishning har bir bosqichi raqamlar bilan tushuntirilgan: narx qanday hisoblanadi, qaysi yoʻnalish qachon mos, bojxonada nima boʻladi, 1688-dan qanday buyurtma beriladi. Yangi yoʻnalish uchun ikkita qoʻllanma bor: Xitoydan Afgʻonistonga yuk Oʻzbekiston orqali qanday oʻtadi va tranzit uchun qaysi hujjatlar kerak. Har bir maqolada yangilangan sanasi koʻrsatilgan.',
   readMore: 'Oʻqish', minutes: 'daqiqa', toc: 'Mundarija', sources: 'Manbalar', faq: 'Koʻp beriladigan savollar', related: 'Oʻxshash maqolalar', relatedServices: 'Bogʻliq xizmatlar',
-  askTitle: 'Savolingiz qoldimi?', askText: 'Telegramda yozing — menejer yukingiz boʻyicha aniq javob beradi.', author: 'Muallif', updated: 'Yangilangan', published: 'Chop etilgan', allGuides: 'Barcha qoʻllanmalar', tags: 'Mavzular',
-  tagLabels: { truck: 'Avto kargo', air: 'Avia', rail: 'Temir yoʻl', customs: 'Bojxona', warehouse: 'Ombor', sourcing: 'Tovar topish', buying: 'Xarid', suppliers: 'Yetkazib beruvchilar', import: 'Import', '1688': '1688', glossary: 'Lugʻat', lugat: 'Lugʻat', slovar: 'Lugʻat', routes: 'Yoʻnalishlar', yonalishlar: 'Yoʻnalishlar', marshruty: 'Yoʻnalishlar', taqqoslash: 'Taqqoslash', bozorlar: 'Bozorlar' },
+  askTitle: 'Savolingiz qoldimi?', askText: 'Telegramda yozing — menejer yukingiz boʻyicha aniq javob beradi.', askTextRequest: 'WhatsApp yoki Telegramga yozing — menejer yukingiz boʻyicha aniq javob beradi.', author: 'Muallif', updated: 'Yangilangan', published: 'Chop etilgan', allGuides: 'Barcha qoʻllanmalar', tags: 'Mavzular',
+  tagLabels: { truck: 'Avto kargo', air: 'Avia', rail: 'Temir yoʻl', customs: 'Bojxona', warehouse: 'Ombor', sourcing: 'Tovar topish', buying: 'Xarid', suppliers: 'Yetkazib beruvchilar', import: 'Import', '1688': '1688', glossary: 'Lugʻat', lugat: 'Lugʻat', slovar: 'Lugʻat', routes: 'Yoʻnalishlar', yonalishlar: 'Yoʻnalishlar', marshruty: 'Yoʻnalishlar', taqqoslash: 'Taqqoslash', bozorlar: 'Bozorlar', afghanistan: 'Afgʻoniston', transit: 'Tranzit', bonded: 'Ombor' },
 };
 const ru: GuidesStrings = {
   seoTitle: 'Гид: доставка из Китая, цены, таможня, 1688',
-  seoDescription: 'Практические гиды по доставке грузов из Китая в Узбекистан: как считается стоимость карго, авиа/авто/ж/д, заказ с 1688, таможенные платежи 2026, поиск поставщика, рынки Иу и Гуанчжоу, запрещённые товары, словарь, маршруты.',
+  seoDescription: 'Практические гиды по доставке грузов из Китая в Узбекистан: как считается стоимость карго, авиа/авто/ж/д, заказ с 1688, таможенные платежи 2026, поиск поставщика, рынки Иу и Гуанчжоу, запрещённые товары, словарь, маршруты. Новое: груз из Китая в Афганистан и транзитные документы в Узбекистане.',
   eyebrow: 'Гид', h1: 'Доставка из Китая: гиды',
-  intro: 'Здесь каждый этап доставки из Китая в Узбекистан объяснён с цифрами: как считается цена, какой способ когда подходит, что происходит на таможне, как заказать с 1688. Статьи обновлены по состоянию на сентябрь 2026 года.',
+  intro: 'Здесь каждый этап доставки из Китая в Узбекистан объяснён с цифрами: как считается цена, какой способ когда подходит, что происходит на таможне, как заказать с 1688. Для нового направления — два гида: как груз из Китая идёт в Афганистан через Узбекистан и какие документы нужны для транзита. Дата обновления указана в каждой статье.',
   readMore: 'Читать', minutes: 'мин', toc: 'Содержание', sources: 'Источники', faq: 'Частые вопросы', related: 'Похожие статьи', relatedServices: 'Связанные услуги',
-  askTitle: 'Остался вопрос?', askText: 'Напишите в Telegram — менеджер ответит точно по вашему грузу.', author: 'Автор', updated: 'Обновлено', published: 'Опубликовано', allGuides: 'Все гиды', tags: 'Темы',
-  tagLabels: { truck: 'Авто', air: 'Авиа', rail: 'Ж/д', customs: 'Таможня', warehouse: 'Склад', sourcing: 'Поиск товаров', buying: 'Выкуп', suppliers: 'Поставщики', import: 'Импорт', '1688': '1688', glossary: 'Словарь', lugat: 'Словарь', slovar: 'Словарь', routes: 'Маршруты', yonalishlar: 'Маршруты', marshruty: 'Маршруты', taqqoslash: 'Сравнение', bozorlar: 'Рынки' },
+  askTitle: 'Остался вопрос?', askText: 'Напишите в Telegram — менеджер ответит точно по вашему грузу.', askTextRequest: 'Напишите в WhatsApp или Telegram — менеджер ответит точно по вашему грузу.', author: 'Автор', updated: 'Обновлено', published: 'Опубликовано', allGuides: 'Все гиды', tags: 'Темы',
+  tagLabels: { truck: 'Авто', air: 'Авиа', rail: 'Ж/д', customs: 'Таможня', warehouse: 'Склад', sourcing: 'Поиск товаров', buying: 'Выкуп', suppliers: 'Поставщики', import: 'Импорт', '1688': '1688', glossary: 'Словарь', lugat: 'Словарь', slovar: 'Словарь', routes: 'Маршруты', yonalishlar: 'Маршруты', marshruty: 'Маршруты', taqqoslash: 'Сравнение', bozorlar: 'Рынки', afghanistan: 'Афганистан', transit: 'Транзит', bonded: 'Склад' },
 };
 const en: GuidesStrings = {
   seoTitle: 'Guides: China shipping, prices, customs, 1688',
-  seoDescription: 'Practical guides on shipping from China to Uzbekistan: how cargo prices are calculated, air vs truck vs rail, ordering from 1688, customs duties 2026, finding a supplier, Yiwu and Guangzhou markets, prohibited goods, glossary, routes.',
+  seoDescription: 'Practical guides on shipping from China to Uzbekistan: how cargo prices are calculated, air vs truck vs rail, ordering from 1688, customs duties 2026, finding a supplier, Yiwu and Guangzhou markets, prohibited goods, glossary, routes. New: cargo from China to Afghanistan and transit documents in Uzbekistan.',
   eyebrow: 'Guides', h1: 'Shipping from China: guides',
-  intro: 'Every stage of shipping from China to Uzbekistan explained with numbers: how the price is calculated, which mode fits when, what happens at customs, how to order from 1688. Updated as of September 2026.',
+  intro: 'Every stage of shipping from China to Uzbekistan explained with numbers: how the price is calculated, which mode fits when, what happens at customs, how to order from 1688. For the new direction there are two guides: how cargo from China travels to Afghanistan through Uzbekistan, and which documents transit needs. Each article shows the date it was last updated.',
   readMore: 'Read', minutes: 'min', toc: 'Contents', sources: 'Sources', faq: 'Frequently asked questions', related: 'Related guides', relatedServices: 'Related services',
-  askTitle: 'Still have a question?', askText: 'Message us on Telegram — a manager answers for your specific cargo.', author: 'Author', updated: 'Updated', published: 'Published', allGuides: 'All guides', tags: 'Topics',
-  tagLabels: { truck: 'Truck', air: 'Air', rail: 'Rail', customs: 'Customs', warehouse: 'Warehouse', sourcing: 'Sourcing', buying: 'Buying', suppliers: 'Suppliers', import: 'Import', '1688': '1688', glossary: 'Glossary', lugat: 'Glossary', slovar: 'Glossary', routes: 'Routes', yonalishlar: 'Routes', marshruty: 'Routes', taqqoslash: 'Comparison', bozorlar: 'Markets' },
+  askTitle: 'Still have a question?', askText: 'Message us on Telegram — a manager answers for your specific cargo.', askTextRequest: 'Message us on WhatsApp or Telegram — a manager answers for your specific cargo.', author: 'Author', updated: 'Updated', published: 'Published', allGuides: 'All guides', tags: 'Topics',
+  tagLabels: { truck: 'Truck', air: 'Air', rail: 'Rail', customs: 'Customs', warehouse: 'Warehouse', sourcing: 'Sourcing', buying: 'Buying', suppliers: 'Suppliers', import: 'Import', '1688': '1688', glossary: 'Glossary', lugat: 'Glossary', slovar: 'Glossary', routes: 'Routes', yonalishlar: 'Routes', marshruty: 'Routes', taqqoslash: 'Comparison', bozorlar: 'Markets', afghanistan: 'Afghanistan', transit: 'Transit', bonded: 'Warehouse' },
 };
 export const guidesStrings: Localized<GuidesStrings> = { uz, ru, en, zh, fa };

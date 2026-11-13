@@ -13,7 +13,7 @@
  * Who comes through here (all handled by the one script below):
  *   - <a data-picker>: a general button. The click opens this dialog at the topic step — except on a page whose
  *     <body> names its own lead (data-page-team / -topic / -summary, set by Base.astro for an on-request service
- *     page): there the click runs that page's flow at once.
+ *     page and for a guide that belongs to one): there the click runs that page's flow at once.
  *   - <a data-team data-topic data-summary>: a final choice — the picker's own, a service page's,
  *     the pricing page's, the calculator's (lib/leads.ts → leadAttrs). The click runs the flow.
  *   - a "gsr:lead" event: the contact form (LeadForm.astro), after it validates.

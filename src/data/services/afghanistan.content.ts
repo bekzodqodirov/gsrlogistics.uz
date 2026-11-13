@@ -2,24 +2,39 @@ import type { ServiceContentSource } from './types';
 
 /**
  * Afgʻonistonga yuk tashish — long-form page content (service 10, a NEW direction, written 2026-11-12).
- * Every claim is the owner's answer of 2026-11-11 and nothing more:
+ * Every claim comes from the owner's answers of 2026-11-11 and 2026-11-12 (FACTS §12), and nothing more:
  *   - truck only: a full truck (the whole truck for one client) or consolidated cargo (small lots accepted);
  *   - two directions: China → Afghanistan in transit through Uzbekistan, and Uzbekistan → Afghanistan (export);
+ *   - from China (2026-11-12): the cargo is received in Yiwu (uz Ivu, ru Иу — a receiving point, never "our
+ *     warehouse") and travels by truck through Kazakhstan and Uzbekistan. Not confirmed: another receiving city,
+ *     loading at the factory, the border crossings before Uzbekistan, the same truck all the way, TIR on the
+ *     whole route, a time or a distance of that road;
  *   - two delivery points: Hairatan (the border, the Termez–Hairatan crossing; the client collects there) and
  *     Mazar-i-Sharif. No other Afghan place may be named;
  *   - price, transit time and the smallest lot are ON REQUEST. This page prints no price and no number of days,
  *     and no hero fact carries a digit. The only figures are the WhatsApp number and the 1 m³ minimum, named
  *     once to say that it belongs to China → Tashkent;
- *   - in Uzbekistan: the transit declaration is filed by GSR's own customs broker, CMR / TIR documents are
- *     prepared and checked, help with security for customs payments. Who clears customs on the Afghan side is
- *     NOT confirmed — the page says the manager explains it;
+ *   - in Uzbekistan: the transit declaration is filed by GSR's own customs broker ("our own customs broker":
+ *     its legal name and register number are never printed — owner, 2026-11-12), CMR / TIR documents are
+ *     prepared and checked, help with security for customs payments;
+ *   - the Afghan side (2026-11-12): customs there is cleared by GSR's partners — customs agents (declarants),
+ *     always named as such in the same sentence; the page also says that the manager explains the procedure and
+ *     the documents there. Never write that the partners receive, store, deliver or hand over the cargo, and
+ *     never name them. Who PAYS the Afghan duties and taxes is NOT confirmed and is never said;
+ *   - payment (2026-11-12): through a bank that works between Uzbekistan and Afghanistan, under a contract between
+ *     the two sides (the client and GSR). Not confirmed: the bank's name, a currency, cash, prepayment, a payment
+ *     schedule (when the client pays), a letter of credit;
+ *   - tracking (2026-11-12): the client follows the cargo through GSR's ERP system, in Telegram — never real-time,
+ *     live, GPS, satellite or "where the truck is right now"; no QR code or bot for this direction;
  *   - the warehouse under customs control in Tashkent is a PARTNER's; GSR allocates space there;
  *   - contact: WhatsApp and Telegram; Persian or Dari is answered in Persian through a translator.
  * The hero fact «Hayraton · Mozori Sharif» carries a no-break space before its dot (\u00A0): on a 360px phone the
  * Cyrillic lines otherwise began with the dot.
- * Never add: cargo from Afghanistan, rail / sea / air, a schedule, years of experience, an office or a partner
- * in Afghanistan, tracking, payment terms. uz, ru and en keep the same structure (zh and fa are translated
- * from en): key, related, guideKeys, updated and callout tones must stay byte-identical in all three.
+ * Never add: cargo from Afghanistan, rail / sea / air, a schedule, years of experience, an office, branch,
+ * representative, employee, warehouse or terminal in Afghanistan; the partners' names; who pays the Afghan duties;
+ * DDP; the bank's name, a currency, cash, prepayment, a payment schedule, a letter of credit; other receiving
+ * cities; the broker's name. uz, ru and en keep the same structure (zh and fa are translated from en): key,
+ * related, guideKeys, updated and callout tones must stay byte-identical in all three.
  */
 const content: ServiceContentSource = {
   uz: {
@@ -33,7 +48,7 @@ const content: ServiceContentSource = {
       eyebrow: 'Xizmat 10 — Afgʻoniston',
       h1: 'Afgʻonistonga yuk tashish: Xitoydan va Oʻzbekistondan, fura bilan',
       intro:
-        'Toshkentdagi GSR Logistics kompaniyasi endi Afgʻonistonga ham fura bilan yuk tashiydi. Xitoydan kelayotgan yuk Oʻzbekiston hududidan tranzit tartibida oʻtadi, Oʻzbekistondagi yuk esa toʻgʻridan-toʻgʻri joʻnatiladi. Butun fura ham, yigʻma yuk ham olamiz. Yukni Hayraton chegara postigacha yoki Mozori Sharifgacha yetkazamiz. Narx va muddat har bir yuk uchun alohida hisoblanadi.',
+        'Toshkentdagi GSR Logistics kompaniyasi endi Afgʻonistonga ham fura bilan yuk tashiydi. Xitoydagi yuk Ivuda qabul qilinadi, Qozogʻiston orqali keladi va Oʻzbekiston hududidan tranzit tartibida oʻtadi, Oʻzbekistondagi yuk esa toʻgʻridan-toʻgʻri joʻnatiladi. Butun fura ham, yigʻma yuk ham olamiz. Yukni Hayraton chegara postigacha yoki Mozori Sharifgacha yetkazamiz. Narx va muddat har bir yuk uchun alohida hisoblanadi.',
       facts: [
         { label: 'Qayerdan', value: 'Xitoy · Oʻzbekiston' },
         { label: 'Transport', value: 'Fura' },
@@ -51,7 +66,7 @@ const content: ServiceContentSource = {
           caption: 'Afgʻonistonga ikki yoʻnalish',
           head: ['Yoʻnalish', 'Yuk qanday boradi'],
           rows: [
-            ['Xitoy → Afgʻoniston', 'fura bilan, Oʻzbekiston orqali tranzit tartibida'],
+            ['Xitoy → Afgʻoniston', 'Ivuda qabul qilinadi; fura bilan Qozogʻiston orqali, keyin Oʻzbekiston orqali tranzit tartibida'],
             ['Oʻzbekiston → Afgʻoniston', 'fura bilan, toʻgʻridan-toʻgʻri (eksport)'],
           ],
           note: 'Ikkala yoʻnalishda ham yuk Hayraton chegara postigacha yoki Mozori Sharifgacha yetkaziladi. Narx va muddat — soʻrov boʻyicha.',
@@ -106,7 +121,7 @@ const content: ServiceContentSource = {
         ],
         callout: {
           title: 'Afgʻoniston tomoni va eksport',
-          text: 'Afgʻoniston tomonida qanday tartib va qaysi hujjatlar kerakligini menejer yukingiz boʻyicha tushuntiradi. Oʻzbekistondan joʻnatiladigan yuk (eksport) uchun kerakli hujjatlarni ham menejer aytadi.',
+          text: 'Afgʻoniston tomonida bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bajaradi. Afgʻoniston tomonida qanday tartib va qaysi hujjatlar kerakligini menejer yukingiz boʻyicha tushuntiradi. Oʻzbekistondan joʻnatiladigan yuk (eksport) uchun kerakli hujjatlarni ham menejer aytadi.',
           tone: 'info',
         },
       },
@@ -130,8 +145,10 @@ const content: ServiceContentSource = {
         steps: [
           { title: 'Bizga yozasiz', text: 'WhatsApp (+998 90 175 78 00) yoki Telegramga yozing: yuk nima, hajmi yoki ogʻirligi qancha, hozir qayerda va qayerga borishi kerak — Hayratongami yoki Mozori Sharifgami.' },
           { title: 'Narx va muddatni hisoblaymiz', text: 'Menejer narx va muddatni yukingiz boʻyicha hisoblab beradi va butun fura yoki yigʻma yuk variantini taklif qiladi.' },
+          { title: 'Shartnoma', text: 'Toʻlov Oʻzbekiston va Afgʻoniston oʻrtasida ishlaydigan bank orqali, siz bilan biz oʻrtasidagi shartnoma asosida oʻtadi.' },
           { title: 'Hujjatlar', text: 'Sizdan qaysi hujjatlar kerakligini aytamiz. Oʻzbekiston hududidagi tranzit hujjatlarini oʻzimiz rasmiylashtiramiz.' },
-          { title: 'Yuklash va joʻnatish', text: 'Yukni qayerda qabul qilishimizni menejer aytadi. Yuk furaga yuklanadi va yoʻlga chiqadi.' },
+          { title: 'Yuklash va joʻnatish', text: 'Xitoyda Afgʻonistonga boradigan yuk Ivuda qabul qilinadi; u yerdan fura bilan Qozogʻiston va Oʻzbekiston orqali yoʻlga chiqadi. Yuk Oʻzbekistonda boʻlsa, uni qayerda qabul qilishimizni menejer aytadi.' },
+          { title: 'Yoʻlda', text: 'Yukni ERP tizimimiz orqali Telegramda kuzatib borasiz.' },
           { title: 'Yukni topshirish', text: 'Yukni Hayratonda chegarada qabul qilib olasiz yoki biz uni Mozori Sharifgacha yetkazamiz.' },
         ],
       },
@@ -159,17 +176,25 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Oʻzbekistonda qaysi hujjatlar sizning zimmangizda?',
-        a: 'Oʻzbekiston hududidagi tranzit hujjatlari: tranzit deklaratsiyasini oʻz bojxona brokerimiz topshiradi, CMR va TIR hujjatlarini tayyorlaymiz va tekshiramiz, bojxona toʻlovlari taʼminotini (kafolatni) rasmiylashtirishda yordam beramiz. Afgʻoniston tomonidagi tartibni menejer yukingiz boʻyicha tushuntiradi.',
+        a: 'Oʻzbekiston hududidagi tranzit hujjatlari: tranzit deklaratsiyasini oʻz bojxona brokerimiz topshiradi, CMR va TIR hujjatlarini tayyorlaymiz va tekshiramiz, bojxona toʻlovlari taʼminotini (kafolatni) rasmiylashtirishda yordam beramiz. Afgʻoniston tomonida bojxona rasmiylashtiruvini hamkorlarimiz — deklarant agentlar bajaradi.',
+      },
+      {
+        q: 'Afgʻonistondan qanday toʻlayman?',
+        a: 'Toʻlov Oʻzbekiston va Afgʻoniston oʻrtasida ishlaydigan bank orqali, siz bilan biz oʻrtasidagi shartnoma asosida oʻtadi.',
+      },
+      {
+        q: 'Yukimni qanday kuzatib boraman?',
+        a: 'Yukni ERP tizimimiz orqali Telegramda kuzatib borasiz.',
       },
     ],
     related: ['transit', 'bonded', 'sourcing'],
-    guideKeys: [],
+    guideKeys: ['china-afghanistan', 'uzbekistan-transit'],
     cta: {
       title: 'Yukingiz haqida yozing — narx va muddatni hisoblab beramiz.',
       text: 'Yuk nomini, hajmi yoki ogʻirligini, qayerdan va qayerga ekanini WhatsApp yoki Telegramga yozing. Menejer narx va muddatni yukingiz boʻyicha hisoblab beradi.',
       draft: 'Salom! Afgʻonistonga yuk tashish boʻyicha savolim bor. Yuk: … Hajmi yoki ogʻirligi: … Qayerdan: … Qayerga: Hayraton / Mozori Sharif',
     },
-    updated: '2026-11-12',
+    updated: '2026-11-13',
   },
 
   ru: {
@@ -183,7 +208,7 @@ const content: ServiceContentSource = {
       eyebrow: 'Услуга 10 — Афганистан',
       h1: 'Грузы в Афганистан: из Китая и из Узбекистана, фурой',
       intro:
-        'GSR Logistics, логистическая компания из Ташкента, теперь возит грузы фурами и в Афганистан. Груз из Китая идёт через Узбекистан транзитом, а груз, который находится в Узбекистане, отправляется напрямую. Берём и целую фуру, и сборный груз. Довозим до пограничного перехода Хайратон или до Мазари-Шарифа. Цена и срок считаются отдельно для каждого груза.',
+        'GSR Logistics, логистическая компания из Ташкента, теперь возит грузы фурами и в Афганистан. Груз из Китая принимают в Иу, оттуда он идёт через Казахстан, затем транзитом через Узбекистан, а груз, который находится в Узбекистане, отправляется напрямую. Берём и целую фуру, и сборный груз. Довозим до пограничного перехода Хайратон или до Мазари-Шарифа. Цена и срок считаются отдельно для каждого груза.',
       facts: [
         { label: 'Откуда', value: 'Китай · Узбекистан' },
         { label: 'Транспорт', value: 'Фура' },
@@ -201,7 +226,7 @@ const content: ServiceContentSource = {
           caption: 'Два направления в Афганистан',
           head: ['Направление', 'Как едет груз'],
           rows: [
-            ['Китай → Афганистан', 'фурой, транзитом через Узбекистан'],
+            ['Китай → Афганистан', 'груз принимают в Иу; фурой через Казахстан, затем транзитом через Узбекистан'],
             ['Узбекистан → Афганистан', 'фурой, напрямую (экспорт)'],
           ],
           note: 'В обоих случаях груз доставляется до пограничного перехода Хайратон или до Мазари-Шарифа. Цена и срок — по запросу.',
@@ -256,7 +281,7 @@ const content: ServiceContentSource = {
         ],
         callout: {
           title: 'Афганская сторона и экспорт',
-          text: 'Какой порядок и какие документы нужны на афганской стороне, менеджер объясняет под ваш груз. Для груза, который отправляется из Узбекистана (экспорт), нужные документы тоже называет менеджер.',
+          text: 'На афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты). Какой порядок и какие документы нужны на афганской стороне, менеджер объясняет под ваш груз. Для груза, который отправляется из Узбекистана (экспорт), нужные документы тоже называет менеджер.',
           tone: 'info',
         },
       },
@@ -280,8 +305,10 @@ const content: ServiceContentSource = {
         steps: [
           { title: 'Пишете нам', text: 'Напишите в WhatsApp (+998 90 175 78 00) или в Telegram: что за груз, какой у него объём или вес, где он сейчас и куда его везти — в Хайратон или в Мазари-Шариф.' },
           { title: 'Считаем цену и срок', text: 'Менеджер считает цену и срок под ваш груз и предлагает вариант: целая фура или сборный груз.' },
+          { title: 'Договор', text: 'Оплата проходит через банк, который работает между Узбекистаном и Афганистаном, по договору между вами и нами.' },
           { title: 'Документы', text: 'Говорим, какие документы нужны от вас. Транзитные документы на территории Узбекистана оформляем сами.' },
-          { title: 'Погрузка и отправка', text: 'Где мы принимаем груз, скажет менеджер. Груз загружают в фуру, и она выходит в рейс.' },
+          { title: 'Погрузка и отправка', text: 'В Китае груз для Афганистана принимают в Иу; оттуда он идёт фурой через Казахстан и Узбекистан. Если груз уже в Узбекистане, менеджер скажет, где мы его принимаем.' },
+          { title: 'В пути', text: 'За грузом вы следите через нашу ERP-систему в Telegram.' },
           { title: 'Передача груза', text: 'Вы принимаете груз на границе в Хайратоне, или мы довозим его до Мазари-Шарифа.' },
         ],
       },
@@ -309,17 +336,25 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Какие документы в Узбекистане вы берёте на себя?',
-        a: 'Транзитные документы на территории Узбекистана: транзитную декларацию подаёт наш собственный таможенный брокер, документы CMR и TIR мы готовим и проверяем, а с обеспечением уплаты таможенных платежей (гарантией) помогаем. Что нужно на афганской стороне, менеджер объясняет под ваш груз.',
+        a: 'Транзитные документы на территории Узбекистана: транзитную декларацию подаёт наш собственный таможенный брокер, документы CMR и TIR мы готовим и проверяем, а с обеспечением уплаты таможенных платежей (гарантией) помогаем. На афганской стороне таможенное оформление проводят наши партнёры — таможенные агенты (декларанты).',
+      },
+      {
+        q: 'Как оплатить из Афганистана?',
+        a: 'Оплата проходит через банк, который работает между Узбекистаном и Афганистаном, по договору между вами и нами.',
+      },
+      {
+        q: 'Как следить за своим грузом?',
+        a: 'За грузом вы следите через нашу ERP-систему в Telegram.',
       },
     ],
     related: ['transit', 'bonded', 'sourcing'],
-    guideKeys: [],
+    guideKeys: ['china-afghanistan', 'uzbekistan-transit'],
     cta: {
       title: 'Напишите о своём грузе — посчитаем цену и срок.',
       text: 'Напишите в WhatsApp или Telegram, что за груз, его объём или вес, откуда и куда его везти. Менеджер посчитает цену и срок под ваш груз.',
       draft: 'Здравствуйте! У меня вопрос по перевозке груза в Афганистан. Груз: … Объём или вес: … Откуда: … Куда: Хайратон / Мазари-Шариф',
     },
-    updated: '2026-11-12',
+    updated: '2026-11-13',
   },
 
   en: {
@@ -333,7 +368,7 @@ const content: ServiceContentSource = {
       eyebrow: 'Service 10 — Afghanistan',
       h1: 'Cargo to Afghanistan: from China and from Uzbekistan, by truck',
       intro:
-        'GSR Logistics, a logistics company in Tashkent, now also carries cargo to Afghanistan by truck. Cargo from China crosses Uzbekistan in transit; cargo that is already in Uzbekistan leaves directly. We take a full truck or consolidated cargo. We deliver to the Hairatan border crossing or to Mazar-i-Sharif. Price and timing are calculated for each shipment separately.',
+        'GSR Logistics, a logistics company in Tashkent, now also carries cargo to Afghanistan by truck. Cargo from China is received in Yiwu and travels through Kazakhstan, then crosses Uzbekistan in transit; cargo that is already in Uzbekistan leaves directly. We take a full truck or consolidated cargo. We deliver to the Hairatan border crossing or to Mazar-i-Sharif. Price and timing are calculated for each shipment separately.',
       facts: [
         { label: 'From', value: 'China · Uzbekistan' },
         { label: 'Transport', value: 'Truck' },
@@ -351,7 +386,7 @@ const content: ServiceContentSource = {
           caption: 'Two directions to Afghanistan',
           head: ['Direction', 'How the cargo travels'],
           rows: [
-            ['China → Afghanistan', 'by truck, in transit through Uzbekistan'],
+            ['China → Afghanistan', 'received in Yiwu; by truck through Kazakhstan, then in transit through Uzbekistan'],
             ['Uzbekistan → Afghanistan', 'by truck, directly (export)'],
           ],
           note: 'In both cases the cargo is delivered to the Hairatan border crossing or to Mazar-i-Sharif. Price and timing on request.',
@@ -406,7 +441,7 @@ const content: ServiceContentSource = {
         ],
         callout: {
           title: 'The Afghan side, and export',
-          text: 'The manager explains which procedure and which documents apply on the Afghan side for your cargo. For cargo that leaves from Uzbekistan (export), the manager also names the documents you need.',
+          text: 'On the Afghan side, customs clearance is done by our partners — customs agents (declarants). The manager explains which procedure and which documents apply on the Afghan side for your cargo. For cargo that leaves from Uzbekistan (export), the manager also names the documents you need.',
           tone: 'info',
         },
       },
@@ -430,8 +465,10 @@ const content: ServiceContentSource = {
         steps: [
           { title: 'You write to us', text: 'Message us on WhatsApp (+998 90 175 78 00) or Telegram: what the cargo is, its volume or weight, where it is now and where it has to go — Hairatan or Mazar-i-Sharif.' },
           { title: 'We calculate the price and the time', text: 'The manager calculates the price and the time for your cargo and proposes a full truck or consolidated cargo.' },
+          { title: 'Contract', text: 'Payment goes through a bank that works between Uzbekistan and Afghanistan, under a contract between you and us.' },
           { title: 'Documents', text: 'We tell you which documents we need from you. We handle the transit documents inside Uzbekistan ourselves.' },
-          { title: 'Loading and departure', text: 'The manager tells you where we take the cargo over. The cargo is loaded onto the truck and sets off.' },
+          { title: 'Loading and departure', text: 'In China, cargo for Afghanistan is received in Yiwu; from there it travels by truck through Kazakhstan and Uzbekistan. For cargo that is already in Uzbekistan, the manager tells you where we take it over.' },
+          { title: 'On the way', text: 'You follow the cargo through our ERP system, in Telegram.' },
           { title: 'Handover', text: 'You collect the cargo at the border in Hairatan, or we deliver it to Mazar-i-Sharif.' },
         ],
       },
@@ -459,17 +496,25 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Which documents are on your side in Uzbekistan?',
-        a: 'The transit documents inside Uzbekistan: our own customs broker files the transit declaration, we prepare and check the CMR and TIR documents, and we help arrange security for customs payments (a guarantee). The manager explains what applies on the Afghan side for your cargo.',
+        a: 'The transit documents inside Uzbekistan: our own customs broker files the transit declaration, we prepare and check the CMR and TIR documents, and we help arrange security for customs payments (a guarantee). On the Afghan side, customs clearance is done by our partners — customs agents (declarants).',
+      },
+      {
+        q: 'How do I pay from Afghanistan?',
+        a: 'Payment goes through a bank that works between Uzbekistan and Afghanistan, under a contract between you and us.',
+      },
+      {
+        q: 'How can I follow my cargo?',
+        a: 'You follow the cargo through our ERP system, in Telegram.',
       },
     ],
     related: ['transit', 'bonded', 'sourcing'],
-    guideKeys: [],
+    guideKeys: ['china-afghanistan', 'uzbekistan-transit'],
     cta: {
       title: 'Tell us about your cargo — we will calculate the price and the time.',
       text: 'Tell us on WhatsApp or Telegram what the cargo is, its volume or weight, and from where to where. The manager calculates the price and the time for your cargo.',
       draft: 'Hello! I have a question about cargo to Afghanistan. Cargo: … Volume or weight: … From: … To: Hairatan / Mazar-i-Sharif',
     },
-    updated: '2026-11-12',
+    updated: '2026-11-13',
   },
 };
 

@@ -110,6 +110,8 @@ export interface ServicesStrings {
     relatedTitle: string;
     guidesTitle: string;
     guidesIntro: string;
+    /** The same line on an on-request service page, whose guides have no pricing rules to promise. */
+    guidesIntroRequest: string;
     ctaEyebrow: string;
     /** Used when the content file does not exist yet. */
     fallback: {
@@ -125,7 +127,7 @@ export interface ServicesStrings {
       draft: string;
     };
   };
-  /** Short titles of the 10 guides, keyed by translationKey (slugs live in src/data/guides.ts). */
+  /** Short titles of the 12 guides, keyed by translationKey (slugs live in src/data/guides.ts). */
   guideTitles: Record<string, string>;
 }
 
@@ -219,6 +221,7 @@ const uz: ServicesStrings = {
     relatedTitle: 'Bogʻliq xizmatlar',
     guidesTitle: 'Qoʻllanmadan oʻqing',
     guidesIntro: 'Mavzu boʻyicha batafsil maqolalar — narx qoidalari, bojxona, yoʻnalishlar.',
+    guidesIntroRequest: 'Mavzu boʻyicha batafsil maqolalar — yoʻl, hujjatlar, bojxona tranziti.',
     ctaEyebrow: 'Aloqa',
     fallback: {
       seoTitle: '{name} — Xitoydan Oʻzbekistonga',
@@ -253,6 +256,8 @@ const uz: ServicesStrings = {
     'prohibited-goods': 'Taqiqlangan tovarlar',
     'glossary': 'Kargo lugʻati',
     'routes': 'Xitoydan Toshkentga yoʻnalishlar',
+    'china-afghanistan': 'Xitoydan Afgʻonistonga yuk: Oʻzbekiston orqali',
+    'uzbekistan-transit': 'Oʻzbekiston orqali tranzit: hujjatlar va tartib',
   },
 };
 
@@ -346,6 +351,7 @@ const ru: ServicesStrings = {
     relatedTitle: 'Смежные услуги',
     guidesTitle: 'Читайте в гиде',
     guidesIntro: 'Подробные статьи по теме — правила расчёта, таможня, маршруты.',
+    guidesIntroRequest: 'Подробные статьи по теме — маршрут, документы, таможенный транзит.',
     ctaEyebrow: 'Контакты',
     fallback: {
       seoTitle: '{name} — из Китая в Узбекистан',
@@ -380,6 +386,8 @@ const ru: ServicesStrings = {
     'prohibited-goods': 'Запрещённые товары',
     'glossary': 'Словарь карго',
     'routes': 'Маршруты Китай — Ташкент',
+    'china-afghanistan': 'Груз из Китая в Афганистан через Узбекистан',
+    'uzbekistan-transit': 'Транзит через Узбекистан: документы и порядок',
   },
 };
 
@@ -473,6 +481,7 @@ const en: ServicesStrings = {
     relatedTitle: 'Related services',
     guidesTitle: 'Read in the guides',
     guidesIntro: 'In-depth articles on the topic — pricing rules, customs, routes.',
+    guidesIntroRequest: 'In-depth articles on the topic — the route, the documents, customs transit.',
     ctaEyebrow: 'Contact',
     fallback: {
       seoTitle: '{name} — from China to Uzbekistan',
@@ -507,6 +516,8 @@ const en: ServicesStrings = {
     'prohibited-goods': 'Prohibited goods',
     'glossary': 'Cargo glossary',
     'routes': 'China to Tashkent routes',
+    'china-afghanistan': 'Cargo from China to Afghanistan via Uzbekistan',
+    'uzbekistan-transit': 'Transit through Uzbekistan: documents and procedure',
   },
 };
 

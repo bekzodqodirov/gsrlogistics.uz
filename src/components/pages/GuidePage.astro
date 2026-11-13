@@ -1,13 +1,16 @@
 ---
 /** Guide article template. Props: { lang, entry } where entry is a `guides` collection entry. */
-import { langMeta, pick, type Locale } from '@/i18n/config';
+import { langMeta, pick, sourceOf, type Locale } from '@/i18n/config';
 import { render, getCollection, type CollectionEntry } from 'astro:content';
 import { common } from '@/i18n/common';
 import { guidesStrings } from '@/i18n/guides';
+import { servicesStrings, tpl } from '@/i18n/services';
 import { pagePath, pageUrl, itemPath } from '@/i18n/routes';
 import { guideSlugs } from '@/data/guides';
 import { services } from '@/data/services';
-import { site, telegramChat } from '@/lib/site';
+import { getServiceContent } from '@/data/services/load';
+import { site, telegramChat, whatsappChat } from '@/lib/site';
+import { BIDI_CONTROLS, leadAttrs, serviceTeam, telegramFor } from '@/lib/leads';
 import { colon, fmtDate, fmtDigits, fmtInt, readingMinutes, sep } from '@/lib/format';
 import { articleNode, faqNode } from '@/lib/schema';
 import Base from '@/layouts/Base.astro';
@@ -49,10 +52,47 @@ const sources = d.sources.map((s) => {
 const toc = headings.filter((h) => h.depth === 2).map((h) => ({ text: h.text, id: h.slug }));
 const related = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft && e.id !== entry.id)).filter((e) => e.data.tags.some((tag) => d.tags.includes(tag))).slice(0, 3);
 const relatedServices = services.filter((s) => d.tags.includes(s.key)).slice(0, 3);
+/**
+ * A guide that belongs to an on-request service (cargo to Afghanistan, transit documents, the warehouse under customs
+ * control — `quote: 'request'` in src/data/services.ts) behaves like that service's own page (ServicePage.astro,
+ * `onRequest`). The guide belongs to the service its FIRST service tag names (`tags: [transit, bonded, afghanistan]` →
+ * transit). On such a page the ask card opens the service's team with the service's own prepared message (`cta.draft`)
+ * instead of the China-cargo questions, WhatsApp stands beside Telegram, the phone bar offers WhatsApp in the
+ * calculator's place, every general Telegram button of the page (header, menu, footer, phone bar) becomes this page's
+ * button (`pageLead`), and the share card is the on-request one — the general card says "Cargo from China to Tashkent,
+ * 15–25 days". The first service tag of each of the ten older guides is a tariff service, so they render as before:
+ * the wrapper of the two buttons carries its style inline, so their stylesheet stays the same file too.
+ * The language versions of one guide must agree (tags are written per file): a version that disagrees stops the build.
+ */
+const firstServiceOf = (tags: string[]) => tags.map((tag) => services.find((s) => s.key === tag)).find(Boolean);
+const leadKeyOf = (tags: string[]) => { const first = firstServiceOf(tags); return first?.quote === 'request' ? first.key : undefined; };
+const leadService = services.find((s) => s.key === leadKeyOf(d.tags));
+const stray = siblings.find((e) => leadKeyOf(e.data.tags) !== leadService?.key);
+/* Both files, their tags and what decided: a misspelt or reordered tag is then visible in the message itself. */
+const tagsOf = (e: CollectionEntry<'guides'>) => { const first = firstServiceOf(e.data.tags); return `src/content/guides/${e.id}.md — tags [${e.data.tags.join(', ')}], first service tag ${first ? `"${first.key}" (${first.quote === 'request' ? 'on request: the page is that service’s' : 'a tariff service: no lead'})` : 'none'}`; };
+if (stray) throw new Error(`the language versions of the guide "${d.translationKey}" belong to different services: ${tagsOf(entry)}; ${tagsOf(stray)}. The FIRST service tag decides (GuidePage.astro) — give every language version the same tags in the same order.`);
+const lead = leadService
+  ? (() => {
+      const team = serviceTeam[leadService.key];
+      const summary = pick(lang, leadService.name);
+      const content = getServiceContent(leadService.key);
+      /* The service page's own draft; its fallback is ServicePage's, for a service whose content file is missing. */
+      const draft = content ? pick(lang, content).cta.draft : tpl(pick(lang, servicesStrings).page.fallback.draft, { name: summary });
+      return {
+        page: { team, topic: leadService.slug.uz, summary },
+        /* Without JavaScript: the team's account with the draft; with it, GSR's system picks the manager (ContactPicker.astro). */
+        tgHref: telegramFor(team, draft, Astro.url.pathname),
+        tgAttrs: leadAttrs(team, leadService.slug.uz, summary),
+        /* A plain link: no team, topic or code goes with it. Bidi controls never leave the site in a message. */
+        waHref: whatsappChat(draft.replace(BIDI_CONTROLS, '').trim()),
+        ogImage: `/og/request-${sourceOf(lang)}.png`,
+      };
+    })()
+  : undefined;
 const breadcrumbs = [{ name: c.breadcrumbHome, key: 'home' as const }, { name: label, key: 'guides' as const }, { name: d.title, url }];
-const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.description, datePublished: pub, dateModified: upd }), ...(d.faq.length ? [faqNode(d.faq)] : [])];
+const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.description, datePublished: pub, dateModified: upd, image: lead && `${site.url}${lead.ogImage}` }), ...(d.faq.length ? [faqNode(d.faq)] : [])];
 ---
-<Base lang={lang} title={d.title} description={d.description} pageKey="guides" subs={subs} ogType="article" breadcrumbs={breadcrumbs} jsonLd={jsonLd} datePublished={pub} dateModified={upd}>
+<Base lang={lang} title={d.title} description={d.description} pageKey="guides" subs={subs} ogType="article" breadcrumbs={breadcrumbs} jsonLd={jsonLd} datePublished={pub} dateModified={upd} ogImage={lead?.ogImage} mobileBarWhatsapp={lead?.waHref} pageLead={lead?.page}>
   <article class="page">
     <header class="hero">
       <div class="container container-text">
@@ -87,8 +127,10 @@ const jsonLd = [articleNode(lang, { url, headline: d.title, description: d.descr
           </section>
         )}
         <section class="ask card">
-          <div><h2 class="h4">{t.askTitle}</h2><p class="fg2">{t.askText}</p></div>
-          <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram" data-picker>{c.cta.telegram}</Button>
+          <div><h2 class="h4">{t.askTitle}</h2><p class="fg2">{lead ? t.askTextRequest : t.askText}</p></div>
+          {lead
+            ? <div style="display:flex;flex-wrap:wrap;gap:12px"><Button href={lead.tgHref} variant="primary" icon="telegram" {...lead.tgAttrs}>{c.cta.telegram}</Button><Button href={lead.waHref} variant="secondary" icon="whatsapp">{c.cta.whatsapp}</Button></div>
+            : <Button href={telegramChat(c.telegramDraft.general)} variant="primary" icon="telegram" data-picker>{c.cta.telegram}</Button>}
         </section>
         {(related.length > 0 || relatedServices.length > 0) && (
           <section class="related">

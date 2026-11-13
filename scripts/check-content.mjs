@@ -27,7 +27,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { LOCALES, LOCALE_CODES, isPending, localeOfPath, unprefixed } from './locales.mjs';
-import { AFGHAN_NAME, CLAIM_RULES, PAGE_RULES, REQUEST_FIGURE, REQUEST_FIGURE_OK, normalize, leakRuns, quotedForeign, selfTest } from './content-rules.mjs';
+import { AFGHAN_NAME, CLAIM_RULES, GUIDE_FIGURE_OK, PAGE_RULES, REQUEST_FIGURE, REQUEST_FIGURE_OK, normalize, leakRuns, quotedForeign, selfTest } from './content-rules.mjs';
 import { checkWorks } from './works-blocks.mjs';
 const dist = process.argv[2] || 'dist';
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(d, e.name)) : e.name === 'index.html' ? [path.join(d, e.name)] : []);
@@ -49,8 +49,12 @@ const INLINE = new Set(['a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'd
  * page «20–35 kun» of the rail card stands right before the heading «Yangi yoʻnalish: Afgʻoniston…», and a rule
  * that fails the build on that is a rule that gets deleted. (Two blocks are never read together: a figure in
  * one paragraph and the place in the next pass. BLOCK_FIXTURES below pins what is one statement.)
+ * Only TAGS end a block, never a line break of the markup: the markdown renderer prints every cell of a guide's
+ * table on a line of its own (<tr>⏎<td>Hairatan</td>⏎<td>5–7 days</td>⏎</tr>) and keeps the line breaks of a
+ * paragraph wrapped in its source — read line by line, «Hairatan | 5–7 days» was two blocks and passed every rule.
  */
 const blocksOf = (markup) => entities(markup
+  .replace(/\s+/g, ' ')
   .replace(/<(\/?)([a-zA-Z][a-zA-Z0-9-]*)[^>]*>/g, (_, closing, name) => (INLINE.has(name.toLowerCase()) || (closing && name.toLowerCase() === 'dt') ? ' ' : '\n'))
   .replace(/<[^>]+>/g, ' '))
   .split('\n').map((block) => block.replace(/\s+/g, ' ').trim()).filter(Boolean);
@@ -68,8 +72,29 @@ const chromeMarkup = (html) => [...html.matchAll(/<(header|footer)\b[^>]*\bid="s
  * value is one block of its own.
  */
 const attributeTexts = (markup) => [...new Set([...markup.matchAll(/\s(?:alt|aria-label|title|placeholder)="([^"]+)"/g)].map((m) => entities(m[1]).replace(/\s+/g, ' ').trim()).filter(Boolean))];
-/** The sentences of a block: a full stop, a question or exclamation mark, a semicolon, in any script of the site. */
-const sentences = (block) => block.split(/(?<=[.!?;؟؛])\s+|(?<=[。！？；])/u).map((s) => s.trim()).filter(Boolean);
+/**
+ * The sentences of a block: a full stop, a question or exclamation mark, a semicolon, in any script of the site. The
+ * full stop of an abbreviation before a number is not one — "Resolution No. 737", "Art. 218", «ст. 218», «п. 12»,
+ * «от 31.12.2022 г. № 737»: a figure of the law is read together with its source (guide.figure). Case matters: "No." is
+ * a number sign only after a word ("Resolution No. 737" — not "In practice, no. 1688 delivers…", not "? No. 3 days…"), and
+ * «г.» (год) only before «№» — «… с 1 ноября 2026 г. 7 дней …» is two sentences, as it was.
+ */
+const sentences = (block) => block.split(/(?<=[.!?;؟؛])(?!(?<=(?:(?<=\p{L}\s)Nos?|\b[Aa]rts?|\bparas?|(?<![А-ЯЁа-яё])(?:[Сс]т|[Пп]п?|[Чч]))\.)\s+(?:[\d№]|\p{Lu}{1,4}-\d)|(?<=(?<![А-ЯЁа-яё])г\.)\s+№)\s+|(?<=[。！？；])/u).map((s) => s.trim()).filter(Boolean);
+/** What is one sentence and what is two, for the rules that read sentences (request.figure, guide.figure, the question-and-answer rule). */
+const SENTENCE_FIXTURES = [
+  ['Under the Regulation approved by Resolution No. 737, a declaration is cancelled after 30 days. The manager explains the rest.', 2],
+  ['По ст. 218 Таможенного кодекса срок — 10 дней; по п. 12 Положения, утверждённого постановлением от 31.12.2022 г. № 737, — 30 дней.', 2],
+  ['Обновлено: 12 ноября 2026 г. Грузы в Афганистан', 2],
+  ['Art. 218 gives 10 days. No. We do not.', 3],
+  ['Usually 5–7 days. From $3,000; ask the manager!', 3],
+  ['第 218 条规定 10 天。费用另计；详见下文。', 3],
+  ['طبق مادهٔ ۲۱۸ قانون گمرک؛ ظرف ۱۰ روز. آیا کافی است؟ بله', 4],
+  // the word "no" and the year «г.» end a sentence before a number
+  ['In practice, no. 1688 delivers only inside China.', 2],
+  ['Is the time fixed? No. 3 days is usual.', 3],
+  ['Тарифы действуют с 1 ноября 2026 г. 7 дней занимает оформление.', 2],
+  ['Under Decree No. UP-174 the rate changes.', 1],
+];
 /** llms.txt one paragraph or list item at a time: its lines are hard-wrapped, so a line is not a statement — and a list item is. */
 const paragraphs = (txt) => txt.split(/\n\s*\n|\n(?=\s*(?:[-*#>]|\d+\.)\s)/).map((p) => p.replace(/\s+/g, ' ').trim()).filter(Boolean);
 const decodeEntities = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, '\xA0').replace(/&amp;/g, '&');
@@ -242,7 +267,9 @@ const FORBIDDEN = [
   [/jonli joylashuv(?![^.!?]{0,12}emas)/i, 'claims a live position — tracking is stage-by-stage QR scanning'],
   [/(?<!не )жив(?:ая|ой|ую|ое) (?:координат|местополож|геолокац)/i, 'claims a live position (RU) — tracking is stage-by-stage QR scanning'],
   [/(?<!not )\ba live (?:vehicle |truck |cargo )?(?:position|location)\b/i, 'claims a live position (EN) — tracking is stage-by-stage QR scanning'],
-  [/\bGPS\b(?![\s-]?(?:tracker|trekker|трекер))[^.!?]{0,50}(?:kuzat|отслеж|track)|(?:kuzatuv|kuzatib|отслеживани|tracking)[^.!?]{0,50}\bGPS\b(?![\s-]?(?:tracker|trekker|трекер))/i, 'implies live GPS position — tracking is stage-by-stage QR scanning'],
+  // The tracking word may stand before GPS as freely as after it: "Track your truck by GPS", «Kuzatasiz … GPS orqali»,
+  // «Отслеживайте фуру по GPS» (premerge review, 2026-11-13; zh.gps and fa.gps read both orders too).
+  [/\bGPS\b(?![\s-]?(?:tracker|trekker|трекер))[^.!?]{0,50}(?:kuzat|отслеж|track)|(?:kuzat|отслеж|\btrack)[^.!?]{0,50}\bGPS\b(?![\s-]?(?:tracker|trekker|трекер))/i, 'implies live GPS position — tracking is stage-by-stage QR scanning'],
   // The figures the owner confirmed (2026-09-10; the monthly volume on 2026-11-11, VOLUME_RULES above)
   // are publishable at exactly those values. A drifted number is an invented one; and 15 years belongs
   // to the TEAM, never to GSR, which was founded in 2018 and is written "8+ yil".
@@ -334,15 +361,50 @@ const stoppedBy = (s, norm = normalize(s)) => [
  *   request.type      the legal regime of the warehouse is not confirmed (owner, 2026-11-11): never "customs
  *                     warehouse", "bonded", «СВХ», 保税 — the pages say "warehouse under customs control".
  *   request.sanction  the owner decided to print no sentence about sanctioned goods on these pages (FACTS §11).
+ *   request.broker    the customs broker is never named (owner, 2026-11-12, FACTS §12.5): the pages say "our own
+ *                     customs broker". «Imex services» is also the company's own legal name (the footer, the about
+ *                     page), so the rule reads it only beside a broker word, in one sentence.
  *
  * `units`: 'blocks' reads one block of <main> at a time, 'sentences' one sentence of a block. Each rule also reads
  * the <title> and the descriptions of the page. Each carries its sentences, asserted below like every other rule.
  */
 const REQUEST_SLUGS = ['afgonistonga-yuk-tashish', 'афғонистонга-юк-ташиш', 'gruzy-v-afganistan', 'cargo-to-afghanistan', 'tranzit-hujjatlari', 'транзит-ҳужжатлари', 'tranzitnye-dokumenty', 'transit-documents', 'bojxona-ombori', 'божхона-омбори', 'tamozhennyj-sklad', 'customs-warehouse-tashkent'];
 const ON_REQUEST_PAGE = new RegExp(`/(?:${REQUEST_SLUGS.join('|')})/$`);
+/*
+ * THE TWO GUIDES about these services (2026-11) — «Cargo from China to Afghanistan: how it travels through Uzbekistan»
+ * (translationKey china-afghanistan) and «Transit through Uzbekistan by truck: documents and procedure»
+ * (uzbekistan-transit), in all six locales. They describe the same services, so the same rules read them:
+ *
+ *   request.ours, request.type, request.sanction   read a guide exactly as they read a service page: the warehouse is
+ *                     a partner's, its legal regime is not confirmed, and no sentence about sanctions is printed.
+ *   request.figure    does NOT read them: a guide prints the figures of the LAW (an article's 10 calendar days, a
+ *                     regulation's 30) and public geography, which a service page never does.
+ *   guide.figure      takes its place: the same figures, with one more way through — a sentence that names its
+ *                     source of law (GUIDE_FIGURE_OK in content-rules.mjs: "Article 218 of the Customs Code", "Customs
+ *                     Code", "Resolution No. 737", "the Regulation approved by Resolution No. 737", "the same
+ *                     Regulation", "the TIR Convention" — a named or numbered instrument; "the law", "the Regulation"
+ *                     or "the Convention" alone is no source). A price or a transit time of the company has no
+ *                     article to name, so it stops the build as it does on a service page; a figure of the China →
+ *                     Tashkent route passes in a sentence that names China and Tashkent.
+ *   request.iran      reads a guide as it reads a service page: Iran is on hold, not even a comparison.
+ *   request.broker    reads a guide as it reads a service page: the customs broker is never named.
+ *
+ * The answer to a question that names Afghanistan is read by the question-and-answer rule as well (faqPairs below):
+ * no figure at all, the law's included.
+ * The slugs are written out, like REQUEST_SLUGS, and compared with the registry by guideMisfit() below.
+ */
+const GUIDE_KEYS = ['china-afghanistan', 'uzbekistan-transit'];
+const GUIDE_SLUGS = ['xitoydan-afgonistonga-yuk', 'хитойдан-афғонистонга-юк', 'gruz-iz-kitaya-v-afganistan-cherez-uzbekistan', 'cargo-from-china-to-afghanistan-via-uzbekistan', 'ozbekiston-orqali-tranzit', 'ўзбекистон-орқали-транзит', 'tranzit-cherez-uzbekistan-dokumenty', 'transit-through-uzbekistan-documents'];
+const GUIDE_PAGE = new RegExp(`/(?:${GUIDE_SLUGS.join('|')})/$`);
+/** The service pages and the guides: the pages request.ours, request.type and request.sanction read. */
+const GUARDED_PAGE = new RegExp(`/(?:${[...REQUEST_SLUGS, ...GUIDE_SLUGS].join('|')})/$`);
 const OUR_WAREHOUSE = new RegExp([
   // en: "our (own) (Tashkent customs) warehouse", "GSR's warehouse", "its own bonded warehouse", "our own facility" — not "our warehouse partner", not "not our own warehouse"
-  String.raw`(?<!\bnot\s)\b(?:our|its|GSR(?:\s+Logistics)?[’']s?)\s+(?:(?:own|Tashkent|customs(?:-controlled)?|bonded|secure|supervised|licensed|temporary|storage)\s+){0,3}(?:warehouses?(?!\s+partner)|facilit(?:y|ies)|depots?)\b|\b(?:warehouse|facility)\s+(?:is\s+)?(?:owned|operated|run)\s+by\s+(?:us|GSR)`,
+  String.raw`(?<!\bnot\s)\b(?:our|its|GSR(?:\s+Logistics)?(?:[’']s?)?)\s+(?:(?:own|Tashkent|customs(?:-controlled)?|bonded|secure|supervised|licensed|temporary|storage)\s+){0,3}(?:warehouses?(?!\s+partner)|facilit(?:y|ies)|depots?)\b|\b(?:warehouse|facility)\s+(?:is\s+)?(?:owned|operated|run)\s+by\s+(?:us|GSR)`,
+  // en, zh, fa, uz: "we have a warehouse", 本公司…仓库, «انبار شرکت», «GSR ombori», «kompaniya ombori» — not a partner's
+  String.raw`\bwe\s+(?:have|own|operate|run|keep)\s+(?:a|an|our(?:\s+own)?)\s+(?!(?:[\w-]+\s+){0,2}?partner)(?:[\w-]+\s+){0,2}?(?:warehouse|facility|depot)s?\b|(?<!不是|并非)(?:本|我)公司(?![\p{Script=Han}]{0,6}?合作)[\p{Script=Han}]{0,10}?(?:仓库|库房|场所)`,
+  String.raw`(?<!\p{Script=Arabic})(?:انبار|گدام)(?:\p{Mn}|ی)?\s(?:شرکت|GSR)(?![\s\p{Mn}]*(?:همکار|طرف|دیگر))(?![^.؟!?؛;]{0,25}(?:ندار|نیست))`,
+  String.raw`(?<![a-zʻʼ])(?:GSR(?:\s+Logistics)?|(?<!hamkor\s)kompaniya(?:miz|mizning|ning)?)\s+(?:bojxona\s+)?ombor(?![a-zʻʼ]*\s+(?:yo[ʻ'’‘]?q|emas)(?![a-zʻʼ]))|(?<![а-яёўқғҳ])(?:GSR(?:\s+Logistics)?|(?<!ҳамкор\s)компания(?:миз|мизнинг|нинг)?)\s+(?:божхона\s+)?омбор(?![а-яёўқғҳ]*\s+(?:йўқ|эмас)(?![а-яёўқғҳ]))`,
   // zh: 我们(自己)的…仓库 (not 我们的合作方仓库, not 不是我们的仓库), 自有/自己的仓库 (not 没有自己的仓库), GSR 经营的…仓库
   String.raw`(?<!不是|并非)我(?:们|司)(?:自己)?的(?!合作)[\p{Script=Han}]{0,6}?(?:仓库|库房|场所)|我方仓库|(?<!没有|不是|并非|我们|我司)(?:自有|自己)的?(?:保税|海关监管|监管)?(?:仓库|库房|场所)|GSR\s?(?:Logistics\s?)?(?:经营|运营|拥有)的?[\p{Script=Han}]{0,6}?(?:仓库|库房)`,
   // fa: «انبار ما», «انبارمان», «گدام ما», «انبار گمرکی خودش», «محوطهٔ خودمان» — not «انبار خودمان را نداریم»
@@ -367,16 +429,24 @@ const WAREHOUSE_TYPE = new RegExp([
   String.raw`保税|海关仓库|临时存储仓库|临时仓库`,
   String.raw`انبار\sگمرکی|انبار\sنگهداری\sموقت`,
 ].join('|'), 'iu');
-const SANCTION = /sanksiya|санкси|санкци|\bsanction|制裁|تحریم/iu;
+const SANCTION = /sanksiya|санкси|санкци|\bsanction|制裁|تحریم|\bembargo|эмбарго|\bmilitary\b|\bdual[-\s]use\b|(?<![а-яё])военн|двойного\s+назначения|(?<![a-zʻʼ])harbiy|(?<![а-яёўқғҳ])ҳарбий|军用|军民两用|禁运令|(?:贸易|武器|军火)禁运|نظامی|دوکاربرد|دو[\s\p{Cf}]?منظوره/iu;
+/** Iran is on hold (CONTEXT, 2026-11): nothing about it is printed on these pages — not a comparison, not a denial. */
+const IRAN = /(?<![a-z])iran|(?<![a-zʻʼ])eron|(?<![а-яё])иран|(?<![а-яёўқғҳ])эрон|伊朗|(?<!\p{Script=Arabic})ایران/iu;
+/** The customs broker's name (FACTS §12.5): «Imex» — Latin, or as the transliterator prints it — beside a broker word of any language, in one sentence. */
+const BROKER_NAME = /(?:\bImex\b|(?<![а-яёўқғҳ])Име(?:х|кс)(?![а-яёўқғҳ]))[^.!?。！？؟]{0,60}?(?:broker|брокер|报关|کارگزار)|(?:broker|брокер|报关|کارگزار)[^.!?。！？؟]{0,60}?(?:\bImex\b|(?<![а-яёўқғҳ])Име(?:х|кс)(?![а-яёўқғҳ]))/iu;
 const PAGE_CLAIMS = [
-  { id: 'request.ours', pages: ON_REQUEST_PAGE, re: OUR_WAREHOUSE, units: 'blocks',
-    msg: 'calls a warehouse "ours" on a page of the on-request services — the warehouse under customs control is a partner\'s (a denial passes)',
+  { id: 'request.ours', pages: GUARDED_PAGE, re: OUR_WAREHOUSE, units: 'blocks',
+    msg: 'calls a warehouse "ours" on a page of the on-request services or a guide about them — the warehouse under customs control is a partner\'s (a denial passes)',
     bad: ['Our own customs-controlled warehouse in Tashkent — GSR', 'The warehouse is ours, so storage terms are flexible.', 'The warehouse belongs to GSR.', 'Склад наш, поэтому условия хранения гибкие.', 'Ombor oʻzimizniki, shuning uchun saqlash shartlari moslashuvchan.', 'Омбор ўзимизники.', '仓库是我们自己的，所以仓储条件灵活。', 'انبار متعلق به ماست.',
       'our warehouse in Tashkent', 'Our own customs warehouse', 'GSR’s warehouse under customs control', 'Our Tashkent customs warehouse is in the Sergeli district.', 'GSR has its own bonded warehouse in Tashkent.', 'We store your cargo in our own facility under customs control.',
+      // without the possessive the rule first knew (review, 2026-11-12)
+      'The GSR warehouse in Tashkent keeps transit cargo under customs control.', 'We have a warehouse in Tashkent for transit cargo.', '过境货物存放在本公司位于塔什干的监管仓库。', 'بار ترانزیتی در انبار شرکت در تاشکند نگهداری می‌شود.', 'Tranzit yuk GSR omborida saqlanadi.', 'Транзит юк GSR омборида сақланади.', 'Tranzit yuk kompaniyamiz omborida saqlanadi.',
       '我们的仓库', '我们的海关监管仓库', '自有仓库', 'GSR 在塔什干拥有自己的保税仓库。', '我司的海关监管仓库位于谢尔盖利区。', '我们把货物存放在自有的监管场所。', 'GSR 经营的临时存储仓库。',
       'انبار ما در تاشکند', 'انبارمان', 'انبار خودمان', 'گدام ما در ناحیهٔ سرگلی تاشکند است.', 'GSR در تاشکند انبار گمرکی خودش را دارد.', 'بار شما را در محوطهٔ خودمان زیر نظارت گمرک نگه می‌داریم.',
       'Bizning ombor Sergeli tumanida joylashgan.', 'Omborxonamiz bojxona nazoratida ishlaydi.', 'GSR oʻz bojxona omboriga ega.', 'Yukni oʻz omborida bojxona nazorati ostida saqlaymiz.', 'Бизнинг омбор Сергели туманида жойлашган.',
-      'Наш таможенный склад находится в Сергелийском районе.', 'У GSR собственный таможенный склад в Ташкенте.', 'Размещаем груз на своём складе под таможенным контролем.'],
+      'Наш таможенный склад находится в Сергелийском районе.', 'У GSR собственный таможенный склад в Ташкенте.', 'Размещаем груз на своём складе под таможенным контролем.',
+      // the guides (2026-11)
+      'Transit cargo waits in our warehouse in Tashkent under customs control.', 'Транзитный груз ждёт перегрузки на собственном складе компании.', 'Tranzit yuk Toshkentda oʻz omborimizda kutadi.', 'Транзит юк Тошкентда ўз омборимизда кутади.', '过境货物在我们的监管仓库等候换装。', 'بار ترانزیتی در انبار ما در تاشکند منتظر می‌ماند.'],
     good: ['The warehouse is not ours: it belongs to our partner.', 'Склад не наш: он принадлежит партнёру.', '仓库不是我们的，属于合作方。',
       'a partner’s warehouse', 'The warehouse belongs to our partner; cargo is stored there under customs control.', 'We allocate space for our clients in a warehouse under customs control', 'Our warehouse partner in Tashkent stores the cargo under customs control.', 'This is not our own warehouse.',
       'A partner’s warehouse under customs control — not a warehouse of our own.', 'Do you have your own warehouse? No — the warehouse belongs to our partner.', 'Our own customs broker files the transit declaration.',
@@ -384,7 +454,10 @@ const PAGE_CLAIMS = [
       'انبار همکار ما', 'این انبار متعلق به همکار ماست', 'انبار ماشین‌آلات', 'انبار خودمان را نداریم؛ جا را در انبار همکارمان اختصاص می‌دهیم.', 'این انبار مال ما نیست: متعلق به همکار ماست.', 'اظهارنامهٔ ترانزیت را کارگزار گمرکی خودمان ثبت می‌کند.',
       'Ombor hamkorimizga tegishli; yuk u yerda bojxona nazorati ostida saqlanadi.', 'Oʻz omborimiz yoʻq — joyni hamkor omboridan ajratamiz.', 'Tranzit deklaratsiyasini oʻz bojxona brokerimiz topshiradi.', 'Ombor bizniki emas: u hamkorimizga tegishli.',
       'Склад принадлежит нашему партнёру; груз хранится там под таможенным контролем.', 'Склад нашего партнёра находится под таможенным контролем.', 'У нашего складского партнёра груз хранится под таможенным контролем.', 'Своего склада у нас нет — место выделяем на складе партнёра.',
-      'Транзитную декларацию подаёт наш собственный таможенный брокер.'] },
+      'Транзитную декларацию подаёт наш собственный таможенный брокер.',
+      'We have a partner warehouse in Tashkent.', 'We have no warehouse of our own.', '本公司在合作方的海关监管仓库安排仓位。', 'انبار شرکت همکار ما تحت نظارت گمرک است.', 'Hamkor kompaniya omborida joy ajratamiz.', 'GSR ombori yoʻq: joy hamkor omborida.',
+      // printed by the guides (2026-11)
+      'In Tashkent we allocate space in a partner’s warehouse under customs control; the warehouse is not ours.', 'В Ташкенте мы выделяем место на складе партнёра под таможенным контролем; склад не наш.', 'Toshkentda hamkorimizning bojxona nazoratidagi omboridan joy ajratamiz; ombor bizniki emas.', 'Тошкентда ҳамкоримизнинг божхона назоратидаги омборидан жой ажратамиз; омбор бизники эмас.', '我们在塔什干合作方的海关监管仓库安排仓位；仓库不是我们的。', 'در تاشکند در انبار همکارمان که تحت نظارت گمرک است جا اختصاص می‌دهیم؛ این انبار مال ما نیست.'] },
   { id: 'request.figure', pages: ON_REQUEST_PAGE, re: REQUEST_FIGURE, ok: REQUEST_FIGURE_OK, units: 'sentences',
     msg: 'a time, a price, a volume or an area on a page of the on-request services — nothing is published for them: "on request" (a figure of the China → Tashkent route passes in a sentence that names China and Tashkent)',
     bad: ['7–10 kun Muddat', 'Butun fura 5–7 kun', 'Butun fura narxi — 3 000 dollardan.', 'Yoʻl 5–7 kun davom etadi.', 'Yuk omborda 30 kungacha saqlanadi.', 'Bu rejimda yuk uch yilgacha saqlanishi mumkin.', 'Ombor maydoni 2 000 m².', 'Saqlash narxi: 1 m³ uchun kuniga 0,5 $.', '7–10 кун Муддат',
@@ -397,17 +470,61 @@ const PAGE_CLAIMS = [
       'Soʻrov boʻyicha Narx va muddat', 'Du–Sha 9:00–19:00', '+998 00 000 00 00', 'Yangilangan: 2026-yil 12-noyabr', 'Обновлено: 12 ноября 2026 г.', 'Updated: November 12, 2026', '更新日期：2026年11月12日', '周一至周六 9:00–19:00', 'همه روزه به‌جز یکشنبه، ۹:۰۰ تا ۱۹:۰۰', 'آخرین به‌روزرسانی: ۲۰۲۶/۱۱/۱۲',
       'Vazirlar Mahkamasining 2022-yil 31-dekabrdagi 737-son qaroriga koʻra', 'Under Article 119 of the Customs Code of Uzbekistan', '部长内阁第 737 号决议批准的条例（2026年11月现行版本）', 'طبق مصوبهٔ شمارهٔ ۷۳۷ هیئت وزیران ازبکستان مورخ ۲۰۲۲/۱۲/۳۱', 'Xizmat 10 — Afgʻoniston', '01',
       'Bugungi kunda yetkazish nuqtalari shu ikkita.', 'Today these are the two delivery points.', 'Saqlash muddati va narxini menejer yukingiz boʻyicha aytadi.'] },
-  { id: 'request.type', pages: ON_REQUEST_PAGE, re: WAREHOUSE_TYPE, units: 'blocks',
-    msg: 'names a legal regime of the warehouse on a page of the on-request services ("customs warehouse", "bonded", СВХ) — the regime is not confirmed: write "warehouse under customs control"',
+  { id: 'guide.figure', pages: GUIDE_PAGE, re: REQUEST_FIGURE, ok: GUIDE_FIGURE_OK, units: 'sentences',
+    msg: 'a time, a price, a volume or an area on a guide about the on-request services, in a sentence that names no source of law — a figure of the law passes beside its article, code, resolution, regulation or convention ("Under Article 218 of the Customs Code … within 10 days"), a figure of the China → Tashkent route in a sentence that names China and Tashkent; the company publishes no figure for these services',
+    bad: ['The truck is on the road for 5–7 days.', 'A full truck costs from $3,000.', 'We file the transit declaration within two hours.', 'Transit through Uzbekistan usually takes three days.', 'Cargo can stay in the warehouse for up to 30 days.', 'How long does it take? Usually 10–12 days.', 'The crossing takes about a week.', 'The warehouse covers 2,000 m².', 'Consolidated cargo is accepted from 1 m³.',
+      'Fura yoʻlda 5–7 kun boʻladi.', 'Butun fura narxi — 3 000 dollardan.', 'Tranzit deklaratsiyasini ikki soatda topshiramiz.', 'Oʻzbekiston orqali tranzit odatda uch kun davom etadi.', 'Ruxsatnoma 3 ish kunida tayyor boʻladi.', 'Фура йўлда 5–7 кун бўлади.', 'Транзит декларациясини икки соатда топширамиз.',
+      'Фура в пути 5–7 дней.', 'Целая фура — от 3 000 долларов.', 'Транзитную декларацию подаём за два часа.', 'Транзит через Узбекистан обычно занимает три дня.', 'Разрешение готово за 3 рабочих дня.',
+      '卡车在途 5–7 天。', '整车运费 3000 美元起。', '我们两小时内提交过境报关单。', '过境乌兹别克斯坦一般需要三天。',
+      'کامیون ۵ تا ۷ روز در راه است.', 'کرایهٔ کامیون دربست از ۳٬۰۰۰ دلار.', 'اظهارنامهٔ ترانزیت را ظرف دو ساعت ثبت می‌کنیم.', 'ترانزیت از خاک ازبکستان معمولاً سه روز طول می‌کشد.',
+      'Xavfli moddalar uchun ruxsatnoma 3 ish kunida beriladi.', 'Soʻrov boʻyicha 2 kun ichida qaror qilamiz.', 'Yuk 2-sonli terminalda 3 kunda tayyor boʻladi.', 'Юк 2-сонли терминалда 3 кунда тайёр бўлади.', 'Хавфли моддалар учун рухсатнома 3 иш кунида берилади.', 'The HS code is checked within 2 days.', '每条线路需要 3 天。', 'مادهٔ خطرناک ظرف ۳ روز بررسی می‌شود.',
+      // "calendar" between the number and the day (premerge review, 2026-11-13)
+      'The truck crosses Uzbekistan in 10 calendar days.', 'Fura Oʻzbekistonni 10 kalendar kunda kesib oʻtadi.', 'Фура Ўзбекистонни 10 календарь кунда кесиб ўтади.', 'Фура пересекает Узбекистан за 10 календарных дней.', '卡车 10 个日历日内穿越乌兹别克斯坦。',
+      // a law WORD is not a source: a company's rules, a contract, a situation, a decision, a route number
+      'Under the law, about 5–7 days.', 'Our internal regulations set the price at $3,000 per truck.', 'Article 5 of our contract: from $2,500.', 'In line with the dispute resolution clause, 10 days.',
+      'В обычном положении — около 7 дней.', 'По нашему положению о тарифах — от 3 000 долларов.', 'Так решено постановлением руководства компании: 2 500 $.', 'По закону — около 5–7 дней.',
+      'Menejer qarori bilan 7 kun.', 'Kompaniya nizomiga koʻra narx 3 000 dollardan.', 'Qonunga koʻra 5–7 kun.', 'Менежер қарори билан 7 кун.', 'Компания низомига кўра нарх 3 000 доллардан.',
+      '按法律规定，一般 5–7 天。', '走第 2 条线路一般 7 天。', '按公司条例，整车 3000 美元起。', 'طبق قانون، ۵ تا ۷ روز.', 'طبق مقررات شرکت، از ۳٬۰۰۰ دلار.', 'مادهٔ ۵ قرارداد ما: ۱۰ روز.'],
+    good: ['Under Article 218 of the Customs Code, goods carried by road under customs control must be delivered within 10 days.', 'Under the Regulation approved by Resolution No. 737, a declaration filed in advance is cancelled if the goods are not presented within 30 days.', 'This is the maximum Article 218 of the Customs Code allows for crossing Uzbekistan — 10 days — not the travel time of your cargo.', 'Under the CMR Convention named in the contract the period is 10 days.',
+      'Under the same Regulation, the declaration is cancelled after 30 days.', 'По тому же Положению декларация аннулируется через 30 дней.', 'Shu Nizomga koʻra deklaratsiya 30 kun ichida bekor qilinadi.', 'Шу Низомга кўра декларация 30 кун ичида бекор қилинади.', 'Nizomga koʻra, kechiktirilgan har bir kun uchun bojxona bazaviy hisoblash miqdorining bir baravari miqdorida yigʻim undiradi.', 'Низомга кўра, кечиктирилган ҳар бир кун учун божхона базавий ҳисоблаш миқдорининг бир баравари миқдорида йиғим ундиради.', '根据该条例，报关单在 30 天后撤销。', 'طبق همین مقررات، اظهارنامه پس از ۳۰ روز باطل می‌شود.',
+      'Bojxona kodeksining 218-moddasiga koʻra, bojxona nazorati ostida avtotransportda tashilayotgan tovarlar 10 kun ichida yetkazilishi kerak.', 'Vazirlar Mahkamasining 737-son qarori bilan tasdiqlangan Nizomga koʻra, oldindan topshirilgan deklaratsiya tovarlar 30 kun ichida taqdim etilmasa bekor qilinadi.', 'Божхона кодексининг 218-моддасига кўра, божхона назорати остида автотранспортда ташилаётган товарлар 10 кун ичида етказилиши керак.', 'Вазирлар Маҳкамасининг 737-сон қарори билан тасдиқланган Низомга кўра, олдиндан топширилган декларация товарлар 30 кун ичида тақдим этилмаса бекор қилинади.', 'Kechikkan har bir kun uchun bojxona bir BRV miqdorida yigʻim undiradi (737-son qarorning 3-1-bandi).', 'Кечиккан ҳар бир кун учун божхона бир БРВ миқдорида йиғим ундиради (737-сон қарорнинг 3-1-банди).', 'Shartnomada koʻrsatilgan CMR konvensiyasiga koʻra muddat — 10 kun.', 'Шартномада кўрсатилган CMR конвенсиясига кўра муддат — 10 кун.',
+      'По статье 218 Таможенного кодекса товары, перевозимые автотранспортом под таможенным контролем, должны быть доставлены в течение 10 дней.', 'По Положению, утверждённому постановлением № 737, поданная заранее декларация аннулируется, если товары не предъявлены в течение 30 дней.',
+      '根据《海关法典》第 218 条，在海关监管下经公路运输的货物须在 10 天内运抵。', '根据部长内阁第 737 号决议批准的条例，提前提交的报关单如货物未在 30 天内交验即予撤销。',
+      'طبق مادهٔ ۲۱۸ قانون گمرک، کالایی که تحت نظارت گمرک با حمل‌ونقل جاده‌ای برده می‌شود باید ظرف ۱۰ روز تحویل شود.', 'طبق مقرراتی که با مصوبهٔ شمارهٔ ۷۳۷ هیئت وزیران تصویب شده، اظهارنامه‌ای که از پیش ثبت شده اگر کالا ظرف ۳۰ روز ارائه نشود باطل می‌شود.',
+      'The 15–25 days and the 1 m³ minimum published on this site belong to consolidated cargo from China to Tashkent, not to Afghanistan.', 'Saytdagi 15–25 kun va 1 m³ minimum Xitoydan Toshkentga keladigan yigʻma yukka tegishli.', '15–25 дней и минимум 1 м³, указанные на сайте, относятся к сборному грузу из Китая в Ташкент.',
+      'Mazar-i-Sharif is about 80 km from Hairatan.', 'Afghanistan acceded to the CMR Convention in October 2020.', 'Resolution No. 737 of December 31, 2022', 'Updated: November 12, 2026 · 8 min · Author: GSR Logistics', 'Price and timing are on request: the manager calculates them for your cargo.',
+      'Yangilangan: 2026-yil 12-noyabr · 8 daqiqa · Muallif: GSR Logistics', 'Янгиланган: 2026-йил 12-ноябрь · 8 дақиқа · Муаллиф: GSR Logistics', 'Обновлено: 12 ноября 2026 г. · 8 мин · Автор: GSR Logistics', '更新日期：2026年11月12日 · 8 分钟阅读 · 作者：GSR Logistics', 'آخرین به‌روزرسانی: ۲۰۲۶/۱۱/۱۲ • ۸ دقیقه مطالعه • نویسنده: GSR Logistics'] },
+  { id: 'request.type', pages: GUARDED_PAGE, re: WAREHOUSE_TYPE, units: 'blocks',
+    msg: 'names a legal regime of the warehouse on a page of the on-request services or a guide about them ("customs warehouse", "bonded", СВХ) — the regime is not confirmed: write "warehouse under customs control"',
     bad: ['Bu — bojxona ombori rejimi.', 'Vaqtincha saqlash ombori xizmati.', 'Бу — божхона омбори режими.', 'Это режим таможенного склада.', 'Склад временного хранения (СВХ) GSR.', 'This is the customs warehouse procedure.', 'a bonded warehouse in Tashkent', 'A temporary storage warehouse operated by a partner.',
-      '这是海关仓库制度。', '保税仓库', 'این رویهٔ انبار گمرکی است.', 'انبار نگهداری موقت'],
+      '这是海关仓库制度。', '保税仓库', 'این رویهٔ انبار گمرکی است.', 'انبار نگهداری موقت',
+      // the guides (2026-11)
+      'Goods in transit can wait in a customs warehouse in Tashkent.', 'Транзитный груз можно поместить на СВХ в Ташкенте.', 'Tranzit yukni Toshkentdagi bojxona omboriga joylashtirish mumkin.', '过境货物可存入塔什干的保税仓库。', 'کالای ترانزیتی را می‌توان در انبار گمرکی تاشکند گذاشت.'],
     good: ['Toshkentda bojxona nazoratidagi ombor', 'Тошкентда божхона назоратидаги омбор', 'Склад под таможенным контролем в Ташкенте', 'Warehouse under customs control in Tashkent', '塔什干海关监管仓库', 'انبار تحت نظارت گمرک در تاشکند',
       'boshqa transport vositasiga qayta yuklashga va vaqtincha saqlash uchun tushirishga yoʻl qoʻyiladi.', 'goods in transit may be reloaded onto another vehicle and unloaded for temporary storage under the control of an intermediate customs office.', '过境货物可以换装到另一运输工具上，也可以卸下临时存放。',
-      'می‌توان کالای ترانزیتی را به وسیلهٔ نقلیهٔ دیگری منتقل کرد و برای نگهداری موقت تخلیه کرد.', 'https://gsrlogistics.uz/en/services/customs-warehouse-tashkent/'] },
-  { id: 'request.sanction', pages: ON_REQUEST_PAGE, re: SANCTION, units: 'blocks',
-    msg: 'a sentence about sanctions on a page of the on-request services — the owner decided to print none (FACTS §11)',
-    bad: ['Sanksiya ostidagi tovarlarni tashimaymiz.', 'Санксия остидаги товарларни ташимаймиз.', 'Подсанкционные товары не перевозим.', 'We do not carry sanctioned goods.', '我们不承运受制裁货物。', 'کالاهای تحریمی حمل نمی‌کنیم.'],
-    good: ['Taqiq va cheklovlarga rioya etilganini tasdiqlovchi hujjatlar', 'Документы, подтверждающие соблюдение запретов и ограничений', 'Documents confirming that prohibitions and restrictions are observed', '证明已遵守禁止和限制规定的文件', 'اسنادی که رعایت ممنوعیت‌ها و محدودیت‌ها را تأیید می‌کند'] },
+      'می‌توان کالای ترانزیتی را به وسیلهٔ نقلیهٔ دیگری منتقل کرد و برای نگهداری موقت تخلیه کرد.', 'https://gsrlogistics.uz/en/services/customs-warehouse-tashkent/',
+      // printed by the guides (2026-11)
+      'the customs office of departure and the customs office of destination', 'таможенный орган отправления и таможенный орган назначения', 'joʻnatish bojxona organi va belgilangan bojxona organi', '起运地海关和目的地海关', 'گمرک مبدأ و گمرک مقصد'] },
+  { id: 'request.sanction', pages: GUARDED_PAGE, re: SANCTION, units: 'blocks',
+    msg: 'a sentence about sanctions on a page of the on-request services or a guide about them — the owner decided to print none (FACTS §11); a customs penalty is a "fine" (jarima, штраф, 罚款, جریمه)',
+    bad: ['Sanksiya ostidagi tovarlarni tashimaymiz.', 'Санксия остидаги товарларни ташимаймиз.', 'Подсанкционные товары не перевозим.', 'We do not carry sanctioned goods.', '我们不承运受制裁货物。', 'کالاهای تحریمی حمل نمی‌کنیم.',
+      // the guides (2026-11): the penalty sense of the word is stopped as well
+      'Customs applies sanctions for a missed delivery deadline.', 'За нарушение срока доставки таможня применяет штрафные санкции.', 'Yetkazish muddati buzilsa, bojxona jarima sanksiyalarini qoʻllaydi.',
+      // military, dual-use and embargo goods: the same decision of the owner (review, 2026-11-12)
+      'We do not carry weapons, military or dual-use goods.', 'Военные грузы и товары двойного назначения мы не перевозим.', 'Goods under embargo are not accepted.', 'Harbiy yuklarni tashimaymiz.', 'Ҳарбий юкларни ташимаймиз.', '我们不承运军用和军民两用物资。', 'کالای نظامی و دوکاربردی حمل نمی‌کنیم.'],
+    good: ['Taqiq va cheklovlarga rioya etilganini tasdiqlovchi hujjatlar', 'Документы, подтверждающие соблюдение запретов и ограничений', 'Documents confirming that prohibitions and restrictions are observed', '证明已遵守禁止和限制规定的文件', 'اسنادی که رعایت ممنوعیت‌ها و محدودیت‌ها را تأیید می‌کند',
+      // printed by the guides (2026-11)
+      'For each day of delay customs charges a fee of one base calculation amount.', 'За каждый день просрочки таможня взимает сбор в размере одной базовой расчётной величины.', 'Muddat buzilsa, tashuvchi maʼmuriy javobgarlikka tortiladi va jarima toʻlaydi.', '逾期的，承运人承担行政责任并缴纳罚款。', 'در صورت تأخیر، حمل‌کننده جریمه می‌پردازد.'] },
+  { id: 'request.iran', pages: GUARDED_PAGE, re: IRAN, units: 'blocks',
+    msg: 'names Iran on a page of the on-request services or a guide about them — Iran is on hold (2026-11): nothing about it is printed, not even as a comparison or a denial',
+    bad: ['Afghanistan borders Iran, Pakistan and Turkmenistan.', 'Iranian trucks also use this road.', 'افغانستان با ایران، پاکستان و ترکمنستان هم‌مرز است.', 'Афганистан граничит с Ираном и Пакистаном.', 'Afgʻoniston Eron va Pokiston bilan chegaradosh.', 'Афғонистон Эрон ва Покистон билан чегарадош.', '阿富汗与伊朗和巴基斯坦接壤。', 'We do not deliver to Iran.'],
+    good: ['Afghanistan borders Pakistan, Turkmenistan, Tajikistan and Uzbekistan.', 'Tirana', 'Тиран', 'شهر ویران', 'Пиранья', '阿富汗与巴基斯坦接壤。'] },
+  { id: 'request.broker', pages: GUARDED_PAGE, re: BROKER_NAME, units: 'sentences',
+    msg: 'names the customs broker on a page of the on-request services or a guide about them — the owner said its legal name and register number are never printed (2026-11-12): write "our own customs broker"',
+    bad: ['Our own customs broker, Imex Services, files the transit declaration.', 'Imex services LLC is our customs broker in Tashkent.', 'Tranzit deklaratsiyasini Imex services brokerimiz topshiradi.', 'Транзит декларациясини Имех сервисес брокеримиз топширади.',
+      'Транзитную декларацию подаёт наш таможенный брокер — Imex services.', '过境报关单由 Imex services 报关行申报。', 'اظهارنامهٔ ترانزیت را کارگزار گمرکی ما، Imex services، ثبت می‌کند.'],
+    good: ['Our own customs broker files the transit declaration.', 'GSR Logistics is the brand of Imex services LLC.', 'Tranzit deklaratsiyasini oʻz bojxona brokerimiz topshiradi.', 'Транзит декларациясини ўз божхона брокеримиз топширади.',
+      'Транзитную декларацию подаёт наш собственный таможенный брокер.', '过境报关单由我们自有的报关行申报。', 'اظهارنامهٔ ترانزیت را کارگزار گمرکی خودمان ثبت می‌کند.'] },
 ];
 /** The <title> and the description / OG / Twitter strings of a page — without the JSON-LD, which repeats the page and the company. */
 const metaStrings = (html) => [decodeEntities((html.match(/<title>([\s\S]*?)<\/title>/) || ['', ''])[1]), ...[...html.matchAll(/<meta (?:name|property)="(?:description|og:title|og:description|twitter:title|twitter:description)" content="([^"]*)"/g)].map((m) => decodeEntities(m[1]))].filter(Boolean);
@@ -420,12 +537,16 @@ const pageUnits = (html, units) => { const list = [...blocksOf(mainMarkup(html))
  * no name beside the figure, and on the FAQ page or the home page no page-scoped rule reads it. So wherever a
  * question names Afghanistan, Hairatan or Mazar-i-Sharif, its answer is read like a page of the on-request
  * services: no time, price or volume — unless the sentence names China and Tashkent (whose figure it then is).
+ * (The two guides too: a figure of the law may stand on a guide only in a sentence of its own, never as the answer
+ * to a question that names an Afghan place — DESIGN-GUIDES §1, §3.)
  */
 const faqPairs = (html) => [...mainMarkup(html).matchAll(/<details\b[^>]*\bclass="[^"]*\bfaq-item\b[^"]*"[^>]*>\s*<summary\b[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g)]
   .map((m) => [normalize(entities(m[1].replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim()), blocksOf(m[2]).map(normalize)]);
 const afghanAnswerFigure = (question, answer) => (AFGHAN_NAME.test(question)
   ? answer.flatMap(sentences).map((s) => (REQUEST_FIGURE.test(s) && !REQUEST_FIGURE_OK.test(s) ? s.match(REQUEST_FIGURE)[0] : null)).find(Boolean) ?? null
   : null);
+/** The pages the question-and-answer rule reads: all but the on-request service pages, where request.figure reads every sentence anyway and lets no figure of the law through. */
+const faqRuleReads = (url) => !ON_REQUEST_PAGE.test(url);
 const FAQ_FIXTURES = {
   bad: [
     '<details class="faq-item" id="q36"><summary><span class="q">How long does delivery to Afghanistan take?</span></summary><div class="faq-body"><p>Usually 5–7 days from Tashkent.</p></div></details>',
@@ -433,6 +554,9 @@ const FAQ_FIXTURES = {
     '<details class="faq-item"><summary><span class="q">Сколько идёт груз до Мазари-Шарифа?</span></summary><div class="faq-body"><p>Обычно около недели.</p></div></details>',
     '<details class="faq-item"><summary><span class="q">发往阿富汗需要多久？</span></summary><div class="faq-body"><p>一般 5–7 天。</p></div></details>',
     '<details class="faq-item"><summary><span class="q">حمل بار به افغانستان چقدر طول می‌کشد؟</span></summary><div class="faq-body"><p>معمولاً ۵ تا ۷ روز.</p></div></details>',
+    // a figure of the law is no answer to a question that names an Afghan place, on a guide either (premerge review, 2026-11-13)
+    '<details class="faq-item"><summary><span class="q">How long does delivery to Hairatan take?</span></summary><div class="faq-body"><p>Under Article 218 of the Customs Code, no more than 10 calendar days.</p></div></details>',
+    '<details class="faq-item"><summary><span class="q">Сколько идёт груз до Хайратона?</span></summary><div class="faq-body"><p>По статье 218 Таможенного кодекса — не более 10 календарных дней.</p></div></details>',
   ],
   good: [
     '<details class="faq-item"><summary><span class="q">How long does delivery to Afghanistan take?</span></summary><div class="faq-body"><p>The manager calculates the time for your cargo. The 15–25 days on this site is the truck route from China to Tashkent.</p></div></details>',
@@ -458,12 +582,17 @@ const BLOCK_FIXTURES = {
     '<li><h3>Temir yoʻl va konteyner</h3><p>20–35 kun</p></li></ul><h3>Yangi yoʻnalish: Afgʻoniston, tranzit va ombor</h3>',
     '<p>Rail and containers: 20–35 days</p><h3>A new direction: Afghanistan, transit and warehouse</h3>',
     '<p class="side-line">Hairatan · Mazar-i-Sharif</p><p class="side-phone">+998 00 000 00 00</p><p>Mon–Sat 9:00–19:00</p><h3>Customs clearance</h3><p>1–3 days</p>',
+    // two rows of a guide's markdown table stay two blocks
+    '<table>\n<tbody>\n<tr>\n<td>China → Tashkent</td>\n<td>15–25 days</td>\n</tr>\n<tr>\n<td>China → Afghanistan</td>\n<td>on request</td>\n</tr>\n</tbody>\n</table>',
   ],
   bad: [
     '<table><tr><th>China → Afghanistan</th><td>by truck</td><td>12–15 days</td></tr></table>',
     '<dl><dt>To Hairatan</dt><dd>5–7 days</dd></dl>',
     '<p>To <strong>Mazar-i-Sharif</strong> in <span>5–7 days</span></p>',
     '<li><span>Hayratongacha</span> <span>5–7 kun</span></li>',
+    // a guide's markdown: the renderer prints each cell on its own line, and keeps the line breaks of a wrapped paragraph
+    '<table>\n<thead>\n<tr>\n<th>Delivery point</th>\n<th>Transit time</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Hairatan</td>\n<td>5–7 days</td>\n</tr>\n</tbody>\n</table>',
+    '<p>The truck reaches Hairatan\nin 5–7 days, as a rule.</p>',
   ],
 };
 /**
@@ -488,6 +617,76 @@ function registryMisfit() {
   return [...[...expected].filter((s) => !listed.has(s)).map((s) => `REQUEST_SLUGS in scripts/check-content.mjs lacks the on-request service page «${s}» — the page-scoped rules would not read it`),
     ...[...listed].filter((s) => !expected.has(s)).map((s) => `REQUEST_SLUGS in scripts/check-content.mjs names «${s}», which is not an on-request service page`)];
 }
+/**
+ * GUIDE_SLUGS against the registry, as registryMisfit() does it for the services. (It is a list of its own: the guide
+ * slugs in REQUEST_SLUGS would fail registryMisfit(), which knows that list as "the on-request SERVICE pages", and
+ * would put request.figure — no figure at all — on pages that quote the law.)
+ *   · A guide of GUIDE_KEYS that src/data/guides.ts registers must have every one of its slugs in the list — the
+ *     Uzbek, Russian and English ones (zh and fa publish the English slug) and the Cyrillic one of src/i18n/routes.ts —
+ *     or one locale's page would be read by no page-scoped rule.
+ *   · A guide whose frontmatter tags name an on-request service (`tags: [afghanistan, transit, …]` — the keys its
+ *     "related services" list is built from) must be one of GUIDE_KEYS: a third guide about these services is
+ *     otherwise a page nobody guards.
+ * A key that is not registered yet is not an error (this list is written before the guides are): its slugs match no page.
+ */
+function guideMisfit() {
+  const read = (rel) => fs.readFileSync(new URL(rel, import.meta.url), 'utf8');
+  const out = [];
+  const registry = read('../src/data/guides.ts');
+  const routes = read('../src/i18n/routes.ts');
+  const listed = new Set(GUIDE_SLUGS);
+  for (const key of GUIDE_KEYS) {
+    const row = new RegExp(`['"]${key}['"]:\\s*\\{([^}]*)\\}`).exec(registry);
+    if (!row) continue;
+    const slugs = Object.fromEntries([...row[1].matchAll(/(\w+): '([^']+)'/g)].map((m) => [m[1], m[2]]));
+    const cyr = new RegExp(`['"]${slugs.uz}['"]:\\s*'([^']+)'`).exec(routes);
+    if (!cyr) out.push(`no Cyrillic slug for the guide «${key}» in src/i18n/routes.ts`);
+    for (const s of new Set([...Object.values(slugs), ...(cyr ? [cyr[1]] : [])])) if (!listed.has(s)) out.push(`GUIDE_SLUGS in scripts/check-content.mjs lacks «${s}» of the guide «${key}» — the page-scoped rules would not read that page`);
+  }
+  const requestKeys = [...read('../src/data/services.ts').matchAll(/\{ key: '(\w+)'[^\n]*\bquote: 'request'/g)].map((m) => m[1]);
+  if (requestKeys.length < 3) out.push(`src/data/services.ts: found ${requestKeys.length} services marked quote: 'request' (three exist) — guideMisfit() in scripts/check-content.mjs no longer reads the registry`);
+  for (const lang of ['uz', 'ru', 'en', 'zh', 'fa']) {
+    const dir = new URL(`../src/content/guides/${lang}/`, import.meta.url);
+    if (!fs.existsSync(dir)) continue;
+    for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.md'))) {
+      const fm = (/^---\r?\n([\s\S]*?)\r?\n---/.exec(fs.readFileSync(new URL(file, dir), 'utf8')) || ['', ''])[1];
+      const inline = /^tags:[ \t]*\[([^\]]*)\]/m.exec(fm);
+      const block = /^tags:[ \t]*\r?\n((?:[ \t]+-[^\n]*\r?\n?)+)/m.exec(fm);
+      const tags = (inline ? inline[1].split(',') : block ? block[1].split('\n').map((l) => l.replace(/^[ \t]+-/, '')) : []).map((t) => t.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+      const key = (/^translationKey:[ \t]*['"]?([\w-]+)/m.exec(fm) || [])[1];
+      const slug = (/^slug:[ \t]*['"]?([^\s'"]+)/m.exec(fm) || [])[1];
+      const about = tags.filter((t) => requestKeys.includes(t));
+      if (about.length && !GUIDE_KEYS.includes(key)) out.push(`src/content/guides/${lang}/${file} is tagged ${about.join(', ')} — an on-request service — but its translationKey «${key}» is not in GUIDE_KEYS of scripts/check-content.mjs: the page-scoped rules would not read the page`);
+      if (GUIDE_KEYS.includes(key) && slug && !listed.has(slug)) out.push(`GUIDE_SLUGS in scripts/check-content.mjs lacks «${slug}» (src/content/guides/${lang}/${file}, translationKey ${key}) — the page-scoped rules would not read that page`);
+    }
+  }
+  return out;
+}
+/** Which pages are the guides and which are not: a pattern that matched every guide would put guide.figure on the China → Tashkent ones. */
+const GUIDE_PAGE_FIXTURES = [
+  ['/qollanma/xitoydan-afgonistonga-yuk/', true], ['/kirill/қўлланма/хитойдан-афғонистонга-юк/', true], ['/ru/gid/gruz-iz-kitaya-v-afganistan-cherez-uzbekistan/', true],
+  ['/en/guides/cargo-from-china-to-afghanistan-via-uzbekistan/', true], ['/zh/guides/cargo-from-china-to-afghanistan-via-uzbekistan/', true], ['/fa/guides/cargo-from-china-to-afghanistan-via-uzbekistan/', true],
+  ['/qollanma/ozbekiston-orqali-tranzit/', true], ['/kirill/қўлланма/ўзбекистон-орқали-транзит/', true], ['/ru/gid/tranzit-cherez-uzbekistan-dokumenty/', true],
+  ['/en/guides/transit-through-uzbekistan-documents/', true], ['/zh/guides/transit-through-uzbekistan-documents/', true], ['/fa/guides/transit-through-uzbekistan-documents/', true],
+  ['/qollanma/xitoydan-yuk-olib-kelish/', false], ['/en/guides/china-tashkent-routes/', false], ['/en/guides/', false], ['/en/services/transit-documents/', false], ['/xizmatlar/afgonistonga-yuk-tashish/', false], ['/', false],
+];
+/** Which rule reads which page: a rule put back on the service pages only, or request.figure put on a guide, must not pass in silence. */
+const PAGE_SCOPE_FIXTURES = [
+  // [rule, a service page, a guide page, any other page]
+  ['request.ours', true, true, false], ['request.type', true, true, false], ['request.sanction', true, true, false],
+  ['request.figure', true, false, false], ['guide.figure', false, true, false], ['request.iran', true, true, false], ['request.broker', true, true, false],
+];
+const pageScopeMisfit = () => [
+  // the question-and-answer rule reads every page but the on-request service pages, which read every sentence
+  ...[['/en/faq/', true], ['/', true], ['/en/guides/china-tashkent-routes/', true], ['/en/services/cargo-to-afghanistan/', false], ['/fa/guides/cargo-from-china-to-afghanistan-via-uzbekistan/', true]]
+    .filter(([url, want]) => faqRuleReads(url) !== want).map(([url, want]) => `the question-and-answer rule ${want ? 'does not read' : 'reads'} ${url}`),
+  ...PAGE_SCOPE_FIXTURES.flatMap(([id, service, guide, other]) => {
+    const r = PAGE_CLAIMS.find((x) => x.id === id);
+    if (!r) return [`the page-scoped rule ${id} is missing`];
+    const urls = [['/en/services/transit-documents/', service], ['/kirill/хизматлар/афғонистонга-юк-ташиш/', service], ['/en/guides/transit-through-uzbekistan-documents/', guide], ['/kirill/қўлланма/хитойдан-афғонистонга-юк/', guide], ['/en/guides/china-tashkent-routes/', other], ['/en/faq/', other]];
+    return urls.filter(([url, want]) => r.pages.test(url) !== want).map(([url, want]) => `${id} ${want ? 'does not read' : 'reads'} ${url}`);
+  }),
+];
 const markupHits = (html) => claimHits(normalize(strip(`<main>${html}</main>`)), blocks(`<main>${html}</main>`).map(normalize));
 const fixtureMisfires = [
   ...VOLUME_FIXTURES.bad.filter((s) => !VOLUME_RULES.some(([re]) => re.test(s) || re.test(normalize(s)))).map((s) => `the volume rules miss their bad sentence: ${s}`),
@@ -503,6 +702,10 @@ const fixtureMisfires = [
   // a list of sentences that has been emptied proves nothing
   ...Object.entries({ VOLUME_FIXTURES, WAREHOUSE_FIXTURES, BLOCK_FIXTURES, FAQ_FIXTURES, ...Object.fromEntries(PAGE_CLAIMS.map((r) => [r.id, r])) }).flatMap(([name, f]) => ['bad', 'good'].filter((k) => !Array.isArray(f[k]) || !f[k].length).map((k) => `${name} has no ${k} sentence`)),
   ...registryMisfit(),
+  ...guideMisfit(),
+  ...pageScopeMisfit(),
+  ...SENTENCE_FIXTURES.filter(([s, n]) => sentences(s).length !== n).map(([s, n]) => `sentences() reads ${sentences(s).length} sentences, not ${n}, in: ${s}`),
+  ...GUIDE_PAGE_FIXTURES.flatMap(([url, want]) => (GUIDE_PAGE.test(url) === want && GUARDED_PAGE.test(url) === (want || ON_REQUEST_PAGE.test(url)) ? [] : [`GUIDE_PAGE / GUARDED_PAGE misjudge the page ${url}`])),
   ...CLAIM_RULES.flatMap((r) => r.good.flatMap((s) => FORBIDDEN.filter(([re]) => re.test(s) || re.test(normalize(s))).map(([, msg]) => `«${msg}» fires on the good sentence of ${r.id}: ${s}`))),
   ...BLOCK_FIXTURES.good.flatMap((html) => markupHits(html).map((msg) => `a block rule reads two blocks as one — «${msg}» on: ${html}`)),
   ...BLOCK_FIXTURES.bad.filter((html) => !markupHits(html).length).map((html) => `the block rules miss one block: ${html}`),
@@ -553,8 +756,8 @@ for (const file of walk(dist)) {
     const found = [...pageUnits(html, r.units), ...(r.units === 'sentences' ? head.flatMap(sentences) : head)].map((u) => pageHit(r, u)).find(Boolean);
     if (found) errors.push(`${url}: ${r.msg} — «${found.trim().slice(0, 60)}»`);
   }
-  // A question about Afghanistan outside the on-request pages (they read every sentence already): its answer carries no figure.
-  if (!ON_REQUEST_PAGE.test(url)) for (const [question, answer] of faqPairs(html)) {
+  // A question about Afghanistan outside the on-request service pages (they read every sentence already): its answer carries no figure.
+  if (faqRuleReads(url)) for (const [question, answer] of faqPairs(html)) {
     const found = afghanAnswerFigure(question, answer);
     if (found) errors.push(`${url}: a time, a price or a volume in the answer to a question about Afghanistan — nothing is published for that direction (a figure of the China → Tashkent route passes in a sentence that names China and Tashkent) — «${question.slice(0, 48)}» → «${found.trim()}»`);
   }

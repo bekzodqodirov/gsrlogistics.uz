@@ -28,6 +28,8 @@ const latin = {
   'prohibited-goods': { uz: 'taqiqlangan-tovarlar', ru: 'zapreshchennye-tovary', en: 'prohibited-goods', zh: 'prohibited-goods', fa: 'prohibited-goods' },
   'glossary': { uz: 'kargo-lugati', ru: 'slovar-kargo', en: 'cargo-glossary', zh: 'cargo-glossary', fa: 'cargo-glossary' },
   'routes': { uz: 'xitoydan-toshkentga-yonalishlar', ru: 'marshruty-kitay-tashkent', en: 'china-tashkent-routes', zh: 'china-tashkent-routes', fa: 'china-tashkent-routes' },
+  'china-afghanistan': { uz: 'xitoydan-afgonistonga-yuk', ru: 'gruz-iz-kitaya-v-afganistan-cherez-uzbekistan', en: 'cargo-from-china-to-afghanistan-via-uzbekistan', zh: 'cargo-from-china-to-afghanistan-via-uzbekistan', fa: 'cargo-from-china-to-afghanistan-via-uzbekistan' },
+  'uzbekistan-transit': { uz: 'ozbekiston-orqali-tranzit', ru: 'tranzit-cherez-uzbekistan-dokumenty', en: 'transit-through-uzbekistan-documents', zh: 'transit-through-uzbekistan-documents', fa: 'transit-through-uzbekistan-documents' },
 };
 
 export const guideSlugs: Record<string, Localized<string>> = Object.fromEntries(
