@@ -128,7 +128,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Xitoy tilini bilishim shartmi?',
-        a: 'Yoʻq. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi; zavod bilan muzokara, shartnoma va daʼvolarni biz olib boramiz. Siz faqat tovar va narx boʻyicha qaror qilasiz.',
+        a: 'Yoʻq. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi; zavod bilan muzokara, shartnoma va daʼvolarni biz olib boramiz. Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor. Siz faqat tovar va narx boʻyicha qaror qilasiz.',
       },
       {
         q: 'Namuna qancha turadi va necha kunda keladi?',
@@ -155,14 +155,14 @@ const content: ServiceContentSource = {
         a: 'Ha. Qidiruv butun Xitoy boʻylab olib boriladi — Guanchjou (kiyim), Shenchjen (elektronika), Foshan (mebel), Keqiao (gazlama). Tovar Ivu omboriga xitoy ichki yetkazuvi bilan 1–3 kunda keladi va u yerda konsolidatsiya qilinadi.',
       },
     ],
-    related: ['buying', 'warehouse', 'truck'],
+    related: ['wholesale', 'buying', 'truck'],
     guideKeys: ['find-supplier', 'yiwu-guangzhou', 'order-from-1688', 'shipping-from-china'],
     cta: {
       title: 'Nima kerakligini yozing — qolganini topamiz.',
       text: 'Tovarning rasmi yoki havolasi, kerakli miqdor va sifat talabini yuboring. Bir necha zavoddan narx, MOQ va muddat bilan taklif tayyorlaymiz.',
       draft: 'Assalomu alaykum! Xitoydan tovar topish kerak. Tovar: … Miqdor: … Talab (sifat, material, sertifikat): … Taxminiy byudjet: …',
     },
-    updated: '2026-09-08',
+    updated: '2026-11-18',
   },
 
   ru: {
@@ -284,7 +284,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Нужно ли мне знать китайский?',
-        a: 'Нет. Наши менеджеры говорят на узбекском, русском и китайском; переговоры с фабрикой, договор и претензии ведём мы. Вы принимаете решения только по товару и цене.',
+        a: 'Нет. Наши менеджеры говорят на узбекском, русском и китайском; переговоры с фабрикой, договор и претензии ведём мы. У нас есть сотрудники, которые знают китайский язык на уровне HSK 6. Вы принимаете решения только по товару и цене.',
       },
       {
         q: 'Сколько стоит образец и когда он приходит?',
@@ -311,14 +311,14 @@ const content: ServiceContentSource = {
         a: 'Да. Поиск ведём по всему Китаю — Гуанчжоу (одежда), Шэньчжэнь (электроника), Фошань (мебель), Кэцяо (ткани). Товар приходит на склад в Иу внутрикитайской доставкой за 1–3 дня и там консолидируется.',
       },
     ],
-    related: ['buying', 'warehouse', 'truck'],
+    related: ['wholesale', 'buying', 'truck'],
     guideKeys: ['find-supplier', 'yiwu-guangzhou', 'order-from-1688', 'shipping-from-china'],
     cta: {
       title: 'Напишите, что нужно — остальное найдём.',
       text: 'Пришлите фото или ссылку на товар, нужное количество и требования к качеству. Подготовим предложения от нескольких фабрик с ценой, MOQ и сроками.',
       draft: 'Здравствуйте! Нужно найти товар в Китае. Товар: … Количество: … Требования (качество, материал, сертификаты): … Ориентировочный бюджет: …',
     },
-    updated: '2026-09-08',
+    updated: '2026-11-18',
   },
 
   en: {
@@ -440,7 +440,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Do I need to speak Chinese?',
-        a: 'No. Our managers speak Uzbek, Russian and Chinese; we handle negotiations, the contract and any claims with the factory. You only decide on the product and the price.',
+        a: 'No. Our managers speak Uzbek, Russian and Chinese; we handle negotiations, the contract and any claims with the factory. We have employees who know Chinese at HSK 6 level. You only decide on the product and the price.',
       },
       {
         q: 'How much does a sample cost and when does it arrive?',
@@ -467,14 +467,14 @@ const content: ServiceContentSource = {
         a: 'Yes. We search across all of China — Guangzhou (clothing), Shenzhen (electronics), Foshan (furniture), Keqiao (fabrics). Goods reach the Yiwu warehouse by domestic courier in 1–3 days and are consolidated there.',
       },
     ],
-    related: ['buying', 'warehouse', 'truck'],
+    related: ['wholesale', 'buying', 'truck'],
     guideKeys: ['find-supplier', 'yiwu-guangzhou', 'order-from-1688', 'shipping-from-china'],
     cta: {
       title: 'Tell us what you need. We find the rest.',
       text: 'Send a photo or link, the quantity and your quality requirements. We come back with offers from several factories, with price, MOQ and lead time.',
       draft: 'Hello! I need to source a product in China. Product: … Quantity: … Requirements (quality, material, certificates): … Rough budget: …',
     },
-    updated: '2026-09-08',
+    updated: '2026-11-18',
   },
 };
 

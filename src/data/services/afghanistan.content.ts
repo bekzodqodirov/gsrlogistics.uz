@@ -1,7 +1,7 @@
 import type { ServiceContentSource } from './types';
 
 /**
- * Afgʻonistonga yuk tashish — long-form page content (service 10, a NEW direction, written 2026-11-12).
+ * Afgʻonistonga yuk tashish — long-form page content (service 11, a NEW direction, written 2026-11-12).
  * Every claim comes from the owner's answers of 2026-11-11 and 2026-11-12 (FACTS §12), and nothing more:
  *   - truck only: a full truck (the whole truck for one client) or consolidated cargo (small lots accepted);
  *   - two directions: China → Afghanistan in transit through Uzbekistan, and Uzbekistan → Afghanistan (export);
@@ -45,7 +45,7 @@ const content: ServiceContentSource = {
         'Xitoydan va Oʻzbekistondan Afgʻonistonga fura bilan yuk tashiymiz: butun fura yoki yigʻma yuk, Hayraton va Mozori Sharifgacha. Narx va muddat — soʻrov boʻyicha.',
     },
     hero: {
-      eyebrow: 'Xizmat 10 — Afgʻoniston',
+      eyebrow: 'Xizmat 11 — Afgʻoniston',
       h1: 'Afgʻonistonga yuk tashish: Xitoydan va Oʻzbekistondan, fura bilan',
       intro:
         'Toshkentdagi GSR Logistics kompaniyasi endi Afgʻonistonga ham fura bilan yuk tashiydi. Xitoydagi yuk Ivuda qabul qilinadi, Qozogʻiston orqali keladi va Oʻzbekiston hududidan tranzit tartibida oʻtadi, Oʻzbekistondagi yuk esa toʻgʻridan-toʻgʻri joʻnatiladi. Butun fura ham, yigʻma yuk ham olamiz. Yukni Hayraton chegara postigacha yoki Mozori Sharifgacha yetkazamiz. Narx va muddat har bir yuk uchun alohida hisoblanadi.',
@@ -205,7 +205,7 @@ const content: ServiceContentSource = {
         'Возим грузы фурами в Афганистан из Китая и из Узбекистана: целая фура или сборный груз, до Хайратона и Мазари-Шарифа. Цена и срок — по запросу.',
     },
     hero: {
-      eyebrow: 'Услуга 10 — Афганистан',
+      eyebrow: 'Услуга 11 — Афганистан',
       h1: 'Грузы в Афганистан: из Китая и из Узбекистана, фурой',
       intro:
         'GSR Logistics, логистическая компания из Ташкента, теперь возит грузы фурами и в Афганистан. Груз из Китая принимают в Иу, оттуда он идёт через Казахстан, затем транзитом через Узбекистан, а груз, который находится в Узбекистане, отправляется напрямую. Берём и целую фуру, и сборный груз. Довозим до пограничного перехода Хайратон или до Мазари-Шарифа. Цена и срок считаются отдельно для каждого груза.',
@@ -365,7 +365,7 @@ const content: ServiceContentSource = {
         'Truck cargo to Afghanistan from China and from Uzbekistan: a full truck or consolidated cargo, to Hairatan and Mazar-i-Sharif. Price and timing on request.',
     },
     hero: {
-      eyebrow: 'Service 10 — Afghanistan',
+      eyebrow: 'Service 11 — Afghanistan',
       h1: 'Cargo to Afghanistan: from China and from Uzbekistan, by truck',
       intro:
         'GSR Logistics, a logistics company in Tashkent, now also carries cargo to Afghanistan by truck. Cargo from China is received in Yiwu and travels through Kazakhstan, then crosses Uzbekistan in transit; cargo that is already in Uzbekistan leaves directly. We take a full truck or consolidated cargo. We deliver to the Hairatan border crossing or to Mazar-i-Sharif. Price and timing are calculated for each shipment separately.',

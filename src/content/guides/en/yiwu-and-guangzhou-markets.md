@@ -6,7 +6,7 @@ translationKey: yiwu-guangzhou
 slug: yiwu-and-guangzhou-markets
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [sourcing, buying, warehouse, bozorlar]
+tags: [sourcing, buying, warehouse, bozorlar, wholesale]
 faq:
   - q: "What is the minimum order at the Yiwu market?"
     a: "Usually one carton (一箱起批) or a few dozen pieces — 12, 24, 48 or 100 units depending on the product. Prices are quoted in yuan per piece. The same seller often lists the same item on 1688; small lots from several booths are consolidated into one shipment at the Yiwu receiving point. Consolidated truck cargo is accepted from 1 m³, counted across that shipment; cargo under 1 m³ can go by air, from 0.5 kg."

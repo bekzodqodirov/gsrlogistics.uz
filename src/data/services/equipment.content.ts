@@ -16,7 +16,7 @@ const content: ServiceContentSource = {
         'Dastgoh va ishlab chiqarish liniyalarini Xitoyda topamiz, zavodni tekshiramiz, shartnoma va toʻlovni tuzamiz, Toshkentga tashiymiz, bojxonadan oʻtkazamiz va oʻrnatamiz. Koʻp sanoat uskunalari uchun boj 0%, QQS 12%.',
     },
     hero: {
-      eyebrow: 'Xizmat 06 — Uskunalar',
+      eyebrow: 'Xizmat 07 — Uskunalar',
       h1: 'Xitoydan uskunalar importi «kalit topshirish»',
       intro:
         'Uskunalar importi «kalit topshirish» — bu Xitoyda dastgoh yoki ishlab chiqarish liniyasini topish, zavodni tekshirish, shartnoma va toʻlov, Toshkentgacha tashish, bojxona rasmiylashtiruvi va oʻrnatish — hammasi bitta shartnoma va bitta menejer bilan. Koʻp sanoat uskunalari uchun boj stavkasi 0% (PQ-3818, 2026-yil 11-fevraldagi PQ-58 tahririda), QQS 12%. Yoʻl: alohida fura yoki yigʻma yuk bilan taxminan 15–25 kun, konteynerda temir yoʻl bilan 20–35 kun.',
@@ -177,7 +177,7 @@ const content: ServiceContentSource = {
         'Находим станки и производственные линии в Китае, проверяем завод, оформляем договор и оплату, везём в Ташкент, растамаживаем и монтируем. Для большинства промышленного оборудования пошлина 0%, НДС 12%.',
     },
     hero: {
-      eyebrow: 'Услуга 06 — Оборудование',
+      eyebrow: 'Услуга 07 — Оборудование',
       h1: 'Импорт оборудования из Китая «под ключ»',
       intro:
         'Импорт оборудования «под ключ» — это поиск станка или производственной линии в Китае, проверка завода, договор и оплата, перевозка до Ташкента, таможенное оформление и монтаж — всё по одному договору и с одним менеджером. Для большинства промышленного оборудования ставка пошлины 0% (ПП-3818 в редакции ПП-58 от 11 февраля 2026 г.), НДС 12%. В пути: отдельной фурой или сборным грузом ориентировочно 15–25 дней, контейнером по железной дороге — 20–35 дней.',
@@ -338,7 +338,7 @@ const content: ServiceContentSource = {
         'We find machinery and production lines in China, verify the factory, arrange the contract and payment, ship to Tashkent, clear customs and install. Most industrial equipment carries 0% import duty, VAT 12%.',
     },
     hero: {
-      eyebrow: 'Service 06 — Equipment',
+      eyebrow: 'Service 07 — Equipment',
       h1: 'Turnkey equipment import from China',
       intro:
         'Turnkey equipment import means finding a machine or production line in China, verifying the factory, arranging the contract and payment, shipping to Tashkent, clearing customs and installing — all under one contract with one manager. Most industrial equipment carries a 0% import duty (Resolution PP-3818 as amended by PP-58 of February 11, 2026) plus 12% VAT. Transit: roughly 15–25 days by dedicated or consolidated truck, 20–35 days by rail container.',

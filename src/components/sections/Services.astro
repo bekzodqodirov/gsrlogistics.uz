@@ -9,7 +9,7 @@
  *      per-m³ rate under it (each figure printed once: see `truckPrice`);
  *   2. the two other ways down the same route (air, rail) — half-width cards at h4 scale,
  *      under their own sub-head, closed by the quiet "which mode?" comparison strip;
- *   3. the long tail (sourcing, buying, equipment, customs, warehouse, cars) — a two-column
+ *   3. the long tail (sourcing, buying, wholesale buying, equipment, customs, warehouse, cars) — a two-column
  *      list on hairlines, no card, no glyph tile.
  * Nothing is removed: every service still links to its own page.
  *
@@ -177,7 +177,7 @@ const flagshipPhoto = loadingShot as typeof loadingShot | null;
       </div>
     )}
 
-    <!-- 3 — the long tail, as a list rather than six more cards -->
+    <!-- 3 — the long tail, as a list rather than seven more cards -->
     <div class="group">
       <div class="group-head">
         <h3 class="group-title">{t.home.tail.title}</h3>
@@ -299,7 +299,7 @@ const flagshipPhoto = loadingShot as typeof loadingShot | null;
 
   /* ---------- 3 — the long tail ---------- */
   /* No box, no tile: six bordered cards were what made the section read "we do everything".
-     A hairline per row carries the same six links at a fraction of the ink. */
+     A hairline per row carries the same links — seven since wholesale buying joined them — at a fraction of the ink. */
   .tail { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; margin: 0; padding: 0; }
   .tail > li { border-top: 1px solid var(--border-soft); min-width: 0; }
   .tail-row { display: grid; grid-template-columns: 20px minmax(0, 1fr) 10px; align-items: start; gap: 14px; padding: 18px 0; }

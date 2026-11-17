@@ -603,6 +603,7 @@ const PUBLISHED_SLUGS = {
     'temir-yol-konteyner': 'темир-йўл-контейнер',
     'tovar-topish': 'товар-топиш',
     'sotib-olish': 'сотиб-олиш',
+    'xitoydan-optom': 'хитойдан-оптом',
     'uskunalar-importi': 'ускуналар-импорти',
     bojxona: 'божхона',
     'ombor-sifat-nazorati': 'омбор-сифат-назорати',

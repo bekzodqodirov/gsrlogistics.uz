@@ -53,7 +53,7 @@ export const site = {
    * over its limit). Usernames without the @, per team; one is picked at random per click. Empty =
    * the company account. Owner, 2026-09-26: fallback goes to the company account, so all are empty.
    *   cargo   — bringing cargo: consolidated truck, air, rail, customs, warehouse
-   *   buying  — sourcing, buying on 1688/Taobao, equipment import, car import
+   *   buying  — sourcing, buying on 1688/Taobao, wholesale buying, equipment import, car import
    *   general — anything else
    */
   leadTeams: {
@@ -176,7 +176,7 @@ export const whatsappUrl = `https://wa.me/${site.whatsapp}`;
  * and sitemap lastmod. It is NOT the tariff date (tariffs.json `updated`, the one the price captions print) — a new
  * service group or FAQ group changes these pages without changing a tariff. Bump it with such a change.
  */
-export const hubsUpdated = '2026-11-12';
+export const hubsUpdated = '2026-11-18';
 /** The later of two ISO dates. */
 export const laterDate = (a: string, b: string) => (a > b ? a : b);
 /**

@@ -6,7 +6,7 @@ translationKey: order-from-1688
 slug: 1688-orqali-buyurtma-berish
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [buying, sourcing, warehouse, "1688"]
+tags: [buying, sourcing, warehouse, "1688", wholesale]
 faq:
   - q: "1688-dan Oʻzbekistonga toʻgʻridan-toʻgʻri buyurtma berib boʻladimi?"
     a: "Amalda yoʻq. 1688 faqat Xitoy ichida yetkazadi, toʻlovni Alipay yoki xitoy bank kartasi orqali qabul qiladi (Humo, Uzcard va koʻpincha Visa oʻtmaydi), sotuvchilar faqat xitoy tilida yozadi. Shuning uchun buyurtma vositachi orqali beriladi: GSR Logistics tovarni sotib oladi, Ivu omboriga qabul qiladi va Toshkentga yetkazadi."

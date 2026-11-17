@@ -125,7 +125,7 @@ const content: ServiceContent = {
     },
     {
       q: '需要中国境内银行卡、支付宝，或者亲自与卖家沟通吗？',
-      a: '不需要。我们用自己的账户通过支付宝或微信支付以人民币向卖家付款，并用中文与卖家沟通。您以苏姆付款，通过 Telegram 用乌兹别克语或俄语与我们联系。',
+      a: '不需要。我们用自己的账户通过支付宝或微信支付以人民币向卖家付款，并用中文与卖家沟通。我们有中文达到 HSK 6 级水平的员工。您以苏姆付款，通过 Telegram 用乌兹别克语或俄语与我们联系。',
     },
     {
       q: '淘宝和拼多多也能代采购吗？',
@@ -148,13 +148,13 @@ const content: ServiceContent = {
       a: '商品价格和佣金——下单前以苏姆支付：银行卡、Click、Payme 或在办公室付现金；法人客户凭发票通过银行转账付款。运费——货物到达塔什干时支付。',
     },
   ],
-  related: ['truck', 'warehouse', 'sourcing'],
+  related: ['wholesale', 'sourcing', 'truck'],
   guideKeys: ['order-from-1688', 'cargo-pricing', 'customs-2026', 'prohibited-goods'],
   cta: {
     title: '发来链接，即可获得报价。',
     text: '请发送商品链接、颜色、尺码和数量。客户经理会按乌央行汇率以美元报价，佣金和运费分行列明。',
     draft: '您好！我想从 1688 / 淘宝采购商品。链接：… 颜色/尺码：… 数量：… 运输方式：汽运 / 空运',
   },
-  updated: '2026-09-08',
+  updated: '2026-11-18',
 };
 export default content;

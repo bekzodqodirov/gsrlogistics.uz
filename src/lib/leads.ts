@@ -22,12 +22,13 @@ export type LeadTeam = keyof typeof site.leadTeams;
 
 /**
  * Owner, 2026-09-26: the buying team takes sourcing, buying, equipment and car import; the cargo team the rest.
+ * Wholesale buying (owner, 2026-11-17; on the site 2026-11-18) is buying work, so it goes to the buying team.
  * The three services of 2026-11-12 (cargo to Afghanistan, transit documents, the warehouse under customs control)
  * are cargo work, so they go to the cargo team; GSR's system knows three teams and no fourth was asked for.
  */
 export const serviceTeam: Record<ServiceKey, LeadTeam> = {
   truck: 'cargo', air: 'cargo', rail: 'cargo', customs: 'cargo', warehouse: 'cargo',
-  sourcing: 'buying', buying: 'buying', equipment: 'buying', cars: 'buying',
+  sourcing: 'buying', buying: 'buying', wholesale: 'buying', equipment: 'buying', cars: 'buying',
   afghanistan: 'cargo', transit: 'cargo', bonded: 'cargo',
 };
 

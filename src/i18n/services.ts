@@ -186,11 +186,11 @@ const uz: ServicesStrings = {
     seoDescription: 'Xitoydan Oʻzbekistonga yuk tashish va xarid — GSR Logistics xizmatlari: Toshkentga yigʻma yuk 15–25 kun, avia 5–10 kun, temir yoʻl konteynerlari, tovar topish, 1688 va Taobaodan sotib olish, uskunalar importi, bojxona rasmiylashtiruvi, Xitoyda uchta qabul manzili (Ivu, Guanchjou, Qashqar) va avtomobil importi. Yangi yoʻnalish: Afgʻonistonga fura bilan yuk tashish, Oʻzbekiston orqali tranzit hujjatlari va Toshkentda bojxona nazoratidagi ombor.',
     eyebrow: 'Xizmatlar',
     h1: 'Xitoydan yuk tashish va xarid boʻyicha xizmatlar',
-    intro: 'GSR Logistics Xitoy bilan bogʻliq toʻqqiz ishni bajaradi: Ivu omboridan Xorgos orqali Toshkentga yigʻma yuk taxminan 15–25 kunda, avia kargo 5–10 kunda, temir yoʻl konteynerlari 20–35 kunda keladi. Xitoyda uchta qabul manzili — Ivu, Guanchjou va Qashqar. Tovar topamiz, 1688 va Taobaodan sotib olamiz, uskunalarni «kalit topshirish» sharti bilan keltiramiz, bojxonani rasmiylashtiramiz. Bitta menejer, bitta shartnoma — 2018-yildan beri. Yangi yoʻnalish: Afgʻonistonga fura bilan yuk tashish, Oʻzbekiston orqali tranzit hujjatlari va Toshkentda bojxona nazoratidagi ombor.',
+    intro: 'GSR Logistics Xitoy bilan bogʻliq oʻnta ishni bajaradi: Ivu omboridan Xorgos orqali Toshkentga yigʻma yuk taxminan 15–25 kunda, avia kargo 5–10 kunda, temir yoʻl konteynerlari 20–35 kunda keladi. Xitoyda uchta qabul manzili — Ivu, Guanchjou va Qashqar. Tovar topamiz, 1688 va Taobaodan sotib olamiz, zavod va sotuvchilardan ulgurji (optom) xarid qilamiz, uskunalarni «kalit topshirish» sharti bilan keltiramiz, bojxonani rasmiylashtiramiz. Bitta menejer, bitta shartnoma — 2018-yildan beri. Yangi yoʻnalish: Afgʻonistonga fura bilan yuk tashish, Oʻzbekiston orqali tranzit hujjatlari va Toshkentda bojxona nazoratidagi ombor.',
     groups: { shipping: 'Yuk tashish', buying: 'Xitoyda topish va sotib olish', paperwork: 'Rasmiylashtiruv va nazorat', regional: 'Afgʻoniston, tranzit va ombor', vehicles: 'Avtomobillar' },
     groupLead: {
       shipping: 'Uch yoʻnalish — avto, avia, temir yoʻl. Muddat va narx yukning ogʻirligi, hajmi va shoshilinchligiga bogʻliq.',
-      buying: 'Xitoy tilini bilishingiz shart emas: menejerlar zavod bilan gaplashadi, yuanda toʻlaydi, namunani tekshiradi.',
+      buying: 'Xitoy tilini bilishingiz shart emas: uni HSK 6 darajasida biladigan xodimlarimiz bor. Menejerlar zavod bilan gaplashadi, yuanda toʻlaydi, namunani tekshiradi.',
       paperwork: 'Hujjatlar, deklaratsiya, GTD va sifat nazorati — yuk yoʻlga chiqishidan oldin.',
       regional: 'Yangi yoʻnalish: Afgʻonistonga fura bilan yuk tashiymiz, Oʻzbekiston orqali tranzit hujjatlarini rasmiylashtiramiz, Toshkentda bojxona nazoratidagi ombordan joy ajratamiz. Narx va muddat — soʻrov boʻyicha.',
       vehicles: 'Buyurtma asosida avtomobil va elektromobil — tanlovdan rasmiylashtiruvgacha.',
@@ -316,11 +316,11 @@ const ru: ServicesStrings = {
     seoDescription: 'Услуги GSR Logistics: сборный груз из Китая в Ташкент за 15–25 дней, авиа за 5–10, ж/д контейнеры, поиск товаров, выкуп с 1688 и Taobao, импорт оборудования, таможенное оформление, три адреса приёма в Китае (Иу, Гуанчжоу, Кашгар) и авто из Китая. Новое направление: грузы фурой в Афганистан, транзитные документы в Узбекистане и склад под таможенным контролем в Ташкенте.',
     eyebrow: 'Услуги',
     h1: 'Услуги доставки и закупок в Китае',
-    intro: 'GSR Logistics закрывает девять задач, связанных с Китаем: сборный груз со склада в Иу через Хоргос в Ташкент — ориентировочно 15–25 дней, авиа карго — 5–10, ж/д контейнеры — 20–35. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар. Находим товар, выкупаем на 1688 и Taobao, привозим оборудование под ключ, оформляем таможню. Один менеджер, один договор — с 2018 года. Новое направление: грузы фурой в Афганистан, транзитные документы в Узбекистане и склад под таможенным контролем в Ташкенте.',
+    intro: 'GSR Logistics закрывает десять задач, связанных с Китаем: сборный груз со склада в Иу через Хоргос в Ташкент — ориентировочно 15–25 дней, авиа карго — 5–10, ж/д контейнеры — 20–35. В Китае три адреса приёма: Иу, Гуанчжоу и Кашгар. Находим товар, выкупаем на 1688 и Taobao, закупаем оптом у фабрик и продавцов, привозим оборудование под ключ, оформляем таможню. Один менеджер, один договор — с 2018 года. Новое направление: грузы фурой в Афганистан, транзитные документы в Узбекистане и склад под таможенным контролем в Ташкенте.',
     groups: { shipping: 'Доставка грузов', buying: 'Поиск и выкуп в Китае', paperwork: 'Оформление и контроль', regional: 'Афганистан, транзит и склад', vehicles: 'Автомобили' },
     groupLead: {
       shipping: 'Три способа — авто, авиа, ж/д. Срок и цена зависят от веса, объёма и срочности груза.',
-      buying: 'Знать китайский не нужно: менеджеры общаются с фабрикой, платят в юанях, проверяют образец.',
+      buying: 'Знать китайский не нужно: у нас есть сотрудники, которые знают его на уровне HSK 6. Менеджеры общаются с фабрикой, платят в юанях, проверяют образец.',
       paperwork: 'Документы, декларация, ГТД и контроль качества — до того, как груз отправится.',
       regional: 'Новое направление: возим грузы фурами в Афганистан, оформляем транзитные документы в Узбекистане, выделяем место на складе под таможенным контролем в Ташкенте. Цена и срок — по запросу.',
       vehicles: 'Автомобили и электромобили под заказ — от выбора до оформления.',
@@ -446,11 +446,11 @@ const en: ServicesStrings = {
     seoDescription: 'GSR Logistics services: consolidated truck cargo from China to Tashkent in 15–25 days, air in 5–10, rail containers, product sourcing, buying from 1688 and Taobao, equipment import, customs clearance, three receiving addresses in China (Yiwu, Guangzhou, Kashgar) and car import. A new direction: truck cargo to Afghanistan, transit documents in Uzbekistan and a warehouse under customs control in Tashkent.',
     eyebrow: 'Services',
     h1: 'Shipping and buying services for China',
-    intro: 'GSR Logistics handles nine China-related jobs: consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent in roughly 15–25 days, air cargo in 5–10, rail containers in 20–35. There are three receiving addresses in China — Yiwu, Guangzhou and Kashgar. We source products, buy on 1688 and Taobao, import equipment turnkey and clear customs. One manager, one contract — since 2018. A new direction: truck cargo to Afghanistan, transit documents in Uzbekistan and a warehouse under customs control in Tashkent.',
+    intro: 'GSR Logistics handles ten China-related jobs: consolidated truck cargo from the Yiwu warehouse via Khorgos to Tashkent in roughly 15–25 days, air cargo in 5–10, rail containers in 20–35. There are three receiving addresses in China — Yiwu, Guangzhou and Kashgar. We source products, buy on 1688 and Taobao, buy wholesale from factories and wholesale sellers, import equipment turnkey and clear customs. One manager, one contract — since 2018. A new direction: truck cargo to Afghanistan, transit documents in Uzbekistan and a warehouse under customs control in Tashkent.',
     groups: { shipping: 'Freight', buying: 'Sourcing and buying in China', paperwork: 'Paperwork and control', regional: 'Afghanistan, transit and warehouse', vehicles: 'Vehicles' },
     groupLead: {
       shipping: 'Three modes — truck, air, rail. Time and price depend on weight, volume and urgency.',
-      buying: 'No Chinese needed: our managers talk to the factory, pay in yuan and check the sample.',
+      buying: 'No Chinese needed: we have employees who know Chinese at HSK 6 level. Our managers talk to the factory, pay in yuan and check the sample.',
       paperwork: 'Documents, declaration, customs entry and quality control — before the cargo leaves.',
       regional: 'A new direction: truck cargo to Afghanistan, transit documents in Uzbekistan, and space in a warehouse under customs control in Tashkent. Price and timing on request.',
       vehicles: 'Cars and EVs made to order — from choosing the model to registration paperwork.',
@@ -532,11 +532,11 @@ export function tpl(s: string, vars: Record<string, string | number>): string {
  * Which service pages group together on the index page. Every service must sit in exactly one group: the index
  * renders these groups and nothing else, so a key left out would vanish from the page while its ItemList still
  * counted it. `regional` (2026-11-12) holds the three on-request services. It comes last: the cards carry the
- * services' numbers (01–12, registry order), and with this group anywhere else the page read 08, 10, 11, 12, 09.
+ * services' numbers (01–13, registry order), and with this group anywhere else the page read 09, 11, 12, 13, 10.
  */
 export const serviceGroups: Array<{ id: 'shipping' | 'buying' | 'paperwork' | 'regional' | 'vehicles'; keys: ServiceKey[] }> = [
   { id: 'shipping', keys: ['truck', 'air', 'rail'] },
-  { id: 'buying', keys: ['sourcing', 'buying', 'equipment'] },
+  { id: 'buying', keys: ['sourcing', 'buying', 'wholesale', 'equipment'] },
   { id: 'paperwork', keys: ['customs', 'warehouse'] },
   { id: 'vehicles', keys: ['cars'] },
   { id: 'regional', keys: ['afghanistan', 'transit', 'bonded'] },
@@ -563,6 +563,7 @@ export function serviceNumberLine(lang: Locale, key: ServiceKey): string {
     case 'rail': return join(range(tariffs.rail.days[0], tariffs.rail.days[1]), t.containers);
     case 'sourcing': return tpl(t.commissionFrom, { n: n(tariffs.extras.sourcingCommissionPct) });
     case 'buying': return join(t.yuanPayment, tpl(t.commissionFrom, { n: n(tariffs.extras.sourcingCommissionPct) }));
+    case 'wholesale': return tpl(t.commissionFrom, { n: n(tariffs.extras.sourcingCommissionPct) });
     case 'equipment': return join(t.containers, t.turnkey);
     case 'customs': return t.customs;
     case 'warehouse': return join(t.photoEveryReceipt, tpl(t.insurance, { n: n(tariffs.extras.insurancePct) }));

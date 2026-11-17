@@ -6,7 +6,7 @@ translationKey: find-supplier
 slug: finding-a-supplier-in-china
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [sourcing, buying, warehouse, suppliers]
+tags: [sourcing, buying, warehouse, suppliers, wholesale]
 faq:
   - q: "如何区分工厂和贸易公司？"
     a: "看营业执照上的经营范围：含“生产”的是生产企业，只有“贸易”的是贸易公司。工厂能发来车间视频和设备清单，通常位于城郊的工业区，专注单一品类，产品线做得深；贸易公司的办公室在市中心，产品目录宽泛而杂。两者都可以合作——区别在于价格（相差 10–20%）以及由谁对质量负责。"

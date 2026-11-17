@@ -6,7 +6,7 @@ translationKey: yiwu-guangzhou
 slug: yiwu-and-guangzhou-markets
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [sourcing, buying, warehouse, bozorlar]
+tags: [sourcing, buying, warehouse, bozorlar, wholesale]
 faq:
   - q: "义乌市场的起订量是多少？"
     a: "通常是一箱（即“一箱起批”），或几十件——视商品而定，12、24、48 或 100 件。价格按每件多少元人民币报。同一个卖家往往也在 1688 上卖同款商品；从多个商位采购的小批量货物在义乌收货点合并为一批货。汽运拼货 1 m³ 起收，按这批货的总体积计算；不足 1 m³ 的货物可以走空运，0.5 kg 起。"

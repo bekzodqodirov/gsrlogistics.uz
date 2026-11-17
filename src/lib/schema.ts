@@ -33,12 +33,12 @@ export const WEBSITE_ID = `${SITE}/#website`;
 /* The last sentence of each (2026-11-12) is the home hero's: cargo to Afghanistan by truck and transit documents in
    Uzbekistan are new directions, said as "now also" — never with a figure, a year or a volume. */
 const descriptions: Localized<string> = {
-  uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, bojxona rasmiylashtiruvi. Toshkent, 2018-yildan; oyiga 50–100 konteyner, 400+ mijoz; Xitoyda uchta qabul punkti — Ivu, Guanchjou, Qashqar. Endi Afgʻonistonga ham fura bilan yuk tashiymiz va Oʻzbekiston orqali tranzit hujjatlarini rasmiylashtiramiz.',
-  ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, таможенное оформление. Ташкент, с 2018 года; 50–100 контейнеров в месяц, 400+ клиентов; три пункта приёма в Китае — Иу, Гуанчжоу, Кашгар. Теперь возим грузы фурами и в Афганистан и оформляем транзитные документы в Узбекистане.',
-  en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, customs clearance. Tashkent, since 2018; 50–100 containers a month, 400+ clients; three receiving points in China — Yiwu, Guangzhou, Kashgar. We now also carry truck cargo to Afghanistan and handle transit documents in Uzbekistan.',
+  uz: 'GSR Logistics — Xitoydan Oʻzbekistonga yigʻma yuk, avia va temir yoʻl kargo, tovar topish va sotib olish, zavod va sotuvchilardan ulgurji (optom) xarid, bojxona rasmiylashtiruvi. Toshkent, 2018-yildan; oyiga 50–100 konteyner, 400+ mijoz; Xitoyda uchta qabul punkti — Ivu, Guanchjou, Qashqar. Endi Afgʻonistonga ham fura bilan yuk tashiymiz va Oʻzbekiston orqali tranzit hujjatlarini rasmiylashtiramiz.',
+  ru: 'GSR Logistics — сборные грузы, авиа и ж/д карго из Китая в Узбекистан, поиск и выкуп товаров, оптовые закупки у фабрик и продавцов, таможенное оформление. Ташкент, с 2018 года; 50–100 контейнеров в месяц, 400+ клиентов; три пункта приёма в Китае — Иу, Гуанчжоу, Кашгар. Теперь возим грузы фурами и в Афганистан и оформляем транзитные документы в Узбекистане.',
+  en: 'GSR Logistics — consolidated truck, air and rail cargo from China to Uzbekistan, product sourcing and buying, wholesale buying from factories and wholesale sellers, customs clearance. Tashkent, since 2018; 50–100 containers a month, 400+ clients; three receiving points in China — Yiwu, Guangzhou, Kashgar. We now also carry truck cargo to Afghanistan and handle transit documents in Uzbekistan.',
   // Translated from the English line above (GLOSSARY.md terms); Persian figures in Persian digits.
-  zh: 'GSR Logistics——从中国到乌兹别克斯坦的汽运拼货、空运和铁路货运，寻找货源与代采购，清关。塔什干，自 2018 年起；每月 50–100 个集装箱，400+ 客户；在中国有 3 个收货点——义乌、广州、喀什。现在也承接发往阿富汗的汽运货物，并办理乌兹别克斯坦过境单证。',
-  fa: 'GSR Logistics — حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا، ترخیص گمرکی. تاشکند، از ۲۰۱۸؛ ماهانه ۵۰ تا ۱۰۰ کانتینر، بیش از ۴۰۰ مشتری؛ سه محل تحویل بار در چین — ییوو، گوانگجو، کاشغر. اکنون با کامیون به افغانستان هم بار می‌بریم و اسناد ترانزیت در ازبکستان را آماده می‌کنیم.',
+  zh: 'GSR Logistics——从中国到乌兹别克斯坦的汽运拼货、空运和铁路货运，寻找货源与代采购，向工厂和批发商户批量采购，清关。塔什干，自 2018 年起；每月 50–100 个集装箱，400+ 客户；在中国有 3 个收货点——义乌、广州、喀什。现在也承接发往阿富汗的汽运货物，并办理乌兹别克斯坦过境单证。',
+  fa: 'GSR Logistics — حمل بار تجمیعی با کامیون، حمل هوایی و ریلی از چین به ازبکستان، یافتن و خرید کالا، خرید عمده از کارخانه‌ها و فروشندگان عمده، ترخیص گمرکی. تاشکند، از ۲۰۱۸؛ ماهانه ۵۰ تا ۱۰۰ کانتینر، بیش از ۴۰۰ مشتری؛ سه محل تحویل بار در چین — ییوو، گوانگجو، کاشغر. اکنون با کامیون به افغانستان هم بار می‌بریم و اسناد ترانزیت در ازبکستان را آماده می‌کنیم.',
 };
 
 /** How a China receiving point is labelled in structured data — never as a GSR facility. */
@@ -89,6 +89,7 @@ export function organizationNode(lang: Locale) {
     knowsLanguage: ['uz', 'ru', 'en', 'zh'],
     knowsAbout: [
       'freight forwarding', 'China to Uzbekistan cargo', 'consolidated cargo', 'customs clearance Uzbekistan', 'product sourcing in China', '1688 buying agent',
+      'wholesale buying in China', 'buying from factories in China', 'buying from wholesale sellers in China',
       'truck cargo to Afghanistan', 'customs transit in Uzbekistan', 'transit declaration', 'warehouse under customs control in Tashkent', 'transshipment',
     ],
     // Every profile that is the company's own: an assistant checking "is this the same GSR" matches on these.
@@ -179,7 +180,7 @@ export function faqNode(items: Array<{ q: string; a: string }>) {
 
 export interface ServiceOffer {
   price?: number;
-  /** A published range (containers): minPrice–maxPrice instead of one price. */
+  /** A published range (containers): minPrice–maxPrice instead of one price. `minPrice` alone is a "from" price (a commission from N%). */
   minPrice?: number;
   maxPrice?: number;
   unitCode?: 'KGM' | 'MTQ';

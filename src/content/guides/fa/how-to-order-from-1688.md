@@ -6,7 +6,7 @@ translationKey: order-from-1688
 slug: how-to-order-from-1688
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [buying, sourcing, warehouse, "1688"]
+tags: [buying, sourcing, warehouse, "1688", wholesale]
 faq:
   - q: "آیا می‌توان مستقیم از 1688 به ازبکستان سفارش داد؟"
     a: "در عمل، نه. 1688 فقط در داخل چین ارسال می‌کند، پرداخت را از طریق Alipay یا کارت بانکی چینی می‌پذیرد (Humo، Uzcard و معمولاً Visa کار نمی‌کنند) و فروشندگان فقط به زبان چینی می‌نویسند. به همین دلیل سفارش از طریق واسطه انجام می‌شود: GSR Logistics کالا را می‌خرد، آن را در انبار ییوو تحویل می‌گیرد و به تاشکند می‌فرستد."

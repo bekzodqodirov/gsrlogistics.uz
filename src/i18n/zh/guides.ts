@@ -22,5 +22,5 @@ export const zh: GuidesStrings = {
   published: '发布日期',
   allGuides: '全部指南',
   tags: '主题',
-  tagLabels: { truck: '汽运', air: '空运', rail: '铁路', customs: '清关', warehouse: '仓库', sourcing: '寻找货源', buying: '代采购', suppliers: '供应商', import: '进口', '1688': '1688', glossary: '术语表', lugat: '术语表', slovar: '术语表', routes: '线路', yonalishlar: '线路', marshruty: '线路', taqqoslash: '对比', bozorlar: '市场', afghanistan: '阿富汗', transit: '过境', bonded: '仓储' },
+  tagLabels: { truck: '汽运', air: '空运', rail: '铁路', customs: '清关', warehouse: '仓库', sourcing: '寻找货源', buying: '代采购', suppliers: '供应商', import: '进口', '1688': '1688', glossary: '术语表', lugat: '术语表', slovar: '术语表', routes: '线路', yonalishlar: '线路', marshruty: '线路', taqqoslash: '对比', bozorlar: '市场', afghanistan: '阿富汗', transit: '过境', bonded: '仓储', wholesale: '批发' },
 };

@@ -1,7 +1,7 @@
 import type { ServiceContentSource } from './types';
 
 /**
- * Oʻzbekiston orqali tranzit hujjatlari — long-form page content (service 11, written 2026-11-12).
+ * Oʻzbekiston orqali tranzit hujjatlari — long-form page content (service 12, written 2026-11-12).
  * Every claim about GSR is the owner's answer of 2026-11-11 and nothing more:
  *   - the transit declaration is filed at customs by GSR's OWN customs broker;
  *   - CMR and TIR documents are prepared and checked;
@@ -35,7 +35,7 @@ const content: ServiceContentSource = {
         'Oʻzbekiston orqali tranzit hujjatlari: deklaratsiyani oʻz bojxona brokerimiz topshiradi. CMR, TIR, ruxsatnoma, chegarada kutib olish.',
     },
     hero: {
-      eyebrow: 'Xizmat 11 — Tranzit',
+      eyebrow: 'Xizmat 12 — Tranzit',
       h1: 'Oʻzbekiston orqali tranzit: hujjatlarni biz rasmiylashtiramiz',
       intro:
         'Toshkentdagi GSR Logistics kompaniyasi endi Oʻzbekiston orqali tranzit tartibida oʻtadigan yuklarning hujjatlarini ham rasmiylashtiradi. Tranzit deklaratsiyasini bojxonaga oʻz bojxona brokerimiz topshiradi. CMR va TIR hujjatlarini tayyorlaymiz va tekshiramiz. Xorijiy furalar uchun ruxsatnoma olishda yordam beramiz, furani chegarada kutib olamiz va kuzatib qoʻyamiz. Tranzit yuki uchun bojxona toʻlovlari toʻlanishini taʼminlashda ham yordam beramiz. Narx har bir yuk uchun alohida hisoblanadi.',
@@ -180,7 +180,7 @@ const content: ServiceContentSource = {
         'Транзит через Узбекистан: декларацию подаёт наш собственный таможенный брокер. CMR, TIR, разрешения, встреча фуры на границе.',
     },
     hero: {
-      eyebrow: 'Услуга 11 — Транзит',
+      eyebrow: 'Услуга 12 — Транзит',
       h1: 'Транзит через Узбекистан: документы оформляем мы',
       intro:
         'GSR Logistics, логистическая компания из Ташкента, теперь оформляет и транзитные документы на грузы, которые идут через Узбекистан транзитом. Транзитную декларацию подаёт в таможню наш собственный таможенный брокер. Документы CMR и TIR мы готовим и проверяем. Помогаем получить разрешения для иностранных фур, встречаем фуру на границе и провожаем её. Помогаем и с обеспечением уплаты таможенных платежей по транзитному грузу. Цена считается отдельно для каждого груза.',
@@ -325,7 +325,7 @@ const content: ServiceContentSource = {
         'Transit documents for cargo crossing Uzbekistan: our own customs broker files the declaration. CMR, TIR, permits, meeting the truck at the border.',
     },
     hero: {
-      eyebrow: 'Service 11 — Transit',
+      eyebrow: 'Service 12 — Transit',
       h1: 'Transit through Uzbekistan: we handle the paperwork',
       intro:
         'GSR Logistics, a logistics company in Tashkent, now also handles transit documents for cargo crossing Uzbekistan. Our own customs broker files the transit declaration at customs. We prepare and check the CMR and TIR documents. We help foreign trucks obtain permits, meet the truck at the border and see it off. We also help with security for customs payments on transit cargo. The price is calculated for each cargo separately.',

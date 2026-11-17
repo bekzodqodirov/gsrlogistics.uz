@@ -6,7 +6,7 @@ import type { IconName } from '@/components/ui/Icon.astro';
  * Long-form page content lives in src/data/services/<key>.ts (owned by the content agents);
  * this file holds only routing + short labels used by header/footer/cards.
  */
-export type ServiceKey = 'truck' | 'air' | 'rail' | 'sourcing' | 'buying' | 'equipment' | 'customs' | 'warehouse' | 'cars' | 'afghanistan' | 'transit' | 'bonded';
+export type ServiceKey = 'truck' | 'air' | 'rail' | 'sourcing' | 'buying' | 'wholesale' | 'equipment' | 'customs' | 'warehouse' | 'cars' | 'afghanistan' | 'transit' | 'bonded';
 /** A country a service is sold in: Uzbekistan, China, Afghanistan (ISO 3166-1 alpha-2). */
 export type ServiceArea = 'UZ' | 'CN' | 'AF';
 export interface ServiceMeta {
@@ -42,6 +42,14 @@ export const services: ServiceMeta[] = [
   { key: 'buying', icon: 'cart', slug: { uz: 'sotib-olish', ru: 'vykup-tovarov', en: 'buying-agent', zh: 'buying-agent', fa: 'buying-agent' },
     name: { uz: '1688 va Taobaodan sotib olish', ru: 'Выкуп с 1688 и Taobao', en: 'Buying from 1688 & Taobao', zh: '1688 和淘宝代采购', fa: 'خرید کالا از 1688 و تائوبائو' },
     short: { uz: 'Siz tanlaysiz — biz sotib olamiz, yuanda toʻlaymiz va Toshkentga keltiramiz.', ru: 'Вы выбираете — мы выкупаем, платим в юанях и привозим в Ташкент.', en: 'You choose, we buy, pay in yuan and deliver to Tashkent.', zh: '您来挑选，我们代为购买、用人民币付款并运至塔什干。', fa: 'شما انتخاب می‌کنید — ما می‌خریم، به یوان پرداخت می‌کنیم و به تاشکند می‌آوریم.' } },
+  /* Wholesale buying (owner, 2026-11-17): the company has employees who know Chinese at HSK 6 level, with experience of
+     purchasing in China, who work on buying from factories and buying wholesale from sellers. That is all that is
+     confirmed: never how many they are, a certificate, or where they work. A tariff service (commission from 3%, as
+     sourcing). `short` holds no price, time or volume figure: an on-request page prints a related card's name and
+     one-liner, and no figure may stand there («HSK 6» is a level, not a figure). */
+  { key: 'wholesale', icon: 'box', slug: { uz: 'xitoydan-optom', ru: 'optom-iz-kitaya', en: 'wholesale-from-china', zh: 'wholesale-from-china', fa: 'wholesale-from-china' },
+    name: { uz: 'Ulgurji (optom) sotib olish', ru: 'Оптовые закупки в Китае', en: 'Wholesale buying in China', zh: '批发代采购', fa: 'خرید عمده از چین' },
+    short: { uz: 'Zavoddan yoki ulgurji sotuvchidan — xitoy tilini HSK 6 darajasida biladigan xodimlar bilan.', ru: 'У фабрик и у оптовых продавцов — с сотрудниками, знающими китайский на уровне HSK 6.', en: 'Employees who know Chinese at HSK 6 level work on buying from factories and wholesale sellers.', zh: '中文达到 HSK 6 级水平的员工从事向工厂和批发商户采购的工作。', fa: 'کارمندانی که چینی را در سطح HSK 6 می‌دانند، در خرید از کارخانه‌ها و فروشندگان عمده کار می‌کنند.' } },
   { key: 'equipment', icon: 'factory', slug: { uz: 'uskunalar-importi', ru: 'import-oborudovaniya', en: 'equipment-import', zh: 'equipment-import', fa: 'equipment-import' },
     name: { uz: 'Uskunalar importi', ru: 'Импорт оборудования', en: 'Equipment import', zh: '设备进口', fa: 'واردات تجهیزات و ماشین‌آلات' },
     short: { uz: 'Dastgoh va ishlab chiqarish liniyalari — qidiruvdan oʻrnatishgacha.', ru: 'Станки и производственные линии — от поиска до монтажа.', en: 'Machinery and production lines, from search to installation.', zh: '机床和生产线——从寻找设备到安装。', fa: 'ماشین‌آلات و خطوط تولید — از جست‌وجو تا نصب.' } },
@@ -54,7 +62,7 @@ export const services: ServiceMeta[] = [
   { key: 'cars', icon: 'car', slug: { uz: 'avtomobil-importi', ru: 'avto-iz-kitaya', en: 'car-import', zh: 'car-import', fa: 'car-import' },
     name: { uz: 'Avtomobil va elektromobil', ru: 'Авто и электромобили', en: 'Cars & EVs from China', zh: '汽车和电动车进口', fa: 'خودرو و خودروی برقی از چین' },
     short: { uz: 'Xitoydan avtomobil va elektromobillarni buyurtma asosida olib kelamiz.', ru: 'Привозим автомобили и электромобили из Китая под заказ.', en: 'Cars and electric vehicles from China, made to order.', zh: '按订单从中国进口汽车和电动车。', fa: 'خودرو و خودروی برقی را بر اساس سفارش از چین می‌آوریم.' } },
-  /* Services 10–12 (owner, 2026-11-11): a NEW direction and the paperwork and storage around it. All three are
+  /* Services 11–13 (owner, 2026-11-11): a NEW direction and the paperwork and storage around it. All three are
      `quote: 'request'` — no price, transit time or minimum is published for them. Afghanistan is served by truck
      only, to Hairatan and Mazar-i-Sharif; no other country and no other Afghan place is claimed anywhere. */
   { key: 'afghanistan', quote: 'request', area: ['UZ', 'CN', 'AF'], icon: 'route', slug: { uz: 'afgonistonga-yuk-tashish', ru: 'gruzy-v-afganistan', en: 'cargo-to-afghanistan', zh: 'cargo-to-afghanistan', fa: 'cargo-to-afghanistan' },

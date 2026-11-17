@@ -6,7 +6,7 @@ translationKey: yiwu-guangzhou
 slug: yiwu-va-guangzhou-bozorlari
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [sourcing, buying, warehouse, bozorlar]
+tags: [sourcing, buying, warehouse, bozorlar, wholesale]
 faq:
   - q: "Ivu bozorida minimal partiya qancha?"
     a: "Odatda bitta quti (一箱起批) yoki bir necha oʻnlab dona — mahsulotga qarab 12, 24, 48 yoki 100 dona. Narx dona boshiga yuanda aytiladi. Ayni tovarni 1688 orqali ham xuddi shu sotuvchidan olsa boʻladi; bir nechta doʻkondan olingan mayda partiyalar Ivudagi qabul punktida bitta yukka yigʻiladi. Yigʻma yuk (avto kargo) kamida 1 m³ dan qabul qilinadi va 1 m³ shu yukning umumiy hajmi boʻyicha hisoblanadi; 1 m³ dan kichik yukni avia bilan joʻnatish mumkin — 0,5 kg dan."

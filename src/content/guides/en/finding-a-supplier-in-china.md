@@ -6,7 +6,7 @@ translationKey: find-supplier
 slug: finding-a-supplier-in-china
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [sourcing, buying, warehouse, suppliers]
+tags: [sourcing, buying, warehouse, suppliers, wholesale]
 faq:
   - q: "How do I tell a factory from a trading company?"
     a: "Look at the business scope on the business licence (营业执照): 生产 means manufacturing, 贸易 means trading. A factory sends a video of the workshop and a list of machines, sits in an industrial zone on the edge of town and goes deep in one category; a trading company has an office downtown and a wide, mixed catalogue. Both can work — the difference is price (10–20%) and who answers for quality."

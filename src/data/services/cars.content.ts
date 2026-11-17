@@ -16,7 +16,7 @@ const content: ServiceContentSource = {
         'Xitoydan avtomobil va elektromobilni buyurtma asosida olib kelamiz: model tanlash, shartnoma, Xitoyda xarid, Xorgos orqali yetkazish, bojxona, utilizatsiya yigʻimi va roʻyxatdan oʻtkazish. Taxminan 25–45 kun. Toʻlovlarni oldindan hisoblab beramiz.',
     },
     hero: {
-      eyebrow: 'Xizmat 09 — Avtomobil',
+      eyebrow: 'Xizmat 10 — Avtomobil',
       h1: 'Xitoydan avtomobil va elektromobil buyurtma asosida',
       intro:
         'Xitoydan avtomobil olib kelish — bu tanlangan modelni Xitoydagi dilerdan yoki zavoddan sotib olib, Xorgos orqali Toshkentga yetkazish, bojxonada rasmiylashtirish va roʻyxatdan oʻtkazish. BYD, Zeekr, Li Auto (Lixiang), Leapmotor va boshqa brendlarning yangi hamda kam yurgan avtomobillarini buyurtma asosida keltiramiz. Shartnomadan kalitni topshirishgacha taxminan 25–45 kun. Boj, aksiz, QQS va utilizatsiya yigʻimi dvigatel hajmiga va batareya quvvatiga bogʻliq — aniq summani buyurtmadan oldin hisoblab beramiz.',
@@ -138,7 +138,7 @@ const content: ServiceContentSource = {
         'Привозим автомобили и электромобили из Китая под заказ: выбор модели, договор, выкуп в Китае, доставка через Хоргос, растаможка, утилизационный сбор и постановка на учёт. Ориентировочно 25–45 дней. Платежи считаем заранее.',
     },
     hero: {
-      eyebrow: 'Услуга 09 — Автомобили',
+      eyebrow: 'Услуга 10 — Автомобили',
       h1: 'Автомобили и электромобили из Китая под заказ',
       intro:
         'Ввоз автомобиля из Китая — это выкуп выбранной модели у дилера или завода, доставка через Хоргос в Ташкент, таможенное оформление и постановка на учёт. Под заказ привозим новые и малопробежные автомобили BYD, Zeekr, Li Auto (Lixiang), Leapmotor и других марок. От договора до ключей — ориентировочно 25–45 дней. Пошлина, акциз, НДС и утилизационный сбор зависят от объёма двигателя и батареи — точную сумму считаем до заказа.',
@@ -260,7 +260,7 @@ const content: ServiceContentSource = {
         'We import cars and electric vehicles from China to order: model selection, contract, purchase in China, delivery via Khorgos, customs clearance, recycling fee and registration. Roughly 25–45 days. Payments calculated in advance.',
     },
     hero: {
-      eyebrow: 'Service 09 — Cars',
+      eyebrow: 'Service 10 — Cars',
       h1: 'Cars and electric vehicles from China, made to order',
       intro:
         'Importing a car from China means buying the chosen model from a dealer or factory, shipping it via Khorgos to Tashkent, clearing customs and registering it. We bring in new and low-mileage cars from BYD, Zeekr, Li Auto (Lixiang), Leapmotor and other brands, strictly to order. From contract to keys takes roughly 25–45 days. Duty, excise, VAT and the recycling fee depend on engine size and battery — we calculate the exact amount before you order.',

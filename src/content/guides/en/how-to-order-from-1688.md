@@ -6,7 +6,7 @@ translationKey: order-from-1688
 slug: how-to-order-from-1688
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [buying, sourcing, warehouse, "1688"]
+tags: [buying, sourcing, warehouse, "1688", wholesale]
 faq:
   - q: "Can I order from 1688 to Uzbekistan directly?"
     a: "In practice, no. 1688 delivers only inside China, takes payment via Alipay or a Chinese bank card (Humo, Uzcard and usually Visa do not work), and sellers write only in Chinese. So the order goes through an agent: GSR Logistics buys the goods, receives them at the Yiwu warehouse and ships them to Tashkent."

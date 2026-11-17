@@ -279,6 +279,7 @@ const codes: KeepLatin[] = [
   { latin: 'IP', exactCase: true }, { latin: 'HTTPS' }, { latin: 'USD' },
   { latin: 'Telegram FZ-LLC' }, { latin: 'LLC' }, { latin: 'FZ', exactCase: true },
   { latin: 'MOQ', suffixable: true }, // minimum order quantity — the trade term buyers search for
+  { latin: 'HSK', suffixable: true }, // Hanyu Shuiping Kaoshi, the Chinese proficiency test: «HSK 6» stays Latin in Uzbek Cyrillic as in Russian; nobody writes «ҲСК»
   { latin: 'GPS' },  // written GPS in Uzbek Cyrillic; ГПС is nobody's spelling
   { latin: 'IMEI' }, { latin: 'UzIMEI', suffixable: true }, // the phone registry, branded in Latin
   { latin: 'B2B' },
@@ -569,7 +570,7 @@ export const respell: Respell[] = [
  * `toCyrillicSlug` looks the key up before it transliterates anything. The comment on each line
  * is the word, with the letters the URL threw away.
  *
- * The full published slug list — 10 page slugs, 12 service slugs, 12 guide slugs — is asserted in
+ * The full published slug list — 10 page slugs, 13 service slugs, 12 guide slugs — is asserted in
  * `scripts/test-cyrillic.mjs` against both this table and the hand-written tables in
  * `src/i18n/routes.ts`, so neither side can change a live URL without the other noticing.
  *

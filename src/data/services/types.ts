@@ -22,11 +22,11 @@ export interface ServiceContent {
   hero: {
     eyebrow: string;
     h1: string;
-    intro: string;               // ≤ 70 words, answers the core question with a number
+    intro: string;               // ≤ 90 words, answers the core question with a number
     facts: Array<{ label: string; value: string }>; // 3–4 e.g. { label: 'Muddat', value: '15–25 kun' }
   };
   sections: ServiceSection[];    // 4–7 sections
-  faq: Array<{ q: string; a: string }>; // 4–8 questions, answered in first sentence
+  faq: Array<{ q: string; a: string }>; // 4–12 questions, answered in first sentence
   related: ServiceKey[];         // 2–3 other services
   guideKeys: string[];           // translationKeys of related guides (see PROJECT_BRIEF §7 slugs in uz)
   cta: { title: string; text: string; draft: string }; // draft = prefilled Telegram message

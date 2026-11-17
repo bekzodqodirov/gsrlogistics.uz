@@ -34,7 +34,8 @@
 //    prefix-like one (在, 下, 代 …) to the word after it: 在|下|一批|次 → 在下一批次;
 //  - a lone character joins the word before it when suffix-like (的, 吗, 线, 宝: 生产线, 充电宝), the word after it
 //    when prefix-like (和, 从, 按: 从中国), and both words otherwise;
-//  - KEEP lists words the dictionary splits into mixed pieces (乌|兹|别|克|斯坦, 人民|币).
+//  - KEEP lists words the dictionary splits into mixed pieces (乌|兹|别|克|斯坦, 人民|币, 批发商|户) and house terms a
+//    line may not part (海关监管仓库, 批发市场).
 // THE CAP. Joining may glue a run of names or a chain of lone characters into a unit wider than a phone line:
 // «从中国运到乌兹别克斯坦» (11 ideographs), «经伊尔克什坦或吐尔尕特的» (12). keep-all then has no break left, and the
 // emergency break falls inside a name or before «？». So a unit longer than CAP (6) ideographs is split back at
@@ -58,8 +59,8 @@ const RIGHT = new Set([...'和与或及从在按至到对向把将为由被给�
 const JOINER = new Set([...'和与或及并从在至到经往向自对']);
 /** Final particles: they may close a unit that is already CAP long. */
 const PARTICLE = new Set([...'的了吗呢吧啊']);
-/** Words the dictionary splits into mixed pieces. */
-const KEEP = ['乌兹别克斯坦', '汽运', '哈萨克斯坦', '吉尔吉斯斯坦', '塔吉克斯坦', '阿拉木图', '阿拉山口', '比亚迪', '乌兹别克语', '人民币', '拼多多', '笔记本电脑', '充电宝', '个体工商户', '起订量', '起运量', '税费', '卖家', '发往', '阿富汗', '海拉顿', '马扎里沙里夫', '铁尔梅兹', '行车许可证', '海关监管仓库', '土库曼斯坦', '阿姆河', '友谊桥', '波斯语', '单证', '运往', '拼货', '承运人', '发货人', '报关行', '报关员', '起运地', '海关法典', '押运', '批准证明书'];
+/** Words the dictionary splits into mixed pieces, and house terms a line may not part (see above). */
+const KEEP = ['乌兹别克斯坦', '汽运', '哈萨克斯坦', '吉尔吉斯斯坦', '塔吉克斯坦', '阿拉木图', '阿拉山口', '比亚迪', '乌兹别克语', '人民币', '拼多多', '笔记本电脑', '充电宝', '个体工商户', '起订量', '起运量', '税费', '卖家', '发往', '阿富汗', '海拉顿', '马扎里沙里夫', '铁尔梅兹', '行车许可证', '海关监管仓库', '土库曼斯坦', '阿姆河', '友谊桥', '波斯语', '单证', '运往', '拼货', '承运人', '发货人', '报关行', '报关员', '起运地', '海关法典', '押运', '批准证明书', '批发商户', '批发市场', '工厂直采', '批发代采购', '批发卖家', '中文水平'];
 /** The longest unit (in ideographs) that joining pieces may build. */
 export const CAP = 6;
 /** A clause stop: a break may follow it (never precede it). */
@@ -214,7 +215,7 @@ export function zhBreaksHtml(text, clauseMax = 0) {
 
 /** Display text: these elements, and anything inside an element with one of the CLASSES. */
 const TAGS = new Set(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'summary', 'th', 'td', 'caption', 'figcaption']);
-const CLASSES = ['fact-label', 'callout-title', 'side-hint', 'rel-short', 'guides-intro', 'g-title', 'toc', 'rel-list', 'guide-link', 'tail-text', 'row-short'];
+const CLASSES = ['fact-label', 'callout-title', 'side-hint', 'rel-short', 'guides-intro', 'g-title', 'toc', 'rel-list', 'guide-link', 'tail-text', 'row-short', 'mega-name', 'mega-short', 'group-lead'];
 /** Never inside these: not prose, not HTML text (SVG), or text-only content models. */
 const OPAQUE = new Set(['script', 'style', 'pre', 'code', 'kbd', 'samp', 'textarea', 'title', 'svg', 'math', 'template', 'noscript', 'select', 'option', 'optgroup', 'datalist', 'iframe', 'object']);
 /** Text for screen readers only: it never wraps on screen. */
