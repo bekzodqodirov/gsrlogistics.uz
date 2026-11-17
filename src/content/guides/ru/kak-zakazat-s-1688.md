@@ -6,7 +6,7 @@ translationKey: order-from-1688
 slug: kak-zakazat-s-1688
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [buying, sourcing, warehouse, "1688"]
+tags: [buying, sourcing, warehouse, "1688", wholesale]
 faq:
   - q: "Можно ли заказать с 1688 в Узбекистан напрямую?"
     a: "Практически нет. 1688 доставляет только внутри Китая, принимает оплату через Alipay или китайскую банковскую карту (Humo, Uzcard и чаще всего Visa не проходят), продавцы пишут только по-китайски. Поэтому заказ идёт через посредника: GSR Logistics выкупает товар, принимает его на складе в Иу и доставляет в Ташкент."

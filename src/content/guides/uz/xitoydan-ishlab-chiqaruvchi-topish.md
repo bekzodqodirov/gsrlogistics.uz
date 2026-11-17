@@ -6,7 +6,7 @@ translationKey: find-supplier
 slug: xitoydan-ishlab-chiqaruvchi-topish
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [sourcing, buying, warehouse, suppliers]
+tags: [sourcing, buying, warehouse, suppliers, wholesale]
 faq:
   - q: "Zavod bilan savdo kompaniyasini qanday farqlayman?"
     a: "Biznes-litsenziyadagi (营业执照) faoliyat turiga qarang: «生产» — ishlab chiqarish, «贸易» — savdo. Zavod sex videosini va uskunalar roʻyxatini beradi, shahar chekkasidagi sanoat zonasida joylashadi, bitta tovar toifasida chuqur; savdo kompaniyasi shahar markazida ofis bilan, katalogi keng va turli xil. Ikkalasi ham ishlaydi — farq narxda (10–20%) va javobgarlikda."

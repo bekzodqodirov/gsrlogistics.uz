@@ -11,9 +11,11 @@
  *                 twins of the uz/ru/en FORBIDDEN list in check-content.mjs (GLOSSARY.md §1.4 and the
  *                 owner's rules behind that list; ids zh.* and fa.*). The rules written since
  *                 2026-11-12 exist in all five languages and in Uzbek Cyrillic at once (ids uz.*, ru.*,
- *                 en.*, zh.*, fa.*): where GSR delivers, who answers in Persian, and what may be said
- *                 about the Afghanistan direction. A rule marked `block` reads one block of a page at a
- *                 time (a paragraph, a heading, a list item, a table row) instead of the joined text.
+ *                 en.*, zh.*, fa.*): where GSR delivers, who answers in Persian, what may be said
+ *                 about the Afghanistan direction and — since 2026-11-17 — about the employees' Chinese
+ *                 (the HSK level) and that no price or quality result is promised. A rule marked `block`
+ *                 reads one block of a page at a time (a paragraph, a heading, a list item, a table row)
+ *                 instead of the joined text.
  *   PAGE_RULES    orthography of one language: run on that language's pages only, on the RAW text
  *                 (normalising would hide exactly what they look for).
  *   leakRuns()    untranslated English / Uzbek / Russian prose on a zh or fa page.
@@ -955,6 +957,94 @@ const ZH_CUSTOMS = customs({ name: '(?:阿富汗(?:一侧|境内|方面|海关|�
 const FA_CUSTOMS = customs({ name: '(?<!\\p{Script=Arabic})(?:در\\s(?:سمت\\s)?افغانستان|سمت\\sافغانستان|گمرک\\sافغانستان|در\\s(?:حیرتان|مزار[\\s\\p{Cf}]?شریف))', clear: 'ترخیص|طی\\sمراحل\\sگمرکی|تشریفات\\sگمرکی', stop: `${FA_STOP}؛;`, no: FA_NO, asks: '؟', ok: FA_PARTNERS });
 const CUSTOMS_MSG = (lang) => `customs clearance in Afghanistan not by GSR's partners named as customs agents (declarants) — or with the cargo handled, "ourselves", GSR's own broker or the consignee in the sentence — or a DDP / "duties included" / who-pays claim (${lang}) — owner, 2026-11-12: on the Afghan side customs is cleared by GSR's partners, customs agents (declarants), named as such in the same sentence; still no office, branch, representative, employee or warehouse there; who pays the Afghan duties is not confirmed: no DDP, no "duties included" (a denial passes)`;
 
+/* ── Wholesale buying: the employees' Chinese, and no promise on price or quality ───────────────────────────────── */
+
+/*
+ * Owner, 2026-11-17: the company has employees who KNOW Chinese at HSK 6 level, with experience of purchasing in China,
+ * who work on buying from factories and buying wholesale from sellers. Not confirmed, so never printed: that they hold
+ * a certificate, how many they are, where they work. And no result is promised to a buyer: not the best or the cheapest
+ * price, no guaranteed quality, no "100%", no "no risk". Three rule families, each in all five written languages, the
+ * Uzbek ones with their Cyrillic twin:
+ *
+ *   hskCertificate  «HSK» beside a certificate, diploma, "certified", "holder", native-speaker, translator / interpreter or
+ *                   sinologist word, or beside a verb that makes the level a credential ("passed / holds / obtained HSK 6",
+ *                   «topshirgan», «сдали», 通过, «گذرانده‌اند»), in one sentence — a semicolon does not end it. The window
+ *                   is 40 characters before «HSK» and 80 after it (ru 80 before and 40 after, zh 20 / 30, fa 40 / 60): the
+ *                   mandated phrase is long, and a word added to it lands far from «HSK». What the test is may be said: it
+ *                   is for people whose first language is NOT Chinese, in its usual wordings («ona tili boʻlmagan /
+ *                   hisoblanmaydigan», «не носителей», "whose native language is not Chinese", 非中文母语者, «زبان مادری‌شان
+ *                   … نیست / غیر از چینی»); so may "you need no interpreter" — a translator word denied as a NEED
+ *                   («tarjimon kerak emas», «переводчик не нужен», 不用请翻译, «به مترجم نیاز ندارید»). A denied certificate
+ *                   is stopped all the same: the pages have no reason to speak of one.
+ *   hskCount        a number of people in a sentence that says HSK: «12 nafar», «oʻndan ortiq xodimimiz», "a team of 12",
+ *                   "three of our employees", "10+ employees", «несколько сотрудников», 三名员工, 十多名员工. A BLOCK rule
+ *                   (`block: true`): its unit is the sentence, and in the joined text of a page the number, the name and
+ *                   the one-liner of a card run on without a full stop («06 … buying Employees who know Chinese at HSK 6
+ *                   level …»). The 6 of «HSK 6» is the level, never a count; a count of anything but people — «5 000 ta
+ *                   soʻz», "9 levels", "six steps and employees who …", 4 个阶段, 3 个工作日 — is none either, and neither
+ *                   is the one manager a client works with («1 ta menejer bilan», «1 менеджер», 1 位客户经理, «۱ کارشناس»).
+ *   pricePromise    "the best / the cheapest price", "we guarantee the … price / quality", "quality guarantee",
+ *                   "guaranteed quality / prices", "our prices are the lowest", "100%", "no risk", "risk-free". What
+ *                   passes: a denial in the same sentence, in its usual wordings and on the side the language puts it
+ *                   ("we do not promise the best price", "nobody can promise …", «kafolatlamaymiz», «никто не пообещает»,
+ *                   最便宜的价格我们不承诺, «نمی‌توانیم … تضمین کنیم»); the word inside quotation marks («100% kafolat» …
+ *                   demaymiz); a question answered "No" ("Does a sample guarantee the quality …? No."); a price statement
+ *                   that is nobody's promise ("the cheapest price is not always the best choice"); a platform's own price
+ *                   with the platform as its subject ("Pinduoduo has the cheapest prices of the three platforms", «… eng
+ *                   arzon narxlar Pinduoduoda», «самые дешёвые цены — на Pinduoduo»); a factory's warranty («заводская
+ *                   гарантия качества», «zavodning sifat kafolati», 质量保证期). A bare "lowest price" is not read: the guides
+ *                   say "the lowest price shown in the listing is for the largest batch", which is a seller's price and
+ *                   nobody's promise.
+ */
+const HSK = '(?<![A-Za-z])HSK(?:(?:ning|ni|ga|dan|dagi|da)(?![A-Za-zʻʼ]))?(?![A-Za-z])';
+/** `words` within `span` characters of «HSK», either order, in one sentence. */
+const besideHsk = (words, stop, before = 40, after = before) => `${HSK}[^${stop}]{0,${after}}?(?:${words})|(?:${words})[^${stop}]{0,${before}}?${HSK}`;
+/** One sentence that says HSK and holds `words` anywhere in it: the words may reach over «HSK» itself («12 名 HSK 6 级专员»). */
+const hskSentence = (words, stop) => `(?<=^|[${stop}])(?=[^${stop}]*?${HSK})[^${stop}]*?(?:${words})`;
+// «ona tili» with its negation after it, «носитель» / "native" with it before, 母语 with 非 on either side: the definition of the test
+const UZ_HSK_PAPER = `sertifikat|diplom|guvohnoma|attestat|ona\\s+til(?:i|idek|iday)(?![^.!?;]{0,30}(?:bo${AP}?lma(?:gan|ydi)|hisoblanma(?:gan|ydi)|bilma(?:gan|ydi)|emas))|sinolog|xitoyshunos|imtihon[a-zʻʼ]*\\s+topshir(?:gan|di|ishgan|ib)|(?<=HSK[a-z-]{0,5}\\s(?:\\d\\s)?)topshir(?:gan|di|ishgan|ib)|daraja[a-zʻʼ]*\\s+olgan|(?<=HSK\\s?\\d?\\s)bor(?![a-zʻʼ])|tarjimon(?!siz(?![a-zʻʼ])|(?:ga|ni)?\\s+(?:[a-zʻʼ]+\\s+){0,2}?(?:(?:kerak|shart|zarur|lozim|hojat)\\s+(?:emas|yo${AP}?q)|kerak\\s+bo${AP}?lmaydi))`;
+const UZC_HSK_PAPER = 'сертификат|диплом|гувоҳнома|аттестат|она\\s+тил(?:и|идек|идай)(?![^.!?;]{0,30}(?:бўлма(?:ган|йди)|ҳисобланма(?:ган|йди)|билма(?:ган|йди)|эмас))|синолог|хитойшунос|имтиҳон[а-яёўқғҳ]*\\s+топшир(?:ган|ди|ишган|иб)|(?<=HSK[а-яёўқғҳ-]{0,5}\\s(?:\\d\\s)?)топшир(?:ган|ди|ишган|иб)|даража[а-яёўқғҳ]*\\s+олган|(?<=HSK\\s?\\d?\\s)бор(?![а-яёўқғҳ])|таржимон(?!сиз(?![а-яёўқғҳ])|(?:га|ни)?\\s+(?:[а-яёўқғҳ]+\\s+){0,2}?(?:(?:керак|шарт|зарур|лозим|ҳожат)\\s+(?:эмас|йўқ)|керак\\s+бўлмайди))';
+const RU_HSK_PAPER = 'сертификат|сертифицирован|диплом|аттестат|свидетельств|(?<!(?<![а-яё])не(?:\\s*|\\s+(?:[а-яё]+\\s+){1,2}))носител[а-яё]+|как\\s+(?:на\\s+)?родн|синолог|китаист|(?<![а-яё])(?:сда(?:л|ли|ла|вш)[а-яё]*|получи(?:л|ли|ла|вш)[а-яё]*|подтверди(?:л|ли|ла|вш)[а-яё]*|есть)(?=\\s+(?:экзамен\\s+|уровень\\s+)?HSK)|свободно\\s+владе|в\\s+совершенстве|(?<!(?<![а-яё])(?:без\\s+|не\\s+(?:нужно|надо|нужен|нужны|прид[её]тся|понадобится|понадобятся|требуется)\\s+(?:[а-яё]+\\s+){0,2}?))переводчик(?![а-яё]*\\s+(?:[а-яё]+\\s+){0,2}?не\\s+(?:нуж|понадоб|потреб|прид[её]тся|требу))';
+const EN_HSK_PAPER = `\\bcertificat|\\bcertified\\b|\\bdiploma|\\bholders?\\b|\\bnative[-\\s](?:level|like|fluency|proficiency|Chinese)\\b|\\bnear[-\\s]native\\b|\\b(?:like|as)\\s+(?:an?\\s+)?native\\b(?!\\s+(?:language|tongue))|(?<!\\bnon[-\\s]|\\bnot\\s+|n[’']t\\s+)\\bnative\\s+speakers?\\b|(?<!\\b(?:not|n[’']t)\\s+(?:[a-z]+\\s+){0,3})\\b(?:like|as)\\s+(?:their|his|her|a)\\s+native\\s+(?:language|tongue)\\b|\\bsinolog|\\b(?:pass(?:ed|es|ing)?|holds?|holding|took|taken|sat|earned|obtained|achieved)(?=\\s+(?:(?:the|an?|their)\\s+)?HSK)|\\bfluent|(?<!\\b(?:no|nor|neither|without)\\s+(?:an?\\s+|any\\s+)?|(?:\\bnot|n[’']t|\\bnever)\\s+(?:(?:have|need)\\s+to\\s+)?(?:need|hire|find|bring|pay\\s+for|look\\s+for)\\s+(?:an?\\s+|any\\s+|your\\s+own\\s+|a\\s+separate\\s+)?|\\bno\\s+need\\s+(?:for|to\\s+(?:hire|find|bring|pay\\s+for|look\\s+for))\\s+(?:an?\\s+|any\\s+|your\\s+own\\s+|a\\s+separate\\s+)?|\\bwithout\\s+(?:hiring|finding|bringing|paying\\s+for)\\s+(?:an?\\s+|any\\s+)?)\\b(?:translators?|interpreters?)\\b(?!\\s+(?:is|are)\\s+not\\s+(?:needed|required|necessary))`;
+const ZH_HSK_PAPER = `证书|持证|认证|${zhNot(6)}持有|(?<!非(?:中文|汉语|华语|普通话)?)母语(?!非|不是|并非)|汉学|精通|文凭|(?:通过|考取|考过|考了|取得|获得|拿到|拥有)了?(?=\\s?HSK)|有(?=\\s?HSK\\s?\\d\\s?级(?!水平))|${zhNot(6)}翻译`;
+const FA_HSK_PAPER = `مدرک|گواهی|دیپلم|زبان\\sمادری(?![^${FA_STOP}؛;]{0,30}(?:نیست|نباشد|غیر[\\s\\p{Cf}]?(?:از|چینی)))|(?<!بدون\\s)مترجم(?![^${FA_STOP}؛;:]{0,20}(?:نیست|ندار|نمی[\\s\\p{Cf}]?خواه))|(?<=HSK\\s?\\d?\\s(?:را\\s)?)(?:گذراند|قبول\\sشد|دار(?:ند|د|یم)(?!\\p{Script=Arabic}))|مسلط|چین[\\s\\p{Cf}]?شناس`;
+const HSK_PAPER_MSG = (lang) => `HSK beside a certificate, "native", "translator" or "sinologist" word (${lang}) — owner, 2026-11-17: the company has employees who KNOW Chinese at HSK 6 level; that they hold a certificate, are translators or speak like natives is not confirmed. Write "employees who know Chinese at HSK 6 level". What passes: what the test is (for people whose first language is not Chinese) and "you need no interpreter". A denied certificate is stopped too: the pages do not speak of one`;
+// People only. Uzbek counts people with «nafar» or «kishi»; «ta» counts anything («5 000 ta soʻz»), so it is read only
+// before a staff word — as Chinese 个 is read only right before one, while 名 and 位 count people and may carry the whole
+// attribute (5 名中文达到 HSK 6 级水平的员工). "One" is left out in every language: «bir», «один», 一 and «یک» are also "a / an".
+const UZ_STAFF_WORD = 'xodim|hodim|mutaxassis|menejer|tarjimon|xaridor|sinolog';
+const UZC_STAFF_WORD = 'ходим|мутахассис|менежер|таржимон|харидор|синолог';
+const UZ_MANY = `ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz|o${AP}?n(?:\\s+(?:bir|ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz))?|yigirma|o${AP}?ttiz|qirq|ellik|bir\\s+nech(?:a|ta)`;
+const UZ_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s?(?:ta\\s+)?menejer)\\d{1,3}\\+?\\s?(?:dan\\s+(?:ortiq|ko${AP}?p|ziyod)\\s+)?(?:(?:nafar|kishi)|(?:ta\\s+)?(?:HSK\\s?\\d?\\s+)?(?:${UZ_STAFF_WORD}))|(?<![a-zʻʼ])(?:${UZ_MANY})(?:dan\\s+(?:ortiq|ko${AP}?p|ziyod))?(?:\\s+(?:nafar|kishi)|(?:\\s?ta)?\\s+(?:HSK\\s?\\d?\\s+)?(?:${UZ_STAFF_WORD}))`;
+const UZC_MANY = 'икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз|ўн(?:\\s+(?:бир|икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз))?|йигирма|ўттиз|қирқ|эллик|бир\\s+неч(?:а|та)';
+const UZC_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s?(?:та\\s+)?менежер)\\d{1,3}\\+?\\s?(?:дан\\s+(?:ортиқ|кўп|зиёд)\\s+)?(?:(?:нафар|киши)|(?:та\\s+)?(?:HSK\\s?\\d?\\s+)?(?:${UZC_STAFF_WORD}))|(?<![а-яёўқғҳ])(?:${UZC_MANY})(?:дан\\s+(?:ортиқ|кўп|зиёд))?(?:\\s+(?:нафар|киши)|(?:\\s?та)?\\s+(?:HSK\\s?\\d?\\s+)?(?:${UZC_STAFF_WORD}))`;
+const RU_COUNTED = '(?:сотрудник|специалист|закупщик|менеджер|байер|переводчик)(?![иы](?![а-яё]))';
+const RU_MANY = 'двое|трое|четверо|пятеро|шестеро|семеро|двоих|троих|четверых|пятерых|два|две|двух|три|тр[её]х|четыре|четыр[её]х|пять|пяти|шесть|шести|семь|семи|восемь|восьми|девять|девяти|десять|десяти|одиннадцат[ьи]|двенадцат[ьи]|пятнадцат[ьи]|двадцат[ьи]|несколько|нескольких|десяток|десятка';
+const RU_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s+менеджер)\\d{1,3}(?:\\+(?=\\s+(?:сотрудник|специалист|закупщик|менеджер|байер|переводчик|человек)))?\\s+(?:HSK\\s?\\d?\\s+)?(?:[а-яё-]+\\s){0,2}?(?:${RU_COUNTED}|человека?(?![а-яё]))|(?<![а-яё])(?:${RU_MANY})\\s+(?:[а-яё-]+\\s){0,2}?(?:${RU_COUNTED}|человека?(?![а-яё]))`;
+const EN_COUNTED_WORDS = '(?:of\\s+(?:our|the)\\s+|(?:(?!(?:and|or|but|the|our|your|their|its|a|an|to|for|in|on|at|by|from|with|while|when|where|then|that|which|who)\\s)[a-z-]+\\s){0,2}?)';
+const EN_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])\\b\\d{1,3}(?:\\+(?=\\s+(?:employees|specialists|staff\\b|buyers|managers|people|translators|interpreters|purchasers)))?\\s+(?:HSK\\s?\\d?\\s+)?${EN_COUNTED_WORDS}(?:employees|specialists|staff\\b|buyers|managers|people|translators|interpreters|purchasers)|\\b(?:${EN_ONES}|several)\\s+(?:HSK\\s?\\d?\\s+)?${EN_COUNTED_WORDS}(?:employees|specialists|buyers|managers|people\\b|translators|interpreters|purchasers)|\\bteam\\s+of\\s+(?:\\d|(?:${EN_ONES})\\b)`;
+const ZH_HSK_STAFF = '员工|专员|采购员|经理|翻译|人员';
+const ZH_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s?(?:名|位)(?:客户)?经理)\\d{1,3}\\s?\\+?\\s?(?:多|余)?\\s?(?:(?:(?:名|位)[\\p{Script=Han}A-Za-z0-9\\s]{0,20}?|个(?!工作日|阶段|步骤|环节|小时|星期|月)[\\p{Script=Han}A-Za-z0-9\\s]{0,8}?)(?:${ZH_HSK_STAFF})|人(?!民))|(?:[两二三四五六七八九十]+多?|几)(?:名|位)[\\p{Script=Han}A-Za-z0-9\\s]{0,20}?(?:${ZH_HSK_STAFF})|(?:多|数)(?:名|位)(?:${ZH_HSK_STAFF})|[两二三四五六七八九十]+人(?:的|团队|小组)`;
+// not «نه» (nine, and "no") and not «چند» («چند کارمند…؟» asks), as in FA_ONES
+const FA_MANY = 'دو|سه|چهار|پنج|شش|هفت|هشت|ده|یازده|دوازده|سیزده|چهارده|پانزده|شانزده|هفده|هجده|نوزده|بیست|سی|چندین'; // not «نه» and not «چند»
+const FA_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s(?:کارشناس|مدیر))\\d{1,3}\\s(?:نفر|تن\\sاز|کارمند|کارشناس|خریدار|مترجم|کارکن)|(?<!\\p{Script=Arabic})(?:${FA_MANY})[\\s\\p{Cf}](?:نفر|تن\\sاز|کارمند|کارشناس|خریدار|مترجم)`;
+const HSK_COUNT_MSG = (lang) => `a number of people in a sentence that says HSK (${lang}) — owner, 2026-11-17: how many employees know Chinese at HSK 6 level is not confirmed. Write "employees who know Chinese at HSK 6 level", no count; a count of other people (managers, a client's staff) goes into a sentence of its own`;
+// The denial that lets a promise word through: the promise refused in the same sentence, or the word inside quotation marks.
+const UZ_UNPROMISED = `(?<!«[^»]{0,20})(?!la(?:may|mas|y\\s+olma[sy])|lan(?:may|mas)|\\s+ber(?:may|mas|a\\s+olma[sy])|[^.!?;]{0,60}(?:va${AP}?da\\s+(?:qil|ber)(?:may|mas|a\\s+olma[sy])|kafolat(?:la(?:may|mas|y\\s+olma[sy])|\\s+ber(?:may|mas|a\\s+olma[sy]))|(?:ber|de|ayt)maymiz))`;
+const UZC_UNPROMISED = '(?<!«[^»]{0,20})(?!ла(?:май|мас|й\\s+олма[сй])|лан(?:май|мас)|\\s+бер(?:май|мас|а\\s+олма[сй])|[^.!?;]{0,60}(?:ваъда\\s+(?:қил|бер)(?:май|мас|а\\s+олма[сй])|кафолат(?:ла(?:май|мас|й\\s+олма[сй])|\\s+бер(?:май|мас|а\\s+олма[сй]))|(?:бер|де|айт)маймиз))';
+const RU_UNPROMISED = `(?<!«[^»]{0,20})(?<!${RU_NO}[^.!?;]{0,40})(?<!(?<![а-яё])не\\s+(?:обеща|гарантиру|говор)[а-яё]*[^.!?;]{0,60})(?![^.!?;]{0,40}(?<![а-яё])(?:не\\s+(?:(?:по)?обеща|гарантиру|говор)|никто\\s+(?:[а-яё]+\\s+){0,2}?не\\s+(?:по)?(?:обеща|гарантир)))(?![а-яё]*\\s+(?:мы\\s+)?не\\s+(?:да[её]м|дадим|бывает|существует)(?![а-яё]))`;
+const EN_UNPROMISED = `(?<![“"][^”"]{0,20})(?<!\\b(?:not|never|cannot|don[’']t|doesn[’']t|won[’']t|nobody)\\b[^.!?;]{0,40})(?<!(?:\\b(?:not|never|cannot|nobody|no\\s+one)|n[’']t)\\s+(?:[a-z]+\\s+){0,3}?(?:promise|guarantee|offer|say|claim)[a-z]*\\b[^.!?;]{0,60})`;
+const ZH_UNPROMISED = `${zhNot(12)}(?<![“"][^”"]{0,12})`;
+const ZH_REFUSED = `(?![^${ZH_STOP}，,]{0,10}(?:不承诺|不保证|不敢保证|不能保证|无法保证|无法承诺|我们也?(?:给不了|做不到)))`; // the object first: 最便宜的价格我们不承诺
+const FA_UNPROMISED = `(?<!«[^»]{0,20})(?<!(?:هیچ[\\s\\p{Cf}]?کس\\s+نمی[\\s\\p{Cf}]?تواند|نمی[\\s\\p{Cf}]?توان(?:یم|م))(?!\\p{Script=Arabic})[^${FA_STOP}؛;]{0,60})(?![^${FA_STOP}؛;]{0,40}(?:نمی|ندار|نیست))`;
+const UZ_PROMISE = `(?:(?<![a-zʻʼ])eng\\s+(?:arzon|yaxshi|qulay|foydali)\\s+narx(?!(?:lar)?\\s+(?:Pinduoduo|Taobao|Tmall|Alibaba|AliExpress|1688)-?da(?![a-zʻʼ]))(?![^.!?;,:]{0,20}(?<![a-zʻʼ])(?:har\\s+doim|doim|hamisha|har\\s+safar)(?![a-zʻʼ])[^.!?;,:]{0,40}(?<![a-zʻʼ])emas(?![a-zʻʼ]))|(?<![a-zʻʼ])(?<!(?<![a-zʻʼ])(?:zavod|fabrika)(?:ning)?\\s+)(?:narx|sifat)(?:lar)?(?:ni|i|ini|ga|iga)?\\s+kafolat(?![^.!?;]{0,60}\\?(?:\\s*$|\\s+Yo${AP}?q\\s*[.,;:—–-]))|(?<![a-zʻʼ])kafolatlangan\\s+(?:narx|sifat)|(?<![\\d.,])100\\s?(?:%|foiz)\\s+(?:sifat|kafolat|natija)|(?<![a-zʻʼ])risk(?:siz|\\s+yo${AP}?q)(?![a-zʻʼ])|(?<![a-zʻʼ])narx(?:lar)?imiz\\s+eng\\s+(?:arzon|past)(?![a-zʻʼ])|(?<![a-zʻʼ])xavf\\s+yo${AP}?q(?![a-zʻʼ]))${UZ_UNPROMISED}`;
+const UZC_PROMISE = `(?:(?<![а-яёўқғҳ])энг\\s+(?:арзон|яхши|қулай|фойдали)\\s+нарх(?!(?:лар)?\\s+(?:Pinduoduo|Taobao|Tmall|Alibaba|AliExpress|1688)-?да(?![а-яёўқғҳ]))(?![^.!?;,:]{0,20}(?<![а-яёўқғҳ])(?:ҳар\\s+доим|доим|ҳамиша|ҳар\\s+сафар)(?![а-яёўқғҳ])[^.!?;,:]{0,40}(?<![а-яёўқғҳ])эмас(?![а-яёўқғҳ]))|(?<![а-яёўқғҳ])(?<!(?<![а-яёўқғҳ])(?:завод|фабрика)(?:нинг)?\\s+)(?:нарх|сифат)(?:лар)?(?:ни|и|ини|га|ига)?\\s+кафолат(?![^.!?;]{0,60}\\?(?:\\s*$|\\s+Йўқ\\s*[.,;:—–-]))|(?<![а-яёўқғҳ])кафолатланган\\s+(?:нарх|сифат)|(?<![\\d.,])100\\s?(?:%|фоиз)\\s+(?:сифат|кафолат|натижа)|(?<![а-яёўқғҳ])риск(?:сиз|\\s+йўқ)(?![а-яёўқғҳ])|(?<![а-яёўқғҳ])нарх(?:лар)?имиз\\s+энг\\s+(?:арзон|паст)(?![а-яёўқғҳ])|(?<![а-яёўқғҳ])хавф\\s+йўқ(?![а-яёўқғҳ]))${UZC_UNPROMISED}`;
+const RU_PROMISE = `(?:(?<![а-яё])(?:сам[а-яё]{2,3}\\s+(?:выгодн|лучш|дешёв|дешев)[а-яё]+|(?<!(?<![а-яё])тем\\s+)лучш[а-яё]+)\\s+цен(?![а-яё]*\\s+[—–-]\\s+на\\s+(?:Pinduoduo|Taobao|Tmall|Alibaba|AliExpress|1688)(?![A-Za-z0-9]))|(?<![а-яё])гарантировать\\s+(?:[а-яё]+\\s){0,3}?(?:цен|качеств)(?![^.!?;]{0,60}(?<![а-яё])не\\s+(?:можем|сможем|бер[её]мся|станем|будем|могу)(?![а-яё]))(?![^.!?;]{0,60}\\?(?:\\s*$|\\s+Нет\\s*[.,;:—–-]))|(?<![а-яё])гарантир(?!овать(?![а-яё]))[а-яё]+\\s+(?:[а-яё]+\\s){0,3}?(?:цен|качеств)(?![^.!?;]{0,60}\\?(?:\\s*$|\\s+Нет\\s*[.,;:—–-]))|(?<!(?<![а-яё])(?:заводск[а-яё]+|фабричн[а-яё]+|завода|фабрики|производителя|изготовителя)\\s+)(?<![а-яё])гаранти[а-яё]{1,3}\\s+(?:[а-яё]+\\s)?(?:качеств|цен|результат)(?![а-яё]*\\s+(?:от\\s+)?(?:завода|фабрики|производителя|изготовителя)(?![а-яё]))|(?<![а-яё])(?:цен|качеств)[а-яё]{1,2}\\s+(?:(?!не\\s)[а-яё]+\\s)?гарантир[а-яё]+|(?:(?<![\\d.,])100\\s?%|(?<![а-яё])стопроцентн[а-яё]+)\\s+(?:гаранти|качеств|результат)|(?<![а-яё])(?:без|никакого|никаких)\\s+риск(?:а|ов)(?![а-яё])|(?<![а-яё])наши\\s+цены\\s+(?:[—–-]\\s+)?сам[а-яё]{2}\\s+(?:низк|дешёв|дешев|выгодн)[а-яё]+|(?<![а-яё])у\\s+нас\\s+сам[а-яё]{2,3}\\s+низк[а-яё]+\\s+цен)${RU_UNPROMISED}`;
+const EN_PROMISE = `(?:(?<!\\b(?:Pinduoduo|Taobao|Tmall|Alibaba|AliExpress|1688)(?:[’']s)?\\s+(?:has|have|offers?|shows?)\\s+(?:the\\s+)?)\\b(?:best|cheapest)\\s+(?:possible\\s+|factory\\s+)?(?:prices?|deals?)\\b(?!\\s+(?:(?:is|are)\\s+(?:not\\s+(?:always|necessarily|everything|the\\s+same)|rarely|seldom)|(?:isn[’']t|aren[’']t)\\s+(?:always|necessarily|everything))\\b)|\\bguarantee[sd]?\\s+(?:(?:you|the|a|our)\\s+){0,2}(?:best|lowest|quality|prices?)\\b(?![^.!?;]{0,60}\\?(?:\\s*$|\\s+(?:No|Not\\s+(?:always|necessarily|really|quite))\\s*[.,;:—–-]))|\\bguarantee[sd]?\\s+(?:that\\s+)?(?:[a-z’']+\\s+){0,4}?(?:best|lowest|cheapest)\\s+(?:possible\\s+)?prices?\\b(?![^.!?;]{0,60}\\?(?:\\s*$|\\s+Not?\\b))|\\bour\\s+prices?\\s+(?:is|are)\\s+(?:the\\s+)?(?:cheapest|best|lowest)\\b|\\b(?:prices?|quality)\\s*,\\s+guaranteed\\b|(?<!\\bno\\s+)(?!(?<=\\b(?:factory|manufacturer|maker)(?:[’']s)?\\s+)(?:quality|price)\\s+guarantee(?:\\s+\\(warranty\\))?\\s+(?:usually\\s+|normally\\s+|typically\\s+|often\\s+)?(?:lasts|runs|covers|is\\s+(?:usually\\s+|normally\\s+|typically\\s+)?\\d))(?!(?:quality|price)\\s+guarantee\\s+(?:from|of)\\s+the\\s+(?:factory|manufacturer|maker)\\s+(?:usually\\s+|normally\\s+|typically\\s+|often\\s+)?(?:lasts|runs|covers|is\\s+(?:usually\\s+|normally\\s+|typically\\s+)?\\d))\\b(?:quality|price)\\s+guarantee\\b|(?<!\\bno\\s+)\\bguaranteed\\s+(?:quality|prices?|results?)\\b|\\b(?:prices?|quality)\\s+(?:is\\s+|are\\s+)?guaranteed\\b|(?<![\\d.,])100\\s?%\\s+(?:quality|guarantee|satisfaction)|\\bno\\s+risk\\b(?![-\\s]free)|(?<!\\bno\\s+)(?<!\\bno\\s+[a-z-]+\\s+(?:is|are)\\s+(?:ever\\s+|really\\s+|entirely\\s+)?)\\brisk[-\\s]free\\b)${EN_UNPROMISED}`;
+const ZH_PROMISE = `${ZH_UNPROMISED}(?:(?:最(?:便宜|优惠|好|优|佳)的?(?:价格|价(?!值))|(?:我们|本公司|我司)的?价格是?最(?:便宜|低|优惠))(?![^${ZH_STOP}，,]{0,10}(?:不一定|未必|并不(?:一定|总是|等于|代表|意味)))|保证[^${ZH_STOP}，,]{0,4}?(?:质量|品质)(?![^${ZH_STOP}]{0,12}[？?]\\s*(?:$|(?:不能|不会|不是|不可以|不保证|不一定|没有|无法|否)[。，,；;：:！!]))|保证[^${ZH_STOP}，,]{0,4}?(?:价格|最低)|保证拿到|(?:质量|品质)有?(?:保证|保障)(?!期|金)|(?:100%|百分之?百)\\s?(?:保证|保障|质量)|零风险|无风险)${ZH_REFUSED}`;
+const FA_PROMISE = `(?:(?:بهترین|ارزان[\\s\\p{Cf}]?ترین)\\sقیمت(?![\\p{Script=Arabic}\\p{Cf}]*\\sدر\\s(?:پین[\\s\\p{Cf}]?دودو|تائوبائو|تی[\\s\\p{Cf}]?مال|علی[\\s\\p{Cf}]?بابا|1688)\\sاست(?!\\p{Script=Arabic}))|(?:تضمین|ضمانت)\\s(?:100%\\s)?(?:کیفیت|قیمت)(?!\\sکارخانه(?![\\p{Script=Arabic}\\p{Cf}]))|قیمت[\\p{Script=Arabic}\\p{Cf}]*\\sما\\s(?:ارزان|پایین)[\\s\\p{Cf}]?ترین(?!\\p{Script=Arabic})|(?:کیفیت|قیمت)(?:\\p{Mn}|ی)?\\s(?:[\\p{Script=Arabic}\\p{Cf}]+\\s){0,3}?(?:تضمین|ضمانت)(?![^${FA_STOP}؛;]{0,40}؟(?:\\s*$|\\s+(?:خیر|نه)\\s*[.،,؛:—–-]))|(?:100%|صد[\\s\\p{Cf}]?در[\\s\\p{Cf}]?صد)\\s?(?:تضمین|ضمانت)|بدون\\s(?:هیچ[\\s\\p{Cf}]?(?:گونه\\s)?)?ریسک)${FA_UNPROMISED}|(?<!\\p{Script=Arabic})هیچ\\sریسکی\\s(?:وجود\\s)?ندارد`;
+const PROMISE_MSG = (lang) => `a result promise on price or quality (${lang}) — "the best / the cheapest price", "guaranteed quality", "100%", "no risk": nothing of the kind is confirmed (owner, 2026-11-17), and the site promises no price, no quality and no result. What passes: a denial in the same sentence ("we do not promise the lowest price"), the word inside quotation marks, and a question answered "No". A seller's, a platform's or a market's own price is "the lowest price" (eng past narx · самая низкая цена · 最低价 · پایین‌ترین قیمت), not "the cheapest / the best price"; a factory's warranty is written without "quality" (warranty · zavod kafolati · гарантия завода · 质保 · ضمانت کارخانه)`;
+
 /**
  * Each rule: `{ id, msg, re, bad, good }`, and `block: true` where it reads one block of a page at a time.
  * In the Persian patterns `[\s\p{Cf}]` is "a space or a ZWNJ" (نیم‌فاصله), `(?<!ن)می` keeps the
@@ -1365,10 +1455,10 @@ export const CLAIM_RULES = [
       'Hayratonga yetkazish 10 kalendar kun davom etadi.', 'Yuk Hayratonga oʻn kalendar kunda yetadi.', 'Ҳайратонга етказиш 10 календарь кун давом этади.', 'Юк Ҳайратонга ўн календарь кунда етади.'],
     good: ['Xitoydan Toshkentga yigʻma yuk 15–25 kunda keladi; Afgʻoniston boʻyicha muddatni menejer hisoblaydi.', 'Ikki yoʻnalishda: Xitoydan Afgʻonistonga va Oʻzbekistondan Afgʻonistonga.', 'Bugungi kunda yetkazish nuqtalari shu ikkita: Hayraton va Mozori Sharif.',
       'Xitoydan Toshkentga 15–25 kun', 'Saytdagi tariflar, kalkulyator va muddatlar faqat Xitoy → Toshkent yoʻnalishiga tegishli.', 'Narx va muddat — soʻrov boʻyicha: menejer ularni yukingiz boʻyicha hisoblab beradi.',
-      'Xizmat 10 — Afgʻoniston', 'WhatsApp (+998 00 000 00 00) yoki Telegramga yozing: yuk nima, hajmi yoki ogʻirligi qancha, hozir qayerda va qayerga borishi kerak — Hayratongami yoki Mozori Sharifgami.',
+      'Xizmat 11 — Afgʻoniston', 'WhatsApp (+998 00 000 00 00) yoki Telegramga yozing: yuk nima, hajmi yoki ogʻirligi qancha, hozir qayerda va qayerga borishi kerak — Hayratongami yoki Mozori Sharifgami.',
       'Yigʻma yuk 15–25 kun. Afgʻonistonga yuk — narx va muddat soʻrov boʻyicha.', 'Afgʻonistonga yuk tashishni 2026-yilda boshladik.',
       'Saytdagi 1 m³ minimum Xitoydan Toshkentga keladigan yigʻma yukka tegishli.',
-      'Хитойдан Тошкентга 15–25 кун', 'Хизмат 10 — Афғонистон',
+      'Хитойдан Тошкентга 15–25 кун', 'Хизмат 11 — Афғонистон',
       // printed by the guides (2026-11): every rule must let these through
       'Soʻng fura Termizga boradi va Hayratonga oʻtadi. Bojxona kodeksining 218-moddasiga koʻra, bojxona nazorati ostida avtotransportda tashilayotgan tovarlar 10 kalendar kun ichida yetkazilishi kerak.', 'Mozori Sharif Hayratondan taxminan 80 km uzoqlikda joylashgan.', 'Сўнг фура Термизга боради ва Ҳайратонга ўтади. Божхона кодексининг 218-моддасига кўра, божхона назорати остида автотранспортда ташилаётган товарлар 10 календарь кун ичида етказилиши керак.', 'Мозори Шариф Ҳайратондан тахминан 80 км узоқликда жойлашган.'] },
   { id: 'ru.afghanFigure', block: true, msg: FIGURE_MSG('ru'),
@@ -1378,7 +1468,7 @@ export const CLAIM_RULES = [
       // "calendar" between the number and the day (premerge review, 2026-11-13)
       'Доставка в Хайратон занимает 10 календарных дней.', 'Груз доходит до Хайратона за десять календарных дней.'],
     good: ['Сборный груз из Китая в Ташкент идёт 15–25 дней; по Афганистану срок считает менеджер.', 'Два направления: из Китая в Афганистан и из Узбекистана в Афганистан.',
-      'Из Китая в Ташкент 15–25 дней', 'Тарифы, калькулятор и сроки на сайте относятся только к направлению Китай → Ташкент.', 'Цена и срок — по запросу: менеджер считает их под ваш груз.', 'Услуга 10 — Афганистан',
+      'Из Китая в Ташкент 15–25 дней', 'Тарифы, калькулятор и сроки на сайте относятся только к направлению Китай → Ташкент.', 'Цена и срок — по запросу: менеджер считает их под ваш груз.', 'Услуга 11 — Афганистан',
       'Напишите в WhatsApp (+998 00 000 00 00) или в Telegram: что за груз, какой у него объём или вес, где он сейчас и куда его везти — в Хайратон или в Мазари-Шариф.', 'Сборный груз 15–25 дней. Грузы в Афганистан — цена и срок по запросу.',
       'Минимум 1 м³, указанный на сайте, относится к сборному грузу из Китая в Ташкент.',
       // printed by the guides (2026-11): every rule must let these through
@@ -1390,7 +1480,7 @@ export const CLAIM_RULES = [
       // "calendar" between the number and the day (premerge review, 2026-11-13)
       'Delivery to Hairatan takes 10 calendar days.', 'The truck reaches Hairatan in ten calendar days.'],
     good: ['Consolidated cargo from China to Tashkent takes 15–25 days; for Afghanistan the manager calculates the time.', 'Two: from China to Afghanistan and from Uzbekistan to Afghanistan.', 'Today these are the two delivery points: Hairatan and Mazar-i-Sharif.',
-      'From China to Tashkent in 15–25 days', 'The tariffs, the calculator and the transit times on this site apply to the China → Tashkent direction only.', 'Price and timing are on request: the manager calculates them for your cargo.', 'Service 10 — Afghanistan',
+      'From China to Tashkent in 15–25 days', 'The tariffs, the calculator and the transit times on this site apply to the China → Tashkent direction only.', 'Price and timing are on request: the manager calculates them for your cargo.', 'Service 11 — Afghanistan',
       'Message us on WhatsApp (+998 00 000 00 00) or Telegram: what the cargo is, its volume or weight, where it is now and where it has to go — Hairatan or Mazar-i-Sharif.',
       'Consolidated truck cargo takes 15–25 days. Cargo to Afghanistan is quoted on request.', 'The 1 m³ minimum published on this site applies to consolidated cargo from China to Tashkent.',
       'Regulation No. 737 of 31 December 2022 applies to transit to Afghanistan',
@@ -1403,7 +1493,7 @@ export const CLAIM_RULES = [
       // calendar days (premerge review, 2026-11-13)
       '运往海拉顿需要 10 个日历日。', '货物十个自然日内运抵马扎里沙里夫。'],
     good: ['两个方向：中国至阿富汗，以及乌兹别克斯坦至阿富汗。', '目前交货地点只有这两个：海拉顿和马扎里沙里夫。',
-      '中国到塔什干 15–25 天', '本网站上的运价、运费计算器和时效仅适用于中国 → 塔什干方向。', '价格和时效按需报价：由客户经理按您的货物核算。', '服务 10 — 阿富汗',
+      '中国到塔什干 15–25 天', '本网站上的运价、运费计算器和时效仅适用于中国 → 塔什干方向。', '价格和时效按需报价：由客户经理按您的货物核算。', '服务 11 — 阿富汗',
       '通过 WhatsApp（+998 00 000 00 00）或 Telegram 告诉我们：货物品名、体积或重量、货物目前在哪里、要送到哪里——海拉顿还是马扎里沙里夫。', '汽运拼货约 15–25 天。发往阿富汗的货物按需报价。',
       '更新日期：2026年11月12日 阿富汗货运', '周一至周六 9:00–19:00 周日休息 阿富汗货运', '根据2022年12月31日第737号决议办理发往阿富汗的过境手续', '本网站公布的 1 m³ 最低起运量，适用于从中国发往塔什干的拼货。',
       // printed by the guides (2026-11): every rule must let these through
@@ -1415,7 +1505,7 @@ export const CLAIM_RULES = [
       // calendar days: «روز تقویمی» — the day first, so it was always read; kept so that it stays so (premerge review, 2026-11-13)
       'رسیدن بار به حیرتان ۱۰ روز تقویمی طول می‌کشد.'],
     good: ['بار تجمیعی از چین تا تاشکند ۱۵ تا ۲۵ روز در راه است؛ زمان حمل به افغانستان را کارشناس ما محاسبه می‌کند.', 'در دو مسیر: از چین به افغانستان و از ازبکستان به افغانستان.',
-      'از چین تا تاشکند ۱۵ تا ۲۵ روز', 'تعرفه‌ها، ماشین‌حساب و زمان‌های حمل در این سایت فقط مربوط به مسیر چین ← تاشکند است.', 'قیمت و زمان با استعلام اعلام می‌شود: کارشناس ما آن‌ها را برای بار شما محاسبه می‌کند.', 'خدمت ۱۰ — افغانستان',
+      'از چین تا تاشکند ۱۵ تا ۲۵ روز', 'تعرفه‌ها، ماشین‌حساب و زمان‌های حمل در این سایت فقط مربوط به مسیر چین ← تاشکند است.', 'قیمت و زمان با استعلام اعلام می‌شود: کارشناس ما آن‌ها را برای بار شما محاسبه می‌کند.', 'خدمت ۱۱ — افغانستان',
       'در WhatsApp (+998 00 000 00 00) یا Telegram بنویسید: بار چیست، حجم یا وزن آن چقدر است، اکنون کجاست و باید به کجا برود — حیرتان یا مزار شریف.', 'بار تجمیعی ۱۵ تا ۲۵ روز. حمل بار به افغانستان با استعلام است.', 'حداقل ۱ متر مکعب که در این سایت آمده، مربوط به بار تجمیعی از چین به تاشکند است.',
       // printed by the guides (2026-11): every rule must let these through
       'سپس کامیون به ترمذ می‌رود و از مرز به حیرتان می‌گذرد. طبق مادهٔ ۲۱۸ قانون گمرک، کالایی که تحت نظارت گمرک با حمل‌ونقل جاده‌ای برده می‌شود باید ظرف ۱۰ روز تقویمی تحویل شود.', 'مزار شریف حدود ۸۰ کیلومتر با حیرتان فاصله دارد.'] },
@@ -1715,33 +1805,33 @@ export const CLAIM_RULES = [
       // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
       'Mozori Sharifga yukni tez yetkazamiz.', 'Мозори Шарифга юкни тез етказамиз.', 'Hamkorlarimiz — deklarant agentlar — Hayratonda navbatsiz rasmiylashtiradi.',
       'Ҳамкорларимиз — декларант агентлар — Ҳайратонда навбатсиз расмийлаштиради.'],
-    good: ['Afgʻoniston — biz uchun yangi yoʻnalish.', 'Afgʻonistonga yuk tashishni 2026-yilda boshladik.', 'Afgʻoniston yoʻnalishini 2026-yilda ochdik.', 'Xizmat 10 — Afgʻoniston', 'Afgʻoniston yoʻnalishida tajribamiz hali yoʻq — bu yangi yoʻnalish.',
+    good: ['Afgʻoniston — biz uchun yangi yoʻnalish.', 'Afgʻonistonga yuk tashishni 2026-yilda boshladik.', 'Afgʻoniston yoʻnalishini 2026-yilda ochdik.', 'Xizmat 11 — Afgʻoniston', 'Afgʻoniston yoʻnalishida tajribamiz hali yoʻq — bu yangi yoʻnalish.',
       'Афғонистон — биз учун янги йўналиш.'] },
   { id: 'ru.afghanRecord', block: true, msg: RECORD_MSG('ru'),
     re: new RegExp(RU_RECORD, 'iu'),
     bad: ['Возим грузы в Афганистан уже 5 лет.', 'Отправили в Афганистан более 200 фур.', 'У нас более 50 клиентов из Афганистана.', 'Большой опыт перевозок в Афганистан.',
       // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
       'Наши партнёры — таможенные агенты (декларанты) — быстро проводят таможенное оформление в Афганистане.'],
-    good: ['Афганистан — новое для нас направление.', 'Направление Афганистан мы открыли в 2026 году.', 'Услуга 10 — Афганистан', 'Обновлено: 12 ноября 2026 г. Грузы в Афганистан'] },
+    good: ['Афганистан — новое для нас направление.', 'Направление Афганистан мы открыли в 2026 году.', 'Услуга 11 — Афганистан', 'Обновлено: 12 ноября 2026 г. Грузы в Афганистан'] },
   { id: 'en.afghanRecord', block: true, msg: RECORD_MSG('en'),
     re: new RegExp(EN_RECORD, 'iu'),
     bad: ['We have carried cargo to Afghanistan for 5 years.', 'More than 200 trucks sent to Afghanistan.', 'Over 50 clients from Afghanistan trust us.', 'Extensive experience on the Afghanistan route.',
       // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
       'Our partners — customs agents (declarants) — clear customs in Afghanistan quickly.',
       'Our partners — customs agents (declarants) — clear customs at Hairatan without queues.', 'We deliver to Mazar-i-Sharif fast.'],
-    good: ['Afghanistan is a new direction for us.', 'We started the Afghanistan direction in 2026.', 'Service 10 — Afghanistan', 'Regulation No. 737 of 31 December 2022 applies to transit to Afghanistan'] },
+    good: ['Afghanistan is a new direction for us.', 'We started the Afghanistan direction in 2026.', 'Service 11 — Afghanistan', 'Regulation No. 737 of 31 December 2022 applies to transit to Afghanistan'] },
   { id: 'zh.afghanRecord', block: true, msg: RECORD_MSG('zh'),
     re: new RegExp(ZH_RECORD, 'iu'),
     bad: ['我们承运阿富汗货物已有 5 年。', '已向阿富汗发运 200 多车货物。', '我们有 50 多位阿富汗客户。', '在阿富汗线路上经验丰富。',
       // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
       '我们快速把货物运到马扎里沙里夫。', '在海拉顿，我们的合作伙伴——报关代理（申报人）——快速办理清关。'],
-    good: ['阿富汗对我们来说是新方向。', '阿富汗方向是我们 2026 年新开的。', '服务 10 — 阿富汗', '更新日期：2026年11月12日 阿富汗货运'] },
+    good: ['阿富汗对我们来说是新方向。', '阿富汗方向是我们 2026 年新开的。', '服务 11 — 阿富汗', '更新日期：2026年11月12日 阿富汗货运'] },
   { id: 'fa.afghanRecord', block: true, msg: RECORD_MSG('fa'),
     re: new RegExp(FA_RECORD, 'iu'),
     bad: ['۵ سال است که به افغانستان بار می‌بریم.', 'بیش از ۲۰۰ کامیون به افغانستان فرستاده‌ایم.', 'در مسیر افغانستان تجربهٔ فراوان داریم.',
       // guard-verify H19 (2026-11-13): speed beside an Afghan name ("fast", "quickly", "without queues"): price and timing are on request
       'بار را سریع به مزار شریف می‌رسانیم.', 'شرکای ما — کارگزاران گمرکی — در حیرتان بدون معطلی ترخیص می‌کنند.'],
-    good: ['افغانستان برای ما مسیر تازه‌ای است.', 'مسیر افغانستان را در سال ۲۰۲۶ آغاز کردیم.', 'خدمت ۱۰ — افغانستان'] },
+    good: ['افغانستان برای ما مسیر تازه‌ای است.', 'مسیر افغانستان را در سال ۲۰۲۶ آغاز کردیم.', 'خدمت ۱۱ — افغانستان'] },
 
   /* — cargo FROM Afghanistan is not confirmed — */
   { id: 'uz.afghanOrigin', block: true, msg: ORIGIN_MSG('uz'),
@@ -2060,13 +2150,117 @@ export const CLAIM_RULES = [
       'لازم نیست به مرز بیایید: در سمت افغانستان، ترخیص گمرکی را شرکای ما — کارگزاران گمرکی (اظهارکنندگان) — انجام می‌دهند.',
       'پیش از حرکت کامیون به افغانستان، فاکتور و فهرست بسته‌بندی را برای ما ارسال کنید.',
       'بار ترانزیتی به مقصد افغانستان بدون پرداخت حقوق و عوارض گمرکی از ازبکستان عبور می‌کند.'] },
+
+  /* — wholesale buying (owner, 2026-11-17): the employees KNOW Chinese at HSK 6 level — no certificate, no "native", no translators — */
+  { id: 'uz.hskCertificate', msg: HSK_PAPER_MSG('uz'),
+    re: new RegExp(`${besideHsk(UZ_HSK_PAPER, '.!?', 40, 80)}|${besideHsk(UZC_HSK_PAPER, '.!?', 40, 80)}`, 'iu'),
+    bad: ['Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz — tajribali tarjimonlar.', 'Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz tegishli sertifikatga ega.', 'GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan xodimlar bor: ularning hammasida xalqaro sertifikat bor.', 'Xodimlarimiz HSK 6 imtihonini topshirgan.', 'Xodimlarimiz HSK 6 darajasini olgan.', 'Xodimlarimizda HSK 6 bor.', 'HSKning 6-daraja sertifikatiga ega xodimlarimiz bor.', 'Xitoyshunos xodimlarimiz HSK 6 darajasida.', 'Ходимларимиз HSK 6 имтиҳонини топширган.', 'Tarjimon kerak emas: tarjimonlarimiz HSK 6 darajasida.', 'HSK 6 sertifikatiga ega xodimlarimiz zavod bilan muzokara olib boradi.', 'Xodimlarimiz HSK 6 diplomiga ega.', 'Xodimlarimiz xitoy tilini ona tilidek biladi — HSK 6 darajasida.', 'HSK 6 darajasidagi tarjimonlarimiz muzokarani olib boradi.',
+      'HSK 6 сертификатига эга ходимларимиз завод билан музокара олиб боради.', 'Ходимларимиз хитой тилини она тилидек билади — HSK 6 даражасида.'],
+    good: ['Soʻrovni topshirganingizdan keyin xarid boʻyicha xitoy tilini HSK 6 darajasida biladigan xodimlar ishlaydi.', 'Xarid boʻyicha xitoy tilini HSK 6 darajasida biladigan xodimlar ishlaydi, deklaratsiyani esa bojxona brokerimiz topshiradi.', 'Tarjimon kerak emas: xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor.', 'Yoʻq, Xitoyga borish ham, tarjimon yollash ham shart emas: xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor.', 'Таржимон керак эмас: хитой тилини HSK 6 даражасида биладиган ходимларимиз бор.', 'HSK imtihonini xitoy tili ona tili hisoblanmaydigan kishilar topshiradi; HSK 6 — uning darajalaridan biri.', 'Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor.',
+      'GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan xodimlar bor: ular Xitoyda sotib olish bilan shugʻullangan va zavodlardan sotib olish hamda sotuvchilardan ulgurji (optom) xarid qilish boʻyicha ishlaydi.',
+      'Bu xaridlar boʻyicha xitoy tilini HSK 6 darajasida biladigan, Xitoyda sotib olish bilan shugʻullangan xodimlarimiz ishlaydi.',
+      // what the test is: «ona tili boʻlmaganlar» is its audience
+      'HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi.',
+      'HSK — хитой тили она тили бўлмаганлар учун мўлжалланган, Хитойнинг стандартлаштирилган тил билиш имтиҳони; унинг 6-даражаси 5 000 ва ундан ортиқ сўзни билишни талаб қилади.',
+      'Хитой тилини HSK 6 даражасида биладиган ходимларимиз бор.', 'Zavoddan yoki ulgurji sotuvchidan — xitoy tilini HSK 6 darajasida biladigan xodimlar bilan.',
+      // the question may name an interpreter: the answer is a sentence of its own
+      'Xitoyga oʻzim borishim yoki tarjimon yollashim shartmi? Yoʻq. Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor.', 'Sertifikatli ishlab chiqaruvchidan toʻgʻridan-toʻgʻri.'] },
+  { id: 'ru.hskCertificate', msg: HSK_PAPER_MSG('ru'),
+    re: new RegExp(besideHsk(RU_HSK_PAPER, '.!?', 80, 40), 'iu'),
+    bad: ['Сертификаты есть у всех сотрудников, которые знают китайский язык на уровне HSK 6.', 'Наши переводчики — сотрудники, которые знают китайский язык на уровне HSK 6.', 'Наши сотрудники сдали HSK 6.', 'Наши сотрудники получили HSK 6.', 'У наших сотрудников есть HSK 6.', 'Наши сотрудники свободно владеют китайским (HSK 6).', 'Переводчик не нужен: наши переводчики имеют HSK 6.', 'Готовы нанять переводчика с HSK 6 для вашей сделки.', 'Сотрудники с сертификатом HSK 6 ведут переговоры с фабрикой за вас.', 'Наши переводчики с HSK 6 ведут переговоры.', 'Сотрудники говорят по-китайски как на родном: уровень HSK 6.', 'Наши закупщики — носители китайского языка с HSK 6.'],
+    good: ['Вы получили предложения — дальше над закупкой работают сотрудники, которые знают китайский на уровне HSK 6.', 'HSK сдают те, для кого китайский язык не родной; HSK 6 — один из уровней экзамена.', 'Нет, ни ехать в Китай, ни нанимать переводчика не нужно: у нас есть сотрудники, которые знают китайский язык на уровне HSK 6.', 'Переводчик не нужен — есть сотрудники, знающие китайский на уровне HSK 6.', 'У нас есть сотрудники, которые знают китайский язык на уровне HSK 6.',
+      'В GSR Logistics есть сотрудники, которые знают китайский язык на уровне HSK 6: они занимались закупками в Китае и работают над закупками у фабрик и оптовыми закупками у продавцов.',
+      'Над этими закупками работают сотрудники, которые знают китайский язык на уровне HSK 6 и занимались закупками в Китае.',
+      'HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов.',
+      'HSK — экзамен для не носителей китайского языка.', 'У фабрик и у оптовых продавцов — с сотрудниками, знающими китайский на уровне HSK 6.',
+      'Нужно ли ехать в Китай или нанимать переводчика? Нет. У нас есть сотрудники, которые знают китайский язык на уровне HSK 6.'] },
+  { id: 'en.hskCertificate', msg: HSK_PAPER_MSG('en'),
+    re: new RegExp(besideHsk(EN_HSK_PAPER, '.!?', 40, 80), 'iu'),
+    bad: ['We have employees who know Chinese at HSK 6 level and speak it like their native language.', 'We have employees who know Chinese at HSK 6 level, and every one of them holds an international certificate.', 'GSR Logistics has employees who know Chinese at HSK 6 level; they are professional translators with experience of purchasing in China.', 'Our employees passed HSK 6.', 'Our employees hold HSK 6.', 'Every buyer on our team has taken the HSK 6 exam.', 'Our employees are fluent in Chinese (HSK 6).', 'You need our interpreters with HSK 6.', 'No need to worry: our interpreters have HSK 6.', 'Our employees speak native Chinese, and HSK 6 is not their limit.', 'We hire interpreters with HSK 6.', 'We find interpreters with HSK 6 for you.', 'Our HSK 6 certified staff negotiate with the factory for you.', 'Every buyer on our team holds an HSK 6 certificate.', 'HSK 6 certificate holders talk to the factory.', 'Our buyers speak Chinese at native level, above HSK 6.', 'Our HSK 6 interpreters negotiate with the factory.'],
+    good: ['HSK is a test of Chinese for people who do not speak it as their native language.', 'Employees who know Chinese at HSK 6 level work on these purchases, and the goods pass customs in Tashkent.', 'You do not need an interpreter: we have employees who know Chinese at HSK 6 level.', 'No — you need neither a trip to China nor an interpreter: we have employees who know Chinese at HSK 6 level.', 'HSK is the Chinese test for people whose native language is not Chinese.', 'We have employees who know Chinese at HSK 6 level.',
+      'GSR Logistics has employees who know Chinese at HSK 6 level; they have experience of purchasing in China and work on buying from factories and buying wholesale from sellers.',
+      'Employees who know Chinese at HSK 6 level and have experience of purchasing in China work on these purchases.',
+      'HSK (Hanyu Shuiping Kaoshi) is China’s standardised test of Chinese for people whose first language is not Chinese; level 6 expects a vocabulary of 5,000 or more words.',
+      'HSK is a test of Chinese for non-native speakers.', 'Employees who know Chinese at HSK 6 level work on buying from factories and wholesale sellers.',
+      'Do I have to travel to China or hire an interpreter? No. We have employees who know Chinese at HSK 6 level.'] },
+  { id: 'zh.hskCertificate', msg: HSK_PAPER_MSG('zh'),
+    re: new RegExp(besideHsk(ZH_HSK_PAPER, '。！？!?', 20, 30), 'iu'),
+    bad: ['GSR Logistics 有中文达到 HSK 6 级水平的员工；他们的中文接近母语水平。', '我们的员工已通过 HSK 6 级考试。', '我们的员工考取了 HSK 6 级。', '我们的员工都有 HSK 6 级。', '我们的员工拥有 HSK 6 级文凭。', '我们的员工精通中文（HSK 6 级）。', '不用请翻译，我们的翻译有 HSK 6 级。', '我们持有 HSK 6 级证书的员工替您与工厂谈判。', '员工均通过 HSK 6 级认证。', '我们的员工中文达到母语水平，高于 HSK 6 级。', '我们的 HSK 6 级翻译替您与工厂谈判。'],
+    good: ['您无需持有中国银行卡，我们有中文达到 HSK 6 级水平的员工。', '中文达到 HSK 6 级水平的员工从事这些采购工作，客户经理通过 Telegram 与您联系。', '我们核查工厂资质，中文达到 HSK 6 级水平的员工从事这些采购工作。', '不需要亲自去中国，也不用请翻译：我们有中文达到 HSK 6 级水平的员工。', '您无需聘请翻译，我们有中文达到 HSK 6 级水平的员工。', 'HSK 是面向非中文母语者的中文水平考试；HSK 6 级是其中的一个等级。', '我们有中文达到 HSK 6 级水平的员工。', 'GSR Logistics 有中文达到 HSK 6 级水平的员工；他们有在中国采购的经验，从事向工厂采购和向卖家批量采购的工作。',
+      'HSK（中文水平考试）是面向中文非第一语言学习者的国际标准化考试；6 级要求掌握 5,000 个及以上词语。', 'HSK 是面向母语非汉语者的标准化考试。',
+      '中文达到 HSK 6 级水平的员工从事向工厂和批发商户采购的工作。', '需要亲自去中国或请翻译吗？不需要。我们有中文达到 HSK 6 级水平的员工。'] },
+  { id: 'fa.hskCertificate', msg: HSK_PAPER_MSG('fa'),
+    re: new RegExp(besideHsk(FA_HSK_PAPER, FA_STOP, 40, 60), 'iu'),
+    bad: ['کارمندانی داریم که زبان چینی را در سطح HSK 6 می‌دانند؛ آنان مترجمان حرفه‌ای هستند.', 'کارمندان ما آزمون HSK 6 را گذرانده‌اند.', 'کارمندان ما در آزمون HSK 6 قبول شده‌اند.', 'کارمندان ما HSK 6 دارند.', 'کارمندان ما به زبان چینی مسلط هستند (HSK 6).', 'به مترجم نیاز ندارید: مترجمان ما HSK 6 دارند.', 'کارکنان دارای مدرک HSK 6 از طرف شما با کارخانه مذاکره می‌کنند.', 'گواهی HSK 6 دارند.', 'کارمندان ما چینی را مثل زبان مادری می‌دانند و HSK 6 دارند.', 'مترجمان ما با سطح HSK 6 مذاکره می‌کنند.'],
+    good: ['GSR Logistics کارمندانی دارد که زبان چینی را در سطح HSK 6 می‌دانند.', 'HSK آزمون زبان چینی برای افرادی است که زبان مادری‌شان زبانی غیر از چینی است.', 'به مترجم نیاز ندارید: کارمندانی داریم که چینی را در سطح HSK 6 می‌دانند.', 'کارمندانی داریم که زبان چینی را در سطح HSK 6 می‌دانند.',
+      'در GSR Logistics کارمندانی هستند که زبان چینی را در سطح HSK 6 می‌دانند؛ آنان تجربهٔ خرید در چین دارند و در خرید از کارخانه‌ها و خرید عمده از فروشندگان کار می‌کنند.',
+      'HSK (Hanyu Shuiping Kaoshi) آزمون استاندارد چین برای سنجش مهارت زبان چینی کسانی است که زبان مادری‌شان چینی نیست؛ سطح ۶ آن دانستن ۵٬۰۰۰ واژه یا بیشتر را می‌طلبد.',
+      'HSK آزمونی برای کسانی است که زبان مادری‌شان چینی نیست.', 'کارمندانی که زبان چینی را در سطح HSK 6 می‌دانند، در خرید از کارخانه‌ها و فروشندگان عمده کار می‌کنند.',
+      'آیا باید به چین سفر کنم یا مترجم بگیرم؟ خیر. کارمندانی داریم که زبان چینی را در سطح HSK 6 می‌دانند.'] },
+
+  /* — wholesale buying: how many such employees there are is not confirmed — */
+  { id: 'uz.hskCount', block: true, msg: HSK_COUNT_MSG('uz'),
+    re: new RegExp(hskSentence(`${UZ_HEADCOUNT}|${UZC_HEADCOUNT}`, '.!?;'), 'iu'),
+    bad: ['Xitoy tilini HSK 6 darajasida biladigan oʻndan ortiq xodimimiz bor.', 'Хитой тилини HSK 6 даражасида биладиган ўндан ортиқ ходимимиз бор.', '1 nafar xodimimiz xitoy tilini HSK 6 darajasida biladi.', '1 ta xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Uchta HSK 6 mutaxassisi buyurtmangiz bilan ishlaydi.', '10 dan ortiq xodimimiz xitoy tilini HSK 6 darajasida biladi.', '10+ xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Bir necha xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Yigirma nafar xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'HSKni topshirgan 5 nafar xodimimiz bor.', '12 nafar HSK 6 mutaxassisimiz Ivu va Guanchjouda ishlaydi.', 'Xitoy tilini HSK 6 darajasida biladigan uch nafar xodimimiz bor.', 'Xitoy tilini HSK 6 darajasida biladigan 5 ta xodimimiz bor.', 'Jamoamizda HSK 6 darajasidagi oʻnta mutaxassis ishlaydi.',
+      '12 нафар HSK 6 мутахассисимиз Иву ва Гуанчжоуда ишлайди.', 'Хитой тилини HSK 6 даражасида биладиган уч нафар ходимимиз бор.'],
+    good: ['Qaysi xizmatni tanlasangiz ham 1 ta menejer bilan ishlaysiz, xitoy tilini HSK 6 darajasida biladigan xodimlarimiz ham bor.', 'Қайси хизматни танласангиз ҳам 1 та менежер билан ишлайсиз, хитой тилини HSK 6 даражасида биладиган ходимларимиз ҳам бор.', 'GSR Logisticsʼning 400+ mijozi va xitoy tilini HSK 6 darajasida biladigan xodimlari bor.', 'Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor.', 'Bu xaridlar boʻyicha xitoy tilini HSK 6 darajasida biladigan, Xitoyda sotib olish bilan shugʻullangan xodimlarimiz ishlaydi.',
+      // «ta» counts words and levels too: only people are a headcount
+      'HSK 6 darajasi 5 000 ta va undan ortiq soʻzni bilishni talab qiladi.', 'HSK imtihoni 9 ta darajadan iborat.', 'HSK имтиҳони 9 та даражадан иборат.',
+      'Xizmat 06 — Ulgurji xarid', 'HSK 6 Xitoy tilini shu darajada biladigan xodimlarimiz bor'] },
+  { id: 'ru.hskCount', block: true, msg: HSK_COUNT_MSG('ru'),
+    re: new RegExp(hskSentence(RU_HEADCOUNT, '.!?;'), 'iu'),
+    bad: ['У нас более десяти сотрудников, которые знают китайский на уровне HSK 6.', '1 сотрудник знает китайский на уровне HSK 6.', '10+ сотрудников знают китайский на уровне HSK 6.', 'Наша команда из семи человек говорит по-китайски на уровне HSK 6.', 'Двенадцать наших сотрудников знают китайский на уровне HSK 6.', 'Несколько наших сотрудников знают китайский на уровне HSK 6.', 'Команда из трёх специалистов с HSK 6.', '6 наших сотрудников знают китайский на уровне HSK 6.', 'Три специалиста с HSK 6 работают над вашим заказом.', '21 сотрудник знает китайский на уровне HSK 6.', 'Работаем с 5 сотрудниками, которые знают китайский на уровне HSK 6.', '12 специалистов с уровнем HSK 6 работают в Иу и Гуанчжоу.', 'Трое наших сотрудников знают китайский на уровне HSK 6.', 'В команде 5 человек с уровнем HSK 6.'],
+    good: ['С вами работает 1 менеджер, и у нас есть сотрудники, которые знают китайский на уровне HSK 6.', 'Как устроена закупка: шесть шагов и сотрудники, которые знают китайский на уровне HSK 6.', 'У GSR Logistics 400+ клиентов и сотрудники, которые знают китайский на уровне HSK 6.', 'У нас есть сотрудники, которые знают китайский язык на уровне HSK 6.', 'Над этими закупками работают сотрудники, которые знают китайский язык на уровне HSK 6 и занимались закупками в Китае.',
+      'Экзамен HSK состоит из 9 уровней.', 'Услуга 06 — Оптовые закупки', 'HSK 6 У нас есть сотрудники с таким уровнем китайского'] },
+  { id: 'en.hskCount', block: true, msg: HSK_COUNT_MSG('en'),
+    re: new RegExp(hskSentence(EN_HEADCOUNT, '.!?;'), 'iu'),
+    bad: ['Three HSK 6 specialists work on your order.', '10+ employees know Chinese at HSK 6 level.', 'Our team of seven speaks Chinese at HSK 6 level.', 'A dozen of our people know Chinese at HSK 6 level.', 'Five of the employees know Chinese at HSK 6 level.', '12 full-time employees know Chinese at HSK 6 level.', 'Our team of 12 HSK 6 specialists works in Yiwu and Guangzhou.', 'Three of our employees know Chinese at HSK 6 level.', '12 employees know Chinese at HSK 6 level.', 'Sixteen buyers on our staff know Chinese at HSK 6 level.', 'We have 3 HSK 6 level employees.'],
+    good: ['A wholesale purchase runs in six steps and employees who know Chinese at HSK 6 level work on these purchases.', 'A wholesale purchase runs in 6 steps and employees who know Chinese at HSK 6 level work on these purchases.', 'GSR Logistics has 400+ clients and employees who know Chinese at HSK 6 level.', 'We have employees who know Chinese at HSK 6 level.', 'Employees who know Chinese at HSK 6 level work on buying from factories and wholesale sellers.',
+      'The HSK test has 9 levels.', 'Service 06 — Wholesale buying', 'HSK 6 We have employees at this level of Chinese'] },
+  { id: 'zh.hskCount', block: true, msg: HSK_COUNT_MSG('zh'),
+    re: new RegExp(hskSentence(ZH_HEADCOUNT, ZH_STOP), 'iu'),
+    bad: ['我们有十多名中文达到 HSK 6 级水平的员工。', '1 名员工中文达到 HSK 6 级水平。', '一支 5 人的 HSK 6 级采购团队。', '10 多名员工中文达到 HSK 6 级水平。', '10+ 名员工中文达到 HSK 6 级水平。', '我们的七人团队中文达到 HSK 6 级水平。', '多名员工中文达到 HSK 6 级水平。', 'HSK 6 级员工共 5 人。', '12 名 HSK 6 级专员常驻义乌和广州。', '我们有三名员工中文达到 HSK 6 级水平。', '我们有 5 名中文达到 HSK 6 级水平的员工。'],
+    good: ['三项服务由 1 位客户经理负责，我们有中文达到 HSK 6 级水平的员工。', '中文达到 HSK 6 级水平的员工在 3 个工作日内由经理回复您。', '多位卖家的货物集中到义乌仓库，中文达到 HSK 6 级水平的员工从事这些采购工作。', 'GSR Logistics 有 400+ 客户，也有中文达到 HSK 6 级水平的员工。', '我们有中文达到 HSK 6 级水平的员工。', '中文达到 HSK 6 级水平的员工从事向工厂和批发商户采购的工作。', 'HSK 考试共分 9 个等级。', '一个订单经过 4 个阶段。', '服务 06 — 批发代采购'] },
+  { id: 'fa.hskCount', block: true, msg: HSK_COUNT_MSG('fa'),
+    re: new RegExp(hskSentence(FA_HEADCOUNT, `${FA_STOP}؛;`), 'iu'),
+    bad: ['۱ کارمند ما زبان چینی را در سطح HSK 6 می‌داند.', 'تیم هفت‌نفرهٔ ما زبان چینی را در سطح HSK 6 می‌داند.', 'دوازده کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.', '۱۲ کارشناس با سطح HSK 6 در ییوو و گوانگجو کار می‌کنند.', 'سه کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.'],
+    good: ['با ۱ کارشناس کار می‌کنید و کارمندانی داریم که زبان چینی را در سطح HSK 6 می‌دانند.', 'کارمندانی داریم که زبان چینی را در سطح HSK 6 می‌دانند.', 'کارمندانی که زبان چینی را در سطح HSK 6 می‌دانند، در خرید از کارخانه‌ها و فروشندگان عمده کار می‌کنند.',
+      'HSK آزمون بین‌المللی سنجش زبان چینی است؛ HSK 6 سطح ششم آن است.', 'آزمون HSK نه سطح دارد.', 'خدمت ۰۶ — خرید عمده'] },
+
+  /* — wholesale buying: no result is promised — not the best or the cheapest price, no guaranteed quality, no "100%", no "no risk" — */
+  { id: 'uz.pricePromise', msg: PROMISE_MSG('uz'),
+    re: new RegExp(`${UZ_PROMISE}|${UZC_PROMISE}`, 'iu'),
+    bad: ['Eng arzon narxlar bizda.', 'Eng arzon narxlarni Pinduoduoda topib beramiz.', 'Xitoydan risksiz xarid.', '100 foiz kafolat beramiz.', 'Narxlarimiz eng arzon.', 'Hech qanday risk yoʻq.', 'Sifat kafolati — bizning zimmamizda.', 'Narxlarimiz eng past.', 'Eng arzon narx biz uchun muammo emas.', 'Sifatni kafolatlaymizmi? Albatta!', 'Eng yaxshi narxni kafolatlay olamiz.', 'Eng yaxshi narxni kafolatlaymiz.', 'Eng arzon narxda zavoddan toʻgʻridan-toʻgʻri olib beramiz, vositachisiz.', '100% sifat kafolati, xaridor uchun xavf yoʻq.', 'Sifat kafolati bilan ishlaymiz.', 'Tovar sifatiga kafolat beramiz.', 'Энг яхши нархни кафолатлаймиз.', 'Товар сифатига кафолат берамиз.'],
+    good: ['Uchala platformadan eng arzon narxlar Pinduoduoda, lekin sifat partiyadan partiyaga farq qiladi.', 'Учала платформадан энг арзон нархлар Pinduoduo-да, лекин сифат партиядан партияга фарқ қилади.', 'Uchala platformadan Pinduoduoda narxlar eng past, lekin sifat partiyadan partiyaga farq qiladi.', 'Zavodning sifat kafolati odatda 12 oy.', 'Заводнинг сифат кафолати одатда 12 ой.', 'Sifatni kafolatlamaymiz: tovarni Ivu omborida tekshiramiz.', 'Tovar sifatini kafolatlay olmaymiz: uni Ivu omborida tekshiramiz.', 'Narxni kafolatlamaymiz: narxni zavod yoki sotuvchi belgilaydi.', 'Hech kim sizga Xitoydagi eng yaxshi narxni kafolatlay olmaydi.', 'Eng arzon narx har doim ham eng yaxshi tanlov emas: material, minimal partiya va ishlab chiqarish muddatini ham solishtiring.', 'Namuna butun partiya sifatini kafolatlaydimi? Yoʻq. Namuna material va ishlov sifatini koʻrsatadi.', 'Сифатни кафолатламаймиз: товарни Иву омборида текширамиз.', 'Eng past narxni vaʼda qilmaymiz.', 'Eng arzon narxni vaʼda qilmaymiz.', 'Энг арзон нархни ваъда қилмаймиз.', 'Tovar sifatiga kafolat bermaymiz.', 'Komissiya buyurtma summasining 3% dan.',
+      // sentences the site prints today
+      'Rasmda koʻrinadigan eng past narx — eng katta partiya uchun.', '«Bojsiz», «100% kafolat», «eng tez» degan gaplarni aytmaymiz.', 'Namuna — eng arzon sugʻurta.', 'bojxona toʻlovlari taʼminotini (kafolatni) rasmiylashtirishda yordam beramiz'] },
+  { id: 'ru.pricePromise', msg: PROMISE_MSG('ru'),
+    re: new RegExp(RU_PROMISE, 'iu'),
+    bad: ['Самые дешёвые цены на Pinduoduo — у нас.', 'Самые дешёвые цены — у нас.', 'Гарантируем вам самую низкую цену.', 'Работаем с гарантией качества.', 'Закупка в Китае без рисков.', 'Стопроцентная гарантия.', 'Гарантия качества от нашей компании.', 'Наши цены — самые низкие.', 'У нас самые низкие цены.', 'Гарантируем ли мы качество? Да!', 'Лучшая цена — не мечта: мы её гарантируем.', 'Гарантировать качество мы можем и гарантируем.', 'Лучшая цена — и вы не будете переплачивать.', 'Гарантируем качество — вы не можете ошибиться.', 'Лучшая цена: никто не предложит ниже.', 'Гарантия качества: мы не даём браку пройти.', 'У нас лучше цены, чем у конкурентов.', 'Гарантируем ли мы качество? Нет проблем!', 'Гарантируем лучшую цену от фабрики.', 'Вы получаете самую выгодную цену в Китае, без посредников.', '100% гарантия качества, никакого риска для покупателя.', 'Качество товара гарантировано.'],
+    good: ['Из трёх площадок самые дешёвые цены — на Pinduoduo, но качество меняется от партии к партии.', 'Из трёх площадок самые низкие цены — на Pinduoduo, но качество меняется от партии к партии.', 'Завод обычно даёт 12 месяцев гарантии.', 'Заводская гарантия качества — обычно 12 месяцев.', 'Гарантия качества от завода — обычно 12 месяцев.', 'Мы не обещаем, что найдём для вас самую выгодную цену в Китае: показываем каждое предложение, выбор за вами.', 'Лучшую цену в Китае вам никто честно не пообещает.', 'Гарантировать качество чужого товара мы не можем — мы его проверяем на складе в Иу.', 'Гарантии качества не даём: товар проверяем на складе в Иу.', 'Закупок без риска не бывает; образец и проверка риск снижают.', 'Чем больше партия, тем лучше цена: минимальную партию каждый продавец устанавливает сам.', 'Гарантирует ли образец качество всей партии? Нет. Образец показывает материал и работу.', 'Самую низкую цену не обещаем.', 'Лучшую цену не обещаем.', 'Качество не гарантируем: товар проверяем на складе.', 'Комиссия — от 3% суммы заказа.',
+      'Самая низкая цена на картинке — для самой большой партии.', 'Образец — самая дешёвая страховка.', 'помогаем оформить обеспечение уплаты таможенных платежей (гарантию)'] },
+  { id: 'en.pricePromise', msg: PROMISE_MSG('en'),
+    re: new RegExp(EN_PROMISE, 'iu'),
+    bad: ['Risk-free wholesale buying in China.', 'We give a quality guarantee on every factory order.', 'The factory’s quality guarantee is our promise too.', 'Our quality guarantee lasts 12 months.', 'We have the cheapest prices on Pinduoduo.', 'On Pinduoduo we always get you the cheapest price.', 'We guarantee that you get the lowest price.', 'Our prices are the cheapest.', 'Our prices are the lowest.', 'The lowest prices, guaranteed.', 'Do we guarantee quality? Yes, we do.', 'The best price is not a problem for us.', 'Our offer can’t be beaten: the best price in China.', 'Neither a trip nor a deposit: we guarantee the best price.', 'We do not charge for the search, and you always get the cheapest price.', 'Do we guarantee quality? No doubt!', 'We guarantee the best price from the factory.', 'You get the cheapest price in China, with no middlemen.', '100% quality guarantee, no risk for the buyer.', 'Factory prices guaranteed.'],
+    good: ['There is no risk-free purchase: order a sample first.', 'The factory’s quality guarantee (warranty) usually lasts 12 months.', 'A quality guarantee from the factory usually lasts 12 months.', 'Pinduoduo has the cheapest prices of the three platforms, but quality varies from batch to batch.', 'Pinduoduo’s prices are the lowest of the three platforms, but quality varies from batch to batch.', 'We never promise that you will get the cheapest price: you see every offer and choose yourself.', 'Nobody can honestly promise you the cheapest price in China.', 'No one can guarantee the quality of goods that nobody has checked — that is what the sample is for.', 'We give no price guarantee: the price is the factory’s or the seller’s.', 'We can’t guarantee the best price, and we do not say we can.', 'No purchase is risk-free; a sample and an inspection lower the risk.', 'The cheapest price is not always the best choice: compare the material, the minimum and the production time.', 'Does a sample guarantee the quality of the whole batch? No. A sample shows the material and the workmanship.', 'Do you guarantee the lowest price?', 'We do not promise the lowest price.', 'We do not promise the best price in China.', 'Commission from 3% of the order value.',
+      'The lowest price shown in the listing is for the largest batch.', 'A sample is the cheapest insurance.', 'Air is the best option for samples.', 'help with security for customs payments'] },
+  { id: 'zh.pricePromise', msg: PROMISE_MSG('zh'),
+    re: new RegExp(ZH_PROMISE, 'iu'),
+    bad: ['为您找到最好的价格。', '我们保证货物质量。', '保证给您最低的价格。', '百分之百保证。', '我们的价格最便宜。', '品质有保障。', '质量保证，价格实惠。', '我们的价格最低。', '最便宜的价格并不难：我们帮您拿到。', '我们保证质量吗？当然！', '我们保证质量吗？不难！', '最便宜的价格别人做不到，我们可以。', '保证质量不一定要多花钱。', '我们保证拿到工厂最低价。', '保证质量，假一赔十。', '您能拿到全中国最便宜的价格，没有中间商。', '100% 质量保证，买家零风险。', '品质有保证，请放心下单。'],
+    good: ['三个平台中拼多多的价格最便宜，但每批货的质量不一样。', '寄样品，空运是最好的选择。', '工厂通常提供 12 个月质保。', '质量保证期通常为 12 个月；质保期内损坏的零件由工厂免费寄出。', '合同可约定质量保证金，在验收后支付。', '最便宜的价格我们不承诺，但每一份报价都会发给您，由您选择。', '质量保证我们给不了，我们能做的是到货查验。', '最便宜的价格不一定是最好的选择：还要比较材料、起订量和生产周期。', '样品能保证质量吗？不能。样品体现的是材料和做工。', '我们不承诺最低价。', '我们不承诺全中国最便宜的价格。', '我们不保证品质。', '佣金为订单金额的 3% 起。',
+      '商品页上标出的最低价，对应的是最大批量。', '样品是最便宜的保险', '我们从不说“免税”、“100%保证”或“最快”。'] },
+  { id: 'fa.pricePromise', msg: PROMISE_MSG('fa'),
+    re: new RegExp(FA_PROMISE, 'iu'),
+    bad: ['بدون هیچ ریسکی برای خریدار.', 'ارزان‌ترین قیمت‌ها نزد ما است.', 'ارزان‌ترین قیمت را در پین‌دودو برای شما پیدا می‌کنیم.', 'پایین‌ترین قیمت را برای شما تضمین می‌کنیم.', 'تضمین ۱۰۰٪ کیفیت برای هر سفارش.', 'کیفیت را ضمانت می‌کنیم.', 'صددرصد تضمینی.', 'قیمت‌های ما ارزان‌ترین است.', 'هیچ ریسکی ندارد.', 'تضمین کیفیت کارخانه‌ای برای هر سفارش.', 'قیمت‌های ما پایین‌ترین است.', 'آیا کیفیت را تضمین می‌کنیم؟ بله!', 'نمی‌توانید رد کنید: بهترین قیمت را تضمین می‌کنیم.', 'هیچ‌کس مثل ما نیست: بهترین قیمت را می‌گیریم.', 'رقیب نمی‌تواند: بهترین قیمت را ما می‌دهیم.', 'بهترین قیمت کارخانه را تضمین می‌کنیم.', 'ارزان‌ترین قیمت چین را بدون واسطه می‌گیرید.', '۱۰۰٪ تضمین کیفیت، بدون ریسک برای خریدار.'],
+    good: ['از میان سه پلتفرم، ارزان‌ترین قیمت‌ها در پین‌دودو است، اما کیفیت از محموله‌ای به محمولهٔ دیگر فرق می‌کند.', 'از میان سه پلتفرم، پایین‌ترین قیمت‌ها در پین‌دودو است، اما کیفیت از محموله‌ای به محمولهٔ دیگر فرق می‌کند.', 'کارخانه‌ها معمولاً ۱۲ ماه ضمانت می‌دهند.', 'تضمین کیفیت کارخانه معمولاً ۱۲ ماه است.', 'هیچ‌کس نمی‌تواند ارزان‌ترین قیمت چین را به شما قول بدهد.', 'نمی‌توانیم کیفیت را تضمین کنیم؛ کالا را در انبار ییوو بررسی می‌کنیم.', 'آیا نمونه کیفیت را تضمین می‌کند؟ خیر. نمونه جنس و ساخت را نشان می‌دهد.', 'پایین‌ترین قیمت را وعده نمی‌دهیم.', 'ارزان‌ترین قیمت چین را وعده نمی‌دهیم.', 'کارمزد از ۳٪ ارزش سفارش.',
+      'پین‌دودو پایین‌ترین قیمت‌های خرده‌فروشی را دارد، اما کیفیت متفاوت است.', 'بهترین گزینه برای نمونه‌ها', 'تضمین پرداخت‌های گمرکی'] },
 ];
 /** The name this list had while it held the Chinese and Persian rules only; tools written against it read the whole list. */
 export const ZH_FA_FORBIDDEN = CLAIM_RULES;
 /** The rule families that exist in all five written languages (selfTest() fails when one of the five is missing). */
-const RULE_FAMILIES = ['persianStaff', 'destination', 'afghanFigure', 'afghanMode', 'afghanVolume', 'afghanPresence', 'afghanSchedule', 'afghanRecord', 'afghanOrigin', 'afghanAnywhere', 'afghanCustoms'];
+const RULE_FAMILIES = ['persianStaff', 'destination', 'afghanFigure', 'afghanMode', 'afghanVolume', 'afghanPresence', 'afghanSchedule', 'afghanRecord', 'afghanOrigin', 'afghanAnywhere', 'afghanCustoms', 'hskCertificate', 'hskCount', 'pricePromise'];
 /** The number of bad + good sentences the claim rules carried when this floor was last raised: a guard against quietly deleted fixtures. */
-const FIXTURE_FLOOR = 2127;
+const FIXTURE_FLOOR = 2536;
 
 
 /* ── Orthography, per page language (raw text) ──────────────────────────────────────────────── */
@@ -2311,7 +2505,7 @@ export function selfTest() {
   const ids = CLAIM_RULES.map((r) => r.id);
   // A rule without its sentences proves nothing: deleting the fixtures of a rule must not pass in silence.
   for (const r of CLAIM_RULES) if (!Array.isArray(r.bad) || !Array.isArray(r.good) || !r.bad.length || !r.good.length) bad.push(`${r.id} has no ${Array.isArray(r.bad) && r.bad.length ? 'good' : 'bad'} sentence — a rule must carry what it catches and what it lets through`);
-  // The rules of 2026-11-12 exist in all five written languages; one that is deleted leaves its language free to make the claim.
+  // The rules written since 2026-11-12 (RULE_FAMILIES) exist in all five written languages; one that is deleted leaves its language free to make the claim.
   for (const family of RULE_FAMILIES) for (const lang of ['uz', 'ru', 'en', 'zh', 'fa']) if (!ids.includes(`${lang}.${family}`)) bad.push(`the rule ${lang}.${family} is missing — the ${family} rules exist in uz, ru, en, zh and fa`);
   // … and so do the Chinese and Persian twins of the older rules.
   for (const id of ids) { const m = /^(zh|fa)\.(.+)$/.exec(id); if (m && !RULE_FAMILIES.includes(m[2]) && m[2] !== 'wechat' && !ids.includes(`${m[1] === 'zh' ? 'fa' : 'zh'}.${m[2]}`)) bad.push(`the rule ${id} has no ${m[1] === 'zh' ? 'fa' : 'zh'} twin`); }

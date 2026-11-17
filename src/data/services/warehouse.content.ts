@@ -19,7 +19,7 @@ const content: ServiceContentSource = {
         'Xitoydagi uchta qabul punktida — Ivu, Guanchjou va Qashqarda — yukni qabul qilamiz, GS kodingiz bilan belgilaymiz, ochib tekshiramiz, foto-hisobot yuboramiz, bir necha yetkazib beruvchidan jamlaymiz, qadoqlaymiz va 1% sugʻurta qilamiz. 14 kun bepul saqlash.',
     },
     hero: {
-      eyebrow: 'Xizmat 08 — Xitoyda ombor',
+      eyebrow: 'Xizmat 09 — Xitoyda ombor',
       h1: 'Xitoyda ombor: qabul, sifat nazorati va foto-hisobot',
       intro:
         'Xitoydagi uchta qabul punktidan biri — Ivu (义乌), Guanchjou (广州) yoki Qashqar (喀什) — Toshkentga ketadigan yukning birinchi bekati. Bu yerda yetkazib beruvchidan kelgan har bir joyni tortamiz, oʻlchaymiz, GS kodingiz bilan belgilaymiz va foto-hisobot yuboramiz. Xohlasangiz, qutini ochib tovarni sanaymiz va tekshiramiz (1 $/kg), qayta qadoqlaymiz (0,4 $/kg) va eʼlon qilingan qiymatning 1% evaziga sugʻurta qilamiz. Saqlash 14 kungacha bepul.',
@@ -161,7 +161,7 @@ const content: ServiceContentSource = {
         'В Китае три пункта приёма — Иу, Гуанчжоу и Кашгар: принимаем груз, маркируем вашим GS-кодом, вскрываем и проверяем, отправляем фотоотчёт, консолидируем от нескольких поставщиков, упаковываем и страхуем за 1%. 14 дней бесплатного хранения.',
     },
     hero: {
-      eyebrow: 'Услуга 08 — Склад в Китае',
+      eyebrow: 'Услуга 09 — Склад в Китае',
       h1: 'Склад в Китае: приёмка, проверка качества и фотоотчёт',
       intro:
         'Один из трёх пунктов приёма в Китае — Иу (义乌), Гуанчжоу (广州) или Кашгар (喀什) — первая остановка груза на пути в Ташкент. Здесь каждое место от поставщика взвешивают, обмеряют, маркируют вашим GS-кодом и фотографируют. По желанию вскрываем коробки, пересчитываем и проверяем товар (1 $/кг), переупаковываем (0,4 $/кг) и страхуем груз за 1% от объявленной стоимости. Хранение до 14 дней бесплатно.',
@@ -303,7 +303,7 @@ const content: ServiceContentSource = {
         'At the three receiving points in China — Yiwu, Guangzhou and Kashgar — we receive your cargo, label it with your GS code, open and inspect it, send photo reports, consolidate goods from several suppliers, repack and insure for 1%. 14 days of free storage.',
     },
     hero: {
-      eyebrow: 'Service 08 — China warehouse',
+      eyebrow: 'Service 09 — China warehouse',
       h1: 'China warehouse: receiving, quality control and photo reports',
       intro:
         'One of three receiving points in China — Yiwu (义乌), Guangzhou (广州) or Kashgar (喀什) — is the first stop for your shipment on the way to Tashkent. Here each piece from your supplier is weighed, measured, labelled with your GS code and photographed. On request we open the boxes, count and inspect the goods ($1/kg), repack them ($0.40/kg) and insure the cargo for 1% of its declared value. Storage is free for up to 14 days.',

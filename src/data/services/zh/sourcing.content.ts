@@ -120,7 +120,7 @@ const content: ServiceContent = {
     },
     {
       q: '我需要亲自与工厂沟通吗？',
-      a: '不需要。我们的客户经理会讲乌兹别克语、俄语和中文；与工厂的谈判、合同和索赔都由我们处理。您只需决定商品和价格。',
+      a: '不需要。我们的客户经理会讲乌兹别克语、俄语和中文；与工厂的谈判、合同和索赔都由我们处理。我们有中文达到 HSK 6 级水平的员工。您只需决定商品和价格。',
     },
     {
       q: '样品多少钱？多久能到？',
@@ -147,14 +147,14 @@ const content: ServiceContent = {
       a: '可以。我们在全中国范围内搜寻——广州（服装）、深圳（电子产品）、佛山（家具）、柯桥（面料）。货物经国内快递 1–3 天送到义乌仓库，并在那里集货。',
     },
   ],
-  related: ['buying', 'warehouse', 'truck'],
+  related: ['wholesale', 'buying', 'truck'],
   guideKeys: ['find-supplier', 'yiwu-guangzhou', 'order-from-1688', 'shipping-from-china'],
   cta: {
     title: '告诉我们您需要什么，其余的交给我们来找。',
     text: '发来商品照片或链接、数量和质量要求。我们会为您整理多家工厂的报价，注明价格、起订量和交期。',
     draft: '您好！我需要在中国寻找货源。商品：… 数量：… 要求（质量、材质、证书）：… 大致预算：…',
   },
-  updated: '2026-09-08',
+  updated: '2026-11-18',
 };
 
 export default content;

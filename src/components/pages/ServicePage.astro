@@ -6,7 +6,7 @@
  * Props: { lang, service, content? }.
  *
  * Two kinds of page, decided by the registry (`ServiceMeta.quote`):
- *   · a tariff page (the nine China → Tashkent services): calculator button, "Estimate · Updated" captions,
+ *   · a tariff page (the ten China → Tashkent services): calculator button, "Estimate · Updated" captions,
  *     the "Price and time" sticky card with its headline figure, Telegram + phone in the closing band;
  *   · an on-request page (`quote: 'request'` — cargo to Afghanistan, transit documents, the warehouse under
  *     customs control): no price or transit time is published for it, and the calculator prices China →
@@ -56,7 +56,7 @@ const estimateMeta = `${c.strings.estimateMeta}${colon(lang)}${fmtDate(tariffs.u
  * request). Everything below that would print a price caption, a headline figure or a calculator link asks this
  * first. A tariff page must render exactly as it did before this switch existed — which is why each button in the
  * markup is its own `onRequest ? … : …` expression, standing where its element stood: wrapping a pair of buttons
- * in a fragment changed the white space between them on the nine tariff pages.
+ * in a fragment changed the white space between them on the tariff pages.
  */
 const onRequest = service.quote === 'request';
 
@@ -115,7 +115,10 @@ const breadcrumbs = [
   { name, key: 'services' as const, sub: subFor(lang, 'services', service.slug) },
 ];
 
-/* ---------- JSON-LD: Service (+ offers from tariffs.json / site.ts for truck, air, rail, buying) + FAQPage ---------- */
+/* ---------- JSON-LD: Service (+ offers from tariffs.json for truck, air, rail, buying, wholesale) + FAQPage ---------- */
+/* The commission is published as "from 3%": a floor, so the two commission offers carry it as minPrice, never as the price —
+   read from tariffs.json, like the number line, the pricing page and the FAQ (one source for the figure). Both also carry
+   the published order minimum (an order through us totals at least 1 m³) as eligibleQuantity. */
 const offers = service.key === 'truck'
   ? [
       ...tariffs.truck.lclPerM3ByDensity.map((r, i, all) => ({ price: r.rate, unitCode: 'MTQ' as const, minM3: tariffs.truck.minM3, validThrough: tariffs.validThrough, description: r.maxKgM3 ? `≤ ${r.maxKgM3} kg/m³` : `< ${tariffs.truck.perKgFromDensityKgM3} kg/m³` })),
@@ -128,8 +131,8 @@ const offers = service.key === 'truck'
           { minPrice: tariffs.rail.container20ft[0], maxPrice: tariffs.rail.container20ft[1], unitText: '20 ft container, China → Tashkent, estimate', validThrough: tariffs.validThrough, description: '20 ft container' },
           { minPrice: tariffs.rail.container40ft[0], maxPrice: tariffs.rail.container40ft[1], unitText: '40 ft container, China → Tashkent, estimate', validThrough: tariffs.validThrough, description: '40 ft container' },
         ]
-      : service.key === 'buying'
-        ? [{ price: site.sourcingCommissionPct, percent: true, unitText: '% of the order value', validThrough: tariffs.validThrough, description: 'buying-agent commission, from' }]
+      : service.key === 'buying' || service.key === 'wholesale'
+        ? [{ minPrice: tariffs.extras.sourcingCommissionPct, percent: true, unitText: '% of the order value', minM3: tariffs.truck.minM3, validThrough: tariffs.validThrough, description: service.key === 'buying' ? 'buying-agent commission, from' : 'wholesale buying commission, from' }]
         : undefined;
 const jsonLd: Array<Record<string, unknown>> = [
   serviceNode(lang, { name, description: seoDescription, url: pageAbs, serviceType: service.name.en, offers, areaServed: service.area }),
@@ -153,7 +156,7 @@ const fitsTable = (head: string[]) => head.length < 3;
 /* On phones global.css end-aligns the value column of every 2-column table: right for a price ("1 $/kg"), ragged
    for a sentence. An on-request page has no price tables — its 2-column tables are a term and its description — so
    there the value cell reads from the start. Inline on the cell, and absent on a tariff page, so the stylesheet
-   shared with the nine tariff pages stays the same file. */
+   shared with the tariff pages stays the same file. */
 const proseCell = (head: string[]) => (onRequest && fitsTable(head) ? 'text-align:start' : undefined);
 /* zh (decided here too, so the other locales render byte-identical):
    - a fact value is "long" by its width, a Han character counting as two Latin ones: «110 美元/m³ 起» (11 characters)

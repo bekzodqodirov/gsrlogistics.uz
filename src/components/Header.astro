@@ -95,8 +95,8 @@ const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'ra
      viewport edge (gutter + logo + 20px). `100vw - 232px` keeps the panel's far edge a gutter inside
      the viewport below 952px, where a 720px panel would overrun it by up to ~26px; 720px from there up. */
   .mega { position: absolute; top: calc(100% + 8px); inset-inline-start: -8px; width: min(720px, calc(100vw - 232px)); padding: 12px; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-float); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur); z-index: 5;
-    /* Twelve services make the panel 600–660px tall: on a laptop whose viewport is shorter, the last row and the
-       "all services" link were cut off and out of reach. It now scrolls inside itself instead. */
+    /* Twelve services made the panel 600–660px tall, and the thirteenth adds a seventh row: on a laptop whose viewport
+       is shorter, the last row and the "all services" link were cut off and out of reach. It scrolls inside itself instead. */
     max-height: calc(100vh - var(--header-h) - 24px); max-height: calc(100dvh - var(--header-h) - 24px); overflow-y: auto; overscroll-behavior: contain; }
   /* Without JS the panel opens on hover and focus alone. Once the script boots it adds .mega-js and
      takes over, so Escape can actually close a panel the pointer or focus is still inside. */
@@ -111,9 +111,12 @@ const daysFor = (key: string) => key === 'truck' || key === 'air' || key === 'ra
   .mega-name { font-weight: 600; font-size: 0.9375rem; white-space: normal; }
   .mega-short { font-size: 0.8125rem; color: var(--muted); white-space: normal; line-height: 1.35; }
   .mega-days { font-size: 0.75rem; color: var(--meta); }
-  .mega-all { display: inline-flex; margin: 8px 12px 4px; font-size: var(--text-small); }
+  /* Thirteen services make the panel taller than a 1366×768 screen allows, so it scrolls: the link to all services
+     stays in view at the panel's bottom edge instead of scrolling away under the list. */
+  .mega-all { position: sticky; bottom: -12px; display: flex; margin: 8px -12px -12px; padding: 10px 24px 12px; font-size: var(--text-small); background: var(--card); border-top: 1px solid var(--border-soft); border-end-start-radius: var(--radius-lg); border-end-end-radius: var(--radius-lg); }
   .site-header[data-over-dark='true'] .mega { background: var(--gray-900); border-color: rgb(255 255 255 / 0.08); }
   .site-header[data-over-dark='true'] .mega-item:hover { background: rgb(255 255 255 / 0.06); }
+  .site-header[data-over-dark='true'] .mega-all { background: var(--gray-900); border-color: rgb(255 255 255 / 0.08); }
   .header-actions { display: flex; align-items: center; gap: 8px; margin-inline-start: auto; }
   .phone { display: none; align-items: center; white-space: nowrap; gap: 8px; font-weight: 600; font-size: 0.9375rem; padding: 0 10px; min-height: 40px; border-radius: var(--radius-pill); color: var(--fg); }
   .phone:hover { background: color-mix(in oklab, var(--fg), transparent 93%); }

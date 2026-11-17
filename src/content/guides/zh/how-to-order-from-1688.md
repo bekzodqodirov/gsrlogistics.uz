@@ -6,7 +6,7 @@ translationKey: order-from-1688
 slug: how-to-order-from-1688
 publishDate: 2026-09-08
 updatedDate: 2026-11-08
-tags: [buying, sourcing, warehouse, "1688"]
+tags: [buying, sourcing, warehouse, "1688", wholesale]
 faq:
   - q: "可以直接从 1688 下单发到乌兹别克斯坦吗？"
     a: "实际上不行。1688 只在中国境内配送，付款只接受支付宝或中国国内银行卡（Humo、Uzcard 卡无法支付，Visa 卡通常也不行），卖家也只用中文沟通。因此需要通过代理下单：GSR Logistics 代您采购商品，在义乌仓库收货，再运往塔什干。"

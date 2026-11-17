@@ -161,6 +161,15 @@ function uz(): FaqGroup[] {
       ],
     },
     {
+      id: 'ulgurji', group: 'Ulgurji (optom) xarid',
+      items: [
+        { q: 'Xitoydan ulgurji (optom) tovar sotib olib berasizmi — zavoddan ham, sotuvchidan ham?',
+          a: `Ha. GSR Logistics buyurtmangiz boʻyicha Xitoyda tovar partiyasini zavoddan yoki ulgurji sotuvchidan sotib oladi va Toshkentga olib keladi. Ulgurji xaridlar boʻyicha xitoy tilini HSK 6 darajasida biladigan, Xitoyda sotib olish bilan shugʻullangan xodimlarimiz ishlaydi. Buyurtmaning umumiy hajmi kamida ${v.minM3} m³ boʻlishi kerak, komissiya esa buyurtma summasining ${v.comm}% dan (taxminiy).` },
+        { q: 'Xitoy tilini biladigan xodimlaringiz bormi?',
+          a: `Ha. GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan xodimlar bor: ular Xitoyda sotib olish bilan shugʻullangan va zavodlardan sotib olish hamda sotuvchilardan ulgurji (optom) xarid qilish boʻyicha ishlaydi. HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi.` },
+      ],
+    },
+    {
       id: 'xavfsizlik', group: 'Xavfsizlik va sugʻurta',
       items: [
         { top: true, q: 'Qaysi tovarlarni olib kelib boʻlmaydi?',
@@ -293,6 +302,15 @@ function ru(): FaqGroup[] {
       ],
     },
     {
+      id: 'optom', group: 'Оптовые закупки',
+      items: [
+        { q: 'Закупаете ли вы товары в Китае оптом — у фабрик и у оптовых продавцов?',
+          a: `Да. По вашему заказу GSR Logistics закупает в Китае партию товара у фабрики или у оптового продавца и привозит её в Ташкент. Над этими закупками работают сотрудники, которые знают китайский язык на уровне HSK 6 и занимались закупками в Китае. Общий объём заказа должен быть от ${v.minM3} м³, а комиссия — от ${v.comm}% суммы заказа (ориентировочно).` },
+        { q: 'У вас есть сотрудники, знающие китайский язык?',
+          a: `Да. В GSR Logistics есть сотрудники, которые знают китайский язык на уровне HSK 6: они занимались закупками в Китае и работают над закупками у фабрик и оптовыми закупками у продавцов. HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов. Наши менеджеры говорят на узбекском, русском и китайском.` },
+      ],
+    },
+    {
       id: 'bezopasnost', group: 'Безопасность и страховка',
       items: [
         { top: true, q: 'Какие товары нельзя привезти?',
@@ -419,6 +437,15 @@ function en(): FaqGroup[] {
           a: `Yes. From a description or a sample we compare 2–3 manufacturers by price, MOQ and production lead time, order samples and, if needed, visit the factory. Commission starts at ${v.comm}% of the order value (estimate); complex equipment is quoted separately. Small wholesale from the Yiwu and Guangzhou markets, electronics from Shenzhen, furniture from Foshan — we know where each thing is bought.` },
         { q: 'Do you also import equipment and cars?',
           a: `Yes. Machinery and production lines on a turnkey basis: factory selection, contract, payment, loading, customs (many types of industrial equipment carry 0% duty, depending on the code) and help with installation. Cars and electric vehicles from China are imported to order; price and lead time are calculated per model, and duty, excise and other charges follow the law. Send us the model or the name of the equipment and we will prepare a quote.` },
+      ],
+    },
+    {
+      id: 'wholesale', group: 'Wholesale buying',
+      items: [
+        { q: 'Do you buy goods wholesale in China — from factories and from wholesale sellers?',
+          a: `Yes. On your order GSR Logistics buys a batch of goods in China from a factory or from a wholesale seller and brings it to Tashkent. Employees who know Chinese at HSK 6 level and have experience of purchasing in China work on these purchases. An order must total at least ${v.minM3} m³, and the commission starts at ${v.comm}% of the order value (estimate).` },
+        { q: 'Do you have employees who know Chinese?',
+          a: `Yes. GSR Logistics has employees who know Chinese at HSK 6 level; they have experience of purchasing in China and work on buying from factories and buying wholesale from sellers. HSK (Hanyu Shuiping Kaoshi) is China’s standardised test of Chinese for people whose first language is not Chinese; level 6 expects a vocabulary of 5,000 or more words. Our managers speak Uzbek, Russian and Chinese.` },
       ],
     },
     {
@@ -552,6 +579,15 @@ function zh(): FaqGroup[] {
       ],
     },
     {
+      id: 'wholesale', group: '批发代采购',
+      items: [
+        { q: '你们能在中国向工厂和批发商户批量采购货物吗？',
+          a: `能。GSR Logistics 受您委托，在中国向工厂或批发商户采购一批货物，并运到塔什干。中文达到 HSK 6 级水平、有在中国采购经验的员工参与这些采购工作。订单总体积须至少 ${v.minM3} m³，佣金为订单金额的 ${v.comm}% 起（参考费率）。` },
+        { q: '你们有懂中文的员工吗？',
+          a: `有。GSR Logistics 有中文达到 HSK 6 级水平的员工；他们有在中国采购的经验，从事向工厂采购和向卖家批量采购的工作。HSK（中文水平考试）是面向中文非第一语言学习者的国际标准化考试；6 级要求掌握 5,000 个及以上词语。我们的客户经理会说乌兹别克语、俄语和中文。` },
+      ],
+    },
+    {
       id: 'safety', group: '安全与保险',
       items: [
         { top: true, q: '哪些货物不能运？',
@@ -679,6 +715,15 @@ function fa(): FaqGroup[] {
           a: `بله. بر اساس توضیحات یا نمونه، ۲ تا ۳ تولیدکننده را از نظر قیمت، حداقل سفارش (MOQ) و زمان تولید مقایسه می‌کنیم، نمونه سفارش می‌دهیم و در صورت نیاز از کارخانه بازدید می‌کنیم. کارمزد از ${v.comm}٪ ارزش سفارش شروع می‌شود (تقریبی)؛ تجهیزات پیچیده جداگانه قیمت‌گذاری می‌شود. عمده‌فروشی کوچک از بازارهای ییوو و گوانگجو، لوازم الکترونیکی از شنژن، مبلمان از فوشان — می‌دانیم هر چیزی را کجا باید خرید.` },
         { q: 'آیا تجهیزات و خودرو هم وارد می‌کنید؟',
           a: `بله. ماشین‌آلات و خطوط تولید به‌صورت کلید در دست: انتخاب کارخانه، قرارداد، پرداخت، بارگیری، گمرک (حقوق گمرکی بسیاری از انواع تجهیزات صنعتی، بسته به کد، ۰٪ است) و کمک در نصب. خودرو و خودروی برقی از چین به سفارش وارد می‌شود؛ قیمت و زمان برای هر مدل جداگانه محاسبه می‌شود و حقوق گمرکی، اکسایز (مالیات ویژه) و سایر پرداخت‌ها طبق قانون است. مدل خودرو یا نام تجهیزات را برای ما بفرستید تا پیشنهاد قیمت آماده کنیم.` },
+      ],
+    },
+    {
+      id: 'wholesale', group: 'خرید عمده',
+      items: [
+        { q: 'آیا کالا را در چین به‌صورت عمده می‌خرید — از کارخانه‌ها و از فروشندگان عمده؟',
+          a: `بله. شرکت GSR Logistics به سفارش شما یک محموله کالا را در چین از کارخانه یا از فروشندهٔ عمده می‌خرد و به تاشکند می‌آورد. کارمندانی که زبان چینی را در سطح HSK 6 می‌دانند و تجربهٔ خرید در چین دارند، روی این خریدها کار می‌کنند. حجم کل سفارش باید دست‌کم ${v.minM3} متر مکعب باشد و کارمزد از ${v.comm}٪ ارزش سفارش شروع می‌شود (تقریبی).` },
+        { q: 'آیا کارمندانی دارید که زبان چینی بدانند؟',
+          a: `بله. در GSR Logistics کارمندانی هستند که زبان چینی را در سطح HSK 6 می‌دانند؛ آنان تجربهٔ خرید در چین دارند و در خرید از کارخانه‌ها و خرید عمده از فروشندگان کار می‌کنند. HSK (Hanyu Shuiping Kaoshi) آزمون استاندارد چین برای سنجش مهارت زبان چینی کسانی است که زبان مادری‌شان چینی نیست؛ سطح ۶ آن دانستن ۵٬۰۰۰ واژه یا بیشتر را می‌طلبد. کارشناسان ما به زبان‌های ازبکی، روسی و چینی صحبت می‌کنند.` },
       ],
     },
     {

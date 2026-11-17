@@ -144,7 +144,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Xitoy kartasi, Alipay yoki xitoy tili kerakmi?',
-        a: 'Yoʻq. Sotuvchiga biz oʻz akkauntimizdan Alipay yoki WeChat Pay orqali yuanda toʻlaymiz va u bilan xitoy tilida yozishamiz. Siz soʻmda toʻlaysiz va Telegramda oʻzbek yoki rus tilida yozasiz.',
+        a: 'Yoʻq. Sotuvchiga biz oʻz akkauntimizdan Alipay yoki WeChat Pay orqali yuanda toʻlaymiz va u bilan xitoy tilida yozishamiz. Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor. Siz soʻmda toʻlaysiz va Telegramda oʻzbek yoki rus tilida yozasiz.',
       },
       {
         q: 'Taobao va Pinduoduodan ham olib berasizmi?',
@@ -167,14 +167,14 @@ const content: ServiceContentSource = {
         a: 'Tovar narxi va komissiya — buyurtmadan oldin, soʻmda: karta, Click, Payme yoki ofisda naqd; yuridik shaxslar uchun hisob-faktura va bank oʻtkazmasi. Tashish haqi — yuk Toshkentga kelganda.',
       },
     ],
-    related: ['truck', 'warehouse', 'sourcing'],
+    related: ['wholesale', 'sourcing', 'truck'],
     guideKeys: ['order-from-1688', 'cargo-pricing', 'customs-2026', 'prohibited-goods'],
     cta: {
       title: 'Havolani yuboring — hisob-kitobni olasiz.',
       text: 'Tovar havolasi, rangi, oʻlchami va sonini yozing. Menejer narxni MB kursi boʻyicha dollarda, komissiya va tashish bilan alohida qatorlarda hisoblab beradi.',
       draft: 'Assalomu alaykum! 1688 / Taobaodan tovar sotib olish kerak. Havola: … Rang/oʻlcham: … Soni: … Yetkazish: avto / avia',
     },
-    updated: '2026-09-08',
+    updated: '2026-11-18',
   },
 
   ru: {
@@ -301,7 +301,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Нужны ли китайская карта, Alipay или китайский язык?',
-        a: 'Нет. Продавцу платим мы со своего аккаунта через Alipay или WeChat Pay в юанях и переписываемся с ним по-китайски. Вы платите в сумах и пишете нам в Telegram на русском или узбекском.',
+        a: 'Нет. Продавцу платим мы со своего аккаунта через Alipay или WeChat Pay в юанях и переписываемся с ним по-китайски. У нас есть сотрудники, которые знают китайский язык на уровне HSK 6. Вы платите в сумах и пишете нам в Telegram на русском или узбекском.',
       },
       {
         q: 'Выкупаете ли с Taobao и Pinduoduo?',
@@ -324,14 +324,14 @@ const content: ServiceContentSource = {
         a: 'Цену товара и комиссию — до заказа, в сумах: картой, через Click, Payme или наличными в офисе; для юридических лиц — счёт-фактура и банковский перевод. Перевозку — по прибытии груза в Ташкент.',
       },
     ],
-    related: ['truck', 'warehouse', 'sourcing'],
+    related: ['wholesale', 'sourcing', 'truck'],
     guideKeys: ['order-from-1688', 'cargo-pricing', 'customs-2026', 'prohibited-goods'],
     cta: {
       title: 'Пришлите ссылку — получите расчёт.',
       text: 'Напишите ссылку на товар, цвет, размер и количество. Менеджер посчитает цену в долларах по курсу ЦБ, комиссию и перевозку — каждую строку отдельно.',
       draft: 'Здравствуйте! Нужен выкуп с 1688 / Taobao. Ссылка: … Цвет/размер: … Количество: … Доставка: авто / авиа',
     },
-    updated: '2026-09-08',
+    updated: '2026-11-18',
   },
 
   en: {
@@ -458,7 +458,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Do I need a Chinese card, Alipay or Chinese?',
-        a: 'No. We pay the seller in yuan from our own account via Alipay or WeChat Pay and message them in Chinese. You pay in UZS and write to us on Telegram in Uzbek or Russian.',
+        a: 'No. We pay the seller in yuan from our own account via Alipay or WeChat Pay and message them in Chinese. We have employees who know Chinese at HSK 6 level. You pay in UZS and write to us on Telegram in Uzbek or Russian.',
       },
       {
         q: 'Do you also buy from Taobao and Pinduoduo?',
@@ -481,14 +481,14 @@ const content: ServiceContentSource = {
         a: 'Product price and commission — before the order, in UZS: card, Click, Payme or cash at the office; legal entities pay by bank transfer against an invoice. Freight — when the cargo arrives in Tashkent.',
       },
     ],
-    related: ['truck', 'warehouse', 'sourcing'],
+    related: ['wholesale', 'sourcing', 'truck'],
     guideKeys: ['order-from-1688', 'cargo-pricing', 'customs-2026', 'prohibited-goods'],
     cta: {
       title: 'Send the link. Get the quote.',
       text: 'Send the product link, colour, size and quantity. Your manager quotes the price in dollars at the Central Bank rate, with commission and freight on separate lines.',
       draft: 'Hello! I need a purchase from 1688 / Taobao. Link: … Colour/size: … Quantity: … Delivery: truck / air',
     },
-    updated: '2026-09-08',
+    updated: '2026-11-18',
   },
 };
 

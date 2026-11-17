@@ -1,7 +1,7 @@
 import type { ServiceContentSource } from './types';
 
 /**
- * Toshkentda bojxona nazoratidagi ombor va qayta yuklash — long-form page content (service 12, written 2026-11-12).
+ * Toshkentda bojxona nazoratidagi ombor va qayta yuklash — long-form page content (service 13, written 2026-11-12).
  * Every claim about GSR is the owner's answer of 2026-11-11 and nothing more:
  *   - the warehouse is in Tashkent and belongs to a PARTNER; GSR allocates space there to its clients;
  *   - cargo is stored there UNDER CUSTOMS CONTROL;
@@ -31,7 +31,7 @@ const content: ServiceContentSource = {
         'Toshkentda hamkorimizning bojxona nazoratidagi omborida joy, furadan furaga yoki ombor orqali qayta yuklash. Narx — soʻrov boʻyicha.',
     },
     hero: {
-      eyebrow: 'Xizmat 12 — Ombor',
+      eyebrow: 'Xizmat 13 — Ombor',
       h1: 'Toshkentda bojxona nazoratidagi ombor va yukni qayta yuklash',
       intro:
         'GSR Logistics endi Toshkentda mijozlari uchun bojxona nazoratidagi ombordan ham joy ajratadi. Ombor hamkorimizga tegishli. Yuk u yerda bojxona nazorati ostida saqlanadi. Yukni Toshkentda qayta yuklaymiz ham — furadan furaga yoki ombor orqali. Tranzit hujjatlarini ham biz rasmiylashtiramiz. Saqlash muddati va narxi har bir yuk uchun alohida kelishiladi.',
@@ -172,7 +172,7 @@ const content: ServiceContentSource = {
         'Место на складе партнёра под таможенным контролем в Ташкенте, перегрузка из фуры в фуру или через склад. Цена — по запросу.',
     },
     hero: {
-      eyebrow: 'Услуга 12 — Склад',
+      eyebrow: 'Услуга 13 — Склад',
       h1: 'Склад под таможенным контролем в Ташкенте и перегрузка груза',
       intro:
         'GSR Logistics теперь выделяет клиентам и место на складе под таможенным контролем в Ташкенте. Склад принадлежит нашему партнёру. Груз хранится там под таможенным контролем. В Ташкенте мы также перегружаем груз — из фуры в фуру или через склад. Транзитные документы тоже оформляем мы. Срок хранения и цена согласуются отдельно для каждого груза.',
@@ -313,7 +313,7 @@ const content: ServiceContentSource = {
         'Space in a partner’s warehouse under customs control in Tashkent, and transshipment truck to truck or through the warehouse. Price on request.',
     },
     hero: {
-      eyebrow: 'Service 12 — Warehouse',
+      eyebrow: 'Service 13 — Warehouse',
       h1: 'Warehouse under customs control in Tashkent, and transshipment',
       intro:
         'GSR Logistics now also allocates space for its clients in a warehouse under customs control in Tashkent. The warehouse belongs to our partner. Cargo is stored there under customs control. We also reload cargo in Tashkent — truck to truck or through the warehouse. We handle the transit documents as well. The storage time and the price are agreed for each cargo separately.',

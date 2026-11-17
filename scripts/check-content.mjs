@@ -5,7 +5,8 @@
 // What runs where — the page's locale comes from scripts/locales.mjs, the table every script shares:
 //   · FORBIDDEN (uz/ru/en claims) and CLAIM_RULES (scripts/content-rules.mjs: the same business
 //     rules in Chinese and Persian, and the rules written for all five languages and Uzbek Cyrillic
-//     at once — where GSR delivers, who answers in Persian, the Afghanistan direction) run on EVERY
+//     at once — where GSR delivers, who answers in Persian, the Afghanistan direction, the HSK level
+//     of the employees and the promises nobody confirmed on price and quality) run on EVERY
 //     page: on the <main> text, raw and normalised (Persian/Arabic-Indic/full-width digits, bidi
 //     marks, Arabic ي/ك, spaces between CJK characters — see normalize()), and on the <title>, the
 //     meta/OG/Twitter descriptions and every JSON-LD string; on the site header and footer (once per locale); then on dist/llms.txt and the hand-written header of dist/llms-full.txt. A rule
@@ -468,7 +469,7 @@ const PAGE_CLAIMS = [
     good: ['Saytdagi 1 m³ minimum Xitoydan Toshkentga keladigan yigʻma yukka tegishli.', 'Сайтдаги 1 м³ минимум Хитойдан Тошкентга келадиган йиғма юкка тегишли.', 'Минимум 1 м³, указанный на сайте, относится к сборному грузу из Китая в Ташкент.',
       'The 1 m³ minimum published on this site applies to consolidated cargo from China to Tashkent.', '本网站公布的 1 m³ 最低起运量，适用于从中国发往塔什干的拼货。', 'حداقل ۱ متر مکعب که در این سایت آمده، مربوط به بار تجمیعی از چین به تاشکند است.',
       'Soʻrov boʻyicha Narx va muddat', 'Du–Sha 9:00–19:00', '+998 00 000 00 00', 'Yangilangan: 2026-yil 12-noyabr', 'Обновлено: 12 ноября 2026 г.', 'Updated: November 12, 2026', '更新日期：2026年11月12日', '周一至周六 9:00–19:00', 'همه روزه به‌جز یکشنبه، ۹:۰۰ تا ۱۹:۰۰', 'آخرین به‌روزرسانی: ۲۰۲۶/۱۱/۱۲',
-      'Vazirlar Mahkamasining 2022-yil 31-dekabrdagi 737-son qaroriga koʻra', 'Under Article 119 of the Customs Code of Uzbekistan', '部长内阁第 737 号决议批准的条例（2026年11月现行版本）', 'طبق مصوبهٔ شمارهٔ ۷۳۷ هیئت وزیران ازبکستان مورخ ۲۰۲۲/۱۲/۳۱', 'Xizmat 10 — Afgʻoniston', '01',
+      'Vazirlar Mahkamasining 2022-yil 31-dekabrdagi 737-son qaroriga koʻra', 'Under Article 119 of the Customs Code of Uzbekistan', '部长内阁第 737 号决议批准的条例（2026年11月现行版本）', 'طبق مصوبهٔ شمارهٔ ۷۳۷ هیئت وزیران ازبکستان مورخ ۲۰۲۲/۱۲/۳۱', 'Xizmat 11 — Afgʻoniston', '01',
       'Bugungi kunda yetkazish nuqtalari shu ikkita.', 'Today these are the two delivery points.', 'Saqlash muddati va narxini menejer yukingiz boʻyicha aytadi.'] },
   { id: 'guide.figure', pages: GUIDE_PAGE, re: REQUEST_FIGURE, ok: GUIDE_FIGURE_OK, units: 'sentences',
     msg: 'a time, a price, a volume or an area on a guide about the on-request services, in a sentence that names no source of law — a figure of the law passes beside its article, code, resolution, regulation or convention ("Under Article 218 of the Customs Code … within 10 days"), a figure of the China → Tashkent route in a sentence that names China and Tashkent; the company publishes no figure for these services',
@@ -566,12 +567,15 @@ const FAQ_FIXTURES = {
 };
 /**
  * The claim rules of content-rules.mjs on one normalised text. A `block` rule reads `parts` — the same text one
- * block at a time — and its excerpt is longer: what it found is two things up to 60 characters apart.
+ * block at a time — and its excerpt is longer: what it found is two things up to 60 characters apart, or a whole
+ * sentence up to the count in it (hskCount), so a long find is shown by both its ends.
  */
 const claimHits = (norm, parts = [norm]) => CLAIM_RULES.flatMap((r) => {
   let found = null;
   for (const text of r.block ? parts : [norm]) if ((found = text.match(r.re))) break;
-  return found ? [`${r.msg} — «${found[0].trim().slice(0, r.block ? 96 : 48)}»`] : [];
+  if (!found) return [];
+  const hit = found[0].trim();
+  return [`${r.msg} — «${!r.block ? hit.slice(0, 48) : hit.length > 96 ? `${hit.slice(0, 40)} … ${hit.slice(-52)}` : hit}»`];
 });
 /*
  * blocks() and the `block` rules together, on markup: what is one statement and what is two. Without them the
@@ -582,6 +586,8 @@ const BLOCK_FIXTURES = {
     '<li><h3>Temir yoʻl va konteyner</h3><p>20–35 kun</p></li></ul><h3>Yangi yoʻnalish: Afgʻoniston, tranzit va ombor</h3>',
     '<p>Rail and containers: 20–35 days</p><h3>A new direction: Afghanistan, transit and warehouse</h3>',
     '<p class="side-line">Hairatan · Mazar-i-Sharif</p><p class="side-phone">+998 00 000 00 00</p><p>Mon–Sat 9:00–19:00</p><h3>Customs clearance</h3><p>1–3 days</p>',
+    // a count in one block and «HSK» in the next are not one statement (the hskCount rules are block rules)
+    '<ul><li>3 languages</li><li>Managers: Uzbek, Russian, Chinese</li></ul><h3>Wholesale buying in China</h3><p>Employees who know Chinese at HSK 6 level work on buying from factories and wholesale sellers.</p>',
     // two rows of a guide's markdown table stay two blocks
     '<table>\n<tbody>\n<tr>\n<td>China → Tashkent</td>\n<td>15–25 days</td>\n</tr>\n<tr>\n<td>China → Afghanistan</td>\n<td>on request</td>\n</tr>\n</tbody>\n</table>',
   ],
@@ -590,6 +596,7 @@ const BLOCK_FIXTURES = {
     '<dl><dt>To Hairatan</dt><dd>5–7 days</dd></dl>',
     '<p>To <strong>Mazar-i-Sharif</strong> in <span>5–7 days</span></p>',
     '<li><span>Hayratongacha</span> <span>5–7 kun</span></li>',
+    '<table><tr><th>Employees with HSK 6</th><td>12 specialists</td></tr></table>',
     // a guide's markdown: the renderer prints each cell on its own line, and keeps the line breaks of a wrapped paragraph
     '<table>\n<thead>\n<tr>\n<th>Delivery point</th>\n<th>Transit time</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Hairatan</td>\n<td>5–7 days</td>\n</tr>\n</tbody>\n</table>',
     '<p>The truck reaches Hairatan\nin 5–7 days, as a rule.</p>',

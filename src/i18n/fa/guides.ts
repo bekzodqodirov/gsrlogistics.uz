@@ -22,5 +22,5 @@ export const fa: GuidesStrings = {
   published: 'تاریخ انتشار',
   allGuides: 'همهٔ راهنماها',
   tags: 'موضوع‌ها',
-  tagLabels: { truck: 'حمل زمینی', air: 'حمل هوایی', rail: 'حمل ریلی', customs: 'گمرک', warehouse: 'انبار', sourcing: 'یافتن کالا', buying: 'خرید کالا', suppliers: 'تأمین‌کنندگان', import: 'واردات', '1688': '1688', glossary: 'واژه‌نامه', lugat: 'واژه‌نامه', slovar: 'واژه‌نامه', routes: 'مسیرها', yonalishlar: 'مسیرها', marshruty: 'مسیرها', taqqoslash: 'مقایسه', bozorlar: 'بازارها', afghanistan: 'افغانستان', transit: 'ترانزیت', bonded: 'انبار' },
+  tagLabels: { truck: 'حمل زمینی', air: 'حمل هوایی', rail: 'حمل ریلی', customs: 'گمرک', warehouse: 'انبار', sourcing: 'یافتن کالا', buying: 'خرید کالا', suppliers: 'تأمین‌کنندگان', import: 'واردات', '1688': '1688', glossary: 'واژه‌نامه', lugat: 'واژه‌نامه', slovar: 'واژه‌نامه', routes: 'مسیرها', yonalishlar: 'مسیرها', marshruty: 'مسیرها', taqqoslash: 'مقایسه', bozorlar: 'بازارها', afghanistan: 'افغانستان', transit: 'ترانزیت', bonded: 'انبار', wholesale: 'خرید عمده' },
 };

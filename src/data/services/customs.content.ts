@@ -18,7 +18,7 @@ const content: ServiceContentSource = {
         'Xitoydan olib kelingan yuk uchun bojxona rasmiylashtiruvi: jismoniy shaxslar uchun oyiga 200 $ limit va undan oshgan qismiga 30%, yuridik shaxslar uchun TN VED boʻyicha boj va 12% QQS. Hujjatlar, GTD, sertifikat — oldindan hisoblab beramiz.',
     },
     hero: {
-      eyebrow: 'Xizmat 07 — Bojxona',
+      eyebrow: 'Xizmat 08 — Bojxona',
       h1: 'Xitoydan yuk uchun bojxona rasmiylashtiruvi',
       intro:
         'Bojxona rasmiylashtiruvi — bu Xitoydan kelgan yukni Oʻzbekiston qonunlari boʻyicha deklaratsiya qilib, boj va QQSni toʻlab, erkin muomalaga chiqarish. Jismoniy shaxs kuryer orqali oyiga 200 $ gacha tovarni toʻlovsiz oladi, undan oshgan qismiga 30% (kamida 3 $/kg) toʻlaydi. Yuridik shaxs uchun boj TN VED kodi boʻyicha (0–30%) va 12% QQS hisoblanadi. Biz toʻlovlarni yuk joʻnatilishidan oldin hisoblab beramiz va GTD bilan rasmiylashtiramiz.',
@@ -166,7 +166,7 @@ const content: ServiceContentSource = {
         'Растаможка груза из Китая в Узбекистане: для физлиц лимит 200 $ в месяц и 30% с превышения, для юрлиц пошлина по ТН ВЭД и НДС 12%. Документы, ГТД, сертификаты — считаем платежи заранее.',
     },
     hero: {
-      eyebrow: 'Услуга 07 — Таможня',
+      eyebrow: 'Услуга 08 — Таможня',
       h1: 'Таможенное оформление грузов из Китая',
       intro:
         'Таможенное оформление — это декларирование груза из Китая по законам Узбекистана, уплата пошлины и НДС и выпуск товара в свободное обращение. Физическое лицо получает через курьера до 200 $ в месяц без платежей, с превышения платит 30% (минимум 3 $/кг). Для юридического лица пошлина считается по коду ТН ВЭД (0–30%) плюс НДС 12%. Мы рассчитываем платежи до отправки груза и оформляем его с ГТД.',
@@ -314,7 +314,7 @@ const content: ServiceContentSource = {
         'Customs clearance in Uzbekistan for goods from China: individuals get $200 per month duty-free by courier and pay 30% on the excess; companies pay duty by HS code plus 12% VAT. Documents, customs declaration, certificates — we calculate the payments in advance.',
     },
     hero: {
-      eyebrow: 'Service 07 — Customs',
+      eyebrow: 'Service 08 — Customs',
       h1: 'Customs clearance for cargo from China',
       intro:
         'Customs clearance means declaring goods from China under Uzbek law, paying duty and VAT, and releasing the cargo for free circulation. An individual receives up to $200 per month by courier without payments and pays 30% (minimum $3/kg) on anything above. A company pays duty by HS code (0–30%) plus 12% VAT. We calculate the payments before the cargo ships and clear it with a customs declaration (GTD).',
