@@ -194,6 +194,12 @@ export interface ServiceOffer {
    * minimum without parsing the page.
    */
   minM3?: number;
+  /**
+   * The order values the offer applies to, by the value of the goods in USD: from `min`, up to `max` (none = no upper end).
+   * Wholesale buying (owner, 2026-11-18): tier 1 from $3,000 (the minimum order) up to $10,000, tier 2 over $10,000 up to
+   * $100,000, tier 3 over $100,000. Emitted as `eligibleTransactionVolume`, a PriceSpecification.
+   */
+  orderUsd?: { min: number; max?: number };
   validThrough: string;
   description?: string;
 }
@@ -235,6 +241,7 @@ export function serviceNode(lang: Locale, opts: { name: string; description: str
               ...(o.description ? { description: o.description } : {}),
             },
             ...(o.minM3 ? { eligibleQuantity: { '@type': 'QuantitativeValue', minValue: o.minM3, unitCode: 'MTQ' } } : {}),
+            ...(o.orderUsd ? { eligibleTransactionVolume: { '@type': 'PriceSpecification', minPrice: o.orderUsd.min, ...(o.orderUsd.max !== undefined ? { maxPrice: o.orderUsd.max } : {}), priceCurrency: 'USD' } } : {}),
             availability: 'https://schema.org/InStock',
             url: opts.url,
           })),

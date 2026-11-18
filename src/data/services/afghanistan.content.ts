@@ -143,7 +143,7 @@ const content: ServiceContentSource = {
           'WhatsApp yoki Telegramga yozing — ish shundan boshlanadi. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz.',
         ],
         steps: [
-          { title: 'Bizga yozasiz', text: 'WhatsApp (+998 90 175 78 00) yoki Telegramga yozing: yuk nima, hajmi yoki ogʻirligi qancha, hozir qayerda va qayerga borishi kerak — Hayratongami yoki Mozori Sharifgami.' },
+          { title: 'Bizga yozasiz', text: 'WhatsApp (+998 90 240 50 77) yoki Telegramga yozing: yuk nima, hajmi yoki ogʻirligi qancha, hozir qayerda va qayerga borishi kerak — Hayratongami yoki Mozori Sharifgami.' },
           { title: 'Narx va muddatni hisoblaymiz', text: 'Menejer narx va muddatni yukingiz boʻyicha hisoblab beradi va butun fura yoki yigʻma yuk variantini taklif qiladi.' },
           { title: 'Shartnoma', text: 'Toʻlov Oʻzbekiston va Afgʻoniston oʻrtasida ishlaydigan bank orqali, siz bilan biz oʻrtasidagi shartnoma asosida oʻtadi.' },
           { title: 'Hujjatlar', text: 'Sizdan qaysi hujjatlar kerakligini aytamiz. Oʻzbekiston hududidagi tranzit hujjatlarini oʻzimiz rasmiylashtiramiz.' },
@@ -172,7 +172,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Qaysi tilda va qayerga yozsam boʻladi?',
-        a: 'WhatsApp (+998 90 175 78 00) yoki Telegramga yozing. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz.',
+        a: 'WhatsApp (+998 90 240 50 77) yoki Telegramga yozing. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz.',
       },
       {
         q: 'Oʻzbekistonda qaysi hujjatlar sizning zimmangizda?',
@@ -303,7 +303,7 @@ const content: ServiceContentSource = {
           'Напишите нам в WhatsApp или Telegram — с этого начинается работа. Если напишете на фарси или дари, ответим на фарси с помощью переводчика. Отвечаем также на английском, русском и узбекском.',
         ],
         steps: [
-          { title: 'Пишете нам', text: 'Напишите в WhatsApp (+998 90 175 78 00) или в Telegram: что за груз, какой у него объём или вес, где он сейчас и куда его везти — в Хайратон или в Мазари-Шариф.' },
+          { title: 'Пишете нам', text: 'Напишите в WhatsApp (+998 90 240 50 77) или в Telegram: что за груз, какой у него объём или вес, где он сейчас и куда его везти — в Хайратон или в Мазари-Шариф.' },
           { title: 'Считаем цену и срок', text: 'Менеджер считает цену и срок под ваш груз и предлагает вариант: целая фура или сборный груз.' },
           { title: 'Договор', text: 'Оплата проходит через банк, который работает между Узбекистаном и Афганистаном, по договору между вами и нами.' },
           { title: 'Документы', text: 'Говорим, какие документы нужны от вас. Транзитные документы на территории Узбекистана оформляем сами.' },
@@ -332,7 +332,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'На каком языке и куда писать?',
-        a: 'Пишите в WhatsApp (+998 90 175 78 00) или в Telegram. Если напишете на фарси или дари, ответим на фарси с помощью переводчика. Отвечаем также на английском, русском и узбекском.',
+        a: 'Пишите в WhatsApp (+998 90 240 50 77) или в Telegram. Если напишете на фарси или дари, ответим на фарси с помощью переводчика. Отвечаем также на английском, русском и узбекском.',
       },
       {
         q: 'Какие документы в Узбекистане вы берёте на себя?',
@@ -463,7 +463,7 @@ const content: ServiceContentSource = {
           'Message us on WhatsApp or Telegram — that is where the work starts. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek.',
         ],
         steps: [
-          { title: 'You write to us', text: 'Message us on WhatsApp (+998 90 175 78 00) or Telegram: what the cargo is, its volume or weight, where it is now and where it has to go — Hairatan or Mazar-i-Sharif.' },
+          { title: 'You write to us', text: 'Message us on WhatsApp (+998 90 240 50 77) or Telegram: what the cargo is, its volume or weight, where it is now and where it has to go — Hairatan or Mazar-i-Sharif.' },
           { title: 'We calculate the price and the time', text: 'The manager calculates the price and the time for your cargo and proposes a full truck or consolidated cargo.' },
           { title: 'Contract', text: 'Payment goes through a bank that works between Uzbekistan and Afghanistan, under a contract between you and us.' },
           { title: 'Documents', text: 'We tell you which documents we need from you. We handle the transit documents inside Uzbekistan ourselves.' },
@@ -492,7 +492,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'In which language can I write, and where?',
-        a: 'Message us on WhatsApp (+998 90 175 78 00) or Telegram. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek.',
+        a: 'Message us on WhatsApp (+998 90 240 50 77) or Telegram. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek.',
       },
       {
         q: 'Which documents are on your side in Uzbekistan?',

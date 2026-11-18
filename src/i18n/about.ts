@@ -35,7 +35,7 @@ const uz: AboutStrings = {
       { title: 'Halollik', text: 'Narx, muddat va javobgarlik shartnomada. Yashirin toʻlovlar yoʻq: hajmiy vazn formulasi va zichlik qoidasi saytda ochiq.' },
       { title: 'Ochiqlik', text: 'Har qabulda foto-hisobot, yoʻlda menejer xabari, Toshkentda GS kod (markirovka) boʻyicha holat. Savolingizga aniq javob beramiz — «keyin aytamiz» degan gap yoʻq.' },
       { title: 'Sifat', text: 'Yukni Xitoyning oʻzida tekshiramiz: soni, holati, qadoqlash. Shikastlangan yoki notoʻgʻri tovar Toshkentga yetib kelmasdan oldin hal boʻladi.' },
-      { title: 'Til toʻsigʻi yoʻq', text: 'Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi. Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor. Yetkazib beruvchi bilan muzokarani biz olib boramiz.' },
+      { title: 'Til toʻsigʻi yoʻq', text: 'Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi. Xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimiz bor. Yetkazib beruvchi bilan muzokarani biz olib boramiz.' },
     ],
   },
   places: {
@@ -85,7 +85,7 @@ const ru: AboutStrings = {
       { title: 'Честность', text: 'Цена, сроки и ответственность — в договоре. Без скрытых платежей: формула объёмного веса и правило плотности опубликованы на сайте.' },
       { title: 'Открытость', text: 'Фотоотчёт при каждой приёмке, сообщения менеджера в пути, статус по GS-коду (маркировке) в Ташкенте. На вопросы отвечаем цифрами, а не догадками.' },
       { title: 'Качество', text: 'Проверяем груз ещё в Китае: количество, состояние, упаковку. Вопрос с повреждённым или не тем товаром решаем до отправки в Ташкент.' },
-      { title: 'Без языкового барьера', text: 'Наши менеджеры говорят по-узбекски, по-русски и по-китайски. У нас есть сотрудники, которые знают китайский язык на уровне HSK 6. Переговоры с поставщиком ведём мы.' },
+      { title: 'Без языкового барьера', text: 'Наши менеджеры говорят по-узбекски, по-русски и по-китайски. У нас есть четыре сотрудника, которые знают китайский язык на уровне HSK 6. Переговоры с поставщиком ведём мы.' },
     ],
   },
   places: {
@@ -135,7 +135,7 @@ const en: AboutStrings = {
       { title: 'Honesty', text: 'Price, timing and liability are in the contract. No hidden fees: the volumetric-weight formula and density rule are published on the site.' },
       { title: 'Transparency', text: 'A photo report at every intake, manager updates in transit, status by GS code (shipping mark) in Tashkent. We answer with numbers, not guesses.' },
       { title: 'Quality', text: 'We inspect cargo while it is still in China: quantity, condition, packaging. Damaged or wrong goods are resolved before they leave for Tashkent.' },
-      { title: 'No language barrier', text: 'Our managers speak Uzbek, Russian and Chinese. We have employees who know Chinese at HSK 6 level. We handle negotiations with the supplier.' },
+      { title: 'No language barrier', text: 'Our managers speak Uzbek, Russian and Chinese. We have four employees who know Chinese at HSK 6 level. We handle negotiations with the supplier.' },
     ],
   },
   places: {

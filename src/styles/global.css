@@ -28,11 +28,11 @@ img, picture, video, canvas, svg { display: block; max-width: 100%; }
    the reading way. `scale`, not `transform`: it composes with the hover nudges' translateX, which
    then reverse with the glyph, and a component that must NOT flip one sets `scale: none`. */
 [dir='rtl'] .icon-dir { scale: -1 1; }
-/* RTL (fa): a Chinese name in Persian text (polish-html wraps each run in <span lang="zh" dir="ltr">)
-   stays whole. Han may break between any two ideographs, which tore «(义乌)» into «(义» / «乌)» and
+/* A Chinese name in non-Chinese text (polish-html wraps each run in <span lang="zh">; in fa also dir="ltr")
+   stays whole — in Persian, and since 2026-11-18 also in Uzbek, Russian and English («(义» / «乌)» broke there too). Han may break between any two ideographs, which tore «(义乌)» into «(义» / «乌)» and
    «贸易公司» in half at phone widths. The longest such run on the fa pages is 12 ideographs (~200px),
    so keeping it whole cannot overflow a 320px screen. */
-[dir='rtl'] span[lang|='zh'] { word-break: keep-all; }
+:root:not(:lang(zh)) span[lang|='zh'] { word-break: keep-all; }
 img { height: auto; }
 input, button, textarea, select { font: inherit; color: inherit; }
 button { background: none; border: 0; padding: 0; cursor: pointer; }

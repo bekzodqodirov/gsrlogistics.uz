@@ -159,7 +159,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Qaysi tilda va qayerga yozsam boʻladi?',
-        a: 'WhatsApp (+998 90 175 78 00) yoki Telegramga yozing. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz.',
+        a: 'WhatsApp (+998 90 240 50 77) yoki Telegramga yozing. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz.',
       },
     ],
     related: ['bonded', 'afghanistan', 'customs'],
@@ -304,7 +304,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'На каком языке и куда писать?',
-        a: 'Пишите в WhatsApp (+998 90 175 78 00) или в Telegram. Если напишете на фарси или дари, ответим на фарси с помощью переводчика. Отвечаем также на английском, русском и узбекском.',
+        a: 'Пишите в WhatsApp (+998 90 240 50 77) или в Telegram. Если напишете на фарси или дари, ответим на фарси с помощью переводчика. Отвечаем также на английском, русском и узбекском.',
       },
     ],
     related: ['bonded', 'afghanistan', 'customs'],
@@ -449,7 +449,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'In which language can I write, and where?',
-        a: 'Write on WhatsApp (+998 90 175 78 00) or Telegram. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek.',
+        a: 'Write on WhatsApp (+998 90 240 50 77) or Telegram. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek.',
       },
     ],
     related: ['bonded', 'afghanistan', 'customs'],

@@ -7,7 +7,7 @@ import { fa } from './fa/services';
  * Strings for the home Services grid, the services index page and the service page template.
  * Service names/short lines come from `src/data/services.ts`; long-form page copy from
  * `src/data/services/<key>.content.ts`; every figure from `src/data/tariffs.json`.
- * Templates use `{n}` for a number and `{name}` for a service name.
+ * Templates use `{n}` for a number, `{range}` for a range of two numbers and `{name}` for a service name.
  */
 export interface ServicesStrings {
   home: {
@@ -57,6 +57,8 @@ export interface ServicesStrings {
     /** "110 $/m³ dan" — truck headline rate, taken from the first density band. */
     fromM3: string;
     commissionFrom: string;
+    /** "commission 1–3%" — a commission that depends on the order value (wholesale buying): the lowest and the highest tier, one {range}. */
+    commissionRange: string;
     yuanPayment: string;
     containers: string;
     turnkey: string;
@@ -169,6 +171,7 @@ const uz: ServicesStrings = {
     fromKg: '{n} kg dan',
     fromM3: '{n} $/m³ dan',
     commissionFrom: 'komissiya {n}% dan',
+    commissionRange: 'komissiya {range}%',
     yuanPayment: 'yuanda toʻlov',
     containers: '20ft / 40ft',
     turnkey: 'kalit topshirish',
@@ -190,7 +193,7 @@ const uz: ServicesStrings = {
     groups: { shipping: 'Yuk tashish', buying: 'Xitoyda topish va sotib olish', paperwork: 'Rasmiylashtiruv va nazorat', regional: 'Afgʻoniston, tranzit va ombor', vehicles: 'Avtomobillar' },
     groupLead: {
       shipping: 'Uch yoʻnalish — avto, avia, temir yoʻl. Muddat va narx yukning ogʻirligi, hajmi va shoshilinchligiga bogʻliq.',
-      buying: 'Xitoy tilini bilishingiz shart emas: uni HSK 6 darajasida biladigan xodimlarimiz bor. Menejerlar zavod bilan gaplashadi, yuanda toʻlaydi, namunani tekshiradi.',
+      buying: 'Xitoy tilini bilishingiz shart emas: uni HSK 6 darajasida biladigan toʻrtta xodimimiz bor. Menejerlar zavod bilan gaplashadi, yuanda toʻlaydi, namunani tekshiradi.',
       paperwork: 'Hujjatlar, deklaratsiya, GTD va sifat nazorati — yuk yoʻlga chiqishidan oldin.',
       regional: 'Yangi yoʻnalish: Afgʻonistonga fura bilan yuk tashiymiz, Oʻzbekiston orqali tranzit hujjatlarini rasmiylashtiramiz, Toshkentda bojxona nazoratidagi ombordan joy ajratamiz. Narx va muddat — soʻrov boʻyicha.',
       vehicles: 'Buyurtma asosida avtomobil va elektromobil — tanlovdan rasmiylashtiruvgacha.',
@@ -299,6 +302,7 @@ const ru: ServicesStrings = {
     fromKg: 'от {n} кг',
     fromM3: 'от {n} $/м³',
     commissionFrom: 'комиссия от {n}%',
+    commissionRange: 'комиссия {range}%',
     yuanPayment: 'оплата в юанях',
     containers: '20ft / 40ft',
     turnkey: 'под ключ',
@@ -320,7 +324,7 @@ const ru: ServicesStrings = {
     groups: { shipping: 'Доставка грузов', buying: 'Поиск и выкуп в Китае', paperwork: 'Оформление и контроль', regional: 'Афганистан, транзит и склад', vehicles: 'Автомобили' },
     groupLead: {
       shipping: 'Три способа — авто, авиа, ж/д. Срок и цена зависят от веса, объёма и срочности груза.',
-      buying: 'Знать китайский не нужно: у нас есть сотрудники, которые знают его на уровне HSK 6. Менеджеры общаются с фабрикой, платят в юанях, проверяют образец.',
+      buying: 'Знать китайский не нужно: у нас есть четыре сотрудника, которые знают его на уровне HSK 6. Менеджеры общаются с фабрикой, платят в юанях, проверяют образец.',
       paperwork: 'Документы, декларация, ГТД и контроль качества — до того, как груз отправится.',
       regional: 'Новое направление: возим грузы фурами в Афганистан, оформляем транзитные документы в Узбекистане, выделяем место на складе под таможенным контролем в Ташкенте. Цена и срок — по запросу.',
       vehicles: 'Автомобили и электромобили под заказ — от выбора до оформления.',
@@ -429,6 +433,7 @@ const en: ServicesStrings = {
     fromKg: 'from {n} kg',
     fromM3: 'from ${n} per m³',
     commissionFrom: 'commission from {n}%',
+    commissionRange: 'commission {range}%',
     yuanPayment: 'payment in yuan',
     containers: '20ft / 40ft',
     turnkey: 'turnkey',
@@ -450,7 +455,7 @@ const en: ServicesStrings = {
     groups: { shipping: 'Freight', buying: 'Sourcing and buying in China', paperwork: 'Paperwork and control', regional: 'Afghanistan, transit and warehouse', vehicles: 'Vehicles' },
     groupLead: {
       shipping: 'Three modes — truck, air, rail. Time and price depend on weight, volume and urgency.',
-      buying: 'No Chinese needed: we have employees who know Chinese at HSK 6 level. Our managers talk to the factory, pay in yuan and check the sample.',
+      buying: 'No Chinese needed: we have four employees who know Chinese at HSK 6 level. Our managers talk to the factory, pay in yuan and check the sample.',
       paperwork: 'Documents, declaration, customs entry and quality control — before the cargo leaves.',
       regional: 'A new direction: truck cargo to Afghanistan, transit documents in Uzbekistan, and space in a warehouse under customs control in Tashkent. Price and timing on request.',
       vehicles: 'Cars and EVs made to order — from choosing the model to registration paperwork.',
@@ -543,12 +548,13 @@ export const serviceGroups: Array<{ id: 'shipping' | 'buying' | 'paperwork' | 'r
 ];
 
 import tariffs from '@/data/tariffs.json';
-import { fmtNumber, fmtRange, sep } from '@/lib/format';
+import { fmtNumber, fmtNumRange, fmtRange, sep } from '@/lib/format';
 
 /**
  * One tabular "number line" per service card, composed only from tariffs.json values. Every figure,
- * the {n} of a template included, is formatted for the locale (Persian digits on fa; the % sign sits
- * in the template, so fa writes ٪ there), and the parts join with the locale's separator.
+ * the {n} and the {range} of a template included, is formatted for the locale (Persian digits on fa, and its
+ * own range form «X تا Y»; the % sign sits in the template, so fa writes ٪ there), and the parts join with the
+ * locale's separator.
  * The three on-request services (afghanistan, transit, bonded) have no tariff: their line is plain text
  * with no figure in it, written whole per language.
  */
@@ -557,13 +563,16 @@ export function serviceNumberLine(lang: Locale, key: ServiceKey): string {
   const range = (a: number, b: number) => fmtRange(a, b, t.days, lang);
   const n = (v: number) => fmtNumber(v, lang);
   const join = (...parts: string[]) => parts.join(sep(lang));
+  /* Wholesale buying (owner, 2026-11-18): the commission falls with the order value; the card prints the lowest and the
+     highest tier as one range, built like the day ranges (fmtNumRange: «1–3», fa «۱ تا ۳»). */
+  const wholesalePct = tariffs.extras.wholesale.commissionPct;
   switch (key) {
     case 'truck': return join(range(tariffs.truck.days[0], tariffs.truck.days[1]), tpl(t.fromM3, { n: n(tariffs.truck.lclPerM3ByDensity[0].rate) }));
     case 'air': return join(range(tariffs.air.days[0], tariffs.air.days[1]), tpl(t.fromKg, { n: n(tariffs.air.minKg) }));
     case 'rail': return join(range(tariffs.rail.days[0], tariffs.rail.days[1]), t.containers);
     case 'sourcing': return tpl(t.commissionFrom, { n: n(tariffs.extras.sourcingCommissionPct) });
     case 'buying': return join(t.yuanPayment, tpl(t.commissionFrom, { n: n(tariffs.extras.sourcingCommissionPct) }));
-    case 'wholesale': return tpl(t.commissionFrom, { n: n(tariffs.extras.sourcingCommissionPct) });
+    case 'wholesale': return tpl(t.commissionRange, { range: fmtNumRange(Math.min(...wholesalePct), Math.max(...wholesalePct), lang) });
     case 'equipment': return join(t.containers, t.turnkey);
     case 'customs': return t.customs;
     case 'warehouse': return join(t.photoEveryReceipt, tpl(t.insurance, { n: n(tariffs.extras.insurancePct) }));

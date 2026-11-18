@@ -19,7 +19,7 @@ faq:
   - q: "How can I follow my cargo on the way?"
     a: "You follow the cargo through our ERP system, in Telegram."
   - q: "Can I write to you in Dari or Persian?"
-    a: "Yes. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek. Message us on WhatsApp (+998 90 175 78 00) or Telegram."
+    a: "Yes. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek. Message us on WhatsApp (+998 90 240 50 77) or Telegram."
 sources:
   - title: "Customs Code of the Republic of Uzbekistan (lex.uz)"
     url: "https://lex.uz/docs/2876352"
@@ -185,7 +185,7 @@ How to start:
 6. **On the way.** You follow the cargo through our ERP system, in Telegram.
 7. **Handover.** You collect the cargo at the border in Hairatan, or we deliver it to Mazar-i-Sharif.
 
-Message us on WhatsApp (+998 90 175 78 00) or Telegram — that is where the work starts. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek. Details are on the page [Cargo to Afghanistan](/en/services/cargo-to-afghanistan/).
+Message us on WhatsApp (+998 90 240 50 77) or Telegram — that is where the work starts. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek. Details are on the page [Cargo to Afghanistan](/en/services/cargo-to-afghanistan/).
 
 > **Manager’s tip.** The transit declaration is filed before or at the time the truck crosses the customs border into Uzbekistan (Customs Code, Article 261, part three; Cabinet of Ministers Resolution No. 737, Regulation point 6); filed before the crossing, it also makes separate advance information unnecessary (Resolution No. 737, point 2). So send us the invoice and the packing list before the truck sets off — that leaves time to check the documents.
 

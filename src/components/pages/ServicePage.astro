@@ -25,7 +25,7 @@ import type { ServiceContent, ServiceSection } from '@/data/services/types';
 import { guideSlugs } from '@/data/guides';
 import { site, phoneUrl, phone2Url, whatsappChat } from '@/lib/site';
 import { BIDI_CONTROLS, leadAttrs, serviceTeam, telegramFor } from '@/lib/leads';
-import { colon, fmtDate, fmtInt, fmtNumRange, sep } from '@/lib/format';
+import { colon, fmtDate, fmtInt, fmtNumRange, fmtUsd, sep } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
 import tariffs from '@/data/tariffs.json';
 import Base from '@/layouts/Base.astro';
@@ -50,7 +50,11 @@ const index = services.indexOf(service) + 1;
 const indexLabel = fmtInt(index, lang, 2);
 const updatedIso = content?.updated ?? tariffs.updated;
 const updated = fmtDate(updatedIso, lang);
-const estimateMeta = `${c.strings.estimateMeta}${colon(lang)}${fmtDate(tariffs.updated, lang)}`;
+/* The wholesale terms (commission tiers, minimum order) were given by the owner on their own day (tariffs.json
+   extras.wholesale.updated), later than the other prices: that page's caption names that day. */
+const estimateMeta = service.key === 'wholesale'
+  ? `${c.strings.termsMeta}${colon(lang)}${fmtDate(tariffs.extras.wholesale.updated, lang)}`
+  : `${c.strings.estimateMeta}${colon(lang)}${fmtDate(tariffs.updated, lang)}`;
 /**
  * No tariff is published for this service (owner, 2026-11-11: price, transit time and the smallest lot are on
  * request). Everything below that would print a price caption, a headline figure or a calculator link asks this
@@ -101,7 +105,9 @@ const stickyStat = onRequest ? undefined : days
   : digitFact ? { value: digitFact.value, unit: '', label: digitFact.label } : undefined;
 /* Under a table: its own note, else the "Estimate · Updated" caption — which an on-request page never prints. */
 /* The related cards below: an on-request page prints no price figure, so there the number line of a related TARIFF
-   service ("commission from 3%", "insurance 1%") is left out; a related on-request service keeps its line. */
+   service ("commission from 3%", "insurance 1%") is left out; a related on-request service keeps its line.
+   On the wholesale page the truck card prints no number line either: the freight of a wholesale batch is calculated for
+   that batch (owner, 2026-11-18; DESIGN §13.3), and «from $110 per m³» beside it would read as that freight. */
 const tableNote = (note?: string) => note ?? (onRequest ? undefined : estimateMeta);
 const numberLine = serviceNumberLine(lang, service.key);
 const subs = serviceSubs(service);
@@ -116,9 +122,20 @@ const breadcrumbs = [
 ];
 
 /* ---------- JSON-LD: Service (+ offers from tariffs.json for truck, air, rail, buying, wholesale) + FAQPage ---------- */
-/* The commission is published as "from 3%": a floor, so the two commission offers carry it as minPrice, never as the price —
-   read from tariffs.json, like the number line, the pricing page and the FAQ (one source for the figure). Both also carry
-   the published order minimum (an order through us totals at least 1 m³) as eligibleQuantity. */
+/* The buying commission is published as "from 3%": a floor, so its offer carries it as minPrice, never as the price.
+   Wholesale buying has three tiers by order value (owner, 2026-11-18: 3% up to $10,000, 2% up to $100,000, 1% above), so it
+   has one offer per tier, each with its own price, and the order values it applies to as eligibleTransactionVolume (from the
+   $3,000 minimum in goods to the tier's upper limit).
+   Every figure is read from tariffs.json, like the number line, the pricing page and the FAQ (one source for the figure).
+   Both services also carry the published order minimum (an order through us totals at least 1 m³) as eligibleQuantity. */
+const wholesale = tariffs.extras.wholesale;
+if (wholesale.commissionPct.length !== wholesale.tierUpToUsd.length + 1) throw new Error(`tariffs.json extras.wholesale: ${wholesale.commissionPct.length} commission tiers need ${wholesale.commissionPct.length - 1} limits, found ${wholesale.tierUpToUsd.length}`);
+/** The tier a wholesale offer names, in the English of the JSON-LD: "orders up to $10,000", "orders over $10,000 up to $100,000", "orders over $100,000". */
+const wholesaleTier = (i: number) => {
+  const lim = wholesale.tierUpToUsd;
+  const usdEn = (v: number) => fmtUsd(v, 'en');
+  return i === 0 ? `orders up to ${usdEn(lim[0])}` : i < lim.length ? `orders over ${usdEn(lim[i - 1])} up to ${usdEn(lim[i])}` : `orders over ${usdEn(lim[i - 1])}`;
+};
 const offers = service.key === 'truck'
   ? [
       ...tariffs.truck.lclPerM3ByDensity.map((r, i, all) => ({ price: r.rate, unitCode: 'MTQ' as const, minM3: tariffs.truck.minM3, validThrough: tariffs.validThrough, description: r.maxKgM3 ? `≤ ${r.maxKgM3} kg/m³` : `< ${tariffs.truck.perKgFromDensityKgM3} kg/m³` })),
@@ -131,9 +148,11 @@ const offers = service.key === 'truck'
           { minPrice: tariffs.rail.container20ft[0], maxPrice: tariffs.rail.container20ft[1], unitText: '20 ft container, China → Tashkent, estimate', validThrough: tariffs.validThrough, description: '20 ft container' },
           { minPrice: tariffs.rail.container40ft[0], maxPrice: tariffs.rail.container40ft[1], unitText: '40 ft container, China → Tashkent, estimate', validThrough: tariffs.validThrough, description: '40 ft container' },
         ]
-      : service.key === 'buying' || service.key === 'wholesale'
-        ? [{ minPrice: tariffs.extras.sourcingCommissionPct, percent: true, unitText: '% of the order value', minM3: tariffs.truck.minM3, validThrough: tariffs.validThrough, description: service.key === 'buying' ? 'buying-agent commission, from' : 'wholesale buying commission, from' }]
-        : undefined;
+      : service.key === 'buying'
+        ? [{ minPrice: tariffs.extras.sourcingCommissionPct, percent: true, unitText: '% of the order value', minM3: tariffs.truck.minM3, validThrough: tariffs.validThrough, description: 'buying-agent commission, from' }]
+        : service.key === 'wholesale'
+          ? wholesale.commissionPct.map((pct, i) => ({ price: pct, percent: true, unitText: '% of the order value', minM3: tariffs.truck.minM3, orderUsd: { min: i === 0 ? wholesale.minOrderUsd : wholesale.tierUpToUsd[i - 1] + 0.01, ...(i < wholesale.tierUpToUsd.length ? { max: wholesale.tierUpToUsd[i] } : {}) }, validThrough: tariffs.validThrough, description: `wholesale buying commission, ${wholesaleTier(i)}` }))
+          : undefined;
 const jsonLd: Array<Record<string, unknown>> = [
   serviceNode(lang, { name, description: seoDescription, url: pageAbs, serviceType: service.name.en, offers, areaServed: service.area }),
   ...(faq.length ? [faqNode(faq)] : []),
@@ -152,7 +171,9 @@ const isNumeric = (s: string) => /^[\s\d۰-۹.,٫٬–\-−+~≈$%٪€₽/×÷]
    reads "com.1688". */
 const rtl = langMeta[lang].dir === 'rtl';
 const ltrCell = (s: string) => rtl && /[A-Za-z]/.test(s) && !/[\u0600-\u06FF]/.test(s);
-const fitsTable = (head: string[]) => head.length < 3;
+/* A 3-column comparison whose first head cell is empty (row labels + two options, e.g. «factory or wholesale seller») also
+   fits a phone: its cells are short, and scrolling would hide the second option behind the edge fade. */
+const fitsTable = (head: string[]) => head.length < 3 || (head.length === 3 && head[0] === '');
 /* On phones global.css end-aligns the value column of every 2-column table: right for a price ("1 $/kg"), ragged
    for a sentence. An on-request page has no price tables — its 2-column tables are a term and its description — so
    there the value cell reads from the start. Inline on the cell, and absent on a tariff page, so the stylesheet
@@ -233,7 +254,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
               <figure class="tbl">
                 {sec.table.caption && <figcaption class="tbl-caption">{sec.table.caption}</figcaption>}
                 <div class="table-wrap">
-                  <table class:list={['table', fitsTable(sec.table.head) && 'fits']}>
+                  <table class:list={['table', fitsTable(sec.table.head) && 'fits', sec.table.head.length === 3 && sec.table.head[0] === '' && 'cmp']}>
                     <thead>
                       <tr>{sec.table.head.map((h, hi) => <th scope="col" class:list={[numCol(sec.table!.rows, hi) && 'num']}>{h}</th>)}</tr>
                     </thead>
@@ -309,7 +330,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
                   <span class="rel-glyph"><Icon name={r.icon} size={24} /></span>
                   <h3 class="rel-name">{pick(lang, r.name)}</h3>
                   <p class="rel-short">{pick(lang, r.short)}</p>
-                  {(!onRequest || r.quote === 'request') && <p class="rel-num tnum">{serviceNumberLine(lang, r.key)}</p>}
+                  {(!onRequest || r.quote === 'request') && !(service.key === 'wholesale' && r.key === 'truck') && <p class="rel-num tnum">{serviceNumberLine(lang, r.key)}</p>}
                   <span class="link">{c.cta.details}</span>
                 </a>
               </li>
@@ -400,6 +421,8 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   .tbl .table tbody tr:last-child th { border-bottom: 0; }
   /* .fits marks a 2-column table (see fitsTable above): the label + value table fits the phone instead of scrolling. */
   @media (max-width: 640px) { .tbl .table.fits { min-width: 0; } }
+  /* .cmp: the 3-column comparison (empty first head cell) — tighter cells so both options fit a phone. */
+  @media (max-width: 640px) { .tbl .table.cmp th, .tbl .table.cmp td { padding-inline: 6px; } }
   /* fa: polish-html wraps each Chinese word in Persian prose in <span lang="zh">; Han may break between any two
      characters, which tore "(义" / "乌)" across lines. The runs are short names, so keep each whole. */
   :global([dir='rtl']) .page :global(span[lang|='zh']) { word-break: keep-all; }

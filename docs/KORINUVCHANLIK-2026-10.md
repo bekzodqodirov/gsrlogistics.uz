@@ -68,7 +68,7 @@ Yuborish: https://t.me/yellowpages_support_bot (kartochka `/kompaniya/gsr-logist
 
 - Брендовое название: **GSR Logistics**. Юридическое: **Imex services LLC** (guvohnomadagi yozilish + STIR). **INN 300616173 ni olib tashlang** — u 2007-yilda tugatilgan, Mirzo Ulugʻbek tumanidagi boshqa «GSR LOGISTICS» MChJʼga tegishli. STIRʼni keyin bersangiz ham boʻladi, qolganini hozir yuboring.
 - Адрес: Узбекистан, 100011, Ташкент, Шайхантахурский район, ул. Навои, 27. Ориентир: ст. метро «Алишер Навои». Координаты: 41.3209, 69.2526 (hozirgi belgi 4,4 km narida, Olmazorda).
-- Телефоны: +998 95 018 33 33; +998 90 175 78 00 (WhatsApp). E-mail: b.e.kodirov@gmail.com. Сайт: https://gsrlogistics.uz. Telegram @gsrlogistics; Instagram gsrgroup.uz; Facebook gsrlogistics.
+- Телефоны: +998 95 018 33 33; +998 90 240 50 77 (WhatsApp). E-mail: b.e.kodirov@gmail.com. Сайт: https://gsrlogistics.uz. Telegram @gsrlogistics; Instagram gsrgroup.uz; Facebook gsrlogistics.
 - Режим: Пн–Сб 09:00–19:00, Вс выходной.
 - Рубрики: hozirgi uchtasini olib tashlang («Перевозка сыпучих грузов самосвалами», «Автозапчасти для грузовых автомобилей», «Брокерские услуги»); qoʻshing: «Международные грузоперевозки», «Логистические компании», «Транспортно-экспедиторские услуги», «Перевозка сборных грузов», «Авиационные грузоперевозки», «Автомобильные грузоперевозки», «Контейнерные перевозки», «Таможенное оформление» («Таможенный броker» — faqat litsenziya boʻlsa).
 - Описание (ru): «GSR Logistics — доставка грузов из Китая в Узбекистан с 2018 года: сборные грузы автотранспортом (15–25 дней), авиа (5–10 дней), контейнерные и ж/д перевозки, таможенное оформление. Приём грузов в Иу, Гуанчжоу и Кашгаре. Статус груза — в Telegram-боте @GSR_GROUP_AGENT_bot.»
@@ -81,7 +81,7 @@ Yuborish: info@goldenpages.uz yoki https://t.me/gpuzbot, yoki egasi kabineti (/l
 
 - Название: GSR Logistics; юр. лицо Imex services LLC — «"GSR GROUP" СП ООО / QK MChJ / JV LTD» ni olib tashlang.
 - Адрес: 100011, Ташкент, Шайхантахурский район, пр-т Навои, 27 (qoladi).
-- Телефоны: (+99895) 0183333 (asosiy); (+99890) 1757800 (WhatsApp); **(+99895) 0183033 ni oʻchiring** (bitta raqami xato); (+99897) 3333933 — 5-boʻlimdagi javobga qarab.
+- Телефоны: (+99895) 0183333 (asosiy); (+99890) 2405077 (WhatsApp); **(+99895) 0183033 ni oʻchiring** (bitta raqami xato); (+99897) 3333933 — 5-boʻlimdagi javobga qarab.
 - Сайт: https://gsrlogistics.uz. E-mail: b.e.kodirov@gmail.com. Telegram @gsrlogistics.
 - Режим: Пн–Сб 09.00–19.00, Вс выходной (hozir 09.00–21.00).
 - Виды деятельности: 1894 «Экспортно-импортные операции» oʻrniga rubrikalar 107422, 105391, 105392, 100070, 100072, 1758, 1760, 1761, 1284, 1755, 3078, 4676, 4518. Tavsif — 4.4ʼdagi matn. «Admin» qoʻygan 4/5 bahoni olib tashlashni soʻrang.
@@ -93,11 +93,11 @@ Kartochka: «GSR Logistics, Navoi Avenue 27» — https://www.google.com/maps?ci
 
 ### 4.7. Yandex Business (kartochka 98882247475)
 
-Kartochkani kimdir boshqaryapti (2026-09-28 da «Представитель организации» mahsulotlar yuklagan), lekin egasi tasdiqlanmagan. Oʻsha kabinetga kiring (yoki https://yandex.com/sprav/search?permalink=98882247475 orqali kirish soʻrang) va telefon bilan tasdiqlang. Keyin: «Gsr Logistics» → «GSR Logistics»; shanba 09:00–19:00 qoʻshing (hozir Du–Ju); +998 95 018 33 33 birinchi, +998 90 175 78 00 — WhatsApp; «1 000 000 сўм / 1 см³» mahsulotini tuzating yoki oʻchiring (haqiqiy: yigʻma yuk 110 $/m³ dan, avia 9 $/kg dan); Telegram @gsrlogistics va Facebook qoʻshing; yuridik shaxs Imex services LLC; belgi Navoiy 27 da ekanini tekshiring. Botning 24/7 vaqtini kartochkaga koʻchirmang. Bu — yangi saytga havola beradigan va 4,7 bahoga ega yagona tashqi sahifa.
+Kartochkani kimdir boshqaryapti (2026-09-28 da «Представитель организации» mahsulotlar yuklagan), lekin egasi tasdiqlanmagan. Oʻsha kabinetga kiring (yoki https://yandex.com/sprav/search?permalink=98882247475 orqali kirish soʻrang) va telefon bilan tasdiqlang. Keyin: «Gsr Logistics» → «GSR Logistics»; shanba 09:00–19:00 qoʻshing (hozir Du–Ju); +998 95 018 33 33 birinchi, +998 90 240 50 77 — WhatsApp; «1 000 000 сўм / 1 см³» mahsulotini tuzating yoki oʻchiring (haqiqiy: yigʻma yuk 110 $/m³ dan, avia 9 $/kg dan); Telegram @gsrlogistics va Facebook qoʻshing; yuridik shaxs Imex services LLC; belgi Navoiy 27 da ekanini tekshiring. Botning 24/7 vaqtini kartochkaga koʻchirmang. Bu — yangi saytga havola beradigan va 4,7 bahoga ega yagona tashqi sahifa.
 
 ### 4.8. Telegram
 
-- Kanal @gsrlogistics tavsifi: «GSR Logistics · Imex services LLC · gsrlogistics.uz · +998 95 018 33 33 (WhatsApp +998 90 175 78 00)». 97 333 39 33 / 99 093 33 33 / 99 083 33 33 / 95 019 33 33 raqamlarini olib tashlang (5-boʻlimda tasdiqlamasangiz). «Официальный представитель ассоциации «Один пояс и один путь»» — olib tashlang yoki hujjat bilan tasdiqlang. Sayt havolasi bilan post pin qiling. Oyiga kamida bitta post (narx oʻzgarishi, Xitoy bayramlari tanaffusi, joʻnatish kuni, bot qanday ishlaydi) — oxirgi post 2023-11-01.
+- Kanal @gsrlogistics tavsifi: «GSR Logistics · Imex services LLC · gsrlogistics.uz · +998 95 018 33 33 (WhatsApp +998 90 240 50 77)». 97 333 39 33 / 99 093 33 33 / 99 083 33 33 / 95 019 33 33 raqamlarini olib tashlang (5-boʻlimda tasdiqlamasangiz). «Официальный представитель ассоциации «Один пояс и один путь»» — olib tashlang yoki hujjat bilan tasdiqlang. Sayt havolasi bilan post pin qiling. Oyiga kamida bitta post (narx oʻzgarishi, Xitoy bayramlari tanaffusi, joʻnatish kuni, bot qanday ishlaydi) — oxirgi post 2023-11-01.
 - Guruh @gsrgroupchat bio: «13-25 kun» → «15–25 kun», sayt havolasini qoʻshing.
 - @GSRLogistics_bot: tavsifini @GSR_GROUP_AGENT_botʼga yoʻnaltiring yoki hech qayerda havola bermang.
 

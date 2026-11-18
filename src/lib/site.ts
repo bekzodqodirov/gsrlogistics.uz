@@ -31,7 +31,7 @@ export const site = {
   clients: 400, // "400dan oshiq mijoz" — always written with the plus
   phoneDisplay: '+998 95 018 33 33', // primary number from the Telegram channel
   phoneE164: '+998950183333',
-  whatsapp: '998901757800', // WhatsApp runs on the SECOND number, not the primary one
+  whatsapp: '998902405077', // WhatsApp runs on the SECOND number, not the primary one
   telegram: 'gsrlogistics', // public channel @gsrlogistics (GSR Group)
   /**
    * The company's own Telegram account (owner, 2026-09-26: "bu kompaniya username"). Every chat
@@ -101,8 +101,8 @@ export const site = {
   /** The existing Google Maps listing "GSR Logistics, Navoi Avenue 27" (its CID), verified 2026-10-03 — the owner still has to claim it. */
   googleMapsUrl: 'https://www.google.com/maps?cid=14536427051693213311',
   legalEntity: 'Imex services LLC', // TODO: add the STIR when the owner supplies it
-  phone2Display: '+998 90 175 78 00',
-  phone2E164: '+998901757800',
+  phone2Display: '+998 90 240 50 77',
+  phone2E164: '+998902405077',
   /**
    * China receiving points, transcribed from the company's own address card. Whether each one is
    * owned or run by a partner is NOT established — copy says "Ivu ombori", never "our warehouse".

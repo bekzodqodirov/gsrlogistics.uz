@@ -35,7 +35,7 @@ export interface Tariffs {
     minM3: number;
   };
   rail: { container20ft: number[]; container40ft: number[]; days: number[] };
-  extras: { photoReportUsd: number; repackPerKg: number; inspectionPerKg: number; insurancePct: number; sourcingCommissionPct: number; freeStorageDaysChina: number; freeStorageDaysTashkent: number };
+  extras: { photoReportUsd: number; repackPerKg: number; inspectionPerKg: number; insurancePct: number; sourcingCommissionPct: number; freeStorageDaysChina: number; freeStorageDaysTashkent: number; wholesale: { updated: string; commissionPct: number[]; tierUpToUsd: number[]; minOrderUsd: number } };
   regions: { toBranchFree: boolean; doorDeliverySom: number[]; tashkentDoorFreeFromKg: number };
 }
 

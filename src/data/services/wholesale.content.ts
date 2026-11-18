@@ -5,12 +5,15 @@ import type { ServiceContentSource } from './types';
  * The page: buying goods wholesale in China on the client's order — from a factory or from a wholesale seller — and
  * bringing them to Tashkent. Its neighbours keep their own question: sourcing FINDS a supplier against a specification,
  * buying buys BY LINK on 1688 / Taobao / Pinduoduo / Alibaba.
- * The one new fact (owner, 2026-11-17): the company has employees who know Chinese at HSK 6 level, with experience of
- * purchasing in China, who work on buying from factories and buying wholesale from sellers. Nothing more is confirmed, so
- * nothing more is said of them: no place, no number of people, no certificate — and always "employees who know Chinese at
- * HSK 6 level", never "our employees know …". Every figure is one the site already publishes, worded as published and
- * with its date note: commission "from 3%" (tariffs.extras.sourcingCommissionPct), an order of at least 1 m³, truck
- * 15–25 days, air 5–10 days, the inspection and photo-report prices of the China warehouse page.
+ * The facts (owner, 2026-11-17 and 2026-11-18): the company has FOUR employees who know Chinese at HSK 6 level — three work
+ * in Tashkent and one in Yiwu — with experience of purchasing in China, who work on buying from factories and buying
+ * wholesale from sellers; every wholesale purchase is handled by one of them. Nothing more is confirmed, so nothing more is
+ * said of them: no certificate, no visits in person, no years, no numbers of purchases or clients, no categories or partner
+ * factories. The terms (owner, 2026-11-18; tariffs.json extras.wholesale): commission 3% of the order value up to $10,000,
+ * 2% up to $100,000 and 1% above; at least $3,000 in goods; an order of at least 1 m³; the freight of a wholesale batch is
+ * calculated for that batch, by air from $11.50/kg; the yuan at the rate on the day of payment. Every other figure is one
+ * the site already publishes, worded as published and with its date note: truck 15–25 days, air 5–10 days, the inspection
+ * and photo-report prices of the China warehouse page.
  * The order of the facts matters: the sticky card prints the first fact whose value holds a digit — the commission, not «HSK 6».
  * The texts were generated from the reviewed drafts of this release; from now on they are edited here.
  */
@@ -20,18 +23,18 @@ const content: ServiceContentSource = {
     seo: {
       title: 'Xitoydan ulgurji (optom) tovar sotib olish',
       description:
-        'Xitoydan ulgurji (optom) tovarni zavoddan yoki sotuvchidan olib beramiz — xarid boʻyicha xitoy tilini HSK 6 darajasida biladigan xodimlarimiz ishlaydi. Toʻlov soʻmda, sotuvchiga yuanda biz toʻlaymiz; komissiya buyurtma summasining 3% dan. Oʻzbekistondagi tadbirkorlar uchun tovarni Ivu omborida tekshirib, yigʻma yuk bilan Toshkentga olib kelamiz.',
+        'Xitoydan ulgurji (optom) tovarni zavoddan yoki sotuvchidan olib beramiz — xaridni xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimiz olib boradi. Toʻlov soʻmda, sotuvchiga yuanda biz toʻlaymiz; komissiya buyurtma summasiga qarab 1–3%, tovar qiymati 3 000 $ dan. Oʻzbekistondagi tadbirkorlar uchun tovarni Ivu omborida tekshirib, yigʻma yuk bilan Toshkentga olib kelamiz.',
     },
     hero: {
       eyebrow: 'Xizmat 06 — Ulgurji xarid',
       h1: 'Xitoydan ulgurji (optom) tovar sotib olish: zavodlardan va sotuvchilardan',
       intro:
-        'Toshkentdagi GSR Logistics logistika kompaniyasi Xitoydan ulgurji (optom) tovarni doʻkonlar, ulgurji savdogarlar, marketpleys sotuvchilari va ishlab chiqaruvchilar buyurtmasi boʻyicha zavoddan yoki ulgurji sotuvchidan sotib olib beradi va Toshkentga olib keladi. Ulgurji xaridlar boʻyicha xitoy tilini HSK 6 darajasida biladigan, Xitoyda sotib olish bilan shugʻullangan xodimlarimiz ishlaydi. Komissiya — buyurtma summasining 3% dan; buyurtmaning umumiy hajmi kamida 1 m³ boʻlishi kerak. Tovar Ivu (义乌) omboriga keladi va yigʻma yuk bilan taxminan 15–25 kunda Toshkentga yetadi.',
+        'Toshkentdagi GSR Logistics logistika kompaniyasi Xitoydan ulgurji (optom) tovarni doʻkonlar, ulgurji savdogarlar, marketpleys sotuvchilari va ishlab chiqaruvchilar buyurtmasi boʻyicha zavoddan yoki ulgurji sotuvchidan sotib olib beradi va Toshkentga olib keladi. Har bir ulgurji xaridni xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimizdan biri olib boradi: uchtasi Toshkentda, bittasi Ivuda ishlaydi. Komissiya buyurtma summasiga qarab: 10 000 $ gacha — 3%, 100 000 $ gacha — 2%, undan yuqori — 1%; buyurtmadagi tovar qiymati kamida 3 000 $ boʻlishi kerak. Tovar Ivu (义乌) omboriga keladi va yigʻma yuk bilan taxminan 15–25 kunda Toshkentga yetadi.',
       facts: [
-        { label: 'Komissiya, buyurtma summasidan', value: '3% dan' },
-        { label: 'Buyurtmaning umumiy hajmi', value: '1 m³ dan' },
+        { label: 'Komissiya, buyurtma summasiga qarab', value: '1–3%' },
+        { label: 'Buyurtmadagi tovar qiymati', value: '3 000 $ dan' },
         { label: 'Toshkentgacha, avto', value: '15–25 kun' },
-        { label: 'Xitoy tilini shu darajada biladigan xodimlarimiz bor', value: 'HSK 6' },
+        { label: 'Xitoy tilini shu darajada biladigan 4 ta xodimimiz bor', value: 'HSK 6' },
       ],
     },
     sections: [
@@ -49,7 +52,7 @@ const content: ServiceContentSource = {
         ],
         callout: {
           title: 'Kimga mos emas',
-          text: 'Ulgurji xarid xizmati bitta dona tovar yoki umumiy hajmi 1 m³ dan kichik buyurtma uchun emas. GSR Logistics kontrafakt (soxta brend) tovarni qidirmaydi va tashimaydi — u Oʻzbekiston bojxonasida musodara qilinadi. GSR Logistics taqiqlangan tovarlar roʻyxatidagi mahsulotlarni ham sotib olmaydi.',
+          text: 'Ulgurji xarid xizmati bitta dona tovar yoki tovar qiymati 3 000 $ dan kam buyurtma uchun emas. GSR Logistics kontrafakt (soxta brend) tovarni qidirmaydi va tashimaydi — u Oʻzbekiston bojxonasida musodara qilinadi. GSR Logistics taqiqlangan tovarlar roʻyxatidagi mahsulotlarni ham sotib olmaydi.',
           tone: 'warn',
         },
       },
@@ -63,9 +66,9 @@ const content: ServiceContentSource = {
           head: ['', 'Zavoddan', 'Ulgurji sotuvchidan'],
           rows: [
             ['Bu nima', 'ishlab chiqaruvchining oʻzi; tovar odatda buyurtma asosida ishlab chiqariladi', 'odatda tayyor tovar — ulgurji bozordagi yoki ulgurji saytdagi sotuvchidan'],
-            ['Qachon mos keladi', 'katta yoki takrorlanadigan buyurtma; spetsifikatsiyangiz boʻyicha yoki oʻz brendingiz ostidagi tovar', 'birinchi yoki aralash buyurtma; turli sotuvchilardan bir necha tovar bitta buyurtmada'],
-            ['Minimum', 'zavodning oʻz minimumi (MOQ); biz orqali buyurtmaning umumiy hajmi esa kamida 1 m³ boʻlishi kerak', 'sotuvchining oʻz minimumi; biz orqali buyurtmaning umumiy hajmi esa kamida 1 m³ boʻlishi kerak'],
-            ['Eʼtibor bering', 'avval zavod taklifida koʻrsatilgan ishlab chiqarish muddati oʻtadi, keyin yoʻl muddati boshlanadi', 'oʻzi ishlab chiqarmaydigan sotuvchining narxi odatda zavodning oʻz narxidan yuqori boʻladi'],
+            ['Qachon mos keladi', 'katta yoki takrorlanadigan buyurtma; spetsifikatsi­yangiz boʻyicha yoki oʻz brendingiz ostidagi tovar', 'birinchi yoki aralash buyurtma; turli sotuvchilardan bir necha tovar bitta buyurtmada'],
+            ['Minimum', 'zavodning oʻz minimumi (MOQ); biz orqali buyurtmadagi tovar qiymati esa kamida 3 000 $ boʻlishi kerak', 'sotuvchining oʻz minimumi; biz orqali buyurtmadagi tovar qiymati esa kamida 3 000 $ boʻlishi kerak'],
+            ['Eʼtibor bering', 'avval zavod taklifida koʻrsatilgan ishlab chiqarish muddati oʻtadi, keyin yoʻl muddati boshlanadi', 'oʻzi ishlab chiqar­maydigan sotuvchining narxi odatda zavodning oʻz narxidan yuqori boʻladi'],
           ],
           note: 'Qaysi yoʻlni tanlashni takliflar asosida siz bilan kelishamiz; zavodning yoki sotuvchining oʻz minimumini biz emas, oʻsha zavod yoki sotuvchi belgilaydi.',
         },
@@ -73,8 +76,8 @@ const content: ServiceContentSource = {
       {
         heading: 'Ulgurji xaridlar boʻyicha kim ishlaydi va «HSK 6 darajasi» nima degani?',
         body: [
-          'GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan xodimlar bor: ular Xitoyda sotib olish bilan shugʻullangan va zavodlardan sotib olish hamda sotuvchilardan ulgurji (optom) xarid qilish boʻyicha ishlaydi.',
-          'HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi.',
+          'GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan toʻrtta xodim bor: uchtasi Toshkentda, bittasi Ivuda ishlaydi. Ular Xitoyda sotib olish bilan shugʻullangan; har bir ulgurji xaridni — zavoddan boʻlsin yoki ulgurji sotuvchidan — ulardan biri olib boradi.',
+          'HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi.',
           'Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi. Xitoy tilini bilishingiz ham, xitoy bank kartasi yoki Alipay hisobingiz boʻlishi ham shart emas. Zavod yoki sotuvchi bilan muzokarani GSR Logistics olib boradi; takliflar va namuna boʻyicha qarorni siz qabul qilasiz.',
         ],
       },
@@ -95,20 +98,20 @@ const content: ServiceContentSource = {
       {
         heading: 'Xizmat qancha turadi va toʻlov qanday qilinadi?',
         body: [
-          'Ulgurji xarid narxi uchta asosiy qismdan tuziladi: zavod yoki sotuvchi narxidagi tovar, bizning komissiyamiz va Toshkentgacha tashish haqi. Kerak boʻlsa, namuna, Xitoy ichidagi yetkazib berish va Ivu omboridagi ixtiyoriy tekshiruvlar qoʻshiladi; boj va QQS qonun boʻyicha toʻlanadi. Komissiya — buyurtma summasining 3% dan; u hisob-kitobda alohida qator sifatida koʻrsatiladi.',
-          'Siz GSR Logisticsʼga soʻmda toʻlaysiz; yuridik shaxslar hisob-faktura boʻyicha bank oʻtkazmasi bilan toʻlaydi. Zavod yoki sotuvchiga yuanda biz toʻlaymiz. Tovar narxi va komissiya buyurtmadan oldin, tashish haqi esa yuk Toshkentga kelganda toʻlanadi. Zavod buyurtmasida toʻlov jadvalini zavod bilan tuzilgan shartnoma belgilaydi: Xitoyda odatiy toʻlov tartibi — 30% oldindan, qolgani yuklashdan oldin; bu toʻlovni yuanda biz oʻtkazamiz.',
+          'Ulgurji xarid narxi uchta asosiy qismdan tuziladi: zavod yoki sotuvchi narxidagi tovar, bizning komissiyamiz va Toshkentgacha tashish haqi. Kerak boʻlsa, namuna, Xitoy ichidagi yetkazib berish va Ivu omboridagi ixtiyoriy tekshiruvlar qoʻshiladi; boj va QQS qonun boʻyicha toʻlanadi. Komissiya buyurtma summasiga bogʻliq (10 000 $ gacha — 3%, 100 000 $ gacha — 2%, undan yuqori — 1%) va hisob-kitobda alohida qator sifatida koʻrsatiladi; ulgurji partiyaning tashish haqi esa shu partiya uchun hisoblanadi va sizga aytiladi.',
+          'Siz GSR Logisticsʼga soʻmda toʻlaysiz; yuridik shaxslar hisob-faktura boʻyicha bank oʻtkazmasi bilan toʻlaydi. Zavod yoki sotuvchiga yuanda biz toʻlaymiz; yuandagi narx toʻlov kunidagi kurs boʻyicha hisoblanadi. Tovar narxi va komissiya buyurtmadan oldin, tashish haqi esa yuk Toshkentga kelganda toʻlanadi. Zavod buyurtmasida toʻlov jadvalini zavod bilan tuzilgan shartnoma belgilaydi: Xitoyda odatiy toʻlov tartibi — 30% oldindan, qolgani yuklashdan oldin; bu toʻlovni yuanda biz oʻtkazamiz.',
         ],
         table: {
           head: ['Qism', 'Narx'],
           rows: [
-            ['Komissiya', 'buyurtma summasining 3% dan'],
+            ['Komissiya', '10 000 $ gacha — 3%; 100 000 $ gacha — 2%; 100 000 $ dan yuqori — 1% (buyurtmadagi tovar qiymati kamida 3 000 $)'],
             ['Tovar', 'zavod yoki sotuvchi narxi, yuanda'],
             ['Namuna va Xitoy ichidagi yetkazib berish', 'alohida hisoblanadi; Xitoy ichidagi yetkazib berish — sotuvchi narxi boʻyicha'],
-            ['Qutini ochib sanash va tekshirish, ixtiyoriy', '1 $/kg'],
-            ['Tafsilotli foto-hisobot (ochilgan quti), ixtiyoriy', '1 $ / joy'],
-            ['Toshkentgacha tashish', 'yigʻma yuk 110 $/m³ dan, stavka yuk zichligiga qarab; avia 9 $/kg dan'],
+            ['Qutini ochib sanash va tekshirish, ixtiyoriy', '1 $/kg'],
+            ['Tafsilotli foto-hisobot (ochilgan quti), ixtiyoriy', '1 $ / joy'],
+            ['Toshkentgacha tashish', 'har bir partiya uchun hisoblanadi va sizga aytiladi; avia 11,5 $/kg dan'],
           ],
-          note: 'Taxminiy narxlar · Yangilangan: 2026-yil 8-sentabr. Aniq foiz shartnomada yoziladi.',
+          note: 'Komissiya va eng kam buyurtma: 2026-yil 18-noyabr. Boshqa narxlar taxminiy · Yangilangan: 2026-yil 8-sentabr. Aniq foiz shartnomada yoziladi.',
         },
       },
       {
@@ -123,7 +126,7 @@ const content: ServiceContentSource = {
             ['1688, Taobao, Pinduoduo yoki Alibabadan tovar havolangiz bor', '1688 va Taobaodan sotib olish'],
             ['Ulgurji partiyani sotib olib, Toshkentga olib kelish kerak — zavoddan yoki ulgurji sotuvchidan, uni oʻzingiz topgan boʻlsangiz ham, biz topsak ham', 'Ulgurji (optom) sotib olish'],
           ],
-          note: 'Qaysi xizmatni tanlamang, bitta menejer bilan bitta shartnoma asosida ishlaysiz; har birida komissiya buyurtma summasining 3% dan (taxminiy, 2026-yil 8-sentabr).',
+          note: 'Qaysi xizmatni tanlamang, bitta menejer bilan bitta shartnoma asosida ishlaysiz. Tovar topish va 1688 hamda Taobaodan sotib olishda komissiya buyurtma summasining 3% dan (taxminiy, 2026-yil 8-sentabr), ulgurji xaridda esa buyurtma summasiga qarab 1–3% (2026-yil 18-noyabr).',
         },
       },
     ],
@@ -134,7 +137,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Xitoyga oʻzim borishim yoki tarjimon yollashim shartmi?',
-        a: 'Yoʻq. GSR Logistics siz uchun tovarni izlaydi, xitoy tilida muzokara olib boradi, sotuvchiga toʻlaydi, tovarni qabul qiladi va joʻnatadi. Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor. Takliflar va namuna boʻyicha qarorni siz qabul qilasiz.',
+        a: 'Yoʻq. GSR Logistics siz uchun tovarni izlaydi, xitoy tilida muzokara olib boradi, sotuvchiga toʻlaydi, tovarni qabul qiladi va joʻnatadi. Ulgurji xaridingizni xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimizdan biri olib boradi. Takliflar va namuna boʻyicha qarorni siz qabul qilasiz.',
       },
       {
         q: 'Xitoydan vositachisiz, oʻzim optom sotib olsam boʻladimi?',
@@ -150,19 +153,19 @@ const content: ServiceContentSource = {
       },
       {
         q: '«Xitoy tilini HSK 6 darajasida bilish» nima degani?',
-        a: 'HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi. GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan xodimlar bor: ular Xitoyda sotib olish bilan shugʻullangan va zavodlardan sotib olish hamda sotuvchilardan ulgurji (optom) xarid qilish boʻyicha ishlaydi.',
+        a: 'HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi. GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan toʻrtta xodim bor: uchtasi Toshkentda, bittasi Ivuda ishlaydi. Ular Xitoyda sotib olish bilan shugʻullangan; har bir ulgurji xaridni — zavoddan boʻlsin yoki ulgurji sotuvchidan — ulardan biri olib boradi.',
       },
       {
         q: 'Xitoydan ulgurji (optom) xarid xizmati qancha turadi?',
-        a: 'GSR Logisticsʼda ulgurji xarid komissiyasi — buyurtma summasining 3% dan (taxminiy, 2026-yil 8-sentabr); u hisob-kitobda alohida qator sifatida koʻrsatiladi. Aniq foiz shartnomada yoziladi. Namuna, Xitoy ichidagi yetkazib berish va Toshkentgacha tashish alohida hisoblanadi.',
+        a: 'GSR Logisticsʼda ulgurji xarid komissiyasi buyurtma summasiga bogʻliq: 10 000 $ gacha boʻlgan xaridda 3%, 10 000 $ dan ortiq va 100 000 $ gacha boʻlgan xaridda 2%, 100 000 $ dan yuqori xaridda 1% (2026-yil 18-noyabr). Komissiya hisob-kitobda alohida qator sifatida koʻrsatiladi, buyurtmadagi tovar qiymati esa kamida 3 000 $ boʻlishi kerak. Namuna, Xitoy ichidagi yetkazib berish va Toshkentgacha tashish alohida hisoblanadi. Ulgurji partiyaning tashish haqi shu partiya uchun hisoblanadi va sizga aytiladi; avia bilan u 11,5 $/kg dan boshlanadi.',
       },
       {
         q: 'Xitoydan ulgurji xarid uchun eng kam buyurtma qancha?',
-        a: 'GSR Logistics orqali buyurtmaning umumiy hajmi, manba qaysi boʻlishidan qatʼi nazar, kamida 1 m³ boʻlishi kerak. Turli sotuvchilardan olingan tovar bitta GS kodi (markirovka) ostida yigʻilib, birga hisoblanadi. Zavodning yoki sotuvchining oʻz minimumini (MOQ) GSR Logistics emas, oʻsha zavod yoki sotuvchi belgilaydi. Bitta dona yoki mayda buyurtmalarni olmaymiz.',
+        a: 'GSR Logistics orqali ulgurji xaridda eng kam buyurtma — 3 000 $ lik tovar. Kompaniya orqali beriladigan har bir buyurtmadagi kabi, tovarning umumiy hajmi ham kamida 1 m³ boʻlishi kerak: turli sotuvchilardan olingan tovar bitta GS kodi (markirovka) ostida yigʻilib, birga hisoblanadi. Zavodning yoki sotuvchining oʻz minimumini (MOQ) GSR Logistics emas, oʻsha zavod yoki sotuvchi belgilaydi. Bitta dona yoki mayda buyurtmalarni olmaymiz.',
       },
       {
         q: 'Men qanday toʻlayman va sotuvchiga kim toʻlaydi?',
-        a: 'Siz GSR Logisticsʼga soʻmda toʻlaysiz; yuridik shaxslar hisob-faktura boʻyicha bank oʻtkazmasi bilan toʻlaydi. Zavod yoki sotuvchiga yuanda GSR Logistics toʻlaydi. Sizga xitoy bank kartasi ham, Alipay hisobi ham kerak emas.',
+        a: 'Siz GSR Logisticsʼga soʻmda toʻlaysiz; yuridik shaxslar hisob-faktura boʻyicha bank oʻtkazmasi bilan toʻlaydi. Zavod yoki sotuvchiga yuanda GSR Logistics toʻlaydi; yuandagi narx toʻlov kunidagi kurs boʻyicha hisoblanadi. Sizga xitoy bank kartasi ham, Alipay hisobi ham kerak emas.',
       },
       {
         q: 'Qaysi tovarlarni ulgurji (optom) olib berasiz, qaysilarini yoʻq?',
@@ -192,18 +195,18 @@ const content: ServiceContentSource = {
     seo: {
       title: 'Оптом из Китая в Ташкент — закупка у фабрик и продавцов',
       description:
-        'Закупаем товары в Китае оптом у фабрик и оптовых продавцов для бизнеса в Узбекистане: над закупкой работают сотрудники, знающие китайский на уровне HSK 6. Оплата в сумах, продавцу платим в юанях; проверяем товар на складе в Иу и привозим в Ташкент. Комиссия — от 3% суммы заказа.',
+        'Закупаем товары в Китае оптом у фабрик и оптовых продавцов для бизнеса в Узбекистане: закупку ведут четыре сотрудника, знающие китайский на уровне HSK 6. Комиссия — 1–3% суммы заказа, минимальный заказ — 3 000 $ по стоимости товара. Оплата в сумах, продавцу платим в юанях; проверяем товар на складе в Иу и привозим в Ташкент.',
     },
     hero: {
       eyebrow: 'Услуга 06 — Оптовые закупки',
       h1: 'Оптовые закупки в Китае: у фабрик и у оптовых продавцов',
       intro:
-        'GSR Logistics, логистическая компания в Ташкенте, по заказу клиента закупает товары в Китае оптом для магазинов, оптовиков, продавцов маркетплейсов и производителей — у фабрики или завода либо у оптового продавца — и привозит их в Ташкент. Над этими закупками работают сотрудники, которые знают китайский язык на уровне HSK 6 и занимались закупками в Китае. Комиссия — от 3% суммы заказа; общий объём заказа должен быть от 1 м³. Товар поступает на склад в Иу (义乌) и сборным грузом доходит до Ташкента ориентировочно за 15–25 дней.',
+        'GSR Logistics, логистическая компания в Ташкенте, по заказу клиента закупает товары в Китае оптом для магазинов, оптовиков, продавцов маркетплейсов и производителей — у фабрики или завода либо у оптового продавца — и привозит их в Ташкент. Каждую оптовую закупку ведёт один из четырёх сотрудников, которые знают китайский язык на уровне HSK 6: трое — в Ташкенте, один — в Иу. Комиссия — 3% суммы заказа до 10 000 $, 2% — до 100 000 $ и 1% — при большей сумме; минимальный заказ — 3 000 $ по стоимости товара. Товар поступает на склад в Иу (义乌) и сборным грузом доходит до Ташкента ориентировочно за 15–25 дней.',
       facts: [
-        { label: 'Комиссия от суммы заказа', value: 'от 3%' },
-        { label: 'Общий объём заказа', value: 'от 1 м³' },
+        { label: 'Комиссия в зависимости от суммы заказа', value: '1–3%' },
+        { label: 'Минимальный заказ по стоимости товара', value: 'от 3 000 $' },
         { label: 'До Ташкента, авто', value: '15–25 дней' },
-        { label: 'У нас есть сотрудники с таким уровнем китайского', value: 'HSK 6' },
+        { label: '4 сотрудника с таким уровнем китайского', value: 'HSK 6' },
       ],
     },
     sections: [
@@ -221,7 +224,7 @@ const content: ServiceContentSource = {
         ],
         callout: {
           title: 'Кому не подойдёт',
-          text: 'Оптовая закупка не подойдёт, если вам нужна одна штука или общий объём заказа меньше 1 м³. GSR Logistics не ищет и не возит контрафакт — на таможне Узбекистана его конфискуют — и не закупает товары из списка запрещённых.',
+          text: 'Оптовая закупка не подойдёт, если вам нужна одна штука или стоимость товара в заказе меньше 3 000 $. GSR Logistics не ищет и не возит контрафакт — на таможне Узбекистана его конфискуют — и не закупает товары из списка запрещённых.',
           tone: 'warn',
         },
       },
@@ -236,7 +239,7 @@ const content: ServiceContentSource = {
           rows: [
             ['Что это', 'сам производитель; товар обычно делают под заказ', 'обычно готовый товар — у продавца на оптовом рынке или на оптовой площадке'],
             ['Когда подходит', 'крупный или повторный заказ; товар по вашей спецификации или под вашим брендом', 'первый или смешанный заказ; несколько товаров от разных продавцов в одном заказе'],
-            ['Минимум', 'минимум самой фабрики (MOQ); общий объём заказа через нас всё равно от 1 м³', 'минимум самого продавца; общий объём заказа через нас всё равно от 1 м³'],
+            ['Минимум', 'минимум самой фабрики (MOQ); заказ через нас всё равно от 3 000 $ по стоимости товара', 'минимум самого продавца; заказ через нас всё равно от 3 000 $ по стоимости товара'],
             ['Что учесть', 'сначала идёт срок производства, указанный в предложении фабрики, потом — срок перевозки', 'продавец, который сам не производит товар, обычно берёт дороже, чем сама фабрика'],
           ],
           note: 'Способ закупки согласуем с вами по полученным предложениям; минимум фабрики или продавца устанавливают они сами, а не мы.',
@@ -245,8 +248,8 @@ const content: ServiceContentSource = {
       {
         heading: 'Кто работает над оптовыми закупками и что значит «уровень HSK 6»?',
         body: [
-          'В GSR Logistics есть сотрудники, которые знают китайский язык на уровне HSK 6: они занимались закупками в Китае и работают над закупками у фабрик и оптовыми закупками у продавцов.',
-          'HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов.',
+          'В GSR Logistics есть четыре сотрудника, которые знают китайский язык на уровне HSK 6: трое — в Ташкенте, один — в Иу. Они занимались закупками в Китае, и каждую оптовую закупку — у фабрики или у оптового продавца — ведёт один из них.',
+          'HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов.',
           'Наши менеджеры говорят на узбекском, русском и китайском. Знать китайский, иметь китайскую банковскую карту или аккаунт Alipay вам не нужно. Переговоры с фабрикой или продавцом ведёт GSR Logistics; вы принимаете решения по предложениям и образцу.',
         ],
       },
@@ -267,20 +270,20 @@ const content: ServiceContentSource = {
       {
         heading: 'Сколько стоит услуга и как платить?',
         body: [
-          'Стоимость оптовой закупки складывается из трёх основных частей: товар по цене фабрики или продавца, наша комиссия и перевозка до Ташкента. Образец, доставка внутри Китая и дополнительные проверки на складе в Иу (по желанию) добавляются, если они есть в заказе; пошлина и НДС платятся по закону. Комиссия — от 3% суммы заказа; в расчёте она показана отдельной строкой.',
-          'Вы платите GSR Logistics в сумах; юридические лица — банковским переводом по счёту. Фабрике или продавцу мы платим в юанях. Цену товара и комиссию вы платите до размещения заказа, перевозку — по прибытии груза в Ташкент. При заказе у фабрики график оплаты задаёт договор с фабрикой: обычный порядок оплаты в Китае — 30% аванс, остаток перед отгрузкой; платёж в юанях проводим мы.',
+          'Стоимость оптовой закупки складывается из трёх основных частей: товар по цене фабрики или продавца, наша комиссия и перевозка до Ташкента. Образец, доставка внутри Китая и дополнительные проверки на складе в Иу (по желанию) добавляются, если они есть в заказе; пошлина и НДС платятся по закону. Комиссия зависит от суммы заказа: 3% — до 10 000 $, 2% — до 100 000 $ и 1% — при большей сумме. В расчёте она показана отдельной строкой. Стоимость перевозки рассчитываем для каждой оптовой партии и называем вам.',
+          'Вы платите GSR Logistics в сумах; юридические лица — банковским переводом по счёту. Фабрике или продавцу мы платим в юанях; цена в юанях пересчитывается по курсу на день оплаты. Цену товара и комиссию вы платите до размещения заказа, перевозку — по прибытии груза в Ташкент. При заказе у фабрики график оплаты задаёт договор с фабрикой: обычный порядок оплаты в Китае — 30% аванс, остаток перед отгрузкой; платёж в юанях проводим мы.',
         ],
         table: {
           head: ['Что оплачивается', 'Цена'],
           rows: [
-            ['Комиссия', 'от 3% суммы заказа'],
+            ['Комиссия', '3% — до 10 000 $; 2% — до 100 000 $; 1% — свыше 100 000 $ (минимальный заказ — 3 000 $ по стоимости товара)'],
             ['Товар', 'цена фабрики или продавца, в юанях'],
             ['Образец и доставка внутри Китая', 'считаются отдельно; доставка внутри Китая — по тарифу продавца'],
-            ['Пересчёт и проверка со вскрытием, по желанию', '1 $/кг'],
-            ['Подробный фотоотчёт (вскрытая коробка), по желанию', '1 $ / место'],
-            ['Перевозка до Ташкента', 'сборный груз — от 110 $/м³, ставка зависит от плотности груза; авиа — от 9 $/кг'],
+            ['Пересчёт и проверка со вскрытием, по желанию', '1 $/кг'],
+            ['Подробный фотоотчёт (вскрытая коробка), по желанию', '1 $ / место'],
+            ['Перевозка до Ташкента', 'рассчитываем для каждой партии и называем вам; авиа — от 11,5 $/кг'],
           ],
-          note: 'Ориентировочные цены · Обновлено: 8 сентября 2026 г. Точный процент фиксируется в договоре.',
+          note: 'Комиссия и минимальный заказ: 18 ноября 2026 г. Остальные цены ориентировочные · Обновлено: 8 сентября 2026 г. Точный процент фиксируется в договоре.',
         },
       },
       {
@@ -295,7 +298,7 @@ const content: ServiceContentSource = {
             ['У вас есть ссылка на товар с 1688, Taobao, Pinduoduo или Alibaba', 'Выкуп с 1688 и Taobao'],
             ['Вам нужно закупить оптовую партию — у фабрики или у оптового продавца, которых нашли вы или найдём мы, — и привезти её в Ташкент', 'Оптовые закупки в Китае'],
           ],
-          note: 'Какую бы услугу вы ни выбрали, вы работаете с одним менеджером по одному договору; комиссия в каждой — от 3% суммы заказа (ориентировочно, 8 сентября 2026 г.).',
+          note: 'Какую бы услугу вы ни выбрали, вы работаете с одним менеджером по одному договору. В услугах «Поиск товаров и производителей» и «Выкуп с 1688 и Taobao» комиссия — от 3% (ориентировочно, 8 сентября 2026 г.), а в оптовых закупках — 1–3% в зависимости от суммы заказа (18 ноября 2026 г.).',
         },
       },
     ],
@@ -306,7 +309,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Нужно ли ехать в Китай или нанимать переводчика?',
-        a: 'Нет. GSR Logistics за вас ищет товар, ведёт переговоры на китайском, платит продавцу, принимает и отправляет товар. У нас есть сотрудники, которые знают китайский язык на уровне HSK 6. Вы принимаете решения по предложениям и по образцу.',
+        a: 'Нет. GSR Logistics за вас ищет товар, ведёт переговоры на китайском, платит продавцу, принимает и отправляет товар. Вашей оптовой закупкой занимается один из четырёх сотрудников, которые знают китайский язык на уровне HSK 6. Вы принимаете решения по предложениям и по образцу.',
       },
       {
         q: 'Можно ли закупать в Китае оптом без посредников?',
@@ -322,19 +325,19 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Что значит «китайский на уровне HSK 6»?',
-        a: 'HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов. В GSR Logistics есть сотрудники, которые знают китайский язык на уровне HSK 6: они занимались закупками в Китае и работают над закупками у фабрик и оптовыми закупками у продавцов.',
+        a: 'HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов. В GSR Logistics есть четыре сотрудника, которые знают китайский язык на уровне HSK 6: трое — в Ташкенте, один — в Иу. Они занимались закупками в Китае, и каждую оптовую закупку — у фабрики или у оптового продавца — ведёт один из них.',
       },
       {
         q: 'Сколько стоит оптовая закупка в Китае?',
-        a: 'Комиссия GSR Logistics за оптовую закупку — от 3% суммы заказа (ориентировочно, 8 сентября 2026 г.); в расчёте она показана отдельной строкой. Точный процент фиксируется в договоре. Образец, доставка внутри Китая и перевозка до Ташкента считаются отдельно.',
+        a: 'Комиссия GSR Logistics за оптовую закупку зависит от суммы заказа: 3% — до 10 000 $; 2% — свыше 10 000 $ и до 100 000 $; 1% — свыше 100 000 $ (18 ноября 2026 г.). В расчёте она показана отдельной строкой. Минимальный заказ — 3 000 $ по стоимости товара. Образец, доставка внутри Китая и перевозка до Ташкента считаются отдельно. Стоимость перевозки рассчитываем для каждой оптовой партии и называем вам; авиа — от 11,5 $/кг.',
       },
       {
         q: 'Какая минимальная партия для оптовой закупки в Китае?',
-        a: 'Общий объём заказа через GSR Logistics — из любого источника — должен быть от 1 м³. Товар от разных продавцов собирается под одним GS-кодом (маркировкой) и считается вместе. Минимум фабрики или продавца (MOQ) устанавливают они сами, а не GSR Logistics. Единичные и мелкие заказы не берём.',
+        a: 'Оптовая закупка через GSR Logistics — от 3 000 $ по стоимости товара. При этом, как и для любого заказа через компанию, общий объём товара должен быть от 1 м³: товар от разных продавцов собирается под одним GS-кодом (маркировкой) и считается вместе. Минимум фабрики или продавца (MOQ) устанавливают они сами, а не GSR Logistics. Единичные и мелкие заказы не берём.',
       },
       {
         q: 'Как оплатить товар и кто платит продавцу?',
-        a: 'Вы платите GSR Logistics в сумах; юридические лица — банковским переводом по счёту. Фабрике или продавцу GSR Logistics платит в юанях. Китайская банковская карта и аккаунт Alipay вам не нужны.',
+        a: 'Вы платите GSR Logistics в сумах; юридические лица — банковским переводом по счёту. Фабрике или продавцу GSR Logistics платит в юанях; цена в юанях пересчитывается по курсу на день оплаты. Китайская банковская карта и аккаунт Alipay вам не нужны.',
       },
       {
         q: 'Какие товары вы закупаете оптом, а какие нет?',
@@ -364,18 +367,18 @@ const content: ServiceContentSource = {
     seo: {
       title: 'Wholesale from China to Uzbekistan: factories and markets',
       description:
-        'Wholesale buying in China for businesses in Uzbekistan: employees who know Chinese at HSK 6 level work on buying from factories and wholesale sellers. You pay in UZS, the seller is paid in yuan, the goods are checked at the Yiwu warehouse and carried to Tashkent. Commission from 3% of the order value.',
+        'Wholesale buying in China for businesses in Uzbekistan: four employees who know Chinese at HSK 6 level buy from factories and wholesale sellers for you. Commission 1–3% of the order value, from $3,000 in goods. You pay in UZS, the seller is paid in yuan, the goods are checked at the Yiwu warehouse and carried to Tashkent.',
     },
     hero: {
       eyebrow: 'Service 06 — Wholesale buying',
       h1: 'Buying wholesale from China: factories and wholesale sellers',
       intro:
-        'GSR Logistics, a logistics company in Tashkent, buys goods wholesale in China for shops, wholesalers, marketplace sellers and manufacturers — from a factory or from a wholesale seller, on the client’s order — and brings them to Tashkent. Employees who know Chinese at HSK 6 level and have experience of purchasing in China work on these purchases. The commission starts at 3% of the order value; an order must total at least 1 m³. Goods arrive at the Yiwu (义乌) warehouse and reach Tashkent by consolidated truck in roughly 15–25 days.',
+        'GSR Logistics, a logistics company in Tashkent, buys goods wholesale in China for shops, wholesalers, marketplace sellers and manufacturers — from a factory or from a wholesale seller, on the client’s order — and brings them to Tashkent. Every wholesale purchase is handled by one of four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu. The commission is 3% for orders up to $10,000, 2% for orders up to $100,000 and 1% for larger orders; the minimum order is $3,000 in goods. Goods arrive at the Yiwu (义乌) warehouse and reach Tashkent by consolidated truck in roughly 15–25 days.',
       facts: [
-        { label: 'Commission on order value', value: 'from 3%' },
-        { label: 'Total order volume', value: 'from 1 m³' },
+        { label: 'Commission, by order value', value: '1–3%' },
+        { label: 'Minimum order, in goods', value: 'from $3,000' },
         { label: 'To Tashkent by truck', value: '15–25 days' },
-        { label: 'We have employees at this level of Chinese', value: 'HSK 6' },
+        { label: '4 employees with this level of Chinese', value: 'HSK 6' },
       ],
     },
     sections: [
@@ -393,7 +396,7 @@ const content: ServiceContentSource = {
         ],
         callout: {
           title: 'Not for',
-          text: 'Wholesale buying is not for a single item or for an order under 1 m³ in total. GSR Logistics does not source or ship counterfeit goods — Uzbek customs confiscates them — and does not buy goods on the prohibited list.',
+          text: 'Wholesale buying is not for a single item or for an order worth less than $3,000 in goods. GSR Logistics does not source or ship counterfeit goods — Uzbek customs confiscates them — and does not buy goods on the prohibited list.',
           tone: 'warn',
         },
       },
@@ -408,7 +411,7 @@ const content: ServiceContentSource = {
           rows: [
             ['What it is', 'the maker itself; goods are usually made to order', 'usually ready stock, from a seller at a wholesale market or on a wholesale marketplace'],
             ['When it suits', 'a large or repeat order; goods made to your specification or under your own brand', 'a first or mixed order; several products from different sellers in one order'],
-            ['Minimum', 'the factory’s own minimum (MOQ); an order through us still totals at least 1 m³', 'the seller’s own minimum; an order through us still totals at least 1 m³'],
+            ['Minimum', 'the factory’s own minimum (MOQ); an order through us is still at least $3,000 in goods', 'the seller’s own minimum; an order through us is still at least $3,000 in goods'],
             ['What to keep in mind', 'production time, named in the factory’s offer, comes before the transit time', 'a seller who is not the maker usually charges more than the factory itself'],
           ],
           note: 'The route is agreed with you on the basis of the offers; the factory’s or the seller’s own minimum is set by that factory or seller, not by us.',
@@ -417,7 +420,7 @@ const content: ServiceContentSource = {
       {
         heading: 'Who works on wholesale purchases, and what does “HSK 6 level” mean?',
         body: [
-          'GSR Logistics has employees who know Chinese at HSK 6 level; they have experience of purchasing in China and work on buying from factories and buying wholesale from sellers.',
+          'GSR Logistics has four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu. They have experience of purchasing in China, and every wholesale purchase — from a factory or from a wholesale seller — is handled by one of them.',
           'HSK (Hanyu Shuiping Kaoshi) is China’s standardised test of Chinese for people whose first language is not Chinese; level 6 expects a vocabulary of 5,000 or more words.',
           'Our managers speak Uzbek, Russian and Chinese. You do not need to speak Chinese or to have a Chinese bank card or an Alipay account. Negotiations with the factory or the seller are handled by GSR Logistics; you decide on the offers and the sample.',
         ],
@@ -439,20 +442,20 @@ const content: ServiceContentSource = {
       {
         heading: 'What does it cost, and how do you pay?',
         body: [
-          'The price of a wholesale purchase has three main parts: the goods at the factory’s or the seller’s price, our commission and the freight to Tashkent. A sample, shipping inside China and the optional checks at the Yiwu warehouse are added where they apply; duty and VAT are paid as the law requires. The commission starts at 3% of the order value and is shown as a separate line in the quote.',
-          'You pay GSR Logistics in UZS; legal entities pay by bank transfer against an invoice. We pay the factory or the seller in yuan. The price of the goods and the commission are paid before the order is placed, and freight is paid when the cargo arrives in Tashkent. For a factory order, the contract with the factory sets the payment schedule: the usual payment pattern in China is 30% upfront and the balance before shipment, and we make that payment in yuan.',
+          'The price of a wholesale purchase has three main parts: the goods at the factory’s or the seller’s price, our commission and the freight to Tashkent. A sample, shipping inside China and the optional checks at the Yiwu warehouse are added where they apply; duty and VAT are paid as the law requires. The commission depends on the order value — 3% for orders up to $10,000, 2% for orders up to $100,000 and 1% for larger orders — and is shown as a separate line in the quote; freight for a wholesale batch is calculated for that batch and quoted to you.',
+          'You pay GSR Logistics in UZS; legal entities pay by bank transfer against an invoice. We pay the factory or the seller in yuan; the yuan price is converted at the rate on the day of payment. The price of the goods and the commission are paid before the order is placed, and freight is paid when the cargo arrives in Tashkent. For a factory order, the contract with the factory sets the payment schedule: the usual payment pattern in China is 30% upfront and the balance before shipment, and we make that payment in yuan.',
         ],
         table: {
           head: ['Item', 'Price'],
           rows: [
-            ['Commission', 'from 3% of the order value'],
+            ['Commission', '3% up to $10,000; 2% up to $100,000; 1% above $100,000 (minimum order $3,000 in goods)'],
             ['The goods', 'the factory’s or the seller’s price, in yuan'],
             ['Sample and shipping inside China', 'charged separately; shipping inside China at the seller’s rate'],
             ['Opened-box counting and inspection, optional', '$1/kg'],
             ['Detailed photo report (opened box), optional', '$1 per piece'],
-            ['Freight to Tashkent', 'truck from $110 per m³, rate by cargo density; air from $9/kg'],
+            ['Freight to Tashkent', 'calculated for each batch and quoted to you; air from $11.50/kg'],
           ],
-          note: 'Estimates · Updated September 8, 2026. The exact percentage is fixed in the contract.',
+          note: 'Commission and minimum order: November 18, 2026. Other prices are estimates · Updated September 8, 2026. The exact percentage is fixed in the contract.',
         },
       },
       {
@@ -467,7 +470,7 @@ const content: ServiceContentSource = {
             ['You have a product link from 1688, Taobao, Pinduoduo or Alibaba', 'Buying from 1688 & Taobao'],
             ['You want a wholesale batch bought — from a factory or a wholesale seller, one you found or one we find — and brought to Tashkent', 'Wholesale buying in China'],
           ],
-          note: 'Whichever service you choose, you work with one manager under one contract; the commission starts at 3% of the order value on each (estimate, September 8, 2026).',
+          note: 'Whichever service you choose, you work with one manager under one contract. The commission starts at 3% for product sourcing and for buying from 1688 and Taobao (estimate, September 8, 2026); for wholesale buying it is 1–3%, by order value (November 18, 2026).',
         },
       },
     ],
@@ -478,7 +481,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Do I have to travel to China or hire an interpreter?',
-        a: 'No. GSR Logistics searches for the goods, negotiates in Chinese, pays the seller, receives the goods and ships them for you. We have employees who know Chinese at HSK 6 level. You decide on the offers and on the sample.',
+        a: 'No. GSR Logistics searches for the goods, negotiates in Chinese, pays the seller, receives the goods and ships them for you. Your wholesale purchase is handled by one of our four employees who know Chinese at HSK 6 level. You decide on the offers and on the sample.',
       },
       {
         q: 'Can I buy wholesale from China myself, without an agent?',
@@ -494,19 +497,19 @@ const content: ServiceContentSource = {
       },
       {
         q: 'What does “Chinese at HSK 6 level” mean?',
-        a: 'HSK (Hanyu Shuiping Kaoshi) is China’s standardised test of Chinese for people whose first language is not Chinese; level 6 expects a vocabulary of 5,000 or more words. GSR Logistics has employees who know Chinese at HSK 6 level; they have experience of purchasing in China and work on buying from factories and buying wholesale from sellers.',
+        a: 'HSK (Hanyu Shuiping Kaoshi) is China’s standardised test of Chinese for people whose first language is not Chinese; level 6 expects a vocabulary of 5,000 or more words. GSR Logistics has four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu. They have experience of purchasing in China, and every wholesale purchase — from a factory or from a wholesale seller — is handled by one of them.',
       },
       {
         q: 'How much does wholesale buying in China cost?',
-        a: 'The commission for wholesale buying at GSR Logistics starts at 3% of the order value (estimate, September 8, 2026) and is shown as a separate line in the quote. The exact percentage is fixed in the contract. Samples, shipping inside China and freight to Tashkent are charged separately.',
+        a: 'The commission for wholesale buying at GSR Logistics depends on the order value: 3% up to $10,000, 2% over $10,000 and up to $100,000, and 1% above $100,000 (November 18, 2026). It is shown as a separate line in the quote, and the minimum order is $3,000 in goods. Samples, shipping inside China and freight to Tashkent are charged separately; freight for a wholesale batch is calculated for that batch and quoted to you, and by air it starts at $11.50/kg.',
       },
       {
         q: 'What is the smallest order?',
-        a: 'An order through GSR Logistics, from any source, must total at least 1 m³. Goods from different sellers are gathered under one GS code (shipping mark) and counted together. The factory’s or the seller’s own minimum (MOQ) is set by that factory or seller, not by GSR Logistics. We do not take single items or small orders.',
+        a: 'A wholesale purchase through GSR Logistics starts at $3,000 in goods. As with every order through the company, the goods must also total at least 1 m³: goods from different sellers are gathered under one GS code (shipping mark) and counted together. The factory’s or the seller’s own minimum (MOQ) is set by that factory or seller, not by GSR Logistics. We do not take single items or small orders.',
       },
       {
         q: 'How do I pay, and who pays the seller?',
-        a: 'You pay GSR Logistics in UZS; legal entities pay by bank transfer against an invoice. GSR Logistics pays the factory or the seller in yuan. You need no Chinese bank card and no Alipay account.',
+        a: 'You pay GSR Logistics in UZS; legal entities pay by bank transfer against an invoice. GSR Logistics pays the factory or the seller in yuan; the yuan price is converted at the rate on the day of payment. You need no Chinese bank card and no Alipay account.',
       },
       {
         q: 'Which goods do you buy wholesale, and which do you not?',

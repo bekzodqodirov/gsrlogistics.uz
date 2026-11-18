@@ -21,7 +21,7 @@ export interface CommonStrings {
   notFound: { title: string; text: string; home: string };
   /** `whatsapp` replaces `price` in the phone bar of an on-request service page and of its guides (MobileBar.astro). */
   bar: { telegram: string; call: string; price: string; whatsapp: string };
-  strings: { confirmTelegram: string; enterCode: string; track: string; formSuccess: string; sample: string; managerTip: string; viewOnMap: string; allRates: string; contents: string; estimateMeta: string; approx: string; from: string; days: string; kg: string; m3: string; perKg: string; perM3: string; };
+  strings: { confirmTelegram: string; enterCode: string; track: string; formSuccess: string; sample: string; managerTip: string; viewOnMap: string; allRates: string; contents: string; estimateMeta: string; termsMeta: string; approx: string; from: string; days: string; kg: string; m3: string; perKg: string; perM3: string; };
 }
 
 const uz: CommonStrings = {
@@ -51,7 +51,7 @@ const uz: CommonStrings = {
   },
   notFound: { title: 'Bu sahifa topilmadi. Lekin yukingiz topiladi.', text: 'Bu manzil mavjud emas yoki koʻchirilgan. Bosh sahifaga qayting yoki Telegramda yozing.', home: 'Bosh sahifaga' },
   bar: { telegram: 'Telegram', call: 'Qoʻngʻiroq', price: 'Narx', whatsapp: 'WhatsApp' },
-  strings: { confirmTelegram: 'Telegramda tasdiqlang', enterCode: 'Yuk kodini kiriting', track: 'Kuzatish', formSuccess: 'Soʻrovingiz qabul qilindi. Ish vaqtida javob beramiz.', sample: 'Namuna', managerTip: 'Menejer maslahati', viewOnMap: 'Xaritada koʻring', allRates: 'Barcha tariflar', contents: 'Mundarija', estimateMeta: 'Taxminiy narx · Yangilangan', approx: 'taxminan', from: 'dan', days: 'kun', kg: 'kg', m3: 'm³', perKg: '$/kg', perM3: '$/m³' },
+  strings: { confirmTelegram: 'Telegramda tasdiqlang', enterCode: 'Yuk kodini kiriting', track: 'Kuzatish', formSuccess: 'Soʻrovingiz qabul qilindi. Ish vaqtida javob beramiz.', sample: 'Namuna', managerTip: 'Menejer maslahati', viewOnMap: 'Xaritada koʻring', allRates: 'Barcha tariflar', contents: 'Mundarija', estimateMeta: 'Taxminiy narx · Yangilangan', termsMeta: 'Komissiya va eng kam buyurtma', approx: 'taxminan', from: 'dan', days: 'kun', kg: 'kg', m3: 'm³', perKg: '$/kg', perM3: '$/m³' },
 };
 
 const ru: CommonStrings = {
@@ -81,7 +81,7 @@ const ru: CommonStrings = {
   },
   notFound: { title: 'Страница не найдена. А груз — найдётся.', text: 'Такого адреса нет или он был перемещён. Вернитесь на главную или напишите нам в Telegram.', home: 'На главную' },
   bar: { telegram: 'Telegram', call: 'Позвонить', price: 'Цена', whatsapp: 'WhatsApp' },
-  strings: { confirmTelegram: 'Подтвердить в Telegram', enterCode: 'Введите код груза', track: 'Отследить', formSuccess: 'Заявка принята. Ответим в рабочее время.', sample: 'Пример', managerTip: 'Совет менеджера', viewOnMap: 'Показать на карте', allRates: 'Все тарифы', contents: 'Содержание', estimateMeta: 'Ориентировочная цена · Обновлено', approx: 'ориентировочно', from: 'от', days: 'дней', kg: 'кг', m3: 'м³', perKg: '$/кг', perM3: '$/м³' },
+  strings: { confirmTelegram: 'Подтвердить в Telegram', enterCode: 'Введите код груза', track: 'Отследить', formSuccess: 'Заявка принята. Ответим в рабочее время.', sample: 'Пример', managerTip: 'Совет менеджера', viewOnMap: 'Показать на карте', allRates: 'Все тарифы', contents: 'Содержание', estimateMeta: 'Ориентировочная цена · Обновлено', termsMeta: 'Комиссия и минимальный заказ', approx: 'ориентировочно', from: 'от', days: 'дней', kg: 'кг', m3: 'м³', perKg: '$/кг', perM3: '$/м³' },
 };
 
 const en: CommonStrings = {
@@ -111,7 +111,7 @@ const en: CommonStrings = {
   },
   notFound: { title: 'Page not found. Your cargo will be.', text: 'This address does not exist or has moved. Go back home or message us on Telegram.', home: 'Back to home' },
   bar: { telegram: 'Telegram', call: 'Call', price: 'Price', whatsapp: 'WhatsApp' },
-  strings: { confirmTelegram: 'Confirm on Telegram', enterCode: 'Enter your cargo code', track: 'Track', formSuccess: 'Request received. We reply during working hours.', sample: 'Sample', managerTip: 'Manager’s tip', viewOnMap: 'View on map', allRates: 'All rates', contents: 'Contents', estimateMeta: 'Estimate · Updated', approx: 'roughly', from: 'from', days: 'days', kg: 'kg', m3: 'm³', perKg: '$/kg', perM3: '$/m³' },
+  strings: { confirmTelegram: 'Confirm on Telegram', enterCode: 'Enter your cargo code', track: 'Track', formSuccess: 'Request received. We reply during working hours.', sample: 'Sample', managerTip: 'Manager’s tip', viewOnMap: 'View on map', allRates: 'All rates', contents: 'Contents', estimateMeta: 'Estimated price · Updated', termsMeta: 'Commission and minimum order', approx: 'roughly', from: 'from', days: 'days', kg: 'kg', m3: 'm³', perKg: '$/kg', perM3: '$/m³' },
 };
 
 export const common: Localized<CommonStrings> = { uz, ru, en, zh, fa };

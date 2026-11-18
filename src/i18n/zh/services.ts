@@ -39,6 +39,7 @@ export const zh: ServicesStrings = {
     fromKg: '{n} kg 起',
     fromM3: '{n} 美元/m³ 起',
     commissionFrom: '服务费 {n}% 起',
+    commissionRange: '服务费 {range}%',
     yuanPayment: '人民币付款',
     containers: '20 英尺 / 40 英尺',
     turnkey: '交钥匙服务',
@@ -60,7 +61,7 @@ export const zh: ServicesStrings = {
     groups: { shipping: '货物运输', buying: '在中国寻找货源与代采购', paperwork: '手续办理与质量控制', regional: '阿富汗、过境与仓储', vehicles: '汽车' },
     groupLead: {
       shipping: '三种方式——汽运、空运、铁路。时效和价格取决于货物的重量、体积和紧急程度。',
-      buying: '无需您亲自对接中国工厂：我们有中文达到 HSK 6 级水平的员工。我们的客户经理会与工厂沟通，用人民币付款，并检查样品。',
+      buying: '无需您亲自对接中国工厂：我们有四名中文达到 HSK 6 级水平的员工。我们的客户经理会与工厂沟通，用人民币付款，并检查样品。',
       paperwork: '单证、申报、报关单（GTD）和质检——均在货物发运之前完成。',
       regional: '新方向：承接发往阿富汗的汽运货物，办理乌兹别克斯坦过境单证，并在塔什干的海关监管仓库安排仓位。价格和时效按需报价。',
       vehicles: '按需订购汽车和电动汽车——从选车到办理手续。',

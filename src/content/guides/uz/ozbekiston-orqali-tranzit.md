@@ -232,7 +232,7 @@ Ishni boshlash uchun bizga yuboring:
 
 Oʻz xizmatimiz narxi — soʻrov boʻyicha: menejer uni yukingiz boʻyicha hisoblab beradi. Saytdagi tariflar, kalkulyator va muddatlar faqat Xitoy → Toshkent yoʻnalishiga tegishli. Xitoydan Toshkentga yuk qanday kelishi [Xitoydan Toshkentga yoʻnalishlar](/qollanma/xitoydan-toshkentga-yonalishlar/) qoʻllanmasida yozilgan.
 
-WhatsApp (+998 90 175 78 00) yoki Telegramga yozing — ish shundan boshlanadi. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz.
+WhatsApp (+998 90 240 50 77) yoki Telegramga yozing — ish shundan boshlanadi. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz.
 
 > **Menejer maslahati.** Fura yoʻlga chiqishidan oldin bizga yozing: tranzit deklaratsiyasi va ruxsatnoma tayyorgarlik talab qiladi, erta boshlansa hujjatlarni tekshirishga vaqt qoladi. Tranzit deklaratsiyasi fura Oʻzbekistonga kirishda bojxona chegarasini kesib oʻtgunga qadar yoki kesib oʻtish vaqtida topshiriladi (Bojxona kodeksining 261-moddasi uchinchi qismi; Vazirlar Mahkamasining 737-son qarori, Nizomning 6-bandi); chegaradan oʻtishdan oldin topshirilsa, alohida dastlabki axborot ham kerak boʻlmaydi (737-son qarorning 2-bandi).
 

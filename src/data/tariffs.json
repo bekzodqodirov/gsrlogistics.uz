@@ -1,5 +1,5 @@
 {
-  "_comment": "Editable tariff table. All prices in USD. 'estimate: true' shows the 'taxminiy narx' label everywhere. Update 'updated' whenever you change a number — it is printed on the site and used as validThrough in schema.org. Truck cargo is priced from the owner's own sheet: density (kg/m³) picks a price per m³; at or above perKgFromDensityKgM3 the sheet bills per kilogram instead, at perKgAboveDensity. minM3 is the smallest consolidated shipment GSR accepts at all — owner, 2026-11-08: nothing under 1 m³ is carried by truck; it is not a billing floor. Consolidated cargo is truck only: rail takes full containers only (rail.container20ft / container40ft), with no LCL — owner, 2026-11-09. Air keeps its own minimum (air.minKg).",
+  "_comment": "Editable tariff table. All prices in USD. 'estimate: true' shows the 'taxminiy narx' label everywhere. Update 'updated' whenever you change a number — it is printed on the site and used as validThrough in schema.org. Truck cargo is priced from the owner's own sheet: density (kg/m³) picks a price per m³; at or above perKgFromDensityKgM3 the sheet bills per kilogram instead, at perKgAboveDensity. minM3 is the smallest consolidated shipment GSR accepts at all — owner, 2026-11-08: nothing under 1 m³ is carried by truck; it is not a billing floor. Consolidated cargo is truck only: rail takes full containers only (rail.container20ft / container40ft), with no LCL — owner, 2026-11-09. Air keeps its own minimum (air.minKg). Wholesale buying (extras.wholesale) — owner, 2026-11-18: the commission is commissionPct[i]% of the order value up to tierUpToUsd[i], and the last one above the last limit (3% up to $10,000, 2% up to $100,000, 1% above); minOrderUsd is the smallest order accepted, in goods; the sourcing and buy-by-link services keep sourcingCommissionPct.",
   "updated": "2026-09-08",
   "validThrough": "2026-12-31",
   "currency": "USD",
@@ -99,7 +99,20 @@
     "insurancePct": 1,
     "sourcingCommissionPct": 3,
     "freeStorageDaysChina": 14,
-    "freeStorageDaysTashkent": 3
+    "freeStorageDaysTashkent": 3,
+    "wholesale": {
+      "updated": "2026-11-18",
+      "commissionPct": [
+        3,
+        2,
+        1
+      ],
+      "tierUpToUsd": [
+        10000,
+        100000
+      ],
+      "minOrderUsd": 3000
+    }
   },
   "regions": {
     "toBranchFree": true,
