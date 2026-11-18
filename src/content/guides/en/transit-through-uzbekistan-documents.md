@@ -232,7 +232,7 @@ To start, send us:
 
 The price of our own service is on request: the manager calculates it for your cargo. The tariffs, the calculator and the transit times on this site apply to the China → Tashkent direction only. How cargo travels from China to Tashkent is described in the guide [China–Tashkent routes](/en/guides/china-tashkent-routes/).
 
-Message us on WhatsApp (+998 90 175 78 00) or Telegram — that is where the work starts. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek.
+Message us on WhatsApp (+998 90 240 50 77) or Telegram — that is where the work starts. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek.
 
 > **Manager’s tip.** Write to us before the truck sets off: the transit declaration and the permit take preparation, and an early start leaves time to check the documents. The transit declaration is filed before or at the time the truck crosses the customs border into Uzbekistan (Customs Code, Article 261, part three; Cabinet of Ministers Resolution No. 737, Regulation point 6); filed before the crossing, it also makes separate advance information unnecessary (Resolution No. 737, point 2).
 

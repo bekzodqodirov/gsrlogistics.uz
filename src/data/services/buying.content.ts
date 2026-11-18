@@ -144,7 +144,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Xitoy kartasi, Alipay yoki xitoy tili kerakmi?',
-        a: 'Yoʻq. Sotuvchiga biz oʻz akkauntimizdan Alipay yoki WeChat Pay orqali yuanda toʻlaymiz va u bilan xitoy tilida yozishamiz. Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor. Siz soʻmda toʻlaysiz va Telegramda oʻzbek yoki rus tilida yozasiz.',
+        a: 'Yoʻq. Sotuvchiga biz oʻz akkauntimizdan Alipay yoki WeChat Pay orqali yuanda toʻlaymiz va u bilan xitoy tilida yozishamiz. Xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimiz bor. Siz soʻmda toʻlaysiz va Telegramda oʻzbek yoki rus tilida yozasiz.',
       },
       {
         q: 'Taobao va Pinduoduodan ham olib berasizmi?',
@@ -301,7 +301,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Нужны ли китайская карта, Alipay или китайский язык?',
-        a: 'Нет. Продавцу платим мы со своего аккаунта через Alipay или WeChat Pay в юанях и переписываемся с ним по-китайски. У нас есть сотрудники, которые знают китайский язык на уровне HSK 6. Вы платите в сумах и пишете нам в Telegram на русском или узбекском.',
+        a: 'Нет. Продавцу платим мы со своего аккаунта через Alipay или WeChat Pay в юанях и переписываемся с ним по-китайски. У нас есть четыре сотрудника, которые знают китайский язык на уровне HSK 6. Вы платите в сумах и пишете нам в Telegram на русском или узбекском.',
       },
       {
         q: 'Выкупаете ли с Taobao и Pinduoduo?',
@@ -458,7 +458,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Do I need a Chinese card, Alipay or Chinese?',
-        a: 'No. We pay the seller in yuan from our own account via Alipay or WeChat Pay and message them in Chinese. We have employees who know Chinese at HSK 6 level. You pay in UZS and write to us on Telegram in Uzbek or Russian.',
+        a: 'No. We pay the seller in yuan from our own account via Alipay or WeChat Pay and message them in Chinese. We have four employees who know Chinese at HSK 6 level. You pay in UZS and write to us on Telegram in Uzbek or Russian.',
       },
       {
         q: 'Do you also buy from Taobao and Pinduoduo?',

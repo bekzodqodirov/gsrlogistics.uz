@@ -19,7 +19,7 @@ faq:
   - q: "Yukimni yoʻlda qanday kuzatib boraman?"
     a: "Yukni ERP tizimimiz orqali Telegramda kuzatib borasiz."
   - q: "Sizga dari yoki fors tilida yozsam boʻladimi?"
-    a: "Ha. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz. WhatsApp (+998 90 175 78 00) yoki Telegramga yozing."
+    a: "Ha. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz. WhatsApp (+998 90 240 50 77) yoki Telegramga yozing."
 sources:
   - title: "Oʻzbekiston Respublikasining Bojxona kodeksi (lex.uz)"
     url: "https://lex.uz/docs/2876352"
@@ -185,7 +185,7 @@ Ishni qanday boshlaymiz:
 6. **Yoʻlda.** Yukni ERP tizimimiz orqali Telegramda kuzatib borasiz.
 7. **Topshirish.** Yukni Hayratonda chegarada qabul qilib olasiz yoki biz uni Mozori Sharifgacha yetkazamiz.
 
-WhatsApp (+998 90 175 78 00) yoki Telegramga yozing — ish shundan boshlanadi. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz. Batafsil — [Afgʻonistonga yuk tashish](/xizmatlar/afgonistonga-yuk-tashish/) sahifasida.
+WhatsApp (+998 90 240 50 77) yoki Telegramga yozing — ish shundan boshlanadi. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz. Batafsil — [Afgʻonistonga yuk tashish](/xizmatlar/afgonistonga-yuk-tashish/) sahifasida.
 
 > **Menejer maslahati.** Tranzit deklaratsiyasi fura Oʻzbekistonga kirishda bojxona chegarasini kesib oʻtgunga qadar yoki kesib oʻtish vaqtida topshiriladi (Bojxona kodeksining 261-moddasi uchinchi qismi; Vazirlar Mahkamasining 737-son qarori, Nizomning 6-bandi); chegaradan oʻtishdan oldin topshirilsa, alohida dastlabki axborot ham kerak boʻlmaydi (737-son qarorning 2-bandi). Shuning uchun invoys va qadoqlash roʻyxatini fura yoʻlga chiqishidan oldin bizga yuboring — hujjatlarni tekshirishga vaqt qoladi.
 

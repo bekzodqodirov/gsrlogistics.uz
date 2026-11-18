@@ -53,6 +53,7 @@ export function nums(lang: Lang) {
       total: usd(Math.round(total * 100) / 100),
     };
   };
+  if (T.extras.wholesale.commissionPct.length !== 3 || T.extras.wholesale.tierUpToUsd.length !== 2) throw new Error('tariffs.json extras.wholesale: the site FAQ names three tiers and two limits ({wc1}–{wc3}, {wt1} {wt2}) — change nums() and the FAQ answers with the table');
   return {
     t1: usdM3(lcl[0].rate), t1max: n(lcl[0].maxKgM3 ?? 0), t2: usdM3(lcl[1].rate), t2max: n(lcl[1].maxKgM3 ?? 0),
     t3: usdM3(lcl[2].rate), t3max: n(lcl[2].maxKgM3 ?? 0), t4: usdM3(lcl[3].rate), t4max: n(lcl[3].maxKgM3 ?? 0),
@@ -69,6 +70,10 @@ export function nums(lang: Lang) {
     exBulky: ex(300, 2),
     photo: usd(T.extras.photoReportUsd), repack: usd(T.extras.repackPerKg), inspect: usd(T.extras.inspectionPerKg),
     ins: n(T.extras.insurancePct), comm: n(T.extras.sourcingCommissionPct),
+    /** Wholesale buying (owner, 2026-11-18): the commission of each tier by order value, the two tier limits and the minimum order in goods. */
+    wc1: n(T.extras.wholesale.commissionPct[0]), wc2: n(T.extras.wholesale.commissionPct[1]), wc3: n(T.extras.wholesale.commissionPct[2]),
+    wt1: usd(T.extras.wholesale.tierUpToUsd[0]).replace(/ (?=\$$)/, '\u00a0'), wt2: usd(T.extras.wholesale.tierUpToUsd[1]).replace(/ (?=\$$)/, '\u00a0'),
+    wmin: usd(T.extras.wholesale.minOrderUsd).replace(/ (?=\$$)/, '\u00a0'),
     storeCn: n(T.extras.freeStorageDaysChina), storeTz: n(T.extras.freeStorageDaysTashkent),
     door: som(T.regions.doorDeliverySom[0], T.regions.doorDeliverySom[1]), doorFreeKg: n(T.regions.tashkentDoorFreeFromKg),
     updated: fmtDate(T.updated, lang),
@@ -164,9 +169,9 @@ function uz(): FaqGroup[] {
       id: 'ulgurji', group: 'Ulgurji (optom) xarid',
       items: [
         { q: 'Xitoydan ulgurji (optom) tovar sotib olib berasizmi — zavoddan ham, sotuvchidan ham?',
-          a: `Ha. GSR Logistics buyurtmangiz boʻyicha Xitoyda tovar partiyasini zavoddan yoki ulgurji sotuvchidan sotib oladi va Toshkentga olib keladi. Ulgurji xaridlar boʻyicha xitoy tilini HSK 6 darajasida biladigan, Xitoyda sotib olish bilan shugʻullangan xodimlarimiz ishlaydi. Buyurtmaning umumiy hajmi kamida ${v.minM3} m³ boʻlishi kerak, komissiya esa buyurtma summasining ${v.comm}% dan (taxminiy).` },
+          a: `Ha. GSR Logistics buyurtmangiz boʻyicha Xitoyda tovar partiyasini zavoddan yoki ulgurji sotuvchidan sotib oladi va Toshkentga olib keladi. Har bir ulgurji xaridni xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimizdan biri olib boradi: uchtasi Toshkentda, bittasi Ivuda ishlaydi. Buyurtmadagi tovar qiymati kamida ${v.wmin}, umumiy hajmi esa kamida ${v.minM3} m³ boʻlishi kerak; komissiya buyurtma summasiga qarab: ${v.wt1} gacha — ${v.wc1}%, ${v.wt2} gacha — ${v.wc2}%, undan yuqori — ${v.wc3}%.` },
         { q: 'Xitoy tilini biladigan xodimlaringiz bormi?',
-          a: `Ha. GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan xodimlar bor: ular Xitoyda sotib olish bilan shugʻullangan va zavodlardan sotib olish hamda sotuvchilardan ulgurji (optom) xarid qilish boʻyicha ishlaydi. HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi.` },
+          a: `Ha. GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan toʻrtta xodim bor: uchtasi Toshkentda, bittasi Ivuda ishlaydi. Ular Xitoyda sotib olish bilan shugʻullangan; har bir ulgurji xaridni — zavoddan boʻlsin yoki ulgurji sotuvchidan — ulardan biri olib boradi. HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi.` },
       ],
     },
     {
@@ -186,7 +191,7 @@ function uz(): FaqGroup[] {
       id: 'kompaniya', group: 'Kompaniya haqida',
       items: [
         { q: 'GSR Logistics ofisi qayerda va qachon ishlaydi?',
-          a: `Ofis: Toshkent, Shayxontohur tumani, Alisher Navoiy koʻchasi, 27 (Alisher Navoiy metrosi yonida). Ish vaqti: dushanba–shanba 9:00–19:00, yakshanba — dam olish kuni. Telefon +998 95 018 33 33, qoʻshimcha +998 90 175 78 00 (WhatsApp), e-mail b.e.kodirov@gmail.com, Telegram-kanal @gsrlogistics. Yuk holatini koʻrsatadigan bot @GSR_GROUP_AGENT_bot sutkaning istalgan vaqtida ishlaydi.` },
+          a: `Ofis: Toshkent, Shayxontohur tumani, Alisher Navoiy koʻchasi, 27 (Alisher Navoiy metrosi yonida). Ish vaqti: dushanba–shanba 9:00–19:00, yakshanba — dam olish kuni. Telefon +998 95 018 33 33, qoʻshimcha +998 90 240 50 77 (WhatsApp), e-mail b.e.kodirov@gmail.com, Telegram-kanal @gsrlogistics. Yuk holatini koʻrsatadigan bot @GSR_GROUP_AGENT_bot sutkaning istalgan vaqtida ishlaydi.` },
         { q: 'Kompaniya qanchalik katta — necha mijoz, oyiga necha konteyner?',
           a: `2018-yildan beri Xitoy bilan ishlaymiz; jamoaning yuk tashish sohasidagi tajribasi — 15 yil. Oyiga 50–100 konteyner Xitoydan Toshkentga keladi, 400+ mijozga xizmat koʻrsatganmiz. Yuridik shaxs — Imex services LLC; ijtimoiy tarmoqlarda GSR Group nomi bilan ham tanilganmiz.` },
         { q: 'Xitoydagi qabul manzillari sizning omboringizmi?',
@@ -208,7 +213,7 @@ function uz(): FaqGroup[] {
         { q: 'Toshkentda yukni saqlash yoki boshqa furaga qayta yuklash mumkinmi?',
           a: `Ha: Toshkentda bojxona nazoratidagi ombordan mijozlarimizga joy ajratamiz va yukni qayta yuklaymiz — furadan furaga yoki ombor orqali. Ombor hamkorimizga tegishli; yuk u yerda bojxona nazorati ostida saqlanadi. Saqlash muddati va narxini menejer yukingiz boʻyicha aytadi. Batafsil — «Toshkentda bojxona nazoratidagi ombor» sahifasida.` },
         { q: 'Fors yoki dari tilida yozsam boʻladimi va qayerga yozaman?',
-          a: `Ha. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz. WhatsApp (+998 90 175 78 00) yoki Telegramga yozing.` },
+          a: `Ha. Fors yoki dari tilida yozsangiz, tarjimon yordamida forscha javob beramiz. Ingliz, rus va oʻzbek tillarida ham javob beramiz. WhatsApp (+998 90 240 50 77) yoki Telegramga yozing.` },
         { q: 'Afgʻonistonlik tadbirkor uchun Xitoydan tovar topib, sotib olib berasizmi?',
           a: `Ha. Xitoyda tovar topish va sotib olish xizmati afgʻonistonlik tadbirkorlar uchun ham ishlaydi: tovarni topamiz, sotib olamiz va fura bilan Hayraton yoki Mozori Sharifgacha yetkazamiz. Shartlarni menejer buyurtmadan oldin aytadi.` },
       ],
@@ -305,9 +310,9 @@ function ru(): FaqGroup[] {
       id: 'optom', group: 'Оптовые закупки',
       items: [
         { q: 'Закупаете ли вы товары в Китае оптом — у фабрик и у оптовых продавцов?',
-          a: `Да. По вашему заказу GSR Logistics закупает в Китае партию товара у фабрики или у оптового продавца и привозит её в Ташкент. Над этими закупками работают сотрудники, которые знают китайский язык на уровне HSK 6 и занимались закупками в Китае. Общий объём заказа должен быть от ${v.minM3} м³, а комиссия — от ${v.comm}% суммы заказа (ориентировочно).` },
+          a: `Да. По вашему заказу GSR Logistics закупает в Китае партию товара у фабрики или у оптового продавца и привозит её в Ташкент. Каждую оптовую закупку ведёт один из четырёх сотрудников, которые знают китайский язык на уровне HSK 6: трое — в Ташкенте, один — в Иу. Минимальный заказ — ${v.wmin} по стоимости товара, а общий объём товара — от ${v.minM3} м³; комиссия — ${v.wc1}% суммы заказа до ${v.wt1}, ${v.wc2}% — до ${v.wt2} и ${v.wc3}% — при большей сумме.` },
         { q: 'У вас есть сотрудники, знающие китайский язык?',
-          a: `Да. В GSR Logistics есть сотрудники, которые знают китайский язык на уровне HSK 6: они занимались закупками в Китае и работают над закупками у фабрик и оптовыми закупками у продавцов. HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов. Наши менеджеры говорят на узбекском, русском и китайском.` },
+          a: `Да. В GSR Logistics есть четыре сотрудника, которые знают китайский язык на уровне HSK 6: трое — в Ташкенте, один — в Иу. Они занимались закупками в Китае, и каждую оптовую закупку — у фабрики или у оптового продавца — ведёт один из них. HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов. Наши менеджеры говорят на узбекском, русском и китайском.` },
       ],
     },
     {
@@ -327,7 +332,7 @@ function ru(): FaqGroup[] {
       id: 'kompaniya', group: 'О компании',
       items: [
         { q: 'Где офис GSR Logistics и когда он работает?',
-          a: `Офис: Ташкент, Шайхантахурский район, ул. Алишера Навои, 27 (рядом с метро «Алишер Навои»). Режим: понедельник–суббота 9:00–19:00, воскресенье — выходной. Телефон +998 95 018 33 33, дополнительный +998 90 175 78 00 (WhatsApp), e-mail b.e.kodirov@gmail.com, Telegram-канал @gsrlogistics. Бот со статусом груза @GSR_GROUP_AGENT_bot работает в любое время суток.` },
+          a: `Офис: Ташкент, Шайхантахурский район, ул. Алишера Навои, 27 (рядом с метро «Алишер Навои»). Режим: понедельник–суббота 9:00–19:00, воскресенье — выходной. Телефон +998 95 018 33 33, дополнительный +998 90 240 50 77 (WhatsApp), e-mail b.e.kodirov@gmail.com, Telegram-канал @gsrlogistics. Бот со статусом груза @GSR_GROUP_AGENT_bot работает в любое время суток.` },
         { q: 'Насколько крупная компания — сколько клиентов, сколько контейнеров в месяц?',
           a: `Работаем с Китаем с 2018 года; опыт команды в грузоперевозках — 15 лет. В месяц из Китая в Ташкент приходит 50–100 контейнеров, обслужено 400+ клиентов. Юридическое лицо — Imex services LLC; в соцсетях мы известны и как GSR Group.` },
         { q: 'Адреса приёма в Китае — это ваши склады?',
@@ -346,7 +351,7 @@ function ru(): FaqGroup[] {
         { q: 'Можно ли в Ташкенте оставить груз на хранение или перегрузить его в другую фуру?',
           a: `Да: в Ташкенте мы выделяем клиентам место на складе под таможенным контролем и перегружаем груз — из фуры в фуру или через склад. Склад принадлежит нашему партнёру; груз хранится там под таможенным контролем. Срок и цену хранения менеджер называет под ваш груз. Подробнее — на странице «Склад под таможенным контролем в Ташкенте».` },
         { q: 'Можно ли писать на фарси или дари и куда писать?',
-          a: `Да. Если напишете на фарси или дари, ответим на фарси с помощью переводчика. Отвечаем также на английском, русском и узбекском. Пишите в WhatsApp (+998 90 175 78 00) или в Telegram.` },
+          a: `Да. Если напишете на фарси или дари, ответим на фарси с помощью переводчика. Отвечаем также на английском, русском и узбекском. Пишите в WhatsApp (+998 90 240 50 77) или в Telegram.` },
         { q: 'Найдёте и выкупите ли вы товар в Китае для предпринимателя из Афганистана?',
           a: `Да. Поиск и выкуп товаров в Китае доступны и предпринимателям из Афганистана: находим товар, выкупаем и доставляем фурой до Хайратона или Мазари-Шарифа. Условия менеджер называет до заказа.` },
       ],
@@ -443,9 +448,9 @@ function en(): FaqGroup[] {
       id: 'wholesale', group: 'Wholesale buying',
       items: [
         { q: 'Do you buy goods wholesale in China — from factories and from wholesale sellers?',
-          a: `Yes. On your order GSR Logistics buys a batch of goods in China from a factory or from a wholesale seller and brings it to Tashkent. Employees who know Chinese at HSK 6 level and have experience of purchasing in China work on these purchases. An order must total at least ${v.minM3} m³, and the commission starts at ${v.comm}% of the order value (estimate).` },
+          a: `Yes. On your order GSR Logistics buys a batch of goods in China from a factory or from a wholesale seller and brings it to Tashkent. Every wholesale purchase is handled by one of four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu. The minimum order is ${v.wmin} in goods, and the goods must also total at least ${v.minM3} m³; the commission is ${v.wc1}% for orders up to ${v.wt1}, ${v.wc2}% for orders up to ${v.wt2} and ${v.wc3}% for larger orders.` },
         { q: 'Do you have employees who know Chinese?',
-          a: `Yes. GSR Logistics has employees who know Chinese at HSK 6 level; they have experience of purchasing in China and work on buying from factories and buying wholesale from sellers. HSK (Hanyu Shuiping Kaoshi) is China’s standardised test of Chinese for people whose first language is not Chinese; level 6 expects a vocabulary of 5,000 or more words. Our managers speak Uzbek, Russian and Chinese.` },
+          a: `Yes. GSR Logistics has four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu. They have experience of purchasing in China, and every wholesale purchase — from a factory or from a wholesale seller — is handled by one of them. HSK (Hanyu Shuiping Kaoshi) is China’s standardised test of Chinese for people whose first language is not Chinese; level 6 expects a vocabulary of 5,000 or more words. Our managers speak Uzbek, Russian and Chinese.` },
       ],
     },
     {
@@ -465,7 +470,7 @@ function en(): FaqGroup[] {
       id: 'company', group: 'About the company',
       items: [
         { q: 'Where is the GSR Logistics office and when is it open?',
-          a: `Office: 27 Alisher Navoiy Street, Shaykhantakhur district, Tashkent (next to the Alisher Navoiy metro station). Hours: Monday–Saturday 9:00–19:00, closed on Sunday. Phone +998 95 018 33 33, second line +998 90 175 78 00 (WhatsApp), e-mail b.e.kodirov@gmail.com, Telegram channel @gsrlogistics. The cargo-status bot @GSR_GROUP_AGENT_bot works at any hour.` },
+          a: `Office: 27 Alisher Navoiy Street, Shaykhantakhur district, Tashkent (next to the Alisher Navoiy metro station). Hours: Monday–Saturday 9:00–19:00, closed on Sunday. Phone +998 95 018 33 33, second line +998 90 240 50 77 (WhatsApp), e-mail b.e.kodirov@gmail.com, Telegram channel @gsrlogistics. The cargo-status bot @GSR_GROUP_AGENT_bot works at any hour.` },
         { q: 'How big is the company — how many clients, how many containers a month?',
           a: `We have worked with China since 2018; the team has 15 years of experience in freight. 50–100 containers a month arrive from China in Tashkent, and we have served 400+ clients. The legal entity is Imex services LLC; on social media we are also known as GSR Group.` },
         { q: 'Are the receiving addresses in China your own warehouses?',
@@ -484,7 +489,7 @@ function en(): FaqGroup[] {
         { q: 'Can I store cargo in Tashkent or reload it onto another truck?',
           a: `Yes: in Tashkent we allocate space for our clients in a warehouse under customs control and reload cargo — truck to truck or through the warehouse. The warehouse belongs to our partner; cargo is stored there under customs control. The manager names the storage time and the price for your cargo. Details are on the page “Warehouse under customs control in Tashkent”.` },
         { q: 'Can I write in Persian or Dari, and where?',
-          a: `Yes. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek. Message us on WhatsApp (+998 90 175 78 00) or Telegram.` },
+          a: `Yes. Write to us in Persian or Dari — we answer in Persian with the help of a translator. We also answer in English, Russian and Uzbek. Message us on WhatsApp (+998 90 240 50 77) or Telegram.` },
         { q: 'Can you find and buy goods in China for an Afghan business?',
           a: `Yes. Our sourcing and buying service in China is open to Afghan businesspeople too: we find the goods, buy them and deliver them by truck to Hairatan or Mazar-i-Sharif. The manager states the terms before the order.` },
       ],
@@ -582,9 +587,9 @@ function zh(): FaqGroup[] {
       id: 'wholesale', group: '批发代采购',
       items: [
         { q: '你们能在中国向工厂和批发商户批量采购货物吗？',
-          a: `能。GSR Logistics 受您委托，在中国向工厂或批发商户采购一批货物，并运到塔什干。中文达到 HSK 6 级水平、有在中国采购经验的员工参与这些采购工作。订单总体积须至少 ${v.minM3} m³，佣金为订单金额的 ${v.comm}% 起（参考费率）。` },
+          a: `能。GSR Logistics 受您委托，在中国向工厂或批发商户采购一批货物，并运到塔什干。每一笔批发采购都由四名中文达到 HSK 6 级水平的员工之一负责：三名在塔什干工作，一名在义乌工作。最低订单货值为 ${v.wmin}，货物总体积还须至少 ${v.minM3} m³；佣金按订单金额计算：${v.wt1}以内为 ${v.wc1}%，${v.wt2}以内为 ${v.wc2}%，超过此金额为 ${v.wc3}%。` },
         { q: '你们有懂中文的员工吗？',
-          a: `有。GSR Logistics 有中文达到 HSK 6 级水平的员工；他们有在中国采购的经验，从事向工厂采购和向卖家批量采购的工作。HSK（中文水平考试）是面向中文非第一语言学习者的国际标准化考试；6 级要求掌握 5,000 个及以上词语。我们的客户经理会说乌兹别克语、俄语和中文。` },
+          a: `有。GSR Logistics 有四名中文达到 HSK 6 级水平的员工：三名在塔什干工作，一名在义乌工作。他们有在中国采购的经验；每一笔批发采购——无论是向工厂还是向批发商户采购——都由其中一人负责。HSK（中文水平考试）是面向中文非第一语言学习者的国际标准化考试；6 级要求掌握 5,000 个及以上词语。我们的客户经理会说乌兹别克语、俄语和中文。` },
       ],
     },
     {
@@ -604,7 +609,7 @@ function zh(): FaqGroup[] {
       id: 'company', group: '关于公司',
       items: [
         { q: 'GSR Logistics 办公室在哪里？什么时间营业？',
-          a: `办公室：塔什干沙伊汉塔胡尔区（Shaykhantakhur）阿利舍尔·纳沃伊街 27 号（紧邻阿利舍尔·纳沃伊地铁站）。工作时间：周一至周六 9:00–19:00（塔什干时间，UTC+5），周日休息。电话 +998 95 018 33 33，备用电话 +998 90 175 78 00（WhatsApp），电子邮箱 b.e.kodirov@gmail.com，Telegram 频道 @gsrlogistics。货物状态机器人 @GSR_GROUP_AGENT_bot 全天候工作。` },
+          a: `办公室：塔什干沙伊汉塔胡尔区（Shaykhantakhur）阿利舍尔·纳沃伊街 27 号（紧邻阿利舍尔·纳沃伊地铁站）。工作时间：周一至周六 9:00–19:00（塔什干时间，UTC+5），周日休息。电话 +998 95 018 33 33，备用电话 +998 90 240 50 77（WhatsApp），电子邮箱 b.e.kodirov@gmail.com，Telegram 频道 @gsrlogistics。货物状态机器人 @GSR_GROUP_AGENT_bot 全天候工作。` },
         { q: '公司规模多大——有多少客户，每月多少个集装箱？',
           a: `我们自 2018 年起与中国开展业务；团队在货运领域拥有 15 年经验。每月有 50–100 个集装箱从中国运抵塔什干，我们已服务 400+ 位客户。法人实体为 Imex services LLC；在社交媒体上，我们也使用 GSR Group 这一名称。` },
         { q: '中国的收货地址是你们自己的仓库吗？',
@@ -623,7 +628,7 @@ function zh(): FaqGroup[] {
         { q: '货物可以在塔什干存放，或换装到另一辆卡车上吗？',
           a: `可以：在塔什干，我们在海关监管仓库为客户安排仓位，并办理货物换装——车对车换装，或经仓库换装。该仓库属于我们的合作方；货物在那里存放，并处于海关监管之下。存放时间和价格由客户经理根据您的货物情况告知。详情见“塔什干海关监管仓库”页面。` },
         { q: '可以用波斯语、达里语留言吗？发到哪里？',
-          a: `可以。您可以用波斯语或达里语来信，我们会借助翻译用波斯语回复。我们也用中文、英语、俄语和乌兹别克语回复。请在 WhatsApp（+998 90 175 78 00）或 Telegram 上给我们留言。` },
+          a: `可以。您可以用波斯语或达里语来信，我们会借助翻译用波斯语回复。我们也用中文、英语、俄语和乌兹别克语回复。请在 WhatsApp（+998 90 240 50 77）或 Telegram 上给我们留言。` },
         { q: '你们能为阿富汗企业在中国找货并代采购吗？',
           a: `可以。我们在中国的寻找货源和代采购服务同样面向阿富汗客商：我们找货、采购，并用卡车运至海拉顿或马扎里沙里夫。具体条件由客户经理在下单前说明。` },
       ],
@@ -721,9 +726,9 @@ function fa(): FaqGroup[] {
       id: 'wholesale', group: 'خرید عمده',
       items: [
         { q: 'آیا کالا را در چین به‌صورت عمده می‌خرید — از کارخانه‌ها و از فروشندگان عمده؟',
-          a: `بله. شرکت GSR Logistics به سفارش شما یک محموله کالا را در چین از کارخانه یا از فروشندهٔ عمده می‌خرد و به تاشکند می‌آورد. کارمندانی که زبان چینی را در سطح HSK 6 می‌دانند و تجربهٔ خرید در چین دارند، روی این خریدها کار می‌کنند. حجم کل سفارش باید دست‌کم ${v.minM3} متر مکعب باشد و کارمزد از ${v.comm}٪ ارزش سفارش شروع می‌شود (تقریبی).` },
+          a: `بله. شرکت GSR Logistics به سفارش شما یک محموله کالا را در چین از کارخانه یا از فروشندهٔ عمده می‌خرد و به تاشکند می‌آورد. هر خرید عمده را یکی از چهار کارمندی انجام می‌دهد که زبان چینی را در سطح HSK 6 می‌دانند: سه نفر از آنان در تاشکند کار می‌کنند و یک نفر در ییوو. حداقل ارزش کالای سفارش ${v.wmin} است و حجم کل کالا نیز باید دست‌کم ${v.minM3} متر مکعب باشد؛ کارمزد برای سفارش تا ${v.wt1} ${v.wc1}٪ ارزش سفارش، تا ${v.wt2} ${v.wc2}٪ و بالاتر از آن ${v.wc3}٪ است.` },
         { q: 'آیا کارمندانی دارید که زبان چینی بدانند؟',
-          a: `بله. در GSR Logistics کارمندانی هستند که زبان چینی را در سطح HSK 6 می‌دانند؛ آنان تجربهٔ خرید در چین دارند و در خرید از کارخانه‌ها و خرید عمده از فروشندگان کار می‌کنند. HSK (Hanyu Shuiping Kaoshi) آزمون استاندارد چین برای سنجش مهارت زبان چینی کسانی است که زبان مادری‌شان چینی نیست؛ سطح ۶ آن دانستن ۵٬۰۰۰ واژه یا بیشتر را می‌طلبد. کارشناسان ما به زبان‌های ازبکی، روسی و چینی صحبت می‌کنند.` },
+          a: `بله. در GSR Logistics چهار کارمند هستند که زبان چینی را در سطح HSK 6 می‌دانند: سه نفر از آنان در تاشکند کار می‌کنند و یک نفر در ییوو. آنان تجربهٔ خرید در چین دارند و هر خرید عمده — چه از کارخانه، چه از فروشندهٔ عمده — به دست یکی از آنان انجام می‌شود. HSK (Hanyu Shuiping Kaoshi) آزمون استاندارد چین برای سنجش مهارت زبان چینی کسانی است که زبان مادری‌شان چینی نیست؛ سطح ۶ آن دانستن ۵٬۰۰۰ واژه یا بیشتر را می‌طلبد. کارشناسان ما به زبان‌های ازبکی، روسی و چینی صحبت می‌کنند.` },
       ],
     },
     {
@@ -743,7 +748,7 @@ function fa(): FaqGroup[] {
       id: 'company', group: 'دربارهٔ شرکت',
       items: [
         { q: 'دفتر GSR Logistics کجاست و چه ساعاتی باز است؟',
-          a: `دفتر: تاشکند، منطقهٔ شیخانطهور، خیابان علیشیر نوایی، پلاک ۲۷ (کنار ایستگاه مترو «علیشیر نوایی»). ساعات کاری: همه روزه به‌جز یکشنبه، ۹:۰۰ تا ۱۹:۰۰ (به وقت تاشکند، UTC+5). تلفن +998 95 018 33 33، خط دوم +998 90 175 78 00 (واتساپ)، ایمیل b.e.kodirov@gmail.com، کانال تلگرام @gsrlogistics. ربات وضعیت بار @GSR_GROUP_AGENT_bot در هر ساعت از شبانه‌روز کار می‌کند.` },
+          a: `دفتر: تاشکند، منطقهٔ شیخانطهور، خیابان علیشیر نوایی، پلاک ۲۷ (کنار ایستگاه مترو «علیشیر نوایی»). ساعات کاری: همه روزه به‌جز یکشنبه، ۹:۰۰ تا ۱۹:۰۰ (به وقت تاشکند، UTC+5). تلفن +998 95 018 33 33، خط دوم +998 90 240 50 77 (واتساپ)، ایمیل b.e.kodirov@gmail.com، کانال تلگرام @gsrlogistics. ربات وضعیت بار @GSR_GROUP_AGENT_bot در هر ساعت از شبانه‌روز کار می‌کند.` },
         { q: 'شرکت چقدر بزرگ است — چند مشتری و چند کانتینر در ماه؟',
           a: `از سال ۲۰۱۸ با چین کار می‌کنیم؛ تیم ما ۱۵ سال تجربه در حمل بار دارد. ماهانه ۵۰ تا ۱۰۰ کانتینر از چین به تاشکند می‌رسد و تاکنون به بیش از ۴۰۰ مشتری خدمت داده‌ایم. شرکت ما با نام Imex services LLC ثبت شده است؛ در شبکه‌های اجتماعی با نام GSR Group هم شناخته می‌شویم.` },
         { q: 'آیا نشانی‌های تحویل در چین انبارهای خود شماست؟',
@@ -765,7 +770,7 @@ function fa(): FaqGroup[] {
         { q: 'آیا می‌توانم بار را در تاشکند نگه دارم یا به کامیون دیگری منتقل کنم؟',
           a: `بله: در تاشکند در انباری (گدام) تحت نظارت گمرک برای مشتریانمان جا اختصاص می‌دهیم و بار را جابه‌جا می‌کنیم — از کامیون به کامیون یا از راه انبار. این انبار متعلق به همکار ماست؛ بار در آنجا تحت نظارت گمرک نگهداری می‌شود. مدت نگهداری و قیمت را کارشناس ما برای بار شما اعلام می‌کند. جزئیات در صفحهٔ «انبار تحت نظارت گمرک در تاشکند» آمده است.` },
         { q: 'آیا می‌توانم به فارسی یا دری بنویسم، و کجا؟',
-          a: `بله. اگر به فارسی یا دری بنویسید، با کمک مترجم به فارسی پاسخ می‌دهیم. به انگلیسی، روسی و ازبکی هم پاسخ می‌دهیم. در واتساپ (+998 90 175 78 00) یا تلگرام به ما پیام دهید.` },
+          a: `بله. اگر به فارسی یا دری بنویسید، با کمک مترجم به فارسی پاسخ می‌دهیم. به انگلیسی، روسی و ازبکی هم پاسخ می‌دهیم. در واتساپ (+998 90 240 50 77) یا تلگرام به ما پیام دهید.` },
         { q: 'آیا برای تاجری از افغانستان در چین کالا پیدا می‌کنید و می‌خرید؟',
           a: `بله. خدمت یافتن و خرید کالا در چین برای تاجران افغانستان هم ارائه می‌شود: کالا را پیدا می‌کنیم، می‌خریم و با کامیون تا حیرتان یا مزار شریف می‌رسانیم. شرایط را کارشناس ما پیش از سفارش اعلام می‌کند.` },
       ],

@@ -961,8 +961,9 @@ const CUSTOMS_MSG = (lang) => `customs clearance in Afghanistan not by GSR's par
 
 /*
  * Owner, 2026-11-17: the company has employees who KNOW Chinese at HSK 6 level, with experience of purchasing in China,
- * who work on buying from factories and buying wholesale from sellers. Not confirmed, so never printed: that they hold
- * a certificate, how many they are, where they work. And no result is promised to a buyer: not the best or the cheapest
+ * who work on buying from factories and buying wholesale from sellers. Owner, 2026-11-18: they are FOUR — THREE work in
+ * Tashkent and ONE in Yiwu. Not confirmed, so never printed: that they hold a certificate, any other number of them.
+ * And no result is promised to a buyer: not the best or the cheapest
  * price, no guaranteed quality, no "100%", no "no risk". Three rule families, each in all five written languages, the
  * Uzbek ones with their Cyrillic twin:
  *
@@ -976,8 +977,12 @@ const CUSTOMS_MSG = (lang) => `customs clearance in Afghanistan not by GSR's par
  *                   … نیست / غیر از چینی»); so may "you need no interpreter" — a translator word denied as a NEED
  *                   («tarjimon kerak emas», «переводчик не нужен», 不用请翻译, «به مترجم نیاز ندارید»). A denied certificate
  *                   is stopped all the same: the pages have no reason to speak of one.
- *   hskCount        a number of people in a sentence that says HSK: «12 nafar», «oʻndan ortiq xodimimiz», "a team of 12",
- *                   "three of our employees", "10+ employees", «несколько сотрудников», 三名员工, 十多名员工. A BLOCK rule
+ *   hskCount        a number of people in a sentence that says HSK, other than the confirmed four, three and one:
+ *                   «12 nafar», «oʻndan ortiq xodimimiz», "a team of 12", "two of our employees", "10+ employees",
+ *                   "dozens of", «несколько сотрудников», 两名员工, 十多名员工 — and the confirmed counts made vague or part
+ *                   of a larger number: "more than three", "at least four", "4+", "four or more", «toʻrttadan ortiq»,
+ *                   «не менее четырёх», 四名以上, «بیش از سه», "twenty-four", «yigirma toʻrt», 十四名, «بیست و چهار». "We have
+ *                   four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu" passes. A BLOCK rule
  *                   (`block: true`): its unit is the sentence, and in the joined text of a page the number, the name and
  *                   the one-liner of a card run on without a full stop («06 … buying Employees who know Chinese at HSK 6
  *                   level …»). The 6 of «HSK 6» is the level, never a count; a count of anything but people — «5 000 ta
@@ -1012,23 +1017,38 @@ const HSK_PAPER_MSG = (lang) => `HSK beside a certificate, "native", "translator
 // People only. Uzbek counts people with «nafar» or «kishi»; «ta» counts anything («5 000 ta soʻz»), so it is read only
 // before a staff word — as Chinese 个 is read only right before one, while 名 and 位 count people and may carry the whole
 // attribute (5 名中文达到 HSK 6 级水平的员工). "One" is left out in every language: «bir», «один», 一 and «یک» are also "a / an".
+// Owner, 2026-11-18: FOUR such employees, THREE in Tashkent and ONE in Yiwu. These three counts — 1, 3 and 4, in digits and in
+// words — pass: `*_HSK_EXACT` is read where a count starts, and a count that is one of them is no headcount. They are not
+// exact, and so are read as counts, when a word makes them vague ("more than three", "at least four", "4+", "four or more",
+// «toʻrttadan ortiq», «kamida toʻrtta», «не менее четырёх», «четыре и более», 超过三名, 四名以上, «بیش از سه», «چهار … یا بیشتر»)
+// or when they are the last digit of a larger number ("twenty-four", «yigirma toʻrt», «двадцать четыре», 十四名, «بیست و چهار»),
+// or the second number of a range or a choice ("3–4", "three or four", «uch-toʻrt», «три-четыре», 三到四名, «سه یا چهار»): the
+// lookbehind after `(?<!\+)` reads the number and the dash, "or" or "to" before it; «HSK 6 — 4 …» (the hero tile) is no range.
+const UZ_HSK_EXACT = `(?<!(?<![a-zʻʼ])(?:kamida|taxminan|tahminan|qariyb|deyarli|o${AP}?n|yigirma|o${AP}?ttiz|qirq|ellik|oltmish|yetmish|sakson|to${AP}?qson|yuz)\\s+)(?<!\\+)(?<!(?:(?<!HSK\\s?)\\d|(?<![a-zʻʼ])(?:bir|ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz|o${AP}?n)(?:ta)?)(?:\\s?[–-]\\s?|\\s+yoki\\s+))(?:[134](?![\\d.,+])|(?:bitta|bir(?!\\s+nech)|uchta|uch|to${AP}?rtta|to${AP}?rt)(?![a-zʻʼ]))(?![^.!?;:,]{0,16}?dan\\s+(?:ortiq|ko${AP}?p|ziyod|oshiq|kam))`;
+const UZC_HSK_EXACT = '(?<!(?<![а-яёўқғҳ])(?:камида|тахминан|қарийб|деярли|ўн|йигирма|ўттиз|қирқ|эллик|олтмиш|етмиш|саксон|тўқсон|юз)\\s+)(?<!\\+)(?<!(?:(?<!HSK\\s?)\\d|(?<![а-яёўқғҳ])(?:бир|икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз|ўн)(?:та)?)(?:\\s?[–-]\\s?|\\s+ёки\\s+))(?:[134](?![\\d.,+])|(?:битта|бир(?!\\s+неч)|учта|уч|тўртта|тўрт)(?![а-яёўқғҳ]))(?![^.!?;:,]{0,16}?дан\\s+(?:ортиқ|кўп|зиёд|ошиқ|кам))';
+const RU_HSK_EXACT = '(?<!(?<![а-яё])(?:более|больше|свыше|около|почти|порядка|примерно|приблизительно|до|от|менее|меньше|чем|двадцат[ьи]|тридцат[ьи]|сорок|пятьдесят|шестьдесят|семьдесят|восемьдесят|девяносто|сто)\\s+)(?<!\\+)(?<!(?:(?<!HSK\\s?)\\d|(?<![а-яё])(?:один|одна|два|две|двое|три|трое|четыре|четверо|пять|пятеро|шесть|шестеро))(?:\\s?[–-]\\s?|\\s+или\\s+))(?:[134](?![\\d+.,])|(?:один|одна|одно|одного|одной|одному|одним|одну|три|тр[её]х|трое|троих|четыре|четыр[её]х|четверо|четверых)(?![а-яё]))(?!\\s+(?:и|или)\\s+(?:более|больше)(?![а-яё]))';
+const EN_HSK_EXACT = '(?<!\\b(?:more\\s+than|over|at\\s+least|up\\s+to|about|around|roughly|nearly|almost|approximately|fewer\\s+than|less\\s+than|under|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)[\\s-]+)(?<!\\+)(?<!(?:(?<!HSK\\s?)\\d|\\b(?:one|two|three|four|five|six|seven|eight|nine|ten))(?:\\s?[–-]\\s?|\\s+(?:or|to)\\s+))(?:[134]|one|three|four)\\b(?!\\+|[.,]\\d|\\s+(?:or|and)\\s+(?:more|over|above)\\b|[\\s-]?plus\\b)';
+const ZH_HSK_VAGUE = '超过|超出|至少|不少于|多于|将近|大约|约|近|不到|少于|最多|多达';
+const ZH_HSK_EXACT_DIGIT = `(?<!(?:${ZH_HSK_VAGUE})\\s?)(?<!\\+\\s?)(?<!(?<!HSK\\s?)\\d\\s?(?:[–~～-]|至|到|或)\\s?)[134]\\s?(?:名|位|人|个)(?![及或]?以[上下]|多|余|来)`;
+const ZH_HSK_EXACT_HAN = `(?<!(?:${ZH_HSK_VAGUE})\\s?)(?<![一两二三四五六七八九十\\d](?:到|至|或|[–~～-]))[一三四](?:名|位|人)(?![及或]?以[上下]|多|余|来)`;
+const FA_HSK_EXACT = `(?<!(?<!\\p{Script=Arabic})(?:(?:بیش|بیشتر|کمتر|کم[\\s\\p{Cf}]تر)\\sاز|حدود|حدوداً|تقریباً|تقریبا|دست[\\s\\p{Cf}]?کم|حداقل|حداکثر|تا|نزدیک[\\s\\p{Cf}]به|بالغ\\sبر|بیست|سی|چهل|پنجاه|شصت|هفتاد|هشتاد|نود|صد)(?:\\sو)?\\s)(?<!\\+)(?<!(?:\\d|(?<!\\p{Script=Arabic})(?:یک|دو|سه|چهار|پنج|شش|هفت|هشت|ده))(?:\\s?[–-]\\s?|\\sیا\\s))(?:[134](?![\\d.,+%])|(?:یک|سه|چهار)(?!\\p{Script=Arabic}))(?![^${FA_STOP}؛;،,]{0,20}?\\s(?:یا|و)\\sبیشتر)`;
 const UZ_STAFF_WORD = 'xodim|hodim|mutaxassis|menejer|tarjimon|xaridor|sinolog';
 const UZC_STAFF_WORD = 'ходим|мутахассис|менежер|таржимон|харидор|синолог';
-const UZ_MANY = `ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz|o${AP}?n(?:\\s+(?:bir|ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz))?|yigirma|o${AP}?ttiz|qirq|ellik|bir\\s+nech(?:a|ta)`;
-const UZ_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s?(?:ta\\s+)?menejer)\\d{1,3}\\+?\\s?(?:dan\\s+(?:ortiq|ko${AP}?p|ziyod)\\s+)?(?:(?:nafar|kishi)|(?:ta\\s+)?(?:HSK\\s?\\d?\\s+)?(?:${UZ_STAFF_WORD}))|(?<![a-zʻʼ])(?:${UZ_MANY})(?:dan\\s+(?:ortiq|ko${AP}?p|ziyod))?(?:\\s+(?:nafar|kishi)|(?:\\s?ta)?\\s+(?:HSK\\s?\\d?\\s+)?(?:${UZ_STAFF_WORD}))`;
-const UZC_MANY = 'икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз|ўн(?:\\s+(?:бир|икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз))?|йигирма|ўттиз|қирқ|эллик|бир\\s+неч(?:а|та)';
-const UZC_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s?(?:та\\s+)?менежер)\\d{1,3}\\+?\\s?(?:дан\\s+(?:ортиқ|кўп|зиёд)\\s+)?(?:(?:нафар|киши)|(?:та\\s+)?(?:HSK\\s?\\d?\\s+)?(?:${UZC_STAFF_WORD}))|(?<![а-яёўқғҳ])(?:${UZC_MANY})(?:дан\\s+(?:ортиқ|кўп|зиёд))?(?:\\s+(?:нафар|киши)|(?:\\s?та)?\\s+(?:HSK\\s?\\d?\\s+)?(?:${UZC_STAFF_WORD}))`;
+const UZ_MANY = `o${AP}?nlab|yuzlab|ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz|o${AP}?n(?:\\s+(?:bir|ikki|uch|to${AP}?rt|besh|olti|yetti|sakkiz|to${AP}?qqiz))?|yigirma|o${AP}?ttiz|qirq|ellik|bir\\s+nech(?:a|ta)`;
+const UZ_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s?(?:ta\\s+)?menejer)(?!${UZ_HSK_EXACT})\\d{1,3}\\+?\\s?(?:(?:ta)?dan\\s+(?:ortiq|ko${AP}?p|ziyod)\\s+)?(?:(?:nafar|kishi)|(?:ta\\s+)?(?:HSK\\s?\\d?\\s+)?(?:${UZ_STAFF_WORD}))|(?<![a-zʻʼ])(?!${UZ_HSK_EXACT})(?:${UZ_MANY})(?:(?:\\s?ta)?dan\\s+(?:ortiq|ko${AP}?p|ziyod)|\\s+va\\s+undan\\s+(?:ortiq|ko${AP}?p))?(?:\\s+(?:nafar|kishi)|(?:\\s?ta)?\\s+(?:HSK\\s?\\d?\\s+)?(?:${UZ_STAFF_WORD}))`;
+const UZC_MANY = 'ўнлаб|юзлаб|икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз|ўн(?:\\s+(?:бир|икки|уч|тўрт|беш|олти|етти|саккиз|тўққиз))?|йигирма|ўттиз|қирқ|эллик|бир\\s+неч(?:а|та)';
+const UZC_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s?(?:та\\s+)?менежер)(?!${UZC_HSK_EXACT})\\d{1,3}\\+?\\s?(?:(?:та)?дан\\s+(?:ортиқ|кўп|зиёд)\\s+)?(?:(?:нафар|киши)|(?:та\\s+)?(?:HSK\\s?\\d?\\s+)?(?:${UZC_STAFF_WORD}))|(?<![а-яёўқғҳ])(?!${UZC_HSK_EXACT})(?:${UZC_MANY})(?:(?:\\s?та)?дан\\s+(?:ортиқ|кўп|зиёд)|\\s+ва\\s+ундан\\s+(?:ортиқ|кўп))?(?:\\s+(?:нафар|киши)|(?:\\s?та)?\\s+(?:HSK\\s?\\d?\\s+)?(?:${UZC_STAFF_WORD}))`;
 const RU_COUNTED = '(?:сотрудник|специалист|закупщик|менеджер|байер|переводчик)(?![иы](?![а-яё]))';
-const RU_MANY = 'двое|трое|четверо|пятеро|шестеро|семеро|двоих|троих|четверых|пятерых|два|две|двух|три|тр[её]х|четыре|четыр[её]х|пять|пяти|шесть|шести|семь|семи|восемь|восьми|девять|девяти|десять|десяти|одиннадцат[ьи]|двенадцат[ьи]|пятнадцат[ьи]|двадцат[ьи]|несколько|нескольких|десяток|десятка';
-const RU_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s+менеджер)\\d{1,3}(?:\\+(?=\\s+(?:сотрудник|специалист|закупщик|менеджер|байер|переводчик|человек)))?\\s+(?:HSK\\s?\\d?\\s+)?(?:[а-яё-]+\\s){0,2}?(?:${RU_COUNTED}|человека?(?![а-яё]))|(?<![а-яё])(?:${RU_MANY})\\s+(?:[а-яё-]+\\s){0,2}?(?:${RU_COUNTED}|человека?(?![а-яё]))`;
+const RU_MANY = 'двое|трое|четверо|пятеро|шестеро|семеро|двоих|троих|четверых|пятерых|два|две|двух|три|тр[её]х|четыре|четыр[её]х|пять|пяти|шесть|шести|семь|семи|восемь|восьми|девять|девяти|десять|десяти|одиннадцат[ьи]|двенадцат[ьи]|тринадцат[ьи]|четырнадцат[ьи]|пятнадцат[ьи]|шестнадцат[ьи]|семнадцат[ьи]|восемнадцат[ьи]|девятнадцат[ьи]|двадцат[ьи]|тридцат[ьи]|сорок[а]?|пятьдесят|пятидесяти|несколько|нескольких|десяток|десятка|десятки|десятков|десятками|дюжин[аыу]';
+const RU_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s+менеджер)(?!${RU_HSK_EXACT})\\d{1,3}(?:\\+(?=\\s+(?:сотрудник|специалист|закупщик|менеджер|байер|переводчик|человек)))?\\s+(?:HSK\\s?\\d?\\s+)?(?:[а-яё-]+\\s){0,2}?(?:${RU_COUNTED}|человека?(?![а-яё]))|(?<![а-яё])(?!${RU_HSK_EXACT})(?:${RU_MANY})\\s+(?:[а-яё-]+\\s){0,2}?(?:${RU_COUNTED}|человека?(?![а-яё]))`;
 const EN_COUNTED_WORDS = '(?:of\\s+(?:our|the)\\s+|(?:(?!(?:and|or|but|the|our|your|their|its|a|an|to|for|in|on|at|by|from|with|while|when|where|then|that|which|who)\\s)[a-z-]+\\s){0,2}?)';
-const EN_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])\\b\\d{1,3}(?:\\+(?=\\s+(?:employees|specialists|staff\\b|buyers|managers|people|translators|interpreters|purchasers)))?\\s+(?:HSK\\s?\\d?\\s+)?${EN_COUNTED_WORDS}(?:employees|specialists|staff\\b|buyers|managers|people|translators|interpreters|purchasers)|\\b(?:${EN_ONES}|several)\\s+(?:HSK\\s?\\d?\\s+)?${EN_COUNTED_WORDS}(?:employees|specialists|buyers|managers|people\\b|translators|interpreters|purchasers)|\\bteam\\s+of\\s+(?:\\d|(?:${EN_ONES})\\b)`;
+const EN_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])\\b(?!${EN_HSK_EXACT})\\d{1,3}(?:\\+(?=\\s+(?:employees|specialists|staff\\b|buyers|managers|people|translators|interpreters|purchasers)))?(?:\\s+(?:or|and)\\s+(?:more|over|above)|[\\s-]?plus)?\\s+(?:HSK\\s?\\d?\\s+)?${EN_COUNTED_WORDS}(?:employees|specialists|staff\\b|buyers|managers|people|translators|interpreters|purchasers)|\\b(?!${EN_HSK_EXACT})(?:${EN_ONES}|several|dozens|scores|hundreds)(?:\\s+(?:or|and)\\s+(?:more|over|above)|[\\s-]?plus)?\\s+(?:HSK\\s?\\d?\\s+)?${EN_COUNTED_WORDS}(?:employees|specialists|buyers|managers|people\\b|translators|interpreters|purchasers)|\\bteam\\s+of\\s+(?!${EN_HSK_EXACT})(?:\\d|(?:${EN_ONES})\\b)`;
 const ZH_HSK_STAFF = '员工|专员|采购员|经理|翻译|人员';
-const ZH_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s?(?:名|位)(?:客户)?经理)\\d{1,3}\\s?\\+?\\s?(?:多|余)?\\s?(?:(?:(?:名|位)[\\p{Script=Han}A-Za-z0-9\\s]{0,20}?|个(?!工作日|阶段|步骤|环节|小时|星期|月)[\\p{Script=Han}A-Za-z0-9\\s]{0,8}?)(?:${ZH_HSK_STAFF})|人(?!民))|(?:[两二三四五六七八九十]+多?|几)(?:名|位)[\\p{Script=Han}A-Za-z0-9\\s]{0,20}?(?:${ZH_HSK_STAFF})|(?:多|数)(?:名|位)(?:${ZH_HSK_STAFF})|[两二三四五六七八九十]+人(?:的|团队|小组)`;
+const ZH_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s?(?:名|位)(?:客户)?经理)(?!${ZH_HSK_EXACT_DIGIT})\\d{1,3}\\s?\\+?\\s?(?:多|余)?\\s?(?:(?:(?:名|位)[\\p{Script=Han}A-Za-z0-9\\s]{0,20}?|个(?!工作日|阶段|步骤|环节|小时|星期|月)[\\p{Script=Han}A-Za-z0-9\\s]{0,8}?)(?:${ZH_HSK_STAFF})|人(?!民))|(?<![一两二三四五六七八九十百千万零几数])(?!${ZH_HSK_EXACT_HAN})[一两二三四五六七八九十百几数]+多?(?:名|位)[\\p{Script=Han}A-Za-z0-9\\s]{0,20}?(?:${ZH_HSK_STAFF})|(?:多|数)(?:名|位)(?:${ZH_HSK_STAFF})|(?<![一两二三四五六七八九十百千万零几数])(?!${ZH_HSK_EXACT_HAN})[一两二三四五六七八九十]+人(?:的|团队|小组)`;
 // not «نه» (nine, and "no") and not «چند» («چند کارمند…؟» asks), as in FA_ONES
-const FA_MANY = 'دو|سه|چهار|پنج|شش|هفت|هشت|ده|یازده|دوازده|سیزده|چهارده|پانزده|شانزده|هفده|هجده|نوزده|بیست|سی|چندین'; // not «نه» and not «چند»
-const FA_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s(?:کارشناس|مدیر))\\d{1,3}\\s(?:نفر|تن\\sاز|کارمند|کارشناس|خریدار|مترجم|کارکن)|(?<!\\p{Script=Arabic})(?:${FA_MANY})[\\s\\p{Cf}](?:نفر|تن\\sاز|کارمند|کارشناس|خریدار|مترجم)`;
-const HSK_COUNT_MSG = (lang) => `a number of people in a sentence that says HSK (${lang}) — owner, 2026-11-17: how many employees know Chinese at HSK 6 level is not confirmed. Write "employees who know Chinese at HSK 6 level", no count; a count of other people (managers, a client's staff) goes into a sentence of its own`;
+const FA_MANY = 'ده[\\s\\p{Cf}]?ها|صدها|دو|سه|چهار|پنج|شش|هفت|هشت|ده|یازده|دوازده|سیزده|چهارده|پانزده|شانزده|هفده|هجده|نوزده|بیست|سی|چندین'; // not «نه» and not «چند»
+const FA_HEADCOUNT = `(?<!HSK\\s?)(?<![\\d.,])(?!1\\s(?:کارشناس|مدیر))(?!${FA_HSK_EXACT})\\d{1,3}\\s(?:نفر|تن\\sاز|کارمند|کارشناس|خریدار|مترجم|کارکن)|(?<!\\p{Script=Arabic})(?!${FA_HSK_EXACT})(?:${FA_MANY})[\\s\\p{Cf}](?:نفر|تن\\sاز|کارمند|کارشناس|خریدار|مترجم)`;
+const HSK_COUNT_MSG = (lang) => `a number of people in a sentence that says HSK (${lang}) other than the confirmed ones — owner, 2026-11-18: GSR Logistics has FOUR employees who know Chinese at HSK 6 level, THREE work in Tashkent and ONE in Yiwu. Those counts pass, in digits or in words ("four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu"); any other number, one of them made vague ("more than three", "at least four", "4+", "four or more"), or a range or a choice of them ("3–4", "three or four"), is not confirmed. A count of other people (managers, a client's staff) goes into a sentence of its own`;
 // The denial that lets a promise word through: the promise refused in the same sentence, or the word inside quotation marks.
 const UZ_UNPROMISED = `(?<!«[^»]{0,20})(?!la(?:may|mas|y\\s+olma[sy])|lan(?:may|mas)|\\s+ber(?:may|mas|a\\s+olma[sy])|[^.!?;]{0,60}(?:va${AP}?da\\s+(?:qil|ber)(?:may|mas|a\\s+olma[sy])|kafolat(?:la(?:may|mas|y\\s+olma[sy])|\\s+ber(?:may|mas|a\\s+olma[sy]))|(?:ber|de|ayt)maymiz))`;
 const UZC_UNPROMISED = '(?<!«[^»]{0,20})(?!ла(?:май|мас|й\\s+олма[сй])|лан(?:май|мас)|\\s+бер(?:май|мас|а\\s+олма[сй])|[^.!?;]{0,60}(?:ваъда\\s+(?:қил|бер)(?:май|мас|а\\s+олма[сй])|кафолат(?:ла(?:май|мас|й\\s+олма[сй])|\\s+бер(?:май|мас|а\\s+олма[сй]))|(?:бер|де|айт)маймиз))';
@@ -2198,34 +2218,93 @@ export const CLAIM_RULES = [
       'HSK آزمونی برای کسانی است که زبان مادری‌شان چینی نیست.', 'کارمندانی که زبان چینی را در سطح HSK 6 می‌دانند، در خرید از کارخانه‌ها و فروشندگان عمده کار می‌کنند.',
       'آیا باید به چین سفر کنم یا مترجم بگیرم؟ خیر. کارمندانی داریم که زبان چینی را در سطح HSK 6 می‌دانند.'] },
 
-  /* — wholesale buying: how many such employees there are is not confirmed — */
+  /* — wholesale buying: how many such employees there are — owner, 2026-11-18: four, three in Tashkent and one in Yiwu; no other count — */
   { id: 'uz.hskCount', block: true, msg: HSK_COUNT_MSG('uz'),
     re: new RegExp(hskSentence(`${UZ_HEADCOUNT}|${UZC_HEADCOUNT}`, '.!?;'), 'iu'),
-    bad: ['Xitoy tilini HSK 6 darajasida biladigan oʻndan ortiq xodimimiz bor.', 'Хитой тилини HSK 6 даражасида биладиган ўндан ортиқ ходимимиз бор.', '1 nafar xodimimiz xitoy tilini HSK 6 darajasida biladi.', '1 ta xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Uchta HSK 6 mutaxassisi buyurtmangiz bilan ishlaydi.', '10 dan ortiq xodimimiz xitoy tilini HSK 6 darajasida biladi.', '10+ xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Bir necha xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Yigirma nafar xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'HSKni topshirgan 5 nafar xodimimiz bor.', '12 nafar HSK 6 mutaxassisimiz Ivu va Guanchjouda ishlaydi.', 'Xitoy tilini HSK 6 darajasida biladigan uch nafar xodimimiz bor.', 'Xitoy tilini HSK 6 darajasida biladigan 5 ta xodimimiz bor.', 'Jamoamizda HSK 6 darajasidagi oʻnta mutaxassis ishlaydi.',
-      '12 нафар HSK 6 мутахассисимиз Иву ва Гуанчжоуда ишлайди.', 'Хитой тилини HSK 6 даражасида биладиган уч нафар ходимимиз бор.'],
-    good: ['Qaysi xizmatni tanlasangiz ham 1 ta menejer bilan ishlaysiz, xitoy tilini HSK 6 darajasida biladigan xodimlarimiz ham bor.', 'Қайси хизматни танласангиз ҳам 1 та менежер билан ишлайсиз, хитой тилини HSK 6 даражасида биладиган ходимларимиз ҳам бор.', 'GSR Logisticsʼning 400+ mijozi va xitoy tilini HSK 6 darajasida biladigan xodimlari bor.', 'Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor.', 'Bu xaridlar boʻyicha xitoy tilini HSK 6 darajasida biladigan, Xitoyda sotib olish bilan shugʻullangan xodimlarimiz ishlaydi.',
+    bad: ['Xitoy tilini HSK 6 darajasida biladigan oʻndan ortiq xodimimiz bor.', 'Хитой тилини HSK 6 даражасида биладиган ўндан ортиқ ходимимиз бор.', '2 nafar xodimimiz xitoy tilini HSK 6 darajasida biladi.',
+      '2 ta xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Beshta HSK 6 mutaxassisi buyurtmangiz bilan ishlaydi.', '10 dan ortiq xodimimiz xitoy tilini HSK 6 darajasida biladi.', '10+ xodimimiz xitoy tilini HSK 6 darajasida biladi.',
+      'Bir necha xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Yigirma nafar xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'HSKni topshirgan 5 nafar xodimimiz bor.', '12 nafar HSK 6 mutaxassisimiz Ivu va Guanchjouda ishlaydi.',
+      'Xitoy tilini HSK 6 darajasida biladigan ikki nafar xodimimiz bor.', 'Xitoy tilini HSK 6 darajasida biladigan 5 ta xodimimiz bor.', 'Jamoamizda HSK 6 darajasidagi oʻnta mutaxassis ishlaydi.', '12 нафар HSK 6 мутахассисимиз Иву ва Гуанчжоуда ишлайди.',
+      'Хитой тилини HSK 6 даражасида биладиган икки нафар ходимимиз бор.',
+      // owner, 2026-11-18: four, three and one pass — any other count, and these made vague or part of a larger number, do not
+      'Xitoy tilini HSK 6 darajasida biladigan beshta xodimimiz bor.', 'Xitoy tilini HSK 6 darajasida biladigan 10 nafar xodimimiz bor.', 'Xitoy tilini HSK 6 darajasida biladigan uchtadan ortiq xodimimiz bor.',
+      'Xitoy tilini HSK 6 darajasida biladigan toʻrt nafardan koʻp xodimimiz bor.', '3 dan ortiq xodimimiz xitoy tilini HSK 6 darajasida biladi.', '4+ xodimimiz xitoy tilini HSK 6 darajasida biladi.',
+      'Kamida toʻrtta xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Toʻrt va undan ortiq xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Yigirma toʻrt nafar xodimimiz xitoy tilini HSK 6 darajasida biladi.',
+      'Oʻnlab xodimlarimiz xitoy tilini HSK 6 darajasida biladi.', 'Хитой тилини HSK 6 даражасида биладиган бешта ходимимиз бор.', 'Хитой тилини HSK 6 даражасида биладиган учтадан ортиқ ходимимиз бор.',
+      'Камида тўртта ходимимиз хитой тилини HSK 6 даражасида билади.', 'Йигирма тўрт нафар ходимимиз хитой тилини HSK 6 даражасида билади.', 'Ўнлаб ходимларимиз хитой тилини HSK 6 даражасида билади.',
+      'Тўрт ва ундан ортиқ ходимимиз хитой тилини HSK 6 даражасида билади.',
+      // a range or a choice of the confirmed counts is no exact count
+      'Uch-toʻrt nafar xodimimiz xitoy tilini HSK 6 darajasida biladi.', '3–4 nafar xodimimiz xitoy tilini HSK 6 darajasida biladi.', 'Уч-тўрт нафар ходимимиз хитой тилини HSK 6 даражасида билади.'],
+    good: ['Qaysi xizmatni tanlasangiz ham 1 ta menejer bilan ishlaysiz, xitoy tilini HSK 6 darajasida biladigan xodimlarimiz ham bor.', 'Қайси хизматни танласангиз ҳам 1 та менежер билан ишлайсиз, хитой тилини HSK 6 даражасида биладиган ходимларимиз ҳам бор.',
+      'GSR Logisticsʼning 400+ mijozi va xitoy tilini HSK 6 darajasida biladigan xodimlari bor.', 'Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor.', 'Bu xaridlar boʻyicha xitoy tilini HSK 6 darajasida biladigan, Xitoyda sotib olish bilan shugʻullangan xodimlarimiz ishlaydi.',
       // «ta» counts words and levels too: only people are a headcount
-      'HSK 6 darajasi 5 000 ta va undan ortiq soʻzni bilishni talab qiladi.', 'HSK imtihoni 9 ta darajadan iborat.', 'HSK имтиҳони 9 та даражадан иборат.',
-      'Xizmat 06 — Ulgurji xarid', 'HSK 6 Xitoy tilini shu darajada biladigan xodimlarimiz bor'] },
+      'HSK 6 darajasi 5 000 ta va undan ortiq soʻzni bilishni talab qiladi.', 'HSK imtihoni 9 ta darajadan iborat.', 'HSK имтиҳони 9 та даражадан иборат.', 'Xizmat 06 — Ulgurji xarid', 'HSK 6 Xitoy tilini shu darajada biladigan xodimlarimiz bor',
+      // owner, 2026-11-18: four such employees, three in Tashkent and one in Yiwu (DESIGN §13.5 sentence E and its neighbours)
+      'Xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimiz bor.', 'Хитой тилини HSK 6 даражасида биладиган тўртта ходимимиз бор.', 'GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan toʻrtta xodim bor: uchtasi Toshkentda, bittasi Ivuda ishlaydi.',
+      'GSR Logistics-да хитой тилини HSK 6 даражасида биладиган тўртта ходим бор: учтаси Тошкентда, биттаси Ивуда ишлайди.', 'Har bir ulgurji xarid bilan xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimdan biri shugʻullanadi: uch xodim Toshkentda, bitta xodim Ivuda ishlaydi.',
+      'Ҳар бир улгуржи харид билан хитой тилини HSK 6 даражасида биладиган тўртта ходимдан бири шуғулланади: уч ходим Тошкентда, битта ходим Ивуда ишлайди.', 'Xitoy tilini HSK 6 darajasida biladigan toʻrt nafar xodimimizdan uch nafari Toshkentda, bir nafari Ivuda ishlaydi.',
+      'Хитой тилини HSK 6 даражасида биладиган тўрт нафар ходимимиздан уч нафари Тошкентда, бир нафари Ивуда ишлайди.', 'Xitoy tilini HSK 6 darajasida biladigan 4 nafar xodimimiz bor: 3 nafari Toshkentda, 1 nafari Ivuda ishlaydi.',
+      'Хитой тилини HSK 6 даражасида биладиган 4 нафар ходимимиз бор: 3 нафари Тошкентда, 1 нафари Ивуда ишлайди.', 'HSK 6 — xitoy tilini shu darajada biladigan 4 xodim', 'HSK 6 — хитой тилини шу даражада биладиган 4 ходим'] },
   { id: 'ru.hskCount', block: true, msg: HSK_COUNT_MSG('ru'),
     re: new RegExp(hskSentence(RU_HEADCOUNT, '.!?;'), 'iu'),
-    bad: ['У нас более десяти сотрудников, которые знают китайский на уровне HSK 6.', '1 сотрудник знает китайский на уровне HSK 6.', '10+ сотрудников знают китайский на уровне HSK 6.', 'Наша команда из семи человек говорит по-китайски на уровне HSK 6.', 'Двенадцать наших сотрудников знают китайский на уровне HSK 6.', 'Несколько наших сотрудников знают китайский на уровне HSK 6.', 'Команда из трёх специалистов с HSK 6.', '6 наших сотрудников знают китайский на уровне HSK 6.', 'Три специалиста с HSK 6 работают над вашим заказом.', '21 сотрудник знает китайский на уровне HSK 6.', 'Работаем с 5 сотрудниками, которые знают китайский на уровне HSK 6.', '12 специалистов с уровнем HSK 6 работают в Иу и Гуанчжоу.', 'Трое наших сотрудников знают китайский на уровне HSK 6.', 'В команде 5 человек с уровнем HSK 6.'],
-    good: ['С вами работает 1 менеджер, и у нас есть сотрудники, которые знают китайский на уровне HSK 6.', 'Как устроена закупка: шесть шагов и сотрудники, которые знают китайский на уровне HSK 6.', 'У GSR Logistics 400+ клиентов и сотрудники, которые знают китайский на уровне HSK 6.', 'У нас есть сотрудники, которые знают китайский язык на уровне HSK 6.', 'Над этими закупками работают сотрудники, которые знают китайский язык на уровне HSK 6 и занимались закупками в Китае.',
-      'Экзамен HSK состоит из 9 уровней.', 'Услуга 06 — Оптовые закупки', 'HSK 6 У нас есть сотрудники с таким уровнем китайского'] },
+    bad: ['У нас более десяти сотрудников, которые знают китайский на уровне HSK 6.', '2 сотрудника знают китайский на уровне HSK 6.', '10+ сотрудников знают китайский на уровне HSK 6.', 'Наша команда из семи человек говорит по-китайски на уровне HSK 6.',
+      'Двенадцать наших сотрудников знают китайский на уровне HSK 6.', 'Несколько наших сотрудников знают китайский на уровне HSK 6.', 'Команда из пяти специалистов с HSK 6.', '6 наших сотрудников знают китайский на уровне HSK 6.',
+      'Два специалиста с HSK 6 работают над вашим заказом.', '21 сотрудник знает китайский на уровне HSK 6.', 'Работаем с 5 сотрудниками, которые знают китайский на уровне HSK 6.', '12 специалистов с уровнем HSK 6 работают в Иу и Гуанчжоу.',
+      'Пятеро наших сотрудников знают китайский на уровне HSK 6.', 'В команде 5 человек с уровнем HSK 6.',
+      // owner, 2026-11-18: four, three and one pass — any other count, and these made vague or part of a larger number, do not
+      'У нас два сотрудника, которые знают китайский язык на уровне HSK 6.', 'У нас пять сотрудников, которые знают китайский язык на уровне HSK 6.', '10 сотрудников знают китайский на уровне HSK 6.',
+      'Более трёх сотрудников знают китайский на уровне HSK 6.', 'Не менее четырёх сотрудников знают китайский на уровне HSK 6.', 'Четыре и более сотрудников знают китайский на уровне HSK 6.', '4+ сотрудника знают китайский на уровне HSK 6.',
+      'Двадцать четыре сотрудника знают китайский на уровне HSK 6.', 'Десятки наших сотрудников знают китайский на уровне HSK 6.', 'Дюжина сотрудников знает китайский на уровне HSK 6.', 'Четырнадцать сотрудников знают китайский язык на уровне HSK 6.', 'Тридцать сотрудников знают китайский язык на уровне HSK 6.',
+      'Три-четыре сотрудника знают китайский язык на уровне HSK 6.', '3–4 сотрудника знают китайский язык на уровне HSK 6.'],
+    good: ['С вами работает 1 менеджер, и у нас есть сотрудники, которые знают китайский на уровне HSK 6.', 'Как устроена закупка: шесть шагов и сотрудники, которые знают китайский на уровне HSK 6.', 'У GSR Logistics 400+ клиентов и сотрудники, которые знают китайский на уровне HSK 6.',
+      'У нас есть сотрудники, которые знают китайский язык на уровне HSK 6.', 'Над этими закупками работают сотрудники, которые знают китайский язык на уровне HSK 6 и занимались закупками в Китае.',
+      'Экзамен HSK состоит из 9 уровней.', 'Услуга 06 — Оптовые закупки', 'HSK 6 У нас есть сотрудники с таким уровнем китайского',
+      // owner, 2026-11-18: four such employees, three in Tashkent and one in Yiwu (DESIGN §13.5 sentence E and its neighbours)
+      'У нас есть четыре сотрудника, которые знают китайский язык на уровне HSK 6.', 'В GSR Logistics четыре сотрудника, которые знают китайский язык на уровне HSK 6: трое работают в Ташкенте, один — в Иу.',
+      'Каждую оптовую закупку ведёт один из четырёх сотрудников, которые знают китайский язык на уровне HSK 6: трое работают в Ташкенте, один — в Иу.', 'Четверо наших сотрудников знают китайский язык на уровне HSK 6: три сотрудника работают в Ташкенте, один сотрудник — в Иу.',
+      'Китайский язык на уровне HSK 6 знают 4 сотрудника: 3 работают в Ташкенте, 1 — в Иу.', 'HSK 6 — 4 сотрудника с таким уровнем китайского'] },
   { id: 'en.hskCount', block: true, msg: HSK_COUNT_MSG('en'),
     re: new RegExp(hskSentence(EN_HEADCOUNT, '.!?;'), 'iu'),
-    bad: ['Three HSK 6 specialists work on your order.', '10+ employees know Chinese at HSK 6 level.', 'Our team of seven speaks Chinese at HSK 6 level.', 'A dozen of our people know Chinese at HSK 6 level.', 'Five of the employees know Chinese at HSK 6 level.', '12 full-time employees know Chinese at HSK 6 level.', 'Our team of 12 HSK 6 specialists works in Yiwu and Guangzhou.', 'Three of our employees know Chinese at HSK 6 level.', '12 employees know Chinese at HSK 6 level.', 'Sixteen buyers on our staff know Chinese at HSK 6 level.', 'We have 3 HSK 6 level employees.'],
-    good: ['A wholesale purchase runs in six steps and employees who know Chinese at HSK 6 level work on these purchases.', 'A wholesale purchase runs in 6 steps and employees who know Chinese at HSK 6 level work on these purchases.', 'GSR Logistics has 400+ clients and employees who know Chinese at HSK 6 level.', 'We have employees who know Chinese at HSK 6 level.', 'Employees who know Chinese at HSK 6 level work on buying from factories and wholesale sellers.',
-      'The HSK test has 9 levels.', 'Service 06 — Wholesale buying', 'HSK 6 We have employees at this level of Chinese'] },
+    bad: ['Five HSK 6 specialists work on your order.', '10+ employees know Chinese at HSK 6 level.', 'Our team of seven speaks Chinese at HSK 6 level.', 'A dozen of our people know Chinese at HSK 6 level.',
+      'Five of the employees know Chinese at HSK 6 level.', '12 full-time employees know Chinese at HSK 6 level.', 'Our team of 12 HSK 6 specialists works in Yiwu and Guangzhou.', 'Two of our employees know Chinese at HSK 6 level.',
+      '12 employees know Chinese at HSK 6 level.', 'Sixteen buyers on our staff know Chinese at HSK 6 level.', 'We have 5 HSK 6 level employees.',
+      // owner, 2026-11-18: four, three and one pass — any other count, and these made vague or part of a larger number, do not
+      'We have two employees who know Chinese at HSK 6 level.', 'We have five employees who know Chinese at HSK 6 level.', 'Ten employees know Chinese at HSK 6 level.', 'More than ten employees know Chinese at HSK 6 level.',
+      'A dozen employees know Chinese at HSK 6 level.', 'Dozens of our employees know Chinese at HSK 6 level.', 'More than three employees know Chinese at HSK 6 level.', 'At least four employees know Chinese at HSK 6 level.',
+      '4+ employees know Chinese at HSK 6 level.', 'We have four or more employees who know Chinese at HSK 6 level.', 'Four-plus employees know Chinese at HSK 6 level.', 'Twenty-four employees know Chinese at HSK 6 level.', 'Our team of 5 knows Chinese at HSK 6 level.',
+      'Three or four employees know Chinese at HSK 6 level.', '3–4 employees know Chinese at HSK 6 level.'],
+    good: ['A wholesale purchase runs in six steps and employees who know Chinese at HSK 6 level work on these purchases.', 'A wholesale purchase runs in 6 steps and employees who know Chinese at HSK 6 level work on these purchases.',
+      'GSR Logistics has 400+ clients and employees who know Chinese at HSK 6 level.', 'We have employees who know Chinese at HSK 6 level.', 'Employees who know Chinese at HSK 6 level work on buying from factories and wholesale sellers.',
+      'The HSK test has 9 levels.', 'Service 06 — Wholesale buying', 'HSK 6 We have employees at this level of Chinese',
+      // owner, 2026-11-18: the confirmed sentences of the English page (W/drafts/page.en.json, extras.en.json)
+      'GSR Logistics has four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu.', 'Every such purchase is handled by one of four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu.',
+      'Your purchase is handled by one of our four employees who know Chinese at HSK 6 level.', 'We have four employees who know Chinese at HSK 6 level.', 'No Chinese needed: we have four employees who know Chinese at HSK 6 level.',
+      'Four employees who know Chinese at HSK 6 level buy for you from factories and wholesale sellers.', 'Wholesale buying in China for businesses in Uzbekistan: four employees who know Chinese at HSK 6 level buy from factories and wholesale sellers for you.',
+      'every wholesale purchase is handled by one of four employees who know Chinese at HSK 6 level (three in Tashkent, one in Yiwu)', 'HSK 6 — 4 employees with this level of Chinese', 'Three employees who know Chinese at HSK 6 level work in Tashkent and one works in Yiwu.'] },
   { id: 'zh.hskCount', block: true, msg: HSK_COUNT_MSG('zh'),
     re: new RegExp(hskSentence(ZH_HEADCOUNT, ZH_STOP), 'iu'),
-    bad: ['我们有十多名中文达到 HSK 6 级水平的员工。', '1 名员工中文达到 HSK 6 级水平。', '一支 5 人的 HSK 6 级采购团队。', '10 多名员工中文达到 HSK 6 级水平。', '10+ 名员工中文达到 HSK 6 级水平。', '我们的七人团队中文达到 HSK 6 级水平。', '多名员工中文达到 HSK 6 级水平。', 'HSK 6 级员工共 5 人。', '12 名 HSK 6 级专员常驻义乌和广州。', '我们有三名员工中文达到 HSK 6 级水平。', '我们有 5 名中文达到 HSK 6 级水平的员工。'],
-    good: ['三项服务由 1 位客户经理负责，我们有中文达到 HSK 6 级水平的员工。', '中文达到 HSK 6 级水平的员工在 3 个工作日内由经理回复您。', '多位卖家的货物集中到义乌仓库，中文达到 HSK 6 级水平的员工从事这些采购工作。', 'GSR Logistics 有 400+ 客户，也有中文达到 HSK 6 级水平的员工。', '我们有中文达到 HSK 6 级水平的员工。', '中文达到 HSK 6 级水平的员工从事向工厂和批发商户采购的工作。', 'HSK 考试共分 9 个等级。', '一个订单经过 4 个阶段。', '服务 06 — 批发代采购'] },
+    bad: ['我们有十多名中文达到 HSK 6 级水平的员工。', '2 名员工中文达到 HSK 6 级水平。', '一支 5 人的 HSK 6 级采购团队。', '10 多名员工中文达到 HSK 6 级水平。', '10+ 名员工中文达到 HSK 6 级水平。', '我们的七人团队中文达到 HSK 6 级水平。', '多名员工中文达到 HSK 6 级水平。', 'HSK 6 级员工共 5 人。',
+      '12 名 HSK 6 级专员常驻义乌和广州。', '我们有两名员工中文达到 HSK 6 级水平。', '我们有 5 名中文达到 HSK 6 级水平的员工。',
+      // owner, 2026-11-18: four, three and one pass — any other count, and these made vague or part of a larger number, do not
+      '我们有五名中文达到 HSK 6 级水平的员工。', '我们有 10 名中文达到 HSK 6 级水平的员工。', '超过三名员工的中文达到 HSK 6 级水平。', '至少四名员工的中文达到 HSK 6 级水平。', '四名以上员工的中文达到 HSK 6 级水平。', '4 名以上员工的中文达到 HSK 6 级水平。', '十四名员工的中文达到 HSK 6 级水平。', '十一名员工的中文达到 HSK 6 级水平。',
+      '数十名员工的中文达到 HSK 6 级水平。', '3–4 名员工的中文达到 HSK 6 级水平。', '三到四名员工的中文达到 HSK 6 级水平。'],
+    good: ['三项服务由 1 位客户经理负责，我们有中文达到 HSK 6 级水平的员工。', '中文达到 HSK 6 级水平的员工在 3 个工作日内由经理回复您。', '多位卖家的货物集中到义乌仓库，中文达到 HSK 6 级水平的员工从事这些采购工作。', 'GSR Logistics 有 400+ 客户，也有中文达到 HSK 6 级水平的员工。', '我们有中文达到 HSK 6 级水平的员工。',
+      '中文达到 HSK 6 级水平的员工从事向工厂和批发商户采购的工作。', 'HSK 考试共分 9 个等级。', '一个订单经过 4 个阶段。', '服务 06 — 批发代采购',
+      // owner, 2026-11-18: four such employees, three in Tashkent and one in Yiwu (DESIGN §13.5 sentence E and its neighbours)
+      '我们有四名中文达到 HSK 6 级水平的员工。', '我们有四位中文达到 HSK 6 级水平的员工。', 'GSR Logistics 有四名中文达到 HSK 6 级水平的员工：三名在塔什干工作，一名在义乌工作。', '每一笔批发采购都由四名中文达到 HSK 6 级水平的员工之一负责：其中三名员工在塔什干，一名员工在义乌。', '4 名员工的中文达到 HSK 6 级水平：3 名在塔什干工作，1 名在义乌工作。',
+      'HSK 6 — 4 名员工达到这一中文水平'] },
   { id: 'fa.hskCount', block: true, msg: HSK_COUNT_MSG('fa'),
     re: new RegExp(hskSentence(FA_HEADCOUNT, `${FA_STOP}؛;`), 'iu'),
-    bad: ['۱ کارمند ما زبان چینی را در سطح HSK 6 می‌داند.', 'تیم هفت‌نفرهٔ ما زبان چینی را در سطح HSK 6 می‌داند.', 'دوازده کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.', '۱۲ کارشناس با سطح HSK 6 در ییوو و گوانگجو کار می‌کنند.', 'سه کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.'],
+    bad: ['۲ کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.', 'تیم هفت‌نفرهٔ ما زبان چینی را در سطح HSK 6 می‌داند.', 'دوازده کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.', '۱۲ کارشناس با سطح HSK 6 در ییوو و گوانگجو کار می‌کنند.',
+      'دو کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.',
+      // owner, 2026-11-18: four, three and one pass — any other count, and these made vague or part of a larger number, do not
+      'پنج کارمند داریم که زبان چینی را در سطح HSK 6 می‌دانند.', '۱۰ کارمند داریم که زبان چینی را در سطح HSK 6 می‌دانند.', 'بیش از سه کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.', 'دست‌کم چهار کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.',
+      'بیست و چهار کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.', 'ده‌ها کارمند ما زبان چینی را در سطح HSK 6 می‌دانند.', 'چهار کارمند یا بیشتر زبان چینی را در سطح HSK 6 می‌دانند.', '+۴ کارمند زبان چینی را در سطح HSK 6 می‌دانند.', 'سه یا چهار کارمند زبان چینی را در سطح HSK 6 می‌دانند.'],
     good: ['با ۱ کارشناس کار می‌کنید و کارمندانی داریم که زبان چینی را در سطح HSK 6 می‌دانند.', 'کارمندانی داریم که زبان چینی را در سطح HSK 6 می‌دانند.', 'کارمندانی که زبان چینی را در سطح HSK 6 می‌دانند، در خرید از کارخانه‌ها و فروشندگان عمده کار می‌کنند.',
-      'HSK آزمون بین‌المللی سنجش زبان چینی است؛ HSK 6 سطح ششم آن است.', 'آزمون HSK نه سطح دارد.', 'خدمت ۰۶ — خرید عمده'] },
+      'HSK آزمون بین‌المللی سنجش زبان چینی است؛ HSK 6 سطح ششم آن است.', 'آزمون HSK نه سطح دارد.', 'خدمت ۰۶ — خرید عمده',
+      // owner, 2026-11-18: four such employees, three in Tashkent and one in Yiwu (DESIGN §13.5 sentence E and its neighbours)
+      'چهار کارمند داریم که زبان چینی را در سطح HSK 6 می‌دانند.', 'GSR Logistics چهار کارمند دارد که زبان چینی را در سطح HSK 6 می‌دانند: سه نفر در تاشکند و یک نفر در ییوو کار می‌کنند.', 'هر خرید عمده را یکی از چهار کارمندی انجام می‌دهد که زبان چینی را در سطح HSK 6 می‌دانند.',
+      '۳ کارمند در تاشکند و ۱ کارمند در ییوو زبان چینی را در سطح HSK 6 می‌دانند.', 'HSK 6 — ۴ کارمند با این سطح زبان چینی'] },
 
   /* — wholesale buying: no result is promised — not the best or the cheapest price, no guaranteed quality, no "100%", no "no risk" — */
   { id: 'uz.pricePromise', msg: PROMISE_MSG('uz'),
@@ -2260,7 +2339,7 @@ export const ZH_FA_FORBIDDEN = CLAIM_RULES;
 /** The rule families that exist in all five written languages (selfTest() fails when one of the five is missing). */
 const RULE_FAMILIES = ['persianStaff', 'destination', 'afghanFigure', 'afghanMode', 'afghanVolume', 'afghanPresence', 'afghanSchedule', 'afghanRecord', 'afghanOrigin', 'afghanAnywhere', 'afghanCustoms', 'hskCertificate', 'hskCount', 'pricePromise'];
 /** The number of bad + good sentences the claim rules carried when this floor was last raised: a guard against quietly deleted fixtures. */
-const FIXTURE_FLOOR = 2536;
+const FIXTURE_FLOOR = 2643;
 
 
 /* ── Orthography, per page language (raw text) ──────────────────────────────────────────────── */

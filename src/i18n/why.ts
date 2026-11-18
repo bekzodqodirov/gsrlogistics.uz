@@ -44,7 +44,7 @@ const uz: WhyStrings = {
     {
       glyph: 'languages',
       title: 'Menejerlar oʻzbek, rus va xitoy tilida',
-      text: 'Yetkazib beruvchi bilan biz gaplashamiz: narx, namunalar, joʻnatish sanasi. Xitoy tilini bilishingiz shart emas. Xitoy tilini HSK 6 darajasida biladigan xodimlarimiz bor.',
+      text: 'Yetkazib beruvchi bilan biz gaplashamiz: narx, namunalar, joʻnatish sanasi. Xitoy tilini bilishingiz shart emas. Xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimiz bor.',
       fact: '3 til · bitta menejer',
     },
     {
@@ -98,7 +98,7 @@ const ru: WhyStrings = {
     {
       glyph: 'languages',
       title: 'Три языка: узбекский, русский, китайский',
-      text: 'С поставщиком разговариваем мы: цена, образцы, дата отгрузки. Знать китайский вам не нужно. У нас есть сотрудники, которые знают китайский язык на уровне HSK 6.',
+      text: 'С поставщиком разговариваем мы: цена, образцы, дата отгрузки. Знать китайский вам не нужно. У нас есть четыре сотрудника, которые знают китайский язык на уровне HSK 6.',
       fact: '3 языка · один менеджер',
     },
     {
@@ -152,7 +152,7 @@ const en: WhyStrings = {
     {
       glyph: 'languages',
       title: 'Managers speak Uzbek, Russian and Chinese',
-      text: 'We talk to the supplier for you: price, samples, shipping date. You do not need any Chinese. We have employees who know Chinese at HSK 6 level.',
+      text: 'We talk to the supplier for you: price, samples, shipping date. You do not need any Chinese. We have four employees who know Chinese at HSK 6 level.',
       fact: '3 languages · one manager',
     },
     {
