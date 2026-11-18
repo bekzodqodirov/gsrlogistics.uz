@@ -128,7 +128,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Xitoy tilini bilishim shartmi?',
-        a: 'Yoʻq. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi; zavod bilan muzokara, shartnoma va daʼvolarni biz olib boramiz. Xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimiz bor. Siz faqat tovar va narx boʻyicha qaror qilasiz.',
+        a: 'Yoʻq. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi; zavod bilan muzokara, shartnoma va daʼvolarni biz olib boramiz. Xitoy tilini biladigan toʻrtta xodimimiz bor; ikkitasi HSK 6 sertifikatiga ega. Siz faqat tovar va narx boʻyicha qaror qilasiz.',
       },
       {
         q: 'Namuna qancha turadi va necha kunda keladi?',
@@ -284,7 +284,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Нужно ли мне знать китайский?',
-        a: 'Нет. Наши менеджеры говорят на узбекском, русском и китайском; переговоры с фабрикой, договор и претензии ведём мы. У нас есть четыре сотрудника, которые знают китайский язык на уровне HSK 6. Вы принимаете решения только по товару и цене.',
+        a: 'Нет. Наши менеджеры говорят на узбекском, русском и китайском; переговоры с фабрикой, договор и претензии ведём мы. У нас четыре сотрудника, которые знают китайский язык; у двоих из них есть сертификат HSK 6. Вы принимаете решения только по товару и цене.',
       },
       {
         q: 'Сколько стоит образец и когда он приходит?',
@@ -440,7 +440,7 @@ const content: ServiceContentSource = {
       },
       {
         q: 'Do I need to speak Chinese?',
-        a: 'No. Our managers speak Uzbek, Russian and Chinese; we handle negotiations, the contract and any claims with the factory. We have four employees who know Chinese at HSK 6 level. You only decide on the product and the price.',
+        a: 'No. Our managers speak Uzbek, Russian and Chinese; we handle negotiations, the contract and any claims with the factory. We have four employees who know Chinese; two of them hold an HSK 6 certificate. You only decide on the product and the price.',
       },
       {
         q: 'How much does a sample cost and when does it arrive?',

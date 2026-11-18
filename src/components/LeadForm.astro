@@ -14,7 +14,8 @@
  *
  * Submit flow (bundled script): validate, then hand the answers to the chat flow every Telegram
  * button uses (a "gsr:lead" event → components/ContactPicker.astro). That asks GSR's system for the
- * least busy manager of the chosen service's team, shows the manager and the message — «Kod: GSR-…»
+ * least busy manager of the chosen service's team (the buying team asks nothing: @sarvar_715ag, site.ts
+ * leadDirect), shows the manager and the message — «Kod: GSR-…»
  * over one line: name · phone · service · cargo — and opens Telegram. Owner, 2026-09-26: GSR's own
  * system is where leads live, so the form no longer posts anywhere itself (it used to POST to
  * /api/lead, a Cloudflare function that GitHub Pages never ran). The site stores nothing.

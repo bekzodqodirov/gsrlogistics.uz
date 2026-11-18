@@ -152,7 +152,7 @@ function uz(): FaqGroup[] {
       id: 'sotib-olish', group: 'Tovar topish va sotib olish',
       items: [
         { top: true, q: 'Xitoy tilini bilishim shartmi?',
-          a: `Yoʻq. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi; yetkazib beruvchi bilan muzokara, narx kelishuvi va daʼvolarni biz olib boramiz. Siz tovar havolasini (1688, Taobao, Alibaba) yoki namunaning rasmini yuborasiz — qolgani bizning ishimiz. Xitoyga borish ham shart emas: namuna va zavod tekshiruvini Ivudagi xodimlarimiz qiladi.` },
+          a: `Yoʻq. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi; yetkazib beruvchi bilan muzokara, narx kelishuvi va daʼvolarni biz olib boramiz. Siz tovar havolasini (1688, Taobao, Alibaba) yoki namunaning rasmini yuborasiz — qolgani bizning ishimiz. Xitoyga borish ham shart emas: namuna Ivu omborida qabul qilinadi va suratga olinadi, zavodlar bilan esa ularga bormasdan muzokara olib boramiz; xohlasangiz, Xitoydagi xodimimiz alohida kelishiladigan qoʻshimcha toʻlov evaziga zavodga bora oladi.` },
         { top: true, q: 'Yetkazib beruvchi aldamasligiga qanday ishonaman?',
           a: `Toʻlovdan oldin sotuvchining biznes litsenziyasi, 1688-dagi reytingi va ish yillari tekshiriladi, katta buyurtmadan oldin namuna olinadi. Tovar toʻgʻridan-toʻgʻri Ivu omboriga (sklad) keladi: u yerda soni va sifati tekshirilib, foto-hisobot yuboriladi — muammo boʻlsa, tovar Toshkentga joʻnatilmasdan turib qaytariladi yoki almashtiriladi. Zavod buyurtmalarida toʻlovni bosqichma-bosqich qilishni taklif qilamiz: masalan, 30% oldindan, 70% tekshiruvdan keyin. 2018-yildan beri Xitoy bilan ishlaymiz va ishonchsiz sotuvchini oldindan aytamiz.` },
         { q: '1688, Taobao yoki Alibabadan qanday buyurtma beraman va toʻlayman?',
@@ -160,7 +160,7 @@ function uz(): FaqGroup[] {
         { q: 'Yuan kursi qanday belgilanadi?',
           a: `Kurs toʻlov kunidagi bozor kursi asosida olinadi va komissiya bilan birga hisob-fakturada alohida qatorda koʻrsatiladi — yashirin ustama yoʻq. Uni Markaziy bank kursi bilan solishtirishingiz mumkin: 2026-yil sentabr holatiga 1 yuan ≈ 1 750–1 800 soʻm. Katta summalarda (masalan, 10 000 yuandan) kurs alohida kelishiladi.` },
         { q: 'Zavod yoki ishlab chiqaruvchi topib berasizmi, komissiya qancha?',
-          a: `Ha. Tovar tavsifi yoki namunasi boʻyicha 2–3 ta ishlab chiqaruvchini narxi, MOQ (minimal partiya) va ishlab chiqarish muddati bilan taqqoslab beramiz, namuna buyurtma qilamiz, kerak boʻlsa zavodga boramiz. Komissiya buyurtma summasining ${v.comm}% dan (taxminiy), murakkab uskunalar uchun alohida kelishiladi. Ivu va Guanchjou bozorlaridan mayda ulgurji tovar, Shenchjendan elektronika, Foshandan mebel — qayerdan nima olinishini bilamiz.` },
+          a: `Ha. Tovar tavsifi yoki namunasi boʻyicha 2–3 ta ishlab chiqaruvchini narxi, MOQ (minimal partiya) va ishlab chiqarish muddati bilan taqqoslab beramiz, namuna buyurtma qilamiz. Zavodga borish xizmatga kirmaydi; xohlasangiz, Xitoydagi xodimimiz alohida kelishiladigan qoʻshimcha toʻlov evaziga zavodga bora oladi. Komissiya buyurtma summasining ${v.comm}% dan (taxminiy), murakkab uskunalar uchun alohida kelishiladi. Ivu va Guanchjou bozorlaridan mayda ulgurji tovar, Shenchjendan elektronika, Foshandan mebel — qayerdan nima olinishini bilamiz.` },
         { q: 'Uskunalar va avtomobillarni ham olib kelasizmi?',
           a: `Ha. Dastgoh va ishlab chiqarish liniyalarini «kalit topshirish» tartibida keltiramiz: zavod tanlash, shartnoma, toʻlov, yuklash, bojxona (koʻp sanoat uskunalari uchun boj 0%, kodga qarab) va oʻrnatishda yordam. Xitoydan avtomobil va elektromobillarni buyurtma asosida keltiramiz — narx va muddat model boʻyicha alohida hisoblanadi, boj, aksiz va boshqa toʻlovlar qonun boʻyicha hisoblanadi. Model yoki uskuna nomini yozing — hisob-kitob beramiz.` },
       ],
@@ -169,9 +169,9 @@ function uz(): FaqGroup[] {
       id: 'ulgurji', group: 'Ulgurji (optom) xarid',
       items: [
         { q: 'Xitoydan ulgurji (optom) tovar sotib olib berasizmi — zavoddan ham, sotuvchidan ham?',
-          a: `Ha. GSR Logistics buyurtmangiz boʻyicha Xitoyda tovar partiyasini zavoddan yoki ulgurji sotuvchidan sotib oladi va Toshkentga olib keladi. Har bir ulgurji xaridni xitoy tilini HSK 6 darajasida biladigan toʻrtta xodimimizdan biri olib boradi: uchtasi Toshkentda, bittasi Ivuda ishlaydi. Buyurtmadagi tovar qiymati kamida ${v.wmin}, umumiy hajmi esa kamida ${v.minM3} m³ boʻlishi kerak; komissiya buyurtma summasiga qarab: ${v.wt1} gacha — ${v.wc1}%, ${v.wt2} gacha — ${v.wc2}%, undan yuqori — ${v.wc3}%.` },
+          a: `Ha. GSR Logistics buyurtmangiz boʻyicha Xitoyda tovar partiyasini zavoddan yoki ulgurji sotuvchidan sotib oladi va Toshkentga olib keladi. Ulgurji xarid xizmati stanoklar, qurilish mollari va boshqa har qanday tovar uchun moʻljallangan — kiyim-kechak va dori-darmondan, kontrafaktdan hamda taqiqlangan tovarlar roʻyxatidagi mahsulotlardan tashqari. Har bir ulgurji xaridni xitoy tilini biladigan toʻrtta xodimimizdan biri olib boradi: uchtasi Toshkentda, bittasi Ivuda ishlaydi; toʻrttasidan ikkitasi HSK 6 sertifikatiga ega. Buyurtmadagi tovar qiymati kamida ${v.wmin}, umumiy hajmi esa kamida ${v.minM3} m³ boʻlishi kerak; komissiya buyurtma summasiga qarab: ${v.wt1} gacha — ${v.wc1}%, ${v.wt2} gacha — ${v.wc2}%, undan yuqori — ${v.wc3}%.` },
         { q: 'Xitoy tilini biladigan xodimlaringiz bormi?',
-          a: `Ha. GSR Logisticsʼda xitoy tilini HSK 6 darajasida biladigan toʻrtta xodim bor: uchtasi Toshkentda, bittasi Ivuda ishlaydi. Ular Xitoyda sotib olish bilan shugʻullangan; har bir ulgurji xaridni — zavoddan boʻlsin yoki ulgurji sotuvchidan — ulardan biri olib boradi. HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi.` },
+          a: `Ha. GSR Logisticsʼda xitoy tilini biladigan toʻrtta xodim bor: uchtasi Toshkentda, bittasi Ivuda ishlaydi; toʻrttasidan ikkitasi rasmiy HSK 6 sertifikatiga ega. Toʻrttasi ham Xitoyda sotib olish bilan shugʻullangan; har bir ulgurji xaridni — zavoddan boʻlsin yoki ulgurji sotuvchidan — ulardan biri olib boradi. GSR Logistics 8 yildan beri Xitoyda tovar sotib oladi. HSK — xitoy tili ona tili boʻlmaganlar uchun moʻljallangan, Xitoyning standartlashtirilgan til bilish imtihoni; uning 6-darajasi 5 000 va undan ortiq soʻzni bilishni talab qiladi. Menejerlarimiz oʻzbek, rus va xitoy tillarida gaplashadi.` },
       ],
     },
     {
@@ -293,7 +293,7 @@ function ru(): FaqGroup[] {
       id: 'vykup', group: 'Поиск и выкуп товаров',
       items: [
         { top: true, q: 'Нужно ли мне знать китайский?',
-          a: `Нет. Наши менеджеры говорят на узбекском, русском и китайском; переговоры с поставщиком, торг по цене и претензии ведём мы. Вы присылаете ссылку на товар (1688, Taobao, Alibaba) или фото образца — остальное наша работа. Ехать в Китай тоже не нужно: образцы и проверку фабрики делают наши сотрудники в Иу.` },
+          a: `Нет. Наши менеджеры говорят на узбекском, русском и китайском; переговоры с поставщиком, торг по цене и претензии ведём мы. Вы присылаете ссылку на товар (1688, Taobao, Alibaba) или фото образца — остальное наша работа. Ехать в Китай тоже не нужно: образцы принимают и фотографируют на складе в Иу, а переговоры с фабриками мы ведём, не выезжая к ним; если вам нужен выезд на фабрику, туда может съездить наш сотрудник в Китае за дополнительную плату, которую согласуем отдельно.` },
         { top: true, q: 'Как убедиться, что поставщик не обманет?',
           a: `До оплаты проверяем бизнес-лицензию продавца, его рейтинг на 1688 и годы работы, перед крупным заказом берём образец. Товар приходит прямо на склад в Иу: там сверяем количество и качество и присылаем фотоотчёт — если есть проблема, товар возвращается или меняется до отправки в Ташкент. По заказам с фабрик предлагаем оплату частями: например, 30% авансом, 70% после проверки. Работаем с Китаем с 2018 года и заранее предупредим о ненадёжном продавце.` },
         { q: 'Как заказать и оплатить товар с 1688, Taobao или Alibaba?',
@@ -301,7 +301,7 @@ function ru(): FaqGroup[] {
         { q: 'Какой курс юаня при выкупе?',
           a: `Курс берётся по рынку на день оплаты и вместе с комиссией показывается отдельной строкой в счёте — скрытых наценок нет. Его можно сверить с курсом Центрального банка: в сентябре 2026 г. 1 юань ≈ 1 750–1 800 сумов. Для крупных сумм (например, от 10 000 юаней) курс согласуем отдельно.` },
         { q: 'Найдёте ли фабрику или производителя и какая комиссия?',
-          a: `Да. По описанию или образцу сравниваем 2–3 производителей по цене, MOQ (минимальной партии) и сроку производства, заказываем образцы, при необходимости выезжаем на фабрику. Комиссия — от ${v.comm}% суммы заказа (ориентировочно), для сложного оборудования обсуждается отдельно. Мелкий опт — рынки Иу и Гуанчжоу, электроника — Шэньчжэнь, мебель — Фошань: знаем, что где брать.` },
+          a: `Да. По описанию или образцу сравниваем 2–3 производителей по цене, MOQ (минимальной партии) и сроку производства, заказываем образцы. Выезд на фабрику в услугу не входит; если он вам нужен, туда может съездить наш сотрудник в Китае за дополнительную плату, которую согласуем отдельно. Комиссия — от ${v.comm}% суммы заказа (ориентировочно), для сложного оборудования обсуждается отдельно. Мелкий опт — рынки Иу и Гуанчжоу, электроника — Шэньчжэнь, мебель — Фошань: знаем, что где брать.` },
         { q: 'Привозите ли оборудование и автомобили?',
           a: `Да. Станки и производственные линии — «под ключ»: подбор фабрики, контракт, оплата, погрузка, таможня (для многих видов промышленного оборудования пошлина 0%, зависит от кода) и помощь с монтажом. Автомобили и электромобили из Китая привозим под заказ: цена и срок считаются по конкретной модели, пошлина, акциз и другие платежи — по закону. Напишите модель или название оборудования — сделаем расчёт.` },
       ],
@@ -310,9 +310,9 @@ function ru(): FaqGroup[] {
       id: 'optom', group: 'Оптовые закупки',
       items: [
         { q: 'Закупаете ли вы товары в Китае оптом — у фабрик и у оптовых продавцов?',
-          a: `Да. По вашему заказу GSR Logistics закупает в Китае партию товара у фабрики или у оптового продавца и привозит её в Ташкент. Каждую оптовую закупку ведёт один из четырёх сотрудников, которые знают китайский язык на уровне HSK 6: трое — в Ташкенте, один — в Иу. Минимальный заказ — ${v.wmin} по стоимости товара, а общий объём товара — от ${v.minM3} м³; комиссия — ${v.wc1}% суммы заказа до ${v.wt1}, ${v.wc2}% — до ${v.wt2} и ${v.wc3}% — при большей сумме.` },
+          a: `Да. По вашему заказу GSR Logistics закупает в Китае партию товара у фабрики или у оптового продавца и привозит её в Ташкент. Оптовая закупка рассчитана на станки, строительные материалы и любые другие товары, кроме одежды, лекарств, контрафакта и товаров из списка запрещённых. Каждую оптовую закупку ведёт один из четырёх сотрудников, которые знают китайский язык: трое — в Ташкенте, один — в Иу; у двоих из четырёх есть сертификат HSK 6. Минимальный заказ — ${v.wmin} по стоимости товара, а общий объём товара — от ${v.minM3} м³; комиссия — ${v.wc1}% суммы заказа до ${v.wt1}, ${v.wc2}% — до ${v.wt2} и ${v.wc3}% — при большей сумме.` },
         { q: 'У вас есть сотрудники, знающие китайский язык?',
-          a: `Да. В GSR Logistics есть четыре сотрудника, которые знают китайский язык на уровне HSK 6: трое — в Ташкенте, один — в Иу. Они занимались закупками в Китае, и каждую оптовую закупку — у фабрики или у оптового продавца — ведёт один из них. HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов. Наши менеджеры говорят на узбекском, русском и китайском.` },
+          a: `Да. В GSR Logistics есть четыре сотрудника, которые знают китайский язык: трое — в Ташкенте, один — в Иу; у двоих из четырёх есть официальный сертификат HSK 6. Все четверо занимались закупками в Китае, и каждую оптовую закупку — у фабрики или у оптового продавца — ведёт один из них. GSR Logistics закупает товары в Китае уже 8 лет. HSK (Hanyu Shuiping Kaoshi) — стандартизированный экзамен Китая по китайскому языку для тех, для кого он не родной; уровень 6 предполагает словарный запас от 5 000 слов. Наши менеджеры говорят на узбекском, русском и китайском.` },
       ],
     },
     {
@@ -431,7 +431,7 @@ function en(): FaqGroup[] {
       id: 'sourcing', group: 'Sourcing and buying',
       items: [
         { top: true, q: 'Do I need to speak Chinese?',
-          a: `No. Our managers speak Uzbek, Russian and Chinese; we handle negotiation, price bargaining and claims with the supplier. You send a product link (1688, Taobao, Alibaba) or a photo of a sample — the rest is our job. You do not need to travel to China either: samples and factory checks are done by our staff in Yiwu.` },
+          a: `No. Our managers speak Uzbek, Russian and Chinese; we handle negotiation, price bargaining and claims with the supplier. You send a product link (1688, Taobao, Alibaba) or a photo of a sample — the rest is our job. You do not need to travel to China either: samples are received and photographed at the Yiwu warehouse, and we negotiate with factories without travelling there; if you want a visit to the factory, our employee in China can go there for an additional fee, agreed separately.` },
         { top: true, q: 'How do I know the supplier will not cheat me?',
           a: `Before any payment we check the seller’s business licence, 1688 rating and years in business, and we order a sample before a large order. Goods arrive directly at the Yiwu warehouse, where quantity and quality are checked and a photo report is sent — if something is wrong, the goods are returned or replaced before they leave for Tashkent. For factory orders we suggest staged payment, for example 30% up front and 70% after inspection. We have worked with China since 2018 and will warn you about an unreliable seller.` },
         { q: 'How do I order and pay on 1688, Taobao or Alibaba?',
@@ -439,7 +439,7 @@ function en(): FaqGroup[] {
         { q: 'What yuan exchange rate do you use?',
           a: `The market rate on the day of payment, shown together with the commission as a separate line on the invoice — no hidden margin. You can compare it with the Central Bank rate: in September 2026, 1 yuan was roughly 1,750–1,800 soums. For large sums (say, from 10,000 yuan) the rate is agreed individually.` },
         { q: 'Can you find a factory or manufacturer, and what is the commission?',
-          a: `Yes. From a description or a sample we compare 2–3 manufacturers by price, MOQ and production lead time, order samples and, if needed, visit the factory. Commission starts at ${v.comm}% of the order value (estimate); complex equipment is quoted separately. Small wholesale from the Yiwu and Guangzhou markets, electronics from Shenzhen, furniture from Foshan — we know where each thing is bought.` },
+          a: `Yes. From a description or a sample we compare 2–3 manufacturers by price, MOQ and production lead time and order samples. A visit to the factory is not part of the service; if you want one, our employee in China can go there for an additional fee, agreed separately. Commission starts at ${v.comm}% of the order value (estimate); complex equipment is quoted separately. Small wholesale from the Yiwu and Guangzhou markets, electronics from Shenzhen, furniture from Foshan — we know where each thing is bought.` },
         { q: 'Do you also import equipment and cars?',
           a: `Yes. Machinery and production lines on a turnkey basis: factory selection, contract, payment, loading, customs (many types of industrial equipment carry 0% duty, depending on the code) and help with installation. Cars and electric vehicles from China are imported to order; price and lead time are calculated per model, and duty, excise and other charges follow the law. Send us the model or the name of the equipment and we will prepare a quote.` },
       ],
@@ -448,9 +448,9 @@ function en(): FaqGroup[] {
       id: 'wholesale', group: 'Wholesale buying',
       items: [
         { q: 'Do you buy goods wholesale in China — from factories and from wholesale sellers?',
-          a: `Yes. On your order GSR Logistics buys a batch of goods in China from a factory or from a wholesale seller and brings it to Tashkent. Every wholesale purchase is handled by one of four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu. The minimum order is ${v.wmin} in goods, and the goods must also total at least ${v.minM3} m³; the commission is ${v.wc1}% for orders up to ${v.wt1}, ${v.wc2}% for orders up to ${v.wt2} and ${v.wc3}% for larger orders.` },
+          a: `Yes. On your order GSR Logistics buys a batch of goods in China from a factory or from a wholesale seller and brings it to Tashkent. Wholesale buying covers machine tools, construction materials and any other goods except clothing, medicines, counterfeit goods and goods on the prohibited list. Every wholesale purchase is handled by one of four employees who know Chinese: three work in Tashkent and one in Yiwu, and two of the four hold an HSK 6 certificate. The minimum order is ${v.wmin} in goods, and the goods must also total at least ${v.minM3} m³; the commission is ${v.wc1}% for orders up to ${v.wt1}, ${v.wc2}% for orders up to ${v.wt2} and ${v.wc3}% for larger orders.` },
         { q: 'Do you have employees who know Chinese?',
-          a: `Yes. GSR Logistics has four employees who know Chinese at HSK 6 level: three work in Tashkent and one in Yiwu. They have experience of purchasing in China, and every wholesale purchase — from a factory or from a wholesale seller — is handled by one of them. HSK (Hanyu Shuiping Kaoshi) is China’s standardised test of Chinese for people whose first language is not Chinese; level 6 expects a vocabulary of 5,000 or more words. Our managers speak Uzbek, Russian and Chinese.` },
+          a: `Yes. GSR Logistics has four employees who know Chinese: three work in Tashkent and one in Yiwu, and two of the four hold an official HSK 6 certificate. All four have experience of purchasing in China, and every wholesale purchase — from a factory or from a wholesale seller — is handled by one of them. GSR Logistics has been buying goods in China for 8 years. HSK (Hanyu Shuiping Kaoshi) is China’s standardised test of Chinese for people whose first language is not Chinese; level 6 expects a vocabulary of 5,000 or more words. Our managers speak Uzbek, Russian and Chinese.` },
       ],
     },
     {
@@ -570,7 +570,7 @@ function zh(): FaqGroup[] {
       id: 'sourcing', group: '寻找货源与代采购',
       items: [
         { top: true, q: '需要自己和中国供应商沟通吗？',
-          a: `不需要。我们的客户经理会说乌兹别克语、俄语和中文；与供应商的谈判、议价和索赔都由我们负责。您只需发送商品链接（1688、淘宝、阿里巴巴）或样品照片——其余的交给我们。您也不必亲自去中国：样品和验厂由我们在义乌的工作人员完成。` },
+          a: `不需要。我们的客户经理会说乌兹别克语、俄语和中文；与供应商的谈判、议价和索赔都由我们负责。您只需发送商品链接（1688、淘宝、阿里巴巴）或样品照片——其余的交给我们。您也不必亲自去中国：样品在义乌仓库接收并拍照，我们与工厂洽谈，无需前往工厂；如您希望安排实地走访工厂，我们在中国的员工可以前往，需另行付费，金额单独商定。` },
         { top: true, q: '怎么知道供应商不会骗我？',
           a: `在任何付款之前，我们都会核查卖家的营业执照、1688 评级和经营年限，下大单之前先订样品。货物直接送到义乌仓库，在那里核对数量和质量并发送照片报告——如有问题，货物在发往塔什干之前就会退货或换货。工厂订单我们建议分阶段付款，例如预付 30%，验货后付 70%。我们自 2018 年起与中国开展业务，遇到不可靠的卖家会提醒您。` },
         { q: '如何在 1688、淘宝或阿里巴巴下单和付款？',
@@ -578,7 +578,7 @@ function zh(): FaqGroup[] {
         { q: '你们按什么人民币汇率结算？',
           a: `按付款当日的市场汇率，与佣金一起在发票上单独列明——没有隐藏差价。您可以与乌兹别克斯坦中央银行的汇率对比：2026年9月，1 元人民币约合 1,750–1,800 苏姆。大额款项（比如 10,000 元人民币起）的汇率单独商定。` },
         { q: '你们能找工厂或厂家吗？佣金多少？',
-          a: `能。根据描述或样品，我们按价格、起订量（MOQ）和生产周期比较 2–3 家厂家，订购样品，必要时实地验厂。佣金为订单金额的 ${v.comm}% 起（参考费率）；复杂设备单独报价。义乌和广州市场的小额批发、深圳的电子产品、佛山的家具——我们知道每样东西该去哪里买。` },
+          a: `能。根据描述或样品，我们按价格、起订量（MOQ）和生产周期比较 2–3 家厂家，并订购样品。服务不包括实地走访工厂；如您需要，我们在中国的员工可以前往工厂，需另行付费，金额单独商定。佣金为订单金额的 ${v.comm}% 起（参考费率）；复杂设备单独报价。义乌和广州市场的小额批发、深圳的电子产品、佛山的家具——我们知道每样东西该去哪里买。` },
         { q: '你们也做设备和汽车进口吗？',
           a: `做。机床和生产线“交钥匙”进口：选厂、合同、付款、装运、清关（许多类型的工业设备关税为 0%，具体取决于海关编码）以及协助安装。来自中国的汽车和电动汽车按订单进口；价格和时效按车型计算，关税、消费税及其他税费依法缴纳。请把车型或设备名称发给我们，我们为您准备报价。` },
       ],
@@ -587,9 +587,9 @@ function zh(): FaqGroup[] {
       id: 'wholesale', group: '批发代采购',
       items: [
         { q: '你们能在中国向工厂和批发商户批量采购货物吗？',
-          a: `能。GSR Logistics 受您委托，在中国向工厂或批发商户采购一批货物，并运到塔什干。每一笔批发采购都由四名中文达到 HSK 6 级水平的员工之一负责：三名在塔什干工作，一名在义乌工作。最低订单货值为 ${v.wmin}，货物总体积还须至少 ${v.minM3} m³；佣金按订单金额计算：${v.wt1}以内为 ${v.wc1}%，${v.wt2}以内为 ${v.wc2}%，超过此金额为 ${v.wc3}%。` },
+          a: `能。GSR Logistics 受您委托，在中国向工厂或批发商户采购一批货物，并运到塔什干。批发代采购涵盖机床、建材及其他任何货物，但服装、药品、假冒商品和禁运物品除外。每一笔批发采购都由四名懂中文的员工之一负责：三名在塔什干工作，一名在义乌工作；四人中有两名持有 HSK 6 级证书。最低订单货值为 ${v.wmin}，货物总体积还须至少 ${v.minM3} m³；佣金按订单金额计算：${v.wt1}以内为 ${v.wc1}%，${v.wt2}以内为 ${v.wc2}%，超过此金额为 ${v.wc3}%。` },
         { q: '你们有懂中文的员工吗？',
-          a: `有。GSR Logistics 有四名中文达到 HSK 6 级水平的员工：三名在塔什干工作，一名在义乌工作。他们有在中国采购的经验；每一笔批发采购——无论是向工厂还是向批发商户采购——都由其中一人负责。HSK（中文水平考试）是面向中文非第一语言学习者的国际标准化考试；6 级要求掌握 5,000 个及以上词语。我们的客户经理会说乌兹别克语、俄语和中文。` },
+          a: `有。GSR Logistics 有四名懂中文的员工：三名在塔什干工作，一名在义乌工作；四人中有两名持有 HSK 6 级官方证书。四人都有在中国采购的经验；每一笔批发采购——无论是向工厂还是向批发商户采购——都由其中一人负责。GSR Logistics 在中国采购货物已有 8 年。HSK（中文水平考试）是面向中文非第一语言学习者的国际标准化考试；6 级要求掌握 5,000 个及以上词语。我们的客户经理会说乌兹别克语、俄语和中文。` },
       ],
     },
     {
@@ -709,7 +709,7 @@ function fa(): FaqGroup[] {
       id: 'sourcing', group: 'یافتن و خرید کالا',
       items: [
         { top: true, q: 'آیا لازم است زبان چینی بدانم؟',
-          a: `خیر. کارشناسان ما به زبان‌های ازبکی، روسی و چینی صحبت می‌کنند؛ مذاکره، چانه‌زنی بر سر قیمت و پیگیری شکایت‌ها با تأمین‌کننده بر عهدهٔ ماست. شما لینک کالا (1688، تائوبائو، علی‌بابا) یا عکس نمونه را می‌فرستید — بقیهٔ کار با ماست. لازم هم نیست به چین سفر کنید: تهیهٔ نمونه و بررسی کارخانه را کارکنان ما در ییوو انجام می‌دهند.` },
+          a: `خیر. کارشناسان ما به زبان‌های ازبکی، روسی و چینی صحبت می‌کنند؛ مذاکره، چانه‌زنی بر سر قیمت و پیگیری شکایت‌ها با تأمین‌کننده بر عهدهٔ ماست. شما لینک کالا (1688، تائوبائو، علی‌بابا) یا عکس نمونه را می‌فرستید — بقیهٔ کار با ماست. لازم هم نیست به چین سفر کنید: نمونه‌ها را در انبار ییوو تحویل می‌گیریم و عکاسی می‌کنیم، و بی‌آنکه به کارخانه‌ها برویم، با آن‌ها مذاکره می‌کنیم؛ اگر بازدید از کارخانه را بخواهید، کارمند ما در چین می‌تواند با هزینه‌ای اضافی که جداگانه توافق می‌شود به آنجا برود.` },
         { top: true, q: 'از کجا مطمئن شوم که تأمین‌کننده فریبم نمی‌دهد؟',
           a: `پیش از هر پرداختی، مجوز کسب‌وکار فروشنده، امتیاز او در 1688 و سابقهٔ فعالیتش را بررسی می‌کنیم و پیش از سفارش بزرگ، نمونه سفارش می‌دهیم. کالا مستقیم به انبار ییوو می‌رسد و در آنجا تعداد و کیفیت آن بررسی و گزارش تصویری ارسال می‌شود — اگر مشکلی باشد، کالا پیش از حرکت به تاشکند بازگردانده یا تعویض می‌شود. برای سفارش از کارخانه، پرداخت مرحله‌ای را پیشنهاد می‌کنیم، برای مثال ۳۰٪ پیش‌پرداخت و ۷۰٪ پس از بازرسی. از سال ۲۰۱۸ با چین کار می‌کنیم و دربارهٔ فروشندهٔ غیرقابل‌اعتماد به شما هشدار می‌دهیم.` },
         { q: 'چگونه از 1688، تائوبائو یا علی‌بابا سفارش دهم و پرداخت کنم؟',
@@ -717,7 +717,7 @@ function fa(): FaqGroup[] {
         { q: 'از چه نرخی برای یوان استفاده می‌کنید؟',
           a: `نرخ بازار در روز پرداخت، که همراه با کارمزد در ردیفی جداگانه در فاکتور نشان داده می‌شود — بدون حاشیهٔ سود پنهان. می‌توانید آن را با نرخ بانک مرکزی ازبکستان مقایسه کنید: در ۲۰۲۶/۰۹، هر ۱ یوان حدود ۱٬۷۵۰ تا ۱٬۸۰۰ سوم بود. برای مبالغ بزرگ (مثلاً از ۱۰٬۰۰۰ یوان) نرخ به‌صورت جداگانه توافق می‌شود.` },
         { q: 'آیا می‌توانید کارخانه یا تولیدکننده پیدا کنید و کارمزد آن چقدر است؟',
-          a: `بله. بر اساس توضیحات یا نمونه، ۲ تا ۳ تولیدکننده را از نظر قیمت، حداقل سفارش (MOQ) و زمان تولید مقایسه می‌کنیم، نمونه سفارش می‌دهیم و در صورت نیاز از کارخانه بازدید می‌کنیم. کارمزد از ${v.comm}٪ ارزش سفارش شروع می‌شود (تقریبی)؛ تجهیزات پیچیده جداگانه قیمت‌گذاری می‌شود. عمده‌فروشی کوچک از بازارهای ییوو و گوانگجو، لوازم الکترونیکی از شنژن، مبلمان از فوشان — می‌دانیم هر چیزی را کجا باید خرید.` },
+          a: `بله. بر اساس توضیحات یا نمونه، ۲ تا ۳ تولیدکننده را از نظر قیمت، حداقل سفارش (MOQ) و زمان تولید مقایسه می‌کنیم و نمونه سفارش می‌دهیم. بازدید از کارخانه جزو این خدمت نیست؛ اگر آن را بخواهید، کارمند ما در چین می‌تواند با هزینه‌ای اضافی که جداگانه توافق می‌شود به آنجا برود. کارمزد از ${v.comm}٪ ارزش سفارش شروع می‌شود (تقریبی)؛ تجهیزات پیچیده جداگانه قیمت‌گذاری می‌شود. عمده‌فروشی کوچک از بازارهای ییوو و گوانگجو، لوازم الکترونیکی از شنژن، مبلمان از فوشان — می‌دانیم هر چیزی را کجا باید خرید.` },
         { q: 'آیا تجهیزات و خودرو هم وارد می‌کنید؟',
           a: `بله. ماشین‌آلات و خطوط تولید به‌صورت کلید در دست: انتخاب کارخانه، قرارداد، پرداخت، بارگیری، گمرک (حقوق گمرکی بسیاری از انواع تجهیزات صنعتی، بسته به کد، ۰٪ است) و کمک در نصب. خودرو و خودروی برقی از چین به سفارش وارد می‌شود؛ قیمت و زمان برای هر مدل جداگانه محاسبه می‌شود و حقوق گمرکی، اکسایز (مالیات ویژه) و سایر پرداخت‌ها طبق قانون است. مدل خودرو یا نام تجهیزات را برای ما بفرستید تا پیشنهاد قیمت آماده کنیم.` },
       ],
@@ -726,9 +726,9 @@ function fa(): FaqGroup[] {
       id: 'wholesale', group: 'خرید عمده',
       items: [
         { q: 'آیا کالا را در چین به‌صورت عمده می‌خرید — از کارخانه‌ها و از فروشندگان عمده؟',
-          a: `بله. شرکت GSR Logistics به سفارش شما یک محموله کالا را در چین از کارخانه یا از فروشندهٔ عمده می‌خرد و به تاشکند می‌آورد. هر خرید عمده را یکی از چهار کارمندی انجام می‌دهد که زبان چینی را در سطح HSK 6 می‌دانند: سه نفر از آنان در تاشکند کار می‌کنند و یک نفر در ییوو. حداقل ارزش کالای سفارش ${v.wmin} است و حجم کل کالا نیز باید دست‌کم ${v.minM3} متر مکعب باشد؛ کارمزد برای سفارش تا ${v.wt1} ${v.wc1}٪ ارزش سفارش، تا ${v.wt2} ${v.wc2}٪ و بالاتر از آن ${v.wc3}٪ است.` },
+          a: `بله. شرکت GSR Logistics به سفارش شما یک محموله کالا را در چین از کارخانه یا از فروشندهٔ عمده می‌خرد و به تاشکند می‌آورد. خرید عمده شامل ماشین‌ابزار، مصالح ساختمانی و هر کالای دیگری می‌شود، به‌جز پوشاک، دارو، کالای تقلبی و کالاهایی که در فهرست کالاهای ممنوع هستند. هر خرید عمده را یکی از چهار کارمندی انجام می‌دهد که زبان چینی می‌دانند: سه نفر از آنان در تاشکند کار می‌کنند و یک نفر در ییوو؛ دو نفر از این چهار نفر گواهی HSK 6 دارند. حداقل ارزش کالای سفارش ${v.wmin} است و حجم کل کالا نیز باید دست‌کم ${v.minM3} متر مکعب باشد؛ کارمزد برای سفارش تا ${v.wt1} ${v.wc1}٪ ارزش سفارش، تا ${v.wt2} ${v.wc2}٪ و بالاتر از آن ${v.wc3}٪ است.` },
         { q: 'آیا کارمندانی دارید که زبان چینی بدانند؟',
-          a: `بله. در GSR Logistics چهار کارمند هستند که زبان چینی را در سطح HSK 6 می‌دانند: سه نفر از آنان در تاشکند کار می‌کنند و یک نفر در ییوو. آنان تجربهٔ خرید در چین دارند و هر خرید عمده — چه از کارخانه، چه از فروشندهٔ عمده — به دست یکی از آنان انجام می‌شود. HSK (Hanyu Shuiping Kaoshi) آزمون استاندارد چین برای سنجش مهارت زبان چینی کسانی است که زبان مادری‌شان چینی نیست؛ سطح ۶ آن دانستن ۵٬۰۰۰ واژه یا بیشتر را می‌طلبد. کارشناسان ما به زبان‌های ازبکی، روسی و چینی صحبت می‌کنند.` },
+          a: `بله. در GSR Logistics چهار کارمند هستند که زبان چینی می‌دانند: سه نفر از آنان در تاشکند کار می‌کنند و یک نفر در ییوو؛ دو نفر از این چهار نفر گواهی رسمی HSK 6 دارند. هر چهار نفر تجربهٔ خرید در چین دارند و هر خرید عمده — چه از کارخانه، چه از فروشندهٔ عمده — به دست یکی از آنان انجام می‌شود. شرکت GSR Logistics ۸ سال است که در چین کالا می‌خرد. HSK (Hanyu Shuiping Kaoshi) آزمون استاندارد چین برای سنجش مهارت زبان چینی کسانی است که زبان مادری‌شان چینی نیست؛ سطح ۶ آن دانستن ۵٬۰۰۰ واژه یا بیشتر را می‌طلبد. کارشناسان ما به زبان‌های ازبکی، روسی و چینی صحبت می‌کنند.` },
       ],
     },
     {

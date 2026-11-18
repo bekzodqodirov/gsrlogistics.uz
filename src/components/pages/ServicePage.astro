@@ -23,7 +23,7 @@ import { pagePath, itemPath, itemUrl, subFor } from '@/i18n/routes';
 import { services, serviceByKey, serviceSubs, type ServiceMeta } from '@/data/services';
 import type { ServiceContent, ServiceSection } from '@/data/services/types';
 import { guideSlugs } from '@/data/guides';
-import { site, phoneUrl, phone2Url, whatsappChat } from '@/lib/site';
+import { site, phoneUrl, phone2Url, buyingPhoneUrl, whatsappChat } from '@/lib/site';
 import { BIDI_CONTROLS, leadAttrs, serviceTeam, telegramFor } from '@/lib/leads';
 import { colon, fmtDate, fmtInt, fmtNumRange, fmtUsd, sep } from '@/lib/format';
 import { faqNode, serviceNode } from '@/lib/schema';
@@ -81,7 +81,7 @@ const cta = content?.cta ?? { title: fb.ctaTitle, text: fb.ctaText, draft: tpl(f
 /** This page already knows its service, so its Telegram buttons skip the picker and open that service's team. */
 const team = serviceTeam[service.key];
 const tgHref = telegramFor(team, cta.draft, Astro.url.pathname);
-/** With JavaScript: GSR's system picks the team's manager, filed under the service's Uzbek slug. */
+/** With JavaScript: GSR's system picks the team's manager (a direct team — buying — opens its own account at once), filed under the service's Uzbek slug. */
 const tgLead = leadAttrs(team, service.slug.uz, name);
 /**
  * On-request pages: WhatsApp with the page's own draft (`cta.draft`), opened in a new tab by Button like every
@@ -90,9 +90,15 @@ const tgLead = leadAttrs(team, service.slug.uz, name);
  */
 const waHref = whatsappChat(cta.draft.replace(BIDI_CONTROLS, '').trim());
 /* The number printed under the buttons. On an on-request page it is the WhatsApp number the page's own text gives —
-   a trader saves the number he sees under the WhatsApp button, and the main line is not on WhatsApp. Elsewhere the
-   main line, as before. */
-const shownPhone = onRequest ? { url: phone2Url, display: site.phone2Display } : { url: phoneUrl, display: site.phoneDisplay };
+   a trader saves the number he sees under the WhatsApp button, and the main line is not on WhatsApp. On the five
+   purchasing services (the buying team: sourcing, buying on 1688/Taobao, wholesale, equipment, cars) it is the
+   purchasing department's own line, labelled (owner, 2026-11-18: «Xarid boʻlimi: +998 93 580 92 92», «Ha, xarid
+   sahifalarida»), and the closing band's call button calls it. Elsewhere the main line, as before. */
+const shownPhone: { url: string; display: string; label?: string } = onRequest
+  ? { url: phone2Url, display: site.phone2Display }
+  : team === 'buying'
+    ? { url: buyingPhoneUrl, display: site.buyingPhoneDisplay, label: t.page.buyingPhoneLabel }
+    : { url: phoneUrl, display: site.phoneDisplay };
 const daysFor: Partial<Record<string, [number, number]>> = { truck: tariffs.truck.days as [number, number], air: tariffs.air.days as [number, number], rail: tariffs.rail.days as [number, number] };
 const days = daysFor[service.key];
 /** A figure in ASCII or Persian digits (a fa fact reads "۱۵ تا ۲۵"). */
@@ -312,9 +318,11 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
               : <Button href={pagePath(lang, 'calculator')} variant="secondary" block>{c.cta.calculate}</Button>}
           </div>
           <p class="side-hint">{t.page.stickyHint}</p>
-          {/* The number is the LTR island; the icon stays outside it, at the inline start. */}
+          {/* The number is the LTR island; the icon stays outside it, at the inline start. A purchasing page names the department above it. */}
+          {shownPhone.label && <p class="caption side-phone-label">{shownPhone.label}</p>}
           <p class="side-phone"><a href={shownPhone.url} class="tnum"><Icon name="phone" size={16} /><span dir="ltr">{shownPhone.display}</span></a></p>
-          <p class="caption side-hours tnum">{pick(lang, site.hours)}</p>
+          {/* The company's hours, not the purchasing department's (not confirmed by the owner): not printed beside the department's line. */}
+          {!shownPhone.label && <p class="caption side-hours tnum">{pick(lang, site.hours)}</p>}
         </div>
       </aside>
     </div>
@@ -363,9 +371,9 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
           <Button href={tgHref} variant="primary" icon="telegram" {...tgLead}>{c.cta.telegram}</Button>
           {onRequest
             ? <Button href={waHref} variant="secondary" icon="whatsapp">{c.cta.whatsapp}</Button>
-            : <Button href={phoneUrl} variant="secondary" icon="phone">{c.cta.call}</Button>}
+            : <Button href={shownPhone.url} variant="secondary" icon="phone">{c.cta.call}</Button>}
         </div>
-        <p class="caption cta-meta"><a href={shownPhone.url} class="tnum" dir="ltr">{shownPhone.display}</a>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></p>
+        <p class="caption cta-meta">{shownPhone.label && <>{shownPhone.label}{colon(lang)}</>}<a href={shownPhone.url} class="tnum" dir="ltr">{shownPhone.display}</a>{!shownPhone.label && <>{sep(lang)}<span class="tnum">{pick(lang, site.hours)}</span></>}</p>
       </div>
     </section>
   </article>
@@ -446,6 +454,7 @@ const toneIcon = (tone?: 'info' | 'warn' | 'success') => (tone === 'success' ? '
   .side-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 8px; }
   .side-actions :global(.btn) { padding-inline: 12px; }
   .side-hint { font-size: var(--text-caption); color: var(--meta); line-height: 1.4; }
+  .side-phone-label { margin-bottom: -6px; }
   .side-phone a { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--fg); min-height: 32px; }
   .side-phone a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .side-hours { margin-top: -6px; }

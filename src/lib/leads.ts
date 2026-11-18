@@ -11,7 +11,10 @@
  *      whose tags name an on-request service (GuidePage.astro);
  *   2. every general button (header, hero, footer, mobile bar …) opens a one-question picker first
  *      and the answer picks the team;
- *   3. without JavaScript, every button is a plain link to the company account with a draft.
+ *   3. without JavaScript, every button is a plain link to its team's first fallback account (fallbackUser) —
+ *      the company account, or @sarvar_715ag for the buying team — with a draft.
+ * The buying team is DIRECT (site.ts `leadDirect`, owner, 2026-11-18): its requests open @sarvar_715ag at once and the
+ * browser asks GSR's system nothing for it; cargo and general requests ask GSR's system first, then the company account.
  * Nothing is sent by the site: Telegram opens with a message, and the visitor presses send.
  */
 import { site } from './site';
@@ -23,6 +26,8 @@ export type LeadTeam = keyof typeof site.leadTeams;
 /**
  * Owner, 2026-09-26: the buying team takes sourcing, buying, equipment and car import; the cargo team the rest.
  * Wholesale buying (owner, 2026-11-17; on the site 2026-11-18) is buying work, so it goes to the buying team.
+ * Owner, 2026-11-18: every request of the buying team goes to @sarvar_715ag directly (site.ts leadTeams.buying, leadDirect),
+ * and its five service pages print the purchasing department's phone (ServicePage.astro).
  * The three services of 2026-11-12 (cargo to Afghanistan, transit documents, the warehouse under customs control)
  * are cargo work, so they go to the cargo team; GSR's system knows three teams and no fourth was asked for.
  */
@@ -71,7 +76,7 @@ const tagged = (text: string, team: LeadTeam, path?: string) => {
   return `${text.replace(BIDI_CONTROLS, '').trimEnd()}\n\n#${teamTopic[team]}${where}`;
 };
 
-/** The account a no-JavaScript link opens: the team's first fallback manager, else the company. */
+/** The account a no-JavaScript link opens: the team's first fallback manager (buying: @sarvar_715ag), else the company. */
 export const fallbackUser = (team: LeadTeam) => site.leadTeams[team][0] || site.telegramCompany;
 
 /** Server-rendered link for a team, used without JavaScript and for "open in new tab". */

@@ -34,9 +34,10 @@ export const site = {
   whatsapp: '998902405077', // WhatsApp runs on the SECOND number, not the primary one
   telegram: 'gsrlogistics', // public channel @gsrlogistics (GSR Group)
   /**
-   * The company's own Telegram account (owner, 2026-09-26: "bu kompaniya username"). Every chat
-   * button lands here when nothing better is known: without JavaScript, when GSR's system does not
-   * answer, and when a fallback list below is empty.
+   * The company's own Telegram account (owner, 2026-09-26: "bu kompaniya username"). Every cargo and
+   * general chat button lands here when nothing better is known: without JavaScript, when GSR's system
+   * does not answer, and when a fallback list below is empty. The buying team's buttons open its own
+   * account (leadTeams.buying, owner 2026-11-18) and come here only if that list is emptied.
    */
   telegramCompany: 'bekzodkodirov556',
   /** Direct chat target for CTAs — the company account above, as a link. */
@@ -49,18 +50,37 @@ export const site = {
    */
   leadAssign: 'https://gsrwms.uz/api/lead/assign',
   /**
-   * The site's own list, used only when GSR's system gives no manager (not deployed yet, down, slow,
-   * over its limit). Usernames without the @, per team; one is picked at random per click. Empty =
-   * the company account. Owner, 2026-09-26: fallback goes to the company account, so all are empty.
-   *   cargo   — bringing cargo: consolidated truck, air, rail, customs, warehouse
-   *   buying  — sourcing, buying on 1688/Taobao, wholesale buying, equipment import, car import
-   *   general — anything else
+   * The site's own list per team: the account a request opens when GSR's system gives no manager (not
+   * deployed yet, down, slow, over its limit), and the account a DIRECT team (`leadDirect`) always opens.
+   * Usernames without the @; one is picked at random per click. Empty = the company account. It is also
+   * the account of every no-JavaScript link of the team (lib/leads.ts → fallbackUser).
+   *   cargo   — bringing cargo: consolidated truck, air, rail, customs, warehouse (owner, 2026-09-26: empty —
+   *             the company account)
+   *   buying  — sourcing, buying on 1688/Taobao, wholesale buying, equipment import, car import. Owner,
+   *             2026-11-18: «buyerlik zaproslar … @sarvar_715ag … shu accountga kelib tushsin» — every
+   *             purchasing request goes to @sarvar_715ag
+   *   general — anything else (empty: the company account)
    */
   leadTeams: {
     cargo: [] as string[],
-    buying: [] as string[],
+    buying: ['sarvar_715ag'] as string[],
     general: [] as string[],
   },
+  /**
+   * The teams whose requests open their own account (`leadTeams`) DIRECTLY: the browser does not ask GSR's
+   * system for a manager of these teams. Owner, 2026-11-18 («Har doim Sarvarga»): every purchasing request
+   * opens @sarvar_715ag — the buttons of the five purchasing services and the picker's "buying" answer. The
+   * message keeps its code and summary line, as on every other button. Cargo and general requests still ask
+   * GSR's system first, then fall back to the company account.
+   */
+  leadDirect: ['buying'] as Array<'cargo' | 'buying' | 'general'>,
+  /**
+   * The purchasing department's phone (owner, 2026-11-18, given with @sarvar_715ag; «Ha, xarid sahifalarida»):
+   * printed, labelled «Xarid boʻlimi», on the five purchasing service pages only (ServicePage.astro, the pages
+   * whose team in lib/leads.ts is 'buying'), and named in llms.txt. Not the company's main line.
+   */
+  buyingPhoneDisplay: '+998 93 580 92 92',
+  buyingPhoneE164: '+998935809292',
   telegramGroup: 'gsrgroupchat',
   /**
    * The cargo-tracking bot. Staff scan the QR on every carton at each stage and the client watches
@@ -170,6 +190,8 @@ export const telegramBotUrl = `https://t.me/${site.telegramBot}`;
 export const telegramChat = (text?: string) => text ? `${site.telegramDirect}?text=${encodeURIComponent(text)}` : site.telegramDirect;
 export const facebookUrl = `https://facebook.com/${site.facebook}`;
 export const phone2Url = `tel:${site.phone2E164}`;
+/** The purchasing department's line (the five purchasing service pages). */
+export const buyingPhoneUrl = `tel:${site.buyingPhoneE164}`;
 export const whatsappUrl = `https://wa.me/${site.whatsapp}`;
 /**
  * The day the hub pages (home, services index, FAQ) last changed in substance: their dateModified, modified-time meta
