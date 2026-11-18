@@ -105,6 +105,11 @@ export interface ServicesStrings {
     stickyHint: string;
     /** Sticky-card label of an on-request service page, instead of `stickyLabel`. */
     requestLabel: string;
+    /**
+     * The label of the purchasing department's phone (site.ts buyingPhoneDisplay), printed on the five purchasing service
+     * pages — the services of the buying team, lib/leads.ts serviceTeam (owner, 2026-11-18: «Xarid boʻlimi»).
+     */
+    buyingPhoneLabel: string;
     /** Caption under the hero facts of an on-request service page, instead of "Estimate · Updated …". */
     requestMeta: string;
     sectionsLabel: string;
@@ -193,7 +198,7 @@ const uz: ServicesStrings = {
     groups: { shipping: 'Yuk tashish', buying: 'Xitoyda topish va sotib olish', paperwork: 'Rasmiylashtiruv va nazorat', regional: 'Afgʻoniston, tranzit va ombor', vehicles: 'Avtomobillar' },
     groupLead: {
       shipping: 'Uch yoʻnalish — avto, avia, temir yoʻl. Muddat va narx yukning ogʻirligi, hajmi va shoshilinchligiga bogʻliq.',
-      buying: 'Xitoy tilini bilishingiz shart emas: uni HSK 6 darajasida biladigan toʻrtta xodimimiz bor. Menejerlar zavod bilan gaplashadi, yuanda toʻlaydi, namunani tekshiradi.',
+      buying: 'Xitoy tilini bilishingiz shart emas: uni biladigan toʻrtta xodimimiz bor, ulardan ikkitasi HSK 6 sertifikatiga ega. Menejerlar zavod bilan gaplashadi, yuanda toʻlaydi, namunani tekshiradi.',
       paperwork: 'Hujjatlar, deklaratsiya, GTD va sifat nazorati — yuk yoʻlga chiqishidan oldin.',
       regional: 'Yangi yoʻnalish: Afgʻonistonga fura bilan yuk tashiymiz, Oʻzbekiston orqali tranzit hujjatlarini rasmiylashtiramiz, Toshkentda bojxona nazoratidagi ombordan joy ajratamiz. Narx va muddat — soʻrov boʻyicha.',
       vehicles: 'Buyurtma asosida avtomobil va elektromobil — tanlovdan rasmiylashtiruvgacha.',
@@ -218,6 +223,7 @@ const uz: ServicesStrings = {
     stickyDays: 'Muddat, taxminan',
     stickyHint: 'Aniq narxni yukingiz boʻyicha aytamiz — yozing.',
     requestLabel: 'Narx va muddat — soʻrov boʻyicha',
+    buyingPhoneLabel: 'Xarid boʻlimi',
     requestMeta: 'Narx va muddatni menejer yukingiz boʻyicha hisoblab beradi',
     sectionsLabel: 'Xizmat haqida',
     faqTitle: 'Koʻp beriladigan savollar',
@@ -324,7 +330,7 @@ const ru: ServicesStrings = {
     groups: { shipping: 'Доставка грузов', buying: 'Поиск и выкуп в Китае', paperwork: 'Оформление и контроль', regional: 'Афганистан, транзит и склад', vehicles: 'Автомобили' },
     groupLead: {
       shipping: 'Три способа — авто, авиа, ж/д. Срок и цена зависят от веса, объёма и срочности груза.',
-      buying: 'Знать китайский не нужно: у нас есть четыре сотрудника, которые знают его на уровне HSK 6. Менеджеры общаются с фабрикой, платят в юанях, проверяют образец.',
+      buying: 'Знать китайский не нужно: у нас четыре сотрудника, которые его знают, и у двоих из них есть сертификат HSK 6. Менеджеры общаются с фабрикой, платят в юанях, проверяют образец.',
       paperwork: 'Документы, декларация, ГТД и контроль качества — до того, как груз отправится.',
       regional: 'Новое направление: возим грузы фурами в Афганистан, оформляем транзитные документы в Узбекистане, выделяем место на складе под таможенным контролем в Ташкенте. Цена и срок — по запросу.',
       vehicles: 'Автомобили и электромобили под заказ — от выбора до оформления.',
@@ -349,6 +355,7 @@ const ru: ServicesStrings = {
     stickyDays: 'Срок, ориентировочно',
     stickyHint: 'Точную цену назовём по вашему грузу — напишите.',
     requestLabel: 'Цена и срок — по запросу',
+    buyingPhoneLabel: 'Отдел закупок',
     requestMeta: 'Цену и срок менеджер считает под ваш груз',
     sectionsLabel: 'Об услуге',
     faqTitle: 'Частые вопросы',
@@ -455,7 +462,7 @@ const en: ServicesStrings = {
     groups: { shipping: 'Freight', buying: 'Sourcing and buying in China', paperwork: 'Paperwork and control', regional: 'Afghanistan, transit and warehouse', vehicles: 'Vehicles' },
     groupLead: {
       shipping: 'Three modes — truck, air, rail. Time and price depend on weight, volume and urgency.',
-      buying: 'No Chinese needed: we have four employees who know Chinese at HSK 6 level. Our managers talk to the factory, pay in yuan and check the sample.',
+      buying: 'No Chinese needed: we have four employees who know Chinese, and two of them hold an HSK 6 certificate. Our managers talk to the factory, pay in yuan and check the sample.',
       paperwork: 'Documents, declaration, customs entry and quality control — before the cargo leaves.',
       regional: 'A new direction: truck cargo to Afghanistan, transit documents in Uzbekistan, and space in a warehouse under customs control in Tashkent. Price and timing on request.',
       vehicles: 'Cars and EVs made to order — from choosing the model to registration paperwork.',
@@ -480,6 +487,7 @@ const en: ServicesStrings = {
     stickyDays: 'Transit, roughly',
     stickyHint: 'We quote the exact price for your cargo — write to us.',
     requestLabel: 'Price and timing — on request',
+    buyingPhoneLabel: 'Purchasing department',
     requestMeta: 'The manager calculates the price and the time for your cargo',
     sectionsLabel: 'About the service',
     faqTitle: 'Frequently asked questions',

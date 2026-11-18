@@ -5,13 +5,16 @@
 // What runs where — the page's locale comes from scripts/locales.mjs, the table every script shares:
 //   · FORBIDDEN (uz/ru/en claims) and CLAIM_RULES (scripts/content-rules.mjs: the same business
 //     rules in Chinese and Persian, and the rules written for all five languages and Uzbek Cyrillic
-//     at once — where GSR delivers, who answers in Persian, the Afghanistan direction, the HSK level
-//     of the employees and the promises nobody confirmed on price and quality) run on EVERY
+//     at once — where GSR delivers, who answers in Persian, the Afghanistan direction, the employees'
+//     Chinese and its certificate, factory visits and the promises nobody confirmed on price and quality) run on EVERY
 //     page: on the <main> text, raw and normalised (Persian/Arabic-Indic/full-width digits, bidi
 //     marks, Arabic ي/ك, spaces between CJK characters — see normalize()), and on the <title>, the
 //     meta/OG/Twitter descriptions and every JSON-LD string; on the site header and footer (once per locale); then on dist/llms.txt and the hand-written header of dist/llms-full.txt. A rule
 //     marked `block` reads the same text one block at a time (blocks(), paragraphs()): a paragraph,
 //     a heading, a list item, a table row — its window must not reach from one card into the next.
+//   · PAGE_CLAIMS read one group of pages only: the on-request services and the two guides about them (request.*,
+//     guide.figure), and the wholesale-buying page (WHOLESALE_PAGE_RULES of content-rules.mjs: no clothing,
+//     footwear or medicine as an example of what is bought — owner, 2026-11-18).
 //   · The Uzbek style rules run on uz and uzc pages only; the "Uzbek word in ru/en copy" rule on
 //     ru and en. Chinese and Persian pages get their own orthography rules instead (PAGE_RULES)
 //     and an untranslated-text check: English, Uzbek or Russian prose on a zh/fa page is an ERROR
@@ -28,7 +31,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { LOCALES, LOCALE_CODES, isPending, localeOfPath, unprefixed } from './locales.mjs';
-import { AFGHAN_NAME, CLAIM_RULES, GUIDE_FIGURE_OK, PAGE_RULES, REQUEST_FIGURE, REQUEST_FIGURE_OK, normalize, leakRuns, quotedForeign, selfTest } from './content-rules.mjs';
+import { AFGHAN_NAME, CLAIM_RULES, GUIDE_FIGURE_OK, PAGE_RULES, REQUEST_FIGURE, REQUEST_FIGURE_OK, WHOLESALE_PAGE_RULES, normalize, leakRuns, quotedForeign, selfTest } from './content-rules.mjs';
 import { checkWorks } from './works-blocks.mjs';
 const dist = process.argv[2] || 'dist';
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(d, e.name)) : e.name === 'index.html' ? [path.join(d, e.name)] : []);
@@ -366,6 +369,14 @@ const stoppedBy = (s, norm = normalize(s)) => [
  *                     customs broker". «Imex services» is also the company's own legal name (the footer, the about
  *                     page), so the rule reads it only beside a broker word, in one sentence.
  *
+ * THE WHOLESALE-BUYING PAGE (owner, 2026-11-18) — «Ulgurji (optom) sotib olish», six locales (WHOLESALE_SLUGS):
+ *
+ *   {uz,ru,en,zh,fa}.wholesaleCategory   clothing and medicines are not bought, so on this page clothing, footwear and
+ *                     medicines stand only in an exclusion ("except clothing and medicines", "Does not fit: clothing,
+ *                     medicines"), never as an example of what is bought. The patterns and their sentences are
+ *                     WHOLESALE_PAGE_RULES of content-rules.mjs. The sourcing and the 1688 & Taobao pages keep their
+ *                     published examples (a question to the owner), so the rules read this one page only.
+ *
  * `units`: 'blocks' reads one block of <main> at a time, 'sentences' one sentence of a block. Each rule also reads
  * the <title> and the descriptions of the page. Each carries its sentences, asserted below like every other rule.
  */
@@ -399,6 +410,9 @@ const GUIDE_SLUGS = ['xitoydan-afgonistonga-yuk', 'хитойдан-афғони
 const GUIDE_PAGE = new RegExp(`/(?:${GUIDE_SLUGS.join('|')})/$`);
 /** The service pages and the guides: the pages request.ours, request.type and request.sanction read. */
 const GUARDED_PAGE = new RegExp(`/(?:${[...REQUEST_SLUGS, ...GUIDE_SLUGS].join('|')})/$`);
+/** The wholesale-buying page in its six locales (zh and fa publish the English slug); compared with the registry by wholesaleMisfit(). */
+const WHOLESALE_SLUGS = ['xitoydan-optom', 'хитойдан-оптом', 'optom-iz-kitaya', 'wholesale-from-china'];
+const WHOLESALE_PAGE = new RegExp(`/(?:${WHOLESALE_SLUGS.join('|')})/$`);
 const OUR_WAREHOUSE = new RegExp([
   // en: "our (own) (Tashkent customs) warehouse", "GSR's warehouse", "its own bonded warehouse", "our own facility" — not "our warehouse partner", not "not our own warehouse"
   String.raw`(?<!\bnot\s)\b(?:our|its|GSR(?:\s+Logistics)?(?:[’']s?)?)\s+(?:(?:own|Tashkent|customs(?:-controlled)?|bonded|secure|supervised|licensed|temporary|storage)\s+){0,3}(?:warehouses?(?!\s+partner)|facilit(?:y|ies)|depots?)\b|\b(?:warehouse|facility)\s+(?:is\s+)?(?:owned|operated|run)\s+by\s+(?:us|GSR)`,
@@ -526,6 +540,8 @@ const PAGE_CLAIMS = [
       'Транзитную декларацию подаёт наш таможенный брокер — Imex services.', '过境报关单由 Imex services 报关行申报。', 'اظهارنامهٔ ترانزیت را کارگزار گمرکی ما، Imex services، ثبت می‌کند.'],
     good: ['Our own customs broker files the transit declaration.', 'GSR Logistics is the brand of Imex services LLC.', 'Tranzit deklaratsiyasini oʻz bojxona brokerimiz topshiradi.', 'Транзит декларациясини ўз божхона брокеримиз топширади.',
       'Транзитную декларацию подаёт наш собственный таможенный брокер.', '过境报关单由我们自有的报关行申报。', 'اظهارنامهٔ ترانزیت را کارگزار گمرکی خودمان ثبت می‌کند.'] },
+  // the wholesale-buying page: no clothing, footwear or medicine as an example of what is bought (owner, 2026-11-18)
+  ...WHOLESALE_PAGE_RULES.map((r) => ({ ...r, pages: WHOLESALE_PAGE, units: 'sentences' })),
 ];
 /** The <title> and the description / OG / Twitter strings of a page — without the JSON-LD, which repeats the page and the company. */
 const metaStrings = (html) => [decodeEntities((html.match(/<title>([\s\S]*?)<\/title>/) || ['', ''])[1]), ...[...html.matchAll(/<meta (?:name|property)="(?:description|og:title|og:description|twitter:title|twitter:description)" content="([^"]*)"/g)].map((m) => decodeEntities(m[1]))].filter(Boolean);
@@ -586,8 +602,9 @@ const BLOCK_FIXTURES = {
     '<li><h3>Temir yoʻl va konteyner</h3><p>20–35 kun</p></li></ul><h3>Yangi yoʻnalish: Afgʻoniston, tranzit va ombor</h3>',
     '<p>Rail and containers: 20–35 days</p><h3>A new direction: Afghanistan, transit and warehouse</h3>',
     '<p class="side-line">Hairatan · Mazar-i-Sharif</p><p class="side-phone">+998 00 000 00 00</p><p>Mon–Sat 9:00–19:00</p><h3>Customs clearance</h3><p>1–3 days</p>',
-    // a count in one block and «HSK» in the next are not one statement (the hskCount rules are block rules)
-    '<ul><li>3 languages</li><li>Managers: Uzbek, Russian, Chinese</li></ul><h3>Wholesale buying in China</h3><p>Employees who know Chinese at HSK 6 level work on buying from factories and wholesale sellers.</p>',
+    // a count in one block and «HSK» in the next are not one statement (the hskCount rules are block rules). The paragraph names
+    // no count of its own (review fixes 2026-11-18: "employees who know Chinese at HSK 6 level", the withdrawn predicate, stops now)
+    '<ul><li>3 languages</li><li>Managers: Uzbek, Russian, Chinese</li></ul><h3>Wholesale buying in China</h3><p>HSK is China’s standardised test of Chinese; level 6 expects a vocabulary of 5,000 or more words.</p>',
     // two rows of a guide's markdown table stay two blocks
     '<table>\n<tbody>\n<tr>\n<td>China → Tashkent</td>\n<td>15–25 days</td>\n</tr>\n<tr>\n<td>China → Afghanistan</td>\n<td>on request</td>\n</tr>\n</tbody>\n</table>',
   ],
@@ -669,6 +686,28 @@ function guideMisfit() {
   }
   return out;
 }
+/** WHOLESALE_SLUGS against the registry: the slugs of the service `wholesale` (src/data/services.ts) and its Cyrillic one (src/i18n/routes.ts). */
+function wholesaleMisfit() {
+  const read = (rel) => fs.readFileSync(new URL(rel, import.meta.url), 'utf8');
+  const row = /\{ key: 'wholesale'[^\n]*\bslug: \{([^}]*)\}/.exec(read('../src/data/services.ts'));
+  if (!row) return ["src/data/services.ts: no row of the service «wholesale» — wholesaleMisfit() in scripts/check-content.mjs no longer reads the registry"];
+  const slugs = Object.fromEntries([...row[1].matchAll(/(\w+): '([^']+)'/g)].map((m) => [m[1], m[2]]));
+  const cyr = new RegExp(`['"]?${slugs.uz}['"]?:\\s*'([^']+)'`).exec(read('../src/i18n/routes.ts'));
+  const expected = new Set([...Object.values(slugs), ...(cyr ? [cyr[1]] : [])]);
+  const listed = new Set(WHOLESALE_SLUGS);
+  return [...(cyr ? [] : ['no Cyrillic slug for the service «wholesale» in src/i18n/routes.ts']),
+    ...[...expected].filter((x) => !listed.has(x)).map((x) => `WHOLESALE_SLUGS in scripts/check-content.mjs lacks «${x}» — the wholesale page's rules would not read that page`),
+    ...[...listed].filter((x) => !expected.has(x)).map((x) => `WHOLESALE_SLUGS in scripts/check-content.mjs names «${x}», which is not a slug of the wholesale page`)];
+}
+/** The wholesale page's rules read its six locales and no other page — not the sourcing or the 1688 & Taobao page, which keep their examples. */
+const WHOLESALE_SCOPE_FIXTURES = [
+  ['/xizmatlar/xitoydan-optom/', true], ['/kirill/хизматлар/хитойдан-оптом/', true], ['/ru/uslugi/optom-iz-kitaya/', true], ['/en/services/wholesale-from-china/', true],
+  ['/zh/services/wholesale-from-china/', true], ['/fa/services/wholesale-from-china/', true],
+  ['/xizmatlar/tovar-topish/', false], ['/en/services/sourcing/', false], ['/en/services/buying-agent/', false], ['/ru/uslugi/vykup-tovarov/', false], ['/en/faq/', false], ['/', false], ['/en/services/', false],
+];
+const wholesaleScopeMisfit = () => PAGE_CLAIMS.filter((r) => r.id.endsWith('.wholesaleCategory')).flatMap((r) => WHOLESALE_SCOPE_FIXTURES
+  .filter(([url, want]) => r.pages.test(url) !== want).map(([url, want]) => `${r.id} ${want ? 'does not read' : 'reads'} ${url}`))
+  .concat(['uz', 'ru', 'en', 'zh', 'fa'].filter((l) => !PAGE_CLAIMS.some((r) => r.id === `${l}.wholesaleCategory`)).map((l) => `the page-scoped rule ${l}.wholesaleCategory is missing`));
 /** Which pages are the guides and which are not: a pattern that matched every guide would put guide.figure on the China → Tashkent ones. */
 const GUIDE_PAGE_FIXTURES = [
   ['/qollanma/xitoydan-afgonistonga-yuk/', true], ['/kirill/қўлланма/хитойдан-афғонистонга-юк/', true], ['/ru/gid/gruz-iz-kitaya-v-afganistan-cherez-uzbekistan/', true],
@@ -711,6 +750,8 @@ const fixtureMisfires = [
   ...registryMisfit(),
   ...guideMisfit(),
   ...pageScopeMisfit(),
+  ...wholesaleMisfit(),
+  ...wholesaleScopeMisfit(),
   ...SENTENCE_FIXTURES.filter(([s, n]) => sentences(s).length !== n).map(([s, n]) => `sentences() reads ${sentences(s).length} sentences, not ${n}, in: ${s}`),
   ...GUIDE_PAGE_FIXTURES.flatMap(([url, want]) => (GUIDE_PAGE.test(url) === want && GUARDED_PAGE.test(url) === (want || ON_REQUEST_PAGE.test(url)) ? [] : [`GUIDE_PAGE / GUARDED_PAGE misjudge the page ${url}`])),
   ...CLAIM_RULES.flatMap((r) => r.good.flatMap((s) => FORBIDDEN.filter(([re]) => re.test(s) || re.test(normalize(s))).map(([, msg]) => `«${msg}» fires on the good sentence of ${r.id}: ${s}`))),

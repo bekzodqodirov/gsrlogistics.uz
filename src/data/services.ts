@@ -42,14 +42,14 @@ export const services: ServiceMeta[] = [
   { key: 'buying', icon: 'cart', slug: { uz: 'sotib-olish', ru: 'vykup-tovarov', en: 'buying-agent', zh: 'buying-agent', fa: 'buying-agent' },
     name: { uz: '1688 va Taobaodan sotib olish', ru: 'Выкуп с 1688 и Taobao', en: 'Buying from 1688 & Taobao', zh: '1688 和淘宝代采购', fa: 'خرید کالا از 1688 و تائوبائو' },
     short: { uz: 'Siz tanlaysiz — biz sotib olamiz, yuanda toʻlaymiz va Toshkentga keltiramiz.', ru: 'Вы выбираете — мы выкупаем, платим в юанях и привозим в Ташкент.', en: 'You choose, we buy, pay in yuan and deliver to Tashkent.', zh: '您来挑选，我们代为购买、用人民币付款并运至塔什干。', fa: 'شما انتخاب می‌کنید — ما می‌خریم، به یوان پرداخت می‌کنیم و به تاشکند می‌آوریم.' } },
-  /* Wholesale buying (owner, 2026-11-17): the company has employees who know Chinese at HSK 6 level, with experience of
-     purchasing in China, who work on buying from factories and buying wholesale from sellers. That is all that is
-     confirmed: never how many they are, a certificate, or where they work. A tariff service (commission from 3%, as
-     sourcing). `short` holds no price, time or volume figure: an on-request page prints a related card's name and
-     one-liner, and no figure may stand there («HSK 6» is a level, not a figure). */
+  /* Wholesale buying (owner, 2026-11-17 and 2026-11-18): four employees who know Chinese (three in Tashkent, one in Yiwu), two of whom
+     hold an official HSK 6 certificate, buy from factories and wholesale sellers; never "the four at HSK 6 level", never another level,
+     never which holder works where (scripts/content-rules.mjs hskCount, hskCertificate, hskPlace). A tariff service (commission 1–3% by
+     order value, at least $3,000 in goods). `short` holds no price, time or volume figure: an on-request page prints a related card's
+     name and one-liner, and no figure may stand there («HSK 6» is a level, not a figure). */
   { key: 'wholesale', icon: 'box', slug: { uz: 'xitoydan-optom', ru: 'optom-iz-kitaya', en: 'wholesale-from-china', zh: 'wholesale-from-china', fa: 'wholesale-from-china' },
     name: { uz: 'Ulgurji (optom) sotib olish', ru: 'Оптовые закупки в Китае', en: 'Wholesale buying in China', zh: '批发代采购', fa: 'خرید عمده از چین' },
-    short: { uz: 'Zavod yoki ulgurji sotuvchidan — xitoy tilini HSK 6 darajasida biladigan toʻrtta xodim bilan.', ru: 'Четыре сотрудника, знающие китайский на уровне HSK 6, закупают у фабрик и оптовых продавцов.', en: 'Four employees who know Chinese at HSK 6 level buy from factories and wholesale sellers.', zh: '四名中文达到 HSK 6 级水平的员工为您向工厂和批发商户采购。', fa: 'چهار کارمندی که چینی را در سطح HSK 6 می‌دانند، از کارخانه‌ها و فروشندگان عمده برای شما می‌خرند.' } },
+    short: { uz: 'Zavod va sotuvchidan — xitoy tilini biladigan toʻrtta xodim; ikkitasida HSK 6 sertifikati bor.', ru: 'Четыре сотрудника знают китайский и закупают у фабрик и продавцов; у двоих — сертификат HSK 6.', en: 'Four employees who know Chinese buy from factories and sellers; two hold an HSK 6 certificate.', zh: '四名懂中文的员工为您向工厂和卖家采购，其中两名持有 HSK 6 级证书。', fa: 'چهار کارمندی که چینی می‌دانند، از کارخانه‌ها و فروشندگان می‌خرند؛ دو نفرشان گواهی HSK 6 دارند.' } },
   { key: 'equipment', icon: 'factory', slug: { uz: 'uskunalar-importi', ru: 'import-oborudovaniya', en: 'equipment-import', zh: 'equipment-import', fa: 'equipment-import' },
     name: { uz: 'Uskunalar importi', ru: 'Импорт оборудования', en: 'Equipment import', zh: '设备进口', fa: 'واردات تجهیزات و ماشین‌آلات' },
     short: { uz: 'Dastgoh va ishlab chiqarish liniyalari — qidiruvdan oʻrnatishgacha.', ru: 'Станки и производственные линии — от поиска до монтажа.', en: 'Machinery and production lines, from search to installation.', zh: '机床和生产线——从寻找设备到安装。', fa: 'ماشین‌آلات و خطوط تولید — از جست‌وجو تا نصب.' } },

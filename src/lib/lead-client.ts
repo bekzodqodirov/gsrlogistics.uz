@@ -19,6 +19,10 @@
  *
  * Until GSR deploys the endpoint every call ends in the fallback. That is expected, and there is
  * deliberately no switch and no memory of failures: routing starts the moment the endpoint answers.
+ *
+ * A DIRECT team (`AssignConfig.direct`, from site.ts `leadDirect`) is the one exception: its requests ask GSR's
+ * system nothing and open the team's own account at once. Owner, 2026-11-18: every purchasing request — the
+ * buying team — goes to @sarvar_715ag. The message is the same as everywhere: the code line and the summary.
  */
 
 export type LeadTeam = 'cargo' | 'buying' | 'general';
@@ -27,8 +31,10 @@ export interface AssignConfig {
   endpoint: string;
   /** The company account: the answer when a fallback list is empty. */
   company: string;
-  /** The site's own per-team lists, used when GSR's system gives no manager. */
+  /** The site's own per-team lists, used when GSR's system gives no manager — and always for a direct team. */
   fallback: Partial<Record<LeadTeam, readonly string[]>>;
+  /** Teams that never ask GSR's system: their requests open their own list's account directly (owner, 2026-11-18: buying). */
+  direct?: readonly LeadTeam[];
 }
 
 export interface LeadRequest {
@@ -53,6 +59,8 @@ export interface LeadResult {
   code: string;
   /** true when GSR's system chose the manager, false when the site's own list did. */
   assigned: boolean;
+  /** true when the team is a direct one (AssignConfig.direct): GSR's system was not asked. */
+  direct: boolean;
 }
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // 32 characters: no I, O, 0, 1; 256 % 32 = 0, so no bias
@@ -142,12 +150,16 @@ export function composeMessage(codeWord: string, code: string, summary: string):
 
 export const telegramUrl = (username: string, text: string) => 'https://t.me/' + username + '?text=' + encodeURIComponent(text);
 
+/** A direct team asks GSR's system nothing (site.ts `leadDirect`). */
+export const isDirect = (cfg: AssignConfig, team: LeadTeam): boolean => !!cfg.direct?.includes(team);
+
 export async function assign(cfg: AssignConfig, req: LeadRequest): Promise<LeadResult> {
   const code = codeFor(req.team);
-  const fromSystem = await askManager(cfg.endpoint, { team: req.team, code, topic: req.topic, lang: req.lang });
+  const direct = isDirect(cfg, req.team);
+  const fromSystem = direct ? null : await askManager(cfg.endpoint, { team: req.team, code, topic: req.topic, lang: req.lang });
   const username = fromSystem || fallbackUsername(cfg, req.team);
   const text = composeMessage(req.codeWord, code, req.summary);
-  return { username, text, url: telegramUrl(username, text), code, assigned: !!fromSystem };
+  return { username, text, url: telegramUrl(username, text), code, assigned: !!fromSystem, direct };
 }
 
 /**
